@@ -14,16 +14,731 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      contacts: {
+        Row: {
+          blocked_at: string | null
+          blocked_reason: string | null
+          call_name: string | null
+          client_memory: Json | null
+          created_at: string
+          email: string | null
+          first_contact_date: string
+          id: string
+          is_blocked: boolean | null
+          is_business: boolean | null
+          last_activity: string
+          name: string | null
+          notes: string | null
+          phone_number: string
+          profile_picture_url: string | null
+          tags: string[] | null
+          updated_at: string
+          whatsapp_id: string | null
+        }
+        Insert: {
+          blocked_at?: string | null
+          blocked_reason?: string | null
+          call_name?: string | null
+          client_memory?: Json | null
+          created_at?: string
+          email?: string | null
+          first_contact_date?: string
+          id?: string
+          is_blocked?: boolean | null
+          is_business?: boolean | null
+          last_activity?: string
+          name?: string | null
+          notes?: string | null
+          phone_number: string
+          profile_picture_url?: string | null
+          tags?: string[] | null
+          updated_at?: string
+          whatsapp_id?: string | null
+        }
+        Update: {
+          blocked_at?: string | null
+          blocked_reason?: string | null
+          call_name?: string | null
+          client_memory?: Json | null
+          created_at?: string
+          email?: string | null
+          first_contact_date?: string
+          id?: string
+          is_blocked?: boolean | null
+          is_business?: boolean | null
+          last_activity?: string
+          name?: string | null
+          notes?: string | null
+          phone_number?: string
+          profile_picture_url?: string | null
+          tags?: string[] | null
+          updated_at?: string
+          whatsapp_id?: string | null
+        }
+        Relationships: []
+      }
+      conversation_states: {
+        Row: {
+          conversation_id: string
+          created_at: string
+          current_state: string
+          id: string
+          last_action: string | null
+          last_action_at: string | null
+          scheduling_context: Json | null
+          updated_at: string
+        }
+        Insert: {
+          conversation_id: string
+          created_at?: string
+          current_state?: string
+          id?: string
+          last_action?: string | null
+          last_action_at?: string | null
+          scheduling_context?: Json | null
+          updated_at?: string
+        }
+        Update: {
+          conversation_id?: string
+          created_at?: string
+          current_state?: string
+          id?: string
+          last_action?: string | null
+          last_action_at?: string | null
+          scheduling_context?: Json | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "conversation_states_conversation_id_fkey"
+            columns: ["conversation_id"]
+            isOneToOne: true
+            referencedRelation: "conversations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      conversations: {
+        Row: {
+          assigned_team: Database["public"]["Enums"]["team_assignment"] | null
+          assigned_user_id: string | null
+          contact_id: string
+          created_at: string
+          id: string
+          is_active: boolean
+          last_message_at: string
+          metadata: Json | null
+          nina_context: Json | null
+          started_at: string
+          status: Database["public"]["Enums"]["conversation_status"]
+          tags: string[] | null
+          updated_at: string
+        }
+        Insert: {
+          assigned_team?: Database["public"]["Enums"]["team_assignment"] | null
+          assigned_user_id?: string | null
+          contact_id: string
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          last_message_at?: string
+          metadata?: Json | null
+          nina_context?: Json | null
+          started_at?: string
+          status?: Database["public"]["Enums"]["conversation_status"]
+          tags?: string[] | null
+          updated_at?: string
+        }
+        Update: {
+          assigned_team?: Database["public"]["Enums"]["team_assignment"] | null
+          assigned_user_id?: string | null
+          contact_id?: string
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          last_message_at?: string
+          metadata?: Json | null
+          nina_context?: Json | null
+          started_at?: string
+          status?: Database["public"]["Enums"]["conversation_status"]
+          tags?: string[] | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "conversations_contact_id_fkey"
+            columns: ["contact_id"]
+            isOneToOne: false
+            referencedRelation: "contacts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "conversations_contact_id_fkey"
+            columns: ["contact_id"]
+            isOneToOne: false
+            referencedRelation: "contacts_with_stats"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      message_grouping_queue: {
+        Row: {
+          contacts_data: Json | null
+          created_at: string
+          id: string
+          message_data: Json
+          phone_number_id: string
+          processed: boolean
+          whatsapp_message_id: string
+        }
+        Insert: {
+          contacts_data?: Json | null
+          created_at?: string
+          id?: string
+          message_data: Json
+          phone_number_id: string
+          processed?: boolean
+          whatsapp_message_id: string
+        }
+        Update: {
+          contacts_data?: Json | null
+          created_at?: string
+          id?: string
+          message_data?: Json
+          phone_number_id?: string
+          processed?: boolean
+          whatsapp_message_id?: string
+        }
+        Relationships: []
+      }
+      message_processing_queue: {
+        Row: {
+          created_at: string
+          error_message: string | null
+          id: string
+          phone_number_id: string
+          priority: number
+          processed_at: string | null
+          raw_data: Json
+          retry_count: number
+          scheduled_for: string | null
+          status: Database["public"]["Enums"]["queue_status"]
+          updated_at: string
+          whatsapp_message_id: string
+        }
+        Insert: {
+          created_at?: string
+          error_message?: string | null
+          id?: string
+          phone_number_id: string
+          priority?: number
+          processed_at?: string | null
+          raw_data: Json
+          retry_count?: number
+          scheduled_for?: string | null
+          status?: Database["public"]["Enums"]["queue_status"]
+          updated_at?: string
+          whatsapp_message_id: string
+        }
+        Update: {
+          created_at?: string
+          error_message?: string | null
+          id?: string
+          phone_number_id?: string
+          priority?: number
+          processed_at?: string | null
+          raw_data?: Json
+          retry_count?: number
+          scheduled_for?: string | null
+          status?: Database["public"]["Enums"]["queue_status"]
+          updated_at?: string
+          whatsapp_message_id?: string
+        }
+        Relationships: []
+      }
+      messages: {
+        Row: {
+          content: string | null
+          conversation_id: string
+          created_at: string
+          delivered_at: string | null
+          from_type: Database["public"]["Enums"]["message_from"]
+          id: string
+          media_type: string | null
+          media_url: string | null
+          metadata: Json | null
+          nina_response_time: number | null
+          processed_by_nina: boolean | null
+          read_at: string | null
+          reply_to_id: string | null
+          sent_at: string
+          status: Database["public"]["Enums"]["message_status"]
+          type: Database["public"]["Enums"]["message_type"]
+          whatsapp_message_id: string | null
+        }
+        Insert: {
+          content?: string | null
+          conversation_id: string
+          created_at?: string
+          delivered_at?: string | null
+          from_type: Database["public"]["Enums"]["message_from"]
+          id?: string
+          media_type?: string | null
+          media_url?: string | null
+          metadata?: Json | null
+          nina_response_time?: number | null
+          processed_by_nina?: boolean | null
+          read_at?: string | null
+          reply_to_id?: string | null
+          sent_at?: string
+          status?: Database["public"]["Enums"]["message_status"]
+          type?: Database["public"]["Enums"]["message_type"]
+          whatsapp_message_id?: string | null
+        }
+        Update: {
+          content?: string | null
+          conversation_id?: string
+          created_at?: string
+          delivered_at?: string | null
+          from_type?: Database["public"]["Enums"]["message_from"]
+          id?: string
+          media_type?: string | null
+          media_url?: string | null
+          metadata?: Json | null
+          nina_response_time?: number | null
+          processed_by_nina?: boolean | null
+          read_at?: string | null
+          reply_to_id?: string | null
+          sent_at?: string
+          status?: Database["public"]["Enums"]["message_status"]
+          type?: Database["public"]["Enums"]["message_type"]
+          whatsapp_message_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "messages_conversation_id_fkey"
+            columns: ["conversation_id"]
+            isOneToOne: false
+            referencedRelation: "conversations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "messages_reply_to_id_fkey"
+            columns: ["reply_to_id"]
+            isOneToOne: false
+            referencedRelation: "messages"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      nina_processing_queue: {
+        Row: {
+          contact_id: string
+          context_data: Json | null
+          conversation_id: string
+          created_at: string
+          error_message: string | null
+          id: string
+          message_id: string
+          priority: number
+          processed_at: string | null
+          retry_count: number
+          scheduled_for: string | null
+          status: Database["public"]["Enums"]["queue_status"]
+          updated_at: string
+        }
+        Insert: {
+          contact_id: string
+          context_data?: Json | null
+          conversation_id: string
+          created_at?: string
+          error_message?: string | null
+          id?: string
+          message_id: string
+          priority?: number
+          processed_at?: string | null
+          retry_count?: number
+          scheduled_for?: string | null
+          status?: Database["public"]["Enums"]["queue_status"]
+          updated_at?: string
+        }
+        Update: {
+          contact_id?: string
+          context_data?: Json | null
+          conversation_id?: string
+          created_at?: string
+          error_message?: string | null
+          id?: string
+          message_id?: string
+          priority?: number
+          processed_at?: string | null
+          retry_count?: number
+          scheduled_for?: string | null
+          status?: Database["public"]["Enums"]["queue_status"]
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      nina_settings: {
+        Row: {
+          adaptive_response_enabled: boolean
+          async_booking_enabled: boolean | null
+          auto_response_enabled: boolean
+          business_days: number[]
+          business_hours_end: string
+          business_hours_start: string
+          calcom_api_key: string | null
+          created_at: string
+          elevenlabs_api_key: string | null
+          elevenlabs_model: string | null
+          elevenlabs_similarity_boost: number
+          elevenlabs_speaker_boost: boolean
+          elevenlabs_speed: number | null
+          elevenlabs_stability: number
+          elevenlabs_style: number
+          elevenlabs_voice_id: string
+          id: string
+          is_active: boolean
+          message_breaking_enabled: boolean
+          openai_api_key: string | null
+          openai_assistant_id: string
+          openai_model: string
+          response_delay_max: number
+          response_delay_min: number
+          route_all_to_receiver_enabled: boolean
+          system_prompt_override: string | null
+          test_phone_numbers: Json | null
+          test_system_prompt: string | null
+          timezone: string
+          updated_at: string
+          whatsapp_access_token: string | null
+          whatsapp_phone_number_id: string | null
+          whatsapp_verify_token: string | null
+        }
+        Insert: {
+          adaptive_response_enabled?: boolean
+          async_booking_enabled?: boolean | null
+          auto_response_enabled?: boolean
+          business_days?: number[]
+          business_hours_end?: string
+          business_hours_start?: string
+          calcom_api_key?: string | null
+          created_at?: string
+          elevenlabs_api_key?: string | null
+          elevenlabs_model?: string | null
+          elevenlabs_similarity_boost?: number
+          elevenlabs_speaker_boost?: boolean
+          elevenlabs_speed?: number | null
+          elevenlabs_stability?: number
+          elevenlabs_style?: number
+          elevenlabs_voice_id?: string
+          id?: string
+          is_active?: boolean
+          message_breaking_enabled?: boolean
+          openai_api_key?: string | null
+          openai_assistant_id?: string
+          openai_model?: string
+          response_delay_max?: number
+          response_delay_min?: number
+          route_all_to_receiver_enabled?: boolean
+          system_prompt_override?: string | null
+          test_phone_numbers?: Json | null
+          test_system_prompt?: string | null
+          timezone?: string
+          updated_at?: string
+          whatsapp_access_token?: string | null
+          whatsapp_phone_number_id?: string | null
+          whatsapp_verify_token?: string | null
+        }
+        Update: {
+          adaptive_response_enabled?: boolean
+          async_booking_enabled?: boolean | null
+          auto_response_enabled?: boolean
+          business_days?: number[]
+          business_hours_end?: string
+          business_hours_start?: string
+          calcom_api_key?: string | null
+          created_at?: string
+          elevenlabs_api_key?: string | null
+          elevenlabs_model?: string | null
+          elevenlabs_similarity_boost?: number
+          elevenlabs_speaker_boost?: boolean
+          elevenlabs_speed?: number | null
+          elevenlabs_stability?: number
+          elevenlabs_style?: number
+          elevenlabs_voice_id?: string
+          id?: string
+          is_active?: boolean
+          message_breaking_enabled?: boolean
+          openai_api_key?: string | null
+          openai_assistant_id?: string
+          openai_model?: string
+          response_delay_max?: number
+          response_delay_min?: number
+          route_all_to_receiver_enabled?: boolean
+          system_prompt_override?: string | null
+          test_phone_numbers?: Json | null
+          test_system_prompt?: string | null
+          timezone?: string
+          updated_at?: string
+          whatsapp_access_token?: string | null
+          whatsapp_phone_number_id?: string | null
+          whatsapp_verify_token?: string | null
+        }
+        Relationships: []
+      }
+      send_queue: {
+        Row: {
+          contact_id: string
+          content: string | null
+          conversation_id: string
+          created_at: string
+          error_message: string | null
+          from_type: string
+          id: string
+          media_url: string | null
+          message_type: string
+          metadata: Json | null
+          priority: number
+          retry_count: number
+          scheduled_at: string | null
+          sent_at: string | null
+          status: Database["public"]["Enums"]["queue_status"]
+          updated_at: string
+        }
+        Insert: {
+          contact_id: string
+          content?: string | null
+          conversation_id: string
+          created_at?: string
+          error_message?: string | null
+          from_type?: string
+          id?: string
+          media_url?: string | null
+          message_type?: string
+          metadata?: Json | null
+          priority?: number
+          retry_count?: number
+          scheduled_at?: string | null
+          sent_at?: string | null
+          status?: Database["public"]["Enums"]["queue_status"]
+          updated_at?: string
+        }
+        Update: {
+          contact_id?: string
+          content?: string | null
+          conversation_id?: string
+          created_at?: string
+          error_message?: string | null
+          from_type?: string
+          id?: string
+          media_url?: string | null
+          message_type?: string
+          metadata?: Json | null
+          priority?: number
+          retry_count?: number
+          scheduled_at?: string | null
+          sent_at?: string | null
+          status?: Database["public"]["Enums"]["queue_status"]
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      tag_definitions: {
+        Row: {
+          category: string
+          color: string
+          created_at: string
+          id: string
+          is_active: boolean
+          key: string
+          label: string
+          updated_at: string
+        }
+        Insert: {
+          category?: string
+          color?: string
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          key: string
+          label: string
+          updated_at?: string
+        }
+        Update: {
+          category?: string
+          color?: string
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          key?: string
+          label?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
-      [_ in never]: never
+      contacts_with_stats: {
+        Row: {
+          blocked_at: string | null
+          blocked_reason: string | null
+          call_name: string | null
+          client_memory: Json | null
+          created_at: string | null
+          email: string | null
+          first_contact_date: string | null
+          human_messages: number | null
+          id: string | null
+          is_blocked: boolean | null
+          is_business: boolean | null
+          last_activity: string | null
+          name: string | null
+          nina_messages: number | null
+          notes: string | null
+          phone_number: string | null
+          profile_picture_url: string | null
+          tags: string[] | null
+          total_messages: number | null
+          updated_at: string | null
+          user_messages: number | null
+          whatsapp_id: string | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
-      [_ in never]: never
+      claim_message_processing_batch: {
+        Args: { p_limit?: number }
+        Returns: {
+          created_at: string
+          error_message: string | null
+          id: string
+          phone_number_id: string
+          priority: number
+          processed_at: string | null
+          raw_data: Json
+          retry_count: number
+          scheduled_for: string | null
+          status: Database["public"]["Enums"]["queue_status"]
+          updated_at: string
+          whatsapp_message_id: string
+        }[]
+        SetofOptions: {
+          from: "*"
+          to: "message_processing_queue"
+          isOneToOne: false
+          isSetofReturn: true
+        }
+      }
+      claim_nina_processing_batch: {
+        Args: { p_limit?: number }
+        Returns: {
+          contact_id: string
+          context_data: Json | null
+          conversation_id: string
+          created_at: string
+          error_message: string | null
+          id: string
+          message_id: string
+          priority: number
+          processed_at: string | null
+          retry_count: number
+          scheduled_for: string | null
+          status: Database["public"]["Enums"]["queue_status"]
+          updated_at: string
+        }[]
+        SetofOptions: {
+          from: "*"
+          to: "nina_processing_queue"
+          isOneToOne: false
+          isSetofReturn: true
+        }
+      }
+      claim_send_queue_batch: {
+        Args: { p_limit?: number }
+        Returns: {
+          contact_id: string
+          content: string | null
+          conversation_id: string
+          created_at: string
+          error_message: string | null
+          from_type: string
+          id: string
+          media_url: string | null
+          message_type: string
+          metadata: Json | null
+          priority: number
+          retry_count: number
+          scheduled_at: string | null
+          sent_at: string | null
+          status: Database["public"]["Enums"]["queue_status"]
+          updated_at: string
+        }[]
+        SetofOptions: {
+          from: "*"
+          to: "send_queue"
+          isOneToOne: false
+          isSetofReturn: true
+        }
+      }
+      cleanup_processed_message_queue: { Args: never; Returns: undefined }
+      cleanup_processed_queues: { Args: never; Returns: undefined }
+      get_or_create_conversation_state: {
+        Args: { p_conversation_id: string }
+        Returns: {
+          conversation_id: string
+          created_at: string
+          current_state: string
+          id: string
+          last_action: string | null
+          last_action_at: string | null
+          scheduling_context: Json | null
+          updated_at: string
+        }
+        SetofOptions: {
+          from: "*"
+          to: "conversation_states"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
+      update_client_memory: {
+        Args: { p_contact_id: string; p_new_memory: Json }
+        Returns: undefined
+      }
+      update_conversation_state: {
+        Args: {
+          p_action?: string
+          p_context?: Json
+          p_conversation_id: string
+          p_new_state: string
+        }
+        Returns: {
+          conversation_id: string
+          created_at: string
+          current_state: string
+          id: string
+          last_action: string | null
+          last_action_at: string | null
+          scheduling_context: Json | null
+          updated_at: string
+        }
+        SetofOptions: {
+          from: "*"
+          to: "conversation_states"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
     }
     Enums: {
-      [_ in never]: never
+      conversation_status: "nina" | "human" | "paused"
+      message_from: "user" | "nina" | "human"
+      message_status: "sent" | "delivered" | "read" | "failed" | "processing"
+      message_type: "text" | "audio" | "image" | "document" | "video"
+      queue_status: "pending" | "processing" | "completed" | "failed"
+      team_assignment: "mateus" | "igor" | "fe" | "vendas" | "suporte"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +865,13 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      conversation_status: ["nina", "human", "paused"],
+      message_from: ["user", "nina", "human"],
+      message_status: ["sent", "delivered", "read", "failed", "processing"],
+      message_type: ["text", "audio", "image", "document", "video"],
+      queue_status: ["pending", "processing", "completed", "failed"],
+      team_assignment: ["mateus", "igor", "fe", "vendas", "suporte"],
+    },
   },
 } as const
