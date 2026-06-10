@@ -24,11 +24,13 @@ export type Database = {
           duration: number
           id: string
           meeting_url: string | null
+          metadata: Json | null
           status: string | null
           time: string
           title: string
           type: Database["public"]["Enums"]["appointment_type"]
           updated_at: string
+          user_id: string | null
         }
         Insert: {
           attendees?: string[] | null
@@ -39,11 +41,13 @@ export type Database = {
           duration?: number
           id?: string
           meeting_url?: string | null
+          metadata?: Json | null
           status?: string | null
           time: string
           title: string
           type?: Database["public"]["Enums"]["appointment_type"]
           updated_at?: string
+          user_id?: string | null
         }
         Update: {
           attendees?: string[] | null
@@ -54,11 +58,13 @@ export type Database = {
           duration?: number
           id?: string
           meeting_url?: string | null
+          metadata?: Json | null
           status?: string | null
           time?: string
           title?: string
           type?: Database["public"]["Enums"]["appointment_type"]
           updated_at?: string
+          user_id?: string | null
         }
         Relationships: [
           {
@@ -96,6 +102,7 @@ export type Database = {
           profile_picture_url: string | null
           tags: string[] | null
           updated_at: string
+          user_id: string | null
           whatsapp_id: string | null
         }
         Insert: {
@@ -116,6 +123,7 @@ export type Database = {
           profile_picture_url?: string | null
           tags?: string[] | null
           updated_at?: string
+          user_id?: string | null
           whatsapp_id?: string | null
         }
         Update: {
@@ -136,6 +144,7 @@ export type Database = {
           profile_picture_url?: string | null
           tags?: string[] | null
           updated_at?: string
+          user_id?: string | null
           whatsapp_id?: string | null
         }
         Relationships: []
@@ -196,6 +205,7 @@ export type Database = {
           status: Database["public"]["Enums"]["conversation_status"]
           tags: string[] | null
           updated_at: string
+          user_id: string | null
         }
         Insert: {
           assigned_team?: Database["public"]["Enums"]["team_assignment"] | null
@@ -211,6 +221,7 @@ export type Database = {
           status?: Database["public"]["Enums"]["conversation_status"]
           tags?: string[] | null
           updated_at?: string
+          user_id?: string | null
         }
         Update: {
           assigned_team?: Database["public"]["Enums"]["team_assignment"] | null
@@ -226,6 +237,7 @@ export type Database = {
           status?: Database["public"]["Enums"]["conversation_status"]
           tags?: string[] | null
           updated_at?: string
+          user_id?: string | null
         }
         Relationships: [
           {
@@ -318,6 +330,7 @@ export type Database = {
           tags: string[] | null
           title: string
           updated_at: string | null
+          user_id: string | null
           value: number | null
           won_at: string | null
         }
@@ -337,6 +350,7 @@ export type Database = {
           tags?: string[] | null
           title: string
           updated_at?: string | null
+          user_id?: string | null
           value?: number | null
           won_at?: string | null
         }
@@ -356,6 +370,7 @@ export type Database = {
           tags?: string[] | null
           title?: string
           updated_at?: string | null
+          user_id?: string | null
           value?: number | null
           won_at?: string | null
         }
@@ -592,12 +607,13 @@ export type Database = {
         Row: {
           adaptive_response_enabled: boolean
           ai_model_mode: string | null
+          ai_scheduling_enabled: boolean | null
           async_booking_enabled: boolean | null
+          audio_response_enabled: boolean | null
           auto_response_enabled: boolean
           business_days: number[]
           business_hours_end: string
           business_hours_start: string
-          calcom_api_key: string | null
           company_name: string | null
           created_at: string
           elevenlabs_api_key: string | null
@@ -611,9 +627,6 @@ export type Database = {
           id: string
           is_active: boolean
           message_breaking_enabled: boolean
-          openai_api_key: string | null
-          openai_assistant_id: string
-          openai_model: string
           response_delay_max: number
           response_delay_min: number
           route_all_to_receiver_enabled: boolean
@@ -623,19 +636,22 @@ export type Database = {
           test_system_prompt: string | null
           timezone: string
           updated_at: string
+          user_id: string | null
           whatsapp_access_token: string | null
+          whatsapp_business_account_id: string | null
           whatsapp_phone_number_id: string | null
           whatsapp_verify_token: string | null
         }
         Insert: {
           adaptive_response_enabled?: boolean
           ai_model_mode?: string | null
+          ai_scheduling_enabled?: boolean | null
           async_booking_enabled?: boolean | null
+          audio_response_enabled?: boolean | null
           auto_response_enabled?: boolean
           business_days?: number[]
           business_hours_end?: string
           business_hours_start?: string
-          calcom_api_key?: string | null
           company_name?: string | null
           created_at?: string
           elevenlabs_api_key?: string | null
@@ -649,9 +665,6 @@ export type Database = {
           id?: string
           is_active?: boolean
           message_breaking_enabled?: boolean
-          openai_api_key?: string | null
-          openai_assistant_id?: string
-          openai_model?: string
           response_delay_max?: number
           response_delay_min?: number
           route_all_to_receiver_enabled?: boolean
@@ -661,19 +674,22 @@ export type Database = {
           test_system_prompt?: string | null
           timezone?: string
           updated_at?: string
+          user_id?: string | null
           whatsapp_access_token?: string | null
+          whatsapp_business_account_id?: string | null
           whatsapp_phone_number_id?: string | null
           whatsapp_verify_token?: string | null
         }
         Update: {
           adaptive_response_enabled?: boolean
           ai_model_mode?: string | null
+          ai_scheduling_enabled?: boolean | null
           async_booking_enabled?: boolean | null
+          audio_response_enabled?: boolean | null
           auto_response_enabled?: boolean
           business_days?: number[]
           business_hours_end?: string
           business_hours_start?: string
-          calcom_api_key?: string | null
           company_name?: string | null
           created_at?: string
           elevenlabs_api_key?: string | null
@@ -687,9 +703,6 @@ export type Database = {
           id?: string
           is_active?: boolean
           message_breaking_enabled?: boolean
-          openai_api_key?: string | null
-          openai_assistant_id?: string
-          openai_model?: string
           response_delay_max?: number
           response_delay_min?: number
           route_all_to_receiver_enabled?: boolean
@@ -699,7 +712,9 @@ export type Database = {
           test_system_prompt?: string | null
           timezone?: string
           updated_at?: string
+          user_id?: string | null
           whatsapp_access_token?: string | null
+          whatsapp_business_account_id?: string | null
           whatsapp_phone_number_id?: string | null
           whatsapp_verify_token?: string | null
         }
@@ -717,6 +732,7 @@ export type Database = {
           position: number
           title: string
           updated_at: string | null
+          user_id: string | null
         }
         Insert: {
           ai_trigger_criteria?: string | null
@@ -729,6 +745,7 @@ export type Database = {
           position?: number
           title: string
           updated_at?: string | null
+          user_id?: string | null
         }
         Update: {
           ai_trigger_criteria?: string | null
@@ -741,6 +758,34 @@ export type Database = {
           position?: number
           title?: string
           updated_at?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          created_at: string
+          full_name: string | null
+          id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string
+          full_name?: string | null
+          id?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string
+          full_name?: string | null
+          id?: string
+          updated_at?: string
+          user_id?: string
         }
         Relationships: []
       }
@@ -822,6 +867,7 @@ export type Database = {
           key: string
           label: string
           updated_at: string
+          user_id: string | null
         }
         Insert: {
           category?: string
@@ -832,6 +878,7 @@ export type Database = {
           key: string
           label: string
           updated_at?: string
+          user_id?: string | null
         }
         Update: {
           category?: string
@@ -842,6 +889,7 @@ export type Database = {
           key?: string
           label?: string
           updated_at?: string
+          user_id?: string | null
         }
         Relationships: []
       }
@@ -853,6 +901,7 @@ export type Database = {
           is_active: boolean | null
           name: string
           updated_at: string
+          user_id: string | null
         }
         Insert: {
           created_at?: string
@@ -861,6 +910,7 @@ export type Database = {
           is_active?: boolean | null
           name: string
           updated_at?: string
+          user_id?: string | null
         }
         Update: {
           created_at?: string
@@ -869,6 +919,7 @@ export type Database = {
           is_active?: boolean | null
           name?: string
           updated_at?: string
+          user_id?: string | null
         }
         Relationships: []
       }
@@ -885,6 +936,7 @@ export type Database = {
           status: Database["public"]["Enums"]["member_status"]
           team_id: string | null
           updated_at: string
+          user_id: string | null
           weight: number | null
         }
         Insert: {
@@ -899,6 +951,7 @@ export type Database = {
           status?: Database["public"]["Enums"]["member_status"]
           team_id?: string | null
           updated_at?: string
+          user_id?: string | null
           weight?: number | null
         }
         Update: {
@@ -913,6 +966,7 @@ export type Database = {
           status?: Database["public"]["Enums"]["member_status"]
           team_id?: string | null
           updated_at?: string
+          user_id?: string | null
           weight?: number | null
         }
         Relationships: [
@@ -941,6 +995,7 @@ export type Database = {
           is_active: boolean | null
           name: string
           updated_at: string
+          user_id: string | null
         }
         Insert: {
           color?: string | null
@@ -950,6 +1005,7 @@ export type Database = {
           is_active?: boolean | null
           name: string
           updated_at?: string
+          user_id?: string | null
         }
         Update: {
           color?: string | null
@@ -959,6 +1015,28 @@ export type Database = {
           is_active?: boolean | null
           name?: string
           updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
         }
         Relationships: []
       }
@@ -986,6 +1064,7 @@ export type Database = {
           tags: string[] | null
           total_messages: number | null
           updated_at: string | null
+          user_id: string | null
           user_messages: number | null
           whatsapp_id: string | null
         }
@@ -1070,6 +1149,7 @@ export type Database = {
       }
       cleanup_processed_message_queue: { Args: never; Returns: undefined }
       cleanup_processed_queues: { Args: never; Returns: undefined }
+      get_auth_user_id: { Args: never; Returns: string }
       get_or_create_conversation_state: {
         Args: { p_conversation_id: string }
         Returns: {
@@ -1088,6 +1168,13 @@ export type Database = {
           isOneToOne: true
           isSetofReturn: false
         }
+      }
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
       }
       update_client_memory: {
         Args: { p_contact_id: string; p_new_memory: Json }
@@ -1119,6 +1206,7 @@ export type Database = {
       }
     }
     Enums: {
+      app_role: "admin" | "user"
       appointment_type: "demo" | "meeting" | "support" | "followup"
       conversation_status: "nina" | "human" | "paused"
       member_role: "admin" | "manager" | "agent"
@@ -1255,6 +1343,7 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
+      app_role: ["admin", "user"],
       appointment_type: ["demo", "meeting", "support", "followup"],
       conversation_status: ["nina", "human", "paused"],
       member_role: ["admin", "manager", "agent"],
