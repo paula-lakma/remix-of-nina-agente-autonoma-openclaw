@@ -1072,6 +1072,21 @@ export type Database = {
         }
         Relationships: []
       }
+      reaper_lock: {
+        Row: {
+          id: boolean
+          locked_at: string | null
+        }
+        Insert: {
+          id?: boolean
+          locked_at?: string | null
+        }
+        Update: {
+          id?: boolean
+          locked_at?: string | null
+        }
+        Relationships: []
+      }
       send_queue: {
         Row: {
           contact_id: string
@@ -1557,6 +1572,7 @@ export type Database = {
         Args: { secret_name: string; secret_value: string }
         Returns: undefined
       }
+      trigger_reaper: { Args: never; Returns: undefined }
       trigger_stale_leads: { Args: never; Returns: undefined }
       update_client_memory: {
         Args: { p_contact_id: string; p_new_memory: Json }
