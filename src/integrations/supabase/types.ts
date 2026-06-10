@@ -14,6 +14,69 @@ export type Database = {
   }
   public: {
     Tables: {
+      appointments: {
+        Row: {
+          attendees: string[] | null
+          contact_id: string | null
+          created_at: string
+          date: string
+          description: string | null
+          duration: number
+          id: string
+          meeting_url: string | null
+          status: string | null
+          time: string
+          title: string
+          type: Database["public"]["Enums"]["appointment_type"]
+          updated_at: string
+        }
+        Insert: {
+          attendees?: string[] | null
+          contact_id?: string | null
+          created_at?: string
+          date: string
+          description?: string | null
+          duration?: number
+          id?: string
+          meeting_url?: string | null
+          status?: string | null
+          time: string
+          title: string
+          type?: Database["public"]["Enums"]["appointment_type"]
+          updated_at?: string
+        }
+        Update: {
+          attendees?: string[] | null
+          contact_id?: string | null
+          created_at?: string
+          date?: string
+          description?: string | null
+          duration?: number
+          id?: string
+          meeting_url?: string | null
+          status?: string | null
+          time?: string
+          title?: string
+          type?: Database["public"]["Enums"]["appointment_type"]
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "appointments_contact_id_fkey"
+            columns: ["contact_id"]
+            isOneToOne: false
+            referencedRelation: "contacts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "appointments_contact_id_fkey"
+            columns: ["contact_id"]
+            isOneToOne: false
+            referencedRelation: "contacts_with_stats"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       contacts: {
         Row: {
           blocked_at: string | null
@@ -177,6 +240,152 @@ export type Database = {
             columns: ["contact_id"]
             isOneToOne: false
             referencedRelation: "contacts_with_stats"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      deal_activities: {
+        Row: {
+          completed_at: string | null
+          created_at: string | null
+          created_by: string | null
+          deal_id: string
+          description: string | null
+          id: string
+          is_completed: boolean | null
+          scheduled_at: string | null
+          title: string
+          type: string
+          updated_at: string | null
+        }
+        Insert: {
+          completed_at?: string | null
+          created_at?: string | null
+          created_by?: string | null
+          deal_id: string
+          description?: string | null
+          id?: string
+          is_completed?: boolean | null
+          scheduled_at?: string | null
+          title: string
+          type?: string
+          updated_at?: string | null
+        }
+        Update: {
+          completed_at?: string | null
+          created_at?: string | null
+          created_by?: string | null
+          deal_id?: string
+          description?: string | null
+          id?: string
+          is_completed?: boolean | null
+          scheduled_at?: string | null
+          title?: string
+          type?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "deal_activities_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "team_members"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "deal_activities_deal_id_fkey"
+            columns: ["deal_id"]
+            isOneToOne: false
+            referencedRelation: "deals"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      deals: {
+        Row: {
+          company: string | null
+          contact_id: string | null
+          created_at: string | null
+          due_date: string | null
+          id: string
+          lost_at: string | null
+          lost_reason: string | null
+          notes: string | null
+          owner_id: string | null
+          priority: string | null
+          stage: string | null
+          stage_id: string
+          tags: string[] | null
+          title: string
+          updated_at: string | null
+          value: number | null
+          won_at: string | null
+        }
+        Insert: {
+          company?: string | null
+          contact_id?: string | null
+          created_at?: string | null
+          due_date?: string | null
+          id?: string
+          lost_at?: string | null
+          lost_reason?: string | null
+          notes?: string | null
+          owner_id?: string | null
+          priority?: string | null
+          stage?: string | null
+          stage_id: string
+          tags?: string[] | null
+          title: string
+          updated_at?: string | null
+          value?: number | null
+          won_at?: string | null
+        }
+        Update: {
+          company?: string | null
+          contact_id?: string | null
+          created_at?: string | null
+          due_date?: string | null
+          id?: string
+          lost_at?: string | null
+          lost_reason?: string | null
+          notes?: string | null
+          owner_id?: string | null
+          priority?: string | null
+          stage?: string | null
+          stage_id?: string
+          tags?: string[] | null
+          title?: string
+          updated_at?: string | null
+          value?: number | null
+          won_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "deals_contact_id_fkey"
+            columns: ["contact_id"]
+            isOneToOne: false
+            referencedRelation: "contacts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "deals_contact_id_fkey"
+            columns: ["contact_id"]
+            isOneToOne: false
+            referencedRelation: "contacts_with_stats"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "deals_owner_id_fkey"
+            columns: ["owner_id"]
+            isOneToOne: false
+            referencedRelation: "team_members"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "deals_stage_id_fkey"
+            columns: ["stage_id"]
+            isOneToOne: false
+            referencedRelation: "pipeline_stages"
             referencedColumns: ["id"]
           },
         ]
@@ -382,12 +591,14 @@ export type Database = {
       nina_settings: {
         Row: {
           adaptive_response_enabled: boolean
+          ai_model_mode: string | null
           async_booking_enabled: boolean | null
           auto_response_enabled: boolean
           business_days: number[]
           business_hours_end: string
           business_hours_start: string
           calcom_api_key: string | null
+          company_name: string | null
           created_at: string
           elevenlabs_api_key: string | null
           elevenlabs_model: string | null
@@ -406,6 +617,7 @@ export type Database = {
           response_delay_max: number
           response_delay_min: number
           route_all_to_receiver_enabled: boolean
+          sdr_name: string | null
           system_prompt_override: string | null
           test_phone_numbers: Json | null
           test_system_prompt: string | null
@@ -417,12 +629,14 @@ export type Database = {
         }
         Insert: {
           adaptive_response_enabled?: boolean
+          ai_model_mode?: string | null
           async_booking_enabled?: boolean | null
           auto_response_enabled?: boolean
           business_days?: number[]
           business_hours_end?: string
           business_hours_start?: string
           calcom_api_key?: string | null
+          company_name?: string | null
           created_at?: string
           elevenlabs_api_key?: string | null
           elevenlabs_model?: string | null
@@ -441,6 +655,7 @@ export type Database = {
           response_delay_max?: number
           response_delay_min?: number
           route_all_to_receiver_enabled?: boolean
+          sdr_name?: string | null
           system_prompt_override?: string | null
           test_phone_numbers?: Json | null
           test_system_prompt?: string | null
@@ -452,12 +667,14 @@ export type Database = {
         }
         Update: {
           adaptive_response_enabled?: boolean
+          ai_model_mode?: string | null
           async_booking_enabled?: boolean | null
           auto_response_enabled?: boolean
           business_days?: number[]
           business_hours_end?: string
           business_hours_start?: string
           calcom_api_key?: string | null
+          company_name?: string | null
           created_at?: string
           elevenlabs_api_key?: string | null
           elevenlabs_model?: string | null
@@ -476,6 +693,7 @@ export type Database = {
           response_delay_max?: number
           response_delay_min?: number
           route_all_to_receiver_enabled?: boolean
+          sdr_name?: string | null
           system_prompt_override?: string | null
           test_phone_numbers?: Json | null
           test_system_prompt?: string | null
@@ -484,6 +702,45 @@ export type Database = {
           whatsapp_access_token?: string | null
           whatsapp_phone_number_id?: string | null
           whatsapp_verify_token?: string | null
+        }
+        Relationships: []
+      }
+      pipeline_stages: {
+        Row: {
+          ai_trigger_criteria: string | null
+          color: string
+          created_at: string | null
+          id: string
+          is_active: boolean | null
+          is_ai_managed: boolean | null
+          is_system: boolean | null
+          position: number
+          title: string
+          updated_at: string | null
+        }
+        Insert: {
+          ai_trigger_criteria?: string | null
+          color?: string
+          created_at?: string | null
+          id?: string
+          is_active?: boolean | null
+          is_ai_managed?: boolean | null
+          is_system?: boolean | null
+          position?: number
+          title: string
+          updated_at?: string | null
+        }
+        Update: {
+          ai_trigger_criteria?: string | null
+          color?: string
+          created_at?: string | null
+          id?: string
+          is_active?: boolean | null
+          is_ai_managed?: boolean | null
+          is_system?: boolean | null
+          position?: number
+          title?: string
+          updated_at?: string | null
         }
         Relationships: []
       }
@@ -497,6 +754,7 @@ export type Database = {
           from_type: string
           id: string
           media_url: string | null
+          message_id: string | null
           message_type: string
           metadata: Json | null
           priority: number
@@ -515,6 +773,7 @@ export type Database = {
           from_type?: string
           id?: string
           media_url?: string | null
+          message_id?: string | null
           message_type?: string
           metadata?: Json | null
           priority?: number
@@ -533,6 +792,7 @@ export type Database = {
           from_type?: string
           id?: string
           media_url?: string | null
+          message_id?: string | null
           message_type?: string
           metadata?: Json | null
           priority?: number
@@ -542,7 +802,15 @@ export type Database = {
           status?: Database["public"]["Enums"]["queue_status"]
           updated_at?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "send_queue_message_id_fkey"
+            columns: ["message_id"]
+            isOneToOne: false
+            referencedRelation: "messages"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       tag_definitions: {
         Row: {
@@ -573,6 +841,123 @@ export type Database = {
           is_active?: boolean
           key?: string
           label?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      team_functions: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          is_active: boolean | null
+          name: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_active?: boolean | null
+          name: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_active?: boolean | null
+          name?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      team_members: {
+        Row: {
+          avatar: string | null
+          created_at: string
+          email: string
+          function_id: string | null
+          id: string
+          last_active: string | null
+          name: string
+          role: Database["public"]["Enums"]["member_role"]
+          status: Database["public"]["Enums"]["member_status"]
+          team_id: string | null
+          updated_at: string
+          weight: number | null
+        }
+        Insert: {
+          avatar?: string | null
+          created_at?: string
+          email: string
+          function_id?: string | null
+          id?: string
+          last_active?: string | null
+          name: string
+          role?: Database["public"]["Enums"]["member_role"]
+          status?: Database["public"]["Enums"]["member_status"]
+          team_id?: string | null
+          updated_at?: string
+          weight?: number | null
+        }
+        Update: {
+          avatar?: string | null
+          created_at?: string
+          email?: string
+          function_id?: string | null
+          id?: string
+          last_active?: string | null
+          name?: string
+          role?: Database["public"]["Enums"]["member_role"]
+          status?: Database["public"]["Enums"]["member_status"]
+          team_id?: string | null
+          updated_at?: string
+          weight?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "team_members_function_id_fkey"
+            columns: ["function_id"]
+            isOneToOne: false
+            referencedRelation: "team_functions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "team_members_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      teams: {
+        Row: {
+          color: string | null
+          created_at: string
+          description: string | null
+          id: string
+          is_active: boolean | null
+          name: string
+          updated_at: string
+        }
+        Insert: {
+          color?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_active?: boolean | null
+          name: string
+          updated_at?: string
+        }
+        Update: {
+          color?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_active?: boolean | null
+          name?: string
           updated_at?: string
         }
         Relationships: []
@@ -666,6 +1051,7 @@ export type Database = {
           from_type: string
           id: string
           media_url: string | null
+          message_id: string | null
           message_type: string
           metadata: Json | null
           priority: number
@@ -733,7 +1119,10 @@ export type Database = {
       }
     }
     Enums: {
+      appointment_type: "demo" | "meeting" | "support" | "followup"
       conversation_status: "nina" | "human" | "paused"
+      member_role: "admin" | "manager" | "agent"
+      member_status: "active" | "invited" | "disabled"
       message_from: "user" | "nina" | "human"
       message_status: "sent" | "delivered" | "read" | "failed" | "processing"
       message_type: "text" | "audio" | "image" | "document" | "video"
@@ -866,7 +1255,10 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
+      appointment_type: ["demo", "meeting", "support", "followup"],
       conversation_status: ["nina", "human", "paused"],
+      member_role: ["admin", "manager", "agent"],
+      member_status: ["active", "invited", "disabled"],
       message_from: ["user", "nina", "human"],
       message_status: ["sent", "delivered", "read", "failed", "processing"],
       message_type: ["text", "audio", "image", "document", "video"],
