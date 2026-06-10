@@ -83,6 +83,75 @@ export type Database = {
           },
         ]
       }
+      brain_knowledge: {
+        Row: {
+          content_md: string
+          created_at: string
+          id: string
+          owner_user_id: string
+          position: number
+          slug: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          content_md: string
+          created_at?: string
+          id?: string
+          owner_user_id?: string
+          position?: number
+          slug: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          content_md?: string
+          created_at?: string
+          id?: string
+          owner_user_id?: string
+          position?: number
+          slug?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      brain_products: {
+        Row: {
+          created_at: string
+          details_md: string | null
+          id: string
+          is_active: boolean
+          name: string
+          owner_user_id: string
+          position: number
+          summary: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          details_md?: string | null
+          id?: string
+          is_active?: boolean
+          name: string
+          owner_user_id?: string
+          position?: number
+          summary?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          details_md?: string | null
+          id?: string
+          is_active?: boolean
+          name?: string
+          owner_user_id?: string
+          position?: number
+          summary?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       contacts: {
         Row: {
           blocked_at: string | null
@@ -256,6 +325,42 @@ export type Database = {
           },
         ]
       }
+      custom_knowledge_skills: {
+        Row: {
+          content: string
+          created_at: string
+          description: string | null
+          enabled: boolean
+          id: string
+          name: string
+          owner_user_id: string
+          slug: string
+          updated_at: string
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          description?: string | null
+          enabled?: boolean
+          id?: string
+          name: string
+          owner_user_id?: string
+          slug: string
+          updated_at?: string
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          description?: string | null
+          enabled?: boolean
+          id?: string
+          name?: string
+          owner_user_id?: string
+          slug?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       deal_activities: {
         Row: {
           completed_at: string | null
@@ -402,6 +507,44 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "pipeline_stages"
             referencedColumns: ["id"]
+          },
+        ]
+      }
+      installed_packs: {
+        Row: {
+          config: Json
+          created_at: string
+          enabled: boolean
+          id: string
+          owner_user_id: string
+          pack_slug: string
+          updated_at: string
+        }
+        Insert: {
+          config?: Json
+          created_at?: string
+          enabled?: boolean
+          id?: string
+          owner_user_id?: string
+          pack_slug: string
+          updated_at?: string
+        }
+        Update: {
+          config?: Json
+          created_at?: string
+          enabled?: boolean
+          id?: string
+          owner_user_id?: string
+          pack_slug?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "installed_packs_pack_slug_fkey"
+            columns: ["pack_slug"]
+            isOneToOne: false
+            referencedRelation: "skill_packs"
+            referencedColumns: ["slug"]
           },
         ]
       }
@@ -700,6 +843,7 @@ export type Database = {
           async_booking_enabled: boolean | null
           audio_response_enabled: boolean | null
           auto_response_enabled: boolean
+          brain_identity: Json
           brain_provider: string
           brain_repo_url: string | null
           business_days: number[]
@@ -743,6 +887,7 @@ export type Database = {
           async_booking_enabled?: boolean | null
           audio_response_enabled?: boolean | null
           auto_response_enabled?: boolean
+          brain_identity?: Json
           brain_provider?: string
           brain_repo_url?: string | null
           business_days?: number[]
@@ -786,6 +931,7 @@ export type Database = {
           async_booking_enabled?: boolean | null
           audio_response_enabled?: boolean | null
           auto_response_enabled?: boolean
+          brain_identity?: Json
           brain_provider?: string
           brain_repo_url?: string | null
           business_days?: number[]
@@ -821,6 +967,39 @@ export type Database = {
           whatsapp_business_account_id?: string | null
           whatsapp_phone_number_id?: string | null
           whatsapp_verify_token?: string | null
+        }
+        Relationships: []
+      }
+      nina_test_results: {
+        Row: {
+          content: string | null
+          conversation_id: string | null
+          created_at: string
+          id: string
+          owner_user_id: string
+          run_id: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          content?: string | null
+          conversation_id?: string | null
+          created_at?: string
+          id?: string
+          owner_user_id?: string
+          run_id: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          content?: string | null
+          conversation_id?: string | null
+          created_at?: string
+          id?: string
+          owner_user_id?: string
+          run_id?: string
+          status?: string
+          updated_at?: string
         }
         Relationships: []
       }
@@ -893,6 +1072,21 @@ export type Database = {
         }
         Relationships: []
       }
+      reaper_lock: {
+        Row: {
+          id: boolean
+          locked_at: string | null
+        }
+        Insert: {
+          id?: boolean
+          locked_at?: string | null
+        }
+        Update: {
+          id?: boolean
+          locked_at?: string | null
+        }
+        Relationships: []
+      }
       send_queue: {
         Row: {
           contact_id: string
@@ -960,6 +1154,63 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      skill_packs: {
+        Row: {
+          active_by_default: boolean
+          config_schema: Json
+          created_at: string
+          description: string | null
+          level: string
+          name: string
+          position: number
+          requires_edge_fns: string[]
+          requires_secrets: string[]
+          slug: string
+          updated_at: string
+        }
+        Insert: {
+          active_by_default?: boolean
+          config_schema?: Json
+          created_at?: string
+          description?: string | null
+          level: string
+          name: string
+          position?: number
+          requires_edge_fns?: string[]
+          requires_secrets?: string[]
+          slug: string
+          updated_at?: string
+        }
+        Update: {
+          active_by_default?: boolean
+          config_schema?: Json
+          created_at?: string
+          description?: string | null
+          level?: string
+          name?: string
+          position?: number
+          requires_edge_fns?: string[]
+          requires_secrets?: string[]
+          slug?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      stale_leads_lock: {
+        Row: {
+          id: boolean
+          locked_at: string | null
+        }
+        Insert: {
+          id?: boolean
+          locked_at?: string | null
+        }
+        Update: {
+          id?: boolean
+          locked_at?: string | null
+        }
+        Relationships: []
       }
       tag_definitions: {
         Row: {
@@ -1317,6 +1568,12 @@ export type Database = {
         }
         Returns: boolean
       }
+      set_secret: {
+        Args: { secret_name: string; secret_value: string }
+        Returns: undefined
+      }
+      trigger_reaper: { Args: never; Returns: undefined }
+      trigger_stale_leads: { Args: never; Returns: undefined }
       update_client_memory: {
         Args: { p_contact_id: string; p_new_memory: Json }
         Returns: undefined
