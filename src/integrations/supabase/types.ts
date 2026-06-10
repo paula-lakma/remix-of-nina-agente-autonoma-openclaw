@@ -405,6 +405,81 @@ export type Database = {
           },
         ]
       }
+      installer_tokens: {
+        Row: {
+          created_at: string
+          expires_at: string
+          id: string
+          owner_user_id: string
+          token: string
+          used_at: string | null
+        }
+        Insert: {
+          created_at?: string
+          expires_at?: string
+          id?: string
+          owner_user_id?: string
+          token: string
+          used_at?: string | null
+        }
+        Update: {
+          created_at?: string
+          expires_at?: string
+          id?: string
+          owner_user_id?: string
+          token?: string
+          used_at?: string | null
+        }
+        Relationships: []
+      }
+      instances: {
+        Row: {
+          agent_type: string
+          created_at: string
+          hooks_token: string | null
+          hostname: string | null
+          id: string
+          ingress_url: string | null
+          last_heartbeat: string | null
+          openclaw_dashboard_token: string | null
+          openclaw_version: string | null
+          owner_user_id: string
+          status: string
+          system_prompt: string | null
+          updated_at: string
+        }
+        Insert: {
+          agent_type?: string
+          created_at?: string
+          hooks_token?: string | null
+          hostname?: string | null
+          id?: string
+          ingress_url?: string | null
+          last_heartbeat?: string | null
+          openclaw_dashboard_token?: string | null
+          openclaw_version?: string | null
+          owner_user_id?: string
+          status?: string
+          system_prompt?: string | null
+          updated_at?: string
+        }
+        Update: {
+          agent_type?: string
+          created_at?: string
+          hooks_token?: string | null
+          hostname?: string | null
+          id?: string
+          ingress_url?: string | null
+          last_heartbeat?: string | null
+          openclaw_dashboard_token?: string | null
+          openclaw_version?: string | null
+          owner_user_id?: string
+          status?: string
+          system_prompt?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       message_grouping_queue: {
         Row: {
           contacts_data: Json | null
@@ -625,6 +700,8 @@ export type Database = {
           async_booking_enabled: boolean | null
           audio_response_enabled: boolean | null
           auto_response_enabled: boolean
+          brain_provider: string
+          brain_repo_url: string | null
           business_days: number[]
           business_hours_end: string
           business_hours_start: string
@@ -641,6 +718,9 @@ export type Database = {
           id: string
           is_active: boolean
           message_breaking_enabled: boolean
+          openclaw_gateway_token: string | null
+          openclaw_gateway_url: string | null
+          openclaw_model: string | null
           response_delay_max: number
           response_delay_min: number
           route_all_to_receiver_enabled: boolean
@@ -663,6 +743,8 @@ export type Database = {
           async_booking_enabled?: boolean | null
           audio_response_enabled?: boolean | null
           auto_response_enabled?: boolean
+          brain_provider?: string
+          brain_repo_url?: string | null
           business_days?: number[]
           business_hours_end?: string
           business_hours_start?: string
@@ -679,6 +761,9 @@ export type Database = {
           id?: string
           is_active?: boolean
           message_breaking_enabled?: boolean
+          openclaw_gateway_token?: string | null
+          openclaw_gateway_url?: string | null
+          openclaw_model?: string | null
           response_delay_max?: number
           response_delay_min?: number
           route_all_to_receiver_enabled?: boolean
@@ -701,6 +786,8 @@ export type Database = {
           async_booking_enabled?: boolean | null
           audio_response_enabled?: boolean | null
           auto_response_enabled?: boolean
+          brain_provider?: string
+          brain_repo_url?: string | null
           business_days?: number[]
           business_hours_end?: string
           business_hours_start?: string
@@ -717,6 +804,9 @@ export type Database = {
           id?: string
           is_active?: boolean
           message_breaking_enabled?: boolean
+          openclaw_gateway_token?: string | null
+          openclaw_gateway_url?: string | null
+          openclaw_model?: string | null
           response_delay_max?: number
           response_delay_min?: number
           route_all_to_receiver_enabled?: boolean
@@ -1084,6 +1174,42 @@ export type Database = {
         }
         Relationships: []
       }
+      nina_settings_public: {
+        Row: {
+          auto_response_enabled: boolean | null
+          business_days: number[] | null
+          business_hours_end: string | null
+          business_hours_start: string | null
+          company_name: string | null
+          id: string | null
+          is_active: boolean | null
+          sdr_name: string | null
+          timezone: string | null
+        }
+        Insert: {
+          auto_response_enabled?: boolean | null
+          business_days?: number[] | null
+          business_hours_end?: string | null
+          business_hours_start?: string | null
+          company_name?: string | null
+          id?: string | null
+          is_active?: boolean | null
+          sdr_name?: string | null
+          timezone?: string | null
+        }
+        Update: {
+          auto_response_enabled?: boolean | null
+          business_days?: number[] | null
+          business_hours_end?: string | null
+          business_hours_start?: string | null
+          company_name?: string | null
+          id?: string | null
+          is_active?: boolean | null
+          sdr_name?: string | null
+          timezone?: string | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       claim_message_processing_batch: {
@@ -1183,6 +1309,7 @@ export type Database = {
           isSetofReturn: false
         }
       }
+      get_secret: { Args: { secret_name: string }; Returns: string }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
