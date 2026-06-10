@@ -129,7 +129,12 @@ export function useCustomKnowledgeSkills(): UseCustomKnowledgeSkillsResult {
   const update = useCallback(
     async (id: string, patch: Partial<CustomSkillInput>): Promise<string | null> => {
       try {
-        const payload: Record<string, unknown> = { updated_at: new Date().toISOString() };
+        const payload: {
+          updated_at: string;
+          name?: string;
+          description?: string | null;
+          content?: string;
+        } = { updated_at: new Date().toISOString() };
         if (patch.name !== undefined) payload.name = patch.name.trim();
         if (patch.description !== undefined) payload.description = patch.description.trim() || null;
         if (patch.content !== undefined) payload.content = patch.content;
