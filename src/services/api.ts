@@ -1047,13 +1047,7 @@ export const api = {
     const { ganhoId, perdidoId } = await getSystemStageIds();
     
     // Build update object - clear won_at/lost_at if moving away from those stages
-    const updates: {
-      stage_id: string;
-      won_at?: string | null;
-      lost_at?: string | null;
-      lost_reason?: string | null;
-      stage?: string;
-    } = { stage_id: newStageId };
+    const updates: Record<string, any> = { stage_id: newStageId };
     
     if (newStageId !== ganhoId && newStageId !== perdidoId) {
       updates.won_at = null;
