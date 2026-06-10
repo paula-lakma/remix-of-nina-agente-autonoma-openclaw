@@ -411,7 +411,9 @@ export type Database = {
           created_at: string
           id: string
           message_data: Json
+          message_id: string | null
           phone_number_id: string
+          process_after: string | null
           processed: boolean
           whatsapp_message_id: string
         }
@@ -420,7 +422,9 @@ export type Database = {
           created_at?: string
           id?: string
           message_data: Json
+          message_id?: string | null
           phone_number_id: string
+          process_after?: string | null
           processed?: boolean
           whatsapp_message_id: string
         }
@@ -429,11 +433,21 @@ export type Database = {
           created_at?: string
           id?: string
           message_data?: Json
+          message_id?: string | null
           phone_number_id?: string
+          process_after?: string | null
           processed?: boolean
           whatsapp_message_id?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "message_grouping_queue_message_id_fkey"
+            columns: ["message_id"]
+            isOneToOne: false
+            referencedRelation: "messages"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       message_processing_queue: {
         Row: {
