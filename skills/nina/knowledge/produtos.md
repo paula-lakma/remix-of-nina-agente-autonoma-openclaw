@@ -2416,3 +2416,522 @@ Em caso de dúvida sobre associação com retinol, ácidos, peelings ou procedim
 Indicar para clientes que buscam rotina antissinais, firmeza, efeito lifting, tonificação, rugas, linhas de expressão, flacidez, hidratação e revitalização diária. Reforçar uso de protetor solar durante o dia. Encaminhar para dermoconsultora em caso de alergia a componentes, pele sensibilizada, gestantes, lactantes, irritação persistente ou dúvidas sobre associação com retinol, ácidos, peelings ou procedimentos.
 
 ---
+
+## Creme Facial Ácido Hialurônico - 100g
+
+Creme facial hidratante home care com Nano Ácido Hialurônico e Nano Vitamina E, indicado para hidratação profunda, firmeza, elasticidade, suavização de linhas finas e luminosidade.
+
+- **Categoria:** home care
+- **Principais objetivos:** Hidratação profunda, firmeza, elasticidade, suavização de linhas finas, efeito preenchedor, luminosidade, maciez.
+- **Tipo de pele / condição indicada:** Todos os tipos de pele, especialmente a partir dos 30 anos, com ressecamento, desidratação, linhas finas ou perda de elasticidade.
+- **Modo de uso:** Aplicar pequena quantidade na pele limpa e seca. Espalhar com movimentos circulares até absorção. Usar de manhã e/ou à noite. Durante o dia, finalizar com protetor solar.
+- **Site:** https://lakma.com.br/products/creme-de-acido-hialuronico-facial-hidratante?_pos=1&_psq=hialuro&_ss=e&_v=1.0
+
+### Participação em protocolos
+
+- **Função dentro do protocolo:** Pode atuar como creme hidratante e suporte de barreira em rotinas de hidratação, elasticidade, maciez, suavização de linhas finas e cuidado diário da pele.
+
+### Combinações
+
+- **Combina com:** Espuma de Limpeza Facial, Sérum VC-10, Sérum RN-0, 3, Sérum NC-10, Creme Antissinais Q-10, Máscara Hidratante de Pepino, Máscara Tropicalia Melancia e Neuroplasma Calmante.
+- **Atenção / não combinar:** Evitar contato direto com os olhos. Encaminhar em caso de alergia ao ácido hialurônico, Vitamina E ou BHT, pele muito sensibilizada ou dúvidas sobre associação com ácidos, retinol, peelings ou procedimentos.
+
+### Detalhes
+
+## Função principal
+Creme facial hidratante home care com Nano Ácido Hialurônico e Nano Vitamina E, indicado para hidratação profunda, firmeza, elasticidade, suavização de linhas finas, efeito preenchedor, luminosidade e maciez.
+
+## Indicações
+- Todos os tipos de pele
+- Peles a partir dos 30 anos
+- Ressecamento
+- Desidratação
+- Linhas finas
+- Perda de elasticidade
+- Necessidade de hidratação intensa
+- Necessidade de firmeza
+- Pele sem luminosidade
+- Rotina diária com ácido hialurônico
+
+## Público / uso
+Home care.
+
+## Tipo de produto
+Creme facial hidratante.
+
+## Linha
+Creme Facial Ácido Hialurônico.
+
+## Volume
+100g.
+
+## Tipo de pele
+Todos os tipos de pele, especialmente a partir dos 30 anos, com ressecamento, desidratação, linhas finas ou perda de elasticidade.
+
+## Zona de aplicação
+Rosto.
+
+## Momento de aplicação
+Manhã e/ou noite após limpeza. Durante o dia, usar protetor solar.
+
+## Ativos principais
+- Nano Ácido Hialurônico
+- Nano Vitamina E
+- BHT
+
+## Benefícios aprovados
+- Hidratação profunda e duradoura
+- Suaviza linhas
+- Melhora firmeza e elasticidade
+- Pele mais jovem e luminosa
+- Tecnologia nano
+- Dermatologicamente testado
+- Livre de parabenos e glúten
+- Cruelty-free
+
+## Modo de uso aprovado
+Aplicar pequena quantidade na pele limpa e seca. Espalhar com movimentos circulares até absorção. Usar de manhã e/ou à noite. Durante o dia, finalizar com protetor solar.
+
+## Cuidados e observações
+Evitar contato direto com os olhos. Encaminhar em caso de alergia ao ácido hialurônico, Vitamina E ou BHT, pele muito sensibilizada ou dúvidas com ácidos e retinol.
+
+## Quando não indicar ou encaminhar
+Não indicar em pele lesionada, irritada, sensibilizada, inflamada ou com reação ativa. Encaminhar em caso de alergia a componentes, uso recente de ácidos, retinoides ou procedimentos, gestantes, lactantes sem orientação, ou quando houver dúvida sobre protocolo, tempo de ação ou associação de ativos.
+
+## Participação em protocolos
+sem informação.
+
+## Função dentro do protocolo
+Pode atuar como creme hidratante e suporte de barreira em rotinas de hidratação, elasticidade, maciez, suavização de linhas finas e cuidado diário da pele.
+
+## Produtos que combinam
+- Espuma de Limpeza Facial
+- Sérum VC-10
+- Sérum RN-0,3
+- Sérum NC-10
+- Creme Antissinais Q-10
+- Máscara Hidratante de Pepino
+- Máscara Tropicalia Melancia
+- Neuroplasma Calmante
+
+## Diferença para produtos parecidos
+Diferencial: foco em hidratação profunda, efeito preenchedor e elasticidade. O Creme Antissinais Q-10 foca mais em firmeza, lifting, flacidez e revitalização diária.
+
+## Frase de segurança para a Nina
+Produto de uso profissional ou orientado. Evitar pele lesionada, irritada ou sensibilizada e reforçar fotoproteção quando houver ácidos, peelings, retinol ou renovação. Em caso de dúvida, encaminhar para avaliação.
+
+### Objeções comuns e respostas
+
+**Serve para pele ressecada?**
+Sim. É indicado para hidratação profunda e duradoura, especialmente em peles ressecadas ou desidratadas.
+
+**Pode usar de dia?**
+Sim. Pode ser usado de manhã e/ou à noite. Durante o dia, deve finalizar com protetor solar.
+
+**Ajuda em linhas finas?**
+Sim. Ele auxilia na suavização de linhas finas, melhora da firmeza e elasticidade.
+
+**Qual a diferença para o Creme Antissinais Q-10?**
+O Creme Facial Ácido Hialurônico tem foco maior em hidratação profunda, efeito preenchedor e elasticidade. O Q-10 foca mais em firmeza, lifting, flacidez e revitalização diária.
+
+**Pode usar junto com séruns?**
+Sim, pode combinar com séruns da rotina, como VC-10, RN-0,3 e NC-10, respeitando a tolerância da pele. Em caso de dúvida com ácidos, retinol ou procedimentos, encaminhar para avaliação profissional.
+
+### Observações internas para a Nina
+
+Indicar para clientes que buscam hidratação profunda, maciez, firmeza, elasticidade, suavização de linhas finas e cuidado diário com ácido hialurônico. Reforçar uso de protetor solar durante o dia. Encaminhar para dermoconsultora em caso de alergia a componentes, pele muito sensibilizada, gestantes, lactantes, irritação persistente ou dúvidas sobre associação com ácidos, retinol, peelings ou procedimentos.
+
+---
+
+## EsbelTEA Solúvel Sabor Limão - 210g
+
+Chá solúvel sabor limão para rotina de bem-estar, com proposta detox, leveza, disposição, saúde intestinal, foco, energia e fonte de colágeno.
+
+- **Categoria:** home care
+- **Principais objetivos:** Bem-estar, rotina detox, sensação de leveza, disposição, saúde intestinal, metabolismo, foco, energia, fonte de colágeno.
+- **Tipo de pele / condição indicada:** Não se aplica à pele. Produto de consumo oral, indicado para pessoas que buscam bebida prática para rotina de bem-estar, leveza, disposição, saúde intestinal e cuidados com a pele.
+- **Modo de uso:** Diluir a quantidade recomendada em água conforme embalagem. Mexer até dissolver. Consumir ao longo do dia conforme preferência ou orientação. Pode ser consumido gelado. Evitar após 18h para não atrapalhar o sono, conforme material aprovado.
+- **Site:** https://lakma.com.br/products/esbeltea-cha-soluvel?_pos=1&_sid=7d5b0a2d1&_ss=r
+
+### Participação em protocolos
+
+- Participa de protocolos: **sim**
+- **Protocolos relacionados:** Protocolo Corporal Cellulight; Protocolo Corporal Detox Térmico.
+- **Função dentro do protocolo:** Atua como nutracêutico recomendado em protocolos corporais, podendo ser usado antes ou após a sessão conforme orientação aprovada, como apoio à rotina de bem-estar.
+
+### Combinações
+
+- **Combina com:** Esbeltea Chá Seca Barriga + Chá Detox em Cápsulas, Kit BodyPro Corporal Profissional, Sal Térmico Lipolítico, Kit Profissional Venus de Lipoplastia e orientações de hábitos saudáveis, sem prometer emagrecimento ou resultado corporal garantido.
+- **Atenção / não combinar:** Não prometer emagrecimento, perda de peso, perda de medidas ou resultado garantido. Produto de consumo oral. Gestantes, lactantes, crianças, idosos, pessoas com doenças preexistentes, alterações gastrointestinais, uso de medicamentos ou sensibilidade a componentes devem consultar profissional antes do uso.
+
+### Detalhes
+
+## Função principal
+Chá solúvel sabor limão para consumo oral, indicado para rotina de bem-estar, sensação de leveza, disposição, saúde intestinal, foco, energia, metabolismo e fonte de colágeno.
+
+## Indicações
+- Rotina de bem-estar
+- Sensação de leveza
+- Disposição
+- Ação detox
+- Saúde intestinal
+- Foco
+- Energia
+- Metabolismo
+- Fonte de colágeno
+- Bebida prática sabor limão
+- Cuidados com a pele associados à rotina de bem-estar
+
+## Público / uso
+Home care / consumo diário.
+
+## Tipo de produto
+Chá detox solúvel em pó.
+
+## Linha
+EsbelTEA / bem-estar.
+
+## Volume
+210g.
+
+## Tipo de pele / condição indicada
+Não se aplica à pele. Produto de consumo oral conforme rótulo ou orientação profissional.
+
+## Zona de aplicação
+Uso oral.
+
+## Momento de aplicação
+Diluir conforme embalagem e consumir ao longo do dia. Evitar após 18h quando aplicável, conforme material aprovado.
+
+## Ativos principais
+- Composição completa conforme rótulo
+- Fonte de colágeno
+
+## Benefícios aprovados
+- Ação detox
+- Ajuda na redução do inchaço
+- Saúde intestinal
+- Sistema imunológico
+- Foco, energia e disposição
+- Metabolismo
+- Fonte de colágeno
+- Sabor limão
+
+## Modo de uso aprovado
+Diluir a quantidade recomendada em água conforme embalagem. Mexer até dissolver. Consumir ao longo do dia conforme preferência ou orientação. Evitar após 18h para não atrapalhar o sono, conforme texto aprovado. Consumir gelado se desejar.
+
+## Cuidados e observações
+Produto de consumo oral. Evitar prometer emagrecimento, perda de peso, perda de medidas ou resultado garantido. Gestantes, lactantes, uso de medicamentos ou condições de saúde devem consultar profissional.
+
+## Quando não indicar ou encaminhar
+Não indicar diretamente para gestantes, lactantes, crianças, idosos, pessoas com doenças preexistentes, alterações gastrointestinais, uso de medicamentos ou sensibilidade a componentes sem avaliação profissional.
+
+## Participação em protocolos
+Participa como nutracêutico recomendado em protocolos corporais aprovados, incluindo:
+- Protocolo Corporal Cellulight
+- Protocolo Corporal Detox Térmico
+
+## Função dentro do protocolo
+Atua como apoio nutracêutico recomendado antes ou após a sessão, conforme orientação aprovada, dentro de protocolos corporais associados à rotina de bem-estar.
+
+## Produtos que combinam
+- Esbeltea Chá Seca Barriga + Chá Detox em Cápsulas
+- Kit BodyPro Corporal Profissional
+- Sal Térmico Lipolítico
+- Kit Profissional Venus de Lipoplastia
+- Orientações de hábitos saudáveis, sem prometer emagrecimento ou resultado corporal garantido
+
+## Diferença para produtos parecidos
+Diferencial: chá solúvel em pó sabor limão, com proposta detox e fonte de colágeno. Diferente da versão em cápsulas, que combina blend de chás, fibras e extratos em formato de cápsula.
+
+## Frase de segurança para a Nina
+Seguir rótulo e orientação profissional. Não prometer emagrecimento, perda de medidas ou resultado garantido. Gestantes, lactantes, crianças, idosos, pessoas com doenças, uso de medicamentos ou sensibilidade a componentes devem consultar profissional.
+
+### Objeções comuns e respostas
+
+**É um produto para emagrecer?**
+A Nina não deve prometer emagrecimento ou perda de medidas. O produto tem proposta de bem-estar, ação detox, sensação de leveza, disposição, saúde intestinal e fonte de colágeno.
+
+**Pode tomar todos os dias?**
+Deve seguir a recomendação da embalagem ou orientação profissional, sem exceder o uso indicado.
+
+**Pode tomar à noite?**
+O material orienta evitar após 18h para não atrapalhar o sono.
+
+**Gestante pode usar?**
+Não indicar diretamente para gestantes ou lactantes. Nesses casos, encaminhar para avaliação profissional.
+
+**É em cápsula ou em pó?**
+Este produto é um chá solúvel em pó sabor limão. A versão em cápsulas é outro produto da linha Esbeltea.
+
+### Observações internas para a Nina
+
+Indicar para clientes que buscam bebida prática para rotina de bem-estar, leveza, disposição, foco, energia, saúde intestinal e proposta detox. Nunca prometer emagrecimento, perda de peso, redução garantida de medidas ou resultado corporal garantido. Encaminhar para avaliação em caso de gestantes, lactantes, crianças, idosos, doenças preexistentes, alterações gastrointestinais, uso de medicamentos ou sensibilidade a componentes.
+
+---
+
+## Esbeltea Chá Seca Barriga + Chá Detox em Cápsulas - 60 cápsulas
+
+Suplemento em cápsulas com blend de chás, fibras e extratos vegetais, indicado para rotina de bem-estar, sensação de leveza, praticidade e proposta detox.
+
+- **Categoria:** home care
+- **Principais objetivos:** Bem-estar, sensação de leveza, rotina detox, praticidade, consumo de chás e ativos vegetais, apoio à rotina equilibrada.
+- **Tipo de pele / condição indicada:** Não se aplica à pele. Produto de consumo oral adulto, indicado para complementar a rotina com blend de chás, fibras e extratos vegetais, associado a alimentação equilibrada e hábitos saudáveis.
+- **Modo de uso:** Ingerir 2 cápsulas conforme embalagem ou orientação profissional. Usar até 18h para não atrapalhar o sono. Não exceder a recomendação diária.
+- **Site:** https://lakma.com.br/products/esbeltea-cha-seca-barriga-cha-detox-em-capsulas-60un?_pos=2&_sid=7d5b0a2d1&_ss=r
+
+### Participação em protocolos
+
+- Participa de protocolos: **sim**
+- **Protocolos relacionados:** Protocolo Corporal Cellulight; Protocolo Corporal Detox Térmico.
+- **Função dentro do protocolo:** Atua como nutracêutico recomendado em protocolos corporais, podendo ser usado antes da sessão conforme orientação aprovada, como apoio à rotina de bem-estar.
+
+### Combinações
+
+- **Combina com:** EsbelTEA Solúvel Sabor Limão, Kit BodyPro Corporal Profissional, Sal Térmico Lipolítico, Kit Profissional Venus de Lipoplastia e orientações de rotina equilibrada, sem prometer emagrecimento, perda de medidas ou efeito laxativo garantido.
+- **Atenção / não combinar:** Não prometer emagrecimento, perda de medidas, resultado garantido ou efeito laxativo garantido. Produto de consumo oral. Gestantes, lactantes, crianças, idosos, pessoas com doenças preexistentes, alterações gastrointestinais, uso de medicamentos ou sensibilidade a componentes devem consultar profissional antes do uso.
+
+### Detalhes
+
+## Função principal
+Suplemento em cápsulas com blend de chás, fibras e extratos vegetais, indicado para complementar a rotina de bem-estar, sensação de leveza, proposta detox e praticidade no consumo diário.
+
+## Indicações
+- Rotina de bem-estar
+- Sensação de leveza
+- Proposta detox
+- Praticidade no consumo de chás
+- Consumo de ativos vegetais
+- Complemento associado a alimentação equilibrada
+- Complemento associado a hábitos saudáveis
+
+## Público / uso
+Home care / consumo diário adulto.
+
+## Tipo de produto
+Suplemento em cápsulas.
+
+## Linha
+Esbeltea.
+
+## Volume / quantidade
+60 cápsulas.
+
+## Tipo de pele / condição indicada
+Não se aplica à pele. Produto de consumo oral adulto conforme rótulo ou orientação profissional.
+
+## Zona de aplicação
+Uso oral.
+
+## Momento de aplicação
+Ingerir conforme embalagem ou orientação, sem exceder a recomendação diária.
+
+## Ativos principais
+- Ameixa
+- Cáscara Sagrada
+- Carqueja
+- Erva-Mate
+- Hortelã
+- Gengibre
+- Guaraná
+- Sálvia
+- Alecrim
+- Chá Verde
+- Chá Preto
+- Chia
+- Hibiscus
+- Mamão
+- Matcha
+- Psyllium
+- Sene
+- Spirulina
+
+## Benefícios aprovados
+- Uso diário
+- Blend de chás, fibras e extratos
+- Sensação de leveza
+- Zero açúcar
+- Zero glúten
+- Zero carboidrato
+- 60 cápsulas
+
+## Modo de uso aprovado
+Ingerir 2 cápsulas conforme embalagem ou orientação profissional. Usar até 18h para não atrapalhar o sono. Não exceder a recomendação diária.
+
+## Cuidados e observações
+Produto oral. Gestantes, lactantes, crianças, idosos, pessoas com doenças preexistentes ou em uso de medicamentos devem consultar profissional. Evitar promessas de emagrecimento, perda de medidas ou efeito laxativo garantido.
+
+## Quando não indicar ou encaminhar
+Não indicar diretamente para gestantes, lactantes, crianças, idosos, pessoas com doenças preexistentes, alterações gastrointestinais, uso de medicamentos ou sensibilidade a componentes sem avaliação profissional.
+
+## Participação em protocolos
+Participa como nutracêutico recomendado em protocolos corporais aprovados, incluindo:
+- Protocolo Corporal Cellulight
+- Protocolo Corporal Detox Térmico
+
+## Função dentro do protocolo
+Atua como apoio nutracêutico recomendado antes da sessão, conforme orientação aprovada, dentro de protocolos corporais associados à rotina de bem-estar.
+
+## Produtos que combinam
+- EsbelTEA Solúvel Sabor Limão
+- Kit BodyPro Corporal Profissional
+- Sal Térmico Lipolítico
+- Kit Profissional Venus de Lipoplastia
+- Orientações de rotina equilibrada, sem prometer emagrecimento, perda de medidas ou efeito laxativo garantido
+
+## Diferença para produtos parecidos
+Diferente do EsbelTEA Solúvel, vem em cápsulas e combina blend de chás, fibras e extratos para praticidade.
+
+## Frase de segurança para a Nina
+Seguir rótulo e orientação profissional. Não prometer emagrecimento, perda de medidas ou resultado garantido. Gestantes, lactantes, crianças, idosos, pessoas com doenças, uso de medicamentos ou sensibilidade a componentes devem consultar profissional.
+
+### Objeções comuns e respostas
+
+**É um produto para emagrecer?**  
+A Nina não deve prometer emagrecimento, perda de peso ou perda de medidas. O produto é indicado para rotina de bem-estar, sensação de leveza, proposta detox e praticidade no consumo de chás e ativos vegetais.
+
+**Qual a diferença para o EsbelTEA Solúvel?**  
+O EsbelTEA Solúvel é um chá em pó sabor limão. Este produto vem em cápsulas e combina blend de chás, fibras e extratos vegetais para mais praticidade.
+
+**Pode tomar à noite?**  
+O material orienta usar até 18h para não atrapalhar o sono.
+
+**Gestante pode usar?**  
+Não indicar diretamente para gestantes ou lactantes. Nesses casos, encaminhar para avaliação profissional.
+
+**Pode tomar mais de 2 cápsulas por dia?**  
+Não. A orientação aprovada é não exceder a recomendação diária.
+
+### Observações internas para a Nina
+
+Indicar para clientes que buscam praticidade na rotina de bem-estar, sensação de leveza, proposta detox e consumo de blend de chás, fibras e extratos vegetais. Nunca prometer emagrecimento, perda de peso, perda garantida de medidas, efeito laxativo garantido ou resultado corporal garantido. Encaminhar para avaliação em caso de gestantes, lactantes, crianças, idosos, doenças preexistentes, alterações gastrointestinais, uso de medicamentos ou sensibilidade a componentes.
+
+---
+
+## Sal Térmico Lipolítico - 500g
+
+Produto corporal profissional com ação térmica e lipolítica, indicado para protocolos de redução de medidas, gordura localizada, celulite, drenagem, edema e retenção de líquidos.
+
+- **Categoria:** profissional
+- **Principais objetivos:** Ação térmica, ação lipolítica, redução de medidas, gordura localizada, celulite, drenagem, edema, retenção de líquidos, metabolismo local.
+- **Tipo de pele / condição indicada:** Todos os tipos de pele corporal, conforme avaliação profissional e tolerância ao produto térmico. Indicado para protocolos corporais de redução de medidas, gordura localizada, celulite, drenagem, edema, retenção de líquidos, estimulação metabólica e regeneração tecidual.
+- **Modo de uso:** Uso profissional externo. Dissolver a quantidade desejada em pequena quantidade de água. Aplicar na região corporal. Associar com faixa, faixa gessada, manta térmica ou plástico filme. Tempo máximo de até 2 horas. Remover completamente.
+- **Site:** https://lakma.com.br/products/sal-termico-lipolitico-500g?_pos=1&_sid=927df9fcc&_ss=r
+
+### Participação em protocolos
+
+- **Função dentro do protocolo:** Pode atuar como produto corporal térmico e lipolítico em protocolos profissionais de redução de medidas, gordura localizada, celulite, drenagem, edema e retenção de líquidos.
+
+### Combinações
+
+- **Combina com:** Kit BodyPro Corporal Profissional, Gel Termoativado BodyPro, Gel Crioterápico BodyPro, Óleo para Massagem Corporal, Kit Profissional Venus de Lipoplastia, EsbelTEA Solúvel e Esbeltea em Cápsulas.
+- **Atenção / não combinar:** Uso externo e profissional. Realizar teste de sensibilidade 48h antes. Não usar em pele irritada, lesionada ou sensibilizada. Encaminhar em caso de alterações circulatórias, hipertensão, varizes importantes, gestantes, lactantes, sensibilidade ao calor ou dúvidas. Não prometer emagrecimento, perda de medidas ou resultado garantido.
+
+### Detalhes
+
+## Função principal
+Produto corporal profissional com ação térmica e lipolítica, indicado para protocolos de redução de medidas, gordura localizada, celulite, drenagem, edema, retenção de líquidos, estimulação metabólica e regeneração tecidual.
+
+## Indicações
+- Protocolos corporais profissionais
+- Redução de medidas
+- Gordura localizada
+- Celulite
+- Drenagem
+- Edema
+- Retenção de líquidos
+- Estimulação metabólica
+- Regeneração tecidual
+- Protocolos com faixa, faixa gessada, manta térmica ou plástico filme
+
+## Público / uso
+Profissional/cabine.
+
+## Tipo de produto
+Produto corporal lipolítico.
+
+## Linha
+Corporal.
+
+## Volume
+500g.
+
+## Tipo de pele
+Todos os tipos de pele corporal, conforme avaliação profissional e tolerância ao produto térmico.
+
+## Zona de aplicação
+Corpo.
+
+## Momento de aplicação
+Protocolo corporal profissional com faixa, faixa gessada, manta térmica ou plástico filme.
+
+## Ativos principais
+- Argila Rosa 5%
+- L-Carnitina 5%
+- Cloreto de Sódio
+- Sal Térmico
+
+## Benefícios aprovados
+- Redução de medidas
+- Gordura localizada
+- Celulite
+- Ação lipolítica
+- Metabolismo local
+- Drenagem e remoção de líquidos
+- Ação desintoxicante
+- Alto rendimento
+- Vegano
+- Cruelty-free
+
+## Modo de uso aprovado
+Dissolver a quantidade desejada em pequena quantidade de água. Aplicar na região corporal. Associar com faixa, faixa gessada, manta térmica ou plástico filme. Tempo máximo de até 2 horas. Remover completamente.
+
+## Cuidados e observações
+Uso externo e profissional. Realizar teste de sensibilidade 48h antes. Não usar em pele irritada, lesionada ou sensibilizada. Encaminhar em caso de alterações circulatórias, hipertensão, varizes importantes, gestantes, lactantes, sensibilidade ao calor ou dúvidas.
+
+## Quando não indicar ou encaminhar
+Não indicar diretamente para gestantes, lactantes, crianças, idosos, pessoas com doenças preexistentes, alterações gastrointestinais, uso de medicamentos ou sensibilidade a componentes sem avaliação profissional. Encaminhar também em caso de alterações circulatórias, hipertensão, varizes importantes, sensibilidade ao calor, pele lesionada, irritada ou sensibilizada.
+
+## Participação em protocolos
+sem informação.
+
+## Função dentro do protocolo
+Pode atuar como produto corporal térmico e lipolítico em protocolos profissionais de redução de medidas, gordura localizada, celulite, drenagem, edema e retenção de líquidos.
+
+## Produtos que combinam
+- Kit BodyPro Corporal Profissional
+- Gel Termoativado BodyPro
+- Gel Crioterápico BodyPro
+- Óleo para Massagem Corporal
+- Kit Profissional Venus de Lipoplastia
+- EsbelTEA Solúvel
+- Esbeltea em Cápsulas
+
+## Diferença para produtos parecidos
+Diferencial: ação térmica, lipolítica e desintoxicante com Argila Rosa, L-Carnitina, Cloreto de Sódio e Sal Térmico.
+
+## Frase de segurança para a Nina
+Seguir rótulo e orientação profissional. Não prometer emagrecimento, perda de medidas ou resultado garantido. Gestantes, lactantes, crianças, idosos, pessoas com doenças, uso de medicamentos ou sensibilidade a componentes devem consultar profissional.
+
+### Objeções comuns e respostas
+
+**É para usar em casa?**
+Não. É um produto corporal de uso profissional em cabine.
+
+**Serve para gordura localizada e celulite?**
+Sim. É indicado para protocolos corporais profissionais de gordura localizada, celulite, drenagem, edema e retenção de líquidos, sem promessa de resultado garantido.
+
+**Pode usar com manta térmica?**
+Sim. O modo de uso aprovado cita associação com faixa, faixa gessada, manta térmica ou plástico filme, respeitando avaliação profissional e tempo máximo.
+
+**Precisa remover depois?**
+Sim. A orientação aprovada é remover completamente após o tempo de ação.
+
+**Gestante pode usar?**
+Não deve ser indicado diretamente para gestantes ou lactantes sem avaliação profissional. A Nina deve encaminhar para dermoconsultora.
+
+### Observações internas para a Nina
+
+Indicar para profissionais que buscam produto corporal térmico/lipolítico para protocolos de redução de medidas, gordura localizada, celulite, drenagem e retenção de líquidos. Não prometer emagrecimento, perda garantida de medidas ou eliminação definitiva de gordura/celulite. Reforçar uso profissional, teste de sensibilidade e remoção completa. Encaminhar para dermoconsultora em caso de gestantes, lactantes, alterações circulatórias, hipertensão, varizes importantes, sensibilidade ao calor, pele lesionada/sensibilizada, doenças preexistentes, uso de medicamentos ou dúvidas sobre aplicação.
+
+---
