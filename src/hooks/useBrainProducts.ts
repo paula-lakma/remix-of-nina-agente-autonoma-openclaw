@@ -45,7 +45,7 @@ export function useBrainProducts(): UseBrainProductsResult {
       setError(null);
       const { data, error: queryError } = await supabase
         .from('brain_products')
-        .select('id, name, summary, details_md, position, is_active')
+        .select('id, name, summary, details_md, site_url, mercadolivre_url, position, is_active')
         .order('position', { ascending: true })
         .order('created_at', { ascending: true });
 

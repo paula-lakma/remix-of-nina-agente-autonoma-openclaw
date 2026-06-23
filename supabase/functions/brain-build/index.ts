@@ -92,6 +92,9 @@ function renderProducts(products: any[]): string {
   for (const p of products) {
     md += `## ${v(p.name)}\n\n`;
     if (v(p.summary)) md += `${v(p.summary)}\n\n`;
+    if (v(p.site_url)) md += `- **Site:** ${v(p.site_url)}\n`;
+    if (v(p.mercadolivre_url)) md += `- **MercadoLivre:** ${v(p.mercadolivre_url)}\n`;
+    if (v(p.site_url) || v(p.mercadolivre_url)) md += `\n`;
     if (v(p.details_md)) md += `${v(p.details_md)}\n\n`;
   }
   return md.trimEnd() + "\n";
@@ -157,7 +160,7 @@ Deno.serve(async (req: Request) => {
 
   const { data: products } = await admin
     .from("brain_products")
-    .select("name, summary, details_md, position, is_active")
+    .select("name, summary, details_md, site_url, mercadolivre_url, position, is_active")
     .eq("owner_user_id", user.id)
     .eq("is_active", true)
     .order("position", { ascending: true });

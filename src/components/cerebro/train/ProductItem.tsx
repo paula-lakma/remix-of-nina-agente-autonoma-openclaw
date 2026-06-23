@@ -19,6 +19,8 @@ const ProductItem: React.FC<ProductItemProps> = ({ product, onSave, onDelete }) 
     name: product.name,
     summary: product.summary,
     details_md: product.details_md,
+    site_url: product.site_url,
+    mercadolivre_url: product.mercadolivre_url,
     is_active: product.is_active,
   });
 
@@ -78,6 +80,20 @@ const ProductItem: React.FC<ProductItemProps> = ({ product, onSave, onDelete }) 
         value={draft.summary ?? ''}
         onChange={(e) => setDraft({ ...draft, summary: e.target.value })}
         placeholder="Resumo curto"
+        className={inputClass}
+      />
+      <input
+        type="url"
+        value={draft.site_url ?? ''}
+        onChange={(e) => setDraft({ ...draft, site_url: e.target.value })}
+        placeholder="Link do site (https://...)"
+        className={inputClass}
+      />
+      <input
+        type="url"
+        value={draft.mercadolivre_url ?? ''}
+        onChange={(e) => setDraft({ ...draft, mercadolivre_url: e.target.value })}
+        placeholder="Link do MercadoLivre (https://...)"
         className={inputClass}
       />
       <textarea

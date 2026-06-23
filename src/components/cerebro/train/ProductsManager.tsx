@@ -8,7 +8,7 @@ import ProductItem from './ProductItem';
 const inputClass =
   'w-full rounded-lg border border-slate-700 bg-slate-950 px-3 py-2 text-sm text-slate-100 placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-cyan-500/50';
 
-const EMPTY_DRAFT: BrainProductInput = { name: '', summary: '', details_md: '', is_active: true };
+const EMPTY_DRAFT: BrainProductInput = { name: '', summary: '', details_md: '', site_url: '', mercadolivre_url: '', is_active: true };
 
 const ProductsManager: React.FC = () => {
   const { products, loading, create, update, remove } = useBrainProducts();
@@ -68,6 +68,20 @@ const ProductsManager: React.FC = () => {
             value={draft.summary ?? ''}
             onChange={(e) => setDraft({ ...draft, summary: e.target.value })}
             placeholder="Resumo curto"
+            className={inputClass}
+          />
+          <input
+            type="url"
+            value={draft.site_url ?? ''}
+            onChange={(e) => setDraft({ ...draft, site_url: e.target.value })}
+            placeholder="Link do site (https://...)"
+            className={inputClass}
+          />
+          <input
+            type="url"
+            value={draft.mercadolivre_url ?? ''}
+            onChange={(e) => setDraft({ ...draft, mercadolivre_url: e.target.value })}
+            placeholder="Link do MercadoLivre (https://...)"
             className={inputClass}
           />
           <textarea
