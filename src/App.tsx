@@ -10,6 +10,7 @@ import Scheduling from './components/Scheduling';
 import Kanban from './components/Kanban';
 import Cerebro from './components/Cerebro';
 import Auth from './pages/Auth';
+import ResetPassword from './pages/ResetPassword';
 import ProtectedRoute from './components/ProtectedRoute';
 
 import { CompanySettingsProvider } from './hooks/useCompanySettings';
@@ -68,6 +69,7 @@ const App: React.FC = () => {
             <Routes>
               {/* Public Routes */}
               <Route path="/auth" element={<Auth />} />
+              <Route path="/reset-password" element={<ResetPassword />} />
 
               {/* Protected Routes (With Sidebar) */}
               <Route element={
