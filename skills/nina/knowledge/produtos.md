@@ -1040,3 +1040,874 @@ Não. Deve evitar uso em lábios lesionados, irritados ou sensibilizados.
 Indicar para clientes que buscam rotina labial em casa com esfoliação, tratamento e finalização. Não indicar em caso de lábios lesionados, irritados, sensibilizados, feridas abertas, descamação intensa, herpes ativa ou alergia a componentes. Se houver irritação, orientar suspensão e avaliação se persistir.
 
 ---
+
+## Kit Limpeza de Pele Facial + Ativos Sem Trieta
+
+Kit profissional para limpeza de pele facial com etapas de higienização, esfoliação, emoliência sem trieta, extração, tonificação e finalização calmante.
+
+- **Categoria:** profissional
+- **Principais objetivos:** Limpeza de pele, higienização, esfoliação, emoliência, extração de cravos, tonificação, controle de oleosidade, finalização calmante.
+- **Tipo de pele / condição indicada:** Peles com cravos, oleosidade, acne ou necessidade de limpeza de pele, conforme avaliação profissional.
+- **Modo de uso:** Uso profissional em cabine. Higienizar com sabonete, esfoliar, aplicar o Emoliente Sem Trieta e realizar a extração, tonificar com Loção Tônica e finalizar com Máscara Calmante. Frequência conforme orientação profissional. Usar protetor solar após procedimentos diurnos.
+- **Site:** https://lakma.com.br/products/kit-limpeza-de-pele-creme-emoliente-sem-trieta?_pos=3&_sid=376784632&_ss=r
+
+### Participação em protocolos
+
+- Participa de protocolos: **sim**
+- **Protocolos relacionados:** Protocolo Limpeza de Pele Premium; Protocolo Limpeza de Pele Integrativa Personalizada.
+- **Função dentro do protocolo:** Atua como kit profissional completo para limpeza de pele, organizando as etapas de higienização, esfoliação, emoliência, extração, tonificação e finalização calmante.
+
+### Combinações
+
+- **Combina com:** Emoliente Zero Trieta, Máscara Calmante Limpeza de Pele, Máscara Hidroplástica Zen Marine, Neuroplasma Calmante, Espuma de Limpeza Facial, Sérum NC-10 para manutenção home care de pele oleosa/acneica e protetor solar para pós-procedimento.
+- **Atenção / não combinar:** Evitar olhos, mucosas e áreas lesionadas. Não indicar em pele lesionada, irritada, sensibilizada, inflamada ou com reação ativa. Encaminhar em caso de uso recente de ácidos, retinoides ou procedimentos, gestantes, lactantes, alergia a componentes ou dúvidas sobre extração, vapor, tempo de ação ou associação de ativos.
+
+### Detalhes
+
+## Função principal
+Kit profissional para limpeza de pele facial, com etapas de higienização, esfoliação, emoliência sem trieta, extração de cravos, tonificação, controle da oleosidade e finalização calmante.
+
+## Indicações
+- Limpeza de pele facial profissional
+- Higienização profunda
+- Esfoliação
+- Emoliência
+- Extração de cravos
+- Tonificação
+- Controle da oleosidade
+- Pele acneica
+- Finalização calmante
+- Profissionais que desejam protocolo sem trietanolamina
+
+## Público / uso
+Profissional/cabine.
+
+## Tipo de produto
+Kit profissional para limpeza de pele.
+
+## Linha
+Facial + Ativos / Gentle.
+
+## Volume / composição
+Kit com 5 produtos profissionais.
+
+## Tipo de pele
+Peles com cravos, oleosidade, acne ou necessidade de limpeza de pele, conforme avaliação profissional.
+
+## Zona de aplicação
+Rosto.
+
+## Momento de aplicação
+Protocolo profissional de limpeza de pele: higienização, esfoliação, emoliência, extração, tonificação e finalização.
+
+## Ativos principais
+- Nano Acnol
+- Zinco
+- Extrato de Própolis
+- Ureia
+- PCA de Sódio
+- Nano Ácido Kójico
+- Extrato de Quinoa
+- Extrato de Aveia
+- Alantoína
+- Camomila
+- Cacau
+- Açaí
+- Niacinamida
+
+## Benefícios aprovados
+- Kit completo para limpeza de pele
+- Higienização profunda
+- Esfoliação e renovação suave
+- Emoliência e extração
+- Controle de oleosidade
+- Máscara calmante
+- Rendimento até 50 aplicações
+
+## Modo de uso aprovado
+Higienizar com sabonete. Esfoliar. Aplicar Emoliente Sem Trieta e realizar extração. Tonificar com Loção Tônica. Finalizar com Máscara Calmante. Frequência conforme orientação profissional. Usar protetor solar após procedimentos diurnos.
+
+## Cuidados e observações
+Evitar olhos, mucosas e áreas lesionadas. Encaminhar em caso de pele irritada, sensibilizada, uso recente de ácidos ou procedimentos, ou dúvidas sobre extração e vapor.
+
+## Quando não indicar ou encaminhar
+Não indicar em pele lesionada, irritada, sensibilizada, inflamada ou com reação ativa. Encaminhar em caso de alergia a componentes, uso recente de ácidos, retinoides ou procedimentos, gestantes, lactantes sem orientação, ou quando houver dúvida sobre protocolo, tempo de ação ou associação de ativos.
+
+## Participação em protocolos
+Participa de protocolos profissionais de limpeza de pele, incluindo:
+- Protocolo Limpeza de Pele Premium
+- Protocolo Limpeza de Pele Integrativa Personalizada
+
+## Função dentro do protocolo
+Atua como kit profissional completo para limpeza de pele, estruturando etapas de higienização, esfoliação, emoliência, extração, tonificação e finalização calmante.
+
+## Produtos que combinam
+- Emoliente Zero Trieta
+- Máscara Calmante Limpeza de Pele
+- Máscara Hidroplástica Zen Marine
+- Neuroplasma Calmante
+- Espuma de Limpeza Facial
+- Sérum NC-10 para manutenção home care de pele oleosa/acneica
+- Protetor solar para pós-procedimento
+
+## Diferença para produtos parecidos
+Diferencial: sequência completa de limpeza de pele profissional. O Emoliente Zero Trieta é apenas a etapa individual de emoliência.
+
+## Frase de segurança para a Nina
+Produto de uso profissional ou orientado. Evitar pele lesionada, irritada ou sensibilizada e reforçar fotoproteção quando houver ácidos, peelings, retinol ou renovação. Em caso de dúvida, encaminhar para avaliação.
+
+### Objeções comuns e respostas
+
+**É para uso em casa?**
+Não. É um kit profissional para uso em cabine, indicado para limpeza de pele realizada por profissional.
+
+**Qual a diferença para o Emoliente Zero Trieta?**
+O Emoliente Zero Trieta é apenas a etapa individual de emoliência. Este kit reúne a sequência completa para limpeza de pele profissional.
+
+**Serve para pele oleosa e acneica?**
+Sim. É indicado para peles com cravos, oleosidade, acne e necessidade de limpeza de pele, conforme avaliação profissional.
+
+**Tem trietanolamina?**
+O kit é apresentado como uma opção com ativos sem trieta, indicado para profissionais que buscam protocolo de limpeza de pele sem trietanolamina.
+
+### Observações internas para a Nina
+
+Indicar para profissionais que desejam um protocolo completo, prático e de alto rendimento para limpeza de pele facial. Priorizar quando a profissional buscar uma opção sem trietanolamina. Não orientar extração em casa. Encaminhar para dermoconsultora em caso de pele lesionada, sensibilizada, inflamada, alergias, gestantes, lactantes, uso recente de ácidos/retinoides/procedimentos ou dúvidas sobre extração, vapor, tempo de ação ou associação de ativos.
+
+---
+
+## Sérum Lakma NC-10 - Niacinamida 10% + Zinco PCA 1%
+
+Sérum facial home care com Niacinamida 10% e Zinco PCA 1%, indicado para oleosidade, acne, cravos, poros aparentes, manchas pós-inflamatórias e vermelhidão.
+
+- **Categoria:** home care
+- **Principais objetivos:** Controle de oleosidade, acne, cravos, poros aparentes, manchas pós-inflamatórias, uniformização do tom, textura irregular, vermelhidão.
+- **Tipo de pele / condição indicada:** Todos os tipos de pele, especialmente peles mistas, oleosas e acneicas. Indicado para acne, cravos, poros dilatados, oleosidade, manchas pós-inflamatórias, textura irregular e vermelhidão.
+- **Modo de uso:** Aplicar 2 a 3 gotas no rosto limpo e seco. Usar diariamente de manhã e à noite. Pode ser usado antes de hidratante, protetor solar ou maquiagem. Durante o dia, finalizar com protetor solar.
+- **Site:** https://lakma.com.br/products/serum-10-niacinamida-1-zinco-pca?_pos=1&_sid=5b47fa0fb&_ss=r
+
+### Participação em protocolos
+
+- Participa de protocolos: **sim**
+- **Função dentro do protocolo:** Pode atuar como suporte home care para manutenção de peles oleosas e acneicas, especialmente associado a rotinas e protocolos de limpeza de pele, controle de oleosidade, acne e manchas pós-inflamatórias.
+
+### Combinações
+
+- **Combina com:** Espuma de Limpeza Facial, Máscara Hidratante de Pepino, Neuroplasma Calmante, Creme Facial Ácido Hialurônico, Sérum VC-10, Kit Limpeza de Pele Facial + Ativos Sem Trieta e protetor solar para uso diurno.
+- **Atenção / não combinar:** Evitar uso em pele lesionada ou sensibilizada. Suspender em caso de irritação persistente. Encaminhar para avaliação em caso de alergia, gestantes, lactantes ou dúvidas sobre associação com outros ativos, ácidos, peelings, retinol ou procedimentos. Há observação no material para confirmar divergência sobre parabenos: descrição diz livre; ficha técnica marca não.
+
+### Detalhes
+
+## Função principal
+Sérum facial home care com Niacinamida 10% e Zinco PCA 1%, indicado para controle de oleosidade, acne, cravos, poros aparentes, manchas pós-inflamatórias, textura irregular e vermelhidão.
+
+## Indicações
+- Todos os tipos de pele
+- Peles mistas
+- Peles oleosas
+- Peles acneicas
+- Oleosidade excessiva
+- Acne leve a moderada
+- Cravos
+- Poros dilatados
+- Manchas pós-inflamatórias
+- Manchas pós-acne
+- Textura irregular
+- Vermelhidão
+- Rotina home care equilibrante
+
+## Público / uso
+Home care.
+
+## Tipo de produto
+Sérum facial.
+
+## Linha
+Home Care.
+
+## Volume
+sem informação.
+
+## Tipo de pele
+Todos os tipos de pele, especialmente mistas, oleosas e acneicas.
+
+## Zona de aplicação
+Rosto, evitando contato direto com os olhos.
+
+## Momento de aplicação
+Manhã e noite, após limpeza e antes de hidratante, protetor solar ou maquiagem.
+
+## Ativos principais
+- Niacinamida 10%
+- Zinco PCA 1%
+
+## Benefícios aprovados
+- Reduz cravos e acne
+- Controla oleosidade
+- Diminui aparência de poros
+- Clareia manchas pós-inflamatórias
+- Uniformiza tom e textura
+- Reduz vermelhidão
+- Não comedogênico
+- Vegano
+- Cruelty-free
+
+## Modo de uso aprovado
+Aplicar 2 a 3 gotas no rosto limpo e seco. Usar diariamente de manhã e à noite. Pode ser usado antes de hidratante, protetor solar ou maquiagem. Durante o dia, finalizar com protetor solar.
+
+## Cuidados e observações
+Adequado para contorno dos olhos, evitando contato direto. Confirmar divergência sobre parabenos: descrição diz livre; ficha técnica marca não.
+
+## Quando não indicar ou encaminhar
+Encaminhar para avaliação em caso de alergia, irritação persistente, pele lesionada ou sensibilizada, gestantes, lactantes ou dúvidas sobre associação com outros ativos e procedimentos.
+
+## Participação em protocolos
+sem informação.
+
+## Função dentro do protocolo
+Pode atuar como suporte home care para manutenção de peles oleosas e acneicas, especialmente associado a rotinas e protocolos de limpeza de pele, controle de oleosidade, acne e manchas pós-inflamatórias.
+
+## Produtos que combinam
+- Espuma de Limpeza Facial
+- Máscara Hidratante de Pepino
+- Neuroplasma Calmante
+- Creme Facial Ácido Hialurônico
+- Sérum VC-10
+- Kit Limpeza de Pele Facial + Ativos Sem Trieta
+- Protetor solar para uso diurno
+
+## Diferença para produtos parecidos
+Diferencial: Niacinamida 10% + Zinco PCA 1% para oleosidade, acne, poros e manchas pós-inflamatórias.
+
+## Frase de segurança para a Nina
+Orientar uso conforme modo de uso, evitar pele lesionada ou sensibilizada e suspender em caso de irritação. Gestantes, lactantes, alergias ou dúvidas com ativos devem ser encaminhadas para avaliação.
+
+### Objeções comuns e respostas
+
+**Serve para pele oleosa?**
+Sim. É indicado especialmente para peles mistas, oleosas e acneicas, ajudando no controle da oleosidade.
+
+**Ajuda em acne e cravos?**
+Sim. Os benefícios aprovados incluem redução de cravos e acne, além de melhora da aparência de poros.
+
+**Pode usar de dia?**
+Sim. Pode ser usado de manhã e à noite. Durante o dia, deve finalizar com protetor solar.
+
+**Pode usar antes da maquiagem?**
+Sim. O modo de uso aprovado informa que pode ser usado antes de hidratante, protetor solar ou maquiagem.
+
+**Serve para manchas de acne?**
+Sim. Ele auxilia no clareamento de manchas pós-inflamatórias e na uniformização do tom e textura.
+
+### Observações internas para a Nina
+
+Indicar quando a cliente buscar controle de oleosidade, acne leve a moderada, cravos, poros aparentes, manchas pós-acne, vermelhidão ou rotina home care equilibrante. Reforçar o uso de protetor solar durante o dia. Encaminhar para dermoconsultora em caso de gestantes, lactantes, alergias, pele lesionada/sensibilizada, irritação persistente ou dúvidas sobre associação com ácidos, peelings, retinol ou procedimentos. Não comunicar como cura da acne.
+
+---
+
+## Sérum Lakma RN-0,3 - Retinol 0,5% + Vitamina E 1%
+
+Sérum facial noturno com Retinol 0,5% e Vitamina E 1%, indicado para renovação celular, rugas, linhas finas, manchas, textura irregular, poros e firmeza.
+
+- **Categoria:** home care
+- **Principais objetivos:** Renovação celular, antissinais, rugas, linhas finas, manchas, firmeza, elasticidade, textura irregular, poros aparentes.
+- **Tipo de pele / condição indicada:** Todos os tipos de pele, exceto peles sensibilizadas, irritadas ou lesionadas. Indicado para rotina noturna de rejuvenescimento, manchas, rugas, linhas finas, flacidez e poros aparentes.
+- **Modo de uso:** À noite, aplicar 2 a 3 gotas na pele limpa e seca. Iniciar de 2 a 3 vezes por semana e aumentar conforme tolerância. Evitar a área dos olhos. Finalizar com hidratante se necessário. Protetor solar obrigatório durante o dia.
+- **Site:** https://lakma.com.br/products/serum-retinol-0-5-vitamina-e-1?_pos=1&_psq=serum+re&_ss=e&_v=1.0
+
+### Participação em protocolos
+
+- **Função dentro do protocolo:** Pode atuar como suporte home care em rotinas de renovação noturna, antissinais, melhora de textura, firmeza, manchas e poros aparentes.
+
+### Combinações
+
+- **Combina com:** Espuma de Limpeza Facial, Creme Facial Ácido Hialurônico, Creme Antissinais Q-10, Neuroplasma Calmante, Máscara Hidratante de Pepino, Fluido Revitalizante Passo 5 Nano Fill Up e protetor solar obrigatório durante o dia.
+- **Atenção / não combinar:** Não aplicar em pele sensibilizada, irritada ou lesionada. Não usar durante o dia sem fotoproteção. Evitar área dos olhos. Encaminhar em caso de gestantes, lactantes, pele reativa, alergia, uso recente de ácidos, peelings, retinoides ou procedimentos, ou dúvidas sobre associação com outros ativos.
+
+### Detalhes
+
+## Função principal
+Sérum facial noturno com Retinol 0,5% e Vitamina E 1%, indicado para renovação celular, rejuvenescimento, rugas, linhas finas, manchas, textura irregular, poros aparentes, firmeza e elasticidade.
+
+## Indicações
+- Todos os tipos de pele, exceto peles sensibilizadas, irritadas ou lesionadas
+- Rotina noturna de rejuvenescimento
+- Rugas
+- Linhas finas
+- Manchas
+- Pigmentações
+- Textura irregular
+- Flacidez
+- Poros aparentes
+- Renovação celular
+- Prevenção e cuidado antissinais
+
+## Público / uso
+Home care.
+
+## Tipo de produto
+Sérum facial noturno.
+
+## Linha
+sem informação.
+
+## Volume
+sem informação.
+
+## Tipo de pele
+Todos os tipos de pele, exceto peles sensibilizadas, irritadas ou lesionadas.
+
+## Zona de aplicação
+Rosto, evitando a área dos olhos.
+
+## Momento de aplicação
+Rotina noturna. Iniciar de 2 a 3 vezes por semana e aumentar conforme tolerância.
+
+## Ativos principais
+- Retinol Puro 0,5%
+- Vitamina E 1%
+
+## Benefícios aprovados
+- Reduz rugas e linhas finas
+- Renovação celular noturna
+- Melhora firmeza e elasticidade
+- Clareia manchas, olheiras e pigmentações
+- Uniformiza tom e textura
+- Minimiza poros
+- Ação antioxidante
+
+## Modo de uso aprovado
+À noite, aplicar 2 a 3 gotas na pele limpa e seca. Iniciar de 2 a 3 vezes por semana e aumentar conforme tolerância. Evitar a área dos olhos. Finalizar com hidratante se necessário. Protetor solar obrigatório durante o dia.
+
+## Cuidados e observações
+Não aplicar em pele sensibilizada, irritada ou lesionada. Gestantes, lactantes ou pele reativa devem consultar profissional. Não usar durante o dia sem fotoproteção.
+
+## Quando não indicar ou encaminhar
+Não indicar em pele lesionada, irritada, sensibilizada, inflamada ou com reação ativa. Encaminhar em caso de alergia a componentes, uso recente de ácidos, retinoides ou procedimentos, gestantes, lactantes sem orientação, ou quando houver dúvida sobre protocolo, tempo de ação ou associação de ativos.
+
+## Participação em protocolos
+sem informação.
+
+## Função dentro do protocolo
+Pode atuar como suporte home care em rotinas de renovação noturna, antissinais, melhora de textura, firmeza, manchas e poros aparentes.
+
+## Produtos que combinam
+- Espuma de Limpeza Facial
+- Creme Facial Ácido Hialurônico
+- Creme Antissinais Q-10
+- Neuroplasma Calmante
+- Máscara Hidratante de Pepino
+- Fluido Revitalizante Passo 5 Nano Fill Up
+- Protetor solar obrigatório durante o dia
+
+## Diferença para produtos parecidos
+Diferencial: sérum noturno com Retinol Puro 0,5% + Vitamina E 1%, focado em renovação, rugas, linhas finas, manchas e poros.
+
+## Frase de segurança para a Nina
+Orientar uso conforme modo de uso, evitar pele lesionada ou sensibilizada e suspender em caso de irritação. Gestantes, lactantes, alergias ou dúvidas com ativos devem ser encaminhadas para avaliação.
+
+### Objeções comuns e respostas
+
+**Pode usar de dia?**
+Não é a orientação principal. É um sérum de rotina noturna. Durante o dia, o uso de protetor solar é obrigatório.
+
+**Serve para rugas e linhas finas?**
+Sim. Ele é indicado para rotina noturna de rejuvenescimento, rugas, linhas finas e firmeza.
+
+**Ajuda em manchas?**
+Sim. Os benefícios aprovados incluem melhora de manchas, pigmentações e uniformização do tom e textura.
+
+**Pode usar todos os dias?**
+A orientação aprovada é iniciar de 2 a 3 vezes por semana e aumentar conforme tolerância.
+
+**Gestante pode usar?**
+A Nina não deve indicar diretamente para gestantes ou lactantes. Nesses casos, deve encaminhar para avaliação profissional.
+
+### Observações internas para a Nina
+
+Indicar para clientes que buscam renovação noturna, antissinais, melhora de rugas, linhas finas, manchas, textura irregular, poros aparentes e firmeza. Reforçar início gradual, uso noturno e fotoproteção obrigatória durante o dia. Encaminhar para dermoconsultora em caso de gestantes, lactantes, pele sensibilizada, irritada, lesionada, alergias, uso recente de ácidos/retinoides/procedimentos ou dúvidas sobre associação com outros ativos. Não prometer resultado garantido.
+
+---
+
+## Sérum Lakma VC-10 - Vitamina C 10% + Ácido Ferúlico 1%
+
+Sérum facial home care com Vitamina C 10% e Ácido Ferúlico 1%, indicado para manchas, luminosidade, ação antioxidante, viço, textura irregular e prevenção do envelhecimento.
+
+- **Categoria:** home care
+- **Principais objetivos:** Clareamento, luminosidade, ação antioxidante, uniformização do tom, viço, manchas, textura irregular, prevenção do envelhecimento.
+- **Tipo de pele / condição indicada:** Todos os tipos de pele, especialmente peles com manchas, hiperpigmentações, falta de luminosidade, textura irregular, linhas finas, poros aparentes, oleosidade e prevenção do envelhecimento precoce.
+- **Modo de uso:** Aplicar 2 a 3 gotas na pele limpa e seca, direto na pele ou nas mãos. Espalhar no rosto, evitando contato com os olhos. Usar de manhã e/ou à noite. Durante o dia, o uso de protetor solar é obrigatório.
+- **Site:** https://lakma.com.br/products/vitamina-c-10?_pos=1&_psq=s%C3%A9rum&_ss=e&_v=1.0
+
+### Participação em protocolos
+
+- **Função dentro do protocolo:** Pode atuar como suporte home care em rotinas de clareamento, luminosidade, ação antioxidante, uniformização do tom, viço e prevenção do envelhecimento.
+
+### Combinações
+
+- **Combina com:** Espuma de Limpeza Facial, Creme Facial Ácido Hialurônico, Creme Antissinais Q-10, Sérum NC-10, Máscara Tropicalia Laranja, Máscara Hidratante de Pepino, Kit Ácidos Sem Mistérios para protocolos profissionais e protetor solar para uso diurno.
+- **Atenção / não combinar:** Não aplicar no contorno dos olhos. Evitar encostar a cânula na pele. Encaminhar em caso de pele sensibilizada, gestantes, lactantes ou dúvidas sobre associação com ácidos, retinol, peelings ou procedimentos. Evitar uso em pele lesionada, irritada, sensibilizada, inflamada ou com reação ativa sem avaliação.
+
+### Detalhes
+
+## Função principal
+Sérum facial home care com Vitamina C 10% e Ácido Ferúlico 1%, indicado para clareamento, luminosidade, ação antioxidante, uniformização do tom, viço, textura irregular e prevenção do envelhecimento precoce.
+
+## Indicações
+- Todos os tipos de pele
+- Manchas
+- Hiperpigmentações
+- Falta de luminosidade
+- Textura irregular
+- Linhas finas
+- Poros aparentes
+- Oleosidade
+- Prevenção do envelhecimento precoce
+- Rotina antioxidante
+- Viço e uniformização do tom
+
+## Público / uso
+Home care.
+
+## Tipo de produto
+Sérum facial.
+
+## Linha
+Home Care.
+
+## Volume
+sem informação.
+
+## Tipo de pele
+Todos os tipos de pele, especialmente peles com manchas, falta de luminosidade, textura irregular e prevenção do envelhecimento.
+
+## Zona de aplicação
+Rosto, evitando contato com os olhos.
+
+## Momento de aplicação
+Manhã e/ou noite após limpeza. Durante o dia, o uso de protetor solar é obrigatório.
+
+## Ativos principais
+- Vitamina C Estabilizada 10%
+- Ácido Ferúlico 1%
+
+## Benefícios aprovados
+- Clareamento de manchas
+- Uniformização do tom
+- Luminosidade e viço
+- Suaviza linhas finas
+- Reduz aparência de poros
+- Ação antioxidante
+- Não comedogênico
+- Vegano
+- Cruelty-free
+
+## Modo de uso aprovado
+Aplicar 2 a 3 gotas na pele limpa e seca, direto na pele ou nas mãos. Espalhar no rosto, evitando contato com os olhos. Usar de manhã e/ou à noite. Durante o dia, o uso de protetor solar é obrigatório.
+
+## Cuidados e observações
+Não aplicar no contorno dos olhos. Evitar encostar a cânula na pele. Encaminhar em caso de pele sensibilizada, gestantes, lactantes ou dúvidas sobre associação com ácidos e retinol.
+
+## Quando não indicar ou encaminhar
+Não indicar em pele lesionada, irritada, sensibilizada, inflamada ou com reação ativa. Encaminhar em caso de alergia a componentes, uso recente de ácidos, retinoides ou procedimentos, gestantes, lactantes sem orientação, ou quando houver dúvida sobre protocolo, tempo de ação ou associação de ativos.
+
+## Participação em protocolos
+sem informação.
+
+## Função dentro do protocolo
+Pode atuar como suporte home care em rotinas de clareamento, luminosidade, ação antioxidante, uniformização do tom, viço e prevenção do envelhecimento.
+
+## Produtos que combinam
+- Espuma de Limpeza Facial
+- Creme Facial Ácido Hialurônico
+- Creme Antissinais Q-10
+- Sérum NC-10
+- Máscara Tropicalia Laranja
+- Máscara Hidratante de Pepino
+- Kit Ácidos Sem Mistérios para protocolos profissionais
+- Protetor solar para uso diurno
+
+## Diferença para produtos parecidos
+Diferencial: Vitamina C Estabilizada 10% + Ácido Ferúlico 1% para clareamento, ação antioxidante e luminosidade.
+
+## Frase de segurança para a Nina
+Produto de uso profissional ou orientado. Evitar pele lesionada, irritada ou sensibilizada e reforçar fotoproteção quando houver ácidos, peelings, retinol ou renovação. Em caso de dúvida, encaminhar para avaliação.
+
+### Objeções comuns e respostas
+
+**Serve para manchas?**
+Sim. É indicado para manchas, hiperpigmentações, uniformização do tom e luminosidade.
+
+**Pode usar de dia?**
+Sim. Pode ser usado de manhã e/ou à noite. Durante o dia, o uso de protetor solar é obrigatório.
+
+**Serve para pele oleosa?**
+Sim. A ficha cita indicação também para oleosidade, além de manchas, textura irregular, poros aparentes e prevenção do envelhecimento.
+
+**Pode usar perto dos olhos?**
+Não. A orientação aprovada é evitar contato com os olhos e não aplicar no contorno dos olhos.
+
+**Pode combinar com outros séruns?**
+Pode combinar com alguns produtos da rotina, mas dúvidas sobre associação com ácidos, retinol, peelings ou procedimentos devem ser encaminhadas para avaliação profissional.
+
+### Observações internas para a Nina
+
+Indicar quando a cliente buscar clareamento, luminosidade, viço, ação antioxidante, manchas, textura irregular, poros aparentes ou prevenção do envelhecimento. Reforçar uso de protetor solar durante o dia. Encaminhar para dermoconsultora em caso de gestantes, lactantes, pele sensibilizada, irritada, lesionada, alergias ou dúvidas sobre associação com ácidos, retinol, peelings ou procedimentos. Não prometer resultado garantido.
+
+---
+
+## Microagulhamento em Creme - 8g
+
+Creme facial profissional com espículas de esponja hidrolisada, indicado para renovação, revitalização, firmeza, hidratação, nutrição, reparação e potencialização da absorção de ativos.
+
+- **Categoria:** profissional
+- **Principais objetivos:** Renovação, revitalização, firmeza, tonificação, melhora da textura, permeação de ativos, rejuvenescimento, hidratação, nutrição e reparação.
+- **Tipo de pele / condição indicada:** Todos os tipos de pele, conforme avaliação profissional. Evitar uso em pele lesionada, irritada, sensibilizada ou inflamada.
+- **Modo de uso:** Aplicar pequena quantidade na pele limpa e seca. Massagear suavemente até espalhar. Deixar agir por 5 minutos. Aplicar fluidos ou peeling por cima, sem remoção, conforme finalidade. Frequência conforme orientação profissional.
+- **Site:** https://lakma.com.br/products/microagulhamento-em-creme-8g?_pos=1&_psq=microagul&_ss=e&_v=1.0
+
+### Participação em protocolos
+
+- Participa de protocolos: **sim**
+- **Protocolos relacionados:** Protocolo Cicatriz de Acne e Estrias; Protocolo Olheiras OFF; Protocolo para Olheiras Escuras e com Bolsas.
+- **Função dentro do protocolo:** Atua como estímulo cutâneo sem roller/agulhas tradicionais e como potencializador da absorção de ativos. Pode ser usado em protocolos de renovação, cicatrizes de acne, estrias, olheiras, rejuvenescimento, firmeza, hidratação, nutrição e reparação, conforme protocolo aprovado.
+
+### Combinações
+
+- **Combina com:** Booster Fibras Elásticas, Peeling de Cristal Líquido, Fluido Revitalizante Passo 5, Sérum VC-10, Sérum NC-10, Neuroplasma Calmante, Máscara Calmante Limpeza de Pele e protetor solar para uso pós-protocolo.
+- **Atenção / não combinar:** Não usar em pele lesionada, irritada, sensibilizada, inflamada, com inflamação ativa ou alergia. Encaminhar em caso de gestantes, lactantes, pele reativa, rosácea ativa, acne inflamada, uso recente de ácidos, retinoides ou procedimentos, ou dúvidas com peelings, ácidos e técnicas próximas aos olhos. Não orientar microagulhamento em casa.
+
+### Detalhes
+
+## Função principal
+Creme facial profissional com espículas de esponja hidrolisada, indicado para estímulo cutâneo sem roller/agulhas tradicionais, renovação, revitalização e potencialização da absorção de ativos.
+
+## Indicações
+- Renovação facial
+- Revitalização
+- Rejuvenescimento
+- Firmeza
+- Tonificação
+- Hidratação
+- Nutrição
+- Reparação facial
+- Melhora da textura
+- Potencialização da absorção de dermocosméticos
+- Protocolos de cicatriz de acne
+- Protocolos de estrias
+- Protocolos para olheiras, conforme material aprovado
+- Protocolos para barba, cabelo, sobrancelhas e fios, conforme orientação
+
+## Público / uso
+Profissional/cabine, com possível uso orientado conforme protocolo.
+
+## Tipo de produto
+Creme facial.
+
+## Linha
+Pro Fios.
+
+## Volume
+8g.
+
+## Tipo de pele
+Todos os tipos de pele, conforme avaliação profissional. Evitar pele lesionada, irritada, sensibilizada ou inflamada.
+
+## Zona de aplicação
+Rosto. Também pode entrar em protocolos para barba, cabelo, sobrancelhas e fios conforme orientação.
+
+## Momento de aplicação
+Durante protocolos de renovação e permeação, antes de fluidos, peelings ou ativos conforme finalidade.
+
+## Ativos principais
+- Espículas de Esponja Hidrolisada / Spongilla Spicules
+
+## Benefícios aprovados
+- Renovação e revitalização
+- Firmeza e tonificação
+- Melhora da textura
+- Potencializa absorção de dermocosméticos
+- Pode auxiliar manchas e linhas finas
+- Pode substituir roller em protocolos específicos
+
+## Modo de uso aprovado
+Aplicar pequena quantidade na pele limpa e seca. Massagear suavemente até espalhar. Deixar agir por 5 minutos. Aplicar fluidos ou peeling por cima, sem remoção, conforme finalidade. Frequência conforme orientação profissional.
+
+## Cuidados e observações
+Não usar em pele lesionada, irritada, sensibilizada, inflamação ativa ou alergia. Encaminhar em caso de gestantes, lactantes, pele reativa, rosácea ativa, acne inflamada ou dúvidas com peelings e ácidos.
+
+## Quando não indicar ou encaminhar
+Não indicar em pele lesionada, irritada, sensibilizada, inflamada ou com reação ativa. Encaminhar em caso de alergia a componentes, uso recente de ácidos, retinoides ou procedimentos, gestantes, lactantes sem orientação, ou quando houver dúvida sobre protocolo, tempo de ação ou associação de ativos.
+
+## Participação em protocolos
+Participa de protocolos profissionais aprovados, incluindo:
+- Protocolo Cicatriz de Acne e Estrias
+- Protocolo Olheiras OFF
+- Protocolo para Olheiras Escuras e com Bolsas
+
+## Função dentro do protocolo
+Atua como estímulo cutâneo sem roller/agulhas tradicionais e como potencializador da absorção de ativos. Pode ser usado em protocolos de renovação, cicatrizes de acne, estrias, olheiras, rejuvenescimento, firmeza, hidratação, nutrição e reparação, conforme protocolo aprovado.
+
+## Produtos que combinam
+- Booster Fibras Elásticas
+- Peeling de Cristal Líquido
+- Fluido Revitalizante Passo 5
+- Sérum VC-10
+- Sérum NC-10
+- Neuroplasma Calmante
+- Máscara Calmante Limpeza de Pele
+- Protetor solar para uso pós-protocolo
+
+## Diferença para produtos parecidos
+Diferencial: estímulo cutâneo com espículas de esponja hidrolisada, favorecendo renovação e permeação sem agulhas ou roller tradicional.
+
+## Frase de segurança para a Nina
+Produto de uso profissional ou orientado. Evitar pele lesionada, irritada ou sensibilizada e reforçar fotoproteção quando houver ácidos, peelings, retinol ou renovação. Em caso de dúvida, encaminhar para avaliação.
+
+### Objeções comuns e respostas
+
+**É igual microagulhamento com agulhas?**
+Não. É uma opção em creme com espículas de esponja hidrolisada, usada para estímulo cutâneo e potencialização da absorção de ativos, conforme avaliação profissional.
+
+**Pode usar em casa?**
+Não deve ser orientado como uso livre em casa. É um produto de uso profissional ou com orientação profissional, conforme protocolo.
+
+**Serve para cicatriz de acne e estrias?**
+Sim. Ele aparece como opção no Protocolo Cicatriz de Acne e Estrias, especialmente para pessoas com muita dor ou medo de agulhas.
+
+**Pode usar na área dos olhos?**
+Aparece em protocolos aprovados para olheiras, mas por ser região sensível, qualquer dúvida, sensibilidade, dermatite, lesão, gestante, lactante ou reação deve ser encaminhada para dermoconsultora.
+
+**Precisa remover depois de 5 minutos?**
+Na ficha do produto, a orientação aprovada é deixar agir por 5 minutos e aplicar fluidos ou peeling por cima, sem remoção, conforme finalidade.
+
+### Observações internas para a Nina
+
+Indicar para profissionais que buscam estímulo cutâneo sem roller/agulhas e potencialização da absorção de ativos. Não orientar microagulhamento em casa. Não adaptar protocolos, tempo de ação, ordem de aplicação ou associações fora do material aprovado. Encaminhar para dermoconsultora em caso de pele lesionada, sensibilizada, irritada, inflamada, rosácea ativa, acne inflamada, gestantes, lactantes, alergias, uso recente de ácidos/retinoides/procedimentos, dúvidas sobre associação com peelings/ácidos ou uso próximo aos olhos.
+
+---
+
+## Gloss Biolips Bioativo - Booster Labial - 8g
+
+Gloss labial bioativo home care com ação booster, indicado para hidratação, brilho, maciez, conforto e melhora da aparência dos lábios.
+
+- **Categoria:** home care
+- **Principais objetivos:** Hidratação labial, brilho, maciez, volumização epitelial, ação booster, melhora da aparência dos lábios.
+- **Tipo de pele / condição indicada:** Lábios ressecados, opacos ou sem brilho.
+- **Modo de uso:** Aplicar diretamente nos lábios limpos e secos. Espalhar até cobertura uniforme. Reaplicar ao longo do dia. Pode ser usado sozinho ou após esfoliação e hidratação.
+- **Site:** https://lakma.com.br/products/gloss-bioativo-8g?_pos=1&_psq=gloss&_ss=e&_v=1.0
+
+### Combinações
+
+- **Combina com:** Kit Labial Home Care, Kit Dolce Lips + Dolce Peel Labial, Esfoliante Facial e Labial Bioativo, Microagulhamento em Creme e produtos hidratantes labiais da Lakma, se houver.
+- **Atenção / não combinar:** Evitar uso em lábios lesionados, irritados ou sensibilizados. Suspender em caso de irritação. Encaminhar para avaliação em caso de feridas abertas, descamação intensa, herpes ativa ou recorrente, alergia a componentes ou reação persistente.
+
+### Detalhes
+
+## Função principal
+Gloss labial bioativo home care com ação booster, indicado para hidratação, brilho, maciez, conforto, volumização epitelial e melhora da aparência dos lábios.
+
+## Indicações
+- Lábios ressecados
+- Lábios opacos
+- Lábios sem brilho
+- Necessidade de hidratação labial
+- Necessidade de maciez
+- Finalização labial ao longo do dia
+- Melhora da aparência dos lábios
+- Rotina labial home care
+
+## Público / uso
+Home care.
+
+## Tipo de produto
+Gloss labial bioativo.
+
+## Linha
+Biolips.
+
+## Volume
+8g.
+
+## Tipo de pele / condição indicada
+Lábios ressecados, opacos ou sem brilho.
+
+## Zona de aplicação
+Lábios.
+
+## Momento de aplicação
+Uso diário nos lábios, sozinho ou após esfoliação e hidratação.
+
+## Ativos principais
+- Biolips
+
+## Benefícios aprovados
+- Hidratação labial
+- Volumização epitelial
+- Ação booster
+- Brilho
+- Melhora da aparência dos lábios
+- Maciez
+- Uso ao longo do dia
+
+## Modo de uso aprovado
+Aplicar diretamente nos lábios limpos e secos. Espalhar até cobertura uniforme. Reaplicar ao longo do dia. Pode ser usado sozinho ou após esfoliação e hidratação.
+
+## Cuidados e observações
+Evitar uso em lábios lesionados, irritados ou sensibilizados. Suspender em caso de irritação.
+
+## Quando não indicar ou encaminhar
+Lábios lesionados, irritados, sensibilizados, com feridas abertas, descamação intensa, herpes ativa ou recorrente, ou alergia a componentes exigem cautela ou avaliação antes do uso.
+
+## Participação em protocolos
+sem informação.
+
+## Função dentro do protocolo
+sem informação.
+
+## Produtos que combinam
+- Kit Labial Home Care
+- Kit Dolce Lips + Dolce Peel Labial
+- Esfoliante Facial e Labial Bioativo
+- Microagulhamento em Creme
+- Produtos hidratantes labiais da Lakma, se houver
+
+## Diferença para produtos parecidos
+Diferencial: une acabamento de gloss com ação de tratamento labial, hidratação, brilho e volumização epitelial.
+
+## Frase de segurança para a Nina
+Evitar uso em lábios lesionados, irritados ou sensibilizados. Suspender se houver ardência, coceira ou reação e orientar avaliação se persistir.
+
+### Objeções comuns e respostas
+
+**É um gloss ou tratamento?**
+Ele une acabamento de gloss com proposta de tratamento labial, hidratação, brilho e ação booster.
+
+**Pode usar todos os dias?**
+Sim. Pode ser reaplicado ao longo do dia, conforme necessidade.
+
+**Serve para lábios ressecados?**
+Sim. É indicado para lábios ressecados, opacos ou sem brilho, ajudando na hidratação, maciez e melhora da aparência.
+
+**Pode usar depois de esfoliar os lábios?**
+Sim. Pode ser usado sozinho ou após esfoliação e hidratação labial.
+
+**Pode usar com os lábios machucados?**
+Não. Deve evitar uso em lábios lesionados, irritados ou sensibilizados.
+
+### Observações internas para a Nina
+
+Indicar para clientes que buscam hidratação labial, brilho, conforto, maciez, ação booster e melhora da aparência dos lábios ao longo do dia. Pode ser sugerido dentro de uma rotina labial com esfoliação e hidratação. Não indicar em caso de lábios lesionados, irritados, sensibilizados, feridas abertas, descamação intensa, herpes ativa ou alergia a componentes. Se houver irritação, orientar suspensão e avaliação se persistir.
+
+---
+
+## Rímel Fioativo - 8ml
+
+Tratamento home care para cílios em formato de rímel, indicado para fortalecimento, cuidado, crescimento saudável e melhora da aparência dos fios.
+
+- **Categoria:** home care
+- **Principais objetivos:** Fortalecimento dos cílios, crescimento saudável, cuidado dos fios, resistência, melhora da aparência dos cílios.
+- **Tipo de pele / condição indicada:** Cílios frágeis, finos, enfraquecidos ou com necessidade de fortalecimento.
+- **Modo de uso:** Aplicar nos cílios limpos e secos com o aplicador. Espalhar delicadamente da raiz às pontas. Usar diariamente ou conforme necessidade.
+- **Site:** https://lakma.com.br/products/rimel-bioativo-8ml?_pos=1&_psq=r%C3%ADmel&_ss=e&_v=1.0
+
+### Combinações
+
+- **Combina com:** Microagulhamento em Creme para protocolos de fios, produtos da linha Pro Fios, cuidados para sobrancelhas ou cílios da Lakma, se houver, e higienizante suave aprovado para a região antes da aplicação.
+- **Atenção / não combinar:** Evitar contato direto com os olhos. Suspender em caso de irritação. Não indicar em caso de irritação ocular ativa, lesões, conjuntivite, dermatite ou eczema na região, alergia a componentes, lacrimejamento intenso ou alterações de visão sem avaliação.
+
+### Detalhes
+
+## Função principal
+Tratamento home care para cílios em formato de rímel, indicado para fortalecimento, cuidado, crescimento saudável e melhora da aparência dos fios.
+
+## Indicações
+- Cílios frágeis
+- Cílios finos
+- Cílios enfraquecidos
+- Necessidade de fortalecimento dos fios
+- Crescimento saudável dos cílios
+- Melhora da aparência dos cílios
+- Valorização natural do olhar
+
+## Público / uso
+Home care.
+
+## Tipo de produto
+Tratamento para cílios em formato de rímel.
+
+## Linha
+Fioativo.
+
+## Volume
+8ml.
+
+## Tipo de pele / condição indicada
+Cílios frágeis, finos, enfraquecidos ou com necessidade de fortalecimento.
+
+## Zona de aplicação
+Cílios, evitando contato direto com os olhos.
+
+## Momento de aplicação
+Rotina diária com cílios limpos e secos.
+
+## Ativos principais
+- Fioativo
+
+## Benefícios aprovados
+- Fortalecimento dos cílios
+- Crescimento saudável
+- Melhora da aparência
+- Fios mais cuidados e resistentes
+- Valorização natural do olhar
+- Aplicação prática
+
+## Modo de uso aprovado
+Aplicar nos cílios limpos e secos com o aplicador. Espalhar delicadamente da raiz às pontas. Usar diariamente ou conforme necessidade.
+
+## Cuidados e observações
+Evitar contato direto com os olhos. Suspender em caso de irritação. Encaminhar em caso de irritação ocular, conjuntivite, lesões ou reação recente a cosméticos para cílios.
+
+## Quando não indicar ou encaminhar
+Não indicar em caso de irritação ocular ativa, lesões, conjuntivite, dermatite ou eczema na região, alergia a componentes, lacrimejamento intenso ou alterações de visão sem avaliação.
+
+## Participação em protocolos
+sem informação.
+
+## Função dentro do protocolo
+sem informação.
+
+## Produtos que combinam
+- Microagulhamento em Creme para protocolos de fios
+- Produtos da linha Pro Fios
+- Cuidados para sobrancelhas ou cílios da Lakma, se houver
+- Higienizante suave aprovado para a região antes da aplicação
+
+## Diferença para produtos parecidos
+Diferencial: formato de rímel com proposta de tratamento home care para fortalecimento e melhora dos cílios.
+
+## Frase de segurança para a Nina
+Evitar contato direto com os olhos e suspender em caso de irritação ocular. Encaminhar se houver lesão, conjuntivite, reação ativa ou alteração de visão.
+
+### Objeções comuns e respostas
+
+**É um rímel comum ou tratamento?**
+É um tratamento para cílios em formato de rímel, com proposta de fortalecimento e melhora da aparência dos fios.
+
+**Pode usar todos os dias?**
+Sim. O modo de uso aprovado indica uso diário ou conforme necessidade.
+
+**Serve para cílios fracos?**
+Sim. É indicado para cílios frágeis, finos, enfraquecidos ou com necessidade de fortalecimento.
+
+**Pode usar se o olho estiver irritado?**
+Não. Em caso de irritação ocular, conjuntivite, lesões, lacrimejamento intenso ou alteração de visão, a Nina deve orientar avaliação.
+
+**Pode encostar dentro dos olhos?**
+Não. Deve evitar contato direto com os olhos.
+
+### Observações internas para a Nina
+
+Indicar para clientes que buscam fortalecimento, cuidado, crescimento saudável e melhora da aparência dos cílios. Reforçar aplicação com cílios limpos e secos e evitar contato direto com os olhos. Encaminhar para avaliação em caso de irritação ocular ativa, conjuntivite, lesões, dermatite/eczema na região, alergia a componentes, lacrimejamento intenso ou alterações de visão.
+
+---
