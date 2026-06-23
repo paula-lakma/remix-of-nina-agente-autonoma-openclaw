@@ -2,15 +2,33 @@ import { useCallback, useEffect, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 
+export type KnowledgeType =
+  | 'protocolo'
+  | 'faq'
+  | 'politica'
+  | 'processo'
+  | 'guia'
+  | 'objecoes'
+  | 'treinamento';
+
+export type KnowledgePriority = 'baixa' | 'media' | 'alta';
+
 export interface BrainKnowledge {
   id: string;
   title: string;
   slug: string;
   content_md: string;
+  knowledge_type: KnowledgeType | string | null;
+  category: string | null;
+  tags: string[];
+  related_products: string[];
+  when_to_use_md: string | null;
+  when_to_escalate_md: string | null;
+  priority: KnowledgePriority | string | null;
   position: number;
 }
 
-export type BrainKnowledgeInput = Pick<BrainKnowledge, 'title' | 'slug' | 'content_md'>;
+export type BrainKnowledgeInput = Omit<BrainKnowledge, 'id' | 'position'>;
 
 interface UseBrainKnowledgeResult {
   entries: BrainKnowledge[];
@@ -22,11 +40,14 @@ interface UseBrainKnowledgeResult {
   refetch: () => Promise<void>;
 }
 
+const KNOWLEDGE_COLUMNS =
+  'id, title, slug, content_md, knowledge_type, category, tags, related_products, when_to_use_md, when_to_escalate_md, priority, position';
+
 /** Gera um slug a partir do título (minúsculo, sem acento, hifenizado). */
 export function slugify(value: string): string {
   return value
     .normalize('NFD')
-    .replace(/[̀-ͯ]/g, '')
+    .replace(/[\u0300-\u036f]/g, '')
     .toLowerCase()
     .trim()
     .replace(/[^a-z0-9]+/g, '-')
@@ -50,7 +71,7 @@ export function useBrainKnowledge(): UseBrainKnowledgeResult {
       setError(null);
       const { data, error: queryError } = await supabase
         .from('brain_knowledge')
-        .select('id, title, slug, content_md, position')
+        .select(KNOWLEDGE_COLUMNS)
         .order('position', { ascending: true })
         .order('created_at', { ascending: true });
 
@@ -127,4 +148,32 @@ export function useBrainKnowledge(): UseBrainKnowledgeResult {
   );
 
   return { entries, loading, error, create, update, remove, refetch: fetchEntries };
+}
+
+export const EMPTY_KNOWLEDGE_DRAFT: BrainKnowledgeInput = {
+  title: '',
+  slug: '',
+  content_md: '',
+  knowledge_type: '',
+  category: '',
+  tags: [],
+  related_products: [],
+  when_to_use_md: '',
+  when_to_escalate_md: '',
+  priority: '',
+};
+
+export function knowledgeToDraft(k: BrainKnowledge): BrainKnowledgeInput {
+  return {
+    title: k.title,
+    slug: k.slug,
+    content_md: k.content_md,
+    knowledge_type: k.knowledge_type ?? '',
+    category: k.category ?? '',
+    tags: k.tags ?? [],
+    related_products: k.related_products ?? [],
+    when_to_use_md: k.when_to_use_md ?? '',
+    when_to_escalate_md: k.when_to_escalate_md ?? '',
+    priority: k.priority ?? '',
+  };
 }

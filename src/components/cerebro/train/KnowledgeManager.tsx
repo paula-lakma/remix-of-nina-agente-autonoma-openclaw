@@ -2,37 +2,30 @@ import React, { useState } from 'react';
 import { Plus, Loader2, BookOpen } from 'lucide-react';
 import { Button } from '../../Button';
 import { toast } from 'sonner';
-import { useBrainKnowledge, slugify, type BrainKnowledgeInput } from '@/hooks/useBrainKnowledge';
+import { useBrainKnowledge, slugify, EMPTY_KNOWLEDGE_DRAFT, type BrainKnowledgeInput } from '@/hooks/useBrainKnowledge';
 import KnowledgeItem from './KnowledgeItem';
-
-const inputClass =
-  'w-full rounded-lg border border-slate-700 bg-slate-950 px-3 py-2 text-sm text-slate-100 placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-cyan-500/50';
-
-const EMPTY_DRAFT: BrainKnowledgeInput = { title: '', slug: '', content_md: '' };
+import KnowledgeForm, { validateKnowledgeDraft } from './KnowledgeForm';
 
 const KnowledgeManager: React.FC = () => {
   const { entries, loading, create, update, remove } = useBrainKnowledge();
   const [adding, setAdding] = useState(false);
   const [busy, setBusy] = useState(false);
   const [slugTouched, setSlugTouched] = useState(false);
-  const [draft, setDraft] = useState<BrainKnowledgeInput>(EMPTY_DRAFT);
-
-  // Auto-deriva o slug do título enquanto o usuário não editar o slug manualmente.
-  const onTitleChange = (title: string) =>
-    setDraft((d) => ({ ...d, title, slug: slugTouched ? d.slug : slugify(title) }));
+  const [draft, setDraft] = useState<BrainKnowledgeInput>(EMPTY_KNOWLEDGE_DRAFT);
 
   const reset = () => {
-    setDraft(EMPTY_DRAFT);
+    setDraft(EMPTY_KNOWLEDGE_DRAFT);
     setSlugTouched(false);
     setAdding(false);
   };
 
   const handleCreate = async () => {
-    if (!draft.title.trim() || !draft.content_md.trim()) {
-      toast.error('Título e conteúdo são obrigatórios');
+    const err = validateKnowledgeDraft(draft);
+    if (err) {
+      toast.error(err);
       return;
     }
-    const payload = { ...draft, slug: draft.slug.trim() || slugify(draft.title) };
+    const payload = { ...draft, slug: (draft.slug || slugify(draft.title)).trim() };
     setBusy(true);
     const ok = await create(payload);
     setBusy(false);
@@ -54,10 +47,16 @@ const KnowledgeManager: React.FC = () => {
 
   return (
     <div className="space-y-3">
+      <div className="rounded-lg border border-slate-800 bg-slate-900/40 p-3 text-xs text-slate-400">
+        <strong className="text-slate-300">Conhecimento = conteúdos amplos.</strong> Cadastre protocolos completos,
+        FAQs, políticas, processos, guias de atendimento e objeções. Explique também quando a Nina deve usar cada
+        conhecimento e quando deve encaminhar para um atendente humano.
+      </div>
+
       {entries.length === 0 && !adding && (
         <div className="rounded-lg border border-dashed border-slate-700 bg-slate-950/40 p-6 text-center">
           <BookOpen className="w-6 h-6 mx-auto text-slate-600 mb-2" />
-          <p className="text-sm text-slate-400">Sem artigos de conhecimento. Ensine políticas, FAQs e processos.</p>
+          <p className="text-sm text-slate-400">Sem artigos de conhecimento. Ensine protocolos, políticas, FAQs e processos.</p>
         </div>
       )}
 
@@ -66,33 +65,18 @@ const KnowledgeManager: React.FC = () => {
       ))}
 
       {adding ? (
-        <div className="rounded-lg border border-cyan-500/30 bg-slate-950/40 p-4 space-y-3">
-          <input
-            type="text"
-            value={draft.title}
-            onChange={(e) => onTitleChange(e.target.value)}
-            placeholder="Título *"
-            className={inputClass}
+        <div className="rounded-lg border border-cyan-500/30 bg-slate-950/40 p-4 space-y-4">
+          <KnowledgeForm
+            draft={draft}
+            onChange={setDraft}
+            autoSlugFromTitle={!slugTouched}
+            onSlugManualEdit={() => setSlugTouched(true)}
           />
-          <input
-            type="text"
-            value={draft.slug}
-            onChange={(e) => { setSlugTouched(true); setDraft({ ...draft, slug: e.target.value }); }}
-            placeholder="slug-unico (gerado do título)"
-            className={`${inputClass} font-mono`}
-          />
-          <textarea
-            value={draft.content_md}
-            onChange={(e) => setDraft({ ...draft, content_md: e.target.value })}
-            placeholder="Conteúdo (markdown) *"
-            rows={4}
-            className={`${inputClass} resize-none`}
-          />
-          <div className="flex items-center justify-end gap-2">
+          <div className="flex items-center justify-end gap-2 border-t border-slate-800 pt-3">
             <Button variant="ghost" size="sm" onClick={reset} disabled={busy}>
               Cancelar
             </Button>
-            <Button size="sm" onClick={handleCreate} disabled={busy || !draft.title.trim() || !draft.content_md.trim()}>
+            <Button size="sm" onClick={handleCreate} disabled={busy}>
               {busy ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Plus className="w-4 h-4 mr-2" />}
               Adicionar
             </Button>
