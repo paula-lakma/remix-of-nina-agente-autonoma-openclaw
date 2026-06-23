@@ -236,14 +236,14 @@ Deno.serve(async (req: Request) => {
 
   const { data: products } = await admin
     .from("brain_products")
-    .select("name, summary, details_md, site_url, mercadolivre_url, position, is_active")
+    .select("name, summary, details_md, site_url, mercadolivre_url, position, is_active, category, skin_types, main_goals, usage_short, in_protocols, related_protocols, protocol_role, combines_with, avoid_combinations, common_objections_md, internal_notes_md")
     .eq("owner_user_id", user.id)
     .eq("is_active", true)
     .order("position", { ascending: true });
 
   const { data: knowledge } = await admin
     .from("brain_knowledge")
-    .select("title, slug, content_md, position")
+    .select("title, slug, content_md, position, knowledge_type, category, tags, related_products, when_to_use_md, when_to_escalate_md, priority")
     .eq("owner_user_id", user.id)
     .order("position", { ascending: true });
 
@@ -256,7 +256,7 @@ Deno.serve(async (req: Request) => {
   for (const k of knowledge ?? []) {
     files.push({
       path: `${SKILL_BASE}/knowledge/${safeSlug(k.slug)}.md`,
-      content: `# ${v(k.title)}\n\n${v(k.content_md)}\n`,
+      content: renderKnowledgeEntry(k),
     });
   }
 
