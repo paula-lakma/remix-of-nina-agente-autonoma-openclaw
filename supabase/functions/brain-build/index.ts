@@ -83,8 +83,16 @@ function renderSoul(settings: any): string {
   return md.trimEnd() + "\n";
 }
 
+const arr = (x: unknown): string[] => (Array.isArray(x) ? x.map((s) => v(s)).filter(Boolean) : []);
+const list = (label: string, items: string[]) =>
+  items.length ? `- **${label}:** ${items.join(", ")}\n` : "";
+const line = (label: string, val: string) => (val ? `- **${label}:** ${val}\n` : "");
+
 function renderProducts(products: any[]): string {
   let md = `# Catálogo de produtos/soluções\n\n`;
+  md += `> Cada produto traz: identificação, categoria, indicações, participação em protocolos\n`;
+  md += `> e orientações para a Nina. O passo a passo completo dos protocolos está em outros\n`;
+  md += `> arquivos desta pasta \`knowledge/\`.\n\n`;
   if (!products.length) {
     md += `_(Nenhum produto cadastrado.)_\n`;
     return md;
@@ -92,12 +100,80 @@ function renderProducts(products: any[]): string {
   for (const p of products) {
     md += `## ${v(p.name)}\n\n`;
     if (v(p.summary)) md += `${v(p.summary)}\n\n`;
-    if (v(p.site_url)) md += `- **Site:** ${v(p.site_url)}\n`;
-    if (v(p.mercadolivre_url)) md += `- **MercadoLivre:** ${v(p.mercadolivre_url)}\n`;
-    if (v(p.site_url) || v(p.mercadolivre_url)) md += `\n`;
-    if (v(p.details_md)) md += `${v(p.details_md)}\n\n`;
+
+    // Metadados estruturados
+    md += line("Categoria", v(p.category));
+    md += list("Principais objetivos", arr(p.main_goals));
+    md += list("Tipo de pele / condição indicada", arr(p.skin_types));
+    md += line("Modo de uso", v(p.usage_short));
+    md += line("Site", v(p.site_url));
+    md += line("Mercado Livre", v(p.mercadolivre_url));
+    md += `\n`;
+
+    // Protocolos
+    if (p.in_protocols === true || arr(p.related_protocols).length || v(p.protocol_role)) {
+      md += `### Participação em protocolos\n\n`;
+      if (p.in_protocols === true) md += `- Participa de protocolos: **sim**\n`;
+      md += list("Protocolos relacionados", arr(p.related_protocols));
+      md += line("Função dentro do protocolo", v(p.protocol_role));
+      md += `\n`;
+    }
+
+    // Combinações
+    if (arr(p.combines_with).length || v(p.avoid_combinations)) {
+      md += `### Combinações\n\n`;
+      md += list("Combina com", arr(p.combines_with));
+      if (v(p.avoid_combinations)) md += `- **Atenção / não combinar:** ${v(p.avoid_combinations)}\n`;
+      md += `\n`;
+    }
+
+    if (v(p.details_md)) {
+      md += `### Detalhes\n\n${v(p.details_md)}\n\n`;
+    }
+    if (v(p.common_objections_md)) {
+      md += `### Objeções comuns e respostas\n\n${v(p.common_objections_md)}\n\n`;
+    }
+    if (v(p.internal_notes_md)) {
+      md += `### Observações internas para a Nina\n\n${v(p.internal_notes_md)}\n\n`;
+    }
+    md += `---\n\n`;
   }
   return md.trimEnd() + "\n";
+}
+
+const KNOWLEDGE_TYPE_LABEL: Record<string, string> = {
+  protocolo: "Protocolo",
+  faq: "FAQ",
+  politica: "Política",
+  processo: "Processo interno",
+  guia: "Guia de atendimento",
+  objecoes: "Objeções",
+  treinamento: "Treinamento comercial",
+};
+
+function renderKnowledgeEntry(k: any): string {
+  const typeKey = v(k.knowledge_type).toLowerCase();
+  const typeLabel = KNOWLEDGE_TYPE_LABEL[typeKey] || v(k.knowledge_type);
+  let md = `# ${v(k.title)}\n\n`;
+
+  // Frontmatter humano: ajuda a Nina a saber QUANDO usar esse conhecimento.
+  const meta: string[] = [];
+  if (typeLabel) meta.push(`- **Tipo:** ${typeLabel}`);
+  if (v(k.category)) meta.push(`- **Categoria:** ${v(k.category)}`);
+  if (v(k.priority)) meta.push(`- **Prioridade:** ${v(k.priority)}`);
+  if (arr(k.tags).length) meta.push(`- **Tags:** ${arr(k.tags).join(", ")}`);
+  if (arr(k.related_products).length) meta.push(`- **Produtos relacionados:** ${arr(k.related_products).join(", ")}`);
+  if (meta.length) md += meta.join("\n") + "\n\n";
+
+  if (v(k.when_to_use_md)) {
+    md += `## Quando usar este conhecimento\n\n${v(k.when_to_use_md)}\n\n`;
+  }
+  if (v(k.when_to_escalate_md)) {
+    md += `## Quando encaminhar para atendimento humano\n\n${v(k.when_to_escalate_md)}\n\n`;
+  }
+
+  md += `## Conteúdo\n\n${v(k.content_md)}\n`;
+  return md;
 }
 
 // Sanitiza o slug para uso como nome de arquivo (evita path traversal).
