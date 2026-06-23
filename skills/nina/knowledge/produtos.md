@@ -666,3 +666,377 @@ Sim. Um dos benefícios aprovados é o efeito tensor imediato.
 Indicar para profissionais que buscam uma máscara facial hidroplástica para finalização, ação tensora, detox, calmante, refrescante e revitalizante. Priorizar em protocolos faciais que precisam de viço, luminosidade, conforto e potencialização por oclusão. Encaminhar para dermoconsultora em caso de pele extremamente sensibilizada, lesionada, alergias, reação ativa intensa, gestantes, lactantes ou dúvidas sobre associação com ativos/procedimentos.
 
 ---
+
+## Kit Peelings Profissionais - 4 Produtos 50ml
+
+Kit profissional com 4 peelings faciais de 50ml para protocolos de renovação celular, clareamento, acne, oleosidade, textura irregular e revitalização.
+
+- **Categoria:** profissional
+- **Principais objetivos:** Renovação celular, clareamento, controle de oleosidade, acne, textura irregular, uniformização, luminosidade.
+- **Tipo de pele / condição indicada:** Peles com manchas, acne, oleosidade, textura irregular ou necessidade de renovação, conforme avaliação profissional.
+- **Modo de uso:** Uso profissional em cabine. Avaliar pele, fototipo e sensibilidade. Aplicar o peeling escolhido na pele limpa e seca, evitando olhos, mucosas e áreas sensibilizadas. Tempo de ação, remoção, neutralização e frequência devem seguir o protocolo profissional. Fotoproteção indispensável após o uso.
+- **Site:** https://lakma.com.br/products/kit-peelings?_pos=2&_sid=e517bc874&_ss=r
+
+### Participação em protocolos
+
+- **Função dentro do protocolo:** Atua como kit de peelings faciais profissionais para personalizar protocolos conforme a necessidade da pele, como manchas, acne, oleosidade, textura irregular, renovação, uniformização e revitalização.
+
+### Combinações
+
+- **Combina com:** Peeling de Cristal Líquido, Máscara Calmante Limpeza de Pele, Neuroplasma Calmante, Máscara Hidroplástica Zen Marine, Kit Máscaras Faciais Tropicalia, Espuma de Limpeza Facial, Sérum VC-10, Sérum NC-10 e protetor solar para pós-procedimento.
+- **Atenção / não combinar:** Evitar uso em pele lesionada, irritada, sensibilizada, inflamada ou com reação ativa. Encaminhar em caso de alergia a ácidos, gestantes, lactantes, uso recente de ácidos, retinoides ou procedimentos, ou dúvidas sobre tempo de ação, remoção, neutralização, frequência e associação de ativos. Não sobrepor ácidos, peelings ou retinoides sem avaliação profissional.
+
+### Detalhes
+
+## Função principal
+Kit profissional com 4 peelings faciais de 50ml cada, indicado para protocolos de renovação celular, clareamento de manchas, controle de oleosidade, acne, textura irregular, uniformização e revitalização.
+
+## Indicações
+- Renovação celular
+- Clareamento de manchas
+- Controle de oleosidade
+- Acne
+- Ação antiacne/secativa
+- Textura irregular
+- Uniformização do tom
+- Luminosidade
+- Revitalização facial
+- Protocolos profissionais personalizados
+
+## Público / uso
+Profissional/cabine.
+
+## Tipo de produto
+Kit de peelings faciais profissionais.
+
+## Linha
+Peelings Profissionais.
+
+## Volume / composição
+Kit com 4 peelings de 50ml cada.
+
+## Tipo de pele
+Peles com manchas, acne, oleosidade, textura irregular ou necessidade de renovação, conforme avaliação profissional.
+
+## Zona de aplicação
+Rosto, evitando olhos, mucosas e áreas sensibilizadas.
+
+## Momento de aplicação
+Durante protocolo profissional de peeling, após avaliação de pele, fototipo e sensibilidade.
+
+## Ativos principais
+- Ácido Glicólico
+- Nano Ácido Salicílico
+- Ácido Lático
+- Nano Ácido Kójico
+- Nano Ácido Tioglicólico
+- Nano AHA’s
+- Nano Ácido Tranexâmico
+- Nano Vitamina C
+
+## Benefícios aprovados
+- Kit profissional com 4 peelings
+- Renovação celular
+- Clareamento de manchas
+- Controle de oleosidade
+- Ação antiacne/secativa
+- Uniformização e luminosidade
+- Permite protocolos personalizados
+
+## Modo de uso aprovado
+Avaliar pele, fototipo e sensibilidade. Aplicar o peeling escolhido na pele limpa e seca, evitando olhos, mucosas e áreas sensibilizadas. Tempo de ação, remoção, neutralização e frequência devem seguir o protocolo profissional. Fotoproteção indispensável após o uso.
+
+## Cuidados e observações
+Encaminhar em caso de pele sensibilizada, alergia a ácidos, gestantes, lactantes, uso recente de ácidos, retinoides ou dúvidas sobre tempo de ação e neutralização.
+
+## Quando não indicar ou encaminhar
+Não indicar em pele lesionada, irritada, sensibilizada, inflamada ou com reação ativa. Encaminhar em caso de alergia a componentes, uso recente de ácidos, retinoides ou procedimentos, gestantes, lactantes sem orientação, ou quando houver dúvida sobre protocolo, tempo de ação, neutralização, frequência ou associação de ativos.
+
+## Participação em protocolos
+sem informação.
+
+## Função dentro do protocolo
+Atua como kit de peelings faciais profissionais para personalizar protocolos conforme a necessidade da pele, como manchas, acne, oleosidade, textura irregular, renovação, uniformização e revitalização.
+
+## Produtos que combinam
+- Peeling de Cristal Líquido
+- Máscara Calmante Limpeza de Pele
+- Neuroplasma Calmante
+- Máscara Hidroplástica Zen Marine
+- Kit Máscaras Faciais Tropicalia
+- Espuma de Limpeza Facial
+- Sérum VC-10
+- Sérum NC-10
+- Protetor solar para pós-procedimento
+
+## Diferença para produtos parecidos
+Reúne 4 peelings profissionais focados em necessidades diferentes. O Kit Ácidos Sem Mistérios é mais completo para protocolo clareador com sabonete, fluido, máscara e cristal líquido.
+
+## Frase de segurança para a Nina
+Produto de uso profissional ou orientado. Evitar pele lesionada, irritada ou sensibilizada e reforçar fotoproteção quando houver ácidos, peelings, retinol ou renovação. Em caso de dúvida, encaminhar para avaliação.
+
+### Objeções comuns e respostas
+
+**É para uso em casa?**
+Não. É um kit de peelings profissionais para uso em cabine, com avaliação de pele, fototipo e sensibilidade.
+
+**Serve para acne e oleosidade?**
+Sim. O kit pode ser usado em protocolos profissionais para acne, oleosidade, ação antiacne/secativa e controle de textura, conforme avaliação profissional.
+
+**Serve para manchas?**
+Sim. É indicado para protocolos faciais de clareamento de manchas, uniformização do tom e renovação celular.
+
+**Precisa usar protetor solar depois?**
+Sim. A fotoproteção é indispensável após o uso de peelings e tratamentos de renovação.
+
+**Precisa neutralizar?**
+Depende do protocolo profissional e do peeling utilizado. Quando houver dúvida sobre neutralização, a Nina deve encaminhar para dermoconsultora.
+
+### Observações internas para a Nina
+
+Indicar para profissionais que desejam um kit de peelings faciais para personalizar protocolos conforme manchas, acne, oleosidade, textura irregular ou necessidade de renovação. Não orientar uso doméstico. Não montar protocolo novo do zero. Encaminhar para dermoconsultora em caso de pele sensibilizada, alergia a ácidos, gestantes, lactantes, uso recente de ácidos/retinoides/procedimentos, dúvidas sobre tempo de ação, remoção, neutralização, frequência ou associação de ativos. Não prometer resultado garantido.
+
+---
+
+## Kit BodyPro Corporal Profissional
+
+Kit corporal profissional com produtos para protocolos de esfoliação, massagem, ação termoativada e crioterápica em cabine.
+
+- **Categoria:** profissional
+- **Principais objetivos:** Massagem corporal, esfoliação, drenagem, celulite, gordura localizada, flacidez, ação termoativada, crioterapia, revitalização corporal.
+- **Tipo de pele / condição indicada:** Pele corporal, conforme avaliação profissional e tolerância a frio e calor. Indicado para protocolos corporais de celulite, gordura localizada, flacidez, drenagem, massagem, esfoliação, hidratação e revitalização.
+- **Modo de uso:** Uso profissional em cabine. Usar o Esfoliante BodyPro para preparo da pele, o Creme de Massagem para manobras, o Gel Termoativado em protocolos de celulite e gordura localizada, e o Gel Crioterápico em protocolos de flacidez e tonificação. Frequência conforme protocolo profissional.
+- **Site:** https://lakma.com.br/products/kit-bodypro?_pos=1&_sid=5464b8b38&_ss=r
+
+### Participação em protocolos
+
+- Participa de protocolos: **sim**
+- **Protocolos relacionados:** Protocolo Corporal Cellulight; protocolos corporais de massagem, drenagem, celulite, gordura localizada, flacidez e redução de medidas.
+- **Função dentro do protocolo:** Atua como kit corporal profissional para preparo da pele, esfoliação, massagem, ação termoativada e crioterápica, ajudando a estruturar protocolos corporais em cabine.
+
+### Combinações
+
+- **Combina com:** Sal Térmico Lipolítico, Óleo para Massagem Corporal, Kit Profissional Venus de Lipoplastia, EsbelTEA Solúvel, Esbeltea em Cápsulas e produtos corporais finalizadores ou hidratantes da Lakma, se houver.
+- **Atenção / não combinar:** Evitar olhos, mucosas e regiões lesionadas ou irritadas. Avaliar antes de usar produtos termoativados ou crioterápicos. Encaminhar em caso de alterações circulatórias, varizes importantes, gestantes, lactantes ou sensibilidade ao calor/frio. Não prometer emagrecimento, perda garantida de medidas ou eliminação definitiva de gordura/celulite.
+
+### Detalhes
+
+## Função principal
+Kit corporal profissional indicado para protocolos de cabine com preparo da pele, esfoliação, massagem, ação termoativada e crioterápica.
+
+## Indicações
+- Massagem modeladora
+- Massagem relaxante
+- Drenagem linfática
+- Esfoliação corporal
+- Celulite
+- Gordura localizada
+- Flacidez
+- Hidratação corporal
+- Revitalização corporal
+- Protocolos corporais profissionais
+
+## Público / uso
+Profissional/cabine.
+
+## Tipo de produto
+Kit corporal profissional.
+
+## Linha
+BodyPro.
+
+## Volume / composição
+Kit com 4 produtos corporais.
+
+## Tipo de pele
+Pele corporal, conforme avaliação profissional e tolerância a frio e calor.
+
+## Zona de aplicação
+Corpo.
+
+## Momento de aplicação
+Protocolos corporais profissionais de preparo, massagem, ação termoativada e crioterápica.
+
+## Ativos principais
+- Centelha Asiática
+- Extrato de Café
+- Arnica
+- Nicotinato de Metila
+- Cânfora
+- Mentol
+- Óleo de Açaí
+
+## Benefícios aprovados
+- Kit completo corporal
+- Auxilia massagem modeladora e relaxante
+- Auxilia drenagem linfática
+- Esfoliação corporal
+- Cuidados com celulite, gordura localizada e flacidez
+- Ação termoativada e crioterápica
+
+## Modo de uso aprovado
+Usar Esfoliante BodyPro para preparo da pele. Usar Creme de Massagem para manobras. Usar Gel Termoativado em protocolos de celulite e gordura localizada. Usar Gel Crioterápico em protocolos de flacidez e tonificação. Frequência conforme protocolo profissional.
+
+## Cuidados e observações
+Evitar olhos, mucosas e regiões lesionadas ou irritadas. Avaliar antes de usar produtos termoativados ou crioterápicos. Encaminhar em caso de alterações circulatórias, varizes importantes, gestantes, lactantes ou sensibilidade ao calor/frio.
+
+## Quando não indicar ou encaminhar
+Não indicar diretamente para gestantes, lactantes, crianças, idosos, pessoas com doenças preexistentes, alterações gastrointestinais, uso de medicamentos ou sensibilidade a componentes sem avaliação profissional. Encaminhar também em caso de alterações circulatórias, varizes importantes ou sensibilidade ao calor/frio.
+
+## Participação em protocolos
+Participa de protocolos corporais profissionais aprovados, incluindo:
+- Protocolo Corporal Cellulight
+
+Também pode ser relacionado a protocolos corporais de massagem, drenagem, celulite, gordura localizada, flacidez e redução de medidas, conforme material aprovado.
+
+## Função dentro do protocolo
+Atua como kit corporal profissional para estruturar etapas de preparo, esfoliação, massagem, ação termoativada e crioterápica em cabine.
+
+## Produtos que combinam
+- Sal Térmico Lipolítico
+- Óleo para Massagem Corporal
+- Kit Profissional Venus de Lipoplastia
+- EsbelTEA Solúvel
+- Esbeltea em Cápsulas
+- Produtos corporais finalizadores ou hidratantes da Lakma, se houver
+
+## Diferença para produtos parecidos
+Diferencial: reúne quatro etapas corporais em um kit: esfoliação, massagem, ação termoativada e crioterápica.
+
+## Frase de segurança para a Nina
+Seguir rótulo e orientação profissional. Não prometer emagrecimento, perda de medidas ou resultado garantido. Gestantes, lactantes, crianças, idosos, pessoas com doenças, uso de medicamentos ou sensibilidade a componentes devem consultar profissional.
+
+### Objeções comuns e respostas
+
+**É para uso em casa?**
+Não. É um kit corporal profissional para uso em cabine, conforme avaliação e protocolo profissional.
+
+**Serve para celulite e gordura localizada?**
+Sim. Ele pode ser indicado para protocolos corporais de celulite, gordura localizada, flacidez, drenagem e massagem, sempre sem prometer resultado garantido.
+
+**Tem produto quente e frio?**
+Sim. O kit contempla ação termoativada e crioterápica, permitindo trabalhar sensações de calor e frio conforme o objetivo do protocolo.
+
+**Pode ser usado em gestantes?**
+Não deve ser indicado diretamente para gestantes ou lactantes sem avaliação profissional. Nesses casos, a Nina deve encaminhar para dermoconsultora.
+
+### Observações internas para a Nina
+
+Indicar para profissionais que buscam uma rotina corporal completa de cabine com preparo, esfoliação, massagem, ação termoativada e crioterápica. Reforçar que não deve prometer emagrecimento, perda garantida de medidas ou eliminação definitiva de gordura/celulite. Encaminhar para dermoconsultora em caso de gestantes, lactantes, varizes importantes, alterações circulatórias, doenças preexistentes, uso de medicamentos, sensibilidade ao calor/frio ou dúvidas sobre aplicação em protocolos corporais.
+
+---
+
+## Kit Labial Home Care
+
+Kit home care de cuidados labiais com esfoliação, tratamento e finalização para hidratação, renovação, maciez, brilho e melhora da aparência dos lábios.
+
+- **Categoria:** home care
+- **Principais objetivos:** Hidratação labial, renovação, maciez, brilho, cuidado labial, melhora da aparência dos lábios.
+- **Tipo de pele / condição indicada:** Lábios ressecados, ásperos, opacos ou com descamação leve.
+- **Modo de uso:** Esfoliar os lábios limpos e secos e remover o excesso. Aplicar o Microagulhamento em Creme e espalhar. Finalizar com Gloss Biolips. Usar o esfoliante de 1 a 2 vezes por semana, o gloss ao longo do dia e o microagulhamento conforme orientação.
+- **Site:** https://lakma.com.br/products/kit-labial-home-care?_pos=1&_sid=1789b10ca&_ss=r
+
+### Combinações
+
+- **Combina com:** Gloss Biolips Bioativo, Microagulhamento em Creme, Esfoliante Facial e Labial Bioativo, Kit Dolce Lips + Dolce Peel Labial e produtos hidratantes labiais da Lakma, se houver.
+- **Atenção / não combinar:** Evitar uso em lábios lesionados, irritados ou sensibilizados. Suspender em caso de irritação. Encaminhar para avaliação em caso de feridas abertas, descamação intensa, herpes ativa ou recorrente, alergia a componentes ou reação persistente.
+
+### Detalhes
+
+## Função principal
+Kit home care de cuidados labiais com três etapas: esfoliação, tratamento e finalização, voltado para hidratação, renovação, maciez, brilho e melhora da aparência dos lábios.
+
+## Indicações
+- Lábios ressecados
+- Lábios ásperos
+- Lábios opacos
+- Descamação leve
+- Necessidade de hidratação labial
+- Necessidade de renovação labial
+- Rotina labial em casa
+- Maciez e brilho dos lábios
+- Melhora da aparência labial
+
+## Público / uso
+Home care.
+
+## Tipo de produto
+Kit de cuidados labiais.
+
+## Linha
+Profissional / Home Care Labial.
+
+## Volume / composição
+Kit com 3 produtos labiais.
+
+## Tipo de pele / condição indicada
+Lábios ressecados, ásperos, opacos ou com descamação leve.
+
+## Zona de aplicação
+Lábios.
+
+## Momento de aplicação
+Rotina labial home care: esfoliação, tratamento e finalização.
+
+## Ativos principais
+- Ácido Hialurônico
+- Microagulha Biológica
+- Bioativos Renovadores
+- Biolips
+
+## Benefícios aprovados
+- Hidratação labial
+- Renovação da região labial
+- Remove células superficiais
+- Maciez e brilho
+- Microagulhamento em Creme com 10% Ácido Hialurônico
+- Gloss booster labial
+- Volumização epitelial
+
+## Modo de uso aprovado
+Esfoliar os lábios limpos e secos e remover o excesso. Aplicar o Microagulhamento em Creme e espalhar. Finalizar com Gloss Biolips. Usar o esfoliante de 1 a 2 vezes por semana, o gloss ao longo do dia e o microagulhamento conforme orientação.
+
+## Cuidados e observações
+Evitar uso em lábios lesionados, irritados ou sensibilizados. Suspender em caso de irritação.
+
+## Quando não indicar ou encaminhar
+Lábios lesionados, irritados, sensibilizados, com feridas abertas, descamação intensa, herpes ativa ou recorrente, ou alergia a componentes exigem cautela ou avaliação antes do uso.
+
+## Participação em protocolos
+sem informação.
+
+## Função dentro do protocolo
+sem informação.
+
+## Produtos que combinam
+- Gloss Biolips Bioativo
+- Microagulhamento em Creme
+- Esfoliante Facial e Labial Bioativo
+- Kit Dolce Lips + Dolce Peel Labial
+- Produtos hidratantes labiais da Lakma, se houver
+
+## Diferença para produtos parecidos
+Diferencial: reúne três etapas labiais home care: esfoliação, tratamento com microagulhamento/ácido hialurônico e gloss booster.
+
+## Frase de segurança para a Nina
+Evitar uso em lábios lesionados, irritados ou sensibilizados. Suspender se houver ardência, coceira ou reação e orientar avaliação se persistir.
+
+### Objeções comuns e respostas
+
+**É para usar em casa?**
+Sim. É um kit home care para cuidados labiais.
+
+**Serve para lábios ressecados?**
+Sim. É indicado para lábios ressecados, ásperos, opacos, com descamação leve ou que precisam de hidratação, renovação e maciez.
+
+**Quantas vezes usar o esfoliante?**
+O esfoliante pode ser usado de 1 a 2 vezes por semana, conforme necessidade ou orientação.
+
+**Pode usar se estiver com ferida nos lábios?**
+Não. Deve evitar uso em lábios lesionados, irritados ou sensibilizados.
+
+### Observações internas para a Nina
+
+Indicar para clientes que buscam rotina labial em casa com esfoliação, tratamento e finalização. Não indicar em caso de lábios lesionados, irritados, sensibilizados, feridas abertas, descamação intensa, herpes ativa ou alergia a componentes. Se houver irritação, orientar suspensão e avaliação se persistir.
+
+---
