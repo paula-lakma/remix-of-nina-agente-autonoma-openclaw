@@ -1,0 +1,32 @@
+
+ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS email TEXT;
+
+UPDATE public.profiles p
+SET email = u.email
+FROM auth.users u
+WHERE p.user_id = u.id AND p.email IS NULL;
+
+CREATE OR REPLACE FUNCTION public.handle_new_user()
+RETURNS trigger
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path TO 'public'
+AS $function$
+DECLARE
+  v_role public.app_role;
+BEGIN
+  INSERT INTO public.profiles (user_id, full_name, email)
+  VALUES (NEW.id, NEW.raw_user_meta_data ->> 'full_name', NEW.email);
+
+  IF lower(NEW.email) = 'victor.souza@renauxservice.com.br' THEN
+    v_role := 'admin';
+  ELSIF (SELECT COUNT(*) FROM public.user_roles) = 0 THEN
+    v_role := 'admin';
+  ELSE
+    v_role := 'user';
+  END IF;
+
+  INSERT INTO public.user_roles (user_id, role) VALUES (NEW.id, v_role);
+  RETURN NEW;
+END;
+$function$;
