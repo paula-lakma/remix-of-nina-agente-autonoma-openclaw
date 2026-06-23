@@ -1911,3 +1911,508 @@ Não. Deve evitar contato direto com os olhos.
 Indicar para clientes que buscam fortalecimento, cuidado, crescimento saudável e melhora da aparência dos cílios. Reforçar aplicação com cílios limpos e secos e evitar contato direto com os olhos. Encaminhar para avaliação em caso de irritação ocular ativa, conjuntivite, lesões, dermatite/eczema na região, alergia a componentes, lacrimejamento intenso ou alterações de visão.
 
 ---
+
+## Esfoliante Facial e Labial Bioativo - 30g
+
+Esfoliante home care para rosto e lábios, indicado para renovação suave, remoção de células mortas, melhora da textura, maciez e preparo da pele para hidratação e ativos.
+
+- **Categoria:** home care
+- **Principais objetivos:** Esfoliação, renovação suave, remoção de células mortas, maciez, melhora da textura, preparo da pele e dos lábios para hidratação e ativos.
+- **Tipo de pele / condição indicada:** Todos os tipos de pele. Indicado para pele ou lábios ásperos, textura irregular, rotina semanal de skincare e preparação para ativos. Evitar pele ou lábios lesionados, irritados ou sensibilizados.
+- **Modo de uso:** Aplicar pequena quantidade na pele limpa e levemente úmida. Massagear suavemente em movimentos circulares no rosto ou lábios. Remover com água. Usar de 1 a 2 vezes por semana ou conforme necessidade.
+- **Site:** https://lakma.com.br/products/esfoliante-facial-e-labial-30g?_pos=1&_psq=esfoliante&_ss=e&_v=1.0
+
+### Participação em protocolos
+
+- **Função dentro do protocolo:** Pode atuar como etapa de esfoliação suave e preparo da pele ou dos lábios para receber hidratantes, ativos e finalizadores, conforme orientação.
+
+### Combinações
+
+- **Combina com:** Gloss Biolips Bioativo, Kit Labial Home Care, Kit Dolce Lips + Dolce Peel Labial, Microagulhamento em Creme, Creme Facial Ácido Hialurônico, Máscara Hidratante de Pepino, Sérum VC-10 e Espuma de Limpeza Facial.
+- **Atenção / não combinar:** Não usar em pele ou lábios lesionados, irritados, sensibilizados ou com descamação intensa. Evitar contato direto com os olhos. Encaminhar para avaliação em caso de feridas abertas, herpes ativa ou recorrente, alergia a componentes ou reação persistente.
+
+### Detalhes
+
+## Função principal
+Esfoliante facial e labial home care, indicado para renovação suave, remoção de células mortas, melhora da textura, maciez e preparo da pele ou dos lábios para receber hidratantes e ativos.
+
+## Indicações
+- Todos os tipos de pele
+- Esfoliação facial
+- Esfoliação labial
+- Pele áspera
+- Lábios ásperos
+- Textura irregular
+- Remoção de células mortas
+- Rotina semanal de skincare
+- Preparação da pele para hidratantes e ativos
+- Maciez imediata
+
+## Público / uso
+Home care, com possível orientação profissional.
+
+## Tipo de produto
+Esfoliante facial e labial.
+
+## Linha
+Pro Fios.
+
+## Volume
+30g.
+
+## Tipo de pele / condição indicada
+Todos os tipos de pele. Evitar pele ou lábios lesionados, irritados ou sensibilizados.
+
+## Zona de aplicação
+Rosto e lábios, evitando contato direto com os olhos.
+
+## Momento de aplicação
+Esfoliação semanal, de 1 a 2 vezes por semana ou conforme necessidade e orientação.
+
+## Ativos principais
+- Grânulos Esfoliantes Suaves
+- Textura Cremosa
+- Uso Facial e Labial
+
+## Benefícios aprovados
+- Esfoliação delicada
+- Remove células mortas
+- Pele mais lisa e uniforme
+- Maciez imediata
+- Prepara a pele para hidratantes e ativos
+- Uso no rosto e nos lábios
+- Cruelty-free
+
+## Modo de uso aprovado
+Aplicar pequena quantidade na pele limpa e levemente úmida. Massagear suavemente em movimentos circulares no rosto ou lábios. Remover com água. Usar de 1 a 2 vezes por semana ou conforme necessidade.
+
+## Cuidados e observações
+Evitar contato direto com os olhos. Não usar em pele ou lábios lesionados, irritados, sensibilizados ou com descamação intensa.
+
+## Quando não indicar ou encaminhar
+Lábios lesionados, irritados, sensibilizados, com feridas abertas, descamação intensa, herpes ativa ou recorrente, ou alergia a componentes exigem cautela ou avaliação antes do uso. Também evitar em pele lesionada, irritada ou sensibilizada.
+
+## Participação em protocolos
+sem informação.
+
+## Função dentro do protocolo
+Pode atuar como etapa de esfoliação suave e preparo da pele ou dos lábios para receber hidratantes, ativos e finalizadores, conforme orientação.
+
+## Produtos que combinam
+- Gloss Biolips Bioativo
+- Kit Labial Home Care
+- Kit Dolce Lips + Dolce Peel Labial
+- Microagulhamento em Creme
+- Creme Facial Ácido Hialurônico
+- Máscara Hidratante de Pepino
+- Sérum VC-10
+- Espuma de Limpeza Facial
+
+## Diferença para produtos parecidos
+Diferencial: versátil para rosto e lábios, com textura cremosa e grânulos suaves.
+
+## Frase de segurança para a Nina
+Produto de uso profissional ou orientado. Evitar pele lesionada, irritada ou sensibilizada e reforçar fotoproteção quando houver ácidos, peelings, retinol ou renovação. Em caso de dúvida, encaminhar para avaliação.
+
+### Objeções comuns e respostas
+
+**Pode usar no rosto e nos lábios?**
+Sim. É um esfoliante facial e labial, indicado para uso no rosto e nos lábios, evitando contato direto com os olhos.
+
+**Quantas vezes por semana usar?**
+A orientação aprovada é usar de 1 a 2 vezes por semana ou conforme necessidade.
+
+**Serve para lábios ressecados?**
+Pode ajudar na remoção de células superficiais e na maciez, mas não deve ser usado em lábios lesionados, irritados, sensibilizados ou com descamação intensa.
+
+**Pode usar antes de sérum ou hidratante?**
+Sim. Ele prepara a pele para receber hidratantes e ativos.
+
+**Pode usar em pele irritada?**
+Não. Deve evitar uso em pele irritada, lesionada ou sensibilizada.
+
+### Observações internas para a Nina
+
+Indicar para clientes que buscam esfoliação suave, melhora da textura, maciez e preparo da pele ou dos lábios para hidratação e ativos. Reforçar frequência de 1 a 2 vezes por semana. Não indicar em pele ou lábios lesionados, irritados, sensibilizados, com descamação intensa, feridas abertas ou herpes ativa. Encaminhar para avaliação se houver alergia, reação persistente ou dúvida sobre uso associado a ácidos, peelings, retinol ou procedimentos.
+
+---
+
+## Espuma de Limpeza Facial - Camomila, Própolis e Vitamina E - 140ml
+
+Espuma de limpeza facial home care para uso diário, indicada para remover impurezas e oleosidade sem ressecar, com ação calmante e antioxidante.
+
+- **Categoria:** home care
+- **Principais objetivos:** Limpeza facial diária, remoção de impurezas, controle de oleosidade, suavidade, ação calmante, ação antioxidante, preparo da pele para skincare.
+- **Tipo de pele / condição indicada:** Todos os tipos de pele, inclusive pele sensível ou sensibilizada conforme tolerância. Indicada para limpeza facial diária, remoção de impurezas, controle do excesso de oleosidade, ação calmante e cuidado antioxidante.
+- **Modo de uso:** Aplicar sobre o rosto úmido, massagear com movimentos circulares e enxaguar. Usar diariamente de manhã e à noite, evitando contato direto com os olhos.
+- **Site:** https://lakma.com.br/products/espuma-de-limpeza?_pos=1&_psq=espuma+de+limpeza&_ss=e&_v=1.0
+
+### Participação em protocolos
+
+- Participa de protocolos: **sim**
+- **Protocolos relacionados:** Protocolo Facial CrioFirmador 40+; rotinas e protocolos de higienização facial; protocolos de limpeza de pele e preparo da pele.
+- **Função dentro do protocolo:** Atua como etapa de higienização e preparo da pele antes da aplicação de ativos, máscaras, séruns ou demais produtos do protocolo.
+
+### Combinações
+
+- **Combina com:** Sérum NC-10, Sérum VC-10, Sérum RN-0, 3, Creme Facial Ácido Hialurônico, Creme Antissinais Q-10, Neuroplasma Calmante, Máscara Hidratante de Pepino e protetor solar para rotina diurna.
+- **Atenção / não combinar:** Evitar contato direto com os olhos. Encaminhar em caso de alergia a camomila, própolis ou vitamina E, pele muito irritada, dermatite em crise, rosácea ativa ou ardência persistente. Evitar uso em pele lesionada ou sensibilizada sem avaliação.
+
+### Detalhes
+
+## Função principal
+Espuma de limpeza facial home care para uso diário, indicada para remover impurezas e oleosidade sem ressecar, com ação calmante, purificante e antioxidante.
+
+## Indicações
+- Todos os tipos de pele
+- Pele sensível ou sensibilizada conforme tolerância
+- Limpeza facial diária
+- Remoção de impurezas
+- Controle do excesso de oleosidade
+- Ação calmante
+- Cuidado antioxidante
+- Preparação da pele para rotina de skincare
+- Idade sugerida: 15+
+
+## Público / uso
+Home care.
+
+## Tipo de produto
+Espuma de limpeza facial.
+
+## Linha
+Dermocosméticos.
+
+## Volume
+140ml.
+
+## Tipo de pele
+Todos os tipos de pele, inclusive pele sensível ou sensibilizada conforme tolerância.
+
+## Zona de aplicação
+Rosto, evitando contato direto com os olhos.
+
+## Momento de aplicação
+Limpeza facial diária, manhã e noite.
+
+## Ativos principais
+- Extrato de Camomila
+- Extrato de Própolis
+- Vitamina E
+
+## Benefícios aprovados
+- Limpeza suave e eficaz
+- Remove impurezas e oleosidade
+- Não resseca
+- Frescor e suavidade
+- Ação calmante
+- Ação antioxidante
+- Hipoalergênica
+- Livre de parabenos e glúten
+
+## Modo de uso aprovado
+Aplicar sobre o rosto úmido, massagear com movimentos circulares e enxaguar. Usar diariamente de manhã e à noite, evitando contato direto com os olhos.
+
+## Cuidados e observações
+Encaminhar em caso de alergia a camomila, própolis ou vitamina E, pele muito irritada, dermatite em crise, rosácea ativa ou ardência persistente.
+
+## Quando não indicar ou encaminhar
+Encaminhar para avaliação em caso de alergia, irritação persistente, pele lesionada ou sensibilizada, gestantes, lactantes ou dúvidas sobre associação com outros ativos e procedimentos.
+
+## Participação em protocolos
+Participa como etapa de higienização em protocolos e rotinas de preparo da pele, incluindo:
+- Protocolo Facial CrioFirmador 40+
+- Rotinas e protocolos de higienização facial
+- Protocolos de limpeza de pele e preparo da pele
+
+## Função dentro do protocolo
+Atua como etapa de higienização e preparo da pele antes da aplicação de ativos, máscaras, séruns ou demais produtos do protocolo.
+
+## Produtos que combinam
+- Sérum NC-10
+- Sérum VC-10
+- Sérum RN-0,3
+- Creme Facial Ácido Hialurônico
+- Creme Antissinais Q-10
+- Neuroplasma Calmante
+- Máscara Hidratante de Pepino
+- Protetor solar para rotina diurna
+
+## Diferença para produtos parecidos
+Diferencial: espuma cremosa com ação calmante, purificante e antioxidante para uso diário sem ressecar.
+
+## Frase de segurança para a Nina
+Orientar uso conforme modo de uso, evitar pele lesionada ou sensibilizada e suspender em caso de irritação. Gestantes, lactantes, alergias ou dúvidas com ativos devem ser encaminhadas para avaliação.
+
+### Objeções comuns e respostas
+
+**Pode usar todos os dias?**
+Sim. A orientação aprovada é usar diariamente, de manhã e à noite.
+
+**Serve para pele sensível?**
+Sim, pode ser usada em todos os tipos de pele, inclusive pele sensível ou sensibilizada conforme tolerância. Se houver irritação persistente, deve encaminhar para avaliação.
+
+**Resseca a pele?**
+A ficha informa que promove limpeza suave e eficaz sem ressecar.
+
+**Ajuda na oleosidade?**
+Sim. Ela auxilia na remoção de impurezas e oleosidade.
+
+**Pode usar perto dos olhos?**
+Deve evitar contato direto com os olhos.
+
+### Observações internas para a Nina
+
+Indicar como primeiro passo da rotina de skincare e como limpeza diária para todos os tipos de pele. Pode ser sugerida antes de séruns, hidratantes, máscaras e protetor solar. Reforçar uso de manhã e à noite. Encaminhar para avaliação em caso de alergia a camomila, própolis ou vitamina E, pele muito irritada, dermatite em crise, rosácea ativa, ardência persistente, gestantes, lactantes ou dúvidas sobre associação com outros ativos/procedimentos.
+
+---
+
+## Máscara Hidratante de Pepino - 100g
+
+Máscara facial hidratante com ação refrescante, indicada para hidratar, suavizar, combater o ressecamento e melhorar o conforto e a aparência da pele.
+
+- **Categoria:** home care
+- **Principais objetivos:** Hidratação, refrescância, suavização, combate ao ressecamento, maciez, conforto, aparência descansada.
+- **Tipo de pele / condição indicada:** Todos os tipos de pele, especialmente pele ressecada, desconfortável ou cansada. Há observação no material para confirmar comunicação oficial para pele oleosa.
+- **Modo de uso:** Aplicar camada uniforme sobre a pele limpa e seca. Deixar agir conforme protocolo ou necessidade. Remover com água ou gaze umedecida. Usar conforme necessidade.
+- **Site:** https://lakma.com.br/products/mascara-hidratante-de-pepino-pele-oleosa?_pos=1&_sid=e309c92f3&_ss=r
+
+### Participação em protocolos
+
+- **Função dentro do protocolo:** Pode atuar como máscara hidratante, refrescante e suavizante em rotinas ou protocolos de hidratação, conforto e revitalização da pele.
+
+### Combinações
+
+- **Combina com:** Espuma de Limpeza Facial, Sérum NC-10, Sérum VC-10, Creme Facial Ácido Hialurônico, Neuroplasma Calmante, Máscara Hidroplástica Zen Marine e Kit Máscaras Faciais Tropicalia.
+- **Atenção / não combinar:** Evitar contato direto com os olhos. Não indicar em pele lesionada, irritada, sensibilizada, inflamada ou com reação ativa. Encaminhar em caso de alergia a componentes, uso recente de ácidos, retinoides ou procedimentos, gestantes, lactantes ou dúvidas sobre tempo de ação e associação de ativos.
+
+### Detalhes
+
+## Função principal
+Máscara facial hidratante com ação refrescante, indicada para hidratar, suavizar, combater o ressecamento e melhorar o conforto e a aparência da pele.
+
+## Indicações
+- Todos os tipos de pele
+- Pele ressecada
+- Pele desconfortável
+- Pele cansada
+- Hidratação facial
+- Refrescância
+- Suavização
+- Maciez
+- Conforto da pele
+- Cuidados diários com a aparência da pele
+
+## Público / uso
+Home care e/ou profissional.
+
+## Tipo de produto
+Máscara facial hidratante.
+
+## Linha
+sem informação.
+
+## Volume
+100g.
+
+## Tipo de pele
+Todos os tipos de pele, especialmente pele ressecada, desconfortável ou cansada. Confirmar comunicação oficial para pele oleosa.
+
+## Zona de aplicação
+Rosto.
+
+## Momento de aplicação
+Após a limpeza, como máscara hidratante e refrescante, conforme necessidade ou protocolo.
+
+## Ativos principais
+- Pepino
+- Ureia
+- Silicone
+
+## Benefícios aprovados
+- Hidrata e suaviza
+- Combate ressecamento
+- Frescor imediato
+- Maciez e conforto
+- Proteção contra perda de hidratação
+- Dermatologicamente testada
+- Livre de parabenos
+- Cruelty-free
+
+## Modo de uso aprovado
+Aplicar camada uniforme sobre a pele limpa e seca. Deixar agir conforme protocolo ou necessidade. Remover com água ou gaze umedecida. Usar conforme necessidade.
+
+## Cuidados e observações
+Evitar contato direto com os olhos. Confirmar se deve ser comunicada para pele oleosa ou todos os tipos de pele.
+
+## Quando não indicar ou encaminhar
+Não indicar em pele lesionada, irritada, sensibilizada, inflamada ou com reação ativa. Encaminhar em caso de alergia a componentes, uso recente de ácidos, retinoides ou procedimentos, gestantes, lactantes sem orientação, ou quando houver dúvida sobre protocolo, tempo de ação ou associação de ativos.
+
+## Participação em protocolos
+sem informação.
+
+## Função dentro do protocolo
+Pode atuar como máscara hidratante, refrescante e suavizante em rotinas ou protocolos de hidratação, conforto e revitalização da pele.
+
+## Produtos que combinam
+- Espuma de Limpeza Facial
+- Sérum NC-10
+- Sérum VC-10
+- Creme Facial Ácido Hialurônico
+- Neuroplasma Calmante
+- Máscara Hidroplástica Zen Marine
+- Kit Máscaras Faciais Tropicalia
+
+## Diferença para produtos parecidos
+Diferencial: hidratação leve, textura cremosa e sensação refrescante imediata.
+
+## Frase de segurança para a Nina
+Produto de uso profissional ou orientado. Evitar pele lesionada, irritada ou sensibilizada e reforçar fotoproteção quando houver ácidos, peelings, retinol ou renovação. Em caso de dúvida, encaminhar para avaliação.
+
+### Objeções comuns e respostas
+
+**Serve para pele ressecada?**
+Sim. É indicada para hidratação facial, combate ao ressecamento, maciez e conforto da pele.
+
+**Tem sensação refrescante?**
+Sim. Um dos benefícios aprovados é o frescor imediato.
+
+**Pode usar em todos os tipos de pele?**
+A ficha indica todos os tipos de pele, mas há observação para confirmar a comunicação oficial sobre pele oleosa.
+
+**Precisa remover?**
+Sim. A orientação aprovada é remover com água ou gaze umedecida após o tempo de ação.
+
+**Pode usar se a pele estiver irritada?**
+Não deve ser indicada em pele lesionada, irritada, sensibilizada, inflamada ou com reação ativa sem avaliação.
+
+### Observações internas para a Nina
+
+Indicar quando a cliente buscar hidratação leve, sensação refrescante, maciez, conforto, combate ao ressecamento ou cuidado para pele com aparência cansada. Se a dúvida envolver pele oleosa, comunicar com cautela porque o material pede confirmação da comunicação oficial. Encaminhar para dermoconsultora em caso de pele lesionada, irritada, sensibilizada, inflamada, alergias, gestantes, lactantes, uso recente de ácidos/retinoides/procedimentos ou dúvidas sobre associação com outros ativos.
+
+---
+
+## Creme Antissinais Q-10 - 100g
+
+Creme facial antissinais home care com Nano Coenzima Q10 e Nano Vitamina E, indicado para rugas, linhas de expressão, flacidez, firmeza, efeito lifting e revitalização diária.
+
+- **Categoria:** home care
+- **Principais objetivos:** Antissinais, rugas, linhas de expressão, flacidez, firmeza, efeito lifting, tonificação, hidratação, revitalização, ação antioxidante.
+- **Tipo de pele / condição indicada:** Todos os tipos de pele, especialmente a partir dos 35 anos, com sinais de envelhecimento, flacidez, rugas, linhas de expressão, perda de firmeza e falta de vitalidade.
+- **Modo de uso:** Aplicar pequena quantidade na pele limpa e seca. Espalhar no rosto com movimentos ascendentes. Usar de manhã e/ou à noite, com melhor aproveitamento à noite. Durante o dia, finalizar com protetor solar.
+- **Site:** https://lakma.com.br/products/creme-antissinais-q10-facial-rejuvenescedor?_pos=1&_sid=0b9a15e5b&_ss=r
+
+### Participação em protocolos
+
+- **Função dentro do protocolo:** Pode atuar como creme antissinais e revitalizante em rotinas de firmeza, efeito lifting, nutrição, hidratação e cuidado diário de peles maduras ou com sinais de envelhecimento.
+
+### Combinações
+
+- **Combina com:** Espuma de Limpeza Facial, Sérum VC-10, Sérum RN-0, 3, Creme Facial Ácido Hialurônico, Fluido Revitalizante Passo 5 Nano Fill Up, Booster Fibras Elásticas e Máscara Tropicalia Maracujá.
+- **Atenção / não combinar:** Evitar contato direto com os olhos. Encaminhar em caso de alergia a Q10, Vitamina E, fragrância, pele sensibilizada ou dúvidas sobre associação com retinol, ácidos, peelings ou procedimentos.
+
+### Detalhes
+
+## Função principal
+Creme facial antissinais home care com Nano Coenzima Q10 e Nano Vitamina E, indicado para firmeza, efeito lifting, flacidez, rugas, linhas de expressão, hidratação, ação antioxidante e revitalização diária.
+
+## Indicações
+- Todos os tipos de pele
+- Peles a partir dos 35 anos
+- Sinais de envelhecimento
+- Flacidez
+- Rugas
+- Linhas de expressão
+- Perda de firmeza
+- Falta de vitalidade
+- Rotina antissinais
+- Hidratação e toque macio
+
+## Público / uso
+Home care.
+
+## Tipo de produto
+Creme facial antissinais.
+
+## Linha
+Facial.
+
+## Volume
+100g.
+
+## Tipo de pele
+Todos os tipos de pele, especialmente a partir dos 35 anos com rugas, flacidez e perda de firmeza.
+
+## Zona de aplicação
+Rosto.
+
+## Momento de aplicação
+Manhã e/ou noite após limpeza. Melhor aproveitamento à noite. Durante o dia, usar protetor solar.
+
+## Ativos principais
+- Nano Coenzima Q10
+- Nano Vitamina E
+- EDTA Dissódico
+
+## Benefícios aprovados
+- Suaviza rugas e linhas
+- Efeito lifting imediato
+- Combate flacidez
+- Firmeza e tonificação
+- Ação antioxidante e nutritiva
+- Hidratação e toque macio
+- Dermatologicamente testado
+- Hipoalergênico
+
+## Modo de uso aprovado
+Aplicar pequena quantidade na pele limpa e seca. Espalhar no rosto com movimentos ascendentes. Usar de manhã e/ou à noite, com melhor aproveitamento à noite. Durante o dia, finalizar com protetor solar.
+
+## Cuidados e observações
+Evitar contato direto com os olhos. Encaminhar em caso de alergia a Q10, Vitamina E, fragrância, pele sensibilizada ou dúvidas sobre associação com retinol e ácidos.
+
+## Quando não indicar ou encaminhar
+Encaminhar para avaliação em caso de alergia, irritação persistente, pele lesionada ou sensibilizada, gestantes, lactantes ou dúvidas sobre associação com outros ativos e procedimentos.
+
+## Participação em protocolos
+sem informação.
+
+## Função dentro do protocolo
+Pode atuar como creme antissinais e revitalizante em rotinas de firmeza, efeito lifting, nutrição, hidratação e cuidado diário de peles maduras ou com sinais de envelhecimento.
+
+## Produtos que combinam
+- Espuma de Limpeza Facial
+- Sérum VC-10
+- Sérum RN-0,3
+- Creme Facial Ácido Hialurônico
+- Fluido Revitalizante Passo 5 Nano Fill Up
+- Booster Fibras Elásticas
+- Máscara Tropicalia Maracujá
+
+## Diferença para produtos parecidos
+Diferencial: Nano Q10 + Nano Vitamina E em creme leve para firmeza, lifting, flacidez e revitalização diária.
+
+## Frase de segurança para a Nina
+Orientar uso conforme modo de uso, evitar pele lesionada ou sensibilizada e suspender em caso de irritação. Gestantes, lactantes, alergias ou dúvidas com ativos devem ser encaminhadas para avaliação.
+
+### Objeções comuns e respostas
+
+**É indicado para qual idade?**
+É especialmente indicado para peles a partir dos 35 anos com sinais de envelhecimento, flacidez, rugas, linhas de expressão e perda de firmeza.
+
+**Pode usar de dia?**
+Sim. Pode ser usado de manhã e/ou à noite. Durante o dia, deve finalizar com protetor solar.
+
+**Serve para flacidez?**
+Sim. Ele auxilia na firmeza, tonificação, efeito lifting e combate à flacidez.
+
+**Qual a diferença para o Creme Facial Ácido Hialurônico?**
+O Q-10 tem foco maior em firmeza, lifting, flacidez e revitalização diária. O Creme Facial Ácido Hialurônico tem foco maior em hidratação profunda, efeito preenchedor e elasticidade.
+
+**Pode usar junto com retinol ou ácidos?**
+Em caso de dúvida sobre associação com retinol, ácidos, peelings ou procedimentos, a Nina deve encaminhar para avaliação profissional.
+
+### Observações internas para a Nina
+
+Indicar para clientes que buscam rotina antissinais, firmeza, efeito lifting, tonificação, rugas, linhas de expressão, flacidez, hidratação e revitalização diária. Reforçar uso de protetor solar durante o dia. Encaminhar para dermoconsultora em caso de alergia a componentes, pele sensibilizada, gestantes, lactantes, irritação persistente ou dúvidas sobre associação com retinol, ácidos, peelings ou procedimentos.
+
+---
