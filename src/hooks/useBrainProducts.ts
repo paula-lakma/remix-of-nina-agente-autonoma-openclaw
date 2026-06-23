@@ -7,13 +7,15 @@ export interface BrainProduct {
   name: string;
   summary: string | null;
   details_md: string | null;
+  site_url: string | null;
+  mercadolivre_url: string | null;
   position: number;
   is_active: boolean;
 }
 
 export type BrainProductInput = Pick<
   BrainProduct,
-  'name' | 'summary' | 'details_md' | 'is_active'
+  'name' | 'summary' | 'details_md' | 'site_url' | 'mercadolivre_url' | 'is_active'
 >;
 
 interface UseBrainProductsResult {
@@ -43,7 +45,7 @@ export function useBrainProducts(): UseBrainProductsResult {
       setError(null);
       const { data, error: queryError } = await supabase
         .from('brain_products')
-        .select('id, name, summary, details_md, position, is_active')
+        .select('id, name, summary, details_md, site_url, mercadolivre_url, position, is_active')
         .order('position', { ascending: true })
         .order('created_at', { ascending: true });
 
