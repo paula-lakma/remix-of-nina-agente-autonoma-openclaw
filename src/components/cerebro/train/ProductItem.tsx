@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import { Pencil, Trash2, Check, X, Loader2 } from 'lucide-react';
 import { Button } from '../../Button';
-import type { BrainProduct, BrainProductInput } from '@/hooks/useBrainProducts';
-
-const inputClass =
-  'w-full rounded-lg border border-slate-700 bg-slate-950 px-3 py-2 text-sm text-slate-100 placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-cyan-500/50';
+import { toast } from 'sonner';
+import { productToDraft, type BrainProduct, type BrainProductInput } from '@/hooks/useBrainProducts';
+import ProductForm, { validateProductDraft } from './ProductForm';
 
 interface ProductItemProps {
   product: BrainProduct;
@@ -15,21 +14,23 @@ interface ProductItemProps {
 const ProductItem: React.FC<ProductItemProps> = ({ product, onSave, onDelete }) => {
   const [editing, setEditing] = useState(false);
   const [busy, setBusy] = useState(false);
-  const [draft, setDraft] = useState<BrainProductInput>({
-    name: product.name,
-    summary: product.summary,
-    details_md: product.details_md,
-    site_url: product.site_url,
-    mercadolivre_url: product.mercadolivre_url,
-    is_active: product.is_active,
-  });
+  const [draft, setDraft] = useState<BrainProductInput>(() => productToDraft(product));
 
   const handleSave = async () => {
-    if (!draft.name.trim()) return;
+    const err = validateProductDraft(draft);
+    if (err) {
+      toast.error(err);
+      return;
+    }
     setBusy(true);
     const ok = await onSave(product.id, draft);
     setBusy(false);
-    if (ok) setEditing(false);
+    if (ok) {
+      toast.success('Produto atualizado');
+      setEditing(false);
+    } else {
+      toast.error('Erro ao salvar');
+    }
   };
 
   const handleDelete = async () => {
@@ -42,7 +43,7 @@ const ProductItem: React.FC<ProductItemProps> = ({ product, onSave, onDelete }) 
     return (
       <div className="flex items-start justify-between gap-3 rounded-lg border border-slate-800 bg-slate-950/40 p-4">
         <div className="min-w-0">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 flex-wrap">
             <span className="text-sm font-medium text-slate-100 truncate">{product.name}</span>
             <span
               className={`text-[10px] font-semibold uppercase px-1.5 py-0.5 rounded ${
@@ -51,11 +52,37 @@ const ProductItem: React.FC<ProductItemProps> = ({ product, onSave, onDelete }) 
             >
               {product.is_active ? 'Ativo' : 'Inativo'}
             </span>
+            {product.category && (
+              <span className="text-[10px] uppercase px-1.5 py-0.5 rounded bg-slate-800 text-slate-400">
+                {product.category}
+              </span>
+            )}
+            {product.in_protocols && (
+              <span className="text-[10px] uppercase px-1.5 py-0.5 rounded bg-cyan-500/10 text-cyan-300">
+                em protocolo
+              </span>
+            )}
           </div>
           {product.summary && <p className="text-xs text-slate-400 mt-1 line-clamp-2">{product.summary}</p>}
+          {product.main_goals.length > 0 && (
+            <div className="flex flex-wrap gap-1 mt-2">
+              {product.main_goals.slice(0, 5).map((g) => (
+                <span key={g} className="text-[10px] px-1.5 py-0.5 rounded bg-slate-800/60 text-slate-400">
+                  {g}
+                </span>
+              ))}
+            </div>
+          )}
         </div>
         <div className="flex items-center gap-1 flex-shrink-0">
-          <button onClick={() => setEditing(true)} className="p-2 rounded-md text-slate-400 hover:bg-slate-800 hover:text-cyan-400" title="Editar">
+          <button
+            onClick={() => {
+              setDraft(productToDraft(product));
+              setEditing(true);
+            }}
+            className="p-2 rounded-md text-slate-400 hover:bg-slate-800 hover:text-cyan-400"
+            title="Editar"
+          >
             <Pencil className="w-4 h-4" />
           </button>
           <button onClick={handleDelete} disabled={busy} className="p-2 rounded-md text-slate-400 hover:bg-slate-800 hover:text-red-400" title="Remover">
@@ -67,60 +94,16 @@ const ProductItem: React.FC<ProductItemProps> = ({ product, onSave, onDelete }) 
   }
 
   return (
-    <div className="rounded-lg border border-cyan-500/30 bg-slate-950/40 p-4 space-y-3">
-      <input
-        type="text"
-        value={draft.name}
-        onChange={(e) => setDraft({ ...draft, name: e.target.value })}
-        placeholder="Nome do produto *"
-        className={inputClass}
-      />
-      <input
-        type="text"
-        value={draft.summary ?? ''}
-        onChange={(e) => setDraft({ ...draft, summary: e.target.value })}
-        placeholder="Resumo curto"
-        className={inputClass}
-      />
-      <input
-        type="url"
-        value={draft.site_url ?? ''}
-        onChange={(e) => setDraft({ ...draft, site_url: e.target.value })}
-        placeholder="Link do site (https://...)"
-        className={inputClass}
-      />
-      <input
-        type="url"
-        value={draft.mercadolivre_url ?? ''}
-        onChange={(e) => setDraft({ ...draft, mercadolivre_url: e.target.value })}
-        placeholder="Link do MercadoLivre (https://...)"
-        className={inputClass}
-      />
-      <textarea
-        value={draft.details_md ?? ''}
-        onChange={(e) => setDraft({ ...draft, details_md: e.target.value })}
-        placeholder="Detalhes (markdown): preço, diferenciais, objeções…"
-        rows={3}
-        className={`${inputClass} resize-none`}
-      />
-      <div className="flex items-center justify-between">
-        <label className="flex items-center gap-2 text-xs text-slate-400 cursor-pointer">
-          <input
-            type="checkbox"
-            checked={draft.is_active}
-            onChange={(e) => setDraft({ ...draft, is_active: e.target.checked })}
-            className="accent-cyan-500"
-          />
-          Produto ativo
-        </label>
-        <div className="flex items-center gap-2">
-          <Button variant="ghost" size="sm" onClick={() => setEditing(false)} disabled={busy}>
-            <X className="w-4 h-4" />
-          </Button>
-          <Button size="sm" onClick={handleSave} disabled={busy || !draft.name.trim()}>
-            {busy ? <Loader2 className="w-4 h-4 animate-spin" /> : <Check className="w-4 h-4" />}
-          </Button>
-        </div>
+    <div className="rounded-lg border border-cyan-500/30 bg-slate-950/40 p-4 space-y-4">
+      <ProductForm draft={draft} onChange={setDraft} />
+      <div className="flex items-center justify-end gap-2 border-t border-slate-800 pt-3">
+        <Button variant="ghost" size="sm" onClick={() => setEditing(false)} disabled={busy}>
+          <X className="w-4 h-4 mr-1" /> Cancelar
+        </Button>
+        <Button size="sm" onClick={handleSave} disabled={busy}>
+          {busy ? <Loader2 className="w-4 h-4 mr-1 animate-spin" /> : <Check className="w-4 h-4 mr-1" />}
+          Salvar
+        </Button>
       </div>
     </div>
   );

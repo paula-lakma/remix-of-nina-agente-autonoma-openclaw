@@ -9,14 +9,22 @@ export interface BrainProduct {
   details_md: string | null;
   site_url: string | null;
   mercadolivre_url: string | null;
+  category: string | null;
+  skin_types: string[];
+  main_goals: string[];
+  usage_short: string | null;
+  in_protocols: boolean | null;
+  related_protocols: string[];
+  protocol_role: string | null;
+  combines_with: string[];
+  avoid_combinations: string | null;
+  common_objections_md: string | null;
+  internal_notes_md: string | null;
   position: number;
   is_active: boolean;
 }
 
-export type BrainProductInput = Pick<
-  BrainProduct,
-  'name' | 'summary' | 'details_md' | 'site_url' | 'mercadolivre_url' | 'is_active'
->;
+export type BrainProductInput = Omit<BrainProduct, 'id' | 'position'>;
 
 interface UseBrainProductsResult {
   products: BrainProduct[];
@@ -27,6 +35,9 @@ interface UseBrainProductsResult {
   remove: (id: string) => Promise<boolean>;
   refetch: () => Promise<void>;
 }
+
+const PRODUCT_COLUMNS =
+  'id, name, summary, details_md, site_url, mercadolivre_url, category, skin_types, main_goals, usage_short, in_protocols, related_protocols, protocol_role, combines_with, avoid_combinations, common_objections_md, internal_notes_md, position, is_active';
 
 /** CRUD de brain_products (RLS owner-scoped; owner_user_id default = auth.uid()). */
 export function useBrainProducts(): UseBrainProductsResult {
@@ -45,7 +56,7 @@ export function useBrainProducts(): UseBrainProductsResult {
       setError(null);
       const { data, error: queryError } = await supabase
         .from('brain_products')
-        .select('id, name, summary, details_md, site_url, mercadolivre_url, position, is_active')
+        .select(PRODUCT_COLUMNS)
         .order('position', { ascending: true })
         .order('created_at', { ascending: true });
 
@@ -118,4 +129,46 @@ export function useBrainProducts(): UseBrainProductsResult {
   );
 
   return { products, loading, error, create, update, remove, refetch: fetchProducts };
+}
+
+export const EMPTY_PRODUCT_DRAFT: BrainProductInput = {
+  name: '',
+  summary: '',
+  details_md: '',
+  site_url: '',
+  mercadolivre_url: '',
+  category: '',
+  skin_types: [],
+  main_goals: [],
+  usage_short: '',
+  in_protocols: null,
+  related_protocols: [],
+  protocol_role: '',
+  combines_with: [],
+  avoid_combinations: '',
+  common_objections_md: '',
+  internal_notes_md: '',
+  is_active: true,
+};
+
+export function productToDraft(p: BrainProduct): BrainProductInput {
+  return {
+    name: p.name,
+    summary: p.summary,
+    details_md: p.details_md,
+    site_url: p.site_url,
+    mercadolivre_url: p.mercadolivre_url,
+    category: p.category,
+    skin_types: p.skin_types ?? [],
+    main_goals: p.main_goals ?? [],
+    usage_short: p.usage_short,
+    in_protocols: p.in_protocols,
+    related_protocols: p.related_protocols ?? [],
+    protocol_role: p.protocol_role,
+    combines_with: p.combines_with ?? [],
+    avoid_combinations: p.avoid_combinations,
+    common_objections_md: p.common_objections_md,
+    internal_notes_md: p.internal_notes_md,
+    is_active: p.is_active,
+  };
 }

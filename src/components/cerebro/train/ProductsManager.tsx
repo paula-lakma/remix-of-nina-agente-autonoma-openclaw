@@ -2,23 +2,20 @@ import React, { useState } from 'react';
 import { Plus, Loader2, Package } from 'lucide-react';
 import { Button } from '../../Button';
 import { toast } from 'sonner';
-import { useBrainProducts, type BrainProductInput } from '@/hooks/useBrainProducts';
+import { useBrainProducts, EMPTY_PRODUCT_DRAFT, type BrainProductInput } from '@/hooks/useBrainProducts';
 import ProductItem from './ProductItem';
-
-const inputClass =
-  'w-full rounded-lg border border-slate-700 bg-slate-950 px-3 py-2 text-sm text-slate-100 placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-cyan-500/50';
-
-const EMPTY_DRAFT: BrainProductInput = { name: '', summary: '', details_md: '', site_url: '', mercadolivre_url: '', is_active: true };
+import ProductForm, { validateProductDraft } from './ProductForm';
 
 const ProductsManager: React.FC = () => {
   const { products, loading, create, update, remove } = useBrainProducts();
   const [adding, setAdding] = useState(false);
   const [busy, setBusy] = useState(false);
-  const [draft, setDraft] = useState<BrainProductInput>(EMPTY_DRAFT);
+  const [draft, setDraft] = useState<BrainProductInput>(EMPTY_PRODUCT_DRAFT);
 
   const handleCreate = async () => {
-    if (!draft.name.trim()) {
-      toast.error('Informe o nome do produto');
+    const err = validateProductDraft(draft);
+    if (err) {
+      toast.error(err);
       return;
     }
     setBusy(true);
@@ -26,7 +23,7 @@ const ProductsManager: React.FC = () => {
     setBusy(false);
     if (ok) {
       toast.success('Produto adicionado');
-      setDraft(EMPTY_DRAFT);
+      setDraft(EMPTY_PRODUCT_DRAFT);
       setAdding(false);
     } else {
       toast.error('Erro ao adicionar produto');
@@ -43,6 +40,12 @@ const ProductsManager: React.FC = () => {
 
   return (
     <div className="space-y-3">
+      <div className="rounded-lg border border-slate-800 bg-slate-900/40 p-3 text-xs text-slate-400">
+        <strong className="text-slate-300">Produtos = informações individuais.</strong> Cadastre cada produto com
+        categoria, objetivos e, se participar, em quais protocolos ele entra e qual função desempenha. O protocolo
+        completo (passo a passo) deve ficar na aba <em>Conhecimento</em>.
+      </div>
+
       {products.length === 0 && !adding && (
         <div className="rounded-lg border border-dashed border-slate-700 bg-slate-950/40 p-6 text-center">
           <Package className="w-6 h-6 mx-auto text-slate-600 mb-2" />
@@ -55,47 +58,13 @@ const ProductsManager: React.FC = () => {
       ))}
 
       {adding ? (
-        <div className="rounded-lg border border-cyan-500/30 bg-slate-950/40 p-4 space-y-3">
-          <input
-            type="text"
-            value={draft.name}
-            onChange={(e) => setDraft({ ...draft, name: e.target.value })}
-            placeholder="Nome do produto *"
-            className={inputClass}
-          />
-          <input
-            type="text"
-            value={draft.summary ?? ''}
-            onChange={(e) => setDraft({ ...draft, summary: e.target.value })}
-            placeholder="Resumo curto"
-            className={inputClass}
-          />
-          <input
-            type="url"
-            value={draft.site_url ?? ''}
-            onChange={(e) => setDraft({ ...draft, site_url: e.target.value })}
-            placeholder="Link do site (https://...)"
-            className={inputClass}
-          />
-          <input
-            type="url"
-            value={draft.mercadolivre_url ?? ''}
-            onChange={(e) => setDraft({ ...draft, mercadolivre_url: e.target.value })}
-            placeholder="Link do MercadoLivre (https://...)"
-            className={inputClass}
-          />
-          <textarea
-            value={draft.details_md ?? ''}
-            onChange={(e) => setDraft({ ...draft, details_md: e.target.value })}
-            placeholder="Detalhes (markdown): preço, diferenciais, objeções…"
-            rows={3}
-            className={`${inputClass} resize-none`}
-          />
-          <div className="flex items-center justify-end gap-2">
-            <Button variant="ghost" size="sm" onClick={() => { setAdding(false); setDraft(EMPTY_DRAFT); }} disabled={busy}>
+        <div className="rounded-lg border border-cyan-500/30 bg-slate-950/40 p-4 space-y-4">
+          <ProductForm draft={draft} onChange={setDraft} />
+          <div className="flex items-center justify-end gap-2 border-t border-slate-800 pt-3">
+            <Button variant="ghost" size="sm" onClick={() => { setAdding(false); setDraft(EMPTY_PRODUCT_DRAFT); }} disabled={busy}>
               Cancelar
             </Button>
-            <Button size="sm" onClick={handleCreate} disabled={busy || !draft.name.trim()}>
+            <Button size="sm" onClick={handleCreate} disabled={busy}>
               {busy ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Plus className="w-4 h-4 mr-2" />}
               Adicionar
             </Button>
