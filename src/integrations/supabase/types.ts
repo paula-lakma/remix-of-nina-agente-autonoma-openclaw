@@ -85,76 +85,130 @@ export type Database = {
       }
       brain_knowledge: {
         Row: {
+          category: string | null
           content_md: string
           created_at: string
           id: string
+          knowledge_type: string | null
           owner_user_id: string
           position: number
+          priority: string | null
+          related_products: string[]
           slug: string
+          tags: string[]
           title: string
           updated_at: string
+          when_to_escalate_md: string | null
+          when_to_use_md: string | null
         }
         Insert: {
+          category?: string | null
           content_md: string
           created_at?: string
           id?: string
+          knowledge_type?: string | null
           owner_user_id?: string
           position?: number
+          priority?: string | null
+          related_products?: string[]
           slug: string
+          tags?: string[]
           title: string
           updated_at?: string
+          when_to_escalate_md?: string | null
+          when_to_use_md?: string | null
         }
         Update: {
+          category?: string | null
           content_md?: string
           created_at?: string
           id?: string
+          knowledge_type?: string | null
           owner_user_id?: string
           position?: number
+          priority?: string | null
+          related_products?: string[]
           slug?: string
+          tags?: string[]
           title?: string
           updated_at?: string
+          when_to_escalate_md?: string | null
+          when_to_use_md?: string | null
         }
         Relationships: []
       }
       brain_products: {
         Row: {
+          avoid_combinations: string | null
+          category: string | null
+          combines_with: string[]
+          common_objections_md: string | null
           created_at: string
           details_md: string | null
           id: string
+          in_protocols: boolean | null
+          internal_notes_md: string | null
           is_active: boolean
+          main_goals: string[]
           mercadolivre_url: string | null
           name: string
           owner_user_id: string
           position: number
+          protocol_role: string | null
+          related_protocols: string[]
           site_url: string | null
+          skin_types: string[]
           summary: string | null
           updated_at: string
+          usage_short: string | null
         }
         Insert: {
+          avoid_combinations?: string | null
+          category?: string | null
+          combines_with?: string[]
+          common_objections_md?: string | null
           created_at?: string
           details_md?: string | null
           id?: string
+          in_protocols?: boolean | null
+          internal_notes_md?: string | null
           is_active?: boolean
+          main_goals?: string[]
           mercadolivre_url?: string | null
           name: string
           owner_user_id?: string
           position?: number
+          protocol_role?: string | null
+          related_protocols?: string[]
           site_url?: string | null
+          skin_types?: string[]
           summary?: string | null
           updated_at?: string
+          usage_short?: string | null
         }
         Update: {
+          avoid_combinations?: string | null
+          category?: string | null
+          combines_with?: string[]
+          common_objections_md?: string | null
           created_at?: string
           details_md?: string | null
           id?: string
+          in_protocols?: boolean | null
+          internal_notes_md?: string | null
           is_active?: boolean
+          main_goals?: string[]
           mercadolivre_url?: string | null
           name?: string
           owner_user_id?: string
           position?: number
+          protocol_role?: string | null
+          related_protocols?: string[]
           site_url?: string | null
+          skin_types?: string[]
           summary?: string | null
           updated_at?: string
+          usage_short?: string | null
         }
         Relationships: []
       }
