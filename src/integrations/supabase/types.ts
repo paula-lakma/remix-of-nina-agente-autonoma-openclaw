@@ -122,9 +122,11 @@ export type Database = {
           details_md: string | null
           id: string
           is_active: boolean
+          mercadolivre_url: string | null
           name: string
           owner_user_id: string
           position: number
+          site_url: string | null
           summary: string | null
           updated_at: string
         }
@@ -133,9 +135,11 @@ export type Database = {
           details_md?: string | null
           id?: string
           is_active?: boolean
+          mercadolivre_url?: string | null
           name: string
           owner_user_id?: string
           position?: number
+          site_url?: string | null
           summary?: string | null
           updated_at?: string
         }
@@ -144,9 +148,11 @@ export type Database = {
           details_md?: string | null
           id?: string
           is_active?: boolean
+          mercadolivre_url?: string | null
           name?: string
           owner_user_id?: string
           position?: number
+          site_url?: string | null
           summary?: string | null
           updated_at?: string
         }
