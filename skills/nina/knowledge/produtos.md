@@ -3313,3 +3313,1095 @@ Não indicar diretamente para gestantes ou lactantes sem avaliação profissiona
 Indicar para profissionais que precisam de alto deslizamento e conforto em massagens corporais, drenagem linfática, massagem relaxante ou modeladora. Não prometer emagrecimento, perda de medidas ou resultado garantido. Encaminhar para avaliação em caso de alergia a óleos vegetais, pele lesionada/irritada, gestantes, lactantes, crianças, idosos, doenças preexistentes, uso de medicamentos, sensibilidade a componentes ou dúvidas com aparelhos/produtos térmicos.
 
 ---
+
+## Kit Profissional Venus de Lipoplastia - 3 Produtos
+
+Kit corporal profissional de lipoplastia não invasiva em 3 etapas, indicado para protocolos intensivos de gordura localizada, celulite, flacidez, contorno corporal, ação detox e redução de medidas.
+
+- **Categorias:** profissional
+- **Principais objetivos:** Lipoplastia não invasiva, redução de medidas, gordura localizada, celulite, flacidez, ação detox, contorno corporal, massagem modeladora e protocolos corporais intensivos.
+- **Tipo de pele / condição indicada:** Pele corporal com celulite, gordura localizada, flacidez ou necessidade de contorno, conforme avaliação profissional.
+- **Modo de uso:** Uso profissional em cabine. Borrifar Enzima e massagear até hiperemia; pode usar endermologia ou ventosas. Aplicar Polpa em pé, ocluir com filme, manta por 20 a 30 minutos ou vapor. Remover o excesso. Reaplicar Enzima, aplicar Creme e fazer massagem modeladora; pode usar aparelhos vibradores.
+- **Site:** https://lakma.com.br/products/kit-venus-de-lipoplastia?_pos=1&_sid=7a228ca1f&_ss=r
+
+### Participação em protocolos
+
+- Participa de protocolos: **sim**
+- **Protocolos relacionados:** Protocolo Kit Venus | Massagem Corporal.
+- **Função dentro do protocolo:** Atua como kit principal do Protocolo Kit Venus | Massagem Corporal, organizando as etapas de enzima transdérmica, polpa transdérmica e creme transdérmico para massagem corporal, lipoplastia estética, gordura localizada, contorno corporal e redução de medidas.
+
+### Combinações
+
+- **Combina com:** Kit BodyPro Corporal Profissional, Sal Térmico Lipolítico, Óleo para Massagem Corporal, EsbelTEA Solúvel, Esbeltea em Cápsulas e produtos corporais finalizadores ou hidratantes da Lakma, se houver.
+- **Atenção / não combinar:** Uso externo e profissional. Não aplicar em pele irritada, lesionada ou sensibilizada. Encaminhar em caso de gestantes, lactantes, crianças, idosos, doenças preexistentes, alterações gastrointestinais, uso de medicamentos, sensibilidade a componentes, alterações circulatórias, varizes, sensibilidade ao calor ou dúvidas com endermologia, ventosas, manta, vapor de ozônio, gessoterapia ou aparelhos. Não prometer emagrecimento, perda de medidas ou resultado garantido.
+
+### Detalhes
+
+## Função principal
+Kit corporal profissional de lipoplastia não invasiva em 3 etapas, indicado para protocolos intensivos de gordura localizada, celulite, flacidez, contorno corporal, ação detox, massagem modeladora e redução de medidas.
+
+## Indicações
+- Protocolos corporais profissionais
+- Lipoplastia corporal não invasiva
+- Gordura localizada
+- Celulite
+- Flacidez
+- Contorno corporal
+- Ação detox
+- Redução de medidas
+- Massagem modeladora
+- Protocolos intensivos em cabine
+- Tratamento corporal com ação transdérmica
+
+## Público / uso
+Profissional/cabine.
+
+## Tipo de produto
+Kit corporal redutor profissional.
+
+## Linha
+Venus.
+
+## Volume / composição
+Kit com 3 produtos corporais:
+- Creme Transdérmico de Lipoplastia 900g
+- Enzima Transdérmica de Lipoplastia 1L
+- Polpa Transdérmica de Lipoplastia 1kg
+
+## Tipo de pele
+Pele corporal com celulite, gordura localizada, flacidez ou necessidade de contorno, conforme avaliação profissional.
+
+## Zona de aplicação
+Corpo.
+
+## Momento de aplicação
+Protocolo corporal intensivo em cabine, em três etapas.
+
+## Ativos principais
+- Zymocell
+- Enzima de Romã
+- Bioex Antilipêmico
+- Nano Thermax
+- Cafeína
+- Palmarosa
+- Arnica
+
+## Benefícios aprovados
+- Lipoplastia corporal não invasiva
+- Redução de medidas
+- Gordura localizada
+- Celulite
+- Firmeza/flacidez
+- Ação detox
+- Contorno corporal
+- Pode associar manta, vapor, filme, gessoterapia, endermologia e ventosas
+
+## Modo de uso aprovado
+Borrifar Enzima Transdérmica nas regiões a serem tratadas, realizando manobras de massagem corporal até causar hiperemia. Pode associar endermologia ou ventosas. Aplicar Polpa Transdérmica em todo corpo ou região tratada, ocluir com filme osmótico e colocar na manta térmica por 20 a 30 minutos. Se não houver manta, usar vapor de ozônio pelo mesmo tempo. Remover apenas o excesso. Reaplicar Enzima Transdérmica em todo corpo e, por cima, aplicar Creme Transdérmico com manobras de drenagem linfática em todo o corpo. Pode associar aparelhos vibradores. Dica: enfaixar com cinta, filme osmótico ou gessoterapia e deixar agir por 4 horas.
+
+## Cuidados e observações
+Uso externo e profissional. Não aplicar em pele irritada, lesionada ou sensibilizada. Gestantes, lactantes e condições de saúde específicas: usar somente com orientação. Encaminhar em caso de alterações circulatórias, sensibilidade ao calor ou dúvidas com equipamentos.
+
+## Quando não indicar ou encaminhar
+Não indicar diretamente para gestantes, lactantes, crianças, idosos, pessoas com doenças preexistentes, alterações gastrointestinais, uso de medicamentos ou sensibilidade a componentes sem avaliação profissional. Encaminhar também em caso de varizes, alterações circulatórias, sensibilidade ao calor, dúvidas sobre endermologia, ventosas, manta, vapor de ozônio, gessoterapia, aparelhos, adaptações ou reações.
+
+## Participação em protocolos
+Participa de protocolo profissional aprovado:
+- Protocolo Kit Venus | Massagem Corporal
+
+## Função dentro do protocolo
+Atua como kit principal do Protocolo Kit Venus | Massagem Corporal, organizando as etapas de enzima transdérmica, polpa transdérmica e creme transdérmico para massagem corporal, lipoplastia estética, gordura localizada, contorno corporal e redução de medidas.
+
+## Produtos que combinam
+- Kit BodyPro Corporal Profissional
+- Sal Térmico Lipolítico
+- Óleo para Massagem Corporal
+- EsbelTEA Solúvel
+- Esbeltea em Cápsulas
+- Produtos corporais finalizadores ou hidratantes da Lakma, se houver
+
+## Diferença para produtos parecidos
+Diferencial: protocolo intensivo em 3 etapas com enzima transdérmica, polpa detox e creme de massagem para lipoplastia não invasiva.
+
+## Frase de segurança para a Nina
+Seguir rótulo e orientação profissional. Não prometer emagrecimento, perda de medidas ou resultado garantido. Gestantes, lactantes, crianças, idosos, pessoas com doenças, uso de medicamentos ou sensibilidade a componentes devem consultar profissional.
+
+### Objeções comuns e respostas
+
+**É para uso em casa?**
+Não. É um kit corporal profissional para uso em cabine.
+
+**Serve para gordura localizada e celulite?**
+Sim. É indicado para protocolos corporais profissionais de gordura localizada, celulite, flacidez, contorno corporal e redução de medidas, sempre conforme avaliação profissional.
+
+**É um protocolo completo?**
+Sim. O kit tem 3 etapas: Enzima Transdérmica, Polpa Transdérmica e Creme Transdérmico.
+
+**Pode usar com manta térmica?**
+Sim. O protocolo aprovado cita oclusão com filme e manta térmica por 20 a 30 minutos, ou vapor de ozônio pelo mesmo tempo, sempre com avaliação e supervisão profissional.
+
+**Pode prometer perda de medidas?**
+Não. A Nina não deve prometer emagrecimento, perda garantida de medidas ou resultado garantido. Deve comunicar como auxílio dentro de protocolo profissional.
+
+### Observações internas para a Nina
+
+Indicar para profissionais que buscam protocolo corporal intensivo de lipoplastia não invasiva, massagem modeladora, gordura localizada, celulite, flacidez, contorno corporal e redução de medidas. Priorizar quando a profissional perguntar especificamente sobre Kit Venus ou protocolo de massagem corporal com ação transdérmica. Não orientar uso doméstico. Não prometer emagrecimento, perda garantida de medidas ou resultado garantido. Encaminhar para dermoconsultora em caso de gestantes, lactantes, alterações circulatórias, varizes, sensibilidade ao calor, pele lesionada/sensibilizada, doenças preexistentes, uso de medicamentos, alergias ou dúvidas sobre endermologia, ventosas, manta, vapor de ozônio, gessoterapia, aparelhos ou adaptações.
+
+---
+
+## Peeling de Cristal Líquido - 30g
+
+Peeling profissional facial para renovação celular, clareamento, uniformização, melhora da textura, luminosidade e revitalização da pele.
+
+- **Categorias:** profissional
+- **Principais objetivos:** Renovação celular, clareamento facial, uniformização do tom, melhora da textura, luminosidade e revitalização.
+- **Tipo de pele / condição indicada:** Peles com manchas, textura irregular, opacidade ou necessidade de renovação e revitalização, conforme avaliação profissional. Evitar em pele irritada, lesionada ou sensibilizada.
+- **Modo de uso:** Aplicar sobre a pele limpa e seca conforme protocolo. Tempo de ação informado no modo de uso: 4 a 8 minutos. Remover com algodão embebido em água. Usar protetor solar após o procedimento.
+- **Site:** https://lakma.com.br/products/peeling-de-cristal-liquido-retinol-30ml?_pos=1&_sid=0edd2d86f&_ss=r
+
+### Participação em protocolos
+
+- **Protocolos relacionados:** Protocolo Cicatriz de Acne e Estrias, Kit Ácidos Sem Mistérios + Peeling de Cristal Líquido.
+- **Função dentro do protocolo:** Atua como peeling renovador e descamativo, podendo potencializar protocolos de renovação, cicatrizes de acne, estrias, clareamento, textura irregular e luminosidade, conforme protocolo aprovado.
+
+### Combinações
+
+- **Combina com:** Kit Ácidos Sem Mistérios + Peeling de Cristal Líquido, Kit Peelings Profissionais, Máscara Calmante Limpeza de Pele, Neuroplasma Calmante, Máscara Hidroplástica Zen Marine, Kit Máscaras Faciais Tropicalia, Sérum VC-10, Creme Facial Ácido Hialurônico e protetor solar para pós-procedimento.
+- **Atenção / não combinar:** Não usar em pele irritada, lesionada ou sensibilizada. Fazer teste de sensibilidade quando indicado. Encaminhar em caso de gestantes, lactantes, alergia a componentes, uso recente de ácidos, retinoides ou procedimentos, ou dúvidas sobre tempo de ação e associação de ativos. Há divergência no material: modo de uso informa 4 a 8 minutos, mas especificações informam 5 a 15 minutos; confirmar tempo oficial antes de orientar com precisão.
+
+### Detalhes
+
+## Função principal
+Peeling profissional facial indicado para renovação celular, clareamento, uniformização do tom, melhora da textura, luminosidade e revitalização da pele.
+
+## Indicações
+- Protocolos profissionais de renovação celular
+- Clareamento facial
+- Uniformização do tom
+- Textura irregular
+- Revitalização
+- Luminosidade
+- Peles com manchas, conforme avaliação profissional
+- Peles opacas, conforme avaliação profissional
+
+## Público / uso
+Profissional/cabine.
+
+## Tipo de produto
+Peeling facial profissional.
+
+## Linha
+Facial.
+
+## Volume
+30g.
+
+## Tipo de pele
+Peles com manchas, textura irregular, opacidade ou necessidade de renovação e revitalização, conforme avaliação profissional. Evitar em pele irritada, lesionada ou sensibilizada.
+
+## Zona de aplicação
+Rosto, evitando olhos, mucosas e áreas sensibilizadas.
+
+## Momento de aplicação
+Durante protocolos profissionais de renovação, clareamento, uniformização, textura e revitalização, sobre pele limpa e seca.
+
+## Ativos principais
+- Ácido Cumárico
+- Retinol
+- Palmitato de Retinol
+- Nano Vitamina C
+
+## Benefícios aprovados
+- Renovação celular
+- Clareamento facial
+- Uniformização do tom
+- Melhora da textura
+- Estimula matriz extracelular
+- Regula melanócitos
+- Tonifica e revitaliza
+- Dermatologicamente testado
+
+## Modo de uso aprovado
+Aplicar sobre pele limpa e seca conforme protocolo. Tempo de ação informado no modo de uso: 4 a 8 minutos. Remover com algodão embebido em água. Usar protetor solar após o procedimento.
+
+## Cuidados e observações
+Divergência no material: especificações informam 5 a 15 minutos; confirmar tempo oficial. Não usar em pele irritada, lesionada ou sensibilizada. Teste de sensibilidade recomendado.
+
+## Quando não indicar ou encaminhar
+Não indicar em pele lesionada, irritada, sensibilizada, inflamada ou com reação ativa. Encaminhar em caso de alergia a componentes, uso recente de ácidos, retinoides ou procedimentos, gestantes, lactantes sem orientação, ou quando houver dúvida sobre protocolo, tempo de ação ou associação de ativos.
+
+## Participação em protocolos
+Participa de protocolo profissional aprovado:
+- Protocolo Cicatriz de Acne e Estrias
+
+Também aparece relacionado ao:
+- Kit Ácidos Sem Mistérios + Peeling de Cristal Líquido
+
+## Função dentro do protocolo
+Atua como peeling renovador e descamativo, podendo potencializar protocolos de renovação, cicatrizes de acne, estrias, clareamento, textura irregular e luminosidade, conforme protocolo aprovado.
+
+## Produtos que combinam
+- Kit Ácidos Sem Mistérios + Peeling de Cristal Líquido
+- Kit Peelings Profissionais
+- Máscara Calmante Limpeza de Pele
+- Neuroplasma Calmante
+- Máscara Hidroplástica Zen Marine
+- Kit Máscaras Faciais Tropicalia
+- Sérum VC-10
+- Creme Facial Ácido Hialurônico
+- Protetor solar para pós-procedimento
+
+## Diferença para produtos parecidos
+Diferencial: combina Ácido Cumárico, Retinol, Palmitato de Retinol e Nano Vitamina C para clareamento, renovação e luminosidade.
+
+## Frase de segurança para a Nina
+Produto de uso profissional ou orientado. Evitar pele lesionada, irritada ou sensibilizada e reforçar fotoproteção quando houver ácidos, peelings, retinol ou renovação. Em caso de dúvida, encaminhar para avaliação.
+
+### Objeções comuns e respostas
+
+**É para uso em casa?**
+Não. É um peeling de uso profissional em cabine ou orientado por profissional.
+
+**Serve para manchas?**
+Sim. É indicado para clareamento facial, uniformização do tom, melhora da textura e revitalização, conforme avaliação profissional.
+
+**Qual é o tempo de ação?**
+O material informa 4 a 8 minutos no modo de uso, mas também apresenta divergência com especificações de 5 a 15 minutos. Em caso de dúvida, a Nina deve encaminhar para dermoconsultora antes de orientar.
+
+**Precisa usar protetor solar depois?**
+Sim. O uso de protetor solar após o procedimento é obrigatório.
+
+**Pode usar em pele sensível?**
+Não deve ser usado em pele irritada, lesionada ou sensibilizada sem avaliação profissional.
+
+### Observações internas para a Nina
+
+Indicar para profissionais que buscam peeling facial com foco em renovação, clareamento, uniformização, textura e luminosidade. Não orientar uso doméstico. Não adaptar tempo de ação, associação ou protocolo. Atenção à divergência de tempo no material: confirmar tempo oficial antes de orientar com precisão. Encaminhar para dermoconsultora em caso de gestantes, lactantes, pele lesionada/sensibilizada/irritada, alergias, uso recente de ácidos/retinoides/procedimentos, dúvidas sobre tempo de ação ou associação com outros ativos.
+
+---
+
+## Máscara Calmante Limpeza de Pele - 500g
+
+Máscara facial calmante profissional, indicada para acalmar, hidratar, suavizar e reduzir vermelhidão após limpeza de pele, extração, peelings, microagulhamento, depilação ou procedimentos sensibilizantes.
+
+- **Categorias:** profissional
+- **Principais objetivos:** Ação calmante, hidratação, suavização, redução de vermelhidão, conforto imediato, recuperação da barreira cutânea e finalização pós-procedimento.
+- **Tipo de pele / condição indicada:** Peles normais, peles sensíveis, peles irritadas, peles avermelhadas, peles ressecadas, pós-limpeza de pele, pós-extração, pós-peelings, pós-microagulhamento, pós-depilação, protocolos sensibilizantes.
+- **Modo de uso:** Aplicar camada uniforme no rosto limpo e seco. Deixar agir de 10 a 20 minutos. Remover com algodão umedecido ou água morna. Finalizar com tônico ou conforme protocolo profissional.
+- **Site:** https://lakma.com.br/products/mascara-calmante-500gr?_pos=2&_sid=06389087d&_ss=r
+
+### Participação em protocolos
+
+- Participa de protocolos: **sim**
+- **Protocolos relacionados:** Protocolo Limpeza de Pele Premium, Protocolo Limpeza de Pele Integrativa Personalizada, Kit Limpeza de Pele Facial + Ativos Sem Trieta, Kit Limpeza de Pele Profissional.
+- **Função dentro do protocolo:** Atua como etapa de finalização calmante após higienização, esfoliação, emoliência, extração, peelings ou procedimentos sensibilizantes, ajudando a acalmar, hidratar, suavizar e reduzir vermelhidão.
+
+### Combinações
+
+- **Combina com:** Peelings, Emoliente, Fluido Secativo, Nano Drone, Booster C100, Bio Complex, Sabonete Glicólico, Loção Tônica, Ideal Protect, kits de limpeza de pele, Emoliente Zero Trieta, Máscara Hidroplástica Zen Marine, Neuroplasma Calmante, Fluido Passo 1, produtos de suporte de barreira.
+- **Atenção / não combinar:** Evitar olhos, mucosas, pele com feridas abertas, pele com reação intensa, reação alérgica ativa, ardência intensa, dermatite ativa, rosácea ativa, pós-procedimento agressivo sem orientação profissional. Pós-procedimento deve seguir protocolo profissional.
+
+### Detalhes
+
+## Função principal
+Máscara facial calmante profissional, indicada para acalmar, hidratar, suavizar e reduzir vermelhidão após limpeza de pele, extração, peelings, microagulhamento, depilação ou procedimentos sensibilizantes.
+
+## Indicações
+- Peles normais
+- Peles sensíveis
+- Peles irritadas
+- Peles avermelhadas
+- Peles ressecadas
+- Pós-limpeza de pele
+- Pós-extração
+- Pós-peelings
+- Pós-microagulhamento
+- Pós-depilação
+- Finalização de protocolos sensibilizantes
+- Hidratação e conforto da pele
+- Recuperação da barreira cutânea
+
+## Público / uso
+Profissional/cabine.
+
+## Tipo de produto
+Máscara facial calmante.
+
+## Linha
+Facial.
+
+## Volume
+500g.
+
+## Tipo de pele
+Peles normais, sensíveis, irritadas, avermelhadas ou ressecadas.
+
+## Zona de aplicação
+Rosto, evitando olhos e mucosas.
+
+## Momento de aplicação
+Finalização de limpeza de pele, extração, peelings ou procedimentos sensibilizantes.
+
+## Ativos principais
+- Extrato de Camomila
+- Extrato de Aloe Vera
+- Iricalmin
+
+## Benefícios aprovados
+- Acalma e suaviza pele sensibilizada
+- Reduz vermelhidão e irritação
+- Frescor e conforto imediato
+- Hidratação profunda
+- Recupera barreira cutânea
+- Hipoalergênica
+- Não comedogênica
+- Vegana
+- Cruelty-free
+
+## Modo de uso aprovado
+Aplicar camada uniforme no rosto limpo e seco. Deixar agir de 10 a 20 minutos. Remover com algodão umedecido ou água morna. Finalizar com tônico ou conforme protocolo profissional.
+
+## Cuidados e observações
+Evitar olhos e pele com feridas abertas ou reação intensa. Pós-procedimento deve seguir protocolo profissional.
+
+## Quando não indicar ou encaminhar
+Não indicar em pele com feridas, reação alérgica ativa, ardência intensa, dermatite ativa, rosácea ativa ou pós-procedimento agressivo sem orientação profissional. Encaminhar também em caso de dúvidas sobre uso após procedimentos, alergias ou associação com ácidos, peelings e ativos sensibilizantes.
+
+## Participação em protocolos
+Participa de protocolos profissionais aprovados, incluindo:
+- Protocolo Limpeza de Pele Premium
+- Protocolo Limpeza de Pele Integrativa Personalizada
+
+Também aparece relacionada a kits e rotinas de limpeza de pele, incluindo:
+- Kit Limpeza de Pele Facial + Ativos Sem Trieta
+- Kit Limpeza de Pele Profissional
+
+## Função dentro do protocolo
+Atua como etapa de finalização calmante após higienização, esfoliação, emoliência, extração, peelings ou procedimentos sensibilizantes, ajudando a acalmar, hidratar, suavizar e reduzir vermelhidão.
+
+## Produtos que combinam
+- Peelings
+- Emoliente
+- Fluido Secativo
+- Nano Drone
+- Booster C100
+- Bio Complex
+- Sabonete Glicólico
+- Loção Tônica
+- Ideal Protect
+- Kits de limpeza de pele
+- Emoliente Zero Trieta
+- Máscara Hidroplástica Zen Marine
+- Neuroplasma Calmante
+- Fluido Passo 1
+- Produtos de suporte de barreira
+
+## Diferença para produtos parecidos
+Foco calmante e pós-procedimento. Máscara Brownie é nutritiva para pele seca. Kit Joias Raras tem opções finalizadoras. Máscara Calmante 500g pode ser a mesma fórmula ou apresentação da Máscara Calmante 250g, mas essa informação deve ser confirmada.
+
+## Frase de segurança para a Nina
+Produto de uso profissional ou orientado. Evitar pele lesionada, irritada ou sensibilizada e reforçar fotoproteção quando houver ácidos, peelings, retinol ou renovação. Em caso de dúvida, encaminhar para avaliação.
+
+### Objeções comuns e respostas
+
+**É para uso em casa?**  
+A ficha indica uso profissional em cabine ou uso orientado conforme protocolo.
+
+**Serve para acalmar a pele depois da limpeza de pele?**  
+Sim. Ela é indicada para finalizar protocolos com foco em acalmar, hidratar e suavizar pele sensibilizada ou avermelhada.
+
+**Pode usar depois de peeling ou microagulhamento?**  
+Sim, o material cita uso após peelings e microagulhamento, sempre seguindo o protocolo profissional aprovado.
+
+**Precisa remover?**  
+Sim. A orientação aprovada é deixar agir de 10 a 20 minutos e remover com algodão umedecido ou água morna.
+
+**Pode usar em pele com ferida ou reação forte?**  
+Não. Em pele com feridas, reação alérgica ativa, ardência intensa, dermatite ativa, rosácea ativa ou pós-procedimento agressivo sem orientação, a Nina deve encaminhar para avaliação.
+
+### Observações internas para a Nina
+
+Indicar para profissionais que buscam finalização calmante, hidratante e suavizante após limpeza de pele, extração, peelings, microagulhamento, depilação ou protocolos sensibilizantes. É uma das melhores finalizações para protocolos sensibilizantes. Não orientar em caso de feridas, reação alérgica ativa, ardência intensa, dermatite ativa, rosácea ativa ou pós-procedimento agressivo sem orientação. Encaminhar para dermoconsultora em caso de pele lesionada, reação intensa, alergias, gestantes, lactantes, dúvidas sobre pós-procedimento ou associação com peelings e ácidos.
+
+---
+
+## Neuroplasma Calmante - 50ml
+
+Sérum facial calmante para peles sensíveis, irritáveis, reativas, com vermelhidão, desconforto ou necessidade de suporte de barreira cutânea.
+
+- **Categorias:** home care, profissional
+- **Principais objetivos:** Ação calmante, suavização, redução de irritação, redução de desconforto, equilíbrio da barreira cutânea, hidratação, frescor, suporte para pele sensível, suporte pós-procedimento quando aprovado.
+- **Tipo de pele / condição indicada:** Peles sensíveis, peles irritáveis, peles reativas, tendência à vermelhidão, rosácea conforme orientação, telangiectasias conforme orientação, desconforto cutâneo, barreira cutânea fragilizada, pele sensibilizada conforme avaliação.
+- **Modo de uso:** Aplicar pequena quantidade sobre a pele limpa e seca. Espalhar até completa absorção. Usar de dia e/ou à noite. Durante o dia, finalizar com protetor solar.
+- **Site:** https://lakma.com.br/products/neuroplasma-ultra-calmante-pos-laser-e-procedimentos-50ml?_pos=3&_psq=calman&_ss=e&_v=1.0
+
+### Participação em protocolos
+
+- **Função dentro do protocolo:** Pode atuar como suporte calmante, hidratante e de barreira em rotinas e protocolos que envolvem pele sensível, vermelhidão, desconforto, pós-procedimentos ou finalização calmante, sempre conforme orientação profissional.
+
+### Combinações
+
+- **Combina com:** Máscara Calmante Limpeza de Pele, Fluido Passo 1, Fluido Passo 2, Máscara Detox Zen Marine, Creme Facial Ácido Hialurônico, Máscara Hidroplástica Zen Marine, Espuma de Limpeza Facial, Máscara Hidratante de Pepino, Sérum NC-10, Sérum VC-10, Sérum RN-0, 3, Creme Antissinais Q-10, Ideal Protect.
+- **Atenção / não combinar:** Evitar associação livre com ácidos, retinol, peelings, procedimentos sensibilizantes, pós-laser recente, pós-procedimento agressivo, pele muito irritada, crise de rosácea, pele lesionada, pele inflamada, reação ativa, alergia a componentes, gestantes, lactantes, dúvidas sobre protocolo ou associação de ativos sem avaliação profissional.
+
+### Detalhes
+
+## Função principal
+Sérum facial calmante indicado para peles sensíveis, irritáveis, reativas, com vermelhidão, desconforto ou necessidade de suporte de barreira cutânea.
+
+## Indicações
+- Peles sensíveis
+- Peles irritáveis
+- Peles reativas
+- Tendência à vermelhidão
+- Desconforto cutâneo
+- Barreira cutânea fragilizada
+- Hidratação calmante
+- Suporte pós-procedimento se aprovado
+- Rosácea conforme orientação
+- Telangiectasias conforme orientação
+
+## Público / uso
+Home care e/ou profissional, conforme orientação.
+
+## Tipo de produto
+Sérum facial calmante.
+
+## Linha
+Neuroplasma.
+
+## Volume
+50ml.
+
+## Tipo de pele
+Peles sensíveis, irritáveis, reativas, com vermelhidão ou desconforto.
+
+## Zona de aplicação
+Rosto.
+
+## Momento de aplicação
+Dia e/ou noite sobre pele limpa, como suporte calmante e de barreira conforme orientação.
+
+## Ativos principais
+- Água de Coco
+- Água Marinha Mineral
+- Prebiótico
+- Portulaca
+- Aloe Vera
+
+## Benefícios aprovados
+- Ação calmante e suavizante
+- Reduz irritação e desconforto
+- Equilibra barreira cutânea
+- Hidratação e frescor
+- Auxilia em tendência à vermelhidão
+- Pode apoiar peles com rosácea e telangiectasias conforme orientação
+- Hipoalergênico
+
+## Modo de uso aprovado
+Aplicar pequena quantidade sobre a pele limpa e seca. Espalhar até absorção. Usar de dia e/ou à noite. Durante o dia, finalizar com protetor solar.
+
+## Cuidados e observações
+Confirmar indicação oficial como pós-laser. Encaminhar em pele muito irritada, crise de rosácea, pós-laser recente, pós-procedimento agressivo ou dúvida com ácidos, retinol e peelings.
+
+## Quando não indicar ou encaminhar
+Não indicar diretamente em pele lesionada, irritada, sensibilizada, inflamada ou com reação ativa sem avaliação. Encaminhar em caso de alergia a componentes, crise de rosácea, pós-laser recente, pós-procedimento agressivo, uso recente de ácidos, retinoides ou procedimentos, gestantes, lactantes sem orientação, ou quando houver dúvida sobre protocolo, tempo de ação ou associação de ativos.
+
+## Participação em protocolos
+sem informação.
+
+## Função dentro do protocolo
+Pode atuar como suporte calmante, hidratante e de barreira em rotinas e protocolos que envolvem pele sensível, vermelhidão, desconforto, pós-procedimentos ou finalização calmante, sempre conforme orientação profissional.
+
+## Produtos que combinam
+- Máscara Calmante Limpeza de Pele
+- Fluido Passo 1
+- Fluido Passo 2
+- Máscara Detox Zen Marine
+- Creme Facial Ácido Hialurônico
+- Máscara Hidroplástica Zen Marine
+- Espuma de Limpeza Facial
+- Máscara Hidratante de Pepino
+- Sérum NC-10
+- Sérum VC-10
+- Sérum RN-0,3
+- Creme Antissinais Q-10
+- Ideal Protect
+
+## Diferença para produtos parecidos
+Diferente da Máscara Calmante, que atua como máscara de finalização com tempo de ação e remoção, o Neuroplasma Calmante é um sérum sem remoção, voltado para suporte calmante, hidratação, frescor e equilíbrio da barreira cutânea.
+
+## Frase de segurança para a Nina
+Orientar uso conforme modo de uso, evitar pele lesionada ou reação ativa sem avaliação e finalizar com protetor solar durante o dia. Em caso de crise de rosácea, pós-laser recente, pós-procedimento agressivo, alergias ou dúvida com ácidos, retinol e peelings, encaminhar para avaliação.
+
+### Objeções comuns e respostas
+
+**É indicado para pele sensível?**  
+Sim. É indicado para peles sensíveis, irritáveis, reativas, com vermelhidão ou desconforto.
+
+**Pode usar todos os dias?**  
+Sim, o modo de uso aprovado permite uso de dia e/ou à noite, sempre sobre pele limpa e seca. Durante o dia, finalizar com protetor solar.
+
+**Serve para rosácea?**  
+O material cita rosácea e telangiectasias conforme orientação. A Nina deve comunicar com cautela e encaminhar em caso de crise, irritação intensa ou dúvida.
+
+**Pode usar depois de procedimento?**  
+Pode ser indicado como suporte pós-procedimento se aprovado e conforme orientação profissional. Em pós-laser recente ou pós-procedimento agressivo, encaminhar para avaliação.
+
+**Precisa remover?**  
+Não. Deve espalhar até absorção.
+
+### Observações internas para a Nina
+
+Indicar para clientes ou profissionais que buscam um sérum calmante para pele sensível, reativa, com vermelhidão, desconforto, hidratação e suporte de barreira. Pode ser uma boa opção de suporte em rotinas com sensibilização, desde que não substitua avaliação profissional. Confirmar indicação oficial como pós-laser antes de orientar. Encaminhar para dermoconsultora em caso de pele muito irritada, crise de rosácea, pós-laser recente, pós-procedimento agressivo, alergias, gestantes, lactantes, uso recente de ácidos, retinol, peelings ou dúvidas sobre associação de ativos.
+
+---
+
+## Loção de Limpeza Ozonizada - 200ml
+
+Loção facial profissional de limpeza desengordurante com Ácido Glicólico e Nanoesferas de Ozônio, indicada para preparar a pele antes de protocolos faciais, clareamento, renovação e aplicação de ativos.
+
+- **Categorias:** profissional
+- **Principais objetivos:** Limpeza desengordurante, remoção de sebo, remoção de células mortas, preparação da pele, pré-clareamento, uniformização, renovação celular, melhora da absorção de ativos, oxigenação dos tecidos.
+- **Tipo de pele / condição indicada:** Peles que precisam de preparo, desengorduramento, pré-clareamento, renovação, aplicação de ativos ou protocolos faciais profissionais, conforme avaliação profissional.
+- **Modo de uso:** Aplicar sobre pele limpa na região desejada. Espalhar com algodão ou gaze conforme protocolo. Usar como etapa preparatória. Remover se necessário conforme procedimento.
+- **Site:** https://lakma.com.br/products/locao-ozonizada-200ml?_pos=1&_sid=c585f5ad1&_ss=r
+
+### Participação em protocolos
+
+- **Função dentro do protocolo:** Pode atuar como etapa preparatória profissional antes de protocolos faciais de clareamento, renovação, aplicação de ativos e procedimentos que exigem limpeza desengordurante.
+
+### Combinações
+
+- **Combina com:** Kit Ácidos Sem Mistérios + Peeling de Cristal Líquido, Kit Peelings Profissionais, Peeling de Cristal Líquido, Máscara Calmante Limpeza de Pele, Neuroplasma Calmante, Máscara Hidroplástica Zen Marine, Kit Máscaras Faciais Tropicalia, Sérum VC-10, protetor solar para uso após protocolos diurnos ou de renovação.
+- **Atenção / não combinar:** Evitar olhos, mucosas, pele lesionada, pele irritada, pele sensibilizada, uso livre em gestantes sem avaliação, uso livre em lactantes sem avaliação, alergia a componentes, uso recente de ácidos, uso recente de retinoides, pós-procedimentos sem avaliação, dúvidas sobre protocolo, dúvidas sobre tempo de ação, dúvidas sobre associação de ativos. Por conter Ácido Glicólico, reforçar cautela em peles sensibilizadas e fotoproteção após protocolos com renovação ou ácidos.
+
+### Detalhes
+
+## Função principal
+Loção facial profissional de limpeza desengordurante, indicada para preparar a pele antes de protocolos faciais de clareamento, renovação e aplicação de ativos.
+
+## Indicações
+- Limpeza desengordurante
+- Remoção de sebo
+- Remoção de células mortas
+- Preparação da pele
+- Pré-clareamento
+- Uniformização
+- Renovação celular
+- Melhora da absorção de ativos
+- Oxigenação dos tecidos
+- Protocolos faciais profissionais
+
+## Público / uso
+Profissional/cabine.
+
+## Tipo de produto
+Loção facial de limpeza.
+
+## Linha
+linha oficial, se houver.
+
+## Volume
+200ml.
+
+## Tipo de pele
+Peles que precisam de preparo ou desengorduramento para protocolos faciais, conforme avaliação profissional.
+
+## Zona de aplicação
+Rosto, evitando olhos e mucosas.
+
+## Momento de aplicação
+Etapa preparatória antes de clareamento, renovação e aplicação de ativos.
+
+## Ativos principais
+- Ácido Glicólico
+- Nanoesferas de Ozônio
+
+## Benefícios aprovados
+- Limpeza profunda e desengordurante
+- Remove sebo e células mortas
+- Prepara para absorção de ativos
+- Pré-clareamento
+- Uniformização
+- Renovação celular
+- Oxigenação dos tecidos
+- Rendimento até 75 aplicações
+
+## Modo de uso aprovado
+Aplicar sobre pele limpa na região desejada. Espalhar com algodão ou gaze conforme protocolo. Usar como etapa preparatória. Remover se necessário conforme procedimento.
+
+## Cuidados e observações
+Uso profissional. Por conter Ácido Glicólico, cuidado em peles sensibilizadas. Evitar olhos e mucosas. Reforçar fotoproteção após protocolos com renovação ou ácidos.
+
+## Quando não indicar ou encaminhar
+Não indicar sem avaliação em gestantes, lactantes, pele lesionada, pele irritada, pele sensibilizada, alergia a componentes, uso recente de ácidos, uso recente de retinoides, pós-procedimentos sem orientação, dúvidas sobre protocolo, dúvidas sobre tempo de ação ou dúvidas sobre associação de ativos.
+
+## Participação em protocolos
+sem informação.
+
+## Função dentro do protocolo
+Pode atuar como etapa preparatória profissional antes de protocolos faciais de clareamento, renovação, aplicação de ativos e procedimentos que exigem limpeza desengordurante.
+
+## Produtos que combinam
+- Kit Ácidos Sem Mistérios + Peeling de Cristal Líquido
+- Kit Peelings Profissionais
+- Peeling de Cristal Líquido
+- Máscara Calmante Limpeza de Pele
+- Neuroplasma Calmante
+- Máscara Hidroplástica Zen Marine
+- Kit Máscaras Faciais Tropicalia
+- Sérum VC-10
+- Protetor solar para uso após protocolos diurnos ou de renovação
+
+## Diferença para produtos parecidos
+Diferencial: etapa profissional desengordurante e preparatória com Ácido Glicólico e Nanoesferas de Ozônio. Diferente da Loção Tônica, que é uma etapa pós-limpeza sem enxágue.
+
+## Frase de segurança para a Nina
+Produto de uso profissional ou orientado. Evitar pele lesionada, irritada ou sensibilizada e reforçar fotoproteção quando houver ácidos, peelings, retinol ou renovação. Em caso de dúvida, encaminhar para avaliação.
+
+### Objeções comuns e respostas
+
+**É uma loção tônica?**  
+Não. A Loção de Limpeza Ozonizada é uma loção profissional preparatória e desengordurante. A Loção Tônica é uma etapa pós-limpeza sem enxágue, com outra proposta.
+
+**É para uso em casa?**  
+A ficha indica uso profissional em cabine.
+
+**Serve para preparar a pele antes de clareamento?**  
+Sim. É indicada como etapa preparatória antes de clareamento, renovação e aplicação de ativos, conforme avaliação profissional.
+
+**Precisa remover?**  
+O modo de uso informa remover se necessário conforme o procedimento. A Nina deve seguir o protocolo profissional aprovado.
+
+**Pode usar em pele sensível?**  
+Deve ter cautela. Por conter Ácido Glicólico, não indicar em pele lesionada, irritada ou sensibilizada sem avaliação profissional.
+
+### Observações internas para a Nina
+
+Indicar para profissionais que precisam preparar a pele para protocolos faciais, clareamento, renovação e aplicação de ativos. Reforçar que é um produto profissional, preparatório e desengordurante. Não confundir com Loção Tônica. Não orientar uso livre em casa. Encaminhar para dermoconsultora em caso de pele lesionada, irritada, sensibilizada, alergias, gestantes, lactantes, uso recente de ácidos, retinoides ou procedimentos, dúvidas sobre tempo de ação, remoção ou associação com outros ativos.
+
+---
+
+## Gel Esfoliante Corporal Ozonizado - 1kg
+
+Gel esfoliante corporal profissional para pré-tratamento, indicado para remover células mortas, renovar, melhorar a textura e preparar a pele para protocolos corporais.
+
+- **Categorias:** profissional
+- **Principais objetivos:** Esfoliação corporal, pré-tratamento corporal, remoção de células mortas, renovação corporal, melhora da textura, preparo da pele, melhora da permeação de ativos, pele limpa e revitalizada.
+- **Tipo de pele / condição indicada:** Todos os tipos de pele corporal, esfoliação corporal, preparação da pele antes de tratamentos estéticos corporais, áreas ásperas, áreas ressecadas, protocolos corporais profissionais, evitando pele lesionada, irritada ou sensibilizada.
+- **Modo de uso:** Aplicar sobre a pele úmida na região corporal. Massagear com movimentos circulares, especialmente em áreas ásperas ou ressecadas. Remover com água ou toalha umedecida. Usar conforme protocolo.
+- **Site:** https://lakma.com.br/products/gel-esfoliante-corporal-ozonizado-1kg?_pos=1&_sid=633454ffc&_ss=r
+
+### Participação em protocolos
+
+- Participa de protocolos: **sim**
+- **Protocolos relacionados:** Protocolo Corporal Cellulight, Kit Ozônio Premium Corporal, protocolos corporais ozonizados, protocolos corporais de pré-tratamento, protocolos corporais de massagem, protocolos corporais redutores conforme avaliação profissional.
+- **Função dentro do protocolo:** Atua como etapa inicial de preparo corporal, removendo células mortas, renovando a pele, melhorando a textura e favorecendo a permeação de ativos antes de massagens, protocolos ozonizados, redutores ou corporais profissionais.
+
+### Combinações
+
+- **Combina com:** Kit Ozônio Premium Corporal, Creme de Massagem Ozonizado, Body Splash Firmador Corporal, Criogel, Gel Termoativado, Gel Bioestimulante, Sal Térmico Lipolítico, Creme de Massagem 7 Ativos, Creme de Massagem Neutro, Esbeltea Detox, Kit Booster Mitocondrial EsbelTEA, Kit Profissional Venus de Lipoplastia, Kit BodyPro Corporal Profissional.
+- **Atenção / não combinar:** Evitar olhos, mucosas, pele lesionada, pele irritada, pele sensibilizada, pele recém-depilada, pós-operatório sem liberação, alergia a componentes, gestantes sem avaliação, lactantes sem avaliação, alterações circulatórias sem avaliação, varizes importantes sem avaliação, uso com aparelhos sem avaliação, protocolos agressivos sem orientação profissional. Não prometer emagrecimento, perda de medidas ou resultado corporal garantido.
+
+### Detalhes
+
+## Função principal
+Gel esfoliante corporal profissional para pré-tratamento, indicado para remover células mortas, renovar, melhorar a textura e preparar a pele para protocolos corporais estéticos.
+
+## Indicações
+- Todos os tipos de pele corporal
+- Esfoliação corporal
+- Preparação da pele antes de tratamentos estéticos corporais
+- Remoção de células mortas
+- Renovação corporal
+- Melhora da textura
+- Áreas ásperas
+- Áreas ressecadas
+- Protocolos corporais profissionais
+- Protocolos corporais ozonizados
+- Protocolos corporais de massagem
+- Protocolos corporais redutores conforme avaliação profissional
+
+## Público / uso
+Profissional/cabine.
+
+## Tipo de produto
+Gel esfoliante corporal.
+
+## Linha
+Pré-Tratamento Corporal.
+
+## Volume
+1kg.
+
+## Tipo de pele
+Todos os tipos de pele corporal, evitando pele lesionada, irritada ou sensibilizada.
+
+## Zona de aplicação
+Corpo.
+
+## Momento de aplicação
+Pré-tratamento corporal, esfoliação antes de protocolos estéticos corporais.
+
+## Ativos principais
+- Extrato de Açaí
+- Bioex Cereais
+- Guaraná
+
+## Benefícios aprovados
+- Remove células mortas
+- Renovação corporal
+- Toque macio e sedoso
+- Prepara para protocolos corporais
+- Melhora permeação de ativos
+- Pele limpa e revitalizada
+- Dermatologicamente testado
+
+## Modo de uso aprovado
+Aplicar sobre pele úmida na região corporal. Massagear com movimentos circulares, especialmente áreas ásperas ou ressecadas. Remover com água ou toalha umedecida. Usar conforme protocolo.
+
+## Cuidados e observações
+Uso profissional. Evitar olhos, mucosas, pele lesionada, pele irritada, pele sensibilizada ou pele recém-depilada. Não prometer emagrecimento, perda de medidas ou resultado corporal garantido.
+
+## Quando não indicar ou encaminhar
+Não indicar sem avaliação em gestantes, lactantes, alterações circulatórias, varizes importantes, pele lesionada, pele irritada, pele sensibilizada, alergia a componentes, pós-operatório sem liberação, uso com aparelhos sem avaliação ou dúvidas sobre associação em protocolos.
+
+## Participação em protocolos
+Participa como etapa de preparo em protocolos corporais, incluindo:
+- Protocolo Corporal Cellulight
+- Kit Ozônio Premium Corporal
+- Protocolos corporais ozonizados
+- Protocolos corporais de pré-tratamento
+- Protocolos corporais de massagem
+- Protocolos corporais redutores conforme avaliação profissional
+
+## Função dentro do protocolo
+Atua como etapa inicial de preparo corporal, removendo células mortas, renovando a pele, melhorando a textura e favorecendo a permeação de ativos antes de massagens, protocolos ozonizados, redutores ou corporais profissionais.
+
+## Produtos que combinam
+- Kit Ozônio Premium Corporal
+- Creme de Massagem Ozonizado
+- Body Splash Firmador Corporal
+- Criogel
+- Gel Termoativado
+- Gel Bioestimulante
+- Sal Térmico Lipolítico
+- Creme de Massagem 7 Ativos
+- Creme de Massagem Neutro
+- Esbeltea Detox
+- Kit Booster Mitocondrial EsbelTEA
+- Kit Profissional Venus de Lipoplastia
+- Kit BodyPro Corporal Profissional
+
+## Diferença para produtos parecidos
+Diferencial: etapa individual de preparo e esfoliação corporal. Diferente do Kit Ozônio Premium Corporal, que entrega protocolo ozonizado completo com esfoliação, massagem e finalização. Diferente dos cremes e géis corporais, sua função principal é preparar a pele antes das próximas etapas.
+
+## Frase de segurança para a Nina
+Seguir rótulo e orientação profissional. Não aplicar em pele lesionada, irritada ou sensibilizada. Não prometer emagrecimento, perda de medidas ou resultado garantido. Gestantes, lactantes, crianças, idosos, pessoas com doenças, alterações circulatórias, pós-operatório, uso de medicamentos ou sensibilidade a componentes devem consultar profissional.
+
+### Objeções comuns e respostas
+
+**É para uso em casa?**  
+A ficha indica uso profissional em cabine.
+
+**Qual é a função dele no protocolo corporal?**  
+Ele atua como pré-tratamento, ajudando a remover células mortas, melhorar textura, deixar a pele limpa e revitalizada e preparar para melhor permeação de ativos corporais.
+
+**Precisa remover depois da aplicação?**  
+Sim. O modo de uso aprovado orienta remover com água ou toalha umedecida.
+
+**Pode usar antes de creme de massagem?**  
+Sim. Ele combina com protocolos corporais e pode preparar a pele antes de cremes, géis, massagens e produtos corporais, conforme avaliação profissional.
+
+**Pode usar em pele irritada ou lesionada?**  
+Não. Deve evitar pele lesionada, irritada ou sensibilizada.
+
+### Observações internas para a Nina
+
+Indicar para profissionais que buscam uma etapa de preparo corporal antes de protocolos estéticos, massagens, protocolos ozonizados, protocolos redutores ou aplicação de ativos corporais. Reforçar que é um produto profissional de pré-tratamento e deve ser removido após a esfoliação. Não prometer emagrecimento, perda de medidas ou resultado corporal garantido. Encaminhar para dermoconsultora em caso de pele lesionada, irritada, sensibilizada, recém-depilada, alergias, gestantes, lactantes, alterações circulatórias, varizes importantes, pós-operatório, uso com aparelhos ou dúvidas sobre associação em protocolos.
+
+---
+
+## Kit Booster Fibras Reticulares
+
+Kit profissional com mesclas estéreis de uso único para protocolos noturnos de clareamento, despigmentação, melasma, manchas, antissinais e rejuvenescimento.
+
+- **Categorias:** profissional
+- **Principais objetivos:** Clareamento de manchas, despigmentação, melasma, uniformização do tom, rejuvenescimento, firmeza, estímulo de colágeno, melhora da textura, redução da aparência de rugas e linhas.
+- **Tipo de pele / condição indicada:** Todos os tipos e fototipos de pele adulta, manchas faciais, melasma, cloasma, sardas, manchas senis, manchas pós-inflamatórias, manchas de acne, manchas hormonais, textura irregular, rugas acentuadas, perda de firmeza, necessidade de rejuvenescimento, conforme avaliação profissional.
+- **Modo de uso:** Aplicação profissional em pele limpa. Usar somente à noite. Permanecer no rosto por até 8 horas. Remover conforme orientação profissional. Frequência conforme protocolo e tolerância. Protetor solar diário indispensável durante todo o tratamento. Agitar ampola antes do uso.
+- **Site:** https://lakma.com.br/products/kit-booster-fibras-reticulares?_pos=1&_sid=266082018&_ss=r
+
+### Participação em protocolos
+
+- **Função dentro do protocolo:** Pode atuar como mescla profissional clareadora, despigmentante e rejuvenescedora em protocolos noturnos para manchas, melasma, uniformização, textura, firmeza, rugas e linhas, conforme avaliação profissional.
+
+### Combinações
+
+- **Combina com:** Loção de Limpeza Ozonizada, Kit Ácidos Sem Mistérios + Peeling de Cristal Líquido, Kit Peelings Profissionais, Peeling de Cristal Líquido, Máscara Calmante Limpeza de Pele, Neuroplasma Calmante, Máscara Hidroplástica Zen Marine, Kit Máscaras Faciais Tropicalia, Sérum VC-10, Creme Facial Ácido Hialurônico, protetor solar para uso diário.
+- **Atenção / não combinar:** Evitar olhos, mucosas, pele lesionada, pele irritada, pele sensibilizada, pele inflamada, reação ativa, alergia a componentes, uso recente de ácidos, uso recente de retinoides, procedimentos recentes, gestantes sem orientação, lactantes sem orientação, dúvidas sobre protocolo, dúvidas sobre tempo de ação, dúvidas sobre associação de ativos. Não encostar nas bordas ou boca do flaconete. Guardar na caixa original ao abrigo de luz, calor e umidade.
+
+### Detalhes
+
+## Função principal
+Kit profissional com mesclas estéreis de uso único, indicado para protocolos noturnos de clareamento, despigmentação, melasma, manchas, antissinais e rejuvenescimento.
+
+## Indicações
+- Todos os tipos e fototipos de pele adulta
+- Clareamento de manchas faciais
+- Melasma
+- Cloasma
+- Sardas
+- Manchas senis
+- Manchas pós-inflamatórias
+- Manchas de acne
+- Manchas hormonais
+- Despigmentação
+- Uniformização do tom
+- Rejuvenescimento
+- Textura irregular
+- Firmeza
+- Rugas acentuadas
+- Linhas de expressão
+
+## Público / uso
+Profissional/cabine.
+
+## Tipo de produto
+Kit profissional antissinais, clareador e rejuvenescedor.
+
+## Linha
+Clareador de Manchas.
+
+## Volume / quantidade
+5 Boosters Fibras Reticulares de 5ml cada.
+
+## Tipo de pele
+Todos os tipos e fototipos de pele adulta, conforme avaliação profissional.
+
+## Zona de aplicação
+Rosto ou área tratada no protocolo, evitando olhos e mucosas.
+
+## Momento de aplicação
+Protocolo profissional noturno de clareamento, despigmentação e rejuvenescimento.
+
+## Ativos principais
+- Nano Retinol
+- Nano Ácido Kójico
+- Nano AHA’s
+- Ácido Tranexâmico
+
+## Benefícios aprovados
+- Clareamento de manchas faciais
+- Auxilia em melasma, cloasma, sardas e manchas senis
+- Auxilia em manchas pós-inflamatórias, manchas de acne e manchas hormonais
+- Estimula colágeno
+- Melhora firmeza
+- Reduz aparência de rugas e linhas
+- Melhora textura e uniformidade
+- Ação despigmentante e rejuvenescedora
+- Mesclas estéreis de uso único
+- Hipoalergênico
+- Dermatologicamente testado
+- Vegano
+
+## Modo de uso aprovado
+Aplicação profissional em pele limpa. Usar somente à noite. Permanecer no rosto por até 8 horas. Remover conforme orientação profissional. Frequência conforme protocolo e tolerância. Protetor solar diário indispensável durante todo o tratamento. Agitar ampola antes do uso.
+
+## Cuidados e observações
+Uso externo, profissional e adulto. Não aplicar em pele lesionada, irritada ou sensibilizada. Evitar olhos e mucosas. Não encostar nas bordas ou boca do flaconete. Guardar na caixa original ao abrigo de luz, calor e umidade. Pode apresentar separação de fase, por isso deve agitar para homogeneizar. pH 3,5.
+
+## Quando não indicar ou encaminhar
+Não indicar em pele lesionada, irritada, sensibilizada, inflamada ou com reação ativa. Encaminhar em caso de alergia a componentes, uso recente de ácidos, uso recente de retinoides, procedimentos recentes, gestantes, lactantes, dúvidas sobre protocolo, tempo de ação ou associação de ativos.
+
+## Participação em protocolos
+sem informação.
+
+## Função dentro do protocolo
+Pode atuar como mescla profissional clareadora, despigmentante e rejuvenescedora em protocolos noturnos para manchas, melasma, uniformização, textura, firmeza, rugas e linhas, conforme avaliação profissional.
+
+## Produtos que combinam
+- Loção de Limpeza Ozonizada
+- Kit Ácidos Sem Mistérios + Peeling de Cristal Líquido
+- Kit Peelings Profissionais
+- Peeling de Cristal Líquido
+- Máscara Calmante Limpeza de Pele
+- Neuroplasma Calmante
+- Máscara Hidroplástica Zen Marine
+- Kit Máscaras Faciais Tropicalia
+- Sérum VC-10
+- Creme Facial Ácido Hialurônico
+- Protetor solar para uso diário
+
+## Diferença para produtos parecidos
+Diferente do Booster Fibras Elásticas, que foca em rugas, firmeza, elasticidade e revitalização, o Fibras Reticulares foca mais em clareamento de manchas, melasma, despigmentação, uniformização e rejuvenescimento.
+
+## Frase de segurança para a Nina
+Produto de uso profissional ou orientado. Evitar pele lesionada, irritada ou sensibilizada e reforçar fotoproteção quando houver ácidos, peelings, retinol ou renovação. Em caso de dúvida, encaminhar para avaliação.
+
+### Objeções comuns e respostas
+
+**É para uso em casa?**  
+Não. É um kit profissional para uso em cabine ou com orientação profissional.
+
+**Serve para melasma e manchas?**  
+Sim. É indicado para protocolos profissionais de clareamento de manchas, melasma, cloasma, sardas, manchas senis, manchas pós-inflamatórias, manchas de acne e manchas hormonais, conforme avaliação profissional.
+
+**Pode usar durante o dia?**  
+Não. O modo de uso aprovado informa uso somente à noite.
+
+**Quanto tempo fica na pele?**  
+O material informa permanência no rosto por até 8 horas, com remoção conforme orientação profissional.
+
+**Precisa usar protetor solar?**  
+Sim. O protetor solar diário é indispensável durante todo o tratamento.
+
+### Observações internas para a Nina
+
+Indicar para profissionais que buscam mesclas estéreis de uso único para protocolos noturnos de clareamento, despigmentação, melasma, manchas, antissinais e rejuvenescimento. Reforçar uso profissional, uso noturno, fotoproteção diária e avaliação de pele antes da indicação. Não orientar uso livre em casa. Não prometer clareamento garantido, remoção total de manchas ou resultado definitivo. Encaminhar para dermoconsultora em caso de pele lesionada, irritada, sensibilizada, inflamada, alergias, gestantes, lactantes, uso recente de ácidos, retinoides, procedimentos, dúvidas sobre tempo de ação ou associação com outros ativos.
+
+---
+
+## Esbeltea Detox
+
+Kit corporal profissional detox para cabine, indicado para protocolos de drenagem linfática, retenção hídrica, áreas inchadas, sensação de peso corporal, revitalização e melhora da aparência da pele.
+
+- **Categorias:** profissional
+- **Principais objetivos:** Protocolo corporal detox, drenagem linfática, retenção hídrica, áreas inchadas, sensação de leveza corporal, revitalização, melhora da aparência da pele, suporte em cabine estética.
+- **Tipo de pele / condição indicada:** Pele corporal conforme avaliação profissional, retenção hídrica, áreas inchadas, sensação de peso corporal, necessidade de drenagem linfática, protocolos corporais detox, revitalização corporal, melhora da aparência da pele.
+- **Modo de uso:** Uso profissional em cabine. Oferecer 1 cápsula antes do procedimento conforme rótulo, aplicar o spray na área, envolver com filme osmótico ou usar manta térmica por 20 minutos, realizar drenagem linfática com a mousse por pelo menos 40 minutos, oferecer 1 cápsula após finalizar, conforme orientação profissional e rótulo.
+- **Site:** https://lakma.com.br/products/esbeltea-detox?_pos=1&_sid=3f9884a06&_ss=r
+
+### Participação em protocolos
+
+- Participa de protocolos: **sim**
+- **Protocolos relacionados:** Protocolo Corporal Detox Térmico, protocolos corporais detox em cabine, protocolos de drenagem linfática, protocolos para retenção hídrica, protocolos para áreas inchadas.
+- **Função dentro do protocolo:** Atua como kit corporal profissional detox para cabine, com rotina de cápsulas, spray e mousse, apoiando protocolos de drenagem linfática, retenção hídrica, áreas inchadas, sensação de leveza e revitalização corporal.
+
+### Combinações
+
+- **Combina com:** Gel Bioestimulante, Creme de Massagem Ozonizado, Kit Ozônio Premium Corporal, Criogel, Gel Termoativado, Sal Térmico Lipolítico, Creme de Massagem 7 Ativos, Creme Neutro, Gel Esfoliante Corporal Ozonizado, EsbelTEA Solúvel, Esbeltea em Cápsulas.
+- **Atenção / não combinar:** Evitar indicação direta para gestantes, lactantes, crianças, idosos, pessoas com doenças preexistentes, alterações gastrointestinais, alterações circulatórias, varizes importantes, hipertensão, sensibilidade ao calor, pele lesionada, uso de medicamentos, alergia a componentes, dúvidas sobre cápsulas, dúvidas sobre manta térmica, dúvidas sobre oclusão, dúvidas sobre drenagem, sem avaliação profissional. Não prometer emagrecimento, perda de peso, perda de medidas ou resultado garantido.
+
+### Detalhes
+
+## Função principal
+Kit corporal profissional detox para cabine, indicado para protocolos de drenagem linfática, retenção hídrica, áreas inchadas, sensação de peso corporal, revitalização e melhora da aparência da pele.
+
+## Indicações
+- Protocolos corporais detox
+- Drenagem linfática
+- Retenção hídrica
+- Áreas inchadas
+- Sensação de peso corporal
+- Sensação de leveza
+- Revitalização corporal
+- Melhora da aparência da pele
+- Protocolo corporal em cabine
+- Rotina profissional com cápsulas, spray e mousse
+
+## Público / uso
+Profissional/cabine.
+
+## Tipo de produto
+Kit corporal profissional detox.
+
+## Linha
+Esbeltea.
+
+## Volume / quantidade
+Itens e quantidades oficiais do kit: sem informação.
+
+## Tipo de pele
+Pele corporal conforme avaliação profissional.
+
+## Zona de aplicação
+Corpo, com uso oral das cápsulas conforme rótulo.
+
+## Momento de aplicação
+Protocolo corporal detox em cabine, antes, durante e depois da drenagem conforme rótulo e orientação profissional.
+
+## Ativos principais
+- Carqueja
+- Chá de Hibiscus
+- Chá Verde
+- Gengibre
+- Capim Limão
+- Alecrim
+- Camomila
+- Cavalinha
+- Chá de Bugre
+- Chá de Sene
+- Chá de Jamelão
+- Sálvia
+
+## Benefícios aprovados
+- Kit profissional para protocolo detox corporal
+- Auxilia em procedimentos de drenagem linfática
+- Indicado para áreas inchadas e com retenção hídrica
+- Contribui para sensação de leveza corporal
+- Pode ser usado com filme osmótico ou manta térmica
+- Rotina com cápsulas, spray e mousse para cabine estética
+
+## Modo de uso aprovado
+Oferecer 1 cápsula antes do procedimento conforme rótulo. Aplicar o spray na área. Envolver com filme osmótico ou usar manta térmica por 20 minutos. Realizar drenagem linfática com a mousse por pelo menos 40 minutos. Oferecer 1 cápsula após finalizar, conforme orientação profissional e rótulo.
+
+## Cuidados e observações
+Como inclui cápsulas, não prometer emagrecimento, perda de peso, perda de medidas ou resultado garantido. Gestantes, lactantes, idosos, crianças, pessoas com condições de saúde ou uso de medicamentos devem consultar profissional habilitado.
+
+## Quando não indicar ou encaminhar
+Evitar indicação direta para gestantes, lactantes, crianças, idosos, pessoas com doenças preexistentes, alterações gastrointestinais, alterações circulatórias, varizes importantes, hipertensão, sensibilidade ao calor ou pele lesionada sem avaliação profissional.
+
+## Participação em protocolos
+Participa ou se relaciona com protocolos corporais aprovados e rotinas corporais de cabine, incluindo:
+- Protocolo Corporal Detox Térmico
+- Protocolos corporais detox em cabine
+- Protocolos de drenagem linfática
+- Protocolos para retenção hídrica
+- Protocolos para áreas inchadas
+
+## Função dentro do protocolo
+Atua como kit corporal profissional detox para cabine, com rotina de cápsulas, spray e mousse, apoiando protocolos de drenagem linfática, retenção hídrica, áreas inchadas, sensação de leveza e revitalização corporal.
+
+## Produtos que combinam
+- Gel Bioestimulante
+- Creme de Massagem Ozonizado
+- Kit Ozônio Premium Corporal
+- Criogel
+- Gel Termoativado
+- Sal Térmico Lipolítico
+- Creme de Massagem 7 Ativos
+- Creme Neutro
+- Gel Esfoliante Corporal Ozonizado
+- EsbelTEA Solúvel
+- Esbeltea em Cápsulas
+
+## Diferença para produtos parecidos
+Diferente do Kit Booster Mitocondrial EsbelTEA de 2 itens, este kit inclui cápsulas e tem foco mais detox, drenagem e retenção hídrica. Diferente do EsbelTEA Solúvel e do Esbeltea em Cápsulas isolados, é um protocolo profissional completo de cabine.
+
+## Frase de segurança para a Nina
+Seguir rótulo e orientação profissional. Não prometer emagrecimento, perda de medidas ou resultado garantido. Gestantes, lactantes, crianças, idosos, pessoas com doenças, uso de medicamentos ou sensibilidade a componentes devem consultar profissional.
+
+### Objeções comuns e respostas
+
+**É um produto para emagrecer?**  
+Não. A Nina não deve prometer emagrecimento, perda de peso ou perda de medidas. O produto é indicado para protocolos corporais detox em cabine, com foco em drenagem, retenção hídrica, áreas inchadas e sensação de leveza.
+
+**É para uso em casa?**  
+Não. A ficha indica uso profissional em cabine.
+
+**Qual é a diferença para o EsbelTEA Solúvel ou em Cápsulas?**  
+O EsbelTEA Solúvel e o Esbeltea em Cápsulas são produtos isolados. O Esbeltea Detox é um kit profissional completo de cabine, com cápsulas, spray e mousse.
+
+**Pode usar com manta térmica?**  
+Sim, o modo de uso aprovado cita filme osmótico ou manta térmica por 20 minutos, sempre com supervisão e avaliação profissional.
+
+**Gestante pode usar?**  
+Não indicar diretamente para gestantes ou lactantes. Nesses casos, encaminhar para avaliação profissional.
+
+### Observações internas para a Nina
+
+Indicar para profissionais que desejam um protocolo corporal detox completo para cabine, com foco em drenagem linfática, sensação de leveza, áreas inchadas e retenção hídrica. Não orientar como produto de emagrecimento. Não prometer perda de peso, perda garantida de medidas, redução garantida de inchaço ou resultado corporal garantido. Encaminhar para dermoconsultora em caso de gestantes, lactantes, crianças, idosos, doenças preexistentes, alterações gastrointestinais, alterações circulatórias, varizes importantes, hipertensão, sensibilidade ao calor, pele lesionada, uso de medicamentos, alergias ou dúvidas sobre cápsulas, manta térmica, filme osmótico ou drenagem.
+
+---
