@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Pencil, Trash2, Check, X, Loader2, ChevronDown, ChevronUp } from 'lucide-react';
+import { Pencil, Trash2, Check, X, Loader2, ChevronDown, ChevronUp, AlertTriangle } from 'lucide-react';
 import { Button } from '../../Button';
 import { toast } from 'sonner';
 import { productToDraft, type BrainProduct, type BrainProductInput } from '@/hooks/useBrainProducts';
@@ -7,11 +7,12 @@ import ProductForm, { validateProductDraft } from './ProductForm';
 
 interface ProductItemProps {
   product: BrainProduct;
+  index?: number;
   onSave: (id: string, patch: Partial<BrainProductInput>) => Promise<boolean>;
   onDelete: (id: string) => Promise<boolean>;
 }
 
-const ProductItem: React.FC<ProductItemProps> = ({ product, onSave, onDelete }) => {
+const ProductItem: React.FC<ProductItemProps> = ({ product, index, onSave, onDelete }) => {
   const [editing, setEditing] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
   const [busy, setBusy] = useState(false);
@@ -56,7 +57,12 @@ const ProductItem: React.FC<ProductItemProps> = ({ product, onSave, onDelete }) 
                 ) : (
                   <ChevronUp className="w-4 h-4 text-slate-500 group-hover:text-cyan-400 flex-shrink-0" />
                 )}
-                <span className="text-sm font-medium text-slate-100 truncate">{product.name}</span>
+                <span className="text-sm font-medium text-slate-100 truncate">
+                  {typeof index === 'number' && (
+                    <span className="text-slate-500 mr-1.5">#{index}</span>
+                  )}
+                  {product.name}
+                </span>
               </button>
               <span
                 className={`text-[10px] font-semibold uppercase px-1.5 py-0.5 rounded ${
@@ -65,6 +71,15 @@ const ProductItem: React.FC<ProductItemProps> = ({ product, onSave, onDelete }) 
               >
                 {product.is_active ? 'Ativo' : 'Inativo'}
               </span>
+              {!product.site_url?.trim() && (
+                <span
+                  className="flex items-center gap-1 text-[10px] uppercase px-1.5 py-0.5 rounded bg-amber-500/10 text-amber-300 border border-amber-500/20"
+                  title="Adicione o link do site deste produto"
+                >
+                  <AlertTriangle className="w-3 h-3" />
+                  sem link
+                </span>
+              )}
               {product.category.map((cat) => (
                 <span key={cat} className="text-[10px] uppercase px-1.5 py-0.5 rounded bg-slate-800 text-slate-400">
                   {cat}
