@@ -13,6 +13,7 @@ interface ProductItemProps {
 
 const ProductItem: React.FC<ProductItemProps> = ({ product, onSave, onDelete }) => {
   const [editing, setEditing] = useState(false);
+  const [collapsed, setCollapsed] = useState(false);
   const [busy, setBusy] = useState(false);
   const [draft, setDraft] = useState<BrainProductInput>(() => productToDraft(product));
 
