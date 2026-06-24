@@ -8,7 +8,7 @@
 
 Kit profissional de peelings clareadores para protocolos faciais e corporais de manchas, melasma, hiperpigmentações, textura irregular e renovação celular.
 
-- **Categoria:** profissional
+- **Categorias:** profissional
 - **Principais objetivos:** Clareamento, renovação celular, uniformização do tom, melhora da textura, luminosidade.
 - **Tipo de pele / condição indicada:** Peles com manchas, melasma, hiperpigmentações, manchas pós-inflamatórias, manchas solares, manchas de idade, manchas de acne, textura irregular ou opacidade, conforme avaliação profissional.
 - **Modo de uso:** Uso profissional em cabine. Avaliar pele, fototipo, sensibilidade e contraindicações. Higienizar com Sabonete de Ácido Glicólico, aplicar o peeling indicado conforme protocolo, respeitar o tempo de ação e finalizar conforme orientação profissional. Fotoproteção é indispensável.
@@ -191,7 +191,7 @@ Priorizar este produto quando a profissional buscar um protocolo clareador profi
 
 Sérum facial revitalizante com foco em firmeza, efeito lifting, elasticidade e suavização de linhas de expressão.
 
-- **Categoria:** home care
+- **Categorias:** home care
 - **Principais objetivos:** Firmeza, efeito lifting, sustentação, elasticidade, rejuvenescimento, linhas de expressão, ação antioxidante.
 - **Tipo de pele / condição indicada:** Peles maduras, envelhecidas ou com sinais de flacidez, perda de firmeza e linhas de expressão, especialmente a partir dos 35 anos.
 - **Modo de uso:** Aplicar algumas gotas sobre a pele limpa e seca. Espalhar no rosto e pescoço até completa absorção. Pode ser usado de dia e/ou à noite. Durante o dia, finalizar com protetor solar.
@@ -310,7 +310,7 @@ Indicar quando a cliente ou profissional buscar firmeza, efeito lifting, sustent
 
 Creme emoliente facial profissional, livre de trietanolamina, indicado para amolecer cravos e espinhas antes da extração na limpeza de pele.
 
-- **Categoria:** profissional
+- **Categorias:** profissional
 - **Principais objetivos:** Emoliência, limpeza de pele, extração de cravos, amolecimento de comedões, conforto na extração.
 - **Tipo de pele / condição indicada:** Todos os tipos de pele, conforme avaliação profissional para limpeza de pele. Indicado para peles com cravos, espinhas e comedões antes da extração mecânica.
 - **Modo de uso:** Aplicar camada uniforme sobre a região. Potencializar com vapor de ozônio ou máscara térmica por 15 a 20 minutos. Pode adicionar 5 gotas do Fluido Revitalizante Passo 01, conforme orientação aprovada. Remover o excesso antes da extração.
@@ -430,7 +430,7 @@ Priorizar este produto quando a profissional buscar um emoliente facial profissi
 
 Booster facial profissional indicado para protocolos de rejuvenescimento, firmeza, elasticidade, linhas finas, opacidade e revitalização da pele.
 
-- **Categoria:** profissional
+- **Categorias:** profissional
 - **Principais objetivos:** Rejuvenescimento, firmeza, elasticidade, revitalização, linhas finas, luminosidade.
 - **Tipo de pele / condição indicada:** Peles com rugas, linhas, flacidez leve, perda de elasticidade, opacidade ou textura irregular, conforme avaliação profissional.
 - **Modo de uso:** Uso profissional em cabine. Higienizar a pele, aplicar a técnica profissional escolhida e aplicar de 2 a 3ml do booster na região tratada com seringa. Deixar secar. Pode aplicar fluidos revitalizantes ou infusão biomimética por cima, conforme orientação aprovada. Não remover por pelo menos 8 horas.
@@ -546,7 +546,7 @@ Indicar para profissionais que buscam potencializar protocolos antissinais, revi
 
 Máscara facial hidroplástica profissional com ação tensora, refrescante, detox, calmante e revitalizante, indicada para finalização e potencialização de protocolos faciais.
 
-- **Categoria:** profissional
+- **Categorias:** profissional
 - **Principais objetivos:** Ação tensora, detox, calmante, refrescância, revitalização, luminosidade, finalização de protocolos.
 - **Tipo de pele / condição indicada:** Todos os tipos e fototipos, especialmente peles normais, cansadas, estressadas, sem viço, irritadas ou com vermelhidão leve.
 - **Modo de uso:** Uso profissional em cabine. Pode ser usada com a Máscara Detox Zen Marine, misturando 2 espátulas da hidroplástica com 1 da Detox, ou de forma tradicional, dissolvida em água, soro ou água termal até formar pasta homogênea. Aplicar no rosto, deixar agir e remover conforme orientação aprovada.
@@ -671,7 +671,7 @@ Indicar para profissionais que buscam uma máscara facial hidroplástica para fi
 
 Kit profissional com 4 peelings faciais de 50ml para protocolos de renovação celular, clareamento, acne, oleosidade, textura irregular e revitalização.
 
-- **Categoria:** profissional
+- **Categorias:** profissional
 - **Principais objetivos:** Renovação celular, clareamento, controle de oleosidade, acne, textura irregular, uniformização, luminosidade.
 - **Tipo de pele / condição indicada:** Peles com manchas, acne, oleosidade, textura irregular ou necessidade de renovação, conforme avaliação profissional.
 - **Modo de uso:** Uso profissional em cabine. Avaliar pele, fototipo e sensibilidade. Aplicar o peeling escolhido na pele limpa e seca, evitando olhos, mucosas e áreas sensibilizadas. Tempo de ação, remoção, neutralização e frequência devem seguir o protocolo profissional. Fotoproteção indispensável após o uso.
@@ -802,7 +802,7 @@ Indicar para profissionais que desejam um kit de peelings faciais para personali
 
 Kit corporal profissional com produtos para protocolos de esfoliação, massagem, ação termoativada e crioterápica em cabine.
 
-- **Categoria:** profissional
+- **Categorias:** profissional
 - **Principais objetivos:** Massagem corporal, esfoliação, drenagem, celulite, gordura localizada, flacidez, ação termoativada, crioterapia, revitalização corporal.
 - **Tipo de pele / condição indicada:** Pele corporal, conforme avaliação profissional e tolerância a frio e calor. Indicado para protocolos corporais de celulite, gordura localizada, flacidez, drenagem, massagem, esfoliação, hidratação e revitalização.
 - **Modo de uso:** Uso profissional em cabine. Usar o Esfoliante BodyPro para preparo da pele, o Creme de Massagem para manobras, o Gel Termoativado em protocolos de celulite e gordura localizada, e o Gel Crioterápico em protocolos de flacidez e tonificação. Frequência conforme protocolo profissional.
@@ -930,7 +930,7 @@ Indicar para profissionais que buscam uma rotina corporal completa de cabine com
 
 Kit home care de cuidados labiais com esfoliação, tratamento e finalização para hidratação, renovação, maciez, brilho e melhora da aparência dos lábios.
 
-- **Categoria:** home care
+- **Categorias:** home care
 - **Principais objetivos:** Hidratação labial, renovação, maciez, brilho, cuidado labial, melhora da aparência dos lábios.
 - **Tipo de pele / condição indicada:** Lábios ressecados, ásperos, opacos ou com descamação leve.
 - **Modo de uso:** Esfoliar os lábios limpos e secos e remover o excesso. Aplicar o Microagulhamento em Creme e espalhar. Finalizar com Gloss Biolips. Usar o esfoliante de 1 a 2 vezes por semana, o gloss ao longo do dia e o microagulhamento conforme orientação.
@@ -1045,7 +1045,7 @@ Indicar para clientes que buscam rotina labial em casa com esfoliação, tratame
 
 Kit profissional para limpeza de pele facial com etapas de higienização, esfoliação, emoliência sem trieta, extração, tonificação e finalização calmante.
 
-- **Categoria:** profissional
+- **Categorias:** profissional
 - **Principais objetivos:** Limpeza de pele, higienização, esfoliação, emoliência, extração de cravos, tonificação, controle de oleosidade, finalização calmante.
 - **Tipo de pele / condição indicada:** Peles com cravos, oleosidade, acne ou necessidade de limpeza de pele, conforme avaliação profissional.
 - **Modo de uso:** Uso profissional em cabine. Higienizar com sabonete, esfoliar, aplicar o Emoliente Sem Trieta e realizar a extração, tonificar com Loção Tônica e finalizar com Máscara Calmante. Frequência conforme orientação profissional. Usar protetor solar após procedimentos diurnos.
@@ -1180,7 +1180,7 @@ Indicar para profissionais que desejam um protocolo completo, prático e de alto
 
 Sérum facial home care com Niacinamida 10% e Zinco PCA 1%, indicado para oleosidade, acne, cravos, poros aparentes, manchas pós-inflamatórias e vermelhidão.
 
-- **Categoria:** home care
+- **Categorias:** home care
 - **Principais objetivos:** Controle de oleosidade, acne, cravos, poros aparentes, manchas pós-inflamatórias, uniformização do tom, textura irregular, vermelhidão.
 - **Tipo de pele / condição indicada:** Todos os tipos de pele, especialmente peles mistas, oleosas e acneicas. Indicado para acne, cravos, poros dilatados, oleosidade, manchas pós-inflamatórias, textura irregular e vermelhidão.
 - **Modo de uso:** Aplicar 2 a 3 gotas no rosto limpo e seco. Usar diariamente de manhã e à noite. Pode ser usado antes de hidratante, protetor solar ou maquiagem. Durante o dia, finalizar com protetor solar.
@@ -1309,7 +1309,7 @@ Indicar quando a cliente buscar controle de oleosidade, acne leve a moderada, cr
 
 Sérum facial noturno com Retinol 0,5% e Vitamina E 1%, indicado para renovação celular, rugas, linhas finas, manchas, textura irregular, poros e firmeza.
 
-- **Categoria:** home care
+- **Categorias:** home care
 - **Principais objetivos:** Renovação celular, antissinais, rugas, linhas finas, manchas, firmeza, elasticidade, textura irregular, poros aparentes.
 - **Tipo de pele / condição indicada:** Todos os tipos de pele, exceto peles sensibilizadas, irritadas ou lesionadas. Indicado para rotina noturna de rejuvenescimento, manchas, rugas, linhas finas, flacidez e poros aparentes.
 - **Modo de uso:** À noite, aplicar 2 a 3 gotas na pele limpa e seca. Iniciar de 2 a 3 vezes por semana e aumentar conforme tolerância. Evitar a área dos olhos. Finalizar com hidratante se necessário. Protetor solar obrigatório durante o dia.
@@ -1433,7 +1433,7 @@ Indicar para clientes que buscam renovação noturna, antissinais, melhora de ru
 
 Sérum facial home care com Vitamina C 10% e Ácido Ferúlico 1%, indicado para manchas, luminosidade, ação antioxidante, viço, textura irregular e prevenção do envelhecimento.
 
-- **Categoria:** home care
+- **Categorias:** home care
 - **Principais objetivos:** Clareamento, luminosidade, ação antioxidante, uniformização do tom, viço, manchas, textura irregular, prevenção do envelhecimento.
 - **Tipo de pele / condição indicada:** Todos os tipos de pele, especialmente peles com manchas, hiperpigmentações, falta de luminosidade, textura irregular, linhas finas, poros aparentes, oleosidade e prevenção do envelhecimento precoce.
 - **Modo de uso:** Aplicar 2 a 3 gotas na pele limpa e seca, direto na pele ou nas mãos. Espalhar no rosto, evitando contato com os olhos. Usar de manhã e/ou à noite. Durante o dia, o uso de protetor solar é obrigatório.
@@ -1560,7 +1560,7 @@ Indicar quando a cliente buscar clareamento, luminosidade, viço, ação antioxi
 
 Creme facial profissional com espículas de esponja hidrolisada, indicado para renovação, revitalização, firmeza, hidratação, nutrição, reparação e potencialização da absorção de ativos.
 
-- **Categoria:** profissional
+- **Categorias:** profissional
 - **Principais objetivos:** Renovação, revitalização, firmeza, tonificação, melhora da textura, permeação de ativos, rejuvenescimento, hidratação, nutrição e reparação.
 - **Tipo de pele / condição indicada:** Todos os tipos de pele, conforme avaliação profissional. Evitar uso em pele lesionada, irritada, sensibilizada ou inflamada.
 - **Modo de uso:** Aplicar pequena quantidade na pele limpa e seca. Massagear suavemente até espalhar. Deixar agir por 5 minutos. Aplicar fluidos ou peeling por cima, sem remoção, conforme finalidade. Frequência conforme orientação profissional.
@@ -1691,7 +1691,7 @@ Indicar para profissionais que buscam estímulo cutâneo sem roller/agulhas e po
 
 Gloss labial bioativo home care com ação booster, indicado para hidratação, brilho, maciez, conforto e melhora da aparência dos lábios.
 
-- **Categoria:** home care
+- **Categorias:** home care
 - **Principais objetivos:** Hidratação labial, brilho, maciez, volumização epitelial, ação booster, melhora da aparência dos lábios.
 - **Tipo de pele / condição indicada:** Lábios ressecados, opacos ou sem brilho.
 - **Modo de uso:** Aplicar diretamente nos lábios limpos e secos. Espalhar até cobertura uniforme. Reaplicar ao longo do dia. Pode ser usado sozinho ou após esfoliação e hidratação.
@@ -1805,7 +1805,7 @@ Indicar para clientes que buscam hidratação labial, brilho, conforto, maciez, 
 
 Tratamento home care para cílios em formato de rímel, indicado para fortalecimento, cuidado, crescimento saudável e melhora da aparência dos fios.
 
-- **Categoria:** home care
+- **Categorias:** home care
 - **Principais objetivos:** Fortalecimento dos cílios, crescimento saudável, cuidado dos fios, resistência, melhora da aparência dos cílios.
 - **Tipo de pele / condição indicada:** Cílios frágeis, finos, enfraquecidos ou com necessidade de fortalecimento.
 - **Modo de uso:** Aplicar nos cílios limpos e secos com o aplicador. Espalhar delicadamente da raiz às pontas. Usar diariamente ou conforme necessidade.
@@ -1916,7 +1916,7 @@ Indicar para clientes que buscam fortalecimento, cuidado, crescimento saudável 
 
 Esfoliante home care para rosto e lábios, indicado para renovação suave, remoção de células mortas, melhora da textura, maciez e preparo da pele para hidratação e ativos.
 
-- **Categoria:** home care
+- **Categorias:** home care
 - **Principais objetivos:** Esfoliação, renovação suave, remoção de células mortas, maciez, melhora da textura, preparo da pele e dos lábios para hidratação e ativos.
 - **Tipo de pele / condição indicada:** Todos os tipos de pele. Indicado para pele ou lábios ásperos, textura irregular, rotina semanal de skincare e preparação para ativos. Evitar pele ou lábios lesionados, irritados ou sensibilizados.
 - **Modo de uso:** Aplicar pequena quantidade na pele limpa e levemente úmida. Massagear suavemente em movimentos circulares no rosto ou lábios. Remover com água. Usar de 1 a 2 vezes por semana ou conforme necessidade.
@@ -2041,7 +2041,7 @@ Indicar para clientes que buscam esfoliação suave, melhora da textura, maciez 
 
 Espuma de limpeza facial home care para uso diário, indicada para remover impurezas e oleosidade sem ressecar, com ação calmante e antioxidante.
 
-- **Categoria:** home care
+- **Categorias:** home care
 - **Principais objetivos:** Limpeza facial diária, remoção de impurezas, controle de oleosidade, suavidade, ação calmante, ação antioxidante, preparo da pele para skincare.
 - **Tipo de pele / condição indicada:** Todos os tipos de pele, inclusive pele sensível ou sensibilizada conforme tolerância. Indicada para limpeza facial diária, remoção de impurezas, controle do excesso de oleosidade, ação calmante e cuidado antioxidante.
 - **Modo de uso:** Aplicar sobre o rosto úmido, massagear com movimentos circulares e enxaguar. Usar diariamente de manhã e à noite, evitando contato direto com os olhos.
@@ -2171,7 +2171,7 @@ Indicar como primeiro passo da rotina de skincare e como limpeza diária para to
 
 Máscara facial hidratante com ação refrescante, indicada para hidratar, suavizar, combater o ressecamento e melhorar o conforto e a aparência da pele.
 
-- **Categoria:** home care
+- **Categorias:** home care
 - **Principais objetivos:** Hidratação, refrescância, suavização, combate ao ressecamento, maciez, conforto, aparência descansada.
 - **Tipo de pele / condição indicada:** Todos os tipos de pele, especialmente pele ressecada, desconfortável ou cansada. Há observação no material para confirmar comunicação oficial para pele oleosa.
 - **Modo de uso:** Aplicar camada uniforme sobre a pele limpa e seca. Deixar agir conforme protocolo ou necessidade. Remover com água ou gaze umedecida. Usar conforme necessidade.
@@ -2296,7 +2296,7 @@ Indicar quando a cliente buscar hidratação leve, sensação refrescante, macie
 
 Creme facial antissinais home care com Nano Coenzima Q10 e Nano Vitamina E, indicado para rugas, linhas de expressão, flacidez, firmeza, efeito lifting e revitalização diária.
 
-- **Categoria:** home care
+- **Categorias:** home care
 - **Principais objetivos:** Antissinais, rugas, linhas de expressão, flacidez, firmeza, efeito lifting, tonificação, hidratação, revitalização, ação antioxidante.
 - **Tipo de pele / condição indicada:** Todos os tipos de pele, especialmente a partir dos 35 anos, com sinais de envelhecimento, flacidez, rugas, linhas de expressão, perda de firmeza e falta de vitalidade.
 - **Modo de uso:** Aplicar pequena quantidade na pele limpa e seca. Espalhar no rosto com movimentos ascendentes. Usar de manhã e/ou à noite, com melhor aproveitamento à noite. Durante o dia, finalizar com protetor solar.
@@ -2421,7 +2421,7 @@ Indicar para clientes que buscam rotina antissinais, firmeza, efeito lifting, to
 
 Creme facial hidratante home care com Nano Ácido Hialurônico e Nano Vitamina E, indicado para hidratação profunda, firmeza, elasticidade, suavização de linhas finas e luminosidade.
 
-- **Categoria:** home care
+- **Categorias:** home care
 - **Principais objetivos:** Hidratação profunda, firmeza, elasticidade, suavização de linhas finas, efeito preenchedor, luminosidade, maciez.
 - **Tipo de pele / condição indicada:** Todos os tipos de pele, especialmente a partir dos 30 anos, com ressecamento, desidratação, linhas finas ou perda de elasticidade.
 - **Modo de uso:** Aplicar pequena quantidade na pele limpa e seca. Espalhar com movimentos circulares até absorção. Usar de manhã e/ou à noite. Durante o dia, finalizar com protetor solar.
@@ -2547,7 +2547,7 @@ Indicar para clientes que buscam hidratação profunda, maciez, firmeza, elastic
 
 Chá solúvel sabor limão para rotina de bem-estar, com proposta detox, leveza, disposição, saúde intestinal, foco, energia e fonte de colágeno.
 
-- **Categoria:** home care
+- **Categorias:** home care
 - **Principais objetivos:** Bem-estar, rotina detox, sensação de leveza, disposição, saúde intestinal, metabolismo, foco, energia, fonte de colágeno.
 - **Tipo de pele / condição indicada:** Não se aplica à pele. Produto de consumo oral, indicado para pessoas que buscam bebida prática para rotina de bem-estar, leveza, disposição, saúde intestinal e cuidados com a pele.
 - **Modo de uso:** Diluir a quantidade recomendada em água conforme embalagem. Mexer até dissolver. Consumir ao longo do dia conforme preferência ou orientação. Pode ser consumido gelado. Evitar após 18h para não atrapalhar o sono, conforme material aprovado.
@@ -2674,7 +2674,7 @@ Indicar para clientes que buscam bebida prática para rotina de bem-estar, levez
 
 Suplemento em cápsulas com blend de chás, fibras e extratos vegetais, indicado para rotina de bem-estar, sensação de leveza, praticidade e proposta detox.
 
-- **Categoria:** home care
+- **Categorias:** home care
 - **Principais objetivos:** Bem-estar, sensação de leveza, rotina detox, praticidade, consumo de chás e ativos vegetais, apoio à rotina equilibrada.
 - **Tipo de pele / condição indicada:** Não se aplica à pele. Produto de consumo oral adulto, indicado para complementar a rotina com blend de chás, fibras e extratos vegetais, associado a alimentação equilibrada e hábitos saudáveis.
 - **Modo de uso:** Ingerir 2 cápsulas conforme embalagem ou orientação profissional. Usar até 18h para não atrapalhar o sono. Não exceder a recomendação diária.
@@ -2812,7 +2812,7 @@ Indicar para clientes que buscam praticidade na rotina de bem-estar, sensação 
 
 Produto corporal profissional com ação térmica e lipolítica, indicado para protocolos de redução de medidas, gordura localizada, celulite, drenagem, edema e retenção de líquidos.
 
-- **Categoria:** profissional
+- **Categorias:** profissional
 - **Principais objetivos:** Ação térmica, ação lipolítica, redução de medidas, gordura localizada, celulite, drenagem, edema, retenção de líquidos, metabolismo local.
 - **Tipo de pele / condição indicada:** Todos os tipos de pele corporal, conforme avaliação profissional e tolerância ao produto térmico. Indicado para protocolos corporais de redução de medidas, gordura localizada, celulite, drenagem, edema, retenção de líquidos, estimulação metabólica e regeneração tecidual.
 - **Modo de uso:** Uso profissional externo. Dissolver a quantidade desejada em pequena quantidade de água. Aplicar na região corporal. Associar com faixa, faixa gessada, manta térmica ou plástico filme. Tempo máximo de até 2 horas. Remover completamente.
@@ -2933,5 +2933,383 @@ Não deve ser indicado diretamente para gestantes ou lactantes sem avaliação p
 ### Observações internas para a Nina
 
 Indicar para profissionais que buscam produto corporal térmico/lipolítico para protocolos de redução de medidas, gordura localizada, celulite, drenagem e retenção de líquidos. Não prometer emagrecimento, perda garantida de medidas ou eliminação definitiva de gordura/celulite. Reforçar uso profissional, teste de sensibilidade e remoção completa. Encaminhar para dermoconsultora em caso de gestantes, lactantes, alterações circulatórias, hipertensão, varizes importantes, sensibilidade ao calor, pele lesionada/sensibilizada, doenças preexistentes, uso de medicamentos ou dúvidas sobre aplicação.
+
+---
+
+## Kit Máscaras Faciais Tropicalia - 3 Unidades de 150g
+
+Kit com 3 máscaras faciais finalizadoras para hidratação, viço, luminosidade, ação calmante, revitalização, uniformização e clareamento.
+
+- **Categorias:** home care, profissional
+- **Principais objetivos:** Hidratação, finalização de protocolos, viço, luminosidade, ação calmante, revitalização, clareamento, uniformização e ação antioxidante.
+- **Tipo de pele / condição indicada:** Todos os tipos de pele, com cautela em peles oleosas, acneicas ou sensibilizadas. Indicada para finalização de protocolos, hidratação, ação calmante, revitalização, clareamento, pós-extração, pós-peeling e pós-sol conforme avaliação.
+- **Modo de uso:** Aplicar a máscara escolhida sobre a pele limpa e seca. Deixar agir de 8 a 10 minutos. Remover com gaze umedecida em água. Usar conforme necessidade ou protocolo. As máscaras são independentes.
+- **Site:** https://lakma.com.br/products/kit-3-mascaras-tropicalia-frutas-colageno-vitamina-c-e-acido-hialuronico?_pos=1&_sid=56edf1a9d&_ss=r
+
+### Participação em protocolos
+
+- **Função dentro do protocolo:** Pode atuar como etapa de finalização em protocolos faciais, oferecendo opções de hidratação, viço, clareamento, luminosidade, ação calmante e rejuvenescimento conforme a máscara escolhida.
+
+### Combinações
+
+- **Combina com:** Espuma de Limpeza Facial, Kit Limpeza de Pele Facial + Ativos Sem Trieta, Máscara Calmante Limpeza de Pele, Máscara Hidroplástica Zen Marine, Neuroplasma Calmante, Sérum VC-10, Creme Facial Ácido Hialurônico e Creme Antissinais Q-10.
+- **Atenção / não combinar:** Usar com cautela em peles oleosas, acneicas ou sensibilizadas. Alguns ativos ou pigmentos podem causar ardência. Não indicar em pele lesionada, irritada, sensibilizada, inflamada ou com reação ativa. Encaminhar em caso de alergia a componentes, uso recente de ácidos, retinoides ou procedimentos, gestantes, lactantes ou dúvidas sobre associação de ativos.
+
+### Detalhes
+
+## Função principal
+Kit com 3 máscaras faciais finalizadoras, indicado para hidratação, viço, luminosidade, ação calmante, revitalização, uniformização, clareamento e finalização de protocolos.
+
+## Indicações
+- Todos os tipos de pele
+- Finalização de protocolos
+- Hidratação
+- Ação calmante
+- Revitalização
+- Clareamento
+- Luminosidade
+- Viço
+- Uniformização
+- Pós-extração
+- Pós-peeling
+- Pós-sol conforme avaliação
+- Rotina de máscara facial conforme necessidade da pele
+
+## Público / uso
+Profissional/cabine e home care.
+
+## Tipo de produto
+Kit de máscaras faciais finalizadoras.
+
+## Linha
+Tropicalia.
+
+## Volume / quantidade
+3 unidades de 150g.
+
+## Tipo de pele
+Todos os tipos de pele, com cautela em peles oleosas, acneicas ou sensibilizadas.
+
+## Zona de aplicação
+Rosto.
+
+## Momento de aplicação
+Finalização de protocolos ou rotina de máscara, conforme necessidade da pele.
+
+## Ativos principais
+- Melancia: Ácido Hialurônico + Extrato de Melancia
+- Laranja: Vitamina C + Extrato de Laranja + Acerola
+- Maracujá: Colágeno + Extrato de Maracujá
+
+## Benefícios aprovados
+- 3 máscaras finalizadoras
+- Hidratação e revitalização
+- Ação calmante
+- Luminosidade e viço
+- Uniformização
+- Ação antioxidante e clareadora
+- Até 25 aplicações por máscara
+
+## Modo de uso aprovado
+Aplicar a máscara escolhida sobre a pele limpa e seca. Deixar agir de 8 a 10 minutos. Remover com gaze umedecida em água. Usar conforme necessidade ou protocolo. As máscaras são independentes.
+
+## Cuidados e observações
+Usar com cautela em peles oleosas, acneicas ou sensibilizadas. Alguns ativos ou pigmentos podem causar ardência. Gestantes e lactantes devem ter orientação profissional.
+
+## Quando não indicar ou encaminhar
+Não indicar em pele lesionada, irritada, sensibilizada, inflamada ou com reação ativa. Encaminhar em caso de alergia a componentes, uso recente de ácidos, retinoides ou procedimentos, gestantes, lactantes sem orientação, ou quando houver dúvida sobre protocolo, tempo de ação ou associação de ativos.
+
+## Participação em protocolos
+sem informação.
+
+## Função dentro do protocolo
+Pode atuar como etapa de finalização em protocolos faciais, oferecendo opções de hidratação, viço, clareamento, luminosidade, ação calmante e rejuvenescimento conforme a máscara escolhida.
+
+## Produtos que combinam
+- Espuma de Limpeza Facial
+- Kit Limpeza de Pele Facial + Ativos Sem Trieta
+- Máscara Calmante Limpeza de Pele
+- Máscara Hidroplástica Zen Marine
+- Neuroplasma Calmante
+- Sérum VC-10
+- Creme Facial Ácido Hialurônico
+- Creme Antissinais Q-10
+
+## Diferença para produtos parecidos
+Diferencial: reúne três máscaras finalizadoras com propostas diferentes: hidratação/viço, clareamento/luminosidade e calmante/rejuvenescimento.
+
+## Frase de segurança para a Nina
+Produto de uso profissional ou orientado. Evitar pele lesionada, irritada ou sensibilizada e reforçar fotoproteção quando houver ácidos, peelings, retinol ou renovação. Em caso de dúvida, encaminhar para avaliação.
+
+### Objeções comuns e respostas
+
+**As três máscaras são usadas juntas?**
+Não necessariamente. O material informa que são máscaras independentes, escolhidas conforme a necessidade da pele ou protocolo.
+
+**Serve para uso profissional ou home care?**
+Sim. A ficha indica uso profissional/cabine e home care.
+
+**Serve para finalizar protocolos?**
+Sim. É indicada para finalização de protocolos, hidratação, ação calmante, revitalização, clareamento, pós-extração, pós-peeling e pós-sol conforme avaliação.
+
+**Pode usar em pele oleosa ou acneica?**
+Pode ser usada com cautela, pois o material orienta atenção em peles oleosas, acneicas ou sensibilizadas.
+
+**Precisa remover?**
+Sim. A orientação aprovada é deixar agir de 8 a 10 minutos e remover com gaze umedecida em água.
+
+### Observações internas para a Nina
+
+Indicar para profissionais ou clientes que buscam máscaras finalizadoras com opções de hidratação/viço, clareamento/luminosidade e calmante/rejuvenescimento. Usar com cautela em peles oleosas, acneicas ou sensibilizadas. Encaminhar para dermoconsultora em caso de pele lesionada, irritada, sensibilizada, inflamada, alergias, gestantes, lactantes, uso recente de ácidos/retinoides/procedimentos ou dúvidas sobre associação com ativos.
+
+---
+
+## Kit Dolce Lips + Dolce Peel Labial - 2 Produtos
+
+Kit labial home care com esfoliante e tratamento hidratante/nutritivo, indicado para lábios ressecados, ásperos, opacos, sem brilho ou com células superficiais.
+
+- **Categorias:** home care
+- **Principais objetivos:** Esfoliação labial, renovação, hidratação, nutrição, maciez, brilho natural, melhora da aparência dos lábios.
+- **Tipo de pele / condição indicada:** Lábios ressecados, ásperos, opacos, sem brilho ou com células superficiais. Evitar uso em lábios lesionados, irritados ou sensibilizados.
+- **Modo de uso:** Usar o Dolce Peel nos lábios limpos, massageando suavemente com movimentos circulares, e remover o excesso conforme necessidade. Em seguida, aplicar o Dolce Lips e espalhar até formar camada uniforme. O Dolce Lips não precisa ser removido.
+- **Site:** https://lakma.com.br/products/dolce-lips-dolce-peel-labial?_pos=2&_sid=49466bc8e&_ss=r
+
+### Combinações
+
+- **Combina com:** Gloss Biolips Bioativo, Kit Labial Home Care, Esfoliante Facial e Labial Bioativo e produtos hidratantes labiais da Lakma, se houver.
+- **Atenção / não combinar:** Não usar em lábios lesionados, irritados, sensibilizados, com feridas abertas, rachaduras com sangramento, descamação intensa, herpes ativa ou recorrente, alergia a componentes, ardência, coceira ou reação. Evitar uso excessivo do esfoliante.
+
+### Detalhes
+
+## Função principal
+Kit labial home care com 2 produtos, indicado para esfoliação, renovação, hidratação, nutrição, maciez, brilho natural e melhora da aparência dos lábios.
+
+## Indicações
+- Lábios ressecados
+- Lábios ásperos
+- Lábios opacos
+- Lábios sem brilho
+- Lábios com células superficiais
+- Necessidade de esfoliação labial
+- Necessidade de hidratação labial
+- Necessidade de nutrição labial
+- Rotina labial home care
+- Melhora da maciez e aparência dos lábios
+
+## Público / uso
+Home care.
+
+## Tipo de produto
+Kit de tratamento labial.
+
+## Linha
+Labial.
+
+## Volume / composição
+Kit com 2 produtos labiais:
+- Dolce Peel
+- Dolce Lips
+
+## Tipo de pele / condição indicada
+Lábios ressecados, ásperos, opacos, sem brilho ou com células superficiais. Evitar uso em lábios lesionados, irritados ou sensibilizados.
+
+## Zona de aplicação
+Lábios.
+
+## Momento de aplicação
+Rotina labial home care, com esfoliação antes do tratamento hidratante/nutritivo.
+
+## Ativos principais
+- Óleo de Açaí
+- Óleo de Pracaxi
+- Wakapamp
+
+## Benefícios aprovados
+- Esfoliação labial suave
+- Remove células mortas
+- Reduz aspereza e ressecamento
+- Prepara os lábios para hidratação
+- Melhora maciez
+- Promove hidratação e nutrição
+- Auxilia no rejuvenescimento dos lábios
+- Ajuda na elasticidade
+- Restaura brilho natural
+- Toque aveludado
+- Dolce Lips não necessita remoção
+
+## Modo de uso aprovado
+Usar o Dolce Peel nos lábios limpos, massageando suavemente com movimentos circulares, e remover o excesso conforme necessidade. Em seguida, aplicar pequena quantidade de Dolce Lips nos lábios e espalhar até formar camada uniforme. Não remover o Dolce Lips.
+
+## Cuidados e observações
+Não usar em lábios lesionados, irritados ou sensibilizados. Evitar uso excessivo do esfoliante. Suspender em caso de ardência, coceira ou reação.
+
+## Quando não indicar ou encaminhar
+Não indicar em caso de feridas abertas, rachaduras com sangramento, alergia a componentes, ardência, coceira, herpes ativa, lesões recorrentes, descamação intensa ou feridas recorrentes. Nesses casos, orientar avaliação antes do uso.
+
+## Participação em protocolos
+sem informação.
+
+## Função dentro do protocolo
+sem informação.
+
+## Produtos que combinam
+- Gloss Biolips Bioativo
+- Kit Labial Home Care
+- Esfoliante Facial e Labial Bioativo
+- Produtos hidratantes labiais da Lakma, se houver
+
+## Diferença para produtos parecidos
+Dolce Peel esfolia e remove células mortas. Dolce Lips trata, hidrata e nutre sem remover. Gloss Biolips tem acabamento de gloss e ação booster labial.
+
+## Rotina sugerida
+Dolce Peel 1 a 2 vezes por semana conforme orientação + Dolce Lips diariamente + Gloss Biolips para brilho/booster, se desejado.
+
+## Frase de segurança para a Nina
+Evitar uso em lábios lesionados, irritados ou sensibilizados. Suspender se houver ardência, coceira ou reação e orientar avaliação se persistir.
+
+### Objeções comuns e respostas
+
+**Qual a função do kit?**
+O kit combina esfoliação labial com o Dolce Peel e hidratação/nutrição com o Dolce Lips, ajudando na renovação, maciez, brilho e melhora da aparência dos lábios.
+
+**Qual produto usar primeiro?**
+A ordem sugerida é Dolce Peel primeiro, para esfoliar e preparar os lábios, e depois Dolce Lips para hidratar e nutrir.
+
+**O Dolce Lips precisa remover?**
+Não. O Dolce Lips é um tratamento hidratante/nutritivo sem remoção.
+
+**Pode usar em lábios machucados?**
+Não. Deve evitar uso em lábios lesionados, irritados, sensibilizados, com feridas abertas, rachaduras com sangramento, herpes ativa ou reação.
+
+**Pode usar todos os dias?**
+O Dolce Lips pode ser usado diariamente. O Dolce Peel deve ser usado com cautela, evitando uso excessivo; a rotina ideal citada no material é Dolce Peel 1 a 2 vezes por semana conforme orientação + Dolce Lips diariamente.
+
+### Observações internas para a Nina
+
+Indicar para clientes que buscam uma rotina labial simples com esfoliação e hidratação/nutrição. Reforçar que o Dolce Peel prepara os lábios e o Dolce Lips trata/hidrata sem remoção. Não indicar em caso de lábios lesionados, irritados, sensibilizados, feridas abertas, rachaduras com sangramento, descamação intensa, herpes ativa ou recorrente, alergia, ardência, coceira ou reação. Se houver reação, orientar suspensão e avaliação se persistir.
+
+---
+
+## Óleo para Massagem Corporal - 500ml
+
+Óleo corporal profissional para massagens relaxantes, modeladoras e drenagem linfática, indicado para alto deslizamento, conforto, hidratação, nutrição e maciez da pele.
+
+- **Categorias:** profissional
+- **Principais objetivos:** Massagem corporal, alto deslizamento, drenagem linfática, massagem relaxante, massagem modeladora, hidratação, nutrição, maciez e conforto.
+- **Tipo de pele / condição indicada:** Pele corporal, conforme avaliação profissional e tolerância a óleos vegetais.
+- **Modo de uso:** Aplicar quantidade suficiente na região corporal e realizar manobras conforme protocolo. Reaplicar quando necessário para manter o deslizamento.
+- **Site:** https://lakma.com.br/products/oleo-de-massagem?_pos=1&_sid=1b7efcfc1&_ss=r
+
+### Participação em protocolos
+
+- **Função dentro do protocolo:** Pode atuar como produto de deslizamento em massagens corporais relaxantes, modeladoras, drenagem linfática e protocolos corporais que exigem conforto, hidratação, nutrição e maciez.
+
+### Combinações
+
+- **Combina com:** Kit BodyPro Corporal Profissional, Sal Térmico Lipolítico, Kit Profissional Venus de Lipoplastia, Creme de Massagem Corporal BodyPro, protocolos de drenagem linfática, massagem modeladora e massagem relaxante.
+- **Atenção / não combinar:** Evitar olhos, mucosas e áreas lesionadas ou irritadas. Suspender se irritar. Encaminhar em caso de alergia a óleos vegetais ou dúvidas com aparelhos, produtos térmicos, gestantes, lactantes, crianças, idosos, pessoas com doenças preexistentes, uso de medicamentos ou sensibilidade a componentes.
+
+### Detalhes
+
+## Função principal
+Óleo corporal profissional para massagem, indicado para alto deslizamento, conforto, hidratação, nutrição e maciez da pele durante massagens relaxantes, modeladoras, drenagem linfática e protocolos corporais.
+
+## Indicações
+- Massagem corporal profissional
+- Massagem relaxante
+- Massagem modeladora
+- Drenagem linfática
+- Protocolos que exigem deslizamento
+- Hidratação corporal
+- Nutrição da pele
+- Maciez
+- Conforto durante manobras corporais
+
+## Público / uso
+Profissional/cabine.
+
+## Tipo de produto
+Óleo corporal para massagem.
+
+## Linha
+sem informação.
+
+## Volume
+500ml.
+
+## Tipo de pele
+Pele corporal, conforme avaliação profissional e tolerância a óleos vegetais.
+
+## Zona de aplicação
+Corpo.
+
+## Momento de aplicação
+Durante massagens corporais relaxantes, modeladoras ou drenagem linfática.
+
+## Ativos principais
+- Óleo de Semente de Uva
+- Óleo de Amêndoa Doce
+- Óleo de Macadâmia
+
+## Benefícios aprovados
+- Excelente deslizamento
+- Hidratação e nutrição
+- Pele macia e sedosa
+- Emoliente
+- Reduz ressecamento
+- Facilita manobras
+- Bom rendimento
+- 500ml
+
+## Modo de uso aprovado
+Aplicar quantidade suficiente na região corporal e realizar manobras conforme protocolo. Reaplicar quando necessário para manter deslizamento.
+
+## Cuidados e observações
+Evitar olhos, mucosas e áreas lesionadas ou irritadas. Suspender se irritar. Encaminhar em caso de alergia a óleos vegetais ou dúvidas com aparelhos e produtos térmicos.
+
+## Quando não indicar ou encaminhar
+Não indicar diretamente para gestantes, lactantes, crianças, idosos, pessoas com doenças preexistentes, alterações gastrointestinais, uso de medicamentos ou sensibilidade a componentes sem avaliação profissional.
+
+## Participação em protocolos
+sem informação.
+
+## Função dentro do protocolo
+Pode atuar como produto de deslizamento em massagens corporais relaxantes, modeladoras, drenagem linfática e protocolos corporais que exigem conforto, hidratação, nutrição e maciez.
+
+## Produtos que combinam
+- Kit BodyPro Corporal Profissional
+- Sal Térmico Lipolítico
+- Kit Profissional Venus de Lipoplastia
+- Creme de Massagem Corporal BodyPro
+- Protocolos de drenagem linfática
+- Massagem modeladora
+- Massagem relaxante
+
+## Diferença para produtos parecidos
+Diferencial: textura oleosa com alto deslizamento e nutrição, diferente de cremes que têm proposta e toque distintos.
+
+## Frase de segurança para a Nina
+Seguir rótulo e orientação profissional. Não prometer emagrecimento, perda de medidas ou resultado garantido. Gestantes, lactantes, crianças, idosos, pessoas com doenças, uso de medicamentos ou sensibilidade a componentes devem consultar profissional.
+
+### Objeções comuns e respostas
+
+**É para uso em casa?**
+A ficha indica uso profissional em cabine.
+
+**Serve para massagem modeladora?**
+Sim. É indicado para massagens relaxantes, modeladoras, drenagem linfática e cuidados que exigem alto deslizamento.
+
+**Qual o diferencial dele?**
+O diferencial é a textura oleosa com alto deslizamento, hidratação e nutrição, diferente de cremes que têm proposta e toque distintos.
+
+**Pode usar em qualquer pele?**
+Pode ser usado na pele corporal conforme avaliação profissional e tolerância a óleos vegetais.
+
+**Pode usar em gestantes?**
+Não indicar diretamente para gestantes ou lactantes sem avaliação profissional. Nesses casos, encaminhar para orientação.
+
+### Observações internas para a Nina
+
+Indicar para profissionais que precisam de alto deslizamento e conforto em massagens corporais, drenagem linfática, massagem relaxante ou modeladora. Não prometer emagrecimento, perda de medidas ou resultado garantido. Encaminhar para avaliação em caso de alergia a óleos vegetais, pele lesionada/irritada, gestantes, lactantes, crianças, idosos, doenças preexistentes, uso de medicamentos, sensibilidade a componentes ou dúvidas com aparelhos/produtos térmicos.
 
 ---
