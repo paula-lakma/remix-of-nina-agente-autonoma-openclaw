@@ -4,13 +4,17 @@
     "custom-triagem-antes-da-indicacao",
     "custom-separacao-home-care-x-cabine",
     "custom-encaminhamento-seguro-para-dermoconsultor",
-    "custom-venda-consultiva-sem-pressao"
+    "custom-venda-consultiva-sem-pressao",
+    "custom-controle-de-promessas-e-linguagem-segura",
+    "custom-assuntos-comerciais-e-sac"
   ],
   "managed": [
     "custom-guardrail-de-protocolos-aprovados",
     "custom-triagem-antes-da-indicacao",
     "custom-separacao-home-care-x-cabine",
     "custom-encaminhamento-seguro-para-dermoconsultor",
-    "custom-venda-consultiva-sem-pressao"
+    "custom-venda-consultiva-sem-pressao",
+    "custom-controle-de-promessas-e-linguagem-segura",
+    "custom-assuntos-comerciais-e-sac"
   ]
 }
