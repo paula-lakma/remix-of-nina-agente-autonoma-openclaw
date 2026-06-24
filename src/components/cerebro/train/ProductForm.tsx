@@ -47,18 +47,37 @@ const ProductForm: React.FC<ProductFormProps> = ({ draft, onChange }) => {
         </div>
         <div className="grid sm:grid-cols-2 gap-3">
           <div>
-            <label className={labelClass}>Categoria do produto *</label>
-            <select
-              value={draft.category ?? ''}
-              onChange={(e) => set('category', e.target.value)}
-              className={inputClass}
-            >
-              {CATEGORY_OPTIONS.map((opt) => (
-                <option key={opt} value={opt}>
-                  {opt || 'Selecione…'}
-                </option>
-              ))}
-            </select>
+            <label className={labelClass}>Categorias do produto *</label>
+            <div className="flex flex-wrap gap-2 mt-1">
+              {CATEGORY_OPTIONS.map((opt) => {
+                const checked = draft.category.includes(opt);
+                return (
+                  <label
+                    key={opt}
+                    className={`inline-flex items-center gap-1.5 text-xs px-2.5 py-1 rounded-md border cursor-pointer transition-colors ${
+                      checked
+                        ? 'bg-cyan-500/10 border-cyan-500/30 text-cyan-300'
+                        : 'bg-slate-950 border-slate-700 text-slate-400 hover:border-slate-600'
+                    }`}
+                  >
+                    <input
+                      type="checkbox"
+                      className="accent-cyan-500 w-3.5 h-3.5"
+                      checked={checked}
+                      onChange={() =>
+                        set(
+                          'category',
+                          checked
+                            ? draft.category.filter((c) => c !== opt)
+                            : [...draft.category, opt]
+                        )
+                      }
+                    />
+                    {opt}
+                  </label>
+                );
+              })}
+            </div>
           </div>
           <div>
             <label className={labelClass}>Principal objetivo *</label>
