@@ -53,8 +53,8 @@ const ProductsManager: React.FC = () => {
         </div>
       )}
 
-      {products.map((p) => (
-        <ProductItem key={p.id} product={p} onSave={update} onDelete={remove} />
+      {products.map((p, idx) => (
+        <ProductItem key={p.id} product={p} index={idx + 1} onSave={update} onDelete={remove} />
       ))}
 
       {adding ? (
