@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Pencil, Trash2, Check, X, Loader2 } from 'lucide-react';
+import { Pencil, Trash2, Check, X, Loader2, ChevronDown, ChevronUp } from 'lucide-react';
 import { Button } from '../../Button';
 import { toast } from 'sonner';
 import { productToDraft, type BrainProduct, type BrainProductInput } from '@/hooks/useBrainProducts';
