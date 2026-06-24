@@ -8972,3 +8972,1758 @@ O Emoliente de Cravos e Espinhas contém Trietanolamina. O Emoliente Zero Trieta
 Indicar para profissionais que fazem limpeza de pele e precisam facilitar a emoliência antes da extração de cravos, espinhas e comedões, especialmente quando buscam uma apresentação maior com rendimento de até 60 aplicações. Reforçar que é produto profissional de cabine e não deve ser orientado para extração doméstica. Diferenciar da versão Zero Trieta: este produto contém Trietanolamina. Se a cliente ou profissional pedir opção sem Trieta, direcionar para Emoliente Zero Trieta ou Kit Limpeza de Pele Facial + Ativos Sem Trieta. Encaminhar para dermoconsultora em caso de acne muito inflamada, pele lesionada, pele irritada, pele sensibilizada, rosácea em crise, dermatite em crise, alergia a componentes, alergia à Trietanolamina, gestantes, lactantes ou dúvidas sobre tempo de ação, fonte de calor, extração ou associação de ativos.
 
 ---
+
+## Creme 10 Ativos para Celulite - 900g
+
+Creme corporal redutor para massagem, indicado para protocolos profissionais de celulite, gordura localizada, flacidez, redução de medidas, massagem modeladora, endermoterapia e manta térmica conforme avaliação.
+
+- **Categorias:** profissional
+- **Principais objetivos:** Celulite, gordura localizada, flacidez, redução de medidas, massagem modeladora, ação lipolítica, estímulo da circulação, estímulo do metabolismo local, protocolos redutores, endermoterapia, manta térmica.
+- **Tipo de pele / condição indicada:** Todos os tipos de pele corporal conforme avaliação profissional, celulite, gordura localizada, flacidez, protocolos redutores, protocolos de massagem modeladora, protocolos com endermoterapia, protocolos com manta térmica, evitando pele lesionada, irritada, sensibilizada ou alterações circulatórias sem avaliação.
+- **Modo de uso:** Aplicar quantidade suficiente na região corporal. Espalhar com movimentos circulares, ascendentes ou manobras de massagem. Pode ser usado com endermoterapia ou manta térmica conforme avaliação profissional.
+- **Site:** https://lakma.com.br/products/creme-de-massagem-10-ativos-900g?_pos=1&_sid=96328ab85&_ss=r
+
+### Participação em protocolos
+
+- **Função dentro do protocolo:** Pode atuar como creme corporal redutor em protocolos profissionais de massagem, celulite, gordura localizada, flacidez, redução de medidas, endermoterapia e manta térmica, conforme avaliação profissional.
+
+### Combinações
+
+- **Combina com:** Gel Esfoliante Corporal Ozonizado, Kit Ozônio Premium, Creme Ozonizado, Gel Bioestimulante, Criogel, Gel Termoativado, Sal Térmico, Esbeltea, Body Splash Firmador, Creme Neutro como alternativa suave.
+- **Atenção / não combinar:** Evitar pele lesionada, pele irritada, pele sensibilizada, varizes importantes, alterações circulatórias, sensibilidade ao calor, alergia a termoativos, alergia a capsaicina, gestantes sem liberação, lactantes sem liberação, pós-operatório sem avaliação, doenças preexistentes sem avaliação, uso de medicamentos sem avaliação, dúvidas sobre manta térmica, dúvidas sobre endermoterapia, dúvidas sobre associação com termoativos. Pode aquecer e causar vermelhidão. Não prometer emagrecimento, perda de medidas ou resultado garantido.
+
+### Detalhes
+
+```markdown id="creme68md"
+## Função principal
+Creme corporal redutor para massagem, indicado para protocolos profissionais de celulite, gordura localizada, flacidez, redução de medidas, massagem modeladora, endermoterapia e manta térmica conforme avaliação.
+
+## Indicações
+- Celulite
+- Gordura localizada
+- Flacidez
+- Redução de medidas
+- Protocolos redutores
+- Massagem modeladora
+- Massagem corporal profissional
+- Estímulo da circulação
+- Estímulo do metabolismo local
+- Ação lipolítica
+- Endermoterapia conforme avaliação
+- Manta térmica conforme avaliação
+
+## Público / uso
+Profissional/cabine, com possível home care orientado se aprovado.
+
+## Tipo de produto
+Creme corporal redutor para massagem.
+
+## Linha
+linha oficial.
+
+## Volume
+900g.
+
+## Tipo de pele
+Todos os tipos de pele corporal, conforme avaliação profissional.
+
+## Zona de aplicação
+Corpo.
+
+## Momento de aplicação
+Protocolos corporais, massagem, endermoterapia ou manta térmica conforme avaliação profissional.
+
+## Ativos principais
+- Capsaicina
+- Silício Orgânico
+- Cafeína Biovetorizada
+- Arnica
+- Centelha Asiática
+- Castanha da Índia
+- Cavalinha
+- Hera
+- Erva Mate
+- Carbe Celuxyl
+
+## Benefícios aprovados
+- Auxilia nos cuidados com celulite
+- Auxilia nos cuidados com gordura localizada
+- Auxilia nos cuidados com flacidez
+- Ação lipolítica
+- Estimula circulação
+- Estimula metabolismo local
+- Tecnologia com liberação prolongada
+- Compatível com endermoterapia
+- Compatível com manta térmica
+- Hipoalergênico
+- Rendimento de até 70 aplicações
+
+## Modo de uso aprovado
+Aplicar quantidade suficiente na região corporal. Espalhar com movimentos circulares, ascendentes ou manobras de massagem. Usar com endermoterapia ou manta térmica conforme avaliação profissional.
+
+## Cuidados e observações
+Ativos estimulantes podem causar aquecimento e vermelhidão. Não aplicar em pele irritada, lesionada ou sensibilizada. Gestantes, lactantes e pessoas com condições vasculares ou circulatórias devem usar somente com orientação profissional. Não prometer emagrecimento, perda de medidas ou resultado garantido.
+
+## Quando não indicar ou encaminhar
+Não indicar sem avaliação em caso de varizes importantes, alterações circulatórias, sensibilidade ao calor, alergia a termoativos, alergia a capsaicina, pele lesionada, pele irritada, pele sensibilizada, gestação sem liberação, lactação sem liberação, pós-operatório sem avaliação, doenças preexistentes, uso de medicamentos ou dúvidas sobre manta térmica e endermoterapia.
+
+## Participação em protocolos
+sem informação.
+
+## Função dentro do protocolo
+Pode atuar como creme corporal redutor em protocolos profissionais de massagem, celulite, gordura localizada, flacidez, redução de medidas, endermoterapia e manta térmica, conforme avaliação profissional.
+
+## Produtos que combinam
+- Gel Esfoliante Corporal Ozonizado
+- Kit Ozônio Premium
+- Creme Ozonizado
+- Gel Bioestimulante
+- Criogel
+- Gel Termoativado
+- Sal Térmico
+- Esbeltea
+- Body Splash Firmador
+- Creme Neutro como alternativa suave
+
+## Diferença para produtos parecidos
+Mais direcionado a celulite, flacidez e gordura localizada que o Creme 7 Ativos, com capsaicina, cafeína biovetorizada e Carbe Celuxyl. Diferente do Gel Termoativado por ser creme de massagem.
+
+## Frase de segurança para a Nina
+Pode aquecer e causar vermelhidão. Evitar em pele sensibilizada e em pessoas com alterações circulatórias sem orientação. Não prometer emagrecimento, perda de medidas ou resultado garantido.
+```
+
+### Objeções comuns e respostas
+
+**É para uso em casa?**  
+A ficha indica uso profissional em cabine, com possível home care orientado se aprovado. A Nina não deve orientar uso livre sem avaliação.
+
+**Serve para celulite?**  
+Sim. É indicado para protocolos corporais com foco em celulite, gordura localizada, flacidez e redução de medidas, sempre sem prometer resultado garantido.
+
+**Pode aquecer ou deixar vermelho?**  
+Sim. O material informa que os ativos estimulantes podem causar aquecimento e vermelhidão.
+
+**Pode usar com manta térmica?**  
+Sim. O material informa compatibilidade com manta térmica conforme avaliação profissional.
+
+**Qual a diferença para o Creme 7 Ativos?**  
+O Creme 10 Ativos é mais direcionado a celulite, flacidez e gordura localizada, com capsaicina, cafeína biovetorizada e Carbe Celuxyl. O Creme 7 Ativos também é usado em massagem corporal, mas com proposta menos específica para esse foco.
+
+### Observações internas para a Nina
+
+Indicar para profissionais que trabalham com protocolos redutores, massagem modeladora, celulite, gordura localizada, flacidez, endermoterapia e manta térmica. Reforçar que pode aquecer e causar vermelhidão. Não prometer emagrecimento, perda garantida de medidas, eliminação de gordura, eliminação de celulite ou resultado corporal garantido. Para públicos sensíveis, considerar Creme Neutro como alternativa suave. Encaminhar para dermoconsultora em caso de gestantes, lactantes, varizes importantes, alterações circulatórias, sensibilidade ao calor, alergia a termoativos ou capsaicina, pele lesionada, pele irritada, pele sensibilizada, pós-operatório, doenças preexistentes, uso de medicamentos ou dúvidas sobre manta, endermoterapia e associações.
+
+---
+
+## Solução Neutralizante de Ácidos - 50ml
+
+Loção profissional neutralizante, indicada para controlar ou interromper a ação de ácidos após peelings e protocolos químicos quando houver necessidade de neutralização.
+
+- **Categorias:** profissional
+- **Principais objetivos:** Neutralização de ácidos, controle do tempo de ação, segurança em protocolos químicos, finalização técnica após peelings, suporte em protocolos profissionais com ácidos.
+- **Tipo de pele / condição indicada:** Pele normal conforme ficha, rosto e pescoço, protocolos profissionais com ácidos, protocolos de peelings químicos, protocolos que exigem neutralização, evitando pele com reação intensa, feridas, alergia ativa ou pós-procedimento sem protocolo.
+- **Modo de uso:** Após o tempo de ação do ácido, aplicar na região tratada, espalhar com gaze ou algodão, deixar agir por 5 minutos e remover o excesso. Usar somente quando o protocolo exigir neutralização.
+- **Site:** https://lakma.com.br/products/solucao-neutralizante-50ml?_pos=1&_sid=11920c378&_ss=r
+
+### Participação em protocolos
+
+- Participa de protocolos: **sim**
+- **Protocolos relacionados:** Kit Peelings Profissionais, Kit Ácidos Sem Mistérios, protocolos profissionais com ácidos, protocolos com peelings químicos, protocolos que exigem neutralização, Peeling Rejuvenescedor, Peeling Bio Complex, Peeling Químico Secativo.
+- **Função dentro do protocolo:** Atua como produto técnico para neutralizar a ação de ácidos quando o protocolo exigir, ajudando no controle do tempo de ação e na segurança de protocolos profissionais com peelings químicos.
+
+### Combinações
+
+- **Combina com:** Kit Peelings Profissionais, Kit Ácidos Sem Mistérios, Peeling Rejuvenescedor, Peeling Bio Complex, Peeling Químico Secativo, Máscara Calmante, Neuroplasma, Fluido Passo 1, Ideal Protect.
+- **Atenção / não combinar:** Não orientar cliente final, não usar em casa, evitar pele com reação intensa, feridas, alergia ativa, pós-procedimento sem protocolo, protocolos sem necessidade de neutralização, dúvidas sobre quais ácidos precisam neutralizar, dúvidas sobre tempo de ação, dúvidas sobre remoção, dúvidas sobre associação com peelings. Nem todo ácido segue a mesma neutralização.
+
+### Detalhes
+
+```markdown id="neutralizante69md"
+## Função principal
+Loção profissional neutralizante, indicada para controlar ou interromper a ação de ácidos em protocolos estéticos faciais, especialmente após peelings químicos quando houver necessidade de neutralização.
+
+## Indicações
+- Protocolos profissionais com ácidos
+- Protocolos de peelings químicos
+- Neutralização da ação de ácidos
+- Controle do tempo de ação
+- Mais segurança em protocolos químicos
+- Finalização técnica após ácidos
+- Rosto e pescoço conforme protocolo profissional
+
+## Público / uso
+Profissional/cabine.
+
+## Tipo de produto
+Loção neutralizante.
+
+## Linha
+Neutralizante de Ácidos.
+
+## Volume
+50ml / 50g.
+
+## Tipo de pele
+Normal, conforme ficha. Usar conforme avaliação profissional e necessidade do protocolo.
+
+## Zona de aplicação
+Rosto e pescoço.
+
+## Momento de aplicação
+Após o tempo de ação do ácido, quando o protocolo exigir neutralização.
+
+## Ativos principais
+- Bicarbonato de Sódio
+
+## Benefícios aprovados
+- Neutraliza ação de ácidos
+- Ajuda no controle do tempo de ação
+- Mais segurança em protocolos
+- Loção fácil de aplicar
+- Dermatologicamente testada
+- Hipoalergênica
+- Livre de parabenos
+- Livre de fragrância
+- Livre de óleo
+- Livre de glúten
+- Cruelty-free
+
+## Modo de uso aprovado
+Após o tempo do ácido, aplicar na região tratada. Espalhar com gaze ou algodão. Deixar agir por 5 minutos. Remover o excesso.
+
+## Cuidados e observações
+Uso profissional. Usar apenas quando houver necessidade de neutralização. Nem todo ácido segue a mesma neutralização. Reforçar fotoproteção em protocolos com ácidos.
+
+## Quando não indicar ou encaminhar
+Não orientar cliente final. Evitar em pele com reação intensa, feridas, alergia ativa ou pós-procedimento sem protocolo. Encaminhar quando houver dúvida sobre quais ácidos precisam neutralizar, tempo de ação, remoção, reação da pele ou associação com outros ativos.
+
+## Participação em protocolos
+Participa ou se relaciona com:
+- Kit Peelings Profissionais
+- Kit Ácidos Sem Mistérios
+- Protocolos profissionais com ácidos
+- Protocolos com peelings químicos
+- Protocolos que exigem neutralização
+- Peeling Rejuvenescedor
+- Peeling Bio Complex
+- Peeling Químico Secativo
+
+## Função dentro do protocolo
+Atua como produto técnico para neutralizar a ação de ácidos quando o protocolo exigir, ajudando no controle do tempo de ação e na segurança de protocolos profissionais com peelings químicos.
+
+## Produtos que combinam
+- Kit Peelings Profissionais
+- Kit Ácidos Sem Mistérios
+- Peeling Rejuvenescedor
+- Peeling Bio Complex
+- Peeling Químico Secativo
+- Máscara Calmante
+- Neuroplasma
+- Fluido Passo 1
+- Ideal Protect
+
+## Diferença para produtos parecidos
+Não é peeling, tônico ou tratamento clareador. É produto técnico para neutralização quando o protocolo exige.
+
+## Frase de segurança para a Nina
+Uso profissional e apenas em protocolos que exigem neutralização. Não orientar uso doméstico.
+```
+
+### Objeções comuns e respostas
+
+**É um peeling?**  
+Não. É uma loção técnica usada para neutralizar ácidos quando o protocolo exigir.
+
+**É para uso em casa?**  
+Não. É um produto profissional e não deve ser orientado para cliente final ou uso doméstico.
+
+**Todo ácido precisa neutralizar?**  
+Não necessariamente. O material informa que nem todo ácido segue a mesma neutralização. A Nina deve orientar que a profissional siga o protocolo aprovado e encaminhar em caso de dúvida.
+
+**Como usar?**  
+Após o tempo do ácido, aplicar na região tratada, espalhar com gaze ou algodão, deixar agir por 5 minutos e remover o excesso, somente quando houver necessidade de neutralização.
+
+**Precisa usar protetor solar depois?**  
+Sim. Em protocolos com ácidos, peelings e renovação, a fotoproteção deve ser reforçada.
+
+### Observações internas para a Nina
+
+Indicar somente para profissionais que trabalham com protocolos de ácidos e peelings químicos quando houver necessidade de controlar ou interromper a ação ácida conforme protocolo. Não tratar como peeling, tônico, clareador ou produto de tratamento. Não orientar uso doméstico. Reforçar que nem todo ácido exige a mesma neutralização. Encaminhar para dermoconsultora em caso de dúvida sobre quais peelings precisam neutralizar, tempo de ação, remoção, pele com reação intensa, feridas, alergia ativa, pós-procedimento sem protocolo ou associação com outros ativos.
+
+---
+
+## Máscara Facial de Ouro Golden Glitter - 150g
+
+Máscara facial hidratante e revitalizante com efeito dourado, indicada para hidratação, maciez, luminosidade, viço, uniformidade do tom e aparência mais firme e revitalizada.
+
+- **Categorias:** profissional, home care
+- **Principais objetivos:** Hidratação, maciez, luminosidade, viço, revitalização, uniformidade do tom, aparência mais firme, finalização de protocolos faciais, experiência sensorial sofisticada.
+- **Tipo de pele / condição indicada:** Todos os tipos de pele, pele com falta de luminosidade, pele com falta de viço, pele com necessidade de hidratação, pele com necessidade de maciez, pele com aparência cansada, pele com sinais de envelhecimento, pele com rugas, pele com flacidez, conforme avaliação profissional, evitando pele lesionada, irritada ou sensibilizada.
+- **Modo de uso:** Aplicar camada uniforme sobre pele limpa e seca. Deixar agir de 10 a 15 minutos ou conforme protocolo. Remover completamente após o tempo de ação. Pode aplicar também em pescoço e colo.
+- **Site:** https://lakma.com.br/products/mascara-ouro-rejuvenescedora-150gr?_pos=1&_sid=7b0b04bfc&_ss=r
+
+### Participação em protocolos
+
+- Participa de protocolos: **sim**
+- **Protocolos relacionados:** Protocolo Retorno Pós-Procedimentos 10 em 1, protocolos faciais de hidratação, protocolos faciais de luminosidade, protocolos faciais de revitalização, protocolos faciais de finalização, cuidados faciais regulares.
+- **Função dentro do protocolo:** Atua como máscara de finalização no Protocolo Retorno Pós-Procedimentos 10 em 1, podendo ser usada como etapa hidratante, revitalizante, luminosa e instagramável, com apelo de experiência sensorial sofisticada.
+
+### Combinações
+
+- **Combina com:** Espuma de Limpeza, Sabonete Líquido, Loção Tônica, Creme Ácido Hialurônico, Q-10, Fluido Passo 5, Booster Colágeno, Máscara Calmante, Neuroplasma Calmante, Kit Joias Raras, Kit Tropicalia, Máscara Hidroplástica, Ideal Protect, Fluidos do Passo 1 ao Passo 5.
+- **Atenção / não combinar:** Evitar olhos, mucosas, pele lesionada, pele irritada, pele sensibilizada, alergia ativa, dermatite em crise, rosácea em crise, pós-procedimento sensibilizante sem orientação profissional. Não prometer rejuvenescimento definitivo, lifting garantido, eliminação de rugas ou resultado permanente.
+
+### Detalhes
+
+```markdown id="golden70md"
+## Função principal
+Máscara facial hidratante e revitalizante com efeito dourado, indicada para hidratação, maciez, luminosidade, viço, uniformidade do tom, aparência mais firme e finalização de protocolos faciais.
+
+## Indicações
+- Todos os tipos de pele
+- Hidratação facial
+- Maciez
+- Luminosidade
+- Viço
+- Revitalização
+- Uniformidade do tom
+- Aparência mais firme
+- Pele com falta de luminosidade
+- Pele com aparência cansada
+- Sinais de envelhecimento conforme avaliação
+- Finalização de protocolos faciais
+- Experiência sensorial sofisticada
+- Cuidados faciais regulares
+
+## Público / uso
+Profissional/cabine e home care.
+
+## Tipo de produto
+Máscara facial hidratante e revitalizante.
+
+## Linha
+Golden Glitter / Máscaras Faciais / Rejuvenescedora.
+
+## Volume
+150g.
+
+## Tipo de pele
+Todos os tipos de pele.
+
+## Zona de aplicação
+Rosto, pescoço e colo, evitando olhos e mucosas.
+
+## Momento de aplicação
+Finalização de protocolos faciais ou cuidados regulares de hidratação, luminosidade e revitalização.
+
+## Ativos principais
+- Efeito Golden Glitter
+- Textura hidratante
+- Fórmula suave
+- Livre de parabenos
+- Ativos cosméticos oficiais da fórmula
+
+## Benefícios aprovados
+- Promove hidratação e maciez
+- Melhora a aparência de luminosidade e viço
+- Auxilia na uniformidade do tom
+- Contribui para aparência mais firme e revitalizada
+- Ideal para protocolos estéticos faciais
+- Livre de parabenos
+- Rendimento até 25 aplicações
+
+## Modo de uso aprovado
+Aplicar camada uniforme sobre pele limpa e seca. Deixar agir conforme protocolo ou orientação profissional. Tempo de ação: 10 a 15 minutos. Remover completamente após o tempo de ação. Pode ser usada em protocolos profissionais ou cuidados faciais regulares. No uso regular, usar 1 a 2 vezes por semana. Pode aplicar também em pescoço e colo.
+
+## Cuidados e observações
+Evitar olhos, mucosas e pele lesionada, irritada ou sensibilizada. Falar em melhora da aparência, sem prometer rejuvenescimento definitivo, lifting garantido ou eliminação de rugas.
+
+## Quando não indicar ou encaminhar
+Não indicar em pele irritada, pele sensibilizada, alergia ativa, dermatite em crise, rosácea em crise ou após procedimentos sensibilizantes sem orientação profissional. Encaminhar também em caso de gestantes, lactantes, reação ativa ou dúvida sobre uso pós-procedimento.
+
+## Participação em protocolos
+Participa de protocolo profissional aprovado:
+- Protocolo Retorno Pós-Procedimentos 10 em 1
+
+Também pode se relacionar com:
+- Protocolos faciais de hidratação
+- Protocolos faciais de luminosidade
+- Protocolos faciais de revitalização
+- Protocolos faciais de finalização
+- Cuidados faciais regulares
+
+## Função dentro do protocolo
+Atua como máscara de finalização no Protocolo Retorno Pós-Procedimentos 10 em 1, podendo ser usada como etapa hidratante, revitalizante, luminosa e instagramável, com apelo de experiência sensorial sofisticada.
+
+## Produtos que combinam
+- Espuma de Limpeza
+- Sabonete Líquido
+- Loção Tônica
+- Creme Ácido Hialurônico
+- Q-10
+- Fluido Passo 5
+- Booster Colágeno
+- Máscara Calmante
+- Neuroplasma Calmante
+- Kit Joias Raras
+- Kit Tropicalia
+- Máscara Hidroplástica
+- Ideal Protect
+- Fluidos do Passo 1 ao Passo 5
+
+## Diferença para produtos parecidos
+Diferente da Máscara Calmante, foca luminosidade, hidratação e viço. Diferente da Máscara Brownie, tem apelo de efeito dourado e revitalização visual. Diferente do Kit Joias Raras, é uma máscara individual.
+
+## Frase de segurança para a Nina
+Não comunicar como solução definitiva para rugas ou flacidez. Evitar uso em pele irritada, lesionada ou sensibilizada sem orientação.
+```
+
+### Objeções comuns e respostas
+
+**É uma máscara de tratamento ou só efeito dourado?**  
+É uma máscara facial hidratante e revitalizante com efeito dourado. O material destaca hidratação, maciez, luminosidade, viço, uniformidade do tom e aparência mais firme e revitalizada.
+
+**Pode usar em casa?**  
+Sim, a ficha indica uso profissional e home care. O uso regular pode ser de 1 a 2 vezes por semana, conforme necessidade e tolerância.
+
+**Serve para rugas e flacidez?**  
+Pode ajudar na melhora da aparência da pele, viço, luminosidade e aparência mais firme, mas a Nina não deve prometer eliminação de rugas, lifting garantido ou rejuvenescimento definitivo.
+
+**Precisa remover?**  
+Sim. A orientação aprovada é remover completamente após o tempo de ação.
+
+**Participa de protocolo aprovado?**  
+Sim. Ela aparece no Protocolo Retorno Pós-Procedimentos 10 em 1 como etapa de máscara, podendo ser usada como experiência visual e sensorial.
+
+### Observações internas para a Nina
+
+Indicar para clientes ou profissionais que buscam máscara facial hidratante, iluminadora, revitalizante e com efeito visual dourado para finalização de protocolos ou cuidados faciais regulares. Priorizar quando a profissional quiser uma etapa instagramável, sofisticada ou de experiência sensorial. No Protocolo Retorno Pós-Procedimentos 10 em 1, pode ser usada como alternativa à Máscara do Kit Joias Raras. Não prometer rejuvenescimento definitivo, lifting garantido, eliminação de rugas, correção definitiva de flacidez ou resultado permanente. Encaminhar para dermoconsultora em caso de pele irritada, lesionada, sensibilizada, alergia ativa, dermatite em crise, rosácea em crise, pós-procedimento sensibilizante sem orientação, gestantes, lactantes ou dúvidas sobre uso após procedimentos.
+
+---
+
+## Fator de Crescimento Melange Especial - 50ml
+
+Sérum facial com fator de crescimento e peptídeos, indicado para firmeza, revitalização, hidratação, vitalidade, melhora da aparência de linhas de expressão e cuidado antienvelhecimento.
+
+- **Categorias:** home care, profissional
+- **Principais objetivos:** Firmeza, revitalização, hidratação, vitalidade, cuidado antienvelhecimento, melhora da aparência de linhas de expressão, aparência rejuvenescida, suporte em protocolos faciais, suporte com tecnologias profissionais, cuidado de sobrancelhas e barba sem promessa de crescimento garantido.
+- **Tipo de pele / condição indicada:** Todos os tipos de pele, pele com linhas de expressão, pele com perda de firmeza, pele sem vitalidade, pele com necessidade de hidratação, pele com necessidade de revitalização, pele com sinais de envelhecimento, sobrancelhas e barba conforme orientação, evitando pele lesionada, irritada, reativa ou sensibilizada.
+- **Modo de uso:** Aplicar pequena quantidade sobre a pele limpa e seca. Espalhar pelo rosto até completa absorção. Usar de dia e à noite. Durante o dia, finalizar com protetor solar. Uso com tecnologias apenas conforme protocolo profissional.
+- **Site:** https://lakma.com.br/products/melange-especial-fator-de-crescimento-para-microagulhamento-50ml?_pos=1&_sid=e3164b646&_ss=r
+
+### Participação em protocolos
+
+- **Função dentro do protocolo:** Pode atuar como sérum com fator de crescimento e peptídeos em protocolos profissionais de firmeza, revitalização, hidratação, linhas de expressão, antienvelhecimento e tecnologias como microagulhamento, LED, laser e eletroterapias, sempre conforme protocolo profissional.
+
+### Combinações
+
+- **Combina com:** Espuma, Sabonete Líquido, Loção Tônica, Creme Ácido Hialurônico, Q-10, Fluido Passo 5, Booster Colágeno, Máscara Ouro, Máscara Calmante, Neuroplasma, Joias Raras, Ideal Protect, Perfect Growth, Rímel Fioativo.
+- **Atenção / não combinar:** Evitar olhos, mucosas, pele lesionada, pele irritada, pele reativa, pele sensibilizada, gestantes sem orientação, lactantes sem orientação, uso após procedimentos sem protocolo, microagulhamento sem profissional, laser sem profissional, LED sem profissional, eletroterapias sem profissional, queda intensa, falhas importantes, suspeita de alopecia, irritação no couro cabeludo. Não prometer rejuvenescimento definitivo, crescimento garantido de fios ou resultado garantido.
+
+### Detalhes
+
+```markdown id="melange71md"
+## Função principal
+Sérum facial com fator de crescimento e peptídeos, indicado para firmeza, revitalização, hidratação, vitalidade, cuidado antienvelhecimento e melhora da aparência de linhas de expressão.
+
+## Indicações
+- Todos os tipos de pele
+- Firmeza
+- Revitalização
+- Hidratação
+- Vitalidade
+- Cuidado antienvelhecimento
+- Melhora da aparência de linhas de expressão
+- Aparência hidratada
+- Aparência rejuvenescida
+- Protocolos faciais profissionais
+- Microagulhamento conforme protocolo profissional
+- LED conforme protocolo profissional
+- Laser conforme protocolo profissional
+- Eletroterapias conforme protocolo profissional
+- Sobrancelhas e barba conforme orientação, sem promessa de crescimento garantido
+
+## Público / uso
+Profissional/cabine e home care orientado.
+
+## Tipo de produto
+Sérum facial com fator de crescimento e peptídeos.
+
+## Linha
+Melange Especial.
+
+## Volume
+50ml.
+
+## Tipo de pele
+Todos os tipos de pele.
+
+## Zona de aplicação
+Rosto, evitando contorno dos olhos. Uso em sobrancelhas e barba conforme orientação aprovada, sem contato com olhos e mucosas.
+
+## Momento de aplicação
+Dia e noite conforme necessidade ou orientação profissional.
+
+## Ativos principais
+- Peptídeos Fatores de Crescimento IGF e bFGF
+- Peptídeo Oligomix
+- Fator de crescimento
+- Textura sérum
+- Fórmula sem fragrância
+- pH entre 5,8 e 6,8
+
+## Benefícios aprovados
+- Auxilia no cuidado antienvelhecimento
+- Contribui para linhas de expressão
+- Contribui para firmeza e vitalidade
+- Promove aparência hidratada e rejuvenescida
+- Pode ser usado dia e noite
+- Dermatologicamente testado
+- Hipoalergênico
+- Não comedogênico
+- Livre de parabenos
+- Livre de fragrância
+- Livre de óleo
+- Cruelty-free
+- Rendimento até 50 aplicações
+
+## Modo de uso aprovado
+Aplicar pequena quantidade sobre pele limpa e seca. Espalhar pelo rosto até completa absorção. Usar de dia e à noite. Finalizar com protetor solar durante o dia. Uso com tecnologias apenas conforme protocolo profissional. Frequência: usar todos os dias à noite, podendo dormir com o produto. Uso aprovado em sobrancelhas e barba, sem prometer crescimento garantido.
+
+## Cuidados e observações
+Evitar olhos e mucosas. Não aplicar em pele lesionada ou irritada. Não prometer rejuvenescimento definitivo nem crescimento garantido de fios. Procedimentos com microagulhamento, laser, LED ou eletroterapias exigem orientação profissional.
+
+## Quando não indicar ou encaminhar
+Encaminhar em queda intensa, falhas importantes, suspeita de alopecia, irritação no couro cabeludo, pele reativa, gestantes, lactantes, uso após procedimentos sem protocolo, dúvidas sobre microagulhamento, dúvidas sobre laser, dúvidas sobre LED ou dúvidas sobre eletroterapias.
+
+## Participação em protocolos
+sem informação.
+
+## Função dentro do protocolo
+Pode atuar como sérum com fator de crescimento e peptídeos em protocolos profissionais de firmeza, revitalização, hidratação, linhas de expressão, antienvelhecimento e tecnologias como microagulhamento, LED, laser e eletroterapias, sempre conforme protocolo profissional.
+
+## Produtos que combinam
+- Espuma
+- Sabonete Líquido
+- Loção Tônica
+- Creme Ácido Hialurônico
+- Q-10
+- Fluido Passo 5
+- Booster Colágeno
+- Máscara Ouro
+- Máscara Calmante
+- Neuroplasma
+- Joias Raras
+- Ideal Protect
+- Perfect Growth
+- Rímel Fioativo
+
+## Diferença para produtos parecidos
+Diferente do Booster Colágeno, foca peptídeos e fator de crescimento. Diferente do Passo 5, não é focado em lifting. Diferente do Nano Drone, não é clareador principal com retinol.
+
+## Frase de segurança para a Nina
+Não prometer rejuvenescimento definitivo ou crescimento garantido. Procedimentos com microagulhamento, laser, LED ou queda capilar intensa exigem orientação profissional.
+```
+
+### Objeções comuns e respostas
+
+**É para rejuvenescimento?**  
+Sim. O Melange Especial pode auxiliar no cuidado antienvelhecimento, firmeza, vitalidade, aparência hidratada e melhora da aparência de linhas de expressão, sem prometer rejuvenescimento definitivo.
+
+**Pode usar de dia?**  
+Sim. O modo de uso aprovado permite uso de dia e à noite. Durante o dia, finalizar com protetor solar.
+
+**É igual ao Booster Colágeno?**  
+Não. O Melange Especial foca peptídeos e fatores de crescimento. O Booster Colágeno tem foco mais intensivo em colágeno, firmeza e efeito preenchedor.
+
+**Pode usar com tecnologias?**  
+Pode ser associado a microagulhamento, LED, laser e eletroterapias apenas conforme protocolo profissional. A Nina não deve orientar essas técnicas em casa.
+
+**Pode usar em sobrancelhas e barba?**  
+O material informa uso aprovado em sobrancelhas e barba, mas sem promessa de crescimento garantido. Em caso de falhas importantes, queda intensa ou suspeita de alopecia, encaminhar para avaliação.
+
+### Observações internas para a Nina
+
+Indicar para clientes que buscam sérum leve para firmeza, revitalização, hidratação, vitalidade, cuidado antienvelhecimento e melhora da aparência de linhas de expressão. Para profissionais, pode ser indicado como fator de crescimento com peptídeos em protocolos faciais e tecnologias, desde que haja protocolo profissional. Para fios, sobrancelhas e barba, comunicar com cautela e sem promessa de crescimento garantido. Não prometer rejuvenescimento definitivo, crescimento garantido de fios, correção definitiva de linhas ou resultado permanente. Encaminhar para dermoconsultora em caso de gestantes, lactantes, pele lesionada, pele irritada, pele reativa, pele sensibilizada, uso após procedimentos sem protocolo, queda intensa, falhas importantes, suspeita de alopecia, irritação no couro cabeludo ou dúvidas sobre microagulhamento, laser, LED e eletroterapias.
+
+---
+
+## Neuroplasma Nutri-Complex - 50ml
+
+Fluido dermocosmético regenerador facial e corporal, indicado para melhorar a aparência de cicatrizes de acne, estrias, textura irregular, perda de firmeza e uniformidade da pele.
+
+- **Categorias:** home care, profissional
+- **Principais objetivos:** Regeneração da pele, melhora da aparência de cicatrizes de acne, melhora da aparência de estrias, melhora da textura, uniformização, firmeza, elasticidade, renovação celular, preenchimento visual, suporte em microagulhamento profissional.
+- **Tipo de pele / condição indicada:** Todos os tipos de pele, pele com cicatrizes de acne, pele com estrias, textura irregular, perda de firmeza, falta de uniformidade, áreas faciais ou corporais com marcas, conforme avaliação profissional, evitando feridas abertas, infecção, acne muito inflamada ou pele sensibilizada.
+- **Modo de uso:** Aplicar aproximadamente 5 gotas sobre a pele limpa. Espalhar até absorção e não remover. Pode ser usado em microagulhamento ou home care conforme orientação profissional. Em microagulhamento, usar a cada 15 ou 21 dias conforme avaliação e protocolo. Em home care, pode usar todos os dias conforme orientação.
+- **Site:** https://lakma.com.br/products/neuroplasma-nutri-complex-para-cicatriz-a-acne-e-estrias-50ml?_pos=2&_sid=06b71ae8f&_ss=r
+
+### Participação em protocolos
+
+- **Função dentro do protocolo:** Pode atuar como fluido regenerador em protocolos profissionais de microagulhamento, cicatrizes de acne, estrias, textura irregular, renovação, firmeza, elasticidade e reparação da pele, sempre conforme avaliação profissional.
+
+### Combinações
+
+- **Combina com:** Microagulhamento em Creme, Booster Fibras, Melange Especial, Booster Colágeno, Fluido Passo 1, Máscara Calmante, Neuroplasma Calmante, Máscara Hidroplástica, Creme Ácido Hialurônico, Ideal Protect.
+- **Atenção / não combinar:** Evitar feridas abertas, infecção, acne muito inflamada, acne ativa inflamada, dermatite ativa, pele lesionada, pele irritada, pele sensibilizada, alergia a componentes, queloides, tendência a cicatrização alterada, uso de isotretinoína, gestantes sem avaliação, lactantes sem avaliação, microagulhamento sem profissional, pós-procedimento sem protocolo, dúvidas sobre frequência, dúvidas sobre associação com ácidos, dúvidas sobre associação com retinoides.
+
+### Detalhes
+
+```markdown id="nutri72md"
+## Função principal
+Fluido dermocosmético regenerador facial e corporal, indicado para cuidados intensivos de regeneração da pele, melhora da aparência de cicatrizes de acne, estrias, textura irregular, perda de firmeza e uniformidade.
+
+## Indicações
+- Todos os tipos de pele
+- Cicatrizes de acne
+- Estrias recentes
+- Estrias antigas
+- Textura irregular
+- Perda de firmeza
+- Falta de uniformidade
+- Renovação celular
+- Regeneração da pele
+- Reparação da aparência da pele
+- Preenchimento visual
+- Protocolos profissionais de microagulhamento
+- Home care orientado conforme avaliação
+
+## Público / uso
+Profissional/cabine e home care orientado.
+
+## Tipo de produto
+Fluido dermocosmético regenerador.
+
+## Linha
+Neuroplasma.
+
+## Volume
+50ml.
+
+## Tipo de pele
+Todos os tipos de pele ou pele com cicatrizes, estrias e textura irregular.
+
+## Zona de aplicação
+Rosto e corpo em áreas com cicatrizes de acne, estrias ou textura irregular.
+
+## Momento de aplicação
+Microagulhamento profissional ou home care orientado.
+
+## Ativos principais
+- Rosa Mosqueta
+- Fibroativo Tamanu
+- Fatores de Crescimento IGF e BFGF
+- Silício Orgânico
+- Colágeno
+- Ácido Ascórbico
+- Hyalucell
+
+## Benefícios aprovados
+- Auxilia na melhora da aparência de cicatrizes de acne
+- Auxilia na melhora da aparência de estrias
+- Contribui para preenchimento visual
+- Estimula regeneração e renovação celular
+- Melhora textura e uniformidade
+- Promove firmeza e elasticidade
+- Pode ser usado em microagulhamento
+- Não necessita remoção
+- Rendimento até 50 aplicações
+
+## Modo de uso aprovado
+Aplicar aproximadamente 5 gotas sobre pele limpa. Pode ser usado em microagulhamento ou home care conforme orientação profissional. Espalhar até absorção e não remover. Pode combinar com outros produtos faciais Lakma conforme protocolo. Frequência: com microagulhamento, a cada 15 ou 21 dias conforme avaliação/protocolo. Em home care, pode usar todos os dias. Pode ser indicado para estrias recentes e antigas.
+
+## Cuidados e observações
+Não prometer eliminação definitiva de cicatrizes ou estrias. Em microagulhamento, uso apenas por profissional. Evitar feridas abertas, acne inflamada ativa, infecções e pele sensibilizada. Reforçar fotoproteção em áreas expostas.
+
+## Quando não indicar ou encaminhar
+Não indicar em feridas abertas, infecção, acne muito inflamada, dermatite ativa, alergia, queloides, tendência a cicatrização alterada, uso de isotretinoína ou gestantes e lactantes sem avaliação.
+
+## Participação em protocolos
+sem informação.
+
+## Função dentro do protocolo
+Pode atuar como fluido regenerador em protocolos profissionais de microagulhamento, cicatrizes de acne, estrias, textura irregular, renovação, firmeza, elasticidade e reparação da pele, sempre conforme avaliação profissional.
+
+## Produtos que combinam
+- Microagulhamento em Creme
+- Booster Fibras
+- Melange Especial
+- Booster Colágeno
+- Fluido Passo 1
+- Máscara Calmante
+- Neuroplasma Calmante
+- Máscara Hidroplástica
+- Creme Ácido Hialurônico
+- Ideal Protect
+
+## Diferença para produtos parecidos
+Diferente do Neuroplasma Calmante, foca regeneração, cicatrizes e estrias. Diferente do Booster Colágeno, é mais direcionado para marcas e reparação. Diferente do Melange, não é apenas antienvelhecimento.
+
+## Frase de segurança para a Nina
+Auxilia na melhora da aparência de cicatrizes e estrias, mas não elimina marcas definitivamente. Microagulhamento exige orientação profissional.
+```
+
+### Objeções comuns e respostas
+
+**Serve para cicatriz de acne?**  
+Sim. O produto auxilia na melhora da aparência de cicatrizes de acne, textura irregular e uniformidade da pele, sem prometer eliminação definitiva das marcas.
+
+**Serve para estrias?**  
+Sim. Pode ser indicado para estrias recentes e antigas, conforme orientação profissional, comunicando como melhora da aparência, sem promessa de eliminação total.
+
+**É para uso em casa?**  
+Pode ser home care orientado, mas o uso em microagulhamento deve ser apenas por profissional.
+
+**Precisa remover?**  
+Não. O modo de uso aprovado informa espalhar até absorção e não remover.
+
+**Qual a diferença para o Neuroplasma Calmante?**  
+O Neuroplasma Nutri-Complex foca regeneração, cicatrizes, estrias, textura e reparação. O Neuroplasma Calmante foca pele sensível, vermelhidão, desconforto e barreira.
+
+### Observações internas para a Nina
+
+Indicar para profissionais que trabalham com microagulhamento, cicatrizes de acne, estrias, textura irregular, reparação e renovação da pele. Para cliente final, posicionar como home care orientado, sem prometer eliminação definitiva de cicatrizes, estrias ou marcas. Reforçar que microagulhamento exige profissional e não deve ser orientado em casa. Encaminhar para dermoconsultora em caso de feridas abertas, infecção, acne muito inflamada, dermatite ativa, alergias, queloides, tendência a cicatrização alterada, uso de isotretinoína, gestantes, lactantes, pele sensibilizada ou dúvidas sobre frequência, protocolo e associação com ativos.
+
+---
+
+## Argila Verde - 150g
+
+Máscara facial em pó de Argila Verde 100%, indicada para peles normais, oleosas e acneicas, com ação secativa, purificante, desintoxicante, drenante e controle da oleosidade.
+
+- **Categorias:** profissional, home care
+- **Principais objetivos:** Controle da oleosidade, ação secativa, ação purificante, ação desintoxicante, ação drenante, remoção de impurezas, suporte para pele acneica, melhora da aparência da pele, aparência mais limpa e equilibrada, apoio em protocolos detox e secativos.
+- **Tipo de pele / condição indicada:** Pele normal, pele oleosa, pele acneica, excesso de brilho, sensação de impurezas, poros com aspecto obstruído, pele com necessidade de purificação, pele com necessidade de ação secativa, protocolos secativos, protocolos purificantes, protocolos detox, evitando pele lesionada, irritada, muito sensibilizada, acne inflamada intensa, feridas, rosácea ativa ou dermatite ativa.
+- **Modo de uso:** Preparar a argila conforme orientação do rótulo ou protocolo, aplicar no rosto limpo evitando olhos e mucosas, deixar agir pelo tempo indicado, remover completamente com água ou gaze umedecida e finalizar conforme necessidade da pele. Durante o dia, finalizar com protetor solar.
+- **Site:** https://lakma.com.br/products/argila-verde-150gr?_pos=1&_sid=d2cd41c2a&_ss=r
+
+### Participação em protocolos
+
+- Participa de protocolos: **sim**
+- **Protocolos relacionados:** Protocolo Corporal Flacicell, protocolos secativos, protocolos purificantes, protocolos detox, protocolos de controle de oleosidade, protocolos para pele oleosa e acneica, protocolos de limpeza de pele conforme avaliação.
+- **Função dentro do protocolo:** Atua como máscara secativa, purificante e desintoxicante em protocolos para pele oleosa, acneica, com impurezas, excesso de brilho e necessidade de controle da oleosidade. Também pode potencializar protocolos corporais quando misturada ao Criogel conforme protocolo aprovado.
+
+### Combinações
+
+- **Combina com:** Sabonete Líquido Facial, Espuma de Limpeza Facial, Loção Tônica, Fluido Secativo, Sérum NC-10, Máscara Calmante, Neuroplasma Calmante, Máscara Detox Zen Marine, Ideal Protect, Kit Limpeza de Pele Profissional, Kit Limpeza de Pele Facial + Ativos Sem Trieta, Peeling Químico Secativo em protocolo profissional, Criogel em protocolo corporal aprovado.
+- **Atenção / não combinar:** Evitar pele lesionada, pele irritada, pele muito sensibilizada, acne inflamada intensa, acne infecciosa, feridas, rosácea ativa, dermatite ativa, pós-peeling recente, pós-microagulhamento recente, pós-laser recente, esfoliação excessiva, ácidos fortes no mesmo momento sem avaliação, retinoides no mesmo momento sem avaliação. Não comunicar como cura da acne, secagem garantida, clareamento definitivo ou resultado garantido.
+
+### Detalhes
+
+```markdown id="argila73md"
+## Função principal
+Máscara facial em pó de Argila Verde 100%, indicada para peles normais, oleosas e acneicas, com ação secativa, purificante, desintoxicante, drenante e controle da oleosidade.
+
+## Indicações
+- Pele normal
+- Pele oleosa
+- Pele acneica
+- Excesso de brilho
+- Sensação de impurezas
+- Poros com aspecto obstruído
+- Pele com necessidade de purificação
+- Pele com necessidade de ação secativa
+- Controle de oleosidade
+- Protocolos secativos
+- Protocolos purificantes
+- Protocolos detox
+- Protocolos de limpeza de pele conforme avaliação
+
+## Público / uso
+Profissional/cabine e home care orientado.
+
+## Tipo de produto
+Máscara facial em pó.
+
+## Linha
+linha oficial.
+
+## Volume
+150g / 150ml.
+
+## Tipo de pele
+Normal, oleosa e acneica.
+
+## Zona de aplicação
+Rosto, evitando contato direto com os olhos e mucosas.
+
+## Momento de aplicação
+Após higienização, em protocolos secativos, purificantes, detox e de controle de oleosidade.
+
+## Ativos principais
+- Argila Verde 100%
+- Ativo mineral de ação secativa
+- Ativo mineral de ação purificante
+- Ativo mineral de ação desintoxicante
+
+## Benefícios aprovados
+- Auxilia pele oleosa e acneica
+- Ação secativa
+- Controle da oleosidade
+- Remoção de impurezas
+- Ação desintoxicante
+- Ação drenante
+- Aparência mais limpa e equilibrada
+- Pode auxiliar uniformização
+- Dermatologicamente testada
+- Hipoalergênica
+- Não comedogênica
+- Livre de parabenos
+- Livre de fragrância
+- Livre de glúten
+- Vegana
+- Cruelty-free
+- Rendimento até 20 aplicações
+
+## Modo de uso aprovado
+Preparar a argila conforme orientação do rótulo ou protocolo. Aplicar no rosto limpo, evitando olhos e mucosas. Deixar agir pelo tempo indicado, remover completamente com água ou gaze umedecida e finalizar conforme necessidade da pele. Durante o dia, finalizar com protetor solar.
+
+## Cuidados e observações
+Evitar pele lesionada, irritada ou muito sensibilizada. Ter cautela em acne inflamada intensa, rosácea ativa, dermatite ativa e pós-procedimento recente. Não sobrepor livremente com ácidos fortes, retinoides ou esfoliações no mesmo momento sem avaliação. Não comunicar como cura da acne, secagem garantida ou resultado garantido.
+
+## Quando não indicar ou encaminhar
+Não indicar diretamente em pele lesionada, pele irritada, pele muito sensibilizada, acne inflamada intensa, acne infecciosa, feridas, rosácea ativa, dermatite ativa, pós-peeling recente, pós-microagulhamento recente, pós-laser recente, alergias, gestantes ou lactantes sem avaliação.
+
+## Participação em protocolos
+Participa ou se relaciona com:
+- Protocolo Corporal Flacicell
+- Protocolos secativos
+- Protocolos purificantes
+- Protocolos detox
+- Protocolos de controle de oleosidade
+- Protocolos para pele oleosa e acneica
+- Protocolos de limpeza de pele conforme avaliação
+
+## Função dentro do protocolo
+Atua como máscara secativa, purificante e desintoxicante em protocolos para pele oleosa, acneica, com impurezas, excesso de brilho e necessidade de controle da oleosidade. Também pode potencializar protocolos corporais quando misturada ao Criogel conforme protocolo aprovado.
+
+## Produtos que combinam
+- Sabonete Líquido Facial
+- Espuma de Limpeza Facial
+- Loção Tônica
+- Fluido Secativo
+- Sérum NC-10
+- Máscara Calmante
+- Neuroplasma Calmante
+- Máscara Detox Zen Marine
+- Ideal Protect
+- Kit Limpeza de Pele Profissional
+- Kit Limpeza de Pele Facial + Ativos Sem Trieta
+- Peeling Químico Secativo em protocolo profissional
+- Criogel em protocolo corporal aprovado
+
+## Diferença para produtos parecidos
+Diferente da Máscara Detox Zen Marine, a Argila Verde é a opção mais secativa e purificante, voltada principalmente para oleosidade e pele acneica. Diferente do Kit Terras do Brasil, é a argila verde individual em pó, enquanto o kit reúne argilas prontas para personalização de protocolos.
+
+## Frase de segurança para a Nina
+Comunicar como auxílio para oleosidade, purificação e aparência da pele. Não prometer cura da acne, secagem garantida, clareamento definitivo ou resultado garantido. Evitar pele lesionada, irritada ou sensibilizada e encaminhar em caso de dúvida.
+```
+
+### Objeções comuns e respostas
+
+**Serve para pele oleosa?**  
+Sim. A Argila Verde é indicada para pele oleosa, excesso de brilho, controle de oleosidade e aparência mais limpa e equilibrada.
+
+**Serve para acne?**  
+Pode auxiliar peles acneicas com ação secativa, purificante e desintoxicante, mas não deve ser comunicada como cura da acne ou secagem garantida de espinhas.
+
+**É pronta para uso?**  
+A ficha apresenta como máscara facial em pó. A Nina deve orientar preparo conforme rótulo ou protocolo, sem inventar diluição específica quando ela não estiver confirmada.
+
+**Pode usar em pele sensível?**  
+Não é a melhor primeira escolha para pele muito sensibilizada, irritada ou com rosácea ou dermatite ativa. Nesses casos, priorizar avaliação profissional e produtos calmantes.
+
+**Qual a diferença para a Máscara Detox Zen Marine?**  
+A Argila Verde é mais secativa e purificante, com foco em oleosidade e acne. A Máscara Detox Zen Marine é prebiótica, em gel, pronta para uso e mais voltada para equilíbrio de microbiota, barreira, viço e finalização.
+
+### Observações internas para a Nina
+
+Indicar para clientes ou profissionais que buscam máscara secativa, purificante, desintoxicante e drenante para pele normal, oleosa ou acneica. Priorizar em queixas de excesso de brilho, oleosidade, impurezas e pele com aparência pesada. Pode ser associada a Fluido Secativo e NC-10 em estratégias para oleosidade, sempre respeitando tolerância da pele. Não prometer cura da acne, secagem garantida, controle definitivo da oleosidade, clareamento definitivo ou resultado garantido. Encaminhar para dermoconsultora em caso de pele lesionada, irritada, muito sensibilizada, acne inflamada intensa, acne infecciosa, feridas, rosácea ativa, dermatite ativa, pós-procedimento recente, gestantes, lactantes, alergias ou dúvidas sobre preparo, frequência e associação com ácidos.
+
+---
+
+## Kit Ácidos Sem Mistérios - 5 Produtos
+
+Kit profissional de peelings clareadores para protocolos de clareamento, manchas, melasma, renovação celular, uniformização do tom, textura, luminosidade e rejuvenescimento, conforme avaliação profissional.
+
+- **Categorias:** profissional
+- **Principais objetivos:** Clareamento de manchas, melasma, hiperpigmentações, manchas solares, manchas pós-inflamatórias, manchas de acne, manchas de idade, renovação celular, uniformização do tom, melhora da textura, luminosidade, rejuvenescimento.
+- **Tipo de pele / condição indicada:** Todos os tipos de pele conforme avaliação profissional, manchas, melasma, manchas solares, manchas pós-inflamatórias, manchas de acne, manchas de idade, hiperpigmentações, textura irregular, opacidade, falta de luminosidade, necessidade de renovação celular, evitando pele lesionada, sensibilizada, irritada, acne inflamada, rosácea ativa, dermatite ativa, gestantes e lactantes.
+- **Modo de uso:** Uso em cabine por profissional habilitado. Usar os produtos conforme avaliação da pele, fototipo, tolerância e protocolo. Alguns produtos podem agir até 8 horas. Não se expor ao sol durante o tempo de ação. No dia seguinte, lavar, remover resíduos e aplicar protetor solar no mínimo 2 vezes ao dia.
+- **Site:** https://lakma.com.br/products/kit-acidos-sem-misterios-clareamento-de-manchas?_pos=1&_sid=5200ce86c&_ss=r
+
+### Participação em protocolos
+
+- **Função dentro do protocolo:** Pode atuar como kit profissional clareador e renovador em protocolos de manchas, melasma, hiperpigmentações, textura irregular, luminosidade, uniformização e renovação celular, sempre com avaliação profissional e fotoproteção obrigatória.
+
+### Combinações
+
+- **Combina com:** Solução Neutralizante quando indicada, Máscara Calmante, Neuroplasma Calmante, Fluido Passo 1, Fluido Passo 2, Máscara Hidroplástica Zen Marine, Creme Ácido Hialurônico, Nano Drone em momentos adequados, Booster C100 em momentos adequados, Peeling de Cristal Líquido em protocolo separado ou complementar conforme avaliação, Ideal Protect obrigatoriamente.
+- **Atenção / não combinar:** Evitar uso em casa, gestantes, lactantes, alergia a componentes, pele lesionada, pele sensibilizada, pele irritada, acne inflamada, rosácea ativa, dermatite ativa, pós-procedimentos recentes, melasma resistente sem avaliação, manchas suspeitas, uso recente de ácidos, uso recente de retinoides, esfoliação excessiva, exposição solar durante o tempo de ação, sobreposição livre com outros clareadores, ácidos ou retinol sem protocolo. Não prometer clareamento definitivo, cura de melasma ou resultado garantido.
+
+### Detalhes
+
+```markdown id="acidos74md"
+## Função principal
+Kit profissional de peelings clareadores para protocolos de clareamento, manchas, melasma, renovação celular, uniformização do tom, textura, luminosidade e rejuvenescimento, conforme avaliação profissional.
+
+## Indicações
+- Clareamento de manchas
+- Melasma
+- Manchas solares
+- Manchas pós-inflamatórias
+- Manchas de acne
+- Manchas de idade
+- Hiperpigmentações
+- Renovação celular
+- Melhora da textura
+- Luminosidade
+- Uniformização do tom
+- Rejuvenescimento
+- Protocolos profissionais clareadores
+- Protocolos profissionais de renovação
+
+## Público / uso
+Profissional/cabine.
+
+## Tipo de produto
+Kit profissional de peelings clareadores.
+
+## Linha
+Facial.
+
+## Volume
+5 produtos.
+
+## Tipo de pele
+Todos os tipos de pele, conforme avaliação profissional.
+
+## Zona de aplicação
+Facial e corporal.
+
+## Momento de aplicação
+Protocolos profissionais de clareamento e renovação.
+
+## Composição do kit
+- Sabonete Ácido Glicólico
+- Peeling Biocomplex
+- Peeling de Inverno
+- Fluido Passo 4
+- Máscara Clareadora 10g
+
+## Ativos principais
+- Sabonete Ácido Glicólico
+- Peeling Biocomplex
+- Peeling de Inverno
+- Fluido Passo 4
+- Máscara Clareadora 10g
+
+## Benefícios aprovados
+- Kit profissional com 5 produtos
+- Clareamento
+- Renovação
+- Uniformização
+- Melhora de textura
+- Luminosidade
+- Diferentes fototipos conforme avaliação
+- Livre de parabenos
+- Livre de fragrância
+- Livre de álcool
+- Cruelty-free
+
+## Modo de uso aprovado
+Uso em cabine por profissional habilitado. Usar os produtos conforme avaliação. Alguns produtos podem agir até 8 horas. Não se expor ao sol durante o tempo de ação. No dia seguinte, lavar e remover resíduos. Protetor solar no mínimo 2 vezes ao dia.
+
+## Cuidados e observações
+Uso profissional. Contraindicado para gestantes e lactantes. Não aplicar em pele lesionada ou sensibilizada. Não prometer clareamento definitivo. Fotoproteção é indispensável.
+
+## Quando não indicar ou encaminhar
+Não indicar diretamente para gestantes, lactantes, alergia a componentes, pele lesionada, pele sensibilizada, acne inflamada, rosácea ativa, dermatite ativa, pós-procedimentos recentes, melasma resistente, manchas suspeitas, uso recente de ácidos ou retinoides, dúvidas sobre tempo de ação, neutralização, associação ou fotoproteção.
+
+## Participação em protocolos
+sem informação.
+
+## Função dentro do protocolo
+Pode atuar como kit profissional clareador e renovador em protocolos de manchas, melasma, hiperpigmentações, textura irregular, luminosidade, uniformização e renovação celular, sempre com avaliação profissional e fotoproteção obrigatória.
+
+## Produtos que combinam
+- Solução Neutralizante quando indicada
+- Máscara Calmante
+- Neuroplasma Calmante
+- Fluido Passo 1
+- Fluido Passo 2
+- Máscara Hidroplástica Zen Marine
+- Creme Ácido Hialurônico
+- Nano Drone em momentos adequados
+- Booster C100 em momentos adequados
+- Peeling de Cristal Líquido em protocolo separado ou complementar conforme avaliação
+- Ideal Protect obrigatoriamente
+
+## Diferença para produtos parecidos
+Diferente do kit com Peeling de Cristal Líquido por ter 5 produtos. Diferente do Kit Peelings Profissionais com 4 produtos, porque inclui sabonete, fluido e máscara clareadora.
+
+## Frase de segurança para a Nina
+Comunicar como auxílio, melhora da aparência ou suporte ao protocolo. Não prometer cura, resultado garantido, clareamento definitivo ou eliminação total de manchas. Uso profissional, com avaliação e fotoproteção obrigatória.
+```
+
+### Objeções comuns e respostas
+
+**É para usar em casa?**  
+Não. É um kit profissional para uso em cabine por profissional habilitado.
+
+**Serve para manchas e melasma?**  
+Sim. É indicado para clareamento de manchas, melasma, manchas solares, pós-inflamatórias, acne e idade, sempre conforme avaliação profissional.
+
+**Pode usar em qualquer fototipo?**  
+Pode ser usado em diferentes fototipos conforme avaliação profissional, respeitando tolerância, contraindicações e cuidados pós-peeling.
+
+**Precisa usar protetor solar?**  
+Sim. A fotoproteção é indispensável. O material orienta protetor solar no mínimo 2 vezes ao dia após o uso.
+
+**Qual a diferença para o Kit Ácidos Sem Mistérios com Peeling de Cristal Líquido?**  
+Este kit possui 5 produtos. A versão com Peeling de Cristal Líquido reúne 6 produtos e inclui o Peeling de Cristal Líquido como item adicional.
+
+### Observações internas para a Nina
+
+Indicar somente para profissionais que buscam kit clareador profissional para manchas, melasma, hiperpigmentações, textura irregular, luminosidade, uniformização e renovação celular. Não orientar uso doméstico. Reforçar que é necessário avaliar pele, fototipo, sensibilidade, contraindicações, tempo de ação e cuidados pós-peeling. Não prometer clareamento definitivo, remoção total de manchas, cura de melasma, rejuvenescimento garantido ou resultado permanente. Encaminhar para dermoconsultora em caso de gestantes, lactantes, alergias, pele lesionada, pele sensibilizada, acne inflamada, rosácea ativa, dermatite ativa, pós-procedimentos recentes, melasma resistente, manchas suspeitas, uso recente de ácidos ou retinoides, dúvidas sobre tempo de ação, neutralização, associação ou fotoproteção.
+
+---
+
+## Máscara Detox Zen Marine Prebiótica - 150g
+
+Máscara facial em gel prebiótica e detox, indicada para equilíbrio da microbiota, controle de pH, fortalecimento da barreira cutânea, viço, brilho, luminosidade e finalização pós-procedimentos.
+
+- **Categorias:** home care, profissional
+- **Principais objetivos:** Ação detox, equilíbrio da microbiota, controle de pH, barreira cutânea, viço, brilho, luminosidade, maciez, finalização pós-limpeza, finalização pós-peeling, suporte para acne, suporte para foliculite, suporte pós-procedimento conforme orientação.
+- **Tipo de pele / condição indicada:** Todos os tipos de pele, pele com necessidade de equilíbrio da microbiota, pele com necessidade de barreira cutânea, pele com necessidade de viço, pele com necessidade de luminosidade, pele pós-limpeza, pele pós-peeling conforme orientação, pele com acne ou foliculite como suporte, evitando feridas abertas, infecção ativa, reação alérgica intensa, rosácea em crise, dermatite em crise, ardência forte ou pós-procedimento agressivo sem avaliação.
+- **Modo de uso:** Aplicar pequena quantidade sobre o rosto limpo, espalhar até formar camada uniforme e deixar na pele. Não remover. Usar no final dos procedimentos, antes do protetor solar.
+- **Site:** https://lakma.com.br/products/zen-marine-detox-150gr?_pos=1&_sid=6ef45705f&_ss=r
+
+### Participação em protocolos
+
+- **Função dentro do protocolo:** Pode atuar como máscara em gel de finalização, suporte de barreira, equilíbrio da microbiota, ação detox, viço e luminosidade em protocolos faciais, limpeza de pele, pós-peeling, acne, foliculite e pós-procedimentos, conforme avaliação profissional.
+
+### Combinações
+
+- **Combina com:** Máscara Hidroplástica Zen Marine, Espuma de Limpeza Facial, Sabonete Líquido Facial, Loção Tônica, kits de limpeza de pele, Emolientes, Máscara Calmante, Neuroplasma Calmante, Fluido Passo 1, Fluido Passo 2, Fluido Secativo, Sérum NC-10, Argila Verde, peelings em protocolos profissionais, Ideal Protect.
+- **Atenção / não combinar:** Evitar feridas abertas, infecção ativa, reação alérgica intensa, rosácea em crise, dermatite em crise, ardência forte, pós-procedimento agressivo sem avaliação, pele muito irritada, pele lesionada, alergia a componentes, uso com ácidos fortes no mesmo momento sem protocolo, uso após peeling agressivo sem orientação, uso após laser ou microagulhamento sem protocolo. Não comunicar como cura de acne, cura de foliculite ou resultado garantido.
+
+### Detalhes
+
+```markdown id="zen75md"
+## Função principal
+Máscara facial em gel prebiótica e detox, indicada para equilíbrio da microbiota, controle de pH, fortalecimento da barreira cutânea, viço, brilho, luminosidade e finalização pós-procedimentos.
+
+## Indicações
+- Todos os tipos de pele
+- Ação detox
+- Equilíbrio da microbiota
+- Controle de pH
+- Barreira cutânea
+- Viço
+- Brilho
+- Luminosidade
+- Maciez
+- Finalização pós-limpeza
+- Finalização pós-peeling conforme orientação
+- Suporte para acne
+- Suporte para foliculite
+- Pós-procedimentos conforme orientação profissional
+
+## Público / uso
+Profissional/cabine e home care.
+
+## Tipo de produto
+Máscara facial em gel.
+
+## Linha
+Zen Marine.
+
+## Volume
+150g.
+
+## Tipo de pele
+Todos os tipos de pele.
+
+## Zona de aplicação
+Rosto.
+
+## Momento de aplicação
+Finalização de protocolos ou home care.
+
+## Ativos principais
+- Actiobiome
+- Dermochlorella DP
+- Chá Verde
+- Vitamina E
+
+## Benefícios aprovados
+- Ação detox
+- Equilíbrio da microbiota
+- Controle de pH
+- Regulação das bactérias naturais
+- Fortalece escudo protetor
+- Maciez
+- Brilho
+- Viço
+- Pronta para uso
+- Não necessita remoção
+- Vegana
+- Cruelty-free
+- Dermatologicamente testada
+
+## Modo de uso aprovado
+Aplicar pequena quantidade sobre rosto limpo, espalhar até camada uniforme e deixar na pele. Não remover. Usar no final dos procedimentos, antes do protetor solar.
+
+## Cuidados e observações
+Não comunicar como cura de acne ou foliculite. Pós-procedimento deve seguir orientação profissional. Reforçar fotoproteção no dia. Evitar uso em pele com reação intensa, feridas abertas ou infecção ativa.
+
+## Quando não indicar ou encaminhar
+Não indicar diretamente em feridas abertas, infecção ativa, reação alérgica intensa, rosácea em crise, dermatite em crise, ardência forte, pele muito irritada, pós-procedimento agressivo sem avaliação, alergia a componentes, gestantes ou lactantes sem orientação.
+
+## Participação em protocolos
+sem informação.
+
+## Função dentro do protocolo
+Pode atuar como máscara em gel de finalização, suporte de barreira, equilíbrio da microbiota, ação detox, viço e luminosidade em protocolos faciais, limpeza de pele, pós-peeling, acne, foliculite e pós-procedimentos, conforme avaliação profissional.
+
+## Produtos que combinam
+- Máscara Hidroplástica Zen Marine
+- Espuma de Limpeza Facial
+- Sabonete Líquido Facial
+- Loção Tônica
+- Kits de limpeza de pele
+- Emolientes
+- Máscara Calmante
+- Neuroplasma Calmante
+- Fluido Passo 1
+- Fluido Passo 2
+- Fluido Secativo
+- Sérum NC-10
+- Argila Verde
+- Peelings em protocolos profissionais
+- Ideal Protect
+
+## Diferença para produtos parecidos
+Diferente da Máscara Hidroplástica Zen Marine, é gel pronto sem remoção. Diferente da Máscara Calmante, adiciona ação prebiótica e detox. Diferente da Argila Verde, não é secativa principal.
+
+## Frase de segurança para a Nina
+Comunicar como auxílio, melhora da aparência ou suporte ao protocolo. Não prometer cura de acne, cura de foliculite, resultado garantido, clareamento definitivo ou eliminação total de queixas.
+```
+
+### Objeções comuns e respostas
+
+**Precisa remover?**  
+Não. A orientação aprovada informa aplicar em camada uniforme e deixar na pele, sem remoção.
+
+**Serve para finalizar limpeza de pele?**  
+Sim. Pode ser usada como finalização em protocolos de limpeza de pele, ajudando no suporte de barreira, equilíbrio, viço e conforto, conforme avaliação.
+
+**Serve para acne ou foliculite?**  
+Pode atuar como suporte em acne e foliculite, mas a Nina não deve comunicar como cura de acne, cura de foliculite ou resultado garantido.
+
+**Qual a diferença para a Máscara Hidroplástica Zen Marine?**  
+A Detox Zen Marine é gel pronto, sem remoção, com ação prebiótica e detox. A Hidroplástica é em pó, tem efeito oclusivo e pode potencializar a Detox Zen Marine.
+
+**Qual a diferença para a Argila Verde?**  
+A Argila Verde é mais secativa e purificante. A Detox Zen Marine não é a secativa principal, ela foca microbiota, pH, barreira, detox, viço e finalização.
+
+### Observações internas para a Nina
+
+Indicar para clientes ou profissionais que buscam finalização facial em gel, ação detox, equilíbrio da microbiota, controle de pH, barreira cutânea, viço, brilho, luminosidade e suporte pós-limpeza, pós-peeling, acne ou foliculite conforme orientação. Priorizar como opção de suporte de barreira e finalização quando a pele precisar de equilíbrio, conforto e viço. Não prometer cura de acne, cura de foliculite, recuperação garantida pós-procedimento, clareamento definitivo ou resultado garantido. Encaminhar para dermoconsultora em caso de feridas abertas, infecção ativa, reação alérgica intensa, rosácea em crise, dermatite em crise, ardência forte, pele muito irritada, pós-procedimento agressivo sem avaliação, gestantes, lactantes, alergias ou dúvidas sobre associação com ácidos, peelings, laser ou microagulhamento.
+
+---
+
+## Peeling Enzimático de Romã Facial - 60ml
+
+Sérum facial com ação de peeling enzimático clareador e renovador, indicado para manchas, renovação celular, uniformização, melhora da textura, luminosidade e revitalização da pele.
+
+- **Categorias:** home care, profissional
+- **Principais objetivos:** Clareamento de manchas, renovação celular, uniformização do tom, melhora da textura, luminosidade, revitalização, suporte em protocolos clareadores, suporte em rotinas renovadoras, melhora da aparência da pele.
+- **Tipo de pele / condição indicada:** Todos os tipos de pele, manchas, tom irregular, textura irregular, pele opaca, pele com falta de luminosidade, pele com necessidade de renovação, pele com necessidade de revitalização, conforme avaliação e tolerância, evitando pele lesionada, sensibilizada, irritada, rosácea ativa, dermatite ativa ou pós-procedimento recente.
+- **Modo de uso:** Aplicar sobre o rosto limpo e higienizado. Espalhar até completa absorção. Não remover. Usar conforme necessidade ou orientação. Durante o dia, finalizar com protetor solar.
+- **Site:** https://lakma.com.br/products/peeling-enzimatico-de-roma-clareador-60ml?_pos=1&_sid=1bc092cdb&_ss=r
+
+### Participação em protocolos
+
+- **Função dentro do protocolo:** Pode atuar como sérum renovador e clareador em rotinas home care orientadas ou protocolos profissionais de manchas, textura, luminosidade, revitalização e uniformização, com fotoproteção obrigatória durante o dia.
+
+### Combinações
+
+- **Combina com:** Espuma de Limpeza Facial, Loção Tônica, Sérum NC-10, Creme Ácido Hialurônico, Máscara Calmante, Neuroplasma Calmante, Máscara Detox Zen Marine, Máscara Hidroplástica Zen Marine, Máscara Facial de Ouro Golden Glitter, Ideal Protect, protocolos clareadores com avaliação.
+- **Atenção / não combinar:** Evitar pele lesionada, pele sensibilizada, pele irritada, pele reativa, rosácea ativa, dermatite ativa, alergia a componentes, alergia a kójico, pós-peeling recente, pós-laser recente, pós-microagulhamento recente, gestantes sem orientação, lactantes sem orientação, associação livre com ácidos, associação livre com retinol, associação livre com procedimentos. Não prometer clareamento definitivo, remoção total de manchas ou resultado garantido.
+
+### Detalhes
+
+```markdown id="roma76md"
+## Função principal
+Sérum facial com ação de peeling enzimático clareador e renovador, indicado para clareamento de manchas, renovação celular, uniformização, melhora da textura, luminosidade e revitalização da pele.
+
+## Indicações
+- Todos os tipos de pele
+- Clareamento de manchas
+- Renovação celular
+- Uniformização do tom
+- Textura irregular
+- Luminosidade
+- Revitalização
+- Pele opaca
+- Pele com falta de viço
+- Rotina home care orientada
+- Protocolos profissionais clareadores conforme avaliação
+- Protocolos renovadores conforme avaliação
+
+## Público / uso
+Profissional/cabine e home care orientado.
+
+## Tipo de produto
+Sérum facial / peeling enzimático.
+
+## Linha
+Facial.
+
+## Volume
+60ml.
+
+## Tipo de pele
+Todos os tipos de pele, conforme avaliação e tolerância.
+
+## Zona de aplicação
+Rosto, evitando contorno dos olhos, olhos e mucosas.
+
+## Momento de aplicação
+Rotina home care ou protocolo profissional, sobre pele limpa e higienizada.
+
+## Ativos principais
+- Extrato de Romã
+- Niacinamida
+- Nano Ácido Kójico
+
+## Benefícios aprovados
+- Clareia manchas
+- Renova
+- Uniformiza
+- Ilumina
+- Melhora textura
+- Pode auxiliar renovação em até 14 dias
+- Textura sérum
+- Não comedogênico
+- Dermatologicamente testado
+- Livre de óleo
+- Livre de glúten
+- Vegano
+- Cruelty-free
+
+## Modo de uso aprovado
+Aplicar sobre rosto limpo e higienizado. Espalhar até absorção. Não remover. Usar conforme necessidade ou orientação. Durante o dia, finalizar com protetor solar.
+
+## Cuidados e observações
+Não é hipoalergênico e contém fragrância/parabenos conforme ficha. Ter cautela em peles reativas. Evitar associação livre com ácidos, retinol e procedimentos sem avaliação. Por ter proposta clareadora e Nano Ácido Kójico, reforçar fotoproteção durante o dia.
+
+## Quando não indicar ou encaminhar
+Não indicar diretamente em pele sensibilizada, pele lesionada, pele irritada, pele reativa, rosácea ativa, dermatite ativa, alergia a componentes, alergia a kójico, pós-peeling recente, pós-laser recente, pós-microagulhamento recente, gestantes sem orientação ou lactantes sem orientação.
+
+## Participação em protocolos
+sem informação.
+
+## Função dentro do protocolo
+Pode atuar como sérum renovador e clareador em rotinas home care orientadas ou protocolos profissionais de manchas, textura, luminosidade, revitalização e uniformização, com fotoproteção obrigatória durante o dia.
+
+## Produtos que combinam
+- Espuma de Limpeza Facial
+- Loção Tônica
+- Sérum NC-10
+- Creme Ácido Hialurônico
+- Máscara Calmante
+- Neuroplasma Calmante
+- Máscara Detox Zen Marine
+- Máscara Hidroplástica Zen Marine
+- Máscara Facial de Ouro Golden Glitter
+- Ideal Protect
+- Protocolos clareadores com avaliação
+
+## Diferença para produtos parecidos
+Diferente de peelings químicos profissionais, não necessita remoção e pode ser home care orientado. Diferente do Peeling Químico Secativo, não é focado em acne e oleosidade. Diferente do Bio Complex, é uma opção mais prática e sérum/peeling enzimático para manchas, textura e luminosidade.
+
+## Frase de segurança para a Nina
+Comunicar como auxílio, melhora da aparência ou suporte ao protocolo. Não prometer clareamento definitivo, eliminação total de manchas, renovação garantida ou resultado garantido. Reforçar fotoproteção e encaminhar em caso de pele sensibilizada, reação ou dúvida técnica.
+```
+
+### Objeções comuns e respostas
+
+**Precisa remover?**  
+Não. O modo de uso aprovado informa aplicar sobre o rosto limpo, espalhar até absorção e não remover.
+
+**Serve para manchas?**  
+Sim. É indicado para clareamento de manchas, uniformização do tom, luminosidade, renovação celular e melhora da textura, sem prometer clareamento definitivo.
+
+**Pode usar em casa?**  
+Pode ser usado como home care orientado ou em protocolo profissional, sempre respeitando tolerância da pele, contraindicações e fotoproteção.
+
+**Pode usar com outros ácidos ou retinol?**  
+A Nina deve orientar cautela. O material recomenda evitar associação livre com ácidos, retinol e procedimentos sem avaliação.
+
+**Qual a diferença para o Peeling Químico Secativo?**  
+O Peeling Enzimático de Romã é home care orientado e profissional, não necessita remoção e foca manchas, luminosidade, textura e renovação. O Peeling Químico Secativo é exclusivamente profissional, tem tempo máximo de ação e foco em acne, cravos, comedões e oleosidade.
+
+### Observações internas para a Nina
+
+Indicar para clientes ou profissionais que buscam renovação mais prática, clareamento de manchas, melhora de textura, luminosidade, uniformização e revitalização. Reforçar que não necessita remoção e que a fotoproteção é indispensável durante o dia. Não prometer clareamento definitivo, eliminação total de manchas, renovação garantida em prazo fixo ou resultado garantido. Como contém Nano Ácido Kójico e a ficha informa que não é hipoalergênico, contém fragrância e parabenos, ter cautela em peles reativas. Encaminhar para dermoconsultora em caso de pele sensibilizada, lesionada, irritada, rosácea ativa, dermatite ativa, alergias, gestantes, lactantes, pós-procedimento recente ou dúvidas sobre associação com ácidos, retinol, laser, peelings ou microagulhamento.
+
+---
+
+## Kit Lakma Limpeza de Pele Profunda Skin Care - ECOSKIN
+
+Kit facial Eco Skin com 3 produtos, indicado para limpeza facial express, limpeza profunda, revitalização, hidratação, suavização, finalização e dermaplaning profissional.
+
+- **Categorias:** profissional
+- **Principais objetivos:** Limpeza facial express, limpeza profunda, esfoliação suave, preparação para extração, fechamento de poros, revitalização, hidratação, suavização, efeito mate, finalização, dermaplaning profissional.
+- **Tipo de pele / condição indicada:** Todos os tipos de pele, pele com necessidade de limpeza express, pele com necessidade de revitalização, pele com necessidade de hidratação, pele com necessidade de suavização, pele com necessidade de finalização, protocolos de dermaplaning profissional, protocolos de limpeza facial profunda, evitando pele lesionada, irritada, acne inflamada, acne severa, feridas, alergia ativa, uso recente de ácidos, retinoides, peeling, laser, microagulhamento ou isotretinoína sem avaliação.
+- **Modo de uso:** Aplicar Creme 3 em 1 por 2 minutos sem remover. Usar vapor ou máscara térmica por 15 minutos quando houver extração profissional. Realizar extração se indicada. Remover excesso. Aplicar a Bruma Immun'Eau com algodão ou borrifar. Aplicar Máscara Suavizante Oligo-Mat até absorção, não remover e finalizar com protetor solar.
+- **Site:** https://lakma.com.br/products/kit-eco-skin-para-dermaplaning?_pos=1&_sid=b9365a88d&_ss=r
+
+### Participação em protocolos
+
+- **Função dentro do protocolo:** Pode atuar como kit de limpeza facial profunda, limpeza express, finalização e suporte em dermaplaning profissional, com etapas de limpeza 3 em 1, bruma tônica e máscara suavizante sem remoção.
+
+### Combinações
+
+- **Combina com:** Ideal Protect, Máscara Detox Zen Marine, Máscara Hidroplástica Zen Marine, Máscara Calmante, Neuroplasma Calmante, Fluido Passo 1, Fluido Passo 2, Creme Ácido Hialurônico, Sérum NC-10, Fluido Secativo, Argila Verde, Máscara Facial de Ouro Golden Glitter.
+- **Atenção / não combinar:** Evitar dermaplaning em casa, extração em casa, pele lesionada, pele irritada, acne inflamada, acne severa, feridas, alergia ativa, uso recente de ácidos, uso recente de retinoides, peeling recente, laser recente, microagulhamento recente, isotretinoína sem avaliação, ácidos fortes no mesmo dia sem protocolo profissional, procedimentos sensibilizantes sem avaliação. Não é livre de fragrância.
+
+### Detalhes
+
+```markdown id="skin77md"
+## Função principal
+Kit facial Eco Skin com 3 produtos, indicado para limpeza facial express, limpeza profunda, revitalização, hidratação, suavização, finalização e dermaplaning profissional.
+
+## Indicações
+- Todos os tipos de pele
+- Limpeza facial express
+- Limpeza profunda
+- Esfoliação suave
+- Preparação para extração
+- Fechamento de poros
+- Revitalização
+- Hidratação
+- Suavização
+- Efeito mate
+- Finalização facial
+- Dermaplaning profissional
+- Skin care orientado conforme avaliação
+
+## Público / uso
+Profissional/cabine e skin care orientado.
+
+## Tipo de produto
+Kit de limpeza facial profunda.
+
+## Linha
+Eco Skin.
+
+## Volume
+3 produtos.
+
+## Tipo de pele
+Todos os tipos de pele.
+
+## Zona de aplicação
+Rosto.
+
+## Momento de aplicação
+Limpeza express, dermaplaning profissional e finalização.
+
+## Composição do kit
+- Creme de Limpeza 3 em 1
+- Bruma Immun'Eau
+- Máscara Suavizante Oligo-Mat
+
+## Ativos principais
+- Creme de Limpeza 3 em 1
+- Bruma Immun'Eau
+- Máscara Suavizante Oligo-Mat
+
+## Benefícios aprovados
+- Limpeza profunda
+- Esfoliação suave
+- Preparação para extração
+- Fechamento de poros
+- Ação tônica
+- Ação adstringente
+- Hidratação
+- Revitalização
+- Acalma e suaviza
+- Efeito mate
+- Vegano
+- Cruelty-free
+- Livre de parabenos
+- Livre de sulfatos
+- Livre de álcool
+- Proposta sustentável
+
+## Modo de uso aprovado
+Aplicar Creme 3 em 1 por 2 minutos sem remover. Usar vapor ou máscara térmica por 15 minutos quando houver extração profissional. Realizar extração profissional se indicada. Remover excesso. Aplicar a Bruma Immun'Eau com algodão ou borrifar. Aplicar Máscara Suavizante Oligo-Mat até absorção. Não remover. Finalizar com protetor solar.
+
+## Cuidados e observações
+Dermaplaning apenas por profissional. Não orientar dermaplaning ou extração em casa. Não usar em pele lesionada, irritada, acne inflamada, feridas ou alergia. Não é livre de fragrância. Evitar ácidos fortes no mesmo dia sem protocolo profissional.
+
+## Quando não indicar ou encaminhar
+Não indicar dermaplaning ou extração em casa. Evitar em pele lesionada, pele irritada, acne inflamada, acne severa, feridas, alergia ativa, uso recente de ácidos, uso recente de retinoides, peeling recente, laser recente, microagulhamento recente, isotretinoína sem avaliação, gestantes ou lactantes sem orientação.
+
+## Participação em protocolos
+sem informação.
+
+## Função dentro do protocolo
+Pode atuar como kit de limpeza facial profunda, limpeza express, finalização e suporte em dermaplaning profissional, com etapas de limpeza 3 em 1, bruma tônica e máscara suavizante sem remoção.
+
+## Produtos que combinam
+- Ideal Protect
+- Máscara Detox Zen Marine
+- Máscara Hidroplástica Zen Marine
+- Máscara Calmante
+- Neuroplasma Calmante
+- Fluido Passo 1
+- Fluido Passo 2
+- Creme Ácido Hialurônico
+- Sérum NC-10
+- Fluido Secativo
+- Argila Verde
+- Máscara Facial de Ouro Golden Glitter
+
+## Diferença para produtos parecidos
+Diferente do Kit Sem Trieta, é Eco Skin com 3 produtos e foco em limpeza express, dermaplaning e finalização. Diferente de kits com ácidos, não é clareador nem peeling agressivo.
+
+## Frase de segurança para a Nina
+Comunicar como auxílio, melhora da aparência ou suporte ao protocolo. Não prometer cura, resultado garantido, clareamento definitivo ou eliminação total de queixas. Dermaplaning e extração devem ser feitos apenas por profissional.
+```
+
+### Objeções comuns e respostas
+
+**É para dermaplaning?**  
+Sim. O kit tem foco em limpeza express, finalização e dermaplaning profissional, mas dermaplaning deve ser feito apenas por profissional.
+
+**Pode usar em casa?**  
+A ficha indica profissional/cabine e skin care orientado. A Nina não deve orientar dermaplaning ou extração em casa.
+
+**Quais produtos vêm no kit?**  
+Creme de Limpeza 3 em 1, Bruma Immun'Eau e Máscara Suavizante Oligo-Mat.
+
+**Precisa remover a máscara final?**  
+Não. A orientação aprovada informa aplicar Oligo-Mat até absorção e não remover.
+
+**Qual a diferença para o Kit Sem Trieta?**  
+Este é um kit Eco Skin com 3 produtos e foco em limpeza express, dermaplaning, revitalização e finalização. O Kit Sem Trieta é mais voltado para limpeza de pele profissional completa com emoliência e extração.
+
+### Observações internas para a Nina
+
+Indicar para profissionais que buscam kit Eco Skin de limpeza facial profunda, limpeza express, revitalização, hidratação, suavização, finalização e dermaplaning profissional. Reforçar que dermaplaning e extração não devem ser ensinados para uso doméstico. Evitar associar ácidos fortes no mesmo dia sem protocolo profissional. Não comunicar como peeling agressivo, clareador principal, cura de acne, resultado garantido ou solução para pele lesionada. Encaminhar para dermoconsultora em caso de pele lesionada, pele irritada, acne inflamada, acne severa, feridas, alergia ativa, uso recente de ácidos, retinoides, peeling, laser, microagulhamento, isotretinoína, gestantes, lactantes ou dúvidas sobre dermaplaning e extração.
+
+---
+
+## Kit Fluidos Revitalizantes para Microagulhamento - 5 Passos
+
+Kit profissional com 5 fluidos revitalizantes nanotecnológicos e biotecnológicos, indicado para microagulhamento, tecnologias, hidratação, preenchimento visual, firmeza, clareamento, antioxidante, rejuvenescimento e revitalização profissional.
+
+- **Categorias:** profissional
+- **Principais objetivos:** Microagulhamento profissional, hidratação, preenchimento visual, firmeza, clareamento, ação antioxidante, rejuvenescimento, revitalização profissional, melhora da textura, luminosidade, vitalidade, suporte em tecnologias estéticas.
+- **Tipo de pele / condição indicada:** Todos os tipos de pele conforme avaliação profissional, pele com necessidade de hidratação, pele com necessidade de firmeza, pele com necessidade de clareamento, pele com necessidade de rejuvenescimento, textura irregular, falta de luminosidade, falta de vitalidade, cicatrizes de acne, estrias, protocolos de microagulhamento, LED, laser, eletroterapia, jato de plasma e protocolos revitalizantes, evitando pele lesionada, sensibilizada, acne inflamada, feridas, rosácea ativa, gestantes e lactantes sem liberação.
+- **Modo de uso:** Aplicar o fluido escolhido ou todos os fluidos, um por cima do outro, sobre a pele limpa conforme protocolo profissional. Pode associar com produtos Lakma. Deixar agir e não remover, salvo quando o protocolo orientar remoção.
+- **Site:** https://lakma.com.br/products/kit-fluidos-revitalizantes-para-microagulhamento?_pos=1&_sid=e3adb7d8b&_ss=r
+
+### Participação em protocolos
+
+- Participa de protocolos: **sim**
+- **Protocolos relacionados:** Protocolo Cicatriz de Acne e Estrias, protocolos profissionais de microagulhamento, protocolos com LED, protocolos com laser, protocolos com eletroterapia, protocolos com jato de plasma, protocolos revitalizantes, protocolos de hidratação, protocolos de firmeza, protocolos de clareamento, protocolos de rejuvenescimento.
+- **Função dentro do protocolo:** Atua como kit de fluidos revitalizantes profissionais para aplicação em sequência ou por escolha técnica, fornecendo suporte de hidratação, firmeza, clareamento, antioxidante, preenchimento visual, textura, luminosidade e vitalidade em microagulhamento, tecnologias e protocolos revitalizantes.
+
+### Combinações
+
+- **Combina com:** Microagulhamento em Creme, Booster Fibras, Booster Colágeno, Melange Especial, Neuroplasma Nutri-Complex, Máscara Calmante, Neuroplasma Calmante, Máscara Detox Zen Marine, Máscara Hidroplástica Zen Marine, Máscara Facial de Ouro Golden Glitter, Creme Ácido Hialurônico, Ideal Protect, Peeling de Cristal Líquido em protocolo profissional, Sabonete de Ácido Glicólico em protocolo profissional.
+- **Atenção / não combinar:** Evitar uso em casa para microagulhamento, laser, LED, eletroterapia ou jato de plasma, pele lesionada, pele sensibilizada, pele irritada, acne inflamada, feridas, rosácea ativa, alergias, isotretinoína, pós-procedimentos recentes sem avaliação, gestantes sem liberação, lactantes sem liberação, dúvidas sobre tecnologias, dúvidas sobre ordem dos fluidos, dúvidas sobre associação com ácidos, retinoides, peelings ou protocolos descamativos. Não prometer preenchimento garantido, clareamento definitivo, rejuvenescimento garantido ou resultado garantido.
+
+### Detalhes
+
+```markdown id="fluidos78md"
+## Função principal
+Kit profissional com 5 fluidos revitalizantes nanotecnológicos e biotecnológicos, indicado para microagulhamento, tecnologias, hidratação, preenchimento visual, firmeza, clareamento, antioxidante, rejuvenescimento e revitalização profissional.
+
+## Indicações
+- Microagulhamento profissional
+- LED conforme protocolo profissional
+- Laser conforme protocolo profissional
+- Eletroterapia conforme protocolo profissional
+- Jato de plasma conforme protocolo profissional
+- Protocolos revitalizantes
+- Hidratação
+- Preenchimento visual
+- Firmeza
+- Clareamento
+- Ação antioxidante
+- Rejuvenescimento
+- Melhora da textura
+- Luminosidade
+- Vitalidade
+- Cicatrizes de acne conforme protocolo aprovado
+- Estrias conforme protocolo aprovado
+
+## Público / uso
+Profissional/cabine.
+
+## Tipo de produto
+Kit de fluidos nanotecnológicos e biotecnológicos.
+
+## Linha
+Fluidos Revitalizantes.
+
+## Volume
+5 unidades de 50ml.
+
+## Tipo de pele
+Todos os tipos de pele, conforme avaliação profissional.
+
+## Zona de aplicação
+Rosto. Confirmar pescoço, colo e corpo conforme protocolo e avaliação profissional.
+
+## Momento de aplicação
+Microagulhamento, LED, laser, eletroterapia, jato de plasma e protocolos revitalizantes.
+
+## Composição do kit
+- Fluido Passo 1 Ureia
+- Fluido Passo 2 Ácido Hialurônico
+- Fluido Passo 3 Colágeno
+- Fluido Passo 4 Vitamina C
+- Fluido Passo 5 Nano Fill Up
+
+## Ativos principais
+- Passo 1 Ureia
+- Passo 2 Ácido Hialurônico
+- Passo 3 Colágeno
+- Passo 4 Vitamina C
+- Passo 5 Nano Fill Up
+
+## Benefícios aprovados
+- Kit completo
+- Hidratação
+- Firmeza
+- Clareamento
+- Rejuvenescimento
+- Associação com produtos Lakma
+- Ideal para microagulhamento e tecnologias
+- Melhora textura
+- Luminosidade
+- Vitalidade
+- Rendimento até 50 aplicações por vidro
+
+## Modo de uso aprovado
+Aplicar o fluido escolhido ou todos, um por cima do outro, sobre pele limpa conforme protocolo profissional. Pode associar com produtos Lakma. Deixar agir e não remover, salvo quando o protocolo orientar remoção.
+
+## Cuidados e observações
+Uso profissional. Não orientar microagulhamento, laser, LED, eletroterapia ou jato de plasma em casa. Reforçar higiene, técnica profissional e fotoproteção. Não prometer preenchimento garantido, clareamento definitivo, rejuvenescimento garantido ou resultado garantido.
+
+## Quando não indicar ou encaminhar
+Não indicar diretamente em pele lesionada, pele sensibilizada, pele irritada, acne inflamada, feridas, rosácea ativa, alergias, isotretinoína, pós-procedimentos recentes sem avaliação, gestantes sem liberação, lactantes sem liberação ou dúvidas sobre tecnologias, ordem dos fluidos, frequência e associação com ácidos, retinoides ou peelings.
+
+## Participação em protocolos
+Participa de protocolo profissional aprovado:
+- Protocolo Cicatriz de Acne e Estrias
+
+Também se relaciona com:
+- Protocolos profissionais de microagulhamento
+- Protocolos com LED
+- Protocolos com laser
+- Protocolos com eletroterapia
+- Protocolos com jato de plasma
+- Protocolos revitalizantes
+- Protocolos de hidratação
+- Protocolos de firmeza
+- Protocolos de clareamento
+- Protocolos de rejuvenescimento
+
+## Função dentro do protocolo
+Atua como kit de fluidos revitalizantes profissionais para aplicação em sequência ou por escolha técnica, fornecendo suporte de hidratação, firmeza, clareamento, antioxidante, preenchimento visual, textura, luminosidade e vitalidade em microagulhamento, tecnologias e protocolos revitalizantes.
+
+## Produtos que combinam
+- Microagulhamento em Creme
+- Booster Fibras
+- Booster Colágeno
+- Melange Especial
+- Neuroplasma Nutri-Complex
+- Máscara Calmante
+- Neuroplasma Calmante
+- Máscara Detox Zen Marine
+- Máscara Hidroplástica Zen Marine
+- Máscara Facial de Ouro Golden Glitter
+- Creme Ácido Hialurônico
+- Ideal Protect
+- Peeling de Cristal Líquido em protocolo profissional
+- Sabonete de Ácido Glicólico em protocolo profissional
+
+## Diferença para produtos parecidos
+Diferente dos fluidos individuais, reúne os 5 passos em um kit profissional. Diferente do Booster Colágeno, Melange Especial e Nano Drone, permite protocolo por etapas com fluidos diferentes para hidratação, firmeza, clareamento, antioxidante e revitalização.
+
+## Frase de segurança para a Nina
+Comunicar como auxílio, melhora da aparência ou suporte ao protocolo. Não prometer preenchimento garantido, clareamento definitivo, rejuvenescimento garantido, eliminação de cicatrizes, eliminação de estrias ou resultado garantido. Microagulhamento e tecnologias devem ser feitos apenas por profissional.
+```
+
+### Objeções comuns e respostas
+
+**É para microagulhamento?**  
+Sim. É um kit profissional indicado para microagulhamento e tecnologias, sempre em cabine e com avaliação profissional.
+
+**Pode usar os 5 fluidos juntos?**  
+Sim, a ficha informa que pode aplicar o fluido escolhido ou todos, um por cima do outro, conforme protocolo profissional.
+
+**Precisa remover?**  
+Não, salvo quando o protocolo orientar. A ficha informa deixar agir e não remover, salvo protocolo.
+
+**Participa de protocolo aprovado?**  
+Sim. No Protocolo Cicatriz de Acne e Estrias, o Kit Fluidos aparece após a etapa de microagulhamento, com aplicação de 5 gotas de cada fluido do passo 01 ao passo 05, sem remoção.
+
+**Pode orientar microagulhamento em casa?**  
+Não. A Nina não deve orientar microagulhamento, laser, LED, eletroterapia ou jato de plasma em casa. Esses usos exigem profissional.
+
+### Observações internas para a Nina
+
+Indicar para profissionais que buscam kit completo de fluidos para microagulhamento, tecnologias e protocolos revitalizantes com foco em hidratação, firmeza, clareamento, antioxidante, preenchimento visual, rejuvenescimento, textura, luminosidade e vitalidade. Não orientar uso doméstico de microagulhamento ou tecnologias. No Protocolo Cicatriz de Acne e Estrias, aparece associado ao Sabonete Glicólico, microagulhamento, Neuroplasma Nutri-Complex e Peeling de Cristal Líquido opcional. Não prometer preenchimento garantido, clareamento definitivo, eliminação de cicatrizes, eliminação de estrias, rejuvenescimento garantido ou resultado permanente. Encaminhar para dermoconsultora em caso de pele lesionada, pele sensibilizada, acne inflamada, feridas, rosácea ativa, alergias, isotretinoína, gestantes, lactantes, pós-procedimentos recentes ou dúvidas sobre tecnologias, associação com ácidos, retinoides, peelings, ordem dos fluidos e frequência.
+
+---
+
+## Peeling Químico Secativo - 50ml
+
+Peeling químico profissional secativo, indicado para peles acneicas, cravos, comedões, oleosidade excessiva, ação queratolítica, melhora da textura e suporte em protocolos profissionais de limpeza de pele.
+
+- **Categorias:** profissional
+- **Principais objetivos:** Ação secativa, controle de oleosidade, melhora da aparência da acne, redução da aparência de cravos, redução da aparência de espinhas, melhora de comedões, ação queratolítica, melhora da textura, suporte pré-limpeza de pele, suporte pós-limpeza de pele.
+- **Tipo de pele / condição indicada:** Pele acneica, cravos, comedões, oleosidade excessiva, pele com necessidade de ação secativa, pele com necessidade de ação queratolítica, pele com textura irregular por acne e oleosidade, protocolos profissionais para acne, cravos e oleosidade, evitando pele lesionada, sensibilizada, acne severa, acne cística, uso de isotretinoína, gestantes, lactantes ou alergia a ácidos.
+- **Modo de uso:** Uso exclusivamente profissional. Aplicar de 8 a 12 gotas no rosto com pincel ou dedos. Deixar agir no máximo 15 minutos. Pode ser usado no pré ou pós-limpeza de pele. Remover conforme protocolo. Fazer prova de toque 48 horas antes. Durante o tratamento, usar protetor solar.
+- **Site:** https://lakma.com.br/products/peeling-quimico-secativo-50ml?_pos=1&_sid=60a60c291&_ss=r
+
+### Participação em protocolos
+
+- **Função dentro do protocolo:** Pode atuar como peeling químico secativo em protocolos profissionais para acne, cravos, comedões, oleosidade excessiva, limpeza de pele, ação queratolítica, melhora de textura e controle de oleosidade, sempre com avaliação profissional.
+
+### Combinações
+
+- **Combina com:** Kit Limpeza de Pele Profissional, Kit Limpeza de Pele Facial + Ativos Sem Trieta, Emolientes, Sabonete Líquido Facial, Espuma de Limpeza Facial, Loção Tônica, Sérum NC-10, Fluido Secativo, Argila Verde, Máscara Calmante, Neuroplasma Calmante, Máscara Detox Zen Marine, Solução Neutralizante quando o protocolo exigir, Ideal Protect.
+- **Atenção / não combinar:** Não usar em casa, evitar pele lesionada, pele sensibilizada, pele irritada, acne severa, acne cística, uso de isotretinoína, gestantes, lactantes, alergia a ácidos, uso recente de retinoides, uso recente de ácidos, uso recente de procedimentos, esfoliação excessiva, outros peelings no mesmo momento sem protocolo, dúvidas sobre neutralização, dúvidas sobre tempo de ação. Não prometer secagem garantida em 48 horas, cura da acne ou resultado garantido.
+
+### Detalhes
+
+```markdown id="secativo79md"
+## Função principal
+Peeling químico profissional secativo, indicado para peles acneicas, cravos, comedões, oleosidade excessiva, ação queratolítica, melhora da textura e suporte em protocolos profissionais de limpeza de pele.
+
+## Indicações
+- Pele acneica
+- Cravos
+- Comedões
+- Oleosidade excessiva
+- Ação secativa
+- Ação queratolítica
+- Redução da aparência de cravos
+- Redução da aparência de espinhas
+- Melhora da textura
+- Protocolos profissionais para acne
+- Protocolos profissionais para oleosidade
+- Pré-limpeza de pele conforme avaliação
+- Pós-limpeza de pele conforme avaliação
+
+## Público / uso
+Profissional/cabine.
+
+## Tipo de produto
+Peeling químico / sérum facial.
+
+## Linha
+Peeling Químico Secativo.
+
+## Volume
+50ml / 50g.
+
+## Tipo de pele
+Pele acneica.
+
+## Zona de aplicação
+Rosto.
+
+## Momento de aplicação
+Protocolos profissionais para acne, cravos, comedões e oleosidade.
+
+## Ativos principais
+- Nano Ácido Salicílico 8%
+- Ácido Lático 5%
+- Ácido Glicólico 5%
+- pH 2,8 a 3,8
+
+## Benefícios aprovados
+- Auxilia acne e comedões
+- Ação secativa
+- Reduz aparência de cravos e espinhas
+- Controle de oleosidade
+- Melhora textura
+- Dermatologicamente testado
+- Hipoalergênico
+- Não comedogênico
+- Livre de parabenos
+- Cruelty-free
+- Rendimento até 50 aplicações
+
+## Modo de uso aprovado
+Aplicar 8 a 12 gotas no rosto com pincel ou dedos. Deixar agir no máximo 15 minutos. Uso apenas profissional. Pode ser usado pré ou pós-limpeza. Remover conforme protocolo. Fazer prova de toque 48 horas antes. Durante o tratamento, usar protetor solar.
+
+## Cuidados e observações
+Exclusivamente profissional. Pode causar reações alérgicas. Protetor solar durante o tratamento. Não prometer secagem garantida em 48 horas, cura da acne ou resultado garantido.
+
+## Quando não indicar ou encaminhar
+Não indicar para uso domiciliar, pele lesionada, pele sensibilizada, pele irritada, acne severa, acne cística, uso de isotretinoína, gestantes, lactantes, alergia a ácidos, uso recente de retinoides, uso recente de ácidos, uso recente de procedimentos ou dúvidas sobre tempo de ação, remoção e neutralização.
+
+## Participação em protocolos
+sem informação.
+
+## Função dentro do protocolo
+Pode atuar como peeling químico secativo em protocolos profissionais para acne, cravos, comedões, oleosidade excessiva, limpeza de pele, ação queratolítica, melhora de textura e controle de oleosidade, sempre com avaliação profissional.
+
+## Produtos que combinam
+- Kit Limpeza de Pele Profissional
+- Kit Limpeza de Pele Facial + Ativos Sem Trieta
+- Emolientes
+- Sabonete Líquido Facial
+- Espuma de Limpeza Facial
+- Loção Tônica
+- Sérum NC-10
+- Fluido Secativo
+- Argila Verde
+- Máscara Calmante
+- Neuroplasma Calmante
+- Máscara Detox Zen Marine
+- Solução Neutralizante quando o protocolo exigir
+- Ideal Protect
+
+## Diferença para produtos parecidos
+Diferente do Bio Complex, foca acne, cravos, comedões e oleosidade. Diferente do Peeling Enzimático de Romã, é exclusivamente profissional, tem tempo máximo de ação e exige remoção conforme protocolo.
+
+## Frase de segurança para a Nina
+Comunicar como auxílio, melhora da aparência ou suporte ao protocolo. Não prometer cura da acne, secagem garantida, controle definitivo da oleosidade ou resultado garantido. Uso exclusivamente profissional.
+```
+
+### Objeções comuns e respostas
+
+**É para usar em casa?**  
+Não. É um peeling químico de uso exclusivamente profissional.
+
+**Serve para acne e oleosidade?**  
+Sim. É indicado para peles acneicas, cravos, comedões, oleosidade excessiva, ação secativa e ação queratolítica, sem prometer cura da acne ou secagem garantida.
+
+**Quanto tempo deixa agir?**  
+O modo de uso aprovado informa tempo máximo de 15 minutos, sempre conforme avaliação e protocolo profissional.
+
+**Precisa fazer teste antes?**  
+Sim. A ficha orienta prova de toque 48 horas antes.
+
+**Qual a diferença para o Bio Complex?**  
+O Peeling Químico Secativo foca acne, oleosidade, cravos e comedões. O Bio Complex foca clareamento, manchas, hiperpigmentações e olheiras em protocolos profissionais.
+
+### Observações internas para a Nina
+
+Indicar somente para profissionais que buscam peeling químico secativo para acne, cravos, comedões, oleosidade excessiva, ação queratolítica, melhora de textura e suporte pré ou pós-limpeza de pele. Reforçar que é exclusivamente profissional, exige prova de toque 48 horas antes, remoção conforme protocolo e fotoproteção durante o tratamento. Não orientar uso domiciliar. Não prometer cura da acne, secagem garantida em 48 horas, eliminação de cravos, controle definitivo de oleosidade ou resultado garantido. Encaminhar para dermoconsultora em caso de pele lesionada, sensibilizada, irritada, acne severa, acne cística, uso de isotretinoína, gestantes, lactantes, alergia a ácidos, uso recente de retinoides, ácidos ou procedimentos, dúvidas sobre tempo de ação, remoção, neutralização ou associação com outros peelings.
+
+---
