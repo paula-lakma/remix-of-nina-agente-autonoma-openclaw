@@ -102,7 +102,7 @@ function renderProducts(products: any[]): string {
     if (v(p.summary)) md += `${v(p.summary)}\n\n`;
 
     // Metadados estruturados
-    md += line("Categoria", v(p.category));
+    md += list("Categorias", arr(p.category));
     md += list("Principais objetivos", arr(p.main_goals));
     md += list("Tipo de pele / condição indicada", arr(p.skin_types));
     md += line("Modo de uso", v(p.usage_short));
