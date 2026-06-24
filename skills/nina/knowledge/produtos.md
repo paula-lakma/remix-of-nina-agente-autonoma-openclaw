@@ -4405,3 +4405,1494 @@ Não indicar diretamente para gestantes ou lactantes. Nesses casos, encaminhar p
 Indicar para profissionais que desejam um protocolo corporal detox completo para cabine, com foco em drenagem linfática, sensação de leveza, áreas inchadas e retenção hídrica. Não orientar como produto de emagrecimento. Não prometer perda de peso, perda garantida de medidas, redução garantida de inchaço ou resultado corporal garantido. Encaminhar para dermoconsultora em caso de gestantes, lactantes, crianças, idosos, doenças preexistentes, alterações gastrointestinais, alterações circulatórias, varizes importantes, hipertensão, sensibilidade ao calor, pele lesionada, uso de medicamentos, alergias ou dúvidas sobre cápsulas, manta térmica, filme osmótico ou drenagem.
 
 ---
+
+## CRIOGEL - 1kg
+
+Gel corporal crioterápico profissional com efeito frio e ação refrescante, indicado para suporte em protocolos corporais de gordura localizada, flacidez, redução de medidas e finalização fria.
+
+- **Categorias:** profissional
+- **Principais objetivos:** Efeito frio, ação refrescante, crioterapia corporal, suporte em protocolos redutores, gordura localizada, flacidez, ação lipolítica, finalização fria, melhora da aparência corporal.
+- **Tipo de pele / condição indicada:** Pele corporal conforme avaliação profissional, gordura localizada, flacidez, protocolos corporais redutores, protocolos com efeito frio, protocolos com massagem, protocolos com oclusão conforme avaliação, evitando pele irritada, lesionada, recém-depilada ou sensibilizada.
+- **Modo de uso:** Aplicar na área corporal limpa. Pode ser usado com manobras de massagem e oclusão com plástico filme, conforme avaliação profissional. Tempo máximo de permanência: até 4 horas.
+- **Site:** https://lakma.com.br/products/criogel-1kg?_pos=1&_sid=82ecdae3f&_ss=r
+
+### Participação em protocolos
+
+- Participa de protocolos: **sim**
+- **Protocolos relacionados:** Protocolo Corporal Detox Térmico, Protocolo Corporal Flacicell, protocolos corporais redutores, protocolos corporais com finalização fria, protocolos de gordura localizada e flacidez conforme avaliação profissional.
+- **Função dentro do protocolo:** Atua como gel crioterápico de efeito frio em protocolos corporais, podendo ser usado como finalização fria, suporte para gordura localizada, flacidez, ação refrescante e crioterapia corporal conforme protocolo aprovado.
+
+### Combinações
+
+- **Combina com:** Gel Esfoliante Corporal Ozonizado, Kit Ozônio Premium, Creme de Massagem 7 Ativos, Creme de Massagem Ozonizado, Gel Bioestimulante, Esbeltea Detox, Gel Termoativado, Sal Térmico Lipolítico, Kit BodyPro Corporal Profissional, Creme Neutro.
+- **Atenção / não combinar:** Evitar pele irritada, pele lesionada, pele recém-depilada, pele sensibilizada, alterações circulatórias, varizes importantes, sensibilidade ao frio, alergia a mentol, alergia a cânfora, gestantes sem avaliação, lactantes sem avaliação, crianças, idosos, doenças preexistentes, uso de medicamentos, dúvidas sobre oclusão, dúvidas sobre associação quente e frio, dúvidas sobre aparelhos, sem avaliação profissional. Pode causar frio intenso. Fazer teste de sensibilidade. Não prometer emagrecimento, perda de medidas ou resultado garantido.
+
+### Detalhes
+
+## Função principal
+Gel corporal crioterápico profissional com efeito frio e ação refrescante, indicado para suporte em protocolos corporais de gordura localizada, flacidez, redução de medidas, crioterapia corporal e finalização fria.
+
+## Indicações
+- Pele corporal conforme avaliação profissional
+- Protocolos corporais redutores
+- Gordura localizada
+- Flacidez
+- Melhora da aparência corporal
+- Ação lipolítica
+- Efeito frio
+- Sensação refrescante
+- Crioterapia corporal
+- Finalização fria
+- Protocolos com massagem
+- Protocolos com oclusão conforme avaliação
+
+## Público / uso
+Profissional/cabine, com possível home care orientado se aprovado.
+
+## Tipo de produto
+Gel corporal crioterápico.
+
+## Linha
+linha oficial.
+
+## Volume
+1kg.
+
+## Tipo de pele
+Pele corporal, conforme avaliação e tolerância ao frio.
+
+## Zona de aplicação
+Corpo.
+
+## Momento de aplicação
+Durante protocolos corporais redutores, com massagem ou oclusão conforme avaliação.
+
+## Ativos principais
+- Cânfora
+- Mentol
+- Extrato de Gengibre
+- Extrato de Castanha da Índia
+- Bioex Antilipêmico
+
+## Benefícios aprovados
+- Auxilia na redução de gordura localizada
+- Contribui para melhora da aparência da flacidez
+- Possui ação lipolítica
+- Efeito frio e sensação refrescante
+- Pode ser usado com oclusão ou massagem
+- Hipoalergênico
+- Dermatologicamente testado
+- Vegano
+- Cruelty-free
+
+## Modo de uso aprovado
+Aplicar na área corporal limpa. Pode ser usado com manobras de massagem e oclusão com plástico filme. Tempo máximo de permanência: até 4 horas.
+
+## Cuidados e observações
+Pode causar frio intenso. Fazer teste de sensibilidade. Evitar pele irritada, lesionada, recém-depilada ou sensibilizada. Não prometer emagrecimento ou perda de medidas.
+
+## Quando não indicar ou encaminhar
+Não indicar sem avaliação para gestantes, lactantes, alterações circulatórias, varizes importantes, sensibilidade ao frio, alergia a mentol, alergia a cânfora, pele lesionada, pele irritada, pele sensibilizada, pele recém-depilada, crianças, idosos, pessoas com doenças preexistentes, uso de medicamentos ou dúvidas sobre associação em protocolos.
+
+## Participação em protocolos
+Participa de protocolos corporais aprovados, incluindo:
+- Protocolo Corporal Detox Térmico
+- Protocolo Corporal Flacicell
+
+Também pode se relacionar com:
+- Protocolos corporais redutores
+- Protocolos corporais com finalização fria
+- Protocolos de gordura localizada e flacidez conforme avaliação profissional
+
+## Função dentro do protocolo
+Atua como gel crioterápico de efeito frio em protocolos corporais, podendo ser usado como finalização fria, suporte para gordura localizada, flacidez, ação refrescante e crioterapia corporal conforme protocolo aprovado.
+
+## Produtos que combinam
+- Gel Esfoliante Corporal Ozonizado
+- Kit Ozônio Premium
+- Creme de Massagem 7 Ativos
+- Creme de Massagem Ozonizado
+- Gel Bioestimulante
+- Esbeltea Detox
+- Gel Termoativado
+- Sal Térmico Lipolítico
+- Kit BodyPro Corporal Profissional
+- Creme Neutro
+
+## Diferença para produtos parecidos
+Tem foco em efeito frio/crioterápico. Diferente do Gel Termoativado, que aquece. Diferente do Gel Bioestimulante, que é drenante/condutor. Diferente do Creme Neutro, que tem foco principal em deslizamento.
+
+## Frase de segurança para a Nina
+Seguir rótulo e orientação profissional. Não prometer emagrecimento, perda de medidas ou resultado garantido. Gestantes, lactantes, crianças, idosos, pessoas com doenças, alterações circulatórias, uso de medicamentos ou sensibilidade a componentes devem consultar profissional.
+
+### Objeções comuns e respostas
+
+**É para uso em casa?**  
+A ficha indica uso profissional em cabine, com possível home care orientado se aprovado. A Nina não deve orientar uso livre sem avaliação.
+
+**Qual é a sensação do produto?**  
+Ele tem efeito frio e ação refrescante. Pode causar frio intenso, por isso é importante avaliação e teste de sensibilidade.
+
+**Serve para flacidez e gordura localizada?**  
+Sim. É indicado como suporte em tratamentos corporais voltados à gordura localizada e melhora da aparência da flacidez, sempre sem prometer resultado garantido.
+
+**Pode usar com plástico filme?**  
+A ficha informa que pode ser usado com oclusão com plástico filme conforme avaliação profissional. Em alguns protocolos aprovados, como o Detox Térmico, a orientação é não ocluir o Criogel na etapa final. A Nina deve seguir o protocolo específico.
+
+**Pode usar em gestante?**  
+Não indicar diretamente para gestantes ou lactantes sem avaliação profissional. Nesses casos, encaminhar para orientação.
+
+### Observações internas para a Nina
+
+Indicar para profissionais que buscam gel corporal crioterápico com efeito frio, ação refrescante, suporte para gordura localizada, flacidez e finalização fria em protocolos corporais. Em protocolos aprovados, respeitar a orientação específica sobre oclusão e tempo de ação. Não prometer emagrecimento, perda garantida de medidas, eliminação de gordura ou resultado corporal garantido. Encaminhar para dermoconsultora em caso de gestantes, lactantes, alterações circulatórias, varizes importantes, sensibilidade ao frio, alergia a mentol ou cânfora, pele irritada, lesionada, sensibilizada, recém-depilada, doenças preexistentes, uso de medicamentos, dúvidas sobre associação quente/frio, oclusão, aparelhos ou adaptações.
+
+---
+
+## Gel Bioestimulante - 1kg
+
+Gel corporal profissional bioestimulante e condutor, indicado para protocolos drenantes, massagens suaves, sensação de leveza, inchaço, desconforto corporal, lipedema e uso com ultrassom ou eletroterapia conforme protocolo.
+
+- **Categorias:** profissional
+- **Principais objetivos:** Drenagem, massagem suave, sensação de leveza, bem-estar corporal, cuidado auxiliar em lipedema, inchaço, desconforto corporal, ação estimulante, uso condutor, suporte em ultrassom, suporte em eletroterapia.
+- **Tipo de pele / condição indicada:** Pele corporal sensível ou com necessidade de drenagem, sensação de peso, inchaço, desconforto corporal, protocolos drenantes, massagens de baixa pressão, tecidos sensíveis, cuidado auxiliar da pele em lipedema, uso condutor em ultrassom e eletroterapia conforme protocolo profissional.
+- **Modo de uso:** Aplicar quantidade suficiente e espalhar com movimentos suaves e ascendentes. Em cabine, pode associar à drenagem manual, manta térmica, eletroterapia e ultrassom conforme protocolo profissional.
+- **Site:** https://lakma.com.br/products/gel-bioestimulante-1kg?_pos=1&_sid=0114635cb&_ss=r
+
+### Participação em protocolos
+
+- **Função dentro do protocolo:** Pode atuar como gel corporal drenante, bioestimulante e condutor em protocolos profissionais de drenagem, massagem suave, sensação de leveza, inchaço, desconforto corporal, lipedema, ultrassom e eletroterapia, conforme avaliação profissional.
+
+### Combinações
+
+- **Combina com:** Esbeltea Detox, Kit Booster Mitocondrial EsbelTEA, Creme Neutro, Creme de Massagem 7 Ativos, Kit Ozônio Premium, Criogel, Gel Termoativado, Gel Esfoliante Corporal Ozonizado, Creme de Massagem Ozonizado, Sal Térmico Lipolítico.
+- **Atenção / não combinar:** Evitar pele lesionada, pele irritada, pós-operatório sem liberação, doenças vasculares sem avaliação, dor intensa, edema importante, alteração de cor local, calor local, gestantes sem avaliação, lactantes sem avaliação, crianças, idosos, doenças preexistentes, uso de medicamentos, dúvidas sobre ultrassom, dúvidas sobre eletroterapia, dúvidas sobre manta térmica, dúvidas sobre associação com termoativos fortes. Em protocolos de lipedema ou sensibilidade, priorizar combinações suaves e evitar termoativos fortes sem avaliação.
+
+### Detalhes
+
+## Função principal
+Gel corporal profissional bioestimulante e condutor, indicado para protocolos drenantes, massagens suaves, sensação de leveza, inchaço, desconforto corporal, cuidado auxiliar da pele em lipedema e uso com ultrassom ou eletroterapia conforme protocolo.
+
+## Indicações
+- Pele corporal sensível ou com necessidade de drenagem
+- Protocolos drenantes
+- Massagens corporais suaves
+- Massagens de baixa pressão
+- Sensação de peso corporal
+- Sensação de leveza
+- Inchaço
+- Desconforto corporal
+- Tecidos sensíveis
+- Cuidado auxiliar da pele em lipedema
+- Uso como gel condutor
+- Ultrassom conforme protocolo
+- Eletroterapia conforme protocolo
+
+## Público / uso
+Profissional/cabine.
+
+## Tipo de produto
+Gel corporal bioestimulante e condutor.
+
+## Linha
+linha oficial.
+
+## Volume
+1kg.
+
+## Tipo de pele
+Pele corporal sensível ou com necessidade de drenagem, conforme avaliação profissional.
+
+## Zona de aplicação
+Corpo.
+
+## Momento de aplicação
+Durante drenagem, massagem suave, ultrassom, eletroterapia ou protocolos corporais.
+
+## Ativos principais
+- Extrato de Arnica
+- Extrato de Chá Verde
+- Extrato de Pfaffia
+- Extrato de Algas
+
+## Benefícios aprovados
+- Auxilia no cuidado da pele em protocolos para lipedema
+- Promove sensação de leveza e bem-estar
+- Ideal para massagens corporais de baixa pressão
+- Ação estimulante e drenante
+- Pode ser gel condutor em ultrassom
+- Hipoalergênico
+
+## Modo de uso aprovado
+Aplicar quantidade suficiente e espalhar com movimentos suaves e ascendentes. Em cabine, pode associar à drenagem manual, manta térmica, eletroterapia e ultrassom conforme protocolo.
+
+## Cuidados e observações
+Em lipedema, comunicar como cuidado auxiliar da pele e sensação de leveza, sem prometer tratamento da condição. Doenças vasculares, gestação, pós-operatório e condições específicas exigem liberação profissional. Não prometer emagrecimento, perda de medidas ou resultado garantido.
+
+## Quando não indicar ou encaminhar
+Evitar em pele lesionada, pele irritada, pós-operatório sem liberação, doenças vasculares sem avaliação, dor intensa, edema importante, alteração de cor local, calor local, gestantes sem avaliação, lactantes sem avaliação, crianças, idosos, pessoas com doenças preexistentes, uso de medicamentos ou dúvidas sobre associação com aparelhos e termoativos fortes.
+
+## Participação em protocolos
+sem informação.
+
+## Função dentro do protocolo
+Pode atuar como gel corporal drenante, bioestimulante e condutor em protocolos profissionais de drenagem, massagem suave, sensação de leveza, inchaço, desconforto corporal, lipedema, ultrassom e eletroterapia, conforme avaliação profissional.
+
+## Produtos que combinam
+- Esbeltea Detox
+- Kit Booster Mitocondrial EsbelTEA
+- Creme Neutro
+- Creme de Massagem 7 Ativos
+- Kit Ozônio Premium
+- Criogel
+- Gel Termoativado
+- Gel Esfoliante Corporal Ozonizado
+- Creme de Massagem Ozonizado
+- Sal Térmico Lipolítico
+
+## Diferença para produtos parecidos
+Foco em drenagem, leveza, massagem de baixa pressão e uso condutor. Diferente do Criogel, que tem foco em efeito frio. Diferente do Gel Termoativado, que tem foco em efeito quente. Diferente dos cremes de massagem, que têm foco principal em deslizamento.
+
+## Frase de segurança para a Nina
+Seguir rótulo e orientação profissional. Não prometer emagrecimento, perda de medidas ou resultado garantido. Gestantes, lactantes, crianças, idosos, pessoas com doenças, uso de medicamentos, doenças vasculares, pós-operatório ou sensibilidade a componentes devem consultar profissional.
+
+### Objeções comuns e respostas
+
+**É um produto para emagrecer?**  
+Não. A Nina não deve prometer emagrecimento, perda de peso ou perda de medidas. O Gel Bioestimulante é indicado como apoio em protocolos drenantes, massagens suaves, sensação de leveza, inchaço e desconforto corporal.
+
+**Serve para lipedema?**  
+O material indica como cuidado auxiliar da pele em protocolos para lipedema, com foco em sensação de leveza e bem-estar. A Nina não deve comunicar como tratamento da condição.
+
+**Pode usar com ultrassom?**  
+Sim, o material informa que pode atuar como gel condutor em ultrassom e eletroterapia quando houver protocolo profissional.
+
+**É quente ou frio?**  
+Não é o foco principal dele. Ele é diferente do Criogel, que tem efeito frio, e do Gel Termoativado, que tem efeito quente.
+
+**Pode usar em pele sensível?**  
+Pode ser indicado para massagens de baixa pressão e tecidos sensíveis conforme avaliação. Evitar em pele lesionada ou irritada.
+
+### Observações internas para a Nina
+
+Indicar para profissionais que buscam gel corporal para drenagem, massagem suave, baixa pressão, sensação de leveza, inchaço, desconforto corporal e uso condutor em ultrassom ou eletroterapia. Em lipedema, comunicar apenas como cuidado auxiliar da pele e sensação de leveza, sem prometer tratamento da condição. Não prometer emagrecimento, perda de medidas, redução garantida de inchaço ou resultado corporal garantido. Para protocolos de lipedema ou sensibilidade, priorizar combinações com Creme Neutro e evitar termoativos fortes sem avaliação. Encaminhar para dermoconsultora em caso de doenças vasculares, dor intensa, edema importante, alteração de cor ou calor local, pós-operatório, gestantes, lactantes, pele lesionada, pele irritada, uso de medicamentos ou dúvidas sobre aparelhos e associações.
+
+---
+
+## Gel Termoativado - 1kg
+
+Gel corporal termoativado profissional com efeito de aquecimento, indicado para protocolos redutores, gordura localizada, celulite, redução de medidas, massagem modeladora e estímulo do metabolismo local.
+
+- **Categorias:** profissional
+- **Principais objetivos:** Efeito aquecimento, ação termoativada, protocolos redutores, gordura localizada, celulite, redução de medidas, massagem modeladora, ação lipolítica, estímulo do metabolismo local, hiperemia controlada.
+- **Tipo de pele / condição indicada:** Pele corporal conforme avaliação profissional, gordura localizada, celulite, protocolos redutores, protocolos modeladores, protocolos corporais com efeito aquecimento, tolerância ao calor, evitando pele irritada, lesionada, recém-depilada ou sensibilizada.
+- **Modo de uso:** Aplicar sobre a pele limpa e seca. O profissional deve preferir luvas ou pincel. Espalhar com movimentos circulares ou manobras corporais. Pode usar oclusão com plástico filme conforme avaliação. Não usar com manta térmica, conforme ficha do produto.
+- **Site:** https://lakma.com.br/products/gel-termoativado-1kg?_pos=1&_sid=143e44dd4&_ss=r
+
+### Participação em protocolos
+
+- Participa de protocolos: **sim**
+- **Protocolos relacionados:** Protocolo Corporal Cellulight, Protocolo Corporal Detox Térmico, protocolos corporais redutores, protocolos de gordura localizada, protocolos de celulite, protocolos com massagem modeladora, protocolos com efeito termoativado conforme avaliação profissional.
+- **Função dentro do protocolo:** Atua como gel termoativado de aquecimento em protocolos corporais, podendo ser usado como etapa de potencialização ou finalização em áreas afetadas por celulite, gordura localizada e redução de medidas, conforme protocolo aprovado e avaliação profissional.
+
+### Combinações
+
+- **Combina com:** Gel Esfoliante Corporal Ozonizado, Kit Ozônio Premium, Creme de Massagem 7 Ativos, Creme de Massagem Ozonizado, Gel Bioestimulante, Criogel, Esbeltea Detox, Sal Térmico Lipolítico, Kit BodyPro Corporal Profissional, Creme Neutro.
+- **Atenção / não combinar:** Evitar pele irritada, pele lesionada, pele sensibilizada, pele recém-depilada, condições vasculares, alterações circulatórias, varizes importantes, sensibilidade ao calor, histórico de reação a termoativos, alergia a componentes, gestantes sem avaliação, lactantes sem avaliação, crianças, idosos, doenças preexistentes, uso de medicamentos, dúvidas sobre oclusão, dúvidas sobre associação quente e frio, dúvidas sobre aparelhos, uso com manta térmica sem confirmação técnica. Pode causar vermelhidão e aquecimento. Fazer teste de sensibilidade. Não prometer emagrecimento, perda de medidas ou resultado garantido.
+
+### Detalhes
+
+## Função principal
+Gel corporal termoativado profissional com efeito de aquecimento, indicado para suporte em protocolos redutores, gordura localizada, celulite, redução de medidas, massagem modeladora e estímulo do metabolismo local.
+
+## Indicações
+- Pele corporal conforme avaliação profissional
+- Protocolos corporais redutores
+- Gordura localizada
+- Celulite
+- Redução de medidas
+- Massagem modeladora
+- Efeito aquecimento
+- Ação termoativada
+- Ação lipolítica
+- Estímulo do metabolismo local
+- Hiperemia controlada
+- Protocolos com oclusão conforme avaliação profissional
+
+## Público / uso
+Profissional/cabine, com possível home care orientado se aprovado.
+
+## Tipo de produto
+Gel corporal termoativado.
+
+## Linha
+linha oficial.
+
+## Volume
+1kg.
+
+## Tipo de pele
+Pele corporal conforme avaliação profissional e tolerância ao calor.
+
+## Zona de aplicação
+Corpo.
+
+## Momento de aplicação
+Durante protocolos redutores e modeladores, com massagem ou oclusão conforme avaliação profissional. Não usar com manta térmica conforme ficha do produto.
+
+## Ativos principais
+- Extrato de Café
+- Nano Cellulitech
+- Bioex Antilipêmico
+- Extrato de Gengibre
+- Extrato de Centelha Asiática
+- Nicotinato de Metila
+
+## Benefícios aprovados
+- Auxilia na redução de medidas
+- Contribui para gordura localizada e celulite
+- Efeito termoativado com aquecimento
+- Estimula o metabolismo local
+- Pode ser usado com massagem modeladora
+- Pode ser usado com oclusão
+- Rendimento até 70 aplicações
+
+## Modo de uso aprovado
+Aplicar sobre pele limpa e seca. O profissional deve preferir luvas ou pincel. Espalhar com movimentos circulares ou manobras corporais. Pode usar oclusão com plástico filme conforme avaliação. Não usar com manta térmica, conforme ficha do produto.
+
+## Cuidados e observações
+Pode causar vermelhidão e aquecimento. Fazer teste de sensibilidade. Evitar pele irritada, lesionada, sensibilizada e uso com manta térmica conforme ficha do produto. Não prometer emagrecimento, perda de medidas ou resultado garantido.
+
+## Quando não indicar ou encaminhar
+Não indicar sem avaliação para gestantes, lactantes, crianças, idosos, pessoas com doenças preexistentes, uso de medicamentos, condições vasculares, alterações circulatórias, varizes importantes, sensibilidade ao calor, histórico de reação a termoativos, alergia a componentes, pele lesionada, pele irritada, pele sensibilizada, pele recém-depilada ou dúvidas sobre associação em protocolos.
+
+## Participação em protocolos
+Participa de protocolos corporais aprovados, incluindo:
+- Protocolo Corporal Cellulight
+- Protocolo Corporal Detox Térmico
+
+Também pode se relacionar com:
+- Protocolos corporais redutores
+- Protocolos de gordura localizada
+- Protocolos de celulite
+- Protocolos com massagem modeladora
+- Protocolos com efeito termoativado conforme avaliação profissional
+
+## Função dentro do protocolo
+Atua como gel termoativado de aquecimento em protocolos corporais, podendo ser usado como etapa de potencialização ou finalização em áreas afetadas por celulite, gordura localizada e redução de medidas, conforme protocolo aprovado e avaliação profissional.
+
+## Produtos que combinam
+- Gel Esfoliante Corporal Ozonizado
+- Kit Ozônio Premium
+- Creme de Massagem 7 Ativos
+- Creme de Massagem Ozonizado
+- Gel Bioestimulante
+- Criogel
+- Esbeltea Detox
+- Sal Térmico Lipolítico
+- Kit BodyPro Corporal Profissional
+- Creme Neutro
+
+## Diferença para produtos parecidos
+Tem foco em aquecimento e hiperemia. Diferente do Criogel, que resfria. Diferente do Gel Bioestimulante, que drena e conduz. Diferente do Creme 7 Ativos, que é creme de massagem com ativos sem foco termoativo principal.
+
+## Observação técnica importante
+A ficha do produto orienta não usar com manta térmica. Como alguns protocolos aprovados mencionam manta em etapa com Gel Termoativado, a Nina deve encaminhar para dermoconsultora quando houver dúvida, divergência ou necessidade de confirmar a conduta oficial.
+
+## Frase de segurança para a Nina
+Seguir rótulo e orientação profissional. Pode aquecer e causar vermelhidão. Não prometer emagrecimento, perda de medidas ou resultado garantido. Gestantes, lactantes, crianças, idosos, pessoas com doenças, alterações circulatórias, uso de medicamentos, sensibilidade ao calor ou sensibilidade a componentes devem consultar profissional.
+
+### Objeções comuns e respostas
+
+**É para uso em casa?**  
+A ficha indica uso profissional em cabine, com possível home care orientado se aprovado. A Nina não deve orientar uso livre sem avaliação.
+
+**Qual é a sensação do produto?**  
+Ele tem efeito termoativado com aquecimento e pode causar vermelhidão. Por isso, precisa de avaliação e teste de sensibilidade.
+
+**Serve para celulite e gordura localizada?**  
+Sim. É indicado para protocolos corporais voltados à gordura localizada, celulite e redução de medidas, sempre sem prometer resultado garantido.
+
+**Pode usar com plástico filme?**  
+Sim, a ficha informa que pode usar oclusão com plástico filme conforme avaliação profissional.
+
+**Pode usar com manta térmica?**  
+A ficha do produto orienta não usar com manta térmica. Como alguns protocolos aprovados mencionam manta em etapa com Gel Termoativado, a Nina deve encaminhar para dermoconsultora quando houver dúvida, divergência ou necessidade de confirmar a conduta oficial.
+
+**Pode usar em gestante?**  
+Não indicar diretamente para gestantes ou lactantes sem avaliação profissional. Nesses casos, encaminhar para orientação.
+
+### Observações internas para a Nina
+
+Indicar para profissionais que buscam gel corporal termoativado com efeito aquecimento para protocolos redutores, gordura localizada, celulite, massagem modeladora e estímulo do metabolismo local. Reforçar que pode causar vermelhidão e aquecimento. Não prometer emagrecimento, perda garantida de medidas, eliminação de gordura, eliminação de celulite ou resultado corporal garantido. Atenção à divergência entre ficha do produto e protocolos sobre manta térmica, quando houver dúvida, encaminhar para dermoconsultora e seguir a orientação oficial validada. Encaminhar em caso de gestantes, lactantes, alterações circulatórias, varizes importantes, sensibilidade ao calor, pele irritada, lesionada, sensibilizada, recém-depilada, doenças preexistentes, uso de medicamentos, alergias, dúvidas sobre oclusão, associação quente/frio, aparelhos ou adaptações.
+
+---
+
+## KIT BOOSTER MITOCONDRIAL ESBELTEA - Creme 900g + Fluido 300ml para Detox
+
+Kit corporal com fluido/spray e creme, indicado para cuidados corporais com foco em celulite, flacidez, gordura localizada, firmeza, tonificação e aparência mais uniforme.
+
+- **Categorias:** profissional
+- **Principais objetivos:** Firmeza corporal, melhora da aparência da celulite, suporte em gordura localizada, cuidado redutor, tonificação, melhora da aparência corporal, massagem corporal, rotina corporal com spray e creme.
+- **Tipo de pele / condição indicada:** Pele corporal conforme avaliação profissional, celulite, flacidez, gordura localizada, necessidade de firmeza, necessidade de tonificação, melhora da aparência corporal, protocolos corporais com fluido e creme, evitando pele lesionada, irritada ou sensibilizada.
+- **Modo de uso:** Aplicar o spray na região desejada com pele limpa e seca. Em seguida, aplicar o creme na mesma região e massagear até completa absorção.
+- **Site:** https://lakma.com.br/products/kit-booster-mitocondrial-esbeltea-creme-900g-fluido-300ml-para-detox?_pos=1&_sid=76c4d2dc4&_ss=r
+
+### Participação em protocolos
+
+- **Função dentro do protocolo:** Pode atuar como kit corporal de apoio em rotinas profissionais com spray/fluido e creme, com foco em massagem, firmeza, celulite, gordura localizada, flacidez e melhora da aparência corporal, conforme avaliação profissional.
+
+### Combinações
+
+- **Combina com:** Gel Esfoliante Corporal Ozonizado, Kit Ozônio Premium, Gel Bioestimulante, Criogel, Gel Termoativado, Sal Térmico, Creme 7 Ativos, Esbeltea Detox, Creme Neutro, Creme de Massagem Ozonizado.
+- **Atenção / não combinar:** Evitar pele lesionada, pele irritada, pele sensibilizada, alergia a componentes, gestantes sem avaliação, lactantes sem avaliação, crianças, idosos, doenças preexistentes, uso de medicamentos, alterações circulatórias, varizes importantes, pós-operatório sem liberação, dúvidas sobre associação com termoativos, dúvidas sobre associação com crioterápicos, dúvidas sobre aparelhos, sem avaliação profissional. Não prometer emagrecimento, perda de medidas ou resultado definitivo.
+
+### Detalhes
+
+## Função principal
+Kit corporal com fluido/spray e creme, indicado para cuidados corporais com foco em celulite, flacidez, gordura localizada, firmeza, tonificação e aparência mais uniforme.
+
+## Indicações
+- Pele corporal conforme avaliação profissional
+- Celulite
+- Flacidez
+- Gordura localizada
+- Firmeza corporal
+- Tonificação
+- Melhora da aparência corporal
+- Cuidado redutor
+- Rotina corporal com spray/fluido e creme
+- Massagem corporal até absorção
+
+## Público / uso
+Profissional/cabine, com possível home care orientado se aprovado.
+
+## Tipo de produto
+Kit corporal com fluido/spray e creme.
+
+## Linha
+EsbelTEA.
+
+## Volume / quantidade
+Creme 900g + Fluido/Spray 300ml.
+
+## Tipo de pele
+Pele corporal, conforme avaliação profissional.
+
+## Zona de aplicação
+Corpo.
+
+## Momento de aplicação
+Rotina corporal com spray/fluido seguido de creme e massagem até absorção.
+
+## Ativos principais
+- Pendente confirmar ativos oficiais do spray
+- Pendente confirmar ativos oficiais do creme
+
+## Benefícios aprovados
+- Auxilia na redução de medidas
+- Contribui para melhora da aparência da celulite
+- Ajuda no tratamento da flacidez corporal
+- Auxilia nos cuidados com gordura localizada
+- Rápida absorção
+- Livre de parabenos
+- Vegano
+- Cruelty-free
+- Dermatologicamente testado
+
+## Modo de uso aprovado
+Aplicar o spray na região desejada com pele limpa e seca. Em seguida, aplicar o creme na mesma região e massagear até completa absorção.
+
+## Cuidados e observações
+Evitar promessas de emagrecimento, perda garantida de medidas ou resultado definitivo. Confirmar tipo de pele e nomes oficiais dos itens. Ativos oficiais do spray e do creme estão pendentes de confirmação no material.
+
+## Quando não indicar ou encaminhar
+Não indicar sem avaliação em gestantes, lactantes, crianças, idosos, pessoas com doenças preexistentes, uso de medicamentos, alterações circulatórias, varizes importantes, pós-operatório sem liberação, pele lesionada, pele irritada, pele sensibilizada, alergia a componentes ou dúvidas sobre associação com aparelhos, termoativos, crioterápicos e protocolos corporais.
+
+## Participação em protocolos
+sem informação.
+
+## Função dentro do protocolo
+Pode atuar como kit corporal de apoio em rotinas profissionais com spray/fluido e creme, com foco em massagem, firmeza, celulite, gordura localizada, flacidez e melhora da aparência corporal, conforme avaliação profissional.
+
+## Produtos que combinam
+- Gel Esfoliante Corporal Ozonizado
+- Kit Ozônio Premium
+- Gel Bioestimulante
+- Criogel
+- Gel Termoativado
+- Sal Térmico
+- Creme 7 Ativos
+- Esbeltea Detox
+- Creme Neutro
+- Creme de Massagem Ozonizado
+
+## Diferença para produtos parecidos
+Este kit tem 2 itens, spray + creme, e foco redutor, firmeza e celulite. O Esbeltea Detox tem 3 itens, incluindo cápsulas, e foco maior em drenagem e retenção hídrica.
+
+## Frase de segurança para a Nina
+Seguir rótulo e orientação profissional. Não prometer emagrecimento, perda de medidas ou resultado garantido. Gestantes, lactantes, crianças, idosos, pessoas com doenças ou uso de medicamentos devem consultar profissional.
+
+### Objeções comuns e respostas
+
+**É um produto para emagrecer?**  
+Não. A Nina não deve prometer emagrecimento, perda de peso ou perda de medidas. O kit pode ser comunicado como apoio em cuidados corporais com foco em celulite, flacidez, gordura localizada, firmeza e aparência da pele.
+
+**É para uso em casa?**  
+A ficha indica uso profissional em cabine, com possível home care orientado se aprovado. A Nina não deve orientar uso livre sem avaliação.
+
+**O kit vem com quais produtos?**  
+Vem com Spray EsbelTEA 300ml e Creme EsbelTEA 900g.
+
+**Qual a diferença para o Esbeltea Detox?**  
+Este kit tem 2 itens, spray e creme, com foco redutor, firmeza e celulite. O Esbeltea Detox tem 3 itens, incluindo cápsulas, e foco maior em detox, drenagem e retenção hídrica.
+
+**Pode combinar com outros produtos corporais?**  
+Sim, pode combinar com esfoliação, géis, cremes e finalizadores conforme objetivo e avaliação profissional.
+
+### Observações internas para a Nina
+
+Indicar para profissionais que buscam kit corporal com spray e creme para cuidados com celulite, flacidez, gordura localizada, firmeza, tonificação e aparência mais uniforme. Não prometer emagrecimento, perda garantida de medidas, eliminação de gordura, eliminação de celulite ou resultado definitivo. Ativos oficiais do spray e do creme estão pendentes de confirmação no material, então não inventar composição. Encaminhar para dermoconsultora em caso de gestantes, lactantes, crianças, idosos, doenças preexistentes, alterações circulatórias, varizes importantes, pós-operatório, pele lesionada, pele irritada, pele sensibilizada, alergias, uso de medicamentos ou dúvidas sobre associação com termoativos, crioterápicos, aparelhos ou protocolos.
+
+---
+
+## Dolce Lips - 10g
+
+Tratamento labial hidratante e nutritivo, indicado para lábios ressecados, ásperos, sem brilho ou que precisam de cuidado diário, maciez e brilho natural.
+
+- **Categorias:** home care
+- **Principais objetivos:** Hidratação labial, nutrição labial, rejuvenescimento dos lábios, maciez, elasticidade, brilho natural, toque aveludado, melhora da aparência dos lábios.
+- **Tipo de pele / condição indicada:** Lábios ressecados, lábios ásperos, lábios sem brilho, lábios com necessidade de cuidado diário, lábios com necessidade de hidratação, lábios com necessidade de nutrição, evitando lábios lesionados, irritados ou sensibilizados.
+- **Modo de uso:** Aplicar pequena quantidade nos lábios e espalhar até formar camada uniforme. Não remover.
+- **Site:** https://lakma.com.br/products/dolce-lips-10gr?_pos=3&_sid=5437e421c&_ss=r
+
+### Combinações
+
+- **Combina com:** Dolce Peel, Gloss Biolips, Kit Labial Home Care, Esfoliante Facial e Labial Bioativo, rotina ideal com Dolce Peel 1 a 2 vezes por semana conforme orientação, Dolce Lips diariamente, Gloss Biolips para brilho e booster.
+- **Atenção / não combinar:** Evitar lábios lesionados, lábios irritados, lábios sensibilizados, feridas abertas, alergia a componentes, descamação intensa, feridas recorrentes, ardência, coceira, reação ativa. Suspender em caso de ardência, coceira ou reação e orientar avaliação se persistir.
+
+### Detalhes
+
+## Função principal
+Tratamento labial hidratante e nutritivo, indicado para rejuvenescimento, hidratação, nutrição, maciez, elasticidade, brilho natural e melhora da aparência dos lábios.
+
+## Indicações
+- Lábios ressecados
+- Lábios ásperos
+- Lábios sem brilho
+- Lábios com necessidade de cuidado diário
+- Lábios com necessidade de hidratação
+- Lábios com necessidade de nutrição
+- Melhora da aparência dos lábios
+- Maciez
+- Brilho natural
+- Elasticidade
+
+## Público / uso
+Home care.
+
+## Tipo de produto
+Tratamento labial hidratante.
+
+## Linha
+Labial / Dolce Lips.
+
+## Volume
+10g.
+
+## Tipo de pele / condição indicada
+Lábios ressecados, ásperos ou sem brilho.
+
+## Zona de aplicação
+Lábios.
+
+## Momento de aplicação
+Rotina labial diária, após esfoliação quando necessário.
+
+## Ativos principais
+- Óleo de Açaí
+- Óleo de Pracaxi
+- Wakapamp
+
+## Benefícios aprovados
+- Auxilia no rejuvenescimento dos lábios
+- Promove hidratação e nutrição
+- Ajuda na elasticidade
+- Restaura brilho natural
+- Toque aveludado
+- Não necessita remoção
+
+## Modo de uso aprovado
+Aplicar pequena quantidade nos lábios e espalhar até formar camada uniforme. Não remover.
+
+## Cuidados e observações
+Evitar em lábios lesionados, irritados, sensibilizados ou com alergia. Suspender em caso de ardência, coceira ou reação.
+
+## Quando não indicar ou encaminhar
+Feridas abertas, alergia a componentes, descamação intensa ou feridas recorrentes exigem avaliação.
+
+## Participação em protocolos
+sem informação.
+
+## Função dentro do protocolo
+sem informação.
+
+## Produtos que combinam
+- Dolce Peel
+- Gloss Biolips
+- Kit Labial Home Care
+- Esfoliante Facial e Labial Bioativo
+
+## Rotina sugerida
+Dolce Peel 1 a 2 vezes por semana conforme orientação + Dolce Lips diariamente + Gloss Biolips para brilho/booster.
+
+## Diferença para produtos parecidos
+Dolce Lips é tratamento hidratante e nutritivo sem remoção. Dolce Peel é esfoliante. Gloss Biolips tem acabamento de gloss e booster labial.
+
+## Frase de segurança para a Nina
+Evitar uso em lábios lesionados, irritados ou sensibilizados. Suspender se houver ardência, coceira ou reação e orientar avaliação se persistir.
+
+### Objeções comuns e respostas
+
+**Precisa remover depois de aplicar?**  
+Não. O Dolce Lips é um tratamento labial sem remoção.
+
+**Serve para lábios ressecados?**  
+Sim. É indicado para lábios ressecados, ásperos, sem brilho ou que precisam de hidratação e nutrição diária.
+
+**Pode usar todos os dias?**  
+Sim. A ficha indica uso na rotina labial diária.
+
+**Qual a diferença para o Dolce Peel?**  
+O Dolce Lips é um tratamento hidratante e nutritivo sem remoção. O Dolce Peel é esfoliante labial.
+
+**Qual a diferença para o Gloss Biolips?**  
+O Dolce Lips tem foco em tratamento, hidratação e nutrição. O Gloss Biolips tem acabamento de gloss e ação booster labial.
+
+### Observações internas para a Nina
+
+Indicar para clientes que buscam hidratação, nutrição, maciez, brilho natural, elasticidade e melhora da aparência dos lábios. Pode ser sugerido para uso diário e também após esfoliação com Dolce Peel quando necessário. Não indicar em lábios lesionados, irritados, sensibilizados, com feridas abertas, alergia a componentes, descamação intensa ou feridas recorrentes. Suspender em caso de ardência, coceira ou reação e orientar avaliação se persistir.
+
+---
+
+## MASSO DIVINE, massagem facial - 250g
+
+Produto profissional para massagem facial, indicado para protocolos de deslizamento, conforto, massagem revitalizante, finalização facial e suporte ao efeito glow em cabine.
+
+- **Categorias:** profissional
+- **Principais objetivos:** Massagem facial, deslizamento, conforto durante manobras, massagem revitalizante, finalização facial, suporte em protocolo lifting, suporte em protocolo glow, experiência sensorial em cabine.
+- **Tipo de pele / condição indicada:** protocolos faciais de massagem, protocolos faciais de deslizamento, protocolos faciais de conforto, protocolos de revitalização, protocolos de lifting, protocolos de rejuvenescimento, protocolos de efeito glow, conforme avaliação profissional.
+- **Modo de uso:** Aplicar quantidade suficiente sobre a pele limpa e realizar manobras de massagem facial conforme protocolo profissional. No Protocolo Facial CrioFirmador 40+, aplicar camada média por cima do Fluido Crioredutor e realizar massagem revitalizante por 5 a 10 minutos.
+- **Site:** https://lakma.com.br/products/masso-divine-massagem-facial-250g?_pos=1&_sid=8c2d863a0&_ss=r
+
+### Participação em protocolos
+
+- Participa de protocolos: **sim**
+- **Protocolos relacionados:** Protocolo Facial CrioFirmador 40+, protocolos faciais de massagem, protocolos faciais de revitalização, protocolos faciais de lifting, protocolos faciais de efeito glow.
+- **Função dentro do protocolo:** Atua como produto de massagem facial no Protocolo Facial CrioFirmador 40+, aplicado por cima do Fluido Crioredutor para permitir manobras de massagem revitalizante por 5 a 10 minutos, auxiliando na experiência sensorial, no deslizamento e na proposta de revitalização, lifting e glow.
+
+### Combinações
+
+- **Combina com:** Fluido Crioredutor, Sabonete Líquido Facial Lakma, Espuma de Limpeza Facial, Sabonete de Ácido Glicólico, Máscara Calmante Limpeza de Pele, Neuroplasma Calmante, Máscara Hidroplástica Zen Marine, Creme Facial Ácido Hialurônico, Creme Antissinais Q-10, Ideal Protect.
+- **Atenção / não combinar:** Evitar olhos, mucosas, pele lesionada, pele irritada, pele sensibilizada, reação ativa, alergia a componentes, gestantes sem orientação, lactantes sem orientação, dúvidas sobre protocolo, dúvidas sobre associação com LED, dúvidas sobre associação com esferas geladas, dúvidas sobre finalização sem remoção. Como ativos e benefícios oficiais estão pendentes no material, não inventar composição ou promessa específica.
+
+### Detalhes
+
+## Função principal
+Produto profissional para massagem facial, indicado para protocolos de deslizamento, conforto, massagem revitalizante, finalização facial e suporte ao efeito glow em cabine.
+
+## Indicações
+- Protocolos faciais de massagem
+- Deslizamento em manobras faciais
+- Conforto durante massagem facial
+- Massagem revitalizante
+- Protocolos de lifting conforme avaliação
+- Protocolos de rejuvenescimento conforme avaliação
+- Protocolos de efeito glow conforme avaliação
+- Finalização facial em cabine
+- Experiência sensorial em protocolos profissionais
+
+## Público / uso
+Profissional/cabine.
+
+## Tipo de produto
+Produto para massagem facial.
+
+## Linha
+linha oficial.
+
+## Volume
+250g.
+
+## Tipo de pele
+Tipo de pele oficial pendente no material. Usar conforme avaliação profissional.
+
+## Zona de aplicação
+Rosto, evitando olhos e mucosas.
+
+## Momento de aplicação
+Durante protocolos de massagem facial em cabine.
+
+## Ativos principais
+- Pendente preencher ativos oficiais
+
+## Benefícios aprovados
+- Pendente confirmar benefícios oficiais
+- Auxilia no deslizamento durante massagem facial, conforme sugestão do material
+- Facilita manobras estéticas faciais, conforme sugestão do material
+- Contribui para conforto e experiência sensorial, conforme sugestão do material
+
+## Modo de uso aprovado
+Modo oficial pendente no material. Sugestão do material: aplicar quantidade suficiente sobre pele limpa e realizar manobras de massagem facial conforme protocolo, removendo excesso ou finalizando conforme orientação.
+
+## Uso em protocolo aprovado
+No Protocolo Facial CrioFirmador 40+, aplicar camada média da Massodivine por cima do Fluido Crioredutor e realizar manobras de massagem revitalizante por 5 a 10 minutos.
+
+## Cuidados e observações
+Evitar olhos, mucosas, pele lesionada, pele irritada, pele sensibilizada ou reação ativa. Como ativos e benefícios oficiais estão pendentes no material, não inventar composição ou promessa específica.
+
+## Quando não indicar ou encaminhar
+Encaminhar em caso de pele lesionada, irritada, sensibilizada, reação ativa, alergia a componentes, gestantes, lactantes, dúvidas sobre uso com LED, dúvidas sobre uso com esferas geladas, dúvidas sobre finalização sem remoção ou associação com outros ativos.
+
+## Participação em protocolos
+Participa de protocolo profissional aprovado:
+- Protocolo Facial CrioFirmador 40+
+
+Também pode se relacionar com:
+- Protocolos faciais de massagem
+- Protocolos faciais de revitalização
+- Protocolos faciais de lifting
+- Protocolos faciais de efeito glow
+
+## Função dentro do protocolo
+Atua como produto de massagem facial no Protocolo Facial CrioFirmador 40+, aplicado por cima do Fluido Crioredutor para permitir manobras de massagem revitalizante por 5 a 10 minutos, auxiliando na experiência sensorial, no deslizamento e na proposta de revitalização, lifting e glow.
+
+## Produtos que combinam
+- Fluido Crioredutor
+- Sabonete Líquido Facial Lakma
+- Espuma de Limpeza Facial
+- Sabonete de Ácido Glicólico
+- Máscara Calmante Limpeza de Pele
+- Neuroplasma Calmante
+- Máscara Hidroplástica Zen Marine
+- Creme Facial Ácido Hialurônico
+- Creme Antissinais Q-10
+- Ideal Protect
+
+## Diferença para produtos parecidos
+Diferencial pendente de confirmação oficial. Pelo material disponível, o Masso Divine deve ser tratado como produto de massagem facial para deslizamento e conforto em cabine, enquanto máscaras, séruns e cremes faciais têm funções específicas de tratamento, hidratação, calmante, rejuvenescimento ou finalização.
+
+## Frase de segurança para a Nina
+Produto de uso profissional ou orientado. Evitar pele lesionada, irritada ou sensibilizada. Como ativos e benefícios oficiais estão pendentes, não inventar composição ou promessa específica. Em caso de dúvida, encaminhar para avaliação.
+
+### Objeções comuns e respostas
+
+**É para uso em casa?**  
+A ficha indica uso profissional em cabine.
+
+**Qual é a função do Masso Divine?**  
+Ele é usado como produto de massagem facial, com foco em deslizamento, conforto e manobras revitalizantes em protocolos profissionais.
+
+**Participa de algum protocolo aprovado?**  
+Sim. Ele aparece no Protocolo Facial CrioFirmador 40+, associado ao Fluido Crioredutor, massagem revitalizante e proposta de lifting, rejuvenescimento e efeito glow.
+
+**Quais são os ativos principais?**  
+O material informa que os ativos oficiais estão pendentes. A Nina não deve inventar composição.
+
+**Pode usar em pele sensível?**  
+Somente conforme avaliação profissional. Em caso de pele sensibilizada, reação ativa, alergias, gestantes, lactantes ou dúvidas, encaminhar para dermoconsultora.
+
+### Observações internas para a Nina
+
+Indicar para profissionais que realizam massagem facial e precisam de produto para deslizamento, conforto, manobras revitalizantes e protocolos faciais em cabine. Priorizar quando a profissional perguntar sobre o Protocolo Facial CrioFirmador 40+ ou massagem facial com proposta de lifting, rejuvenescimento e efeito glow. Não inventar ativos, benefícios oficiais ou composição, pois estão pendentes no material. Encaminhar para dermoconsultora em caso de pele lesionada, irritada, sensibilizada, reação ativa, alergias, gestantes, lactantes, dúvidas sobre LED, esferas geladas, tempo de massagem, remoção ou associação com outros ativos.
+
+---
+
+## Kit Jóias Raras
+
+Kit profissional com 3 máscaras faciais finalizadoras premium, indicado para hidratação profunda, luminosidade, viço, revitalização, clareamento, uniformização e finalização de protocolos faciais.
+
+- **Categorias:** profissional
+- **Principais objetivos:** Finalização facial, hidratação profunda, luminosidade, viço, revitalização, uniformização do tom, clareamento de manchas, rejuvenescimento, melhora geral da aparência da pele.
+- **Tipo de pele / condição indicada:** Peles que precisam de finalização profissional, hidratação profunda, luminosidade, revitalização, uniformização, clareamento, melhora de viço, melhora geral da aparência, conforme necessidade da pele e avaliação profissional, evitando pele irritada, lesionada ou sensibilizada.
+- **Modo de uso:** Após o protocolo facial, aplicar camada uniforme da máscara escolhida sobre a pele limpa. Deixar agir conforme protocolo e remover com gaze umedecida em água.
+- **Site:** https://lakma.com.br/products/kit-joias-raras?_pos=1&_sid=cc2e24439&_ss=r
+
+### Participação em protocolos
+
+- **Função dentro do protocolo:** Pode atuar como etapa de finalização em protocolos faciais profissionais, permitindo personalizar a finalização conforme o objetivo da pele, hidratação profunda, luminosidade, revitalização, clareamento ou uniformização.
+
+### Combinações
+
+- **Combina com:** Espuma de Limpeza Facial, Sabonete Líquido Facial, Loção Tônica, Emolientes, Máscara Calmante, Neuroplasma Calmante, Fluido Passo 1, Peelings, Booster C100, Nano Drone, Ideal Protect, Creme Facial Ácido Hialurônico.
+- **Atenção / não combinar:** Evitar pele irritada, pele lesionada, pele sensibilizada, reação ativa, pós-procedimento agressivo sem avaliação, gestantes sem orientação em protocolos clareadores, lactantes sem orientação em protocolos clareadores, uso recente de ácidos sem avaliação, uso recente de retinoides sem avaliação, dúvidas sobre associação com peelings, dúvidas sobre fotoproteção. Para protocolos clareadores, reforçar fotoproteção.
+
+### Detalhes
+
+## Função principal
+Kit profissional com 3 máscaras faciais finalizadoras premium, indicado para hidratação profunda, luminosidade, viço, revitalização, clareamento, uniformização, rejuvenescimento e finalização de protocolos faciais.
+
+## Indicações
+- Finalização de tratamentos faciais profissionais
+- Hidratação profunda
+- Clareamento
+- Revitalização
+- Luminosidade
+- Viço
+- Rejuvenescimento
+- Uniformização do tom
+- Melhora geral da aparência da pele
+- Personalização da finalização conforme necessidade da pele
+
+## Público / uso
+Profissional/cabine.
+
+## Tipo de produto
+Kit de máscaras faciais finalizadoras.
+
+## Linha
+Jóias Raras.
+
+## Volume / quantidade
+Quantidade e peso oficial de cada máscara: sem informação.
+
+## Tipo de pele
+Tipo de pele oficial: sem informação. Usar conforme necessidade da pele, nível de sensibilização e avaliação profissional.
+
+## Zona de aplicação
+Rosto.
+
+## Momento de aplicação
+Finalização de protocolos faciais profissionais.
+
+## Ativos principais
+- Coração do Oceano: Nano Óleo de Argan, Óleo de Semente de Uva, Ureia
+- Fancy Diamond: Nano Up Lift, Nano Rose Hips, GPS
+- Majestic Diamond: Nano Ácido Kójico, Alfa Hidroxiácidos, Niacinamida
+
+## Benefícios aprovados
+- 3 máscaras finalizadoras
+- Hidratação profunda
+- Luminosidade
+- Viço
+- Revitalização
+- Uniformização do tom
+- Auxilia no clareamento de manchas
+- Hipoalergênico
+- Vegano
+- Cruelty-free
+- Livre de parabenos
+- Livre de fragrância
+- Livre de glúten
+
+## Modo de uso aprovado
+Após o protocolo facial, aplicar camada uniforme da máscara escolhida sobre a pele limpa. Deixar agir conforme protocolo e remover com gaze umedecida em água.
+
+## Cuidados e observações
+Cuidado com peles sensibilizadas, uso recente de ácidos, uso recente de retinoides ou pós-procedimento. Para protocolos clareadores, reforçar fotoproteção.
+
+## Quando não indicar ou encaminhar
+Não indicar diretamente em pele irritada, lesionada, sensibilizada, com reação ativa ou pós-procedimento agressivo sem avaliação. Encaminhar em caso de gestantes, lactantes em protocolos clareadores sem orientação, uso recente de ácidos, uso recente de retinoides, dúvidas sobre associação com peelings ou dúvidas sobre fotoproteção.
+
+## Participação em protocolos
+sem informação.
+
+## Função dentro do protocolo
+Pode atuar como etapa de finalização em protocolos faciais profissionais, permitindo personalizar a finalização conforme o objetivo da pele, hidratação profunda, luminosidade, revitalização, clareamento ou uniformização.
+
+## Produtos que combinam
+- Espuma de Limpeza Facial
+- Sabonete Líquido Facial
+- Loção Tônica
+- Emolientes
+- Máscara Calmante
+- Neuroplasma Calmante
+- Fluido Passo 1
+- Peelings
+- Booster C100
+- Nano Drone
+- Ideal Protect
+- Creme Facial Ácido Hialurônico
+
+## Diferença para produtos parecidos
+Kit profissional de máscaras finalizadoras premium. Diferente do Kit Tropicalia, que tem proposta com máscaras de frutas, e diferente do Kit Clay Mask, que tem foco em argilas, o Kit Jóias Raras foca hidratação, luminosidade e clareamento finalizador.
+
+## Frase de segurança para a Nina
+Produto de uso profissional ou orientado. Evitar pele lesionada, irritada ou sensibilizada e reforçar fotoproteção quando houver ácidos, peelings, retinol ou renovação. Em caso de dúvida, encaminhar para avaliação.
+
+### Objeções comuns e respostas
+
+**O kit é para uso em casa?**  
+A ficha indica uso profissional em cabine.
+
+**Quantas máscaras vêm no kit?**  
+O material informa que é um kit com 3 máscaras finalizadoras.
+
+**Qual é a função de cada máscara?**  
+Coração do Oceano tem foco em hidratação, Fancy Diamond tem foco em luminosidade e revitalização, Majestic Diamond tem foco em clareamento e uniformização.
+
+**Serve para finalizar protocolos faciais?**  
+Sim. O kit é indicado para finalização de tratamentos faciais profissionais, com foco em hidratação, clareamento, revitalização, luminosidade, rejuvenescimento e melhora geral.
+
+**Pode usar em pele sensibilizada?**  
+Deve ter cautela. Em pele irritada, lesionada, sensibilizada, reação ativa ou pós-procedimento agressivo sem avaliação, a Nina deve encaminhar para orientação profissional.
+
+### Observações internas para a Nina
+
+Indicar para profissionais que querem personalizar a finalização facial com máscaras premium conforme a necessidade da pele, hidratação profunda, luminosidade, revitalização, clareamento, uniformização ou rejuvenescimento. Usar Coração do Oceano quando o foco for hidratação, Fancy Diamond quando o foco for viço e luminosidade, Majestic Diamond quando o foco for manchas e uniformização, sempre reforçando fotoproteção em protocolos clareadores. Encaminhar para dermoconsultora em caso de pele irritada, lesionada, sensibilizada, reação ativa, pós-procedimento agressivo, gestantes, lactantes, uso recente de ácidos, retinoides, peelings ou dúvidas sobre associação.
+
+---
+
+## Emoliente de Cravos - 250g
+
+Creme emoliente facial profissional, indicado para emoliência de cravos, comedões e espinhas antes da extração mecânica em protocolos de limpeza de pele.
+
+- **Categorias:** profissional
+- **Principais objetivos:** Emoliência de cravos, emoliência de comedões, emoliência de espinhas, facilitar extração, limpeza de pele profissional, conforto na extração, preparo antes da extração mecânica.
+- **Tipo de pele / condição indicada:** Peles com cravos, peles com comedões, peles com espinhas, pele oleosa conforme avaliação profissional, pele com necessidade de limpeza de pele, pele com necessidade de extração mecânica, evitando acne muito inflamada, pele lesionada, pele irritada, pele sensibilizada, dermatite em crise, rosácea em crise.
+- **Modo de uso:** Aplicar camada uniforme. Usar vapor de ozônio ou máscara térmica por 20 a 30 minutos. Remover o excesso antes da extração. Para potencializar, aplicar 5 gotas do Fluido Passo 1 para dispensar fonte de calor somente se aprovado por Paula.
+- **Site:** https://lakma.com.br/products/emoliente-de-cravos-250gr?_pos=1&_sid=3dbce4669&_ss=r
+
+### Participação em protocolos
+
+- Participa de protocolos: **sim**
+- **Protocolos relacionados:** Protocolo Limpeza de Pele Premium, Protocolo Limpeza de Pele Integrativa Personalizada, Kit Limpeza de Pele Profissional, protocolos profissionais de limpeza de pele, protocolos com extração de cravos e comedões.
+- **Função dentro do protocolo:** Atua como etapa de emoliência antes da extração mecânica em protocolos de limpeza de pele, ajudando a amolecer cravos, comedões e espinhas, facilitando a extração e tornando o procedimento mais confortável.
+
+### Combinações
+
+- **Combina com:** Sabonete Líquido Facial, Espuma de Limpeza Facial, Loção Tônica, Máscara Calmante, Neuroplasma Calmante, Máscara Hidroplástica Zen Marine, Fluido Passo 1, Fluido Secativo, Ideal Protect, Kit Limpeza de Pele Profissional, Kit Limpeza de Pele Facial + Ativos Sem Trieta.
+- **Atenção / não combinar:** Evitar olhos, mucosas, pele lesionada, pele irritada, pele sensibilizada, acne muito inflamada, dermatite em crise, rosácea em crise, alergia à trietanolamina, alergia aos ativos, uso doméstico sem profissional, extração em casa, cliente que busca produto sem trieta. Para opção sem trietanolamina, direcionar ao Emoliente Zero Trieta.
+
+### Detalhes
+
+## Função principal
+Creme emoliente facial profissional, indicado para emoliência de cravos, comedões e espinhas antes da extração mecânica em protocolos de limpeza de pele.
+
+## Indicações
+- Peles com cravos
+- Peles com comedões
+- Peles com espinhas
+- Limpeza de pele profissional
+- Emoliência antes da extração mecânica
+- Facilitar a extração
+- Tornar a extração mais confortável
+- Preparo da pele antes da extração
+- Protocolos profissionais de limpeza de pele
+
+## Público / uso
+Profissional/cabine.
+
+## Tipo de produto
+Creme emoliente facial.
+
+## Linha
+Limpeza de Pele.
+
+## Volume
+250g.
+
+## Tipo de pele
+Peles com cravos e comedões, conforme avaliação profissional.
+
+## Zona de aplicação
+Rosto, evitando contorno dos olhos.
+
+## Momento de aplicação
+Antes da extração mecânica na limpeza de pele.
+
+## Ativos principais
+- Trietanolamina
+- Calêndula
+- Algas Marinhas
+- Camomila
+
+## Benefícios aprovados
+- Realiza emoliência de cravos e espinhas
+- Facilita limpeza de pele
+- Torna a extração mais confortável
+- Ação calmante e nutritiva
+- Dermatologicamente testado
+- Hipoalergênico
+- Livre de parabenos
+
+## Modo de uso aprovado
+Aplicar camada uniforme. Usar vapor de ozônio ou máscara térmica por 20 a 30 minutos. Para potencializar, aplicar 5 gotas do Fluido Passo 1 para dispensar fonte de calor, se Paula aprovar. Remover excesso antes da extração.
+
+## Cuidados e observações
+Uso profissional. Evitar olhos, mucosas, pele lesionada e pele sensibilizada. Diferenciar da versão Zero Trieta. Este produto contém Trietanolamina.
+
+## Quando não indicar ou encaminhar
+Não indicar em acne muito inflamada, pele lesionada, pele irritada, pele sensibilizada, dermatite em crise, rosácea em crise, alergia à trietanolamina, alergia aos ativos, uso doméstico sem profissional, cliente final querendo extração em casa ou cliente que busca opção sem trieta.
+
+## Participação em protocolos
+Participa de protocolos profissionais aprovados, incluindo:
+- Protocolo Limpeza de Pele Premium
+- Protocolo Limpeza de Pele Integrativa Personalizada
+
+Também se relaciona com:
+- Kit Limpeza de Pele Profissional
+- Protocolos profissionais de limpeza de pele
+- Protocolos com extração de cravos e comedões
+
+## Função dentro do protocolo
+Atua como etapa de emoliência antes da extração mecânica em protocolos de limpeza de pele, ajudando a amolecer cravos, comedões e espinhas, facilitando a extração e tornando o procedimento mais confortável.
+
+## Produtos que combinam
+- Sabonete Líquido Facial
+- Espuma de Limpeza Facial
+- Loção Tônica
+- Máscara Calmante
+- Neuroplasma Calmante
+- Máscara Hidroplástica Zen Marine
+- Fluido Passo 1
+- Fluido Secativo
+- Ideal Protect
+- Kit Limpeza de Pele Profissional
+- Kit Limpeza de Pele Facial + Ativos Sem Trieta
+
+## Diferença para produtos parecidos
+O Emoliente de Cravos contém Trietanolamina e é indicado para facilitar a extração de cravos, comedões e espinhas. Diferente do Emoliente Zero Trieta, que é a opção sem trietanolamina. A versão Emoliente de Cravos e Espinhas 500g tem o mesmo objetivo e muda principalmente a apresentação/tamanho.
+
+## Frase de segurança para a Nina
+Produto profissional. Evitar olhos, mucosas, pele lesionada ou sensibilizada. Para acne muito inflamada, pele reativa, alergia a componentes ou dúvida técnica, orientar avaliação profissional.
+
+### Objeções comuns e respostas
+
+**É para uso em casa?**  
+Não. É um produto profissional para uso em cabine, antes da extração mecânica em limpeza de pele.
+
+**Serve para facilitar a extração de cravos?**  
+Sim. Ele realiza emoliência de cravos, comedões e espinhas, facilitando a limpeza de pele e tornando a extração mais confortável.
+
+**Precisa usar vapor ou máscara térmica?**  
+O modo de uso aprovado orienta usar vapor de ozônio ou máscara térmica por 20 a 30 minutos.
+
+**Qual a diferença para o Emoliente Zero Trieta?**  
+O Emoliente de Cravos contém Trietanolamina. O Emoliente Zero Trieta é a opção sem trietanolamina.
+
+**Pode usar em acne muito inflamada?**  
+Não indicar diretamente. Em acne muito inflamada, pele lesionada, dermatite ou rosácea em crise, a Nina deve encaminhar para avaliação profissional.
+
+### Observações internas para a Nina
+
+Indicar para profissionais que fazem limpeza de pele e precisam facilitar a emoliência antes da extração de cravos, comedões e espinhas. Reforçar que é produto profissional de cabine e não deve ser orientado para extração doméstica. Diferenciar da versão Zero Trieta: este produto contém Trietanolamina. Se a cliente ou profissional pedir opção sem trieta, direcionar para Emoliente Zero Trieta ou Kit Limpeza de Pele Facial + Ativos Sem Trieta. Encaminhar para dermoconsultora em caso de acne muito inflamada, pele lesionada, pele irritada, pele sensibilizada, dermatite em crise, rosácea em crise, alergia a componentes, gestantes, lactantes, uso recente de ácidos, retinoides, procedimentos ou dúvidas sobre tempo de ação, fonte de calor, extração ou associação de ativos.
+
+---
+
+## Nano Drone, clareador, rejuvenescedor, hidratante - 30ml
+
+Sérum facial multifuncional com ação clareadora, rejuvenescedora, hidratante e antioxidante, indicado para manchas, textura irregular, linhas finas, rugas, falta de viço e sinais de envelhecimento.
+
+- **Categorias:** profissional, home care
+- **Principais objetivos:** Clareamento de manchas, rejuvenescimento facial, hidratação, uniformização do tom, melhora da textura, luminosidade, ação antioxidante, suavização de rugas e linhas finas, revitalização.
+- **Tipo de pele / condição indicada:** Peles com manchas, textura irregular, linhas finas, rugas, falta de viço, sinais de envelhecimento, necessidade de hidratação, necessidade de luminosidade, necessidade de uniformização, evitando peles sensibilizadas, irritadas ou lesionadas.
+- **Modo de uso:** Aplicar na rotina facial após a limpeza, introduzindo gradualmente. Espalhar sobre o rosto, evitando olhos e mucosas. Durante o dia, finalizar com protetor solar. Usar conforme orientação profissional.
+- **Site:** https://lakma.com.br/products/nano-drone-clareador-rejuvenescedor-hidratante-30ml?_pos=1&_sid=b4eaa40f4&_ss=r
+
+### Participação em protocolos
+
+- **Função dentro do protocolo:** Pode atuar como sérum multifuncional em rotinas e protocolos orientados para manchas, rejuvenescimento, hidratação, luminosidade, textura irregular, rugas e linhas finas, sempre conforme avaliação profissional.
+
+### Combinações
+
+- **Combina com:** Ideal Protect, Loção Tônica, Espuma de Limpeza Facial, Sabonete Líquido Facial, Creme Facial Ácido Hialurônico, Máscara Calmante, Neuroplasma Calmante, Máscara Hidroplástica Zen Marine, Máscara Detox Zen Marine, Kit Jóias Raras, Booster C100, Kit Ácidos Sem Mistérios, Peeling Bio Complex, Peeling Enzimático de Romã, Máscara Clareadora, Fluido Passo 4.
+- **Atenção / não combinar:** Evitar pele lesionada, pele irritada, pele sensibilizada, reação ativa, alergia a componentes, gestantes sem orientação, lactantes sem orientação, uso recente de ácidos, uso recente de retinoides, pós-peeling recente, pós-laser recente, pós-microagulhamento recente, associação livre com outros retinoides, associação livre com ácidos fortes, dúvidas sobre uso diurno, dúvidas sobre frequência, dúvidas sobre protocolo. Por conter Retinol, evitar sobreposição sem avaliação com Sérum RN-0,3, Booster Colágeno, Fluido Passo 3 ou outros produtos com retinoides.
+
+### Detalhes
+
+## Função principal
+Sérum facial multifuncional com ação clareadora, rejuvenescedora, hidratante e antioxidante, indicado para manchas, textura irregular, linhas finas, rugas, falta de viço, uniformização e sinais de envelhecimento.
+
+## Indicações
+- Peles com manchas
+- Textura irregular
+- Linhas finas
+- Rugas
+- Falta de viço
+- Sinais de envelhecimento
+- Rejuvenescimento facial
+- Hidratação
+- Uniformização do tom
+- Clareamento de manchas
+- Luminosidade
+- Revitalização
+- Ação antioxidante
+
+## Público / uso
+Home care, possível uso profissional orientado.
+
+## Tipo de produto
+Sérum facial multifuncional.
+
+## Linha
+linha oficial.
+
+## Volume
+30ml.
+
+## Tipo de pele
+Peles com manchas, textura irregular, linhas finas, rugas ou falta de viço. Evitar peles sensibilizadas, irritadas ou lesionadas.
+
+## Zona de aplicação
+Rosto, evitando olhos e mucosas.
+
+## Momento de aplicação
+Rotina facial após limpeza. Introduzir gradualmente e finalizar com protetor solar durante o dia.
+
+## Ativos principais
+- Alfa Arbutin
+- Ácido Ferúlico
+- Ácido Hialurônico
+- Phloretin
+- Hexapeptídeo-12T
+- Vitamina C
+- Retinol
+
+## Benefícios aprovados
+- Rejuvenescimento facial
+- Suaviza rugas e linhas finas
+- Uniformiza tom
+- Hidrata e melhora maciez
+- Clareia manchas
+- Ação antioxidante
+- Luminosidade e revitalização
+
+## Modo de uso aprovado
+Aplicar na rotina facial após a limpeza, introduzindo gradualmente. Espalhar sobre o rosto, evitando olhos e mucosas. Durante o dia, finalizar com protetor solar. Usar conforme orientação profissional.
+
+## Cuidados e observações
+Contém Retinol. Introduzir com cautela e evitar associações livres com retinoides, ácidos fortes, peelings e procedimentos sem avaliação profissional. Fotoproteção durante o dia é indispensável.
+
+## Quando não indicar ou encaminhar
+Não indicar diretamente em pele lesionada, pele irritada, pele sensibilizada, reação ativa, alergia a componentes, gestantes, lactantes, uso recente de ácidos, uso recente de retinoides, pós-peeling recente, pós-laser recente, pós-microagulhamento recente ou dúvidas sobre associação de ativos.
+
+## Participação em protocolos
+sem informação.
+
+## Função dentro do protocolo
+Pode atuar como sérum multifuncional em rotinas e protocolos orientados para manchas, rejuvenescimento, hidratação, luminosidade, textura irregular, rugas e linhas finas, sempre conforme avaliação profissional.
+
+## Produtos que combinam
+- Ideal Protect
+- Loção Tônica
+- Espuma de Limpeza Facial
+- Sabonete Líquido Facial
+- Creme Facial Ácido Hialurônico
+- Máscara Calmante
+- Neuroplasma Calmante
+- Máscara Hidroplástica Zen Marine
+- Máscara Detox Zen Marine
+- Kit Jóias Raras
+- Booster C100
+- Kit Ácidos Sem Mistérios
+- Peeling Bio Complex
+- Peeling Enzimático de Romã
+- Máscara Clareadora
+- Fluido Passo 4
+
+## Diferença para produtos parecidos
+Nano Drone é multifuncional, com foco em clareamento, rejuvenescimento, hidratação, antioxidante, luminosidade e textura. VC-10 é mais focado em vitamina C diária e ação antioxidante. Booster C100 é vitamina C pura nanoencapsulada e ozonizada. Booster Colágeno foca firmeza e colágeno. RN-0,3 é um sérum noturno com foco em retinol.
+
+## Frase de segurança para a Nina
+Produto de uso profissional ou orientado. Evitar pele lesionada, irritada ou sensibilizada e reforçar fotoproteção quando houver ácidos, peelings, retinol ou renovação. Não prometer clareamento definitivo, rejuvenescimento garantido ou remoção total de manchas. Em caso de dúvida, encaminhar para avaliação.
+
+### Objeções comuns e respostas
+
+**Serve para manchas?**  
+Sim. O Nano Drone é indicado para clareamento de manchas, uniformização do tom, luminosidade e melhora da textura, sempre sem prometer clareamento definitivo.
+
+**É só clareador ou também antissinais?**  
+É multifuncional. Tem proposta clareadora, rejuvenescedora, hidratante, antioxidante e revitalizante.
+
+**Pode usar todos os dias?**  
+A Nina deve orientar introdução gradual e uso conforme tolerância ou orientação profissional, porque o produto contém Retinol e outros ativos de performance.
+
+**Pode usar durante o dia?**  
+Durante o dia, o uso exige finalização com protetor solar. Em caso de dúvida sobre rotina diurna, frequência ou associação com outros ativos, encaminhar para dermoconsultora.
+
+**Pode combinar com retinol ou ácidos?**  
+Não deve associar livremente com retinoides, ácidos fortes, peelings ou procedimentos sem avaliação profissional, porque pode aumentar risco de sensibilização.
+
+### Observações internas para a Nina
+
+Indicar para clientes que buscam um sérum completo para manchas, linhas finas, rugas, falta de viço, textura irregular, hidratação, luminosidade e rejuvenescimento. Reforçar fotoproteção obrigatória durante o dia. Não prometer clareamento definitivo, rejuvenescimento garantido, remoção total de manchas ou resultado permanente. Como contém Retinol, ter cautela com associação a RN-0,3, Booster Colágeno, Fluido Passo 3, ácidos, peelings e procedimentos. Encaminhar para dermoconsultora em caso de gestantes, lactantes, pele lesionada, pele irritada, pele sensibilizada, alergias, uso recente de ácidos, retinoides, peeling, laser, microagulhamento ou dúvidas sobre frequência e combinação.
+
+---
+
+## Ideal Protect - Protetor Solar 50g
+
+Protetor solar facial FPS 30 com Vitamina E, indicado para proteção UVA/UVB, prevenção do fotoenvelhecimento, ação antioxidante e finalização da rotina diurna.
+
+- **Categorias:** home care
+- **Principais objetivos:** Fotoproteção facial, proteção UVA/UVB, prevenção do fotoenvelhecimento, proteção diária, ação antioxidante, ação dermoprotetora, finalização da rotina diurna, suporte indispensável em rotinas com clareadores, ácidos, retinol, peelings e produtos renovadores.
+- **Tipo de pele / condição indicada:** uso facial diário, pele exposta à radiação solar, rotina diurna, rotinas com clareadores, rotinas com ácidos, rotinas com retinol, rotinas com peelings, rotinas com produtos renovadores, prevenção de danos solares, prevenção de fotoenvelhecimento, evitando pele irritada, lesionada ou com alergia a componentes.
+- **Modo de uso:** Aplicar quantidade adequada na pele limpa e seca como última etapa da rotina diurna. Reaplicar após suor, contato com água ou limpeza da pele.
+- **Site:** https://lakma.com.br/products/ideal-protect-protetor-solar-50gr?_pos=1&_sid=30aa08e72&_ss=r
+
+### Participação em protocolos
+
+- Participa de protocolos: **sim**
+- **Protocolos relacionados:** Protocolos de manchas, protocolos de clareamento, protocolos de renovação, protocolos com ácidos, protocolos com peelings, protocolos com retinol, protocolos faciais diurnos, rotinas home care com ativos renovadores.
+- **Função dentro do protocolo:** Atua como etapa final obrigatória de fotoproteção em rotinas diurnas e protocolos que envolvem manchas, clareadores, ácidos, retinol, peelings e renovação, ajudando a proteger a pele contra radiação UVA/UVB e prevenir danos solares e fotoenvelhecimento.
+
+### Combinações
+
+- **Combina com:** Nano Drone, Booster C100, VC-10, RN-0, 3, Peelings, Bio Complex, Sabonete de Ácido Glicólico, Esfoliante Facial, Nanohydrat Olheiras, clareadores, Kit Ácidos Sem Mistérios, Peeling de Cristal Líquido, Peeling Rejuvenescedor, Peeling Enzimático de Romã, Máscara Clareadora, Fluido Passo 4, Máscara Calmante, Neuroplasma Calmante, Creme Facial Ácido Hialurônico.
+- **Atenção / não combinar:** Evitar pele irritada, pele lesionada, pele sensibilizada, alergia a componentes, uso como substituto de outras medidas de proteção solar, exposição solar excessiva, necessidade de produto resistente à água ou suor sem confirmação oficial, dúvidas sobre quantidade, dúvidas sobre intervalo de reaplicação, gestantes sem orientação, lactantes sem orientação. Confirmar resistência à água e suor antes de orientar essa finalidade.
+
+### Detalhes
+
+## Função principal
+Protetor solar facial FPS 30 com Vitamina E, indicado para proteção UVA/UVB, prevenção do fotoenvelhecimento, ação antioxidante, ação dermoprotetora e finalização da rotina diurna.
+
+## Indicações
+- Fotoproteção facial diária
+- Proteção UVA/UVB
+- Prevenção do fotoenvelhecimento
+- Prevenção de danos solares
+- Rotina diurna
+- Rotinas com clareadores
+- Rotinas com ácidos
+- Rotinas com retinol
+- Rotinas com peelings
+- Rotinas com produtos renovadores
+- Protocolos de manchas
+- Protocolos de renovação
+- Finalização diurna do skincare
+
+## Público / uso
+Home care.
+
+## Tipo de produto
+Protetor solar facial.
+
+## Linha
+Ideal Protect.
+
+## Volume
+50g.
+
+## Tipo de pele
+Tipo de pele oficial: sem informação.
+
+## Zona de aplicação
+Rosto.
+
+## Momento de aplicação
+Última etapa da rotina diurna. Reaplicar conforme necessidade e orientação.
+
+## Ativos principais
+- Vitamina E
+
+## Benefícios aprovados
+- FPS 30
+- FPUVA 10
+- Proteção UVA/UVB
+- Ajuda a prevenir danos solares
+- Ajuda a prevenir fotoenvelhecimento
+- Ação antioxidante
+- Ação dermoprotetora
+- Textura gel creme
+- Uso facial diário
+
+## Modo de uso aprovado
+Aplicar quantidade adequada na pele limpa e seca como última etapa da rotina diurna. Reaplicar após suor, contato com água ou limpeza da pele.
+
+## Cuidados e observações
+Não substitui outros cuidados de proteção solar. Confirmar resistência à água e suor, quantidade e intervalo de reaplicação oficiais antes de orientar com precisão.
+
+## Quando não indicar ou encaminhar
+Encaminhar em caso de alergia a componentes, pele irritada, pele lesionada, pele sensibilizada, gestantes, lactantes ou necessidade de produto resistente à água ou suor sem confirmação oficial.
+
+## Participação em protocolos
+Participa como etapa essencial de fotoproteção em:
+- Protocolos de manchas
+- Protocolos de clareamento
+- Protocolos de renovação
+- Protocolos com ácidos
+- Protocolos com peelings
+- Protocolos com retinol
+- Protocolos faciais diurnos
+- Rotinas home care com ativos renovadores
+
+## Função dentro do protocolo
+Atua como etapa final obrigatória de fotoproteção em rotinas diurnas e protocolos que envolvem manchas, clareadores, ácidos, retinol, peelings e renovação, ajudando a proteger a pele contra radiação UVA/UVB e prevenir danos solares e fotoenvelhecimento.
+
+## Produtos que combinam
+- Nano Drone
+- Booster C100
+- VC-10
+- RN-0,3
+- Peelings
+- Bio Complex
+- Sabonete de Ácido Glicólico
+- Esfoliante Facial
+- Nanohydrat Olheiras
+- Clareadores
+- Kit Ácidos Sem Mistérios
+- Peeling de Cristal Líquido
+- Peeling Rejuvenescedor
+- Peeling Enzimático de Romã
+- Máscara Clareadora
+- Fluido Passo 4
+- Máscara Calmante
+- Neuroplasma Calmante
+- Creme Facial Ácido Hialurônico
+
+## Diferença para produtos parecidos
+Produto de proteção, não tratamento principal de manchas ou rugas. Diferente dos séruns, peelings e clareadores, sua função principal é proteger a pele, prevenir danos solares e ajudar a prevenir fotoenvelhecimento.
+
+## Frase de segurança para a Nina
+Orientar uso conforme modo de uso, evitar pele lesionada ou sensibilizada e suspender em caso de irritação. Gestantes, lactantes, alergias ou dúvidas com ativos devem ser encaminhadas para avaliação.
+
+### Objeções comuns e respostas
+
+**É tratamento para manchas?**  
+Não. O Ideal Protect é um produto de proteção, não o tratamento principal para manchas ou rugas. Ele é essencial em rotinas de manchas, clareamento e renovação porque ajuda a proteger contra danos solares e fotoenvelhecimento.
+
+**Tem FPS?**  
+Sim. O material informa FPS 30 e FPUVA 10.
+
+**Pode usar com ácidos, retinol e peelings?**  
+Sim. Ele é indicado como etapa essencial em rotinas diurnas, especialmente quando há uso de clareadores, ácidos, retinol, peelings e produtos renovadores.
+
+**É resistente à água ou suor?**  
+Essa informação precisa ser confirmada oficialmente. A Nina não deve afirmar resistência à água ou suor sem confirmação.
+
+**Quando aplicar?**  
+Como última etapa da rotina diurna, sobre a pele limpa e seca, reaplicando após suor, contato com água ou limpeza da pele.
+
+### Observações internas para a Nina
+
+Indicar como etapa indispensável da rotina diurna, principalmente quando o cliente usa ou pergunta sobre clareadores, ácidos, retinol, peelings, produtos renovadores, manchas, melasma, pós-procedimentos ou prevenção do fotoenvelhecimento. Não tratar como produto principal de clareamento ou antirrugas. Não afirmar resistência à água ou suor sem confirmação oficial. Reforçar reaplicação, uso correto e encaminhar para dermoconsultora em caso de alergias, pele irritada, pele lesionada, pele sensibilizada, gestantes, lactantes ou dúvidas sobre associação com ativos.
+
+---
+
+## Peeling Rejuvenescedor - 50ml
+
+Peeling químico profissional com Ácido Glicólico, indicado para renovação celular, rejuvenescimento, melhora da textura, luminosidade, manchas, marcas, rugas e linhas.
+
+- **Categorias:** profissional
+- **Principais objetivos:** Renovação celular, rejuvenescimento facial, melhora da textura, suavização de manchas, suavização de marcas, redução da aparência de rugas, redução da aparência de linhas, luminosidade, revitalização.
+- **Tipo de pele / condição indicada:** Peles com rugas, textura irregular, opacidade, sinais de envelhecimento, manchas, marcas, linhas, necessidade de renovação, necessidade de revitalização, conforme avaliação profissional, evitando pele lesionada, irritada, sensibilizada, rosácea ativa ou dermatite ativa.
+- **Modo de uso:** Aplicar na pele limpa e seca conforme orientação profissional, evitando contorno dos olhos. Deixar agir conforme protocolo e tolerância. Remover completamente. Fotoproteção indispensável após o uso.
+- **Site:** https://lakma.com.br/products/peeling-rejuvenescedor-50ml?_pos=1&_sid=b70efd411&_ss=r
+
+### Participação em protocolos
+
+- **Função dentro do protocolo:** Pode atuar como peeling profissional rejuvenescedor em protocolos de renovação, textura, manchas, marcas, rugas, linhas, luminosidade e revitalização, conforme avaliação profissional.
+
+### Combinações
+
+- **Combina com:** Ideal Protect, Máscara Calmante, Neuroplasma Calmante, Fluido Passo 1, Kit Joias Raras, Creme Facial Ácido Hialurônico, Loção Tônica, Kit Peelings Profissionais, Solução Neutralizante quando indicada, Bio Complex em protocolos separados e avaliados, Booster C100 em protocolos separados e avaliados.
+- **Atenção / não combinar:** Evitar pele lesionada, pele irritada, pele sensibilizada, alergia a Ácido Glicólico, uso recente de retinol, uso recente de ácidos, procedimentos recentes, laser recente, microagulhamento recente, rosácea ativa, dermatite ativa, gestantes sem orientação, lactantes sem orientação, dúvidas sobre tempo de ação, dúvidas sobre neutralização, dúvidas sobre associação com outros peelings ou ativos fortes. Fotoproteção indispensável.
+
+### Detalhes
+
+## Função principal
+Peeling químico profissional com Ácido Glicólico, indicado para renovação celular, rejuvenescimento, melhora da textura, suavização de manchas e marcas, redução da aparência de rugas e linhas, luminosidade e revitalização.
+
+## Indicações
+- Protocolos profissionais de rejuvenescimento
+- Renovação celular
+- Peeling facial profissional
+- Manchas
+- Marcas
+- Textura irregular
+- Opacidade
+- Rugas
+- Linhas
+- Sinais de envelhecimento
+- Luminosidade
+- Revitalização
+- Melhora da uniformidade da pele
+
+## Público / uso
+Profissional/cabine.
+
+## Tipo de produto
+Peeling químico profissional.
+
+## Linha
+Peelings Profissionais.
+
+## Volume
+50ml.
+
+## Tipo de pele
+Peles com rugas, textura irregular, opacidade ou sinais de envelhecimento, conforme avaliação profissional.
+
+## Zona de aplicação
+Rosto, evitando olhos e mucosas.
+
+## Momento de aplicação
+Durante protocolo profissional de renovação e rejuvenescimento.
+
+## Ativos principais
+- Ácido Glicólico
+
+## Benefícios aprovados
+- Renovação celular
+- Suavização de manchas e marcas
+- Suaviza rugas e linhas
+- Melhora textura e uniformidade
+- Luminosidade e revitalização
+- Vegano
+- Cruelty-free
+
+## Modo de uso aprovado
+Aplicar na pele limpa e seca conforme orientação profissional, evitando contorno dos olhos. Deixar agir conforme protocolo e tolerância. Remover completamente. Fotoproteção indispensável.
+
+## Cuidados e observações
+Uso profissional. Cuidado com pele sensibilizada e associações com ácidos, retinol, laser, microagulhamento ou procedimentos. Não prometer rejuvenescimento garantido, clareamento definitivo ou remoção total de manchas, rugas e linhas.
+
+## Quando não indicar ou encaminhar
+Não indicar em pele lesionada, pele sensibilizada, pele irritada, alergia a Ácido Glicólico, uso recente de retinol, uso recente de ácidos, procedimentos recentes, gestantes sem orientação, lactantes sem orientação, rosácea ativa ou dermatite ativa. Encaminhar também em caso de dúvida sobre protocolo, tempo de ação, neutralização ou associação de ativos.
+
+## Participação em protocolos
+sem informação.
+
+## Função dentro do protocolo
+Pode atuar como peeling profissional rejuvenescedor em protocolos de renovação, textura, manchas, marcas, rugas, linhas, luminosidade e revitalização, conforme avaliação profissional.
+
+## Produtos que combinam
+- Ideal Protect
+- Máscara Calmante
+- Neuroplasma Calmante
+- Fluido Passo 1
+- Kit Joias Raras
+- Creme Facial Ácido Hialurônico
+- Loção Tônica
+- Kit Peelings Profissionais
+- Solução Neutralizante quando indicada
+- Bio Complex em protocolos separados e avaliados
+- Booster C100 em protocolos separados e avaliados
+
+## Diferença para produtos parecidos
+Foco em rejuvenescimento e renovação com Ácido Glicólico. Bio Complex foca clareamento e olheiras com Kójico, Tioglicólico e AHAs. Peeling de Cristal Líquido tem outra composição com retinol e Nano Vitamina C.
+
+## Frase de segurança para a Nina
+Produto de uso profissional ou orientado. Evitar pele lesionada, irritada ou sensibilizada e reforçar fotoproteção quando houver ácidos, peelings, retinol ou renovação. Em caso de dúvida, encaminhar para avaliação.
+
+### Objeções comuns e respostas
+
+**É para uso em casa?**  
+Não. É um peeling químico profissional para uso em cabine ou com orientação profissional.
+
+**Serve para rejuvenescimento?**  
+Sim. É indicado para protocolos profissionais de renovação, rejuvenescimento, textura, rugas, linhas, luminosidade e revitalização.
+
+**Serve para manchas?**  
+Sim. Pode auxiliar na suavização de manchas e marcas, sempre sem prometer clareamento definitivo ou remoção total.
+
+**Qual é o ativo principal?**  
+O ativo principal informado é Ácido Glicólico.
+
+**Precisa usar protetor solar depois?**  
+Sim. A fotoproteção é indispens
+
+### Observações internas para a Nina
+
+Indicar para profissionais que buscam peeling com Ácido Glicólico para renovação, textura, manchas, marcas, sinais de envelhecimento, rugas, linhas, luminosidade e revitalização. Não orientar uso livre em casa. Não prometer rejuvenescimento garantido, clareamento definitivo, remoção total de manchas, remoção total de rugas ou resultado permanente. Encaminhar para dermoconsultora em caso de pele lesionada, irritada, sensibilizada, alergia a Ácido Glicólico, rosácea ativa, dermatite ativa, gestantes, lactantes, uso recente de retinol, ácidos, laser, microagulhamento, procedimentos ou dúvidas sobre tempo de ação, neutralização e associação com outros ativos.
+
+---
