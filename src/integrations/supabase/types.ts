@@ -140,7 +140,7 @@ export type Database = {
       brain_products: {
         Row: {
           avoid_combinations: string | null
-          category: string | null
+          category: string[] | null
           combines_with: string[]
           common_objections_md: string | null
           created_at: string
@@ -164,7 +164,7 @@ export type Database = {
         }
         Insert: {
           avoid_combinations?: string | null
-          category?: string | null
+          category?: string[] | null
           combines_with?: string[]
           common_objections_md?: string | null
           created_at?: string
@@ -188,7 +188,7 @@ export type Database = {
         }
         Update: {
           avoid_combinations?: string | null
-          category?: string | null
+          category?: string[] | null
           combines_with?: string[]
           common_objections_md?: string | null
           created_at?: string

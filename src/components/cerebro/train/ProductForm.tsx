@@ -8,7 +8,7 @@ const inputClass =
 const labelClass = 'block text-[11px] font-medium uppercase tracking-wide text-slate-400 mb-1';
 
 const CATEGORY_OPTIONS = [
-  '', 'home care', 'profissional', 'sérum', 'máscara', 'sabonete',
+  'home care', 'profissional', 'sérum', 'máscara', 'sabonete',
   'tônico', 'fluido', 'creme', 'gel', 'finalizador', 'outro',
 ];
 
@@ -47,18 +47,37 @@ const ProductForm: React.FC<ProductFormProps> = ({ draft, onChange }) => {
         </div>
         <div className="grid sm:grid-cols-2 gap-3">
           <div>
-            <label className={labelClass}>Categoria do produto *</label>
-            <select
-              value={draft.category ?? ''}
-              onChange={(e) => set('category', e.target.value)}
-              className={inputClass}
-            >
-              {CATEGORY_OPTIONS.map((opt) => (
-                <option key={opt} value={opt}>
-                  {opt || 'Selecione…'}
-                </option>
-              ))}
-            </select>
+            <label className={labelClass}>Categorias do produto *</label>
+            <div className="flex flex-wrap gap-2 mt-1">
+              {CATEGORY_OPTIONS.map((opt) => {
+                const checked = draft.category.includes(opt);
+                return (
+                  <label
+                    key={opt}
+                    className={`inline-flex items-center gap-1.5 text-xs px-2.5 py-1 rounded-md border cursor-pointer transition-colors ${
+                      checked
+                        ? 'bg-cyan-500/10 border-cyan-500/30 text-cyan-300'
+                        : 'bg-slate-950 border-slate-700 text-slate-400 hover:border-slate-600'
+                    }`}
+                  >
+                    <input
+                      type="checkbox"
+                      className="accent-cyan-500 w-3.5 h-3.5"
+                      checked={checked}
+                      onChange={() =>
+                        set(
+                          'category',
+                          checked
+                            ? draft.category.filter((c) => c !== opt)
+                            : [...draft.category, opt]
+                        )
+                      }
+                    />
+                    {opt}
+                  </label>
+                );
+              })}
+            </div>
           </div>
           <div>
             <label className={labelClass}>Principal objetivo *</label>
@@ -223,7 +242,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ draft, onChange }) => {
 export function validateProductDraft(draft: BrainProductInput): string | null {
   if (!draft.name.trim()) return 'Informe o nome do produto';
   if (!(draft.summary ?? '').trim()) return 'Informe o resumo curto';
-  if (!(draft.category ?? '').trim()) return 'Selecione a categoria do produto';
+  if (!draft.category.length) return 'Selecione ao menos uma categoria do produto';
   if (!draft.main_goals.length) return 'Informe ao menos um objetivo principal';
   if (!(draft.details_md ?? '').trim()) return 'Preencha os detalhes em markdown';
   return null;

@@ -9,7 +9,7 @@ export interface BrainProduct {
   details_md: string | null;
   site_url: string | null;
   mercadolivre_url: string | null;
-  category: string | null;
+  category: string[];
   skin_types: string[];
   main_goals: string[];
   usage_short: string | null;
@@ -137,7 +137,7 @@ export const EMPTY_PRODUCT_DRAFT: BrainProductInput = {
   details_md: '',
   site_url: '',
   mercadolivre_url: '',
-  category: '',
+  category: [],
   skin_types: [],
   main_goals: [],
   usage_short: '',
@@ -158,7 +158,7 @@ export function productToDraft(p: BrainProduct): BrainProductInput {
     details_md: p.details_md,
     site_url: p.site_url,
     mercadolivre_url: p.mercadolivre_url,
-    category: p.category,
+    category: p.category ?? [],
     skin_types: p.skin_types ?? [],
     main_goals: p.main_goals ?? [],
     usage_short: p.usage_short,
