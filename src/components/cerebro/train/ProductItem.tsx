@@ -80,12 +80,6 @@ const ProductItem: React.FC<ProductItemProps> = ({ product, index, onSave, onDel
                   sem link
                 </span>
               )}
-                className={`text-[10px] font-semibold uppercase px-1.5 py-0.5 rounded ${
-                  product.is_active ? 'bg-emerald-500/10 text-emerald-400' : 'bg-slate-700/40 text-slate-500'
-                }`}
-              >
-                {product.is_active ? 'Ativo' : 'Inativo'}
-              </span>
               {product.category.map((cat) => (
                 <span key={cat} className="text-[10px] uppercase px-1.5 py-0.5 rounded bg-slate-800 text-slate-400">
                   {cat}
