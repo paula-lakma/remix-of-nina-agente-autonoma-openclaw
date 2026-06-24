@@ -5896,3 +5896,987 @@ Sim. A fotoproteção é indispens
 Indicar para profissionais que buscam peeling com Ácido Glicólico para renovação, textura, manchas, marcas, sinais de envelhecimento, rugas, linhas, luminosidade e revitalização. Não orientar uso livre em casa. Não prometer rejuvenescimento garantido, clareamento definitivo, remoção total de manchas, remoção total de rugas ou resultado permanente. Encaminhar para dermoconsultora em caso de pele lesionada, irritada, sensibilizada, alergia a Ácido Glicólico, rosácea ativa, dermatite ativa, gestantes, lactantes, uso recente de retinol, ácidos, laser, microagulhamento, procedimentos ou dúvidas sobre tempo de ação, neutralização e associação com outros ativos.
 
 ---
+
+## Loção Tônica - 200ml
+
+Loção tônica facial para tonificação, controle de pH, frescor e remoção de resíduos após a higienização, preparando a pele para os próximos passos da rotina ou protocolo.
+
+- **Categorias:** home care, profissional
+- **Principais objetivos:** Controle de pH, tonificação, frescor, remoção de resíduos pós-higienização, preparo da pele, equilíbrio facial, etapa pós-limpeza, preparação para séruns, preparação para máscaras, preparação para finalização.
+- **Tipo de pele / condição indicada:** Tipo de pele oficial sem informação, uso facial conforme orientação, pele após higienização, pele após extração conforme protocolo, pele que precisa de tonificação, pele que precisa de equilíbrio de pH, pele que precisa de remoção de resíduos, evitando pele lesionada, irritada ou muito sensibilizada.
+- **Modo de uso:** Após higienizar, aplicar com algodão no rosto, evitando olhos e mucosas. Não remover. Pode ser usada diariamente ou conforme protocolo profissional.
+- **Site:** https://lakma.com.br/products/locao-tonica-200ml?_pos=1&_sid=8de5c51f8&_ss=r
+
+### Participação em protocolos
+
+- Participa de protocolos: **sim**
+- **Protocolos relacionados:** Protocolo Limpeza de Pele Premium, Protocolo Limpeza de Pele Integrativa Personalizada, Kit Limpeza de Pele Profissional, Kit Limpeza de Pele Facial + Ativos Sem Trieta, protocolos profissionais de limpeza de pele, protocolos com extração, protocolos com tonificação facial.
+- **Função dentro do protocolo:** Atua como etapa de tonificação após higienização ou extração, ajudando a remover resíduos, equilibrar o pH, refrescar e preparar a pele para séruns, máscaras, emolientes, calmantes ou finalização conforme protocolo.
+
+### Combinações
+
+- **Combina com:** Sabonete Líquido Facial, Sabonete de Ácido Glicólico, Espuma de Limpeza Facial, Emoliente de Cravos, Emoliente Zero Trieta, Fluido Secativo, Nano Drone, Sérum VC-10, Sérum NC-10, Creme Facial Ácido Hialurônico, Ideal Protect, Máscara Calmante, Neuroplasma Calmante, Kit Clay Mask, Kit Limpeza de Pele Profissional, Kit Limpeza de Pele Facial + Ativos Sem Trieta.
+- **Atenção / não combinar:** Evitar pele lesionada, pele irritada, pele muito sensibilizada, alergia a menta, alergia aos ativos, pós-laser sem orientação, pós-microagulhamento sem orientação, pós-peeling sem protocolo aprovado, cliente que busca produto sem fragrância. Por conter menta ou fragrância mentolada, ter cautela em peles muito sensíveis, reativas ou sensibilizadas pós-procedimento.
+
+### Detalhes
+
+## Função principal
+Loção tônica facial indicada para tonificação, controle de pH, frescor, remoção de resíduos pós-higienização e preparo da pele para os próximos passos da rotina ou protocolo.
+
+## Indicações
+- Controle de pH
+- Tonificação facial
+- Frescor
+- Remoção de resíduos pós-higienização
+- Preparo da pele
+- Etapa pós-limpeza
+- Uso após higienização
+- Uso após extração conforme protocolo
+- Preparação para séruns
+- Preparação para máscaras
+- Preparação para finalização
+
+## Público / uso
+Profissional/cabine e home care conforme orientação.
+
+## Tipo de produto
+Loção tônica facial.
+
+## Linha
+Linha oficial.
+
+## Volume
+200ml.
+
+## Tipo de pele
+Tipo de pele oficial sem informação. Usar conforme avaliação, tolerância e orientação profissional.
+
+## Zona de aplicação
+Rosto, evitando olhos e mucosas.
+
+## Momento de aplicação
+Após higienização ou extração, antes de séruns, máscaras ou finalização.
+
+## Ativos principais
+- Extrato de Hibiscus
+- Extrato de Algas
+- Alantoína
+- Extrato de Menta
+
+## Benefícios aprovados
+- Controla pH
+- Tonifica e refresca
+- Remove resíduos pós-higienização
+- Prepara para próximos produtos
+- Não comedogênico
+- Livre de parabenos
+- Livre de óleo
+
+## Modo de uso aprovado
+Após higienizar, aplicar com algodão no rosto, evitando olhos. Não remover. Pode ser usado diariamente.
+
+## Cuidados e observações
+Por conter menta ou fragrância mentolada, ter cuidado em peles muito sensíveis, reativas ou sensibilizadas pós-procedimento. Evitar pele lesionada ou irritada. Não confundir com sabonetes, espuma ou Loção de Limpeza Ozonizada.
+
+## Quando não indicar ou encaminhar
+Não indicar diretamente em pele lesionada, irritada, muito sensibilizada, alergia a menta, alergia aos ativos, pós-laser sem orientação, pós-microagulhamento sem orientação, pós-peeling sem protocolo aprovado ou cliente que busca produto sem fragrância.
+
+## Participação em protocolos
+Participa de protocolos e rotinas profissionais de limpeza de pele, incluindo:
+- Protocolo Limpeza de Pele Premium
+- Protocolo Limpeza de Pele Integrativa Personalizada
+- Kit Limpeza de Pele Profissional
+- Kit Limpeza de Pele Facial + Ativos Sem Trieta
+- Protocolos profissionais de limpeza de pele
+- Protocolos com extração
+- Protocolos com tonificação facial
+
+## Função dentro do protocolo
+Atua como etapa de tonificação após higienização ou extração, ajudando a remover resíduos, equilibrar o pH, refrescar e preparar a pele para séruns, máscaras, emolientes, calmantes ou finalização conforme protocolo.
+
+## Produtos que combinam
+- Sabonete Líquido Facial
+- Sabonete de Ácido Glicólico
+- Espuma de Limpeza Facial
+- Emoliente de Cravos
+- Emoliente Zero Trieta
+- Fluido Secativo
+- Nano Drone
+- Sérum VC-10
+- Sérum NC-10
+- Creme Facial Ácido Hialurônico
+- Ideal Protect
+- Máscara Calmante
+- Neuroplasma Calmante
+- Kit Clay Mask
+- Kit Limpeza de Pele Profissional
+- Kit Limpeza de Pele Facial + Ativos Sem Trieta
+
+## Diferença para produtos parecidos
+É etapa pós-limpeza sem enxágue. Diferente de sabonetes e espuma, que limpam e são removidos. Diferente da Loção de Limpeza Ozonizada, que é preparatória, desengordurante e profissional.
+
+## Frase de segurança para a Nina
+Produto de uso profissional ou orientado. Evitar pele lesionada, irritada ou sensibilizada e reforçar fotoproteção quando houver ácidos, peelings, retinol ou renovação. Em caso de dúvida, encaminhar para avaliação.
+
+### Objeções comuns e respostas
+
+**Precisa remover depois de aplicar?**  
+Não. A Loção Tônica é uma etapa pós-limpeza sem enxágue.
+
+**Qual é a função dela?**  
+Ela ajuda a equilibrar o pH, tonificar, refrescar, remover resíduos após a limpeza e preparar a pele para os próximos produtos.
+
+**É igual à Loção de Limpeza Ozonizada?**  
+Não. A Loção Tônica é uma etapa pós-limpeza sem remoção. A Loção de Limpeza Ozonizada é preparatória, desengordurante e profissional.
+
+**Pode usar todos os dias?**  
+Sim, o modo de uso aprovado informa que pode ser usada diariamente, conforme orientação e tolerância da pele.
+
+**Pode usar em pele sensível?**  
+Deve ter cautela, principalmente por conter menta ou fragrância mentolada. Em pele muito sensível, reativa, lesionada, irritada ou pós-procedimento, encaminhar para avaliação.
+
+### Observações internas para a Nina
+
+Indicar para clientes ou profissionais que buscam etapa de tonificação após a limpeza, equilíbrio do pH, frescor, remoção de resíduos e preparo da pele para os próximos produtos. Reforçar que não precisa remover. Não confundir com Loção de Limpeza Ozonizada. Encaminhar para dermoconsultora em caso de pele lesionada, irritada, muito sensibilizada, alergia a menta ou ativos, pós-laser, pós-microagulhamento, pós-peeling sem protocolo aprovado, gestantes, lactantes ou dúvidas sobre associação em protocolos.
+
+---
+
+## Booster Colágeno - 50ml
+
+Booster facial profissional com foco em colágeno, elastina, firmeza, hidratação profunda, rugas, linhas, flacidez, revitalização, luminosidade e efeito preenchedor.
+
+- **Categorias:** profissional
+- **Principais objetivos:** Produção de colágeno, produção de elastina, firmeza, sustentação, hidratação profunda, rejuvenescimento, suavização de rugas, suavização de linhas, melhora da flacidez, revitalização, luminosidade, ação preenchedora.
+- **Tipo de pele / condição indicada:** Peles com flacidez, rugas, linhas, perda de firmeza, necessidade de bioestimulação, necessidade de hidratação profunda, opacidade, textura irregular, necessidade de revitalização, conforme avaliação profissional, evitando pele lesionada, irritada ou sensibilizada.
+- **Modo de uso:** Aplicar pequena quantidade na pele limpa e seca e espalhar até absorção. Pode ser usado em microagulhamento, peelings, máscaras e tratamentos profissionais conforme protocolo. Durante o dia, finalizar com fotoproteção.
+- **Site:** https://lakma.com.br/products/booster-colageno-50ml?_pos=1&_sid=3164bec58&_ss=r
+
+### Participação em protocolos
+
+- **Função dentro do protocolo:** Pode atuar como booster profissional em protocolos de rejuvenescimento, firmeza, colágeno, elastina, hidratação profunda, rugas, linhas, flacidez, revitalização, microagulhamento, peelings, máscaras e tecnologias permitidas, sempre conforme avaliação profissional.
+
+### Combinações
+
+- **Combina com:** Fluido Passo 1, Máscara Calmante, Neuroplasma Calmante, Kit Joias Raras, Máscara Brownie de Chocolate, Creme Facial Ácido Hialurônico, Loção Tônica, Ideal Protect, Booster C100 em protocolos alternados, Nano Drone em protocolos alternados, Fluido Passo 3 em protocolos alternados, Fluido Passo 5, Kit Fluidos Revitalizantes para Microagulhamento.
+- **Atenção / não combinar:** Evitar pele lesionada, pele irritada, pele sensibilizada, gestantes sem orientação, lactantes sem orientação, uso recente de procedimentos, retinoides simultâneos sem avaliação, ácidos fortes simultâneos sem avaliação, Nano Drone no mesmo momento sem avaliação, Fluido Passo 3 no mesmo momento sem avaliação, RN-0,3 no mesmo momento sem avaliação, dúvidas sobre microagulhamento, dúvidas sobre peelings, dúvidas sobre tecnologias. Contém NanoRetinol, introduzir com cuidado e evitar contorno dos olhos.
+
+### Detalhes
+
+```markdown id="booster47md"
+## Função principal
+Booster facial profissional com foco em colágeno, elastina, firmeza, hidratação profunda, rugas, linhas, flacidez, revitalização, luminosidade e ação preenchedora.
+
+## Indicações
+- Peles com flacidez
+- Peles com rugas
+- Peles com linhas
+- Perda de firmeza
+- Necessidade de bioestimulação
+- Necessidade de hidratação profunda
+- Opacidade
+- Textura irregular
+- Revitalização
+- Protocolos profissionais de rejuvenescimento
+- Microagulhamento conforme protocolo profissional
+- Peelings conforme protocolo profissional
+- Máscaras conforme protocolo profissional
+- Tecnologias permitidas conforme avaliação
+
+## Público / uso
+Profissional/cabine.
+
+## Tipo de produto
+Booster facial profissional.
+
+## Linha
+linha oficial.
+
+## Volume
+50ml.
+
+## Tipo de pele
+Peles com flacidez, rugas, perda de firmeza ou necessidade de bioestimulação, conforme avaliação profissional.
+
+## Zona de aplicação
+Rosto e/ou áreas tratadas conforme protocolo.
+
+## Momento de aplicação
+Durante protocolos profissionais de rejuvenescimento, microagulhamento ou tecnologias permitidas.
+
+## Ativos principais
+- Ácido Hialurônico Nanoencapsulado
+- Nanoesferas de Ozônio
+- Colágeno Tipo II
+- Matrigenics 14G
+- NanoRetinol
+- Silício Orgânico
+- Carbe Age
+
+## Benefícios aprovados
+- Auxilia colágeno e elastina
+- Firmeza e sustentação
+- Suaviza rugas e linhas
+- Ação preenchedora e rejuvenescedora
+- Hidratação profunda
+- Luminosidade
+- Antioxidante e antipoluição
+
+## Modo de uso aprovado
+Aplicar pequena quantidade na pele limpa e seca e espalhar até absorção. Pode ser usado em microagulhamento, peelings, máscaras e tratamentos profissionais. Fotoproteção durante o dia.
+
+## Cuidados e observações
+Contém NanoRetinol. Introduzir com cuidado, evitar associações com retinoides e ácidos fortes sem orientação e não usar no contorno dos olhos. Não prometer preenchimento definitivo, rejuvenescimento garantido ou eliminação total de rugas.
+
+## Quando não indicar ou encaminhar
+Não indicar diretamente para gestantes, lactantes, pele lesionada, pele irritada, pele sensibilizada, uso recente de procedimentos, uso simultâneo de retinoides ou ácidos fortes sem avaliação, reações ou dúvidas sobre associação de ativos.
+
+## Participação em protocolos
+sem informação.
+
+## Função dentro do protocolo
+Pode atuar como booster profissional em protocolos de rejuvenescimento, firmeza, colágeno, elastina, hidratação profunda, rugas, linhas, flacidez, revitalização, microagulhamento, peelings, máscaras e tecnologias permitidas, sempre conforme avaliação profissional.
+
+## Produtos que combinam
+- Fluido Passo 1
+- Máscara Calmante
+- Neuroplasma Calmante
+- Kit Joias Raras
+- Máscara Brownie de Chocolate
+- Creme Facial Ácido Hialurônico
+- Loção Tônica
+- Ideal Protect
+- Booster C100 em protocolos alternados
+- Nano Drone em protocolos alternados
+- Fluido Passo 3 em protocolos alternados
+- Fluido Passo 5
+- Kit Fluidos Revitalizantes para Microagulhamento
+
+## Diferença para produtos parecidos
+Foco intensivo em colágeno, firmeza e efeito preenchedor. Nano Drone também foca clareamento. Booster C100 foca Vitamina C. Fluido Passo 3 é colágeno e elastina dentro da linha Fluido.
+
+## Frase de segurança para a Nina
+Produto de uso profissional ou orientado. Evitar pele lesionada, irritada ou sensibilizada e reforçar fotoproteção quando houver ácidos, peelings, retinol ou renovação. Em caso de dúvida, encaminhar para avaliação.
+```
+
+### Objeções comuns e respostas
+
+**É para uso em casa?**  
+A ficha indica uso profissional em cabine. Qualquer uso home care deve ser apenas se houver orientação profissional aprovada.
+
+**Serve para flacidez e firmeza?**  
+Sim. É indicado para protocolos de firmeza, colágeno, elastina, rugas, linhas e flacidez, conforme avaliação profissional.
+
+**Tem efeito preenchedor?**  
+O material cita ação preenchedora e rejuvenescedora, mas a Nina deve comunicar como melhora da aparência, sem prometer preenchimento definitivo.
+
+**Pode usar com retinol ou ácidos?**  
+Não deve associar livremente com retinoides, ácidos fortes, peelings ou procedimentos sem avaliação profissional, porque contém NanoRetinol e pode aumentar risco de sensibilização.
+
+**Precisa usar protetor solar?**  
+Sim. Durante o dia, a fotoproteção é indispensável, principalmente por conter NanoRetinol e por poder ser associado a protocolos renovadores.
+
+### Observações internas para a Nina
+
+Indicar para profissionais que buscam booster intensivo para colágeno, elastina, firmeza, hidratação profunda, rugas, linhas, flacidez, revitalização, luminosidade e efeito preenchedor. Não prometer preenchimento definitivo, rejuvenescimento garantido, eliminação total de rugas ou resultado permanente. Ter cautela por conter NanoRetinol. Evitar sobreposição sem avaliação com Nano Drone, Fluido Passo 3, RN-0,3, ácidos fortes, peelings e procedimentos recentes. Encaminhar para dermoconsultora em caso de gestantes, lactantes, pele lesionada, pele irritada, pele sensibilizada, alergias, uso recente de procedimentos, dúvidas sobre microagulhamento, peelings, tecnologias ou associação de ativos.
+
+---
+
+## Creme de Massagem Neutro - 1kg
+
+Creme corporal profissional neutro para massagem, indicado para alto deslizamento, conforto durante manobras e protocolos corporais que precisam de uma opção sem fragrância e sem ativos específicos.
+
+- **Categorias:** profissional
+- **Principais objetivos:** Massagem corporal, alto deslizamento, conforto durante manobras, opção neutra, opção sem fragrância, opção sem ativos específicos, uso em clientes sensíveis, suporte para protocolos corporais.
+- **Tipo de pele / condição indicada:** Todos os tipos de pele corporal, pele corporal sensível conforme avaliação, gestantes conforme avaliação profissional, lactantes conforme avaliação profissional, pessoas sensíveis a fragrâncias, clientes que preferem produtos neutros, protocolos que exigem deslizamento, evitando pele lesionada, irritada ou sensibilizada.
+- **Modo de uso:** Aplicar a quantidade necessária na região corporal e realizar as manobras de massagem. Reaplicar se necessário para manter o deslizamento.
+- **Site:** https://lakma.com.br/products/creme-de-massagem-neutro-1kg?_pos=1&_sid=3277b35f1&_ss=r
+
+### Participação em protocolos
+
+- **Função dentro do protocolo:** Pode atuar como creme neutro de deslizamento em massagens corporais e protocolos profissionais que precisam de conforto, rendimento e uma base sem fragrância ou sem ativos específicos, conforme avaliação profissional.
+
+### Combinações
+
+- **Combina com:** Gel Esfoliante Corporal Ozonizado, Kit Ozônio Premium Corporal, Gel Bioestimulante, Criogel, Gel Termoativado, Sal Térmico Lipolítico, Creme de Massagem 7 Ativos, Creme de Massagem Ozonizado, Kit BodyPro Corporal Profissional, Esbeltea Detox, Kit Booster Mitocondrial EsbelTEA.
+- **Atenção / não combinar:** Evitar pele lesionada, pele irritada, pele sensibilizada, alergia a componentes, uso com aparelhos sem avaliação, pós-operatório sem liberação, gestantes sem avaliação profissional, lactantes sem avaliação profissional, dúvidas sobre associação com termoativos, dúvidas sobre associação com crioterápicos, dúvidas sobre protocolos redutores. Não prometer emagrecimento, perda de medidas ou resultado corporal garantido.
+
+### Detalhes
+
+```markdown id="creme48md"
+## Função principal
+Creme corporal profissional neutro para massagem, indicado para alto deslizamento, conforto durante manobras e protocolos corporais que precisam de uma opção sem fragrância e sem ativos específicos.
+
+## Indicações
+- Todos os tipos de massagem corporal
+- Alto deslizamento
+- Massagem corporal profissional
+- Clientes que preferem produtos neutros
+- Pessoas sensíveis a fragrâncias
+- Gestantes conforme avaliação profissional
+- Lactantes conforme avaliação profissional
+- Protocolos corporais que exigem deslizamento
+- Opção neutra para cabine
+- Conforto durante manobras corporais
+
+## Público / uso
+Profissional/cabine.
+
+## Tipo de produto
+Creme corporal neutro para massagem.
+
+## Linha
+Corporal.
+
+## Volume
+1kg.
+
+## Tipo de pele
+Todos os tipos de pele corporal, inclusive quando se busca opção mais neutra conforme avaliação.
+
+## Zona de aplicação
+Corpo.
+
+## Momento de aplicação
+Durante massagens corporais e protocolos que exigem deslizamento.
+
+## Ativos principais
+- Fórmula neutra
+- Manteiga de Manga
+- Dimeticona
+- Glicerina
+
+## Benefícios aprovados
+- Todos os tipos de massagem corporal
+- Altíssimo deslizamento
+- Neutro
+- Sem ativos específicos
+- Indicado para gestantes e lactantes conforme avaliação profissional
+- Sem fragrância
+- Hipoalergênico
+- Dermatologicamente testado
+
+## Modo de uso aprovado
+Aplicar quantidade necessária na região corporal e realizar as manobras. Reaplicar se necessário para manter deslizamento.
+
+## Cuidados e observações
+Uso profissional. Evitar pele lesionada, irritada ou sensibilizada. Mesmo sendo uma opção neutra e indicada para públicos sensíveis conforme avaliação, encaminhar em caso de alergias, pós-operatório, gestantes, lactantes ou dúvidas sobre associação com aparelhos, termoativos ou crioterápicos.
+
+## Quando não indicar ou encaminhar
+Não indicar sem avaliação em pele lesionada, pele irritada, pele sensibilizada, alergia a componentes, pós-operatório sem liberação, uso com aparelhos sem avaliação, dúvidas sobre associação com termoativos, dúvidas sobre associação com crioterápicos, gestantes ou lactantes sem orientação profissional.
+
+## Participação em protocolos
+sem informação.
+
+## Função dentro do protocolo
+Pode atuar como creme neutro de deslizamento em massagens corporais e protocolos profissionais que precisam de conforto, rendimento e uma base sem fragrância ou sem ativos específicos, conforme avaliação profissional.
+
+## Produtos que combinam
+- Gel Esfoliante Corporal Ozonizado
+- Kit Ozônio Premium Corporal
+- Gel Bioestimulante
+- Criogel
+- Gel Termoativado
+- Sal Térmico Lipolítico
+- Creme de Massagem 7 Ativos
+- Creme de Massagem Ozonizado
+- Kit BodyPro Corporal Profissional
+- Esbeltea Detox
+- Kit Booster Mitocondrial EsbelTEA
+
+## Diferença para produtos parecidos
+O Creme de Massagem Neutro tem foco em alto deslizamento, sem fragrância e sem ativos específicos. Diferente do Creme de Massagem 7 Ativos, que possui ativos corporais e fragrância. Diferente do Creme de Massagem Ozonizado, que foca tecnologia ozonizada. Diferente do Gel Bioestimulante, que atua como gel drenante e condutor.
+
+## Frase de segurança para a Nina
+Seguir rótulo e orientação profissional. Não prometer emagrecimento, perda de medidas ou resultado garantido. Gestantes, lactantes, crianças, idosos, pessoas com doenças, pós-operatório, uso de medicamentos ou sensibilidade a componentes devem consultar profissional.
+```
+
+### Objeções comuns e respostas
+
+**É para uso em casa?**  
+A ficha indica uso profissional em cabine.
+
+**Qual é a diferença dele para outros cremes de massagem?**  
+O Creme de Massagem Neutro é uma opção sem fragrância e sem ativos específicos, com foco em alto deslizamento. Outros cremes podem ter ativos redutores, ozonizados, termoativos ou propostas mais específicas.
+
+**Pode ser usado em gestantes ou lactantes?**  
+O material cita indicação especialmente para gestantes e lactantes, mas a Nina deve manter a orientação com avaliação profissional, principalmente em caso de dúvidas, sensibilidade ou condições de saúde.
+
+**Serve para massagem modeladora?**  
+Pode ser usado em massagens corporais que precisam de deslizamento, conforme avaliação profissional. Se o objetivo for ação redutora, termoativa, crioterápica ou ozonizada, outros produtos podem ser mais específicos.
+
+**Tem fragrância?**  
+A ficha informa que é sem fragrância.
+
+### Observações internas para a Nina
+
+Indicar para profissionais que precisam de creme corporal neutro, com alto deslizamento, sem fragrância e sem ativos específicos. Priorizar quando a cliente for sensível a fragrâncias, preferir produto neutro ou quando a profissional buscar uma base mais suave para massagem corporal. Para protocolos com foco redutor, frio, quente, ozonizado ou drenante, sugerir produtos específicos conforme avaliação. Não prometer emagrecimento, perda de medidas ou resultado corporal garantido. Encaminhar para dermoconsultora em caso de gestantes, lactantes, pele lesionada, pele irritada, pele sensibilizada, pós-operatório, alergias, uso com aparelhos ou dúvidas sobre associação com termoativos e crioterápicos.
+
+---
+
+## Perfect Growth, crescimento de cabelo, barba e sobrancelha - 50ml
+
+Fluido/tônico home care para fios, indicado para auxiliar no crescimento, fortalecimento e revitalização de cabelos, barba, sobrancelhas e pelos, sem promessa de crescimento garantido.
+
+- **Categorias:** home care
+- **Principais objetivos:** Crescimento de fios, fortalecimento de fios, revitalização dos fios, aparência de fios mais fortes, aparência de fios mais saudáveis, cuidado com cabelo, cuidado com barba, cuidado com sobrancelha, suporte em protocolos profissionais de fios.
+- **Tipo de pele / condição indicada:** Couro cabeludo, barba, sobrancelhas, pelos, fios enfraquecidos, fios com necessidade de fortalecimento, fios com necessidade de revitalização, evitando pele lesionada, pele irritada, feridas, coceira intensa, descamação intensa ou irritações.
+- **Modo de uso:** Aplicar com dosador diretamente na região desejada e espalhar até absorção. Não enxaguar. Pode ser usado com microagulhamento apenas conforme protocolo profissional.
+- **Site:** https://lakma.com.br/products/perfect-growth-crescimento-de-cabelo-braba-e-sobrancelha-50ml?_pos=1&_sid=848eab35d&_ss=r
+
+### Participação em protocolos
+
+- **Função dentro do protocolo:** Pode atuar como fluido/tônico de suporte em rotinas e protocolos profissionais voltados ao fortalecimento, revitalização e crescimento de fios, cabelos, barba e sobrancelhas, sem prometer crescimento garantido ou cura de alopecia.
+
+### Combinações
+
+- **Combina com:** Rímel Fioativo, Microagulhamento em Creme em protocolos profissionais, protocolos de microagulhamento profissional para fios, higienização capilar adequada, avaliação da causa da queda para couro cabeludo, rotina localizada para sobrancelhas.
+- **Atenção / não combinar:** Evitar olhos, mucosas, pele lesionada, pele irritada, feridas, coceira intensa, descamação intensa, queda intensa, queda repentina, falhas importantes, suspeita de alopecia, microagulhamento sem profissional, alergia a componentes, gestantes sem orientação, lactantes sem orientação. Não prometer crescimento garantido, cura de alopecia ou reversão definitiva de queda.
+
+### Detalhes
+
+```markdown id="perfect49md"
+## Função principal
+Fluido/tônico home care para fios, indicado para auxiliar no crescimento, fortalecimento e revitalização de cabelos, barba, sobrancelhas e pelos, sem promessa de crescimento garantido.
+
+## Indicações
+- Cabelos com necessidade de fortalecimento
+- Barba com necessidade de cuidado e fortalecimento
+- Sobrancelhas com necessidade de cuidado e fortalecimento
+- Pelos com necessidade de revitalização
+- Fios enfraquecidos
+- Aparência de fios mais fortes
+- Aparência de fios mais saudáveis
+- Rotina de cuidado dos fios
+- Suporte em protocolos profissionais de fios
+- Microagulhamento profissional conforme protocolo
+
+## Público / uso
+Home care.
+
+## Tipo de produto
+Fluido/tônico para fios.
+
+## Linha
+Pro Fios.
+
+## Volume
+50ml.
+
+## Tipo de pele / condição indicada
+Couro cabeludo, barba e sobrancelhas, evitando pele lesionada ou irritada.
+
+## Zona de aplicação
+Couro cabeludo, barba, sobrancelhas e pelos, conforme orientação.
+
+## Momento de aplicação
+Rotina diária de cuidado dos fios, conforme modo de uso oficial.
+
+## Ativos principais
+- Musap
+- Oligomix
+- G Kapilarine
+- G Phytelene
+- Fator de Crescimento IGF
+- Fator de Crescimento BFGF
+
+## Benefícios aprovados
+- Auxilia crescimento de cabelos, barba, sobrancelhas e pelos
+- Fios com aparência mais forte e saudável
+- Revitaliza couro cabeludo ou região aplicada
+- Pode usar com microagulhamento profissional
+- Não precisa enxaguar
+- Vegano
+- Cruelty-free
+
+## Modo de uso aprovado
+Aplicar com dosador diretamente na região e espalhar até absorção. Pode ser usado com microagulhamento apenas conforme protocolo profissional. Não enxaguar.
+
+## Cuidados e observações
+Evitar olhos e mucosas, especialmente sobrancelhas. Queda intensa, falhas importantes, alopecia ou irritações exigem avaliação profissional. Não prometer crescimento garantido, cura de alopecia ou reversão definitiva de queda.
+
+## Quando não indicar ou encaminhar
+Encaminhar em caso de feridas, irritação, queda intensa, queda repentina, falhas importantes, alopecia suspeita, coceira intensa, descamação intensa, microagulhamento sem profissional, alergia a componentes, gestantes, lactantes ou dúvidas sobre protocolos profissionais.
+
+## Participação em protocolos
+sem informação.
+
+## Função dentro do protocolo
+Pode atuar como fluido/tônico de suporte em rotinas e protocolos profissionais voltados ao fortalecimento, revitalização e crescimento de fios, cabelos, barba e sobrancelhas, sem prometer crescimento garantido ou cura de alopecia.
+
+## Produtos que combinam
+- Rímel Fioativo
+- Microagulhamento em Creme em protocolos profissionais
+- Protocolos de microagulhamento profissional para fios
+- Higienização capilar adequada
+- Avaliação da causa da queda para couro cabeludo
+- Rotina localizada para sobrancelhas
+
+## Diferença para produtos parecidos
+Perfect Growth é um sérum específico para fios de cabelo, barba e sobrancelha. Rímel Fioativo é para cílios. Microagulhamento em Creme pode potencializar permeação em protocolos profissionais, mas não é sérum capilar específico.
+
+## Frase de segurança para a Nina
+Orientar uso conforme modo de uso, evitar pele lesionada ou sensibilizada e suspender em caso de irritação. Não prometer crescimento garantido, cura de alopecia ou reversão definitiva de queda. Gestantes, lactantes, alergias, queda intensa, falhas importantes ou dúvidas com ativos devem ser encaminhadas para avaliação.
+```
+
+### Objeções comuns e respostas
+
+**Faz o cabelo crescer com garantia?**  
+Não. A Nina não deve prometer crescimento garantido. O produto auxilia no crescimento, fortalecimento e revitalização dos fios.
+
+**Pode usar na barba e sobrancelha?**  
+Sim. A ficha indica uso em cabelo, barba e sobrancelhas, evitando olhos e mucosas, especialmente na região das sobrancelhas.
+
+**Precisa enxaguar?**  
+Não. O modo de uso aprovado informa que não precisa enxaguar.
+
+**Pode usar com microagulhamento?**  
+Pode ser usado com microagulhamento apenas em protocolo profissional. A Nina não deve orientar microagulhamento em casa.
+
+**Serve para alopecia ou queda intensa?**  
+Em queda intensa, queda repentina, falhas importantes ou suspeita de alopecia, a Nina deve encaminhar para avaliação profissional e não comunicar como cura.
+
+### Observações internas para a Nina
+
+Indicar para clientes que buscam auxílio no crescimento, fortalecimento e revitalização de cabelos, barba, sobrancelhas e pelos. Comunicar sempre como auxílio e melhora da aparência dos fios, sem prometer crescimento garantido, cura de alopecia, reversão definitiva de queda ou resultado garantido. Encaminhar para dermoconsultora em caso de queda intensa, queda repentina, falhas importantes, suspeita de alopecia, coceira intensa, descamação intensa, irritação, feridas, alergias, gestantes, lactantes ou dúvidas sobre microagulhamento e protocolos profissionais.
+
+---
+
+## Máscara Calmante - 250g
+
+Máscara facial calmante profissional, indicada para acalmar, hidratar, suavizar e reduzir vermelhidão em peles sensibilizadas, irritadas ou pós-procedimento.
+
+- **Categorias:** profissional
+- **Principais objetivos:** Ação calmante, hidratação, suavização, redução de vermelhidão, conforto imediato, recuperação da barreira cutânea, finalização de protocolos, cuidado pós-procedimento.
+- **Tipo de pele / condição indicada:** Peles sensibilizadas, peles irritadas, peles avermelhadas, peles ressecadas, pele pós-procedimento, pós-limpeza de pele, pós-extração, pós-peelings, pós-microagulhamento, pós-depilação, conforme avaliação profissional.
+- **Modo de uso:** Aplicar camada uniforme no rosto limpo e seco. Deixar agir de 10 a 20 minutos. Remover com algodão umedecido ou água morna. Finalizar com tônico ou conforme protocolo profissional.
+- **Site:** https://lakma.com.br/products/mascara-calmante-250gr?_pos=1&_sid=861decedf&_ss=r
+
+### Participação em protocolos
+
+- Participa de protocolos: **sim**
+- **Protocolos relacionados:** Protocolo Limpeza de Pele Premium, Protocolo Limpeza de Pele Integrativa Personalizada, Kit Limpeza de Pele Profissional, protocolos de limpeza de pele, protocolos pós-extração, protocolos pós-peelings, protocolos pós-microagulhamento, protocolos pós-depilação.
+- **Função dentro do protocolo:** Atua como etapa de finalização calmante após higienização, esfoliação, emoliência, extração, peelings ou procedimentos sensibilizantes, ajudando a acalmar, hidratar, suavizar e reduzir vermelhidão.
+
+### Combinações
+
+- **Combina com:** Peelings, Emoliente, Fluido Secativo, Nano Drone, Booster C100, Bio Complex, Sabonete Glicólico, Loção Tônica, Ideal Protect, Kit Limpeza de Pele Facial + Ativos Sem Trieta, Emoliente Zero Trieta, Peeling de Cristal Líquido, Kit Peelings Profissionais, Neuroplasma Calmante, Máscara Hidroplástica Zen Marine, Espuma de Limpeza Facial.
+- **Atenção / não combinar:** Evitar olhos, pele com feridas abertas, pele com reação intensa, reação alérgica ativa, ardência intensa, dermatite ativa, rosácea ativa, pós-procedimento agressivo sem orientação, alergia a Camomila, alergia a Aloe Vera, alergia a Iricalmin, uso recente de ácidos sem avaliação, uso recente de retinoides sem avaliação, gestantes sem orientação, lactantes sem orientação.
+
+### Detalhes
+
+```markdown id="mascara50md"
+## Função principal
+Máscara facial calmante profissional, indicada para acalmar, hidratar, suavizar e reduzir vermelhidão em peles sensibilizadas, irritadas ou pós-procedimento.
+
+## Indicações
+- Peles sensibilizadas
+- Peles irritadas
+- Peles avermelhadas
+- Peles ressecadas
+- Pele pós-procedimento
+- Pós-limpeza de pele
+- Pós-extração
+- Pós-peelings
+- Pós-microagulhamento
+- Pós-depilação
+- Finalização de protocolos sensibilizantes
+- Hidratação e conforto da pele
+- Recuperação da barreira cutânea
+
+## Público / uso
+Profissional/cabine.
+
+## Tipo de produto
+Máscara facial calmante.
+
+## Linha
+linha oficial.
+
+## Volume
+250g.
+
+## Tipo de pele
+Peles sensibilizadas, irritadas ou pós-procedimento, conforme avaliação.
+
+## Zona de aplicação
+Rosto, evitando olhos e mucosas.
+
+## Momento de aplicação
+Finalização de limpeza de pele, extração, peelings ou procedimentos sensibilizantes.
+
+## Ativos principais
+- Extrato de Camomila
+- Extrato de Aloe Vera
+- Iricalmin
+
+## Benefícios aprovados
+- Acalma e suaviza pele sensibilizada
+- Reduz vermelhidão e irritação
+- Frescor e conforto imediato
+- Hidratação profunda
+- Recupera barreira cutânea
+- Hipoalergênica
+- Não comedogênica
+- Vegana
+- Cruelty-free
+
+## Modo de uso aprovado
+Aplicar camada uniforme no rosto limpo e seco. Deixar agir de 10 a 20 minutos. Remover com algodão umedecido ou água morna. Finalizar com tônico ou conforme protocolo profissional.
+
+## Cuidados e observações
+Evitar olhos e pele com feridas abertas ou reação intensa. Pós-procedimento deve seguir protocolo profissional. Não usar em alergia a Camomila, Aloe Vera, Iricalmin ou pele com reação intensa sem avaliação.
+
+## Quando não indicar ou encaminhar
+Não indicar em pele com feridas abertas, reação alérgica ativa, ardência intensa, dermatite ativa, rosácea ativa ou pós-procedimento agressivo sem orientação. Encaminhar também em caso de pele lesionada, pele irritada, pele sensibilizada, inflamada ou com reação ativa, alergia a componentes, uso recente de ácidos, uso recente de retinoides, procedimentos recentes, gestantes, lactantes ou dúvidas sobre protocolo, tempo de ação ou associação de ativos.
+
+## Participação em protocolos
+Participa de protocolos profissionais aprovados, incluindo:
+- Protocolo Limpeza de Pele Premium
+- Protocolo Limpeza de Pele Integrativa Personalizada
+
+Também se relaciona com:
+- Kit Limpeza de Pele Profissional
+- Protocolos de limpeza de pele
+- Protocolos pós-extração
+- Protocolos pós-peelings
+- Protocolos pós-microagulhamento
+- Protocolos pós-depilação
+
+## Função dentro do protocolo
+Atua como etapa de finalização calmante após higienização, esfoliação, emoliência, extração, peelings ou procedimentos sensibilizantes, ajudando a acalmar, hidratar, suavizar e reduzir vermelhidão.
+
+## Produtos que combinam
+- Peelings
+- Emoliente
+- Fluido Secativo
+- Nano Drone
+- Booster C100
+- Bio Complex
+- Sabonete Glicólico
+- Loção Tônica
+- Ideal Protect
+- Kit Limpeza de Pele Facial + Ativos Sem Trieta
+- Emoliente Zero Trieta
+- Peeling de Cristal Líquido
+- Kit Peelings Profissionais
+- Neuroplasma Calmante
+- Máscara Hidroplástica Zen Marine
+- Espuma de Limpeza Facial
+
+## Diferença para produtos parecidos
+Foco calmante e pós-procedimento. Máscara Brownie é nutritiva para pele seca. Kit Joias Raras tem opções finalizadoras. Máscara Calmante Limpeza de Pele 500g pode ser a mesma fórmula em outra apresentação, mas essa informação deve ser confirmada.
+
+## Frase de segurança para a Nina
+Produto de uso profissional ou orientado. Evitar pele lesionada, irritada ou sensibilizada e reforçar fotoproteção quando houver ácidos, peelings, retinol ou renovação. Em caso de dúvida, encaminhar para avaliação.
+```
+
+### Objeções comuns e respostas
+
+**É a mesma proposta da Máscara Calmante de 500g?**  
+Sim, tem a mesma proposta de ação calmante, hidratação, suavização e finalização pós-procedimento. A diferença principal é a apresentação de 250g.
+
+**Serve para finalizar limpeza de pele?**  
+Sim. Ela pode ser usada como finalização calmante após limpeza de pele e extração, conforme protocolo profissional.
+
+**Pode usar depois de peeling ou microagulhamento?**  
+Sim, o material cita uso após peelings e microagulhamento, sempre seguindo protocolo profissional e avaliação da pele.
+
+**Precisa remover?**  
+Sim. A orientação aprovada é deixar agir de 10 a 20 minutos e remover com algodão umedecido ou água morna.
+
+**Pode usar em pele com reação forte?**  
+Não indicar diretamente. Em feridas abertas, reação alérgica ativa, ardência intensa, dermatite ativa, rosácea ativa ou pós-procedimento agressivo sem orientação, a Nina deve encaminhar para avaliação.
+
+### Observações internas para a Nina
+
+Indicar para profissionais que buscam uma máscara calmante para finalização de limpeza de pele, extração, peelings, microagulhamento, depilação ou protocolos sensibilizantes. É uma opção de finalização calmante, hidratante e suavizante, com foco em conforto e redução de vermelhidão. Não orientar em caso de feridas abertas, reação alérgica ativa, ardência intensa, dermatite ativa, rosácea ativa ou pós-procedimento agressivo sem orientação. Encaminhar para dermoconsultora em caso de pele lesionada, reação intensa, alergias, gestantes, lactantes, dúvidas sobre pós-procedimento ou associação com peelings e ácidos.
+
+---
+
+## Fluido Passo 1 - Ureia 50ml
+
+Fluido revitalizante facial com Ureia, indicado para hidratação profunda, recuperação da barreira cutânea, maciez, conforto, viço e suporte antes ou depois de procedimentos profissionais.
+
+- **Categorias:** profissional
+- **Principais objetivos:** Hidratação profunda, recuperação da barreira cutânea, revitalização, maciez, conforto, viço, combate ao ressecamento, suporte antes de procedimentos, suporte depois de procedimentos, preparo da pele, associação com emoliente em limpeza de pele.
+- **Tipo de pele / condição indicada:** Peles ressecadas, peles sensibilizadas, peles com necessidade de hidratação, peles com necessidade de recuperação de barreira, pele em preparo para protocolos, pele em suporte pós-procedimento conforme orientação, evitando pele lesionada, reação ativa ou barreira comprometida sem avaliação profissional.
+- **Modo de uso:** Aplicar pequena quantidade na pele limpa e seca e espalhar em rosto e pescoço. Em cabine, pode ser usado antes da limpeza com emoliente ou depois como hidratação ativa. Durante o dia, finalizar com fotoproteção.
+- **Site:** https://lakma.com.br/products/fluido-passo-1-ureia-50ml?_pos=1&_sid=12378b763&_ss=r
+
+### Participação em protocolos
+
+- **Função dentro do protocolo:** Pode atuar como fluido de hidratação, preparo e suporte de barreira em protocolos profissionais, especialmente antes ou depois de procedimentos, em limpeza de pele com emoliente, microagulhamento, LED e laser conforme protocolo aprovado.
+
+### Combinações
+
+- **Combina com:** Emoliente de Cravos, Emoliente Zero Trieta, Máscara Calmante, Neuroplasma Calmante, Creme Facial Ácido Hialurônico, Loção Tônica, Peelings, Booster Colágeno, Fluido Passo 3, Fluido Passo 5, Ideal Protect.
+- **Atenção / não combinar:** Evitar pele lesionada, reação ativa, pós-procedimento sem orientação, pós-procedimento agressivo sem avaliação, alergia à Ureia, barreira comprometida sem avaliação profissional, microagulhamento sem protocolo, laser sem protocolo, LED sem protocolo, dúvidas sobre associação com peelings, dúvidas sobre associação com ácidos, dúvidas sobre pós-procedimento.
+
+### Detalhes
+
+```markdown id="fluido51md"
+## Função principal
+Fluido revitalizante facial com Ureia, indicado para hidratação profunda, recuperação da barreira cutânea, maciez, conforto, viço e suporte antes ou depois de procedimentos profissionais.
+
+## Indicações
+- Peles ressecadas
+- Peles sensibilizadas
+- Peles com necessidade de hidratação
+- Peles com necessidade de recuperação de barreira
+- Hidratação profunda
+- Revitalização
+- Maciez
+- Conforto
+- Viço
+- Combate ao ressecamento
+- Preparo da pele
+- Associação com emoliente em limpeza de pele
+- Suporte antes de procedimentos conforme protocolo
+- Suporte depois de procedimentos conforme protocolo
+- Microagulhamento conforme protocolo profissional
+- LED conforme protocolo profissional
+- Laser conforme protocolo profissional
+
+## Público / uso
+Profissional/cabine, com possível home care orientado se aprovado.
+
+## Tipo de produto
+Fluido revitalizante facial.
+
+## Linha
+Fluidos Revitalizantes.
+
+## Volume
+50ml.
+
+## Tipo de pele
+Peles ressecadas, sensibilizadas ou com necessidade de hidratação e barreira, conforme avaliação.
+
+## Zona de aplicação
+Rosto ou área tratada conforme protocolo.
+
+## Momento de aplicação
+Durante ou após protocolos profissionais, como suporte de hidratação e barreira.
+
+## Ativos principais
+- Ureia
+
+## Benefícios aprovados
+- Hidratação profunda por até 72 horas
+- Combate ressecamento
+- Maciez, conforto e viço
+- Recuperação da barreira em 5 minutos
+- Pode usar antes e depois de procedimentos
+- Textura leve em sérum
+
+## Modo de uso aprovado
+Aplicar pequena quantidade na pele limpa e seca e espalhar em rosto e pescoço. Em cabine, pode usar antes da limpeza com emoliente ou depois como hidratação ativa. Fotoproteção diurna.
+
+## Cuidados e observações
+Uso em microagulhamento, laser e LED deve seguir protocolo aprovado. Não aplicar livremente em pós-procedimento agressivo. Evitar pele lesionada, reação ativa e barreira comprometida sem avaliação profissional.
+
+## Quando não indicar ou encaminhar
+Não indicar diretamente em pele lesionada, reação ativa, pós-procedimento sem orientação, pós-procedimento agressivo sem avaliação, alergia à Ureia ou barreira comprometida sem avaliação profissional. Encaminhar também em caso de dúvidas sobre microagulhamento, laser, LED, peelings, ácidos ou associação de ativos.
+
+## Participação em protocolos
+sem informação.
+
+## Função dentro do protocolo
+Pode atuar como fluido de hidratação, preparo e suporte de barreira em protocolos profissionais, especialmente antes ou depois de procedimentos, em limpeza de pele com emoliente, microagulhamento, LED e laser conforme protocolo aprovado.
+
+## Produtos que combinam
+- Emoliente de Cravos
+- Emoliente Zero Trieta
+- Máscara Calmante
+- Neuroplasma Calmante
+- Creme Facial Ácido Hialurônico
+- Loção Tônica
+- Peelings
+- Booster Colágeno
+- Fluido Passo 3
+- Fluido Passo 5
+- Ideal Protect
+
+## Diferença para produtos parecidos
+Passo 1 foca hidratação e barreira com Ureia. Passo 3 foca colágeno, elastina e firmeza. Passo 5 foca lifting e fill up. Creme Facial Ácido Hialurônico é hidratante diário em creme.
+
+## Frase de segurança para a Nina
+Produto de uso profissional ou orientado. Evitar pele lesionada, irritada ou sensibilizada e reforçar fotoproteção quando houver ácidos, peelings, retinol ou renovação. Em caso de dúvida, encaminhar para avaliação.
+```
+
+### Objeções comuns e respostas
+
+**É para hidratação?**  
+Sim. O Fluido Passo 1 tem foco em hidratação profunda, maciez, conforto, viço e recuperação da barreira cutânea.
+
+**Pode usar em limpeza de pele?**  
+Sim. Pode apoiar a limpeza de pele com emoliente, sendo usado como suporte de preparo ou hidratação conforme protocolo profissional.
+
+**Pode usar depois de procedimento?**  
+Pode ser usado antes ou depois de procedimentos conforme protocolo aprovado. Em pós-procedimento agressivo ou sem orientação, a Nina deve encaminhar para avaliação.
+
+**Qual é a diferença para o Passo 3 e Passo 5?**  
+O Passo 1 foca hidratação e barreira com Ureia. O Passo 3 foca colágeno, elastina e firmeza. O Passo 5 foca lifting e efeito fill up.
+
+**Pode usar durante o dia?**  
+Sim, desde que finalize com fotoproteção diurna.
+
+### Observações internas para a Nina
+
+Indicar para profissionais que buscam hidratação reforçada, recuperação de barreira, preparo da pele e suporte antes ou depois de procedimentos. É um produto curinga para hidratação e barreira antes de ativos mais intensivos. Não orientar uso livre em pós-procedimento agressivo. Encaminhar para dermoconsultora em caso de pele lesionada, reação ativa, alergia à Ureia, barreira muito comprometida, pós-procedimento sem orientação, dúvidas sobre microagulhamento, laser, LED, peelings, ácidos ou associação com ativos.
+
+---
+
+## Kit Ozônio Premium - Corporal
+
+Kit corporal profissional ozonizado com 3 etapas para preparo, massagem e finalização, indicado para protocolos corporais de renovação, drenagem, massagem modeladora, celulite, flacidez, gordura localizada e redução de medidas.
+
+- **Categorias:** profissional
+- **Principais objetivos:** Protocolo corporal ozonizado, preparo da pele, esfoliação corporal, massagem corporal, finalização corporal, drenagem, massagem modeladora, celulite, flacidez, gordura localizada, redução de medidas, ação detox.
+- **Tipo de pele / condição indicada:** Pele corporal conforme avaliação profissional, protocolos corporais profissionais, pré-tratamento corporal, massagem corporal, drenagem, massagem modeladora, celulite, flacidez, gordura localizada, redução de medidas, evitando pele lesionada, irritada ou sensibilizada.
+- **Modo de uso:** Esfoliar e remover completamente. Massagear com Creme Ozonizado. Finalizar com Splash O3 direto na pele ou misturado a outros produtos corporais Lakma conforme protocolo.
+- **Site:** https://lakma.com.br/products/kit-ozonio-premium-corporal?_pos=1&_sid=ecdf2ef25&_ss=r
+
+### Participação em protocolos
+
+- Participa de protocolos: **sim**
+- **Protocolos relacionados:** Protocolos corporais ozonizados, protocolos corporais de preparo, protocolos corporais de massagem, protocolos corporais detox, protocolos corporais redutores, protocolos de drenagem, protocolos de celulite, protocolos de flacidez, protocolos de gordura localizada.
+- **Função dentro do protocolo:** Atua como kit corporal ozonizado completo de 3 etapas, preparando a pele com esfoliação, facilitando a massagem corporal com Creme Ozonizado e finalizando com Splash O3 para suporte em protocolos corporais profissionais.
+
+### Combinações
+
+- **Combina com:** Criogel, Gel Termoativado, Gel Bioestimulante, Sal Térmico, Creme 7 Ativos, Creme Neutro, Esbeltea Detox, Kit Booster Mitocondrial EsbelTEA, Venus, Gel Esfoliante Corporal Ozonizado, Creme de Massagem Ozonizado.
+- **Atenção / não combinar:** Evitar pele lesionada, pele irritada, pele sensibilizada, alergia a componentes, gestantes sem orientação, lactantes sem orientação, alterações circulatórias, varizes importantes, pós-operatório sem liberação, uso com aparelhos sem avaliação, dúvidas sobre associação com termoativos, dúvidas sobre associação com crioterápicos, dúvidas sobre protocolo. Não prometer emagrecimento, perda garantida de medidas, eliminação de gordura ou cura de celulite.
+
+### Detalhes
+
+```markdown id="ozonio52md"
+## Função principal
+Kit corporal profissional ozonizado com 3 etapas, indicado para preparo, massagem e finalização em protocolos corporais de renovação, drenagem, massagem modeladora, celulite, flacidez, gordura localizada e redução de medidas.
+
+## Indicações
+- Protocolos corporais profissionais
+- Protocolos corporais ozonizados
+- Renovação corporal
+- Pré-tratamento corporal
+- Esfoliação corporal
+- Massagem corporal
+- Drenagem
+- Massagem modeladora
+- Celulite
+- Flacidez
+- Gordura localizada
+- Redução de medidas
+- Ação detox
+- Finalização corporal
+
+## Público / uso
+Profissional/cabine.
+
+## Tipo de produto
+Kit corporal profissional ozonizado.
+
+## Linha
+Ozônio Premium.
+
+## Volume / quantidade
+Itens e quantidades oficiais do kit: sem informação.
+
+## Tipo de pele
+Pele corporal, conforme avaliação profissional.
+
+## Zona de aplicação
+Corpo.
+
+## Momento de aplicação
+Protocolos corporais profissionais com preparo, massagem e finalização conforme kit.
+
+## Ativos principais
+- Carbe-O3
+- Nano Ozônio
+- Oxigênio Ativo
+- Açaí
+- Bioex Cereais
+- Guaraná
+- Arnica
+- Centelha Asiática
+- Castanha da Índia
+- Erva Mate
+- Cavalinha
+- Hera
+- Fiflow
+
+## Benefícios aprovados
+- Kit completo com 3 produtos ozonizados
+- Remove células mortas e prepara a pele
+- Facilita massagem corporal
+- Auxilia celulite, flacidez e gordura localizada
+- Splash com liberação prolongada de ozônio por até 21 dias
+- Hipoalergênico
+
+## Modo de uso aprovado
+Esfoliar e remover completamente. Massagear com Creme Ozonizado. Finalizar com Splash O3 direto na pele ou misturado a outros produtos corporais Lakma conforme protocolo.
+
+## Cuidados e observações
+Não prometer emagrecimento, perda garantida de medidas, eliminação de gordura ou cura de celulite. Confirmar frase oficial Carbe-O3 quando houver necessidade de comunicação técnica específica.
+
+## Quando não indicar ou encaminhar
+Não indicar sem avaliação em gestantes, lactantes, alterações circulatórias, varizes importantes, pós-operatório, pele lesionada, pele irritada, pele sensibilizada, alergia a componentes, uso com aparelhos sem avaliação ou dúvidas sobre associação com termoativos, crioterápicos e protocolos corporais.
+
+## Participação em protocolos
+Participa ou se relaciona com:
+- Protocolos corporais ozonizados
+- Protocolos corporais de preparo
+- Protocolos corporais de massagem
+- Protocolos corporais detox
+- Protocolos corporais redutores
+- Protocolos de drenagem
+- Protocolos de celulite
+- Protocolos de flacidez
+- Protocolos de gordura localizada
+
+## Função dentro do protocolo
+Atua como kit corporal ozonizado completo de 3 etapas, preparando a pele com esfoliação, facilitando a massagem corporal com Creme Ozonizado e finalizando com Splash O3 para suporte em protocolos corporais profissionais.
+
+## Produtos que combinam
+- Criogel
+- Gel Termoativado
+- Gel Bioestimulante
+- Sal Térmico
+- Creme 7 Ativos
+- Creme Neutro
+- Esbeltea Detox
+- Kit Booster Mitocondrial EsbelTEA
+- Venus
+- Gel Esfoliante Corporal Ozonizado
+- Creme de Massagem Ozonizado
+
+## Diferença para produtos parecidos
+Kit ozonizado de 3 etapas. Diferente do Gel Esfoliante Corporal Ozonizado e do Creme de Massagem Ozonizado individuais, entrega protocolo completo com preparo, massagem e finalização. Diferente do BodyPro, foca Carbe-O3 e ozônio.
+
+## Frase de segurança para a Nina
+Seguir rótulo e orientação profissional. Não prometer emagrecimento, perda de medidas ou resultado garantido. Gestantes, lactantes, crianças, idosos, pessoas com doenças, alterações circulatórias, pós-operatório, uso de medicamentos ou sensibilidade a componentes devem consultar profissional.
+```
+
+### Objeções comuns e respostas
+
+**É para uso em casa?**  
+Não. A ficha indica uso profissional em cabine.
+
+**O kit tem quantas etapas?**  
+O material apresenta o kit como protocolo ozonizado de 3 etapas: esfoliação, massagem com Creme Ozonizado e finalização com Splash O3.
+
+**Serve para celulite, flacidez e gordura localizada?**  
+Sim. É indicado como suporte em protocolos corporais profissionais para celulite, flacidez, gordura localizada e redução de medidas, sem prometer resultado garantido.
+
+**Qual a diferença para comprar os produtos separados?**  
+O kit entrega o protocolo completo de preparo, massagem e finalização. Já o Gel Esfoliante Ozonizado ou o Creme de Massagem Ozonizado individuais representam etapas separadas.
+
+**Qual a diferença para o Kit BodyPro?**  
+O Kit Ozônio Premium foca
+
+### Observações internas para a Nina
+
+Indicar para profissionais que buscam protocolo corporal ozonizado completo com esfoliação, massagem e finalização. Comunicar como suporte em protocolos corporais de cabine para preparo, drenagem, massagem, celulite, flacidez, gordura localizada e redução de medidas. Não prometer emagrecimento, perda garantida de medidas, eliminação de gordura, cura de celulite ou resultado corporal garantido. Confirmar frase oficial Carbe-O3 se a cliente pedir claim técnico específico. Encaminhar para dermoconsultora em caso de gestantes, lactantes, alterações circulatórias, varizes importantes, pós-operatório, pele lesionada, pele irritada, pele sensibilizada, alergias, uso com aparelhos ou dúvidas sobre associação com termoativos, crioterápicos e protocolos.
+
+---
