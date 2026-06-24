@@ -8,7 +8,7 @@ const inputClass =
 const labelClass = 'block text-[11px] font-medium uppercase tracking-wide text-slate-400 mb-1';
 
 const CATEGORY_OPTIONS = [
-  '', 'home care', 'profissional', 'sérum', 'máscara', 'sabonete',
+  'home care', 'profissional', 'sérum', 'máscara', 'sabonete',
   'tônico', 'fluido', 'creme', 'gel', 'finalizador', 'outro',
 ];
 
