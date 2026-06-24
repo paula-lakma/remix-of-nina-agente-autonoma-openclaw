@@ -7,11 +7,12 @@ import ProductForm, { validateProductDraft } from './ProductForm';
 
 interface ProductItemProps {
   product: BrainProduct;
+  index?: number;
   onSave: (id: string, patch: Partial<BrainProductInput>) => Promise<boolean>;
   onDelete: (id: string) => Promise<boolean>;
 }
 
-const ProductItem: React.FC<ProductItemProps> = ({ product, onSave, onDelete }) => {
+const ProductItem: React.FC<ProductItemProps> = ({ product, index, onSave, onDelete }) => {
   const [editing, setEditing] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
   const [busy, setBusy] = useState(false);
