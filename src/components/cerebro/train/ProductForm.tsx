@@ -242,7 +242,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ draft, onChange }) => {
 export function validateProductDraft(draft: BrainProductInput): string | null {
   if (!draft.name.trim()) return 'Informe o nome do produto';
   if (!(draft.summary ?? '').trim()) return 'Informe o resumo curto';
-  if (!(draft.category ?? '').trim()) return 'Selecione a categoria do produto';
+  if (!draft.category.length) return 'Selecione ao menos uma categoria do produto';
   if (!draft.main_goals.length) return 'Informe ao menos um objetivo principal';
   if (!(draft.details_md ?? '').trim()) return 'Preencha os detalhes em markdown';
   return null;
