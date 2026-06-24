@@ -65,11 +65,11 @@ const ProductItem: React.FC<ProductItemProps> = ({ product, onSave, onDelete }) 
               >
                 {product.is_active ? 'Ativo' : 'Inativo'}
               </span>
-              {product.category && (
-                <span className="text-[10px] uppercase px-1.5 py-0.5 rounded bg-slate-800 text-slate-400">
-                  {product.category}
+              {product.category.map((cat) => (
+                <span key={cat} className="text-[10px] uppercase px-1.5 py-0.5 rounded bg-slate-800 text-slate-400">
+                  {cat}
                 </span>
-              )}
+              ))}
               {product.in_protocols && (
                 <span className="text-[10px] uppercase px-1.5 py-0.5 rounded bg-cyan-500/10 text-cyan-300">
                   em protocolo
