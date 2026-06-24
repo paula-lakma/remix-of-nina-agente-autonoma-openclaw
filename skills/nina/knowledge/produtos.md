@@ -10727,3 +10727,746 @@ O Peeling Químico Secativo foca acne, oleosidade, cravos e comedões. O Bio Com
 Indicar somente para profissionais que buscam peeling químico secativo para acne, cravos, comedões, oleosidade excessiva, ação queratolítica, melhora de textura e suporte pré ou pós-limpeza de pele. Reforçar que é exclusivamente profissional, exige prova de toque 48 horas antes, remoção conforme protocolo e fotoproteção durante o tratamento. Não orientar uso domiciliar. Não prometer cura da acne, secagem garantida em 48 horas, eliminação de cravos, controle definitivo de oleosidade ou resultado garantido. Encaminhar para dermoconsultora em caso de pele lesionada, sensibilizada, irritada, acne severa, acne cística, uso de isotretinoína, gestantes, lactantes, alergia a ácidos, uso recente de retinoides, ácidos ou procedimentos, dúvidas sobre tempo de ação, remoção, neutralização ou associação com outros peelings.
 
 ---
+
+## Fluido Revitalizante Passo 2 - Ácido Hialurônico - 50ml
+
+Fluido revitalizante facial com Ácido Hialurônico, indicado para hidratação profunda, retenção de umidade, elasticidade, firmeza, maciez, revitalização e melhora da aparência de linhas finas.
+
+- **Categorias:** home care, profissional
+- **Principais objetivos:** Hidratação profunda, retenção de umidade, elasticidade, firmeza, rejuvenescimento, melhora da aparência de linhas finas, maciez, revitalização, suporte de barreira, finalização hidratante, suporte em protocolos profissionais.
+- **Tipo de pele / condição indicada:** Todos os tipos de pele, pele desidratada, pele ressecada, pele com linhas finas, pele com perda de elasticidade, pele com perda de firmeza, pele com necessidade de maciez, pele com necessidade de revitalização, pele pós-protocolo conforme orientação, evitando pele lesionada, irritada, alergia ativa, rosácea em crise, dermatite em crise ou pós-procedimento agressivo sem orientação.
+- **Modo de uso:** Limpar e tonificar a pele. Aplicar algumas gotas na palma da mão e espalhar pelo rosto e pescoço, evitando a área dos olhos. Aguardar absorção. Usar de manhã e à noite. Durante o dia, finalizar com protetor solar.
+- **Site:** https://lakma.com.br/products/fluido-passo-2-hialuronico-50ml?_pos=1&_sid=4c1d3e80d&_ss=r
+
+### Participação em protocolos
+
+- **Função dentro do protocolo:** Pode atuar como fluido hidratante e revitalizante em protocolos profissionais ou home care orientado, oferecendo suporte de hidratação, retenção de água, barreira, elasticidade, firmeza, maciez e finalização após procedimentos conforme avaliação.
+
+### Combinações
+
+- **Combina com:** Espuma, Sabonete, Loção Tônica, Creme Ácido Hialurônico, Fluido Passo 1, Fluido Passo 3, Fluido Passo 5, Kit Fluidos Revitalizantes, Máscara Calmante, Neuroplasma Calmante, Máscara Detox Zen Marine, Máscara Hidroplástica Zen Marine, Máscara Facial de Ouro Golden Glitter, Melange Especial, Booster Colágeno, Ideal Protect.
+- **Atenção / não combinar:** Evitar área dos olhos, pele lesionada, pele irritada, alergia ativa, rosácea em crise, dermatite em crise, pós-procedimento agressivo sem orientação, microagulhamento sem profissional, LED sem profissional, laser sem profissional, dermaplaning sem profissional, associação com procedimentos sensibilizantes sem avaliação. Não prometer preenchimento definitivo, eliminação de rugas, rejuvenescimento garantido ou resultado garantido.
+
+### Detalhes
+
+```markdown id="passo80md"
+## Função principal
+Fluido revitalizante facial com Ácido Hialurônico, indicado para hidratação profunda, retenção de umidade, elasticidade, firmeza, maciez, revitalização e melhora da aparência de linhas finas.
+
+## Indicações
+- Todos os tipos de pele
+- Hidratação profunda
+- Retenção de umidade
+- Elasticidade
+- Firmeza
+- Rejuvenescimento
+- Linhas finas
+- Maciez
+- Revitalização
+- Pele desidratada
+- Pele ressecada
+- Suporte de barreira
+- Finalização hidratante
+- Protocolos profissionais conforme avaliação
+- Home care orientado
+
+## Público / uso
+Profissional/cabine e home care orientado.
+
+## Tipo de produto
+Fluido revitalizante facial / sérum.
+
+## Linha
+Fluidos Revitalizantes.
+
+## Volume
+50ml.
+
+## Tipo de pele
+Todos os tipos de pele.
+
+## Zona de aplicação
+Rosto e pescoço, evitando área dos olhos.
+
+## Momento de aplicação
+Dia e noite, em protocolos profissionais ou home care.
+
+## Ativos principais
+- Ácido Hialurônico
+
+## Benefícios aprovados
+- Hidratação intensa e duradoura
+- Retenção de umidade
+- Rejuvenescimento facial
+- Suaviza aparência de linhas
+- Melhora elasticidade e firmeza
+- Pele lisa, macia e revitalizada
+- Textura leve
+- Não oleoso
+
+## Modo de uso aprovado
+Limpar e tonificar. Aplicar algumas gotas na palma da mão e espalhar pelo rosto e pescoço, evitando olhos. Aguardar absorção. Usar manhã e noite. Finalizar com protetor solar durante o dia.
+
+## Cuidados e observações
+Procedimentos com microagulhamento, LED, laser e dermaplaning apenas com orientação profissional. Não aplicar em pele lesionada, irritada ou com alergia ativa. Não prometer preenchimento definitivo, eliminação de rugas ou rejuvenescimento garantido.
+
+## Quando não indicar ou encaminhar
+Não indicar diretamente em pele lesionada, pele irritada, alergia ativa, rosácea em crise, dermatite em crise, pós-procedimento agressivo sem orientação, gestantes sem avaliação, lactantes sem avaliação ou dúvidas sobre microagulhamento, LED, laser, dermaplaning e associação com procedimentos sensibilizantes.
+
+## Participação em protocolos
+sem informação.
+
+## Função dentro do protocolo
+Pode atuar como fluido hidratante e revitalizante em protocolos profissionais ou home care orientado, oferecendo suporte de hidratação, retenção de água, barreira, elasticidade, firmeza, maciez e finalização após procedimentos conforme avaliação.
+
+## Produtos que combinam
+- Espuma
+- Sabonete
+- Loção Tônica
+- Creme Ácido Hialurônico
+- Fluido Passo 1
+- Fluido Passo 3
+- Fluido Passo 5
+- Kit Fluidos Revitalizantes
+- Máscara Calmante
+- Neuroplasma Calmante
+- Máscara Detox Zen Marine
+- Máscara Hidroplástica Zen Marine
+- Máscara Facial de Ouro Golden Glitter
+- Melange Especial
+- Booster Colágeno
+- Ideal Protect
+
+## Diferença para produtos parecidos
+Diferente do Passo 1, foca Ácido Hialurônico e retenção de água. Diferente do Creme Ácido Hialurônico, é sérum/fluido mais leve. Diferente do Passo 3, não é o foco principal em colágeno e firmeza. Diferente do Passo 5, não é o foco principal em lifting e fill up.
+
+## Frase de segurança para a Nina
+Comunicar como auxílio, melhora da aparência ou suporte ao protocolo. Não prometer preenchimento definitivo, eliminação de rugas, rejuvenescimento garantido ou resultado garantido. Evitar pele lesionada, irritada ou sensibilizada e encaminhar em caso de dúvida técnica.
+```
+
+### Objeções comuns e respostas
+
+**É um hidratante?**  
+Sim. É um fluido revitalizante com Ácido Hialurônico, indicado para hidratação intensa e duradoura, retenção de umidade, maciez e pele revitalizada.
+
+**Pode usar em casa?**  
+Pode ser usado como home care orientado e também em protocolos profissionais, sempre respeitando avaliação, tolerância e contraindicações.
+
+**Pode usar de dia?**  
+Sim. O modo de uso aprovado permite uso de manhã e à noite. Durante o dia, finalizar com protetor solar.
+
+**Serve para linhas finas?**  
+Pode suavizar a aparência de linhas finas por hidratação e melhora da elasticidade, mas a Nina não deve prometer preenchimento definitivo ou eliminação de rugas.
+
+**Qual a diferença para o Creme Ácido Hialurônico?**  
+O Passo 2 é um fluido/sérum mais leve, voltado para hidratação e retenção de água. O Creme Ácido Hialurônico é hidratante diário em creme.
+
+### Observações internas para a Nina
+
+Indicar para clientes ou profissionais que buscam hidratação profunda, retenção de umidade, maciez, elasticidade, firmeza, revitalização e melhora da aparência de linhas finas. Pode ser uma boa opção de suporte de barreira e finalização hidratante após protocolos, desde que a pele não esteja irritada ou lesionada. Não prometer preenchimento definitivo, eliminação de rugas, rejuvenescimento garantido, efeito botox ou resultado permanente. Encaminhar para dermoconsultora em caso de pele lesionada, irritada, alergia ativa, rosácea em crise, dermatite em crise, pós-procedimento agressivo sem orientação, gestantes, lactantes, alergias ou dúvidas sobre microagulhamento, LED, laser, dermaplaning e associações com ativos intensivos.
+
+---
+
+## Fluido Revitalizante Passo 4 - Vitamina C 40% - 50ml
+
+Fluido revitalizante facial com Vitamina C 40%, indicado para clareamento, hiperpigmentações, fotoenvelhecimento, ação antioxidante, luminosidade, uniformização, hidratação e suporte em protocolos profissionais.
+
+- **Categorias:** home care, profissional
+- **Principais objetivos:** Clareamento, hiperpigmentações, prevenção do fotoenvelhecimento, tratamento do fotoenvelhecimento, ação antioxidante, luminosidade, uniformização, hidratação, suporte de barreira, suporte em peelings, suporte em microagulhamento, suporte em máscaras, suporte em eletroterapia.
+- **Tipo de pele / condição indicada:** Peles com manchas, hiperpigmentações, fotoenvelhecimento, falta de luminosidade, tom irregular, textura irregular, necessidade de ação antioxidante, necessidade de hidratação e barreira, conforme avaliação e tolerância, evitando pele lesionada, sensibilizada, ardência intensa, rosácea ativa, dermatite ativa ou pós-procedimento sem orientação.
+- **Modo de uso:** Aplicar pequena quantidade na pele limpa e seca. Espalhar até absorção. Pode ser usado de dia ou à noite. Em protocolos profissionais, associar conforme avaliação. Durante o dia, finalizar com protetor solar.
+- **Site:** https://lakma.com.br/products/fluido-passo-4-vitamina-c-50ml?_pos=1&_sid=976b990d3&_ss=r
+
+### Participação em protocolos
+
+- **Função dentro do protocolo:** Pode atuar como fluido revitalizante antioxidante e clareador em protocolos profissionais de manchas, hiperpigmentações, fotoenvelhecimento, luminosidade, uniformização, hidratação, peelings, microagulhamento, máscaras e eletroterapia, sempre conforme avaliação profissional.
+
+### Combinações
+
+- **Combina com:** Espuma, Sabonete, Loção, Creme Ácido Hialurônico, Fluido Passo 1, Fluido Passo 2, Fluido Passo 3, Fluido Passo 5, Kit Fluidos Revitalizantes, Máscara Calmante, Neuroplasma, Máscara Detox Zen Marine, Máscara Hidroplástica Zen Marine, Máscara Ouro, Kit Ácidos, Ideal Protect.
+- **Atenção / não combinar:** Evitar pele lesionada, pele sensibilizada, ardência intensa, rosácea ativa, dermatite ativa, gestantes sem orientação, lactantes sem orientação, pós-procedimento sem orientação, associação livre com ácidos fortes, associação livre com retinoides, associação livre com peelings, microagulhamento sem profissional, laser sem profissional, eletroterapia sem profissional. Não prometer clareamento definitivo, cura de manchas, rejuvenescimento garantido ou resultado garantido.
+
+### Detalhes
+
+```markdown id="passo81md"
+## Função principal
+Fluido revitalizante facial com Vitamina C 40%, indicado para clareamento, hiperpigmentações, prevenção e tratamento do fotoenvelhecimento, ação antioxidante, luminosidade, uniformização, hidratação e suporte de barreira.
+
+## Indicações
+- Clareamento
+- Hiperpigmentações
+- Fotoenvelhecimento
+- Ação antioxidante
+- Luminosidade
+- Uniformização
+- Hidratação
+- Suporte de barreira
+- Manchas conforme avaliação
+- Tom irregular
+- Pele opaca
+- Protocolos profissionais com peelings conforme avaliação
+- Protocolos profissionais com microagulhamento conforme avaliação
+- Protocolos com máscaras conforme avaliação
+- Protocolos com eletroterapia conforme avaliação
+
+## Público / uso
+Profissional/cabine e home care orientado.
+
+## Tipo de produto
+Fluido revitalizante facial / sérum.
+
+## Linha
+Fluidos Revitalizantes.
+
+## Volume
+50ml.
+
+## Tipo de pele
+Peles com manchas, hiperpigmentações, fotoenvelhecimento, falta de luminosidade ou necessidade de ação antioxidante, conforme avaliação e tolerância.
+
+## Zona de aplicação
+Rosto, com cautela no contorno dos olhos.
+
+## Momento de aplicação
+Dia ou noite, em home care orientado ou protocolos profissionais.
+
+## Ativos principais
+- Nano Vitamina C
+- Ascorbosilane C
+- Extrato de Acerola
+- Ácido Hialurônico
+
+## Benefícios aprovados
+- Auxilia clareamento
+- Auxilia hiperpigmentações
+- Prevenção do fotoenvelhecimento
+- Tratamento do fotoenvelhecimento
+- Ação antioxidante
+- Luminosidade
+- Uniformização
+- Hidratação
+- Suporte de barreira
+- Pode ser usado em peelings conforme avaliação
+- Pode ser usado em microagulhamento conforme avaliação
+- Pode ser usado em máscaras conforme avaliação
+- Pode ser usado em eletroterapia conforme avaliação
+- Contorno dos olhos com cautela
+- Hipoalergênico
+- Não comedogênico
+- Livre de fragrâncias
+- Livre de óleos
+- Livre de parabenos
+
+## Modo de uso aprovado
+Aplicar pequena quantidade em pele limpa e seca. Espalhar até absorção. Pode usar de dia ou à noite. Em protocolos profissionais, associar conforme avaliação. Durante o dia, finalizar com protetor solar.
+
+## Cuidados e observações
+Cautela no contorno dos olhos. Vitamina C 40% pede cuidado com associações a ácidos, retinoides e procedimentos. Não prometer clareamento definitivo, remoção total de manchas ou resultado garantido.
+
+## Quando não indicar ou encaminhar
+Não indicar diretamente em pele lesionada, pele sensibilizada, ardência intensa, rosácea ativa, dermatite ativa, gestantes sem orientação, lactantes sem orientação ou pós-procedimento sem orientação. Encaminhar também quando houver dúvida sobre associação com ácidos, retinoides, peelings, laser, microagulhamento ou eletroterapia.
+
+## Participação em protocolos
+sem informação.
+
+## Função dentro do protocolo
+Pode atuar como fluido revitalizante antioxidante e clareador em protocolos profissionais de manchas, hiperpigmentações, fotoenvelhecimento, luminosidade, uniformização, hidratação, peelings, microagulhamento, máscaras e eletroterapia, sempre conforme avaliação profissional.
+
+## Produtos que combinam
+- Espuma
+- Sabonete
+- Loção
+- Creme Ácido Hialurônico
+- Fluido Passo 1
+- Fluido Passo 2
+- Fluido Passo 3
+- Fluido Passo 5
+- Kit Fluidos Revitalizantes
+- Máscara Calmante
+- Neuroplasma
+- Máscara Detox Zen Marine
+- Máscara Hidroplástica Zen Marine
+- Máscara Ouro
+- Kit Ácidos
+- Ideal Protect
+
+## Diferença para produtos parecidos
+Diferente do VC-10, tem Vitamina C 40% e uso profissional/orientado. Diferente do Peeling de Romã, foca vitamina C e ação antioxidante. Diferente do Booster C100, é fluido revitalizante pronto dentro da linha de passos.
+
+## Frase de segurança para a Nina
+Comunicar como auxílio, melhora da aparência ou suporte ao protocolo. Não prometer clareamento definitivo, cura de manchas, rejuvenescimento garantido ou resultado garantido. Reforçar fotoproteção e encaminhar em caso de pele sensibilizada, reação ou dúvida técnica.
+```
+
+### Objeções comuns e respostas
+
+**É Vitamina C forte?**  
+Sim. O produto tem Vitamina C 40%, por isso deve ser usado com cautela, respeitando tolerância da pele e orientação profissional.
+
+**Serve para manchas?**  
+Sim. É indicado para clareamento, hiperpigmentações, luminosidade e uniformização, sem prometer clareamento definitivo ou remoção total de manchas.
+
+**Pode usar de dia?**  
+Sim. O modo de uso aprovado permite uso de dia ou à noite. Durante o dia, é indispensável finalizar com protetor solar.
+
+**Pode usar com ácidos ou retinol?**  
+A Nina deve orientar cautela. Por ter Vitamina C 40%, a ficha pede cuidado com associações a ácidos, retinoides e procedimentos.
+
+**Qual a diferença para o VC-10?**  
+O Passo 4 tem Vitamina C 40% e uso profissional/orientado. O VC-10 é um sérum home care com Vitamina C 10% + Ácido Ferúlico 1%.
+
+### Observações internas para a Nina
+
+Indicar para clientes ou profissionais que buscam ação antioxidante, clareamento, luminosidade, uniformização, hidratação, barreira e suporte em fotoenvelhecimento. Para profissionais, pode ser citado como fluido de suporte em peelings, microagulhamento, máscaras e eletroterapia, sempre conforme avaliação. Reforçar fotoproteção obrigatória durante o dia. Não prometer clareamento definitivo, remoção total de manchas, cura de melasma, rejuvenescimento garantido ou resultado permanente. Encaminhar para dermoconsultora em caso de pele lesionada, sensibilizada, ardência intensa, rosácea ativa, dermatite ativa, gestantes, lactantes, pós-procedimento sem orientação ou dúvidas sobre associação com ácidos, retinoides, peelings, laser, microagulhamento ou eletroterapia.
+
+---
+
+## Máscara Clareadora - 30g
+
+Máscara clareadora facial e corporal, indicada para manchas, uniformização do tom, luminosidade, renovação, melhora da textura e suporte em protocolos clareadores ou home care noturno orientado.
+
+- **Categorias:** home care, profissional
+- **Principais objetivos:** Clareamento de manchas, uniformização do tom, luminosidade, renovação, melhora da textura, cuidado de manchas faciais, cuidado de manchas corporais, suporte em protocolos clareadores, suporte pós-peeling conforme orientação, home care noturno orientado.
+- **Tipo de pele / condição indicada:** Todos os tipos de pele, manchas faciais, manchas corporais, tom irregular, textura irregular, falta de luminosidade, pele com necessidade de renovação, protocolos clareadores, home care noturno orientado, evitando contorno dos olhos, pele irritada, pele lesionada, alergia ativa, gestantes sem orientação, lactantes sem orientação, melasma resistente, manchas suspeitas ou pós-procedimentos recentes sem avaliação.
+- **Modo de uso:** Uso profissional conforme protocolo. No home care, aplicar à noite sobre a pele limpa e seca, nas manchas ou no rosto todo conforme orientação. Espalhar camada uniforme. Pode usar diariamente conforme tolerância. Protetor solar é indispensável durante o dia.
+- **Site:** https://lakma.com.br/products/mascara-clareadora-30g?_pos=2&_sid=1cf15edab&_ss=r
+
+### Participação em protocolos
+
+- **Função dentro do protocolo:** Pode atuar como máscara clareadora facial e corporal em protocolos profissionais de manchas, uniformização, luminosidade, renovação e textura, além de home care noturno orientado, sempre com fotoproteção obrigatória.
+
+### Combinações
+
+- **Combina com:** Kit Ácidos, Peeling Bio Complex, Peeling Enzimático de Romã, Fluido Passo 4, Booster C100, Nano Drone, Solução Neutralizante quando indicada, Máscara Calmante, Neuroplasma Calmante, Fluido Passo 1, Fluido Passo 2, Máscara Detox Zen Marine, Creme Ácido Hialurônico, Ideal Protect.
+- **Atenção / não combinar:** Evitar contorno dos olhos, pele irritada, pele lesionada, alergia ativa, gestantes sem orientação, lactantes sem orientação, melasma resistente sem avaliação, manchas suspeitas, pós-procedimentos recentes sem avaliação, associação livre com ácidos, associação livre com retinoides, associação livre com procedimentos, uso diurno sem fotoproteção. Não é hipoalergênica e não é livre de glúten. Não prometer clareamento definitivo, cura de melasma, remoção total de manchas ou resultado garantido.
+
+### Detalhes
+
+```markdown id="clareadora82md"
+## Função principal
+Máscara clareadora facial e corporal, indicada para clareamento de manchas, uniformização do tom, luminosidade, renovação, melhora da textura e suporte em protocolos clareadores ou home care noturno orientado.
+
+## Indicações
+- Todos os tipos de pele
+- Manchas faciais
+- Manchas corporais
+- Tom irregular
+- Textura irregular
+- Falta de luminosidade
+- Pele com necessidade de renovação
+- Clareamento de diferentes manchas
+- Uniformização do tom
+- Protocolos clareadores conforme avaliação
+- Pós-peeling conforme orientação profissional
+- Microagulhamento conforme orientação profissional
+- Home care noturno orientado
+
+## Público / uso
+Profissional/cabine e home care orientado.
+
+## Tipo de produto
+Máscara clareadora facial e corporal.
+
+## Linha
+Facial.
+
+## Volume
+30g.
+
+## Tipo de pele
+Todos os tipos de pele.
+
+## Zona de aplicação
+Rosto e corpo, evitando contorno dos olhos.
+
+## Momento de aplicação
+Protocolos clareadores, pós-peeling, microagulhamento e home care noturno, conforme orientação profissional.
+
+## Ativos principais
+- Nano Ácido Kójico
+- Niacinamida
+- Nano Alfa Hidroxiácidos
+- Nopigmerin com Ácido Ferúlico
+- Alfa Arbutin
+- Ácido Hialurônico
+
+## Benefícios aprovados
+- Clareamento de diferentes manchas
+- Uso em rosto e corpo
+- Uniformização do tom
+- Luminosidade
+- Renovação
+- Melhora da textura
+- Uso profissional
+- Home care noturno orientado
+- Dermatologicamente testada
+- Não comedogênica
+- Livre de parabenos
+- Livre de fragrância
+- Livre de óleo
+- Vegana
+- Cruelty-free
+- Rendimento de 30 aplicações no rosto ou 45 aplicações em manchas
+
+## Modo de uso aprovado
+Uso profissional conforme protocolo. No home care, aplicar à noite em pele limpa e seca, nas manchas ou no rosto todo conforme orientação. Espalhar camada uniforme. Pode usar diariamente conforme tolerância. Protetor solar indispensável durante o dia.
+
+## Cuidados e observações
+Não usar no contorno dos olhos. Não é hipoalergênica e não é livre de glúten. Evitar associações com ácidos, retinoides ou procedimentos sem avaliação. Reforçar fotoproteção obrigatória durante o dia.
+
+## Quando não indicar ou encaminhar
+Não indicar diretamente em pele irritada, pele lesionada, alergia ativa, gestantes sem orientação, lactantes sem orientação, melasma resistente, manchas suspeitas ou pós-procedimentos recentes sem avaliação. Encaminhar também em caso de dúvida sobre associação com ácidos, retinoides, peelings, laser ou microagulhamento.
+
+## Participação em protocolos
+sem informação.
+
+## Função dentro do protocolo
+Pode atuar como máscara clareadora facial e corporal em protocolos profissionais de manchas, uniformização, luminosidade, renovação e textura, além de home care noturno orientado, sempre com fotoproteção obrigatória.
+
+## Produtos que combinam
+- Kit Ácidos
+- Peeling Bio Complex
+- Peeling Enzimático de Romã
+- Fluido Passo 4
+- Booster C100
+- Nano Drone
+- Solução Neutralizante quando indicada
+- Máscara Calmante
+- Neuroplasma Calmante
+- Fluido Passo 1
+- Fluido Passo 2
+- Máscara Detox Zen Marine
+- Creme Ácido Hialurônico
+- Ideal Protect
+
+## Diferença para produtos parecidos
+Diferente da versão 10g, é apresentação 30g. Diferente do Peeling Bio Complex, é máscara creme e pode ser home care orientado. Diferente do Peeling Enzimático de Romã, tem proposta de máscara clareadora facial e corporal.
+
+## Frase de segurança para a Nina
+Comunicar como auxílio, melhora da aparência ou suporte ao protocolo. Não prometer clareamento definitivo, cura de melasma, remoção total de manchas ou resultado garantido. Reforçar fotoproteção e encaminhar em caso de pele sensibilizada, reação ou dúvida técnica.
+```
+
+### Objeções comuns e respostas
+
+**Serve para manchas?**  
+Sim. É indicada para clareamento de manchas faciais e corporais, uniformização, luminosidade, renovação e melhora da textura, sempre sem prometer clareamento definitivo.
+
+**Pode usar em casa?**  
+Pode ser usada como home care noturno orientado, conforme tolerância e orientação profissional. Durante o dia, o protetor solar é indispensável.
+
+**Pode usar no rosto todo?**  
+Pode ser aplicada nas manchas ou no rosto todo conforme orientação, evitando contorno dos olhos.
+
+**Pode usar todos os dias?**  
+A ficha informa que pode usar diariamente conforme tolerância. A Nina deve orientar cautela em peles sensíveis e encaminhar em caso de irritação.
+
+**Qual a diferença para a versão 10g?**  
+A principal diferença é a apresentação. Esta é a versão 30g, enquanto a próxima ficha é a versão 10g.
+
+### Observações internas para a Nina
+
+Indicar para clientes ou profissionais que buscam máscara clareadora facial e corporal para manchas, tom irregular, luminosidade, renovação e melhora da textura. Pode ser posicionada como opção de home care noturno orientado ou suporte em protocolos clareadores profissionais. Reforçar fotoproteção obrigatória durante o dia. Não prometer clareamento definitivo, remoção total de manchas, cura de melasma, renovação garantida ou resultado permanente. Encaminhar para dermoconsultora em caso de pele irritada, pele lesionada, alergia ativa, gestantes, lactantes, melasma resistente, manchas suspeitas, pós-procedimentos recentes ou dúvidas sobre associação com ácidos, retinoides, peelings, laser ou microagulhamento.
+
+---
+
+## Máscara Clareadora Facial e Corporal - 10g
+
+Máscara clareadora facial e corporal em apresentação menor, indicada para manchas, melasma, manchas pós-inflamatórias, manchas solares, manchas de acne, marcas escurecidas, tom irregular, luminosidade e renovação.
+
+- **Categorias:** home care, profissional
+- **Principais objetivos:** Clareamento de manchas, melasma, manchas pós-inflamatórias, manchas solares, manchas de acne, marcas escurecidas, uniformização do tom, luminosidade, renovação, melhora da textura, aplicação localizada.
+- **Tipo de pele / condição indicada:** Peles com manchas, melasma, manchas pós-inflamatórias, manchas solares, manchas de acne, marcas escurecidas, tom irregular, textura irregular, falta de luminosidade, necessidade de aplicação localizada, conforme avaliação e tolerância, evitando pele lesionada, sensibilizada, irritada, alergia ativa, gestantes sem orientação, lactantes sem orientação, melasma resistente, manchas suspeitas ou pós-procedimentos recentes sem avaliação.
+- **Modo de uso:** Limpar e secar a pele. Aplicar camada uniforme no rosto, corpo ou diretamente nas manchas. No home care, usar à noite, preferencialmente nas manchas ou conforme orientação. Pode usar diariamente conforme tolerância. Protetor solar é indispensável durante o dia.
+- **Site:** https://lakma.com.br/products/mascara-clareadora-10g?_pos=1&_sid=1cf15edab&_ss=r
+
+### Participação em protocolos
+
+- **Função dentro do protocolo:** Pode atuar como máscara clareadora facial e corporal em protocolos profissionais de manchas, melasma, marcas escurecidas, uniformização, luminosidade, renovação e textura, além de home care noturno orientado com foco em aplicação localizada.
+
+### Combinações
+
+- **Combina com:** Máscara Clareadora 30g, Kit Ácidos, Peeling Bio Complex, Peeling Enzimático de Romã, Fluido Passo 4, Booster C100, Nano Drone, Sabonete Glicólico, Máscara Calmante, Neuroplasma Calmante, Máscara Detox Zen Marine, Fluido Passo 1, Fluido Passo 2, Creme Ácido Hialurônico, Ideal Protect.
+- **Atenção / não combinar:** Evitar olhos, lábios, mucosas, pele irritada, pele lesionada, pele sensibilizada, alergia ativa, gestantes sem orientação, lactantes sem orientação, manchas suspeitas, melasma resistente, pós-laser recente, pós-peeling recente, pós-microagulhamento recente, associação livre com ácidos, associação livre com retinoides, associação livre com procedimentos, uso diurno sem fotoproteção. Não prometer eliminação de melasma, clareamento definitivo, remoção total de manchas ou resultado garantido.
+
+### Detalhes
+
+```markdown id="clareadora83md"
+## Função principal
+Máscara clareadora facial e corporal em apresentação menor, indicada para clareamento de manchas, melasma, manchas pós-inflamatórias, manchas solares, manchas de acne, marcas escurecidas, tom irregular, luminosidade, renovação e melhora da textura.
+
+## Indicações
+- Manchas
+- Melasma
+- Manchas pós-inflamatórias
+- Manchas solares
+- Manchas de acne
+- Marcas escurecidas
+- Tom irregular
+- Textura irregular
+- Falta de luminosidade
+- Aplicação localizada nas manchas
+- Clareamento facial
+- Clareamento corporal
+- Home care noturno orientado
+- Protocolos profissionais clareadores conforme avaliação
+
+## Público / uso
+Profissional/cabine e home care orientado.
+
+## Tipo de produto
+Máscara clareadora facial e corporal.
+
+## Linha
+Máscara Clareadora Manchas e Melasma.
+
+## Volume
+10ml / 10g.
+
+## Tipo de pele
+sem informação.
+
+## Zona de aplicação
+Rosto e corpo, com aplicação localizada nas manchas, evitando olhos, lábios e mucosas.
+
+## Momento de aplicação
+Home care noturno ou protocolos profissionais.
+
+## Ativos principais
+- Nano Ácido Kójico
+- Nano Alfa Hidroxiácidos
+- Niacinamida
+- Alfa Arbutin
+- Nopigmerin
+
+## Benefícios aprovados
+- Auxilia clareamento
+- Ajuda no melasma
+- Uniformiza tom
+- Luminosidade
+- Renovação
+- Melhora textura
+- Uso em rosto e corpo
+- Aplicação localizada
+- Uso profissional e home care
+- Rendimento de 10 aplicações no rosto ou 21 aplicações em manchas
+
+## Modo de uso aprovado
+Limpar e secar. Aplicar camada uniforme no rosto, corpo ou diretamente nas manchas. No home care, usar à noite, preferencialmente nas manchas ou conforme orientação. Pode usar diariamente conforme tolerância. Protetor solar indispensável durante o dia.
+
+## Cuidados e observações
+Evitar olhos, lábios e mucosas. Não usar em pele irritada ou lesionada. Evitar associação com ácidos, retinoides ou procedimentos sem avaliação. Não prometer eliminação de melasma, clareamento definitivo ou remoção total de manchas.
+
+## Quando não indicar ou encaminhar
+Não indicar diretamente em pele sensibilizada, pele lesionada, pele irritada, alergia ativa, gestantes sem orientação, lactantes sem orientação, manchas suspeitas, melasma resistente, pós-laser recente, pós-peeling recente ou pós-microagulhamento recente. Encaminhar também em caso de dúvida sobre associação com ácidos, retinoides, peelings, laser ou microagulhamento.
+
+## Participação em protocolos
+sem informação.
+
+## Função dentro do protocolo
+Pode atuar como máscara clareadora facial e corporal em protocolos profissionais de manchas, melasma, marcas escurecidas, uniformização, luminosidade, renovação e textura, além de home care noturno orientado com foco em aplicação localizada.
+
+## Produtos que combinam
+- Máscara Clareadora 30g
+- Kit Ácidos
+- Peeling Bio Complex
+- Peeling Enzimático de Romã
+- Fluido Passo 4
+- Booster C100
+- Nano Drone
+- Sabonete Glicólico
+- Máscara Calmante
+- Neuroplasma Calmante
+- Máscara Detox Zen Marine
+- Fluido Passo 1
+- Fluido Passo 2
+- Creme Ácido Hialurônico
+- Ideal Protect
+
+## Diferença para produtos parecidos
+Diferente da Máscara Clareadora 30g, é uma apresentação menor para uso pontual ou aplicação localizada. Diferente de peelings, é máscara creme de uso profissional ou home care orientado.
+
+## Frase de segurança para a Nina
+Comunicar como auxílio, melhora da aparência ou suporte ao protocolo. Não prometer clareamento definitivo, eliminação de melasma, remoção total de manchas ou resultado garantido. Reforçar fotoproteção e encaminhar em caso de pele sensibilizada, reação ou dúvida técnica.
+```
+
+### Objeções comuns e respostas
+
+**Serve para manchas?**  
+Sim. É indicada para clareamento de manchas, melasma, manchas pós-inflamatórias, solares, acne, marcas escurecidas e tom irregular, sempre sem prometer clareamento definitivo.
+
+**Pode usar em casa?**  
+Pode ser usada como home care noturno orientado, preferencialmente nas manchas ou conforme orientação profissional. Durante o dia, o protetor solar é indispensável.
+
+**Pode usar no corpo?**  
+Sim. A ficha indica uso facial e corporal, com aplicação no rosto, corpo ou diretamente nas manchas.
+
+**Pode usar todos os dias?**  
+A ficha informa que pode usar diariamente, conforme tolerância. A Nina deve orientar cautela em peles sensíveis e encaminhar se houver irritação.
+
+**Qual a diferença para a Máscara Clareadora 30g?**  
+A versão 10g é uma apresentação menor, mais voltada para uso pontual ou aplicação localizada. A versão 30g tem maior rendimento.
+
+### Observações internas para a Nina
+
+Indicar para clientes ou profissionais que buscam máscara clareadora facial e corporal em apresentação menor, especialmente para manchas localizadas, melasma, manchas pós-inflamatórias, solares, de acne, marcas escurecidas e tom irregular. Reforçar que o uso home care deve ser noturno e que o protetor solar é indispensável durante o dia. Não prometer clareamento definitivo, eliminação de melasma, remoção total de manchas ou resultado permanente. Encaminhar para dermoconsultora em caso de pele sensibilizada, lesionada, irritada, alergias, gestantes, lactantes, manchas suspeitas, melasma resistente, pós-laser recente, pós-peeling recente, pós-microagulhamento recente ou dúvidas sobre associação com ácidos, retinoides, peelings, laser ou microagulhamento.
+
+---
+
+## Kit Limpeza de Pele Profissional - 5 Produtos
+
+Kit profissional facial para limpeza de pele, com 5 produtos para higienização, esfoliação, emoliência, extração, tonificação e finalização calmante em cabine.
+
+- **Categorias:** profissional
+- **Principais objetivos:** Limpeza de pele profissional, higienização, esfoliação, emoliência, extração de cravos, tonificação, finalização calmante, praticidade em cabine, alto rendimento, suporte para todos os tipos de pele conforme avaliação.
+- **Tipo de pele / condição indicada:** Todos os tipos de pele conforme avaliação profissional, pele com cravos, pele com necessidade de limpeza de pele, pele com necessidade de esfoliação, pele com necessidade de emoliência, pele com necessidade de extração, pele com necessidade de tonificação, evitando acne inflamada severa, infecção, feridas, irritação intensa, rosácea ativa, dermatite ativa, alergia, pele sensibilizada por ácidos, retinoides ou pós-procedimentos recentes.
+- **Modo de uso:** Higienizar com Sabonete Líquido Facial. Esfoliar e deixar agir por 2 minutos. Tonificar sem remover. Aplicar Emoliente de Cravos, usar máscara térmica ou vapor por 25 minutos. Realizar extração profissional. Se necessário, aplicar Máscara Calmante por 5 minutos após a extração e finalizar conforme pele e objetivo.
+- **Site:** https://lakma.com.br/products/kit-limpeza-de-pele?_pos=1&_sid=422b7e433&_ss=r
+
+### Participação em protocolos
+
+- Participa de protocolos: **sim**
+- **Protocolos relacionados:** Protocolo Limpeza de Pele Premium, Protocolo Limpeza de Pele Integrativa Personalizada, protocolos profissionais de limpeza de pele, protocolos com higienização, protocolos com esfoliação, protocolos com emoliência, protocolos com extração, protocolos com finalização calmante.
+- **Função dentro do protocolo:** Atua como kit profissional completo para limpeza de pele em cabine, reunindo as etapas principais de higienização, esfoliação, emoliência, extração, tonificação e finalização calmante, com foco em praticidade, rendimento e segurança técnica.
+
+### Combinações
+
+- **Combina com:** Neuroplasma Calmante, Máscara Detox Zen Marine, Máscara Hidroplástica Zen Marine, Fluido Passo 1, Fluido Passo 2, Fluido Secativo, Sérum NC-10, Argila Verde, Peeling Químico Secativo em protocolo profissional, Ideal Protect, Emoliente Zero Trieta para opção sem Trietanolamina, Kit Limpeza de Pele Facial + Ativos Sem Trieta para opção sem Trieta.
+- **Atenção / não combinar:** Evitar extração em casa, pele com acne inflamada severa, infecção, feridas, irritação intensa, rosácea ativa, dermatite ativa, alergia, pele sensibilizada por ácidos, pele sensibilizada por retinoides, pós-procedimentos recentes, uso recente de peeling, uso recente de laser, uso recente de microagulhamento, cliente que busca opção sem Trietanolamina. O kit não é hipoalergênico e o Emoliente contém Trietanolamina.
+
+### Detalhes
+
+```markdown id="limpeza84md"
+## Função principal
+Kit profissional facial para limpeza de pele, com 5 produtos para higienização, esfoliação, emoliência, extração, tonificação e finalização calmante em cabine.
+
+## Indicações
+- Todos os tipos de pele conforme avaliação
+- Limpeza de pele profissional
+- Higienização
+- Esfoliação
+- Emoliência
+- Extração de cravos
+- Tonificação
+- Finalização calmante
+- Protocolos profissionais de limpeza de pele
+- Praticidade em cabine
+- Alto rendimento
+
+## Público / uso
+Profissional/cabine.
+
+## Tipo de produto
+Kit profissional para limpeza de pele.
+
+## Linha
+Facial.
+
+## Volume
+5 produtos, volume total aproximado de 1.200ml.
+
+## Tipo de pele
+Todos os tipos de pele, conforme avaliação profissional.
+
+## Zona de aplicação
+Rosto.
+
+## Momento de aplicação
+Protocolos profissionais de limpeza de pele.
+
+## Composição do kit
+- Sabonete Líquido Facial 250ml
+- Esfoliante Facial 250g
+- Emoliente de Cravos 250g
+- Loção Tônica 200ml
+- Máscara Calmante 250g
+
+## Ativos principais
+- Sabonete Líquido Facial
+- Esfoliante Facial
+- Emoliente de Cravos
+- Loção Tônica
+- Máscara Calmante
+
+## Benefícios aprovados
+- Kit completo
+- Higienização
+- Esfoliação
+- Tonificação
+- Emoliência
+- Calmaria
+- Facilita extração
+- Prático
+- Alto rendimento
+- Rendimento até 50 aplicações
+- Vegano
+- Cruelty-free
+- Livre de parabenos
+- Livre de fragrância
+- Livre de álcool
+- Livre de sulfatos
+
+## Modo de uso aprovado
+Higienizar com Sabonete Líquido Facial. Esfoliar e deixar agir por 2 minutos. Tonificar sem remover. Aplicar Emoliente de Cravos, usar máscara térmica ou vapor por 25 minutos. Realizar extração profissional. Se necessário, aplicar Máscara Calmante por 5 minutos após a extração. Finalizar conforme pele e objetivo.
+
+## Cuidados e observações
+Uso profissional. Não orientar extração em casa. Kit não é hipoalergênico. O Emoliente contém Trietanolamina. Para opção sem Trieta, usar Emoliente Zero Trieta ou Kit Limpeza de Pele Facial + Ativos Sem Trieta.
+
+## Quando não indicar ou encaminhar
+Não indicar diretamente em pele com acne inflamada severa, infecção, feridas, irritação intensa, rosácea ativa, dermatite ativa, alergia, pele sensibilizada por ácidos, pele sensibilizada por retinoides, pós-procedimentos recentes, gestantes sem avaliação, lactantes sem avaliação ou dúvidas sobre extração, vapor, tempo de ação e associação com peelings.
+
+## Participação em protocolos
+Participa ou se relaciona com:
+- Protocolo Limpeza de Pele Premium
+- Protocolo Limpeza de Pele Integrativa Personalizada
+- Protocolos profissionais de limpeza de pele
+- Protocolos com higienização
+- Protocolos com esfoliação
+- Protocolos com emoliência
+- Protocolos com extração
+- Protocolos com finalização calmante
+
+## Função dentro do protocolo
+Atua como kit profissional completo para limpeza de pele em cabine, reunindo as etapas principais de higienização, esfoliação, emoliência, extração, tonificação e finalização calmante, com foco em praticidade, rendimento e segurança técnica.
+
+## Produtos que combinam
+- Neuroplasma Calmante
+- Máscara Detox Zen Marine
+- Máscara Hidroplástica Zen Marine
+- Fluido Passo 1
+- Fluido Passo 2
+- Fluido Secativo
+- Sérum NC-10
+- Argila Verde
+- Peeling Químico Secativo em protocolo profissional
+- Ideal Protect
+- Emoliente Zero Trieta para opção sem Trietanolamina
+- Kit Limpeza de Pele Facial + Ativos Sem Trieta para opção sem Trieta
+
+## Diferença para produtos parecidos
+Diferente do Emoliente de Cravos individual, reúne todas as etapas principais da limpeza de pele profissional. Diferente do Kit Limpeza de Pele Facial + Ativos Sem Trieta, este kit contém Emoliente de Cravos com Trietanolamina. Diferente do Kit Eco Skin, tem foco em limpeza de pele profissional completa com emoliência e extração.
+
+## Frase de segurança para a Nina
+Produto profissional. Não orientar extração em casa. Evitar em pele lesionada, irritada, sensibilizada, com acne inflamada severa, infecção, rosácea ativa ou dermatite ativa. Para opção sem Trietanolamina, direcionar ao Emoliente Zero Trieta ou Kit Sem Trieta.
+```
+
+### Objeções comuns e respostas
+
+**É um kit completo de limpeza de pele?**  
+Sim. Ele reúne produtos para higienização, esfoliação, emoliência, extração, tonificação e finalização calmante em protocolos profissionais.
+
+**É para uso em casa?**  
+Não. É um kit profissional para uso em cabine. A Nina não deve orientar extração em casa.
+
+**Quais produtos vêm no kit?**  
+Sabonete Líquido Facial 250ml, Esfoliante Facial 250g, Emoliente de Cravos 250g, Loção Tônica 200ml e Máscara Calmante 250g.
+
+**Serve para todos os tipos de pele?**  
+Pode ser usado em todos os tipos de pele conforme avaliação profissional, respeitando sensibilidade, contraindicações e condição da pele no dia.
+
+**Qual a diferença para o Kit Sem Trieta?**  
+Este kit contém Emoliente de Cravos com Trietanolamina. Para profissionais que buscam opção sem Trieta, priorizar o Emoliente Zero Trieta ou o Kit Limpeza de Pele Facial + Ativos Sem Trieta.
+
+### Observações internas para a Nina
+
+Indicar para profissionais que buscam kit completo, prático e de alto rendimento para limpeza de pele profissional em cabine. Reforçar que é produto profissional e que a Nina não deve ensinar extração em casa. Como o Emoliente contém Trietanolamina e o kit não é hipoalergênico, encaminhar para opção sem Trieta quando a profissional solicitar fórmula mais suave ou sem Trietanolamina. Não prometer eliminação definitiva de cravos, cura da acne, fechamento definitivo de poros ou resultado garantido. Encaminhar para dermoconsultora em caso de acne inflamada severa, infecção, feridas, irritação intensa, rosácea ativa, dermatite ativa, alergias, pele sensibilizada por ácidos, retinoides, pós-procedimentos recentes, gestantes, lactantes ou dúvidas sobre extração, vapor, tempo de ação e associação com peelings.
+
+---
