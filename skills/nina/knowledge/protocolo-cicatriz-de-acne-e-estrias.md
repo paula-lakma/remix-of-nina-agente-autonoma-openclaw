@@ -212,6 +212,8 @@ No site oficial use o cupom **LAKMA35** = 35% de desconto.
       "match_tipo": "compacto",
       "link_individual_produto": "https://lakma.com.br/products/sabonete-liquido-facial-250ml?_pos=1&_sid=e71294b11&_ss=r",
       "campo_origem_link_individual_produto": "site_url",
+      "link_source": "product_database",
+      "link_is_generated": false,
       "status_link_individual_produto": "aprovado"
     },
     {
@@ -221,6 +223,8 @@ No site oficial use o cupom **LAKMA35** = 35% de desconto.
       "match_tipo": "compacto",
       "link_individual_produto": "https://lakma.com.br/products/kit-fluidos-revitalizantes-para-microagulhamento?_pos=1&_sid=e3adb7d8b&_ss=r",
       "campo_origem_link_individual_produto": "site_url",
+      "link_source": "product_database",
+      "link_is_generated": false,
       "status_link_individual_produto": "aprovado"
     },
     {
@@ -230,6 +234,8 @@ No site oficial use o cupom **LAKMA35** = 35% de desconto.
       "match_tipo": "normalizado",
       "link_individual_produto": "https://lakma.com.br/products/peeling-de-cristal-liquido-retinol-30ml?_pos=1&_sid=0edd2d86f&_ss=r",
       "campo_origem_link_individual_produto": "site_url",
+      "link_source": "product_database",
+      "link_is_generated": false,
       "status_link_individual_produto": "aprovado"
     },
     {
@@ -239,6 +245,8 @@ No site oficial use o cupom **LAKMA35** = 35% de desconto.
       "match_tipo": "compacto",
       "link_individual_produto": "https://lakma.com.br/products/neuroplasma-nutri-complex-para-cicatriz-a-acne-e-estrias-50ml?_pos=2&_sid=06b71ae8f&_ss=r",
       "campo_origem_link_individual_produto": "site_url",
+      "link_source": "product_database",
+      "link_is_generated": false,
       "status_link_individual_produto": "aprovado"
     },
     {
@@ -248,6 +256,8 @@ No site oficial use o cupom **LAKMA35** = 35% de desconto.
       "match_tipo": "token",
       "link_individual_produto": "https://lakma.com.br/products/fluido-passo-5-rejuvenescedor-50ml?_pos=1&_sid=bcf3c4f48&_ss=r",
       "campo_origem_link_individual_produto": "site_url",
+      "link_source": "product_database",
+      "link_is_generated": false,
       "status_link_individual_produto": "aprovado"
     },
     {
@@ -257,6 +267,8 @@ No site oficial use o cupom **LAKMA35** = 35% de desconto.
       "match_tipo": "compacto",
       "link_individual_produto": "https://lakma.com.br/products/fluido-passo-2-hialuronico-50ml?_pos=1&_sid=4c1d3e80d&_ss=r",
       "campo_origem_link_individual_produto": "site_url",
+      "link_source": "product_database",
+      "link_is_generated": false,
       "status_link_individual_produto": "aprovado"
     },
     {
@@ -266,6 +278,8 @@ No site oficial use o cupom **LAKMA35** = 35% de desconto.
       "match_tipo": "token",
       "link_individual_produto": "https://lakma.com.br/products/fluido-passo-5-rejuvenescedor-50ml?_pos=1&_sid=bcf3c4f48&_ss=r",
       "campo_origem_link_individual_produto": "site_url",
+      "link_source": "product_database",
+      "link_is_generated": false,
       "status_link_individual_produto": "aprovado"
     },
     {
@@ -275,6 +289,8 @@ No site oficial use o cupom **LAKMA35** = 35% de desconto.
       "match_tipo": "compacto",
       "link_individual_produto": "https://lakma.com.br/products/fluido-passo-4-vitamina-c-50ml?_pos=1&_sid=976b990d3&_ss=r",
       "campo_origem_link_individual_produto": "site_url",
+      "link_source": "product_database",
+      "link_is_generated": false,
       "status_link_individual_produto": "aprovado"
     },
     {
@@ -284,6 +300,8 @@ No site oficial use o cupom **LAKMA35** = 35% de desconto.
       "match_tipo": "compacto",
       "link_individual_produto": "https://lakma.com.br/products/fluido-passo-5-rejuvenescedor-50ml?_pos=1&_sid=bcf3c4f48&_ss=r",
       "campo_origem_link_individual_produto": "site_url",
+      "link_source": "product_database",
+      "link_is_generated": false,
       "status_link_individual_produto": "aprovado"
     },
     {
@@ -293,6 +311,8 @@ No site oficial use o cupom **LAKMA35** = 35% de desconto.
       "match_tipo": "normalizado",
       "link_individual_produto": "https://lakma.com.br/products/microagulhamento-em-creme-8g?_pos=1&_psq=microagul&_ss=e&_v=1.0",
       "campo_origem_link_individual_produto": "site_url",
+      "link_source": "product_database",
+      "link_is_generated": false,
       "status_link_individual_produto": "aprovado"
     }
   ],
@@ -304,7 +324,8 @@ No site oficial use o cupom **LAKMA35** = 35% de desconto.
     "Nunca responder 'não tenho o link do protocolo' antes de checar produtos_utilizados.",
     "Nunca declarar um produto como 'sem link no cadastro' se ele aparece em produtos_utilizados com link_individual_produto preenchido — confiar no match (exato/normalizado/compacto/alias/token/fuzzy) já resolvido aqui.",
     "Nunca enviar apenas o site geral quando existir ao menos um link_individual_produto resolvido.",
-    "Nunca inventar links.",
+    "PROIBIDO inventar, gerar, montar, slugificar ou concatenar URLs. Só enviar URLs que apareçam literalmente em link_individual_produto com link_source='product_database' e link_is_generated=false.",
+    "PROIBIDO enviar URLs do tipo site_geral_fallback + '/products/' + nome — esse padrão é fabricação e nunca é aceito.",
     "Se houver dúvida entre dois produtos parecidos, pedir confirmação ao lead em vez de escolher errado."
   ]
 }

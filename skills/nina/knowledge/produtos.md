@@ -4,14 +4,17 @@
 > e orientações para a Nina. O passo a passo completo dos protocolos está em outros
 > arquivos desta pasta `knowledge/`.
 
-## Regra obrigatória para envio de links
+## Regra obrigatória para envio de links (LEITURA CRÍTICA)
 
 - O campo do banco/cadastro que representa o link individual do produto é `site_url` (campo visual: "Link do site").
 - No contexto da Nina, esse campo deve ser tratado como `link_individual_produto`.
-- Quando o lead pedir link de um produto específico, a Nina deve localizar o produto nesta base e enviar `link_individual_produto` se ele estiver preenchido.
-- A Nina NÃO deve enviar apenas o site geral `https://www.lakma.com.br` quando existir `link_individual_produto` para o produto citado.
-- O site geral `https://www.lakma.com.br` é fallback somente quando o produto não foi especificado, quando o lead pediu o site da Lakma em geral, ou quando o produto específico não tiver link individual cadastrado.
-- A Nina nunca inventa links; usa somente os links aprovados deste arquivo ou o fallback geral aprovado.
+- A Nina SÓ pode enviar uma URL de produto se ela aparecer literalmente neste arquivo, dentro do bloco JSON do produto correspondente, no campo `link_individual_produto` ou `link_mercadolivre`, com `link_source = "product_database"` e `link_is_generated = false`.
+- É TERMINANTEMENTE PROIBIDO: gerar, montar, inferir, completar, corrigir, adaptar, adivinhar, "deduzir" ou construir links a partir do nome, slug, categoria ou URL base. Nada de `https://www.lakma.com.br/products/<nome-do-produto>`, nada de slugify, nada de concatenação.
+- Exemplo PROIBIDO (link fabricado): `https://www.lakma.com.br/products/sabonete-glicolico` — esse padrão NUNCA pode ser enviado se não aparecer neste arquivo.
+- Se o produto existe no cadastro mas `link_individual_produto` está vazio/nulo, a Nina responde: "Não encontrei o link individual desse produto no cadastro. Você pode consultar no site oficial da Lakma (https://www.lakma.com.br) ou falar com a equipe de atendimento." — sem inventar URL específica.
+- Se o produto NÃO existe no cadastro, a Nina pede confirmação do nome ou encaminha para humano. Nunca chuta link.
+- O site geral `https://www.lakma.com.br` (raiz) é o único fallback aprovado e só pode ser enviado como página inicial — nunca com path `/products/...` fabricado.
+- Quando enviar um link individual aprovado, sempre informar o cupom **LAKMA35** = 35% de desconto no site.
 
 ## Kit Ácidos Sem Mistérios + Peeling de Cristal Líquido
 
@@ -34,6 +37,8 @@ Kit profissional de peelings clareadores para protocolos faciais e corporais de 
   "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/kit-acidos-sem-misterios-peeling-de-cristal-liquido-guia-pratico-de-peeling?_pos=2&_sid=092c25f53&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
+  "link_source": "product_database",
+  "link_is_generated": false,
   "link_site": "https://lakma.com.br/products/kit-acidos-sem-misterios-peeling-de-cristal-liquido-guia-pratico-de-peeling?_pos=2&_sid=092c25f53&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
@@ -41,7 +46,8 @@ Kit profissional de peelings clareadores para protocolos faciais e corporais de 
   "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
-  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+  "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
 }
 ```
 
@@ -239,6 +245,8 @@ Sérum facial revitalizante com foco em firmeza, efeito lifting, elasticidade e 
   "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/fluido-passo-5-rejuvenescedor-50ml?_pos=1&_sid=bcf3c4f48&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
+  "link_source": "product_database",
+  "link_is_generated": false,
   "link_site": "https://lakma.com.br/products/fluido-passo-5-rejuvenescedor-50ml?_pos=1&_sid=bcf3c4f48&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
@@ -246,7 +254,8 @@ Sérum facial revitalizante com foco em firmeza, efeito lifting, elasticidade e 
   "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
-  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+  "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
 }
 ```
 
@@ -380,6 +389,8 @@ Creme emoliente facial profissional, livre de trietanolamina, indicado para amol
   "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/emoliente-zero?_pos=1&_sid=1345a38d7&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
+  "link_source": "product_database",
+  "link_is_generated": false,
   "link_site": "https://lakma.com.br/products/emoliente-zero?_pos=1&_sid=1345a38d7&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
@@ -387,7 +398,8 @@ Creme emoliente facial profissional, livre de trietanolamina, indicado para amol
   "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
-  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+  "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
 }
 ```
 
@@ -522,6 +534,8 @@ Booster facial profissional indicado para protocolos de rejuvenescimento, firmez
   "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/booster-fibras-elasticas?_pos=1&_psq=fibras+elas&_ss=e&_v=1.0",
   "campo_origem_link_individual_produto": "site_url",
+  "link_source": "product_database",
+  "link_is_generated": false,
   "link_site": "https://lakma.com.br/products/booster-fibras-elasticas?_pos=1&_psq=fibras+elas&_ss=e&_v=1.0",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
@@ -529,7 +543,8 @@ Booster facial profissional indicado para protocolos de rejuvenescimento, firmez
   "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
-  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+  "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
 }
 ```
 
@@ -660,6 +675,8 @@ Máscara facial hidroplástica profissional com ação tensora, refrescante, det
   "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/mascara-zen-marine-hidroplastica-150g?_pos=1&_sid=70f050ddf&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
+  "link_source": "product_database",
+  "link_is_generated": false,
   "link_site": "https://lakma.com.br/products/mascara-zen-marine-hidroplastica-150g?_pos=1&_sid=70f050ddf&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
@@ -667,7 +684,8 @@ Máscara facial hidroplástica profissional com ação tensora, refrescante, det
   "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
-  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+  "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
 }
 ```
 
@@ -807,6 +825,8 @@ Kit profissional com 4 peelings faciais de 50ml para protocolos de renovação c
   "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/kit-peelings?_pos=2&_sid=e517bc874&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
+  "link_source": "product_database",
+  "link_is_generated": false,
   "link_site": "https://lakma.com.br/products/kit-peelings?_pos=2&_sid=e517bc874&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
@@ -814,7 +834,8 @@ Kit profissional com 4 peelings faciais de 50ml para protocolos de renovação c
   "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
-  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+  "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
 }
 ```
 
@@ -960,6 +981,8 @@ Kit corporal profissional com produtos para protocolos de esfoliação, massagem
   "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/kit-bodypro?_pos=1&_sid=5464b8b38&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
+  "link_source": "product_database",
+  "link_is_generated": false,
   "link_site": "https://lakma.com.br/products/kit-bodypro?_pos=1&_sid=5464b8b38&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
@@ -967,7 +990,8 @@ Kit corporal profissional com produtos para protocolos de esfoliação, massagem
   "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
-  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+  "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
 }
 ```
 
@@ -1110,6 +1134,8 @@ Kit home care de cuidados labiais com esfoliação, tratamento e finalização p
   "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/kit-labial-home-care?_pos=1&_sid=1789b10ca&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
+  "link_source": "product_database",
+  "link_is_generated": false,
   "link_site": "https://lakma.com.br/products/kit-labial-home-care?_pos=1&_sid=1789b10ca&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
@@ -1117,7 +1143,8 @@ Kit home care de cuidados labiais com esfoliação, tratamento e finalização p
   "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
-  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+  "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
 }
 ```
 
@@ -1247,6 +1274,8 @@ Kit profissional para limpeza de pele facial com etapas de higienização, esfol
   "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/kit-limpeza-de-pele-creme-emoliente-sem-trieta?_pos=3&_sid=376784632&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
+  "link_source": "product_database",
+  "link_is_generated": false,
   "link_site": "https://lakma.com.br/products/kit-limpeza-de-pele-creme-emoliente-sem-trieta?_pos=3&_sid=376784632&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
@@ -1254,7 +1283,8 @@ Kit profissional para limpeza de pele facial com etapas de higienização, esfol
   "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
-  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+  "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
 }
 ```
 
@@ -1404,6 +1434,8 @@ Sérum facial home care com Niacinamida 10% e Zinco PCA 1%, indicado para oleosi
   "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/serum-10-niacinamida-1-zinco-pca?_pos=1&_sid=5b47fa0fb&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
+  "link_source": "product_database",
+  "link_is_generated": false,
   "link_site": "https://lakma.com.br/products/serum-10-niacinamida-1-zinco-pca?_pos=1&_sid=5b47fa0fb&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
@@ -1411,7 +1443,8 @@ Sérum facial home care com Niacinamida 10% e Zinco PCA 1%, indicado para oleosi
   "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
-  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+  "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
 }
 ```
 
@@ -1555,6 +1588,8 @@ Sérum facial noturno com Retinol 0,5% e Vitamina E 1%, indicado para renovaçã
   "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/serum-retinol-0-5-vitamina-e-1?_pos=1&_psq=serum+re&_ss=e&_v=1.0",
   "campo_origem_link_individual_produto": "site_url",
+  "link_source": "product_database",
+  "link_is_generated": false,
   "link_site": "https://lakma.com.br/products/serum-retinol-0-5-vitamina-e-1?_pos=1&_psq=serum+re&_ss=e&_v=1.0",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
@@ -1562,7 +1597,8 @@ Sérum facial noturno com Retinol 0,5% e Vitamina E 1%, indicado para renovaçã
   "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
-  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+  "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
 }
 ```
 
@@ -1701,6 +1737,8 @@ Sérum facial home care com Vitamina C 10% e Ácido Ferúlico 1%, indicado para 
   "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/vitamina-c-10?_pos=1&_psq=s%C3%A9rum&_ss=e&_v=1.0",
   "campo_origem_link_individual_produto": "site_url",
+  "link_source": "product_database",
+  "link_is_generated": false,
   "link_site": "https://lakma.com.br/products/vitamina-c-10?_pos=1&_psq=s%C3%A9rum&_ss=e&_v=1.0",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
@@ -1708,7 +1746,8 @@ Sérum facial home care com Vitamina C 10% e Ácido Ferúlico 1%, indicado para 
   "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
-  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+  "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
 }
 ```
 
@@ -1850,6 +1889,8 @@ Creme facial profissional com espículas de esponja hidrolisada, indicado para r
   "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/microagulhamento-em-creme-8g?_pos=1&_psq=microagul&_ss=e&_v=1.0",
   "campo_origem_link_individual_produto": "site_url",
+  "link_source": "product_database",
+  "link_is_generated": false,
   "link_site": "https://lakma.com.br/products/microagulhamento-em-creme-8g?_pos=1&_psq=microagul&_ss=e&_v=1.0",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
@@ -1857,7 +1898,8 @@ Creme facial profissional com espículas de esponja hidrolisada, indicado para r
   "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
-  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+  "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
 }
 ```
 
@@ -2003,6 +2045,8 @@ Gloss labial bioativo home care com ação booster, indicado para hidratação, 
   "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/gloss-bioativo-8g?_pos=1&_psq=gloss&_ss=e&_v=1.0",
   "campo_origem_link_individual_produto": "site_url",
+  "link_source": "product_database",
+  "link_is_generated": false,
   "link_site": "https://lakma.com.br/products/gloss-bioativo-8g?_pos=1&_psq=gloss&_ss=e&_v=1.0",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
@@ -2010,7 +2054,8 @@ Gloss labial bioativo home care com ação booster, indicado para hidratação, 
   "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
-  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+  "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
 }
 ```
 
@@ -2139,6 +2184,8 @@ Tratamento home care para cílios em formato de rímel, indicado para fortalecim
   "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/rimel-bioativo-8ml?_pos=1&_psq=r%C3%ADmel&_ss=e&_v=1.0",
   "campo_origem_link_individual_produto": "site_url",
+  "link_source": "product_database",
+  "link_is_generated": false,
   "link_site": "https://lakma.com.br/products/rimel-bioativo-8ml?_pos=1&_psq=r%C3%ADmel&_ss=e&_v=1.0",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
@@ -2146,7 +2193,8 @@ Tratamento home care para cílios em formato de rímel, indicado para fortalecim
   "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
-  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+  "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
 }
 ```
 
@@ -2272,6 +2320,8 @@ Esfoliante home care para rosto e lábios, indicado para renovação suave, remo
   "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/esfoliante-facial-e-labial-30g?_pos=1&_psq=esfoliante&_ss=e&_v=1.0",
   "campo_origem_link_individual_produto": "site_url",
+  "link_source": "product_database",
+  "link_is_generated": false,
   "link_site": "https://lakma.com.br/products/esfoliante-facial-e-labial-30g?_pos=1&_psq=esfoliante&_ss=e&_v=1.0",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
@@ -2279,7 +2329,8 @@ Esfoliante home care para rosto e lábios, indicado para renovação suave, remo
   "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
-  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+  "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
 }
 ```
 
@@ -2419,6 +2470,8 @@ Espuma de limpeza facial home care para uso diário, indicada para remover impur
   "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/espuma-de-limpeza?_pos=1&_psq=espuma+de+limpeza&_ss=e&_v=1.0",
   "campo_origem_link_individual_produto": "site_url",
+  "link_source": "product_database",
+  "link_is_generated": false,
   "link_site": "https://lakma.com.br/products/espuma-de-limpeza?_pos=1&_psq=espuma+de+limpeza&_ss=e&_v=1.0",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
@@ -2426,7 +2479,8 @@ Espuma de limpeza facial home care para uso diário, indicada para remover impur
   "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
-  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+  "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
 }
 ```
 
@@ -2571,6 +2625,8 @@ Máscara facial hidratante com ação refrescante, indicada para hidratar, suavi
   "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/mascara-hidratante-de-pepino-pele-oleosa?_pos=1&_sid=e309c92f3&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
+  "link_source": "product_database",
+  "link_is_generated": false,
   "link_site": "https://lakma.com.br/products/mascara-hidratante-de-pepino-pele-oleosa?_pos=1&_sid=e309c92f3&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
@@ -2578,7 +2634,8 @@ Máscara facial hidratante com ação refrescante, indicada para hidratar, suavi
   "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
-  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+  "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
 }
 ```
 
@@ -2718,6 +2775,8 @@ Creme facial antissinais home care com Nano Coenzima Q10 e Nano Vitamina E, indi
   "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/creme-antissinais-q10-facial-rejuvenescedor?_pos=1&_sid=0b9a15e5b&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
+  "link_source": "product_database",
+  "link_is_generated": false,
   "link_site": "https://lakma.com.br/products/creme-antissinais-q10-facial-rejuvenescedor?_pos=1&_sid=0b9a15e5b&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
@@ -2725,7 +2784,8 @@ Creme facial antissinais home care com Nano Coenzima Q10 e Nano Vitamina E, indi
   "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
-  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+  "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
 }
 ```
 
@@ -2865,6 +2925,8 @@ Creme facial hidratante home care com Nano Ácido Hialurônico e Nano Vitamina E
   "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/creme-de-acido-hialuronico-facial-hidratante?_pos=1&_psq=hialuro&_ss=e&_v=1.0",
   "campo_origem_link_individual_produto": "site_url",
+  "link_source": "product_database",
+  "link_is_generated": false,
   "link_site": "https://lakma.com.br/products/creme-de-acido-hialuronico-facial-hidratante?_pos=1&_psq=hialuro&_ss=e&_v=1.0",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
@@ -2872,7 +2934,8 @@ Creme facial hidratante home care com Nano Ácido Hialurônico e Nano Vitamina E
   "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
-  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+  "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
 }
 ```
 
@@ -3013,6 +3076,8 @@ Chá solúvel sabor limão para rotina de bem-estar, com proposta detox, leveza,
   "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/esbeltea-cha-soluvel?_pos=1&_sid=7d5b0a2d1&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
+  "link_source": "product_database",
+  "link_is_generated": false,
   "link_site": "https://lakma.com.br/products/esbeltea-cha-soluvel?_pos=1&_sid=7d5b0a2d1&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
@@ -3020,7 +3085,8 @@ Chá solúvel sabor limão para rotina de bem-estar, com proposta detox, leveza,
   "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
-  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+  "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
 }
 ```
 
@@ -3162,6 +3228,8 @@ Suplemento em cápsulas com blend de chás, fibras e extratos vegetais, indicado
   "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/esbeltea-cha-seca-barriga-cha-detox-em-capsulas-60un?_pos=2&_sid=7d5b0a2d1&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
+  "link_source": "product_database",
+  "link_is_generated": false,
   "link_site": "https://lakma.com.br/products/esbeltea-cha-seca-barriga-cha-detox-em-capsulas-60un?_pos=2&_sid=7d5b0a2d1&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
@@ -3169,7 +3237,8 @@ Suplemento em cápsulas com blend de chás, fibras e extratos vegetais, indicado
   "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
-  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+  "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
 }
 ```
 
@@ -3322,6 +3391,8 @@ Produto corporal profissional com ação térmica e lipolítica, indicado para p
   "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/sal-termico-lipolitico-500g?_pos=1&_sid=927df9fcc&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
+  "link_source": "product_database",
+  "link_is_generated": false,
   "link_site": "https://lakma.com.br/products/sal-termico-lipolitico-500g?_pos=1&_sid=927df9fcc&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
@@ -3329,7 +3400,8 @@ Produto corporal profissional com ação térmica e lipolítica, indicado para p
   "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
-  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+  "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
 }
 ```
 
@@ -3472,6 +3544,8 @@ Kit com 3 máscaras faciais finalizadoras para hidratação, viço, luminosidade
   "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/kit-3-mascaras-tropicalia-frutas-colageno-vitamina-c-e-acido-hialuronico?_pos=1&_sid=56edf1a9d&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
+  "link_source": "product_database",
+  "link_is_generated": false,
   "link_site": "https://lakma.com.br/products/kit-3-mascaras-tropicalia-frutas-colageno-vitamina-c-e-acido-hialuronico?_pos=1&_sid=56edf1a9d&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
@@ -3479,7 +3553,8 @@ Kit com 3 máscaras faciais finalizadoras para hidratação, viço, luminosidade
   "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
-  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+  "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
 }
 ```
 
@@ -3622,6 +3697,8 @@ Kit labial home care com esfoliante e tratamento hidratante/nutritivo, indicado 
   "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/dolce-lips-dolce-peel-labial?_pos=2&_sid=49466bc8e&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
+  "link_source": "product_database",
+  "link_is_generated": false,
   "link_site": "https://lakma.com.br/products/dolce-lips-dolce-peel-labial?_pos=2&_sid=49466bc8e&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
@@ -3629,7 +3706,8 @@ Kit labial home care com esfoliante e tratamento hidratante/nutritivo, indicado 
   "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
-  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+  "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
 }
 ```
 
@@ -3770,6 +3848,8 @@ Indicar para clientes que buscam uma rotina labial simples com esfoliação e hi
   "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/oleo-de-massagem?_pos=1&_sid=1b7efcfc1&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
+  "link_source": "product_database",
+  "link_is_generated": false,
   "link_site": "https://lakma.com.br/products/oleo-de-massagem?_pos=1&_sid=1b7efcfc1&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
@@ -3777,7 +3857,8 @@ Indicar para clientes que buscam uma rotina labial simples com esfoliação e hi
   "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
-  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+  "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
 }
 ```
 
@@ -3916,6 +3997,8 @@ Kit corporal profissional de lipoplastia não invasiva em 3 etapas, indicado par
   "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/kit-venus-de-lipoplastia?_pos=1&_sid=7a228ca1f&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
+  "link_source": "product_database",
+  "link_is_generated": false,
   "link_site": "https://lakma.com.br/products/kit-venus-de-lipoplastia?_pos=1&_sid=7a228ca1f&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
@@ -3923,7 +4006,8 @@ Kit corporal profissional de lipoplastia não invasiva em 3 etapas, indicado par
   "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
-  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+  "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
 }
 ```
 
@@ -4073,6 +4157,8 @@ Peeling profissional facial para renovação celular, clareamento, uniformizaç�
   "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/peeling-de-cristal-liquido-retinol-30ml?_pos=1&_sid=0edd2d86f&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
+  "link_source": "product_database",
+  "link_is_generated": false,
   "link_site": "https://lakma.com.br/products/peeling-de-cristal-liquido-retinol-30ml?_pos=1&_sid=0edd2d86f&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
@@ -4080,7 +4166,8 @@ Peeling profissional facial para renovação celular, clareamento, uniformizaç�
   "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
-  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+  "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
 }
 ```
 
@@ -4226,6 +4313,8 @@ Máscara facial calmante profissional, indicada para acalmar, hidratar, suavizar
   "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/mascara-calmante-500gr?_pos=2&_sid=06389087d&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
+  "link_source": "product_database",
+  "link_is_generated": false,
   "link_site": "https://lakma.com.br/products/mascara-calmante-500gr?_pos=2&_sid=06389087d&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
@@ -4233,7 +4322,8 @@ Máscara facial calmante profissional, indicada para acalmar, hidratar, suavizar
   "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
-  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+  "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
 }
 ```
 
@@ -4393,6 +4483,8 @@ Sérum facial calmante para peles sensíveis, irritáveis, reativas, com vermelh
   "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/neuroplasma-ultra-calmante-pos-laser-e-procedimentos-50ml?_pos=3&_psq=calman&_ss=e&_v=1.0",
   "campo_origem_link_individual_produto": "site_url",
+  "link_source": "product_database",
+  "link_is_generated": false,
   "link_site": "https://lakma.com.br/products/neuroplasma-ultra-calmante-pos-laser-e-procedimentos-50ml?_pos=3&_psq=calman&_ss=e&_v=1.0",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
@@ -4400,7 +4492,8 @@ Sérum facial calmante para peles sensíveis, irritáveis, reativas, com vermelh
   "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
-  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+  "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
 }
 ```
 
@@ -4547,6 +4640,8 @@ Loção facial profissional de limpeza desengordurante com Ácido Glicólico e N
   "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/locao-ozonizada-200ml?_pos=1&_sid=c585f5ad1&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
+  "link_source": "product_database",
+  "link_is_generated": false,
   "link_site": "https://lakma.com.br/products/locao-ozonizada-200ml?_pos=1&_sid=c585f5ad1&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
@@ -4554,7 +4649,8 @@ Loção facial profissional de limpeza desengordurante com Ácido Glicólico e N
   "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
-  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+  "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
 }
 ```
 
@@ -4695,6 +4791,8 @@ Gel esfoliante corporal profissional para pré-tratamento, indicado para remover
   "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/gel-esfoliante-corporal-ozonizado-1kg?_pos=1&_sid=633454ffc&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
+  "link_source": "product_database",
+  "link_is_generated": false,
   "link_site": "https://lakma.com.br/products/gel-esfoliante-corporal-ozonizado-1kg?_pos=1&_sid=633454ffc&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
@@ -4702,7 +4800,8 @@ Gel esfoliante corporal profissional para pré-tratamento, indicado para remover
   "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
-  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+  "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
 }
 ```
 
@@ -4857,6 +4956,8 @@ Kit profissional com mesclas estéreis de uso único para protocolos noturnos de
   "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/kit-booster-fibras-reticulares?_pos=1&_sid=266082018&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
+  "link_source": "product_database",
+  "link_is_generated": false,
   "link_site": "https://lakma.com.br/products/kit-booster-fibras-reticulares?_pos=1&_sid=266082018&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
@@ -4864,7 +4965,8 @@ Kit profissional com mesclas estéreis de uso único para protocolos noturnos de
   "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
-  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+  "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
 }
 ```
 
@@ -5019,6 +5121,8 @@ Kit corporal profissional detox para cabine, indicado para protocolos de drenage
   "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/esbeltea-detox?_pos=1&_sid=3f9884a06&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
+  "link_source": "product_database",
+  "link_is_generated": false,
   "link_site": "https://lakma.com.br/products/esbeltea-detox?_pos=1&_sid=3f9884a06&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
@@ -5026,7 +5130,8 @@ Kit corporal profissional detox para cabine, indicado para protocolos de drenage
   "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
-  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+  "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
 }
 ```
 
@@ -5184,6 +5289,8 @@ Gel corporal crioterápico profissional com efeito frio e ação refrescante, in
   "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/criogel-1kg?_pos=1&_sid=82ecdae3f&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
+  "link_source": "product_database",
+  "link_is_generated": false,
   "link_site": "https://lakma.com.br/products/criogel-1kg?_pos=1&_sid=82ecdae3f&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
@@ -5191,7 +5298,8 @@ Gel corporal crioterápico profissional com efeito frio e ação refrescante, in
   "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
-  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+  "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
 }
 ```
 
@@ -5348,6 +5456,8 @@ Gel corporal profissional bioestimulante e condutor, indicado para protocolos dr
   "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/gel-bioestimulante-1kg?_pos=1&_sid=0114635cb&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
+  "link_source": "product_database",
+  "link_is_generated": false,
   "link_site": "https://lakma.com.br/products/gel-bioestimulante-1kg?_pos=1&_sid=0114635cb&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
@@ -5355,7 +5465,8 @@ Gel corporal profissional bioestimulante e condutor, indicado para protocolos dr
   "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
-  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+  "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
 }
 ```
 
@@ -5500,6 +5611,8 @@ Gel corporal termoativado profissional com efeito de aquecimento, indicado para 
   "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/gel-termoativado-1kg?_pos=1&_sid=143e44dd4&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
+  "link_source": "product_database",
+  "link_is_generated": false,
   "link_site": "https://lakma.com.br/products/gel-termoativado-1kg?_pos=1&_sid=143e44dd4&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
@@ -5507,7 +5620,8 @@ Gel corporal termoativado profissional com efeito de aquecimento, indicado para 
   "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
-  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+  "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
 }
 ```
 
@@ -5671,6 +5785,8 @@ Kit corporal com fluido/spray e creme, indicado para cuidados corporais com foco
   "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/kit-booster-mitocondrial-esbeltea-creme-900g-fluido-300ml-para-detox?_pos=1&_sid=76c4d2dc4&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
+  "link_source": "product_database",
+  "link_is_generated": false,
   "link_site": "https://lakma.com.br/products/kit-booster-mitocondrial-esbeltea-creme-900g-fluido-300ml-para-detox?_pos=1&_sid=76c4d2dc4&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
@@ -5678,7 +5794,8 @@ Kit corporal com fluido/spray e creme, indicado para cuidados corporais com foco
   "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
-  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+  "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
 }
 ```
 
@@ -5821,6 +5938,8 @@ Tratamento labial hidratante e nutritivo, indicado para lábios ressecados, ásp
   "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/dolce-lips-10gr?_pos=3&_sid=5437e421c&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
+  "link_source": "product_database",
+  "link_is_generated": false,
   "link_site": "https://lakma.com.br/products/dolce-lips-10gr?_pos=3&_sid=5437e421c&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
@@ -5828,7 +5947,8 @@ Tratamento labial hidratante e nutritivo, indicado para lábios ressecados, ásp
   "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
-  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+  "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
 }
 ```
 
@@ -5962,6 +6082,8 @@ Produto profissional para massagem facial, indicado para protocolos de deslizame
   "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/masso-divine-massagem-facial-250g?_pos=1&_sid=8c2d863a0&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
+  "link_source": "product_database",
+  "link_is_generated": false,
   "link_site": "https://lakma.com.br/products/masso-divine-massagem-facial-250g?_pos=1&_sid=8c2d863a0&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
@@ -5969,7 +6091,8 @@ Produto profissional para massagem facial, indicado para protocolos de deslizame
   "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
-  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+  "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
 }
 ```
 
@@ -6117,6 +6240,8 @@ Kit profissional com 3 máscaras faciais finalizadoras premium, indicado para hi
   "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/kit-joias-raras?_pos=1&_sid=cc2e24439&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
+  "link_source": "product_database",
+  "link_is_generated": false,
   "link_site": "https://lakma.com.br/products/kit-joias-raras?_pos=1&_sid=cc2e24439&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
@@ -6124,7 +6249,8 @@ Kit profissional com 3 máscaras faciais finalizadoras premium, indicado para hi
   "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
-  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+  "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
 }
 ```
 
@@ -6274,6 +6400,8 @@ Creme emoliente facial profissional, indicado para emoliência de cravos, comed�
   "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/emoliente-de-cravos-250gr?_pos=1&_sid=3dbce4669&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
+  "link_source": "product_database",
+  "link_is_generated": false,
   "link_site": "https://lakma.com.br/products/emoliente-de-cravos-250gr?_pos=1&_sid=3dbce4669&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
@@ -6281,7 +6409,8 @@ Creme emoliente facial profissional, indicado para emoliência de cravos, comed�
   "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
-  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+  "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
 }
 ```
 
@@ -6433,6 +6562,8 @@ Sérum facial multifuncional com ação clareadora, rejuvenescedora, hidratante 
   "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/nano-drone-clareador-rejuvenescedor-hidratante-30ml?_pos=1&_sid=b4eaa40f4&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
+  "link_source": "product_database",
+  "link_is_generated": false,
   "link_site": "https://lakma.com.br/products/nano-drone-clareador-rejuvenescedor-hidratante-30ml?_pos=1&_sid=b4eaa40f4&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
@@ -6440,7 +6571,8 @@ Sérum facial multifuncional com ação clareadora, rejuvenescedora, hidratante 
   "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
-  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+  "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
 }
 ```
 
@@ -6595,6 +6727,8 @@ Protetor solar facial FPS 30 com Vitamina E, indicado para proteção UVA/UVB, p
   "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/ideal-protect-protetor-solar-50gr?_pos=1&_sid=30aa08e72&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
+  "link_source": "product_database",
+  "link_is_generated": false,
   "link_site": "https://lakma.com.br/products/ideal-protect-protetor-solar-50gr?_pos=1&_sid=30aa08e72&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
@@ -6602,7 +6736,8 @@ Protetor solar facial FPS 30 com Vitamina E, indicado para proteção UVA/UVB, p
   "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
-  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+  "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
 }
 ```
 
@@ -6766,6 +6901,8 @@ Peeling químico profissional com Ácido Glicólico, indicado para renovação c
   "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/peeling-rejuvenescedor-50ml?_pos=1&_sid=b70efd411&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
+  "link_source": "product_database",
+  "link_is_generated": false,
   "link_site": "https://lakma.com.br/products/peeling-rejuvenescedor-50ml?_pos=1&_sid=b70efd411&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
@@ -6773,7 +6910,8 @@ Peeling químico profissional com Ácido Glicólico, indicado para renovação c
   "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
-  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+  "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
 }
 ```
 
@@ -6917,6 +7055,8 @@ Loção tônica facial para tonificação, controle de pH, frescor e remoção d
   "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/locao-tonica-200ml?_pos=1&_sid=8de5c51f8&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
+  "link_source": "product_database",
+  "link_is_generated": false,
   "link_site": "https://lakma.com.br/products/locao-tonica-200ml?_pos=1&_sid=8de5c51f8&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
@@ -6924,7 +7064,8 @@ Loção tônica facial para tonificação, controle de pH, frescor e remoção d
   "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
-  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+  "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
 }
 ```
 
@@ -7083,6 +7224,8 @@ Booster facial profissional com foco em colágeno, elastina, firmeza, hidrataç�
   "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/booster-colageno-50ml?_pos=1&_sid=3164bec58&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
+  "link_source": "product_database",
+  "link_is_generated": false,
   "link_site": "https://lakma.com.br/products/booster-colageno-50ml?_pos=1&_sid=3164bec58&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
@@ -7090,7 +7233,8 @@ Booster facial profissional com foco em colágeno, elastina, firmeza, hidrataç�
   "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
-  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+  "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
 }
 ```
 
@@ -7245,6 +7389,8 @@ Creme corporal profissional neutro para massagem, indicado para alto deslizament
   "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/creme-de-massagem-neutro-1kg?_pos=1&_sid=3277b35f1&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
+  "link_source": "product_database",
+  "link_is_generated": false,
   "link_site": "https://lakma.com.br/products/creme-de-massagem-neutro-1kg?_pos=1&_sid=3277b35f1&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
@@ -7252,7 +7398,8 @@ Creme corporal profissional neutro para massagem, indicado para alto deslizament
   "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
-  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+  "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
 }
 ```
 
@@ -7399,6 +7546,8 @@ Fluido/tônico home care para fios, indicado para auxiliar no crescimento, forta
   "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/perfect-growth-crescimento-de-cabelo-braba-e-sobrancelha-50ml?_pos=1&_sid=848eab35d&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
+  "link_source": "product_database",
+  "link_is_generated": false,
   "link_site": "https://lakma.com.br/products/perfect-growth-crescimento-de-cabelo-braba-e-sobrancelha-50ml?_pos=1&_sid=848eab35d&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
@@ -7406,7 +7555,8 @@ Fluido/tônico home care para fios, indicado para auxiliar no crescimento, forta
   "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
-  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+  "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
 }
 ```
 
@@ -7549,6 +7699,8 @@ Máscara facial calmante profissional, indicada para acalmar, hidratar, suavizar
   "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/mascara-calmante-250gr?_pos=1&_sid=861decedf&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
+  "link_source": "product_database",
+  "link_is_generated": false,
   "link_site": "https://lakma.com.br/products/mascara-calmante-250gr?_pos=1&_sid=861decedf&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
@@ -7556,7 +7708,8 @@ Máscara facial calmante profissional, indicada para acalmar, hidratar, suavizar
   "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
-  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+  "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
 }
 ```
 
@@ -7723,6 +7876,8 @@ Fluido revitalizante facial com Ureia, indicado para hidratação profunda, recu
   "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/fluido-passo-1-ureia-50ml?_pos=1&_sid=12378b763&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
+  "link_source": "product_database",
+  "link_is_generated": false,
   "link_site": "https://lakma.com.br/products/fluido-passo-1-ureia-50ml?_pos=1&_sid=12378b763&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
@@ -7730,7 +7885,8 @@ Fluido revitalizante facial com Ureia, indicado para hidratação profunda, recu
   "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
-  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+  "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
 }
 ```
 
@@ -7879,6 +8035,8 @@ Kit corporal profissional ozonizado com 3 etapas para preparo, massagem e finali
   "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/kit-ozonio-premium-corporal?_pos=1&_sid=ecdf2ef25&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
+  "link_source": "product_database",
+  "link_is_generated": false,
   "link_site": "https://lakma.com.br/products/kit-ozonio-premium-corporal?_pos=1&_sid=ecdf2ef25&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
@@ -7886,7 +8044,8 @@ Kit corporal profissional ozonizado com 3 etapas para preparo, massagem e finali
   "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
-  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+  "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
 }
 ```
 
@@ -8055,6 +8214,8 @@ Creme corporal profissional para massagem estética, indicado para alto deslizam
   "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/creme-de-massagem-7-ativos-1-kg?_pos=1&_sid=ec61753f2&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
+  "link_source": "product_database",
+  "link_is_generated": false,
   "link_site": "https://lakma.com.br/products/creme-de-massagem-7-ativos-1-kg?_pos=1&_sid=ec61753f2&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
@@ -8062,7 +8223,8 @@ Creme corporal profissional para massagem estética, indicado para alto deslizam
   "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
-  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+  "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
 }
 ```
 
@@ -8227,6 +8389,8 @@ Esfoliante labial home care, indicado para lábios ressecados, ásperos, opacos 
   "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/dolce-peel-10gr?_pos=1&_sid=557a2fe70&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
+  "link_source": "product_database",
+  "link_is_generated": false,
   "link_site": "https://lakma.com.br/products/dolce-peel-10gr?_pos=1&_sid=557a2fe70&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
@@ -8234,7 +8398,8 @@ Esfoliante labial home care, indicado para lábios ressecados, ásperos, opacos 
   "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
-  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+  "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
 }
 ```
 
@@ -8376,6 +8541,8 @@ Body splash corporal home care, indicado para finalização corporal, perfumaç�
   "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/body-splash-firmador-corporal-300ml?_pos=1&_sid=7c2587a80&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
+  "link_source": "product_database",
+  "link_is_generated": false,
   "link_site": "https://lakma.com.br/products/body-splash-firmador-corporal-300ml?_pos=1&_sid=7c2587a80&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
@@ -8383,7 +8550,8 @@ Body splash corporal home care, indicado para finalização corporal, perfumaç�
   "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
-  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+  "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
 }
 ```
 
@@ -8522,6 +8690,8 @@ Booster profissional em ampolas com Vitamina C 100% nanoencapsulada e ozonizada,
   "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/booster-c100-vitamina-c-100-pura?_pos=1&_sid=40a87e8d0&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
+  "link_source": "product_database",
+  "link_is_generated": false,
   "link_site": "https://lakma.com.br/products/booster-c100-vitamina-c-100-pura?_pos=1&_sid=40a87e8d0&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
@@ -8529,7 +8699,8 @@ Booster profissional em ampolas com Vitamina C 100% nanoencapsulada e ozonizada,
   "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
-  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+  "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
 }
 ```
 
@@ -8681,6 +8852,8 @@ Fluido revitalizante facial com foco em colágeno, elastina, firmeza, rejuvenesc
   "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/fluido-passo-3-colageno-50ml?_pos=1&_sid=7ee7cabd2&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
+  "link_source": "product_database",
+  "link_is_generated": false,
   "link_site": "https://lakma.com.br/products/fluido-passo-3-colageno-50ml?_pos=1&_sid=7ee7cabd2&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
@@ -8688,7 +8861,8 @@ Fluido revitalizante facial com foco em colágeno, elastina, firmeza, rejuvenesc
   "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
-  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+  "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
 }
 ```
 
@@ -8838,6 +9012,8 @@ Kit com 4 argilas prontas em creme, indicado para personalizar protocolos faciai
   "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/kit-terras-do-brasil-argilas-facial-em-creme?_pos=1&_sid=5402f47c7&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
+  "link_source": "product_database",
+  "link_is_generated": false,
   "link_site": "https://lakma.com.br/products/kit-terras-do-brasil-argilas-facial-em-creme?_pos=1&_sid=5402f47c7&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
@@ -8845,7 +9021,8 @@ Kit com 4 argilas prontas em creme, indicado para personalizar protocolos faciai
   "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
-  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+  "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
 }
 ```
 
@@ -9004,6 +9181,8 @@ Creme corporal profissional de massagem ozonizado, indicado para drenagem linfá
   "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/creme-de-massagem-ozonizado-900g?_pos=1&_sid=50477e7eb&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
+  "link_source": "product_database",
+  "link_is_generated": false,
   "link_site": "https://lakma.com.br/products/creme-de-massagem-ozonizado-900g?_pos=1&_sid=50477e7eb&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
@@ -9011,7 +9190,8 @@ Creme corporal profissional de massagem ozonizado, indicado para drenagem linfá
   "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
-  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+  "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
 }
 ```
 
@@ -9179,6 +9359,8 @@ Sabonete líquido facial para higienização, remoção de impurezas, controle d
   "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/sabonete-liquido-facial-250ml?_pos=1&_sid=e71294b11&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
+  "link_source": "product_database",
+  "link_is_generated": false,
   "link_site": "https://lakma.com.br/products/sabonete-liquido-facial-250ml?_pos=1&_sid=e71294b11&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
@@ -9186,7 +9368,8 @@ Sabonete líquido facial para higienização, remoção de impurezas, controle d
   "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
-  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+  "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
 }
 ```
 
@@ -9345,6 +9528,8 @@ Sabonete facial com Ácido Glicólico, indicado para higienização com ação r
   "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/sabonete-de-acido-glicolico-150ml?_pos=1&_sid=2f97aa27a&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
+  "link_source": "product_database",
+  "link_is_generated": false,
   "link_site": "https://lakma.com.br/products/sabonete-de-acido-glicolico-150ml?_pos=1&_sid=2f97aa27a&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
@@ -9352,7 +9537,8 @@ Sabonete facial com Ácido Glicólico, indicado para higienização com ação r
   "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
-  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+  "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
 }
 ```
 
@@ -9515,6 +9701,8 @@ Máscara facial hidratante e nutritiva, indicada para hidratação profunda, nut
   "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/mascara-brownie-de-chocolate-hidratacao-profunda-150gr?_pos=1&_sid=5a64b5ef8&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
+  "link_source": "product_database",
+  "link_is_generated": false,
   "link_site": "https://lakma.com.br/products/mascara-brownie-de-chocolate-hidratacao-profunda-150gr?_pos=1&_sid=5a64b5ef8&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
@@ -9522,7 +9710,8 @@ Máscara facial hidratante e nutritiva, indicada para hidratação profunda, nut
   "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
-  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+  "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
 }
 ```
 
@@ -9672,6 +9861,8 @@ Gel roll-on para olheiras, indicado para contorno dos olhos, olheiras pigmentada
   "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/nanohydrat-roll-para-olheiras-15ml?_pos=1&_sid=17dd3224b&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
+  "link_source": "product_database",
+  "link_is_generated": false,
   "link_site": "https://lakma.com.br/products/nanohydrat-roll-para-olheiras-15ml?_pos=1&_sid=17dd3224b&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
@@ -9679,7 +9870,8 @@ Gel roll-on para olheiras, indicado para contorno dos olhos, olheiras pigmentada
   "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
-  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+  "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
 }
 ```
 
@@ -9828,6 +10020,8 @@ Fluido secativo facial para peles oleosas e acneicas, indicado para ação secat
   "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/fluido-secativo-melaleuca-para-acne-50ml?_pos=1&_sid=b08c5f760&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
+  "link_source": "product_database",
+  "link_is_generated": false,
   "link_site": "https://lakma.com.br/products/fluido-secativo-melaleuca-para-acne-50ml?_pos=1&_sid=b08c5f760&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
@@ -9835,7 +10029,8 @@ Fluido secativo facial para peles oleosas e acneicas, indicado para ação secat
   "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
-  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+  "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
 }
 ```
 
@@ -9987,6 +10182,8 @@ Esfoliante facial para renovação, preparo da pele, remoção de células morta
   "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/esfoliante-facial-250ml?_pos=1&_sid=6964d0934&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
+  "link_source": "product_database",
+  "link_is_generated": false,
   "link_site": "https://lakma.com.br/products/esfoliante-facial-250ml?_pos=1&_sid=6964d0934&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
@@ -9994,7 +10191,8 @@ Esfoliante facial para renovação, preparo da pele, remoção de células morta
   "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
-  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+  "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
 }
 ```
 
@@ -10148,6 +10346,8 @@ Peeling químico profissional clareador, indicado para clareamento de manchas, h
   "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/peeling-bio-complex-clareador-50ml?_pos=1&_sid=3b6d9d823&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
+  "link_source": "product_database",
+  "link_is_generated": false,
   "link_site": "https://lakma.com.br/products/peeling-bio-complex-clareador-50ml?_pos=1&_sid=3b6d9d823&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
@@ -10155,7 +10355,8 @@ Peeling químico profissional clareador, indicado para clareamento de manchas, h
   "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
-  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+  "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
 }
 ```
 
@@ -10310,6 +10511,8 @@ Emoliente facial profissional para limpeza de pele, indicado para amolecer cravo
   "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/emoliente-de-cravos-250gr?_pos=1&_sid=9b5e6289b&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
+  "link_source": "product_database",
+  "link_is_generated": false,
   "link_site": "https://lakma.com.br/products/emoliente-de-cravos-250gr?_pos=1&_sid=9b5e6289b&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
@@ -10317,7 +10520,8 @@ Emoliente facial profissional para limpeza de pele, indicado para amolecer cravo
   "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
-  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+  "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
 }
 ```
 
@@ -10477,6 +10681,8 @@ Creme corporal redutor para massagem, indicado para protocolos profissionais de 
   "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/creme-de-massagem-10-ativos-900g?_pos=1&_sid=96328ab85&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
+  "link_source": "product_database",
+  "link_is_generated": false,
   "link_site": "https://lakma.com.br/products/creme-de-massagem-10-ativos-900g?_pos=1&_sid=96328ab85&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
@@ -10484,7 +10690,8 @@ Creme corporal redutor para massagem, indicado para protocolos profissionais de 
   "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
-  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+  "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
 }
 ```
 
@@ -10641,6 +10848,8 @@ Loção profissional neutralizante, indicada para controlar ou interromper a aç
   "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/solucao-neutralizante-50ml?_pos=1&_sid=11920c378&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
+  "link_source": "product_database",
+  "link_is_generated": false,
   "link_site": "https://lakma.com.br/products/solucao-neutralizante-50ml?_pos=1&_sid=11920c378&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
@@ -10648,7 +10857,8 @@ Loção profissional neutralizante, indicada para controlar ou interromper a aç
   "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
-  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+  "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
 }
 ```
 
@@ -10800,6 +11010,8 @@ Máscara facial hidratante e revitalizante com efeito dourado, indicada para hid
   "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/mascara-ouro-rejuvenescedora-150gr?_pos=1&_sid=7b0b04bfc&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
+  "link_source": "product_database",
+  "link_is_generated": false,
   "link_site": "https://lakma.com.br/products/mascara-ouro-rejuvenescedora-150gr?_pos=1&_sid=7b0b04bfc&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
@@ -10807,7 +11019,8 @@ Máscara facial hidratante e revitalizante com efeito dourado, indicada para hid
   "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
-  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+  "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
 }
 ```
 
@@ -10971,6 +11184,8 @@ Sérum facial com fator de crescimento e peptídeos, indicado para firmeza, revi
   "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/melange-especial-fator-de-crescimento-para-microagulhamento-50ml?_pos=1&_sid=e3164b646&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
+  "link_source": "product_database",
+  "link_is_generated": false,
   "link_site": "https://lakma.com.br/products/melange-especial-fator-de-crescimento-para-microagulhamento-50ml?_pos=1&_sid=e3164b646&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
@@ -10978,7 +11193,8 @@ Sérum facial com fator de crescimento e peptídeos, indicado para firmeza, revi
   "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
-  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+  "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
 }
 ```
 
@@ -11140,6 +11356,8 @@ Fluido dermocosmético regenerador facial e corporal, indicado para melhorar a a
   "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/neuroplasma-nutri-complex-para-cicatriz-a-acne-e-estrias-50ml?_pos=2&_sid=06b71ae8f&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
+  "link_source": "product_database",
+  "link_is_generated": false,
   "link_site": "https://lakma.com.br/products/neuroplasma-nutri-complex-para-cicatriz-a-acne-e-estrias-50ml?_pos=2&_sid=06b71ae8f&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
@@ -11147,7 +11365,8 @@ Fluido dermocosmético regenerador facial e corporal, indicado para melhorar a a
   "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
-  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+  "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
 }
 ```
 
@@ -11300,6 +11519,8 @@ Máscara facial em pó de Argila Verde 100%, indicada para peles normais, oleosa
   "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/argila-verde-150gr?_pos=1&_sid=d2cd41c2a&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
+  "link_source": "product_database",
+  "link_is_generated": false,
   "link_site": "https://lakma.com.br/products/argila-verde-150gr?_pos=1&_sid=d2cd41c2a&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
@@ -11307,7 +11528,8 @@ Máscara facial em pó de Argila Verde 100%, indicada para peles normais, oleosa
   "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
-  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+  "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
 }
 ```
 
@@ -11477,6 +11699,8 @@ Kit profissional de peelings clareadores para protocolos de clareamento, manchas
   "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/kit-acidos-sem-misterios-clareamento-de-manchas?_pos=1&_sid=5200ce86c&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
+  "link_source": "product_database",
+  "link_is_generated": false,
   "link_site": "https://lakma.com.br/products/kit-acidos-sem-misterios-clareamento-de-manchas?_pos=1&_sid=5200ce86c&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
@@ -11484,7 +11708,8 @@ Kit profissional de peelings clareadores para protocolos de clareamento, manchas
   "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
-  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+  "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
 }
 ```
 
@@ -11646,6 +11871,8 @@ Máscara facial em gel prebiótica e detox, indicada para equilíbrio da microbi
   "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/zen-marine-detox-150gr?_pos=1&_sid=6ef45705f&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
+  "link_source": "product_database",
+  "link_is_generated": false,
   "link_site": "https://lakma.com.br/products/zen-marine-detox-150gr?_pos=1&_sid=6ef45705f&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
@@ -11653,7 +11880,8 @@ Máscara facial em gel prebiótica e detox, indicada para equilíbrio da microbi
   "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
-  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+  "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
 }
 ```
 
@@ -11813,6 +12041,8 @@ Sérum facial com ação de peeling enzimático clareador e renovador, indicado 
   "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/peeling-enzimatico-de-roma-clareador-60ml?_pos=1&_sid=1bc092cdb&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
+  "link_source": "product_database",
+  "link_is_generated": false,
   "link_site": "https://lakma.com.br/products/peeling-enzimatico-de-roma-clareador-60ml?_pos=1&_sid=1bc092cdb&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
@@ -11820,7 +12050,8 @@ Sérum facial com ação de peeling enzimático clareador e renovador, indicado 
   "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
-  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+  "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
 }
 ```
 
@@ -11973,6 +12204,8 @@ Kit facial Eco Skin com 3 produtos, indicado para limpeza facial express, limpez
   "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/kit-eco-skin-para-dermaplaning?_pos=1&_sid=b9365a88d&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
+  "link_source": "product_database",
+  "link_is_generated": false,
   "link_site": "https://lakma.com.br/products/kit-eco-skin-para-dermaplaning?_pos=1&_sid=b9365a88d&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
@@ -11980,7 +12213,8 @@ Kit facial Eco Skin com 3 produtos, indicado para limpeza facial express, limpez
   "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
-  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+  "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
 }
 ```
 
@@ -12143,6 +12377,8 @@ Kit profissional com 5 fluidos revitalizantes nanotecnológicos e biotecnológic
   "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/kit-fluidos-revitalizantes-para-microagulhamento?_pos=1&_sid=e3adb7d8b&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
+  "link_source": "product_database",
+  "link_is_generated": false,
   "link_site": "https://lakma.com.br/products/kit-fluidos-revitalizantes-para-microagulhamento?_pos=1&_sid=e3adb7d8b&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
@@ -12150,7 +12386,8 @@ Kit profissional com 5 fluidos revitalizantes nanotecnológicos e biotecnológic
   "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
-  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+  "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
 }
 ```
 
@@ -12333,6 +12570,8 @@ Peeling químico profissional secativo, indicado para peles acneicas, cravos, co
   "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/peeling-quimico-secativo-50ml?_pos=1&_sid=60a60c291&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
+  "link_source": "product_database",
+  "link_is_generated": false,
   "link_site": "https://lakma.com.br/products/peeling-quimico-secativo-50ml?_pos=1&_sid=60a60c291&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
@@ -12340,7 +12579,8 @@ Peeling químico profissional secativo, indicado para peles acneicas, cravos, co
   "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
-  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+  "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
 }
 ```
 
@@ -12496,6 +12736,8 @@ Fluido revitalizante facial com Ácido Hialurônico, indicado para hidratação 
   "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/fluido-passo-2-hialuronico-50ml?_pos=1&_sid=4c1d3e80d&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
+  "link_source": "product_database",
+  "link_is_generated": false,
   "link_site": "https://lakma.com.br/products/fluido-passo-2-hialuronico-50ml?_pos=1&_sid=4c1d3e80d&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
@@ -12503,7 +12745,8 @@ Fluido revitalizante facial com Ácido Hialurônico, indicado para hidratação 
   "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
-  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+  "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
 }
 ```
 
@@ -12657,6 +12900,8 @@ Fluido revitalizante facial com Vitamina C 40%, indicado para clareamento, hiper
   "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/fluido-passo-4-vitamina-c-50ml?_pos=1&_sid=976b990d3&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
+  "link_source": "product_database",
+  "link_is_generated": false,
   "link_site": "https://lakma.com.br/products/fluido-passo-4-vitamina-c-50ml?_pos=1&_sid=976b990d3&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
@@ -12664,7 +12909,8 @@ Fluido revitalizante facial com Vitamina C 40%, indicado para clareamento, hiper
   "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
-  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+  "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
 }
 ```
 
@@ -12832,6 +13078,8 @@ Máscara clareadora facial e corporal, indicada para manchas, uniformização do
   "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/mascara-clareadora-30g?_pos=2&_sid=1cf15edab&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
+  "link_source": "product_database",
+  "link_is_generated": false,
   "link_site": "https://lakma.com.br/products/mascara-clareadora-30g?_pos=2&_sid=1cf15edab&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
@@ -12839,7 +13087,8 @@ Máscara clareadora facial e corporal, indicada para manchas, uniformização do
   "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
-  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+  "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
 }
 ```
 
@@ -13002,6 +13251,8 @@ Máscara clareadora facial e corporal em apresentação menor, indicada para man
   "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/mascara-clareadora-10g?_pos=1&_sid=1cf15edab&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
+  "link_source": "product_database",
+  "link_is_generated": false,
   "link_site": "https://lakma.com.br/products/mascara-clareadora-10g?_pos=1&_sid=1cf15edab&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
@@ -13009,7 +13260,8 @@ Máscara clareadora facial e corporal em apresentação menor, indicada para man
   "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
-  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+  "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
 }
 ```
 
@@ -13167,6 +13419,8 @@ Kit profissional facial para limpeza de pele, com 5 produtos para higienização
   "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/kit-limpeza-de-pele?_pos=1&_sid=422b7e433&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
+  "link_source": "product_database",
+  "link_is_generated": false,
   "link_site": "https://lakma.com.br/products/kit-limpeza-de-pele?_pos=1&_sid=422b7e433&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
@@ -13174,7 +13428,8 @@ Kit profissional facial para limpeza de pele, com 5 produtos para higienização
   "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
-  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+  "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
 }
 ```
 
