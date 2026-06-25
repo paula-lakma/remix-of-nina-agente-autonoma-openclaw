@@ -1,49 +1,52 @@
-## Causa raiz
+## Confirmação importante
 
-A passada de segurança anterior trancou `nina_settings` em admin-only (SELECT e ALL). O usuário do onboarding (`teste@teste.com`) não é admin — o trigger `handle_new_user` só promove o **primeiro** usuário cadastrado, e após o remix já existiam roles, então ele virou `user`.
+O `POST /894141783645722/subscribed_apps` retornou `{"success": true}` ✅ — o app **Lakma Wpp** agora está inscrito no WABA. Esse era o elo que faltava.
 
-Fluxo do erro em `OnboardingWizard.savePartialSettings()`:
-1. `SELECT * FROM nina_settings` retorna `null` (RLS bloqueia silenciosamente).
-2. `existing = null` → wizard cai no caminho **INSERT**.
-3. INSERT falha: `new row violates row-level security policy for table "nina_settings"`.
+Porém: a tabela `messages` continua **vazia** e a função `whatsapp-webhook` **ainda não recebeu nenhum POST** desde a inscrição. Isso é esperado — Meta só envia eventos a partir do **próximo** evento gerado após a inscrição. Eventos anteriores não são reenviados.
 
-## Decisão
+## Próximos passos (na ordem)
 
-Voltar `nina_settings` ao padrão **single-tenant** do projeto, igual `contacts`, `deals`, `appointments`, `conversations`, `messages` — todas com policy `auth.role() = 'authenticated'`. O project-knowledge confirma explicitamente esse modelo. Manter admin-only em uma única tabela cria inconsistência arquitetural e quebra o onboarding para qualquer usuário que não seja o primeiro.
+### 1. Mande uma mensagem de teste agora
 
-## Plano
+Do seu celular pessoal (ou de qualquer outro número), envie um **"oi"** para o número de WhatsApp conectado ao `phone_number_id 1166218746570352`.
 
-### 1. Migration: RLS de `nina_settings`
+### 2. Eu verifico a chegada
 
-```sql
-DROP POLICY IF EXISTS "Admins can modify nina_settings" ON public.nina_settings;
-DROP POLICY IF EXISTS "Admins can read nina_settings"   ON public.nina_settings;
+Assim que você confirmar que enviou, eu rodo:
+- `whatsapp-webhook` logs → procuro o POST com o payload.
+- `SELECT FROM messages` → confirmo o registro.
+- `message-grouper` + `nina-orchestrator` logs → confirmo que a resposta da Nina foi enfileirada.
+- `whatsapp-sender` logs → confirmo o envio de volta ao lead.
 
-CREATE POLICY "Authenticated users can access all nina_settings"
-ON public.nina_settings
-FOR ALL
-TO authenticated
-USING (auth.role() = 'authenticated')
-WITH CHECK (auth.role() = 'authenticated');
+### 3. Se a mensagem ainda não chegar
+
+Verificamos via Graph API (você executa, eu interpreto):
+
+```
+GET https://graph.facebook.com/v22.0/894141783645722/subscribed_apps
+  Authorization: Bearer <seu_token>
 ```
 
-A view `nina_settings_public` permanece intacta — `useCompanySettings` continua usando ela sem mudança.
+A resposta tem que listar o app `Lakma Wpp` com os campos inscritos (precisa conter `messages`). Se vier vazio ou sem `messages`, fazemos:
 
-### 2. Atualizar `security-memory`
+```
+POST https://graph.facebook.com/v22.0/<APP_ID>/subscriptions
+  object=whatsapp_business_account
+  callback_url=https://<seu-projeto>.functions.supabase.co/whatsapp-webhook
+  verify_token=<token>
+  fields=messages,message_template_status_update,messaging_handovers
+```
 
-Registrar que `nina_settings` é intencionalmente compartilhada entre todos os usuários autenticados (single-tenant workspace, mesmo modelo de `contacts`/`deals`/`messages`). Credenciais (`whatsapp_access_token`, `elevenlabs_api_key`) ficam acessíveis a todos os membros — risco aceito.
+### 4. Causa secundária possível (só se nada chegar)
 
-### 3. Marcar finding como `ignore` se reaparecer
+O número `1166218746570352` pode estar:
+- Vinculado a outro app/BSP que está consumindo os eventos (Meta entrega só ao app "dono").
+- Não registrado no Cloud API (precisa `POST /{phone_number_id}/register` com PIN).
 
-Após a migration, o scanner pode reabrir o aviso sobre exposição de credenciais. Vou marcar como `ignore` com a mesma justificativa do project-knowledge.
+Investigamos isso se o teste do passo 1 falhar.
 
-## Riscos
+## O que não vai mudar no código
 
-- Credenciais de WhatsApp/ElevenLabs ficam legíveis para qualquer usuário autenticado. Coerente com o restante do projeto. Se algum dia virar multi-tenant, revisitar.
-- Nenhuma mudança em código frontend, edge functions ou tipos.
+Nada. O backend (`whatsapp-webhook` → `message-grouper` → `nina-orchestrator` → `whatsapp-sender`) está pronto e funcionando. Estamos apenas destravando a entrega do lado Meta.
 
-## Verificação
-
-1. Login com `teste@teste.com`.
-2. Completar etapa do wizard que chama `savePartialSettings`.
-3. Console deve mostrar `[OnboardingWizard] Step 4: Save result` sem erro de RLS.
+**Manda o "oi" agora e me avisa.**
