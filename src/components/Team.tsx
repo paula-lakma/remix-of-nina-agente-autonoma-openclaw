@@ -337,7 +337,9 @@ const Team: React.FC = () => {
                                     >
                                         <option value="agent">Atendente</option>
                                         <option value="manager">Gerente</option>
-                                        <option value="admin">Admin</option>
+                                        <option value="admin" disabled={!isMasterEmail(member.email)}>
+                                            Admin{!isMasterEmail(member.email) ? ' (restrito)' : ''}
+                                        </option>
                                     </select>
                                 </td>
 
