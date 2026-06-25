@@ -198,17 +198,25 @@ Deno.serve(async (req: Request) => {
   }
 
   // ── DERMOCONSULTORA HANDOFF DETECTION ──────────────────────────────────────
-  // If Nina's reply indicates a handoff to dermoconsultora, pause automation,
-  // flag the conversation for human takeover and move the deal pipeline stage.
+  // Só pausa quando NINA realmente CONFIRMA o encaminhamento (não quando só
+  // pergunta se a pessoa quer aguardar). Detecta horário comercial em
+  // America/Sao_Paulo: seg-qui 08-18, sex 08-17, sáb/dom/feriados fora.
   try {
-    const dermoRegex = /\bdermo\s*-?\s*consult|encaminhar.{0,20}dermo|passar.{0,20}dermo|chamar.{0,20}dermo/i;
-    if (dermoRegex.test(content)) {
+    // Frase de confirmação real ("vou encaminhar / vou deixar encaminhada / etc.")
+    const confirmedHandoffRegex = /\bvou\s+(deixar|encaminhar|passar)\b[^.?!]{0,60}(dermo|encaminhad|profissional)|deixar.{0,15}encaminhad[oa].{0,30}dermo|encaminhar (sua )?d[úu]vida.{0,15}dermo/i;
+    // Apenas menciona horários / pergunta — NÃO é confirmação.
+    const askingOnlyRegex = /(voc[êe] (quer|prefere)|deseja).{0,80}(encaminhar|deixar.{0,15}encaminhad|aguardar)/i;
+
+    const isConfirmedHandoff = confirmedHandoffRegex.test(content) && !askingOnlyRegex.test(content);
+
+    if (isConfirmedHandoff) {
+      // Detecta motivo
       const reasonKeywords: Record<string, RegExp> = {
         gestante: /gestante|gr[áa]vida|gesta(ç|c)[ãa]o/i,
         lactante: /lactante|amament/i,
         alergia: /alergi/i,
-        reacao: /rea[çc][ãa]o|reagiu/i,
-        pele_sensibilizada: /sensibiliz|sensiv/i,
+        reacao: /rea[çc][ãa]o|reagiu|ard[êe]ncia forte|incha[çc]o/i,
+        pele_sensibilizada: /sensibiliz|sensiv|lesionad/i,
         contraindicacao: /contraindic|contra-indic/i,
         duvida_tecnica: /d[úu]vida t[ée]cnica|t[ée]cnic/i,
         adaptacao_protocolo: /adapta[çc][ãa]o.{0,15}protocolo|trocar.{0,10}produto.{0,10}protocolo/i,
@@ -218,6 +226,22 @@ Deno.serve(async (req: Request) => {
       for (const [k, rx] of Object.entries(reasonKeywords)) {
         if (rx.test(content)) { detectedReason = k; break; }
       }
+
+      // Calcula horário comercial em America/Sao_Paulo
+      const fmt = new Intl.DateTimeFormat("en-US", {
+        timeZone: "America/Sao_Paulo",
+        weekday: "short", hour: "2-digit", hour12: false,
+      });
+      const parts = fmt.formatToParts(new Date());
+      const weekday = parts.find(p => p.type === "weekday")?.value ?? "";
+      const hour = Number(parts.find(p => p.type === "hour")?.value ?? "0");
+      const dayMap: Record<string, number> = { Sun:0, Mon:1, Tue:2, Wed:3, Thu:4, Fri:5, Sat:6 };
+      const dow = dayMap[weekday] ?? 0;
+      let withinHours = false;
+      if (dow >= 1 && dow <= 4) withinHours = hour >= 8 && hour < 18; // seg-qui
+      else if (dow === 5) withinHours = hour >= 8 && hour < 17;       // sex
+      const outsideHours = !withinHours;
+
       const nowIso = new Date().toISOString();
       await supabase
         .from("conversations")
@@ -225,10 +249,13 @@ Deno.serve(async (req: Request) => {
           ai_paused: true,
           requires_dermoconsultant: true,
           human_takeover_required: true,
+          outside_dermoconsultant_hours: outsideHours,
           handoff_type: "dermoconsultant",
           handoff_reason: detectedReason,
           handoff_created_at: nowIso,
-          human_status: "aguardando_dermoconsultora",
+          human_status: outsideHours
+            ? "aguardando_dermoconsultora_proximo_horario"
+            : "aguardando_dermoconsultora",
           status: "paused",
         })
         .eq("id", conversation.id);
@@ -237,10 +264,15 @@ Deno.serve(async (req: Request) => {
         conversation_id: conversation.id,
         event_type: "handoff_dermoconsultant",
         handoff_reason: detectedReason,
-        metadata: { run_id: runId ?? null, snippet: content.slice(0, 200) },
+        metadata: {
+          run_id: runId ?? null,
+          snippet: content.slice(0, 200),
+          outside_hours: outsideHours,
+          tz: "America/Sao_Paulo",
+          weekday, hour,
+        },
       });
 
-      // Move deal to "Encaminhado para humano" pipeline stage
       const { data: stage } = await supabase
         .from("pipeline_stages")
         .select("id")
@@ -252,7 +284,7 @@ Deno.serve(async (req: Request) => {
           .update({ stage_id: stage.id, stage: "human_handoff" })
           .eq("contact_id", conversation.contact_id);
       }
-      console.log(`[nina-reply] handoff dermoconsultora aplicado (conv=${conversation.id}, reason=${detectedReason})`);
+      console.log(`[nina-reply] handoff dermo aplicado (conv=${conversation.id}, reason=${detectedReason}, outside_hours=${outsideHours})`);
     }
   } catch (e) {
     console.error("[nina-reply] handoff detection error:", e);
