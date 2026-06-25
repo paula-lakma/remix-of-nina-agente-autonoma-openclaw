@@ -12,7 +12,9 @@ import { useCompanySettings } from '@/hooks/useCompanySettings';
 import { api } from '@/services/api';
 import { TagSelector } from './TagSelector';
 import { Popover, PopoverContent, PopoverTrigger } from './ui/popover';
-import { FileText } from 'lucide-react';
+import { Dialog, DialogContent, DialogTitle } from './ui/dialog';
+import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
+import { FileText, Download, ExternalLink } from 'lucide-react';
 import { MessageActions } from './MessageActions';
 
 const ChatInterface: React.FC = () => {
