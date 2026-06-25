@@ -203,3 +203,85 @@ Antes de indicar este protocolo, a Nina deve verificar:
 
 Se houver risco, dúvida técnica ou pedido de adaptação, encaminhar para dermoconsultora.
 ```
+
+## Produtos do protocolo — links individuais (resolvidos automaticamente)
+
+> A Nina DEVE enviar esta lista quando o lead pedir o link do protocolo, quiser comprar os produtos do protocolo ou demonstrar interesse em adquirir os itens. **NÃO** dizer "não tenho link do protocolo" — usar a lista abaixo.
+
+- **Spray Higienizante 500ml** → _produto não localizado na base; pedir confirmação ou encaminhar humano._
+- **Sabonete Líquido Facial 250ml** → https://lakma.com.br/products/sabonete-liquido-facial-250ml?_pos=1&_sid=e71294b11&_ss=r
+- **Neuroplasma Nutri-Complex 50ml** → https://lakma.com.br/products/neuroplasma-nutri-complex-para-cicatriz-a-acne-e-estrias-50ml?_pos=2&_sid=06b71ae8f&_ss=r
+- **Fluido Revitalizante Passo 2 50ml** → https://lakma.com.br/products/fluido-passo-2-hialuronico-50ml?_pos=1&_sid=4c1d3e80d&_ss=r
+- **Fluido Revitalizante Passo 3 50ml** → https://lakma.com.br/products/fluido-passo-5-rejuvenescedor-50ml?_pos=1&_sid=bcf3c4f48&_ss=r
+- **Ideal Protect 50g** → https://lakma.com.br/products/ideal-protect-protetor-solar-50gr?_pos=1&_sid=30aa08e72&_ss=r
+
+No site oficial use o cupom **LAKMA35** = 35% de desconto.
+
+```json
+{
+  "nome_protocolo": "Protocolo Neuroplasma Nutri-Complex",
+  "tipo": "protocolo_profissional",
+  "aprovado": true,
+  "link_kit_unico": null,
+  "produtos_utilizados": [
+    {
+      "nome_citado_no_protocolo": "Spray Higienizante 500ml",
+      "nome_cadastrado": null,
+      "produto_encontrado": false,
+      "link_individual_produto": null,
+      "campo_origem_link_individual_produto": "site_url",
+      "status_link_individual_produto": "produto_nao_encontrado"
+    },
+    {
+      "nome_citado_no_protocolo": "Sabonete Líquido Facial 250ml",
+      "nome_cadastrado": "Sabonete Líquido Facial - 250ml",
+      "produto_encontrado": true,
+      "link_individual_produto": "https://lakma.com.br/products/sabonete-liquido-facial-250ml?_pos=1&_sid=e71294b11&_ss=r",
+      "campo_origem_link_individual_produto": "site_url",
+      "status_link_individual_produto": "aprovado"
+    },
+    {
+      "nome_citado_no_protocolo": "Neuroplasma Nutri-Complex 50ml",
+      "nome_cadastrado": "Neuroplasma Nutri-Complex - 50ml",
+      "produto_encontrado": true,
+      "link_individual_produto": "https://lakma.com.br/products/neuroplasma-nutri-complex-para-cicatriz-a-acne-e-estrias-50ml?_pos=2&_sid=06b71ae8f&_ss=r",
+      "campo_origem_link_individual_produto": "site_url",
+      "status_link_individual_produto": "aprovado"
+    },
+    {
+      "nome_citado_no_protocolo": "Fluido Revitalizante Passo 2 50ml",
+      "nome_cadastrado": "Fluido Revitalizante Passo 2 - Ácido Hialurônico - 50ml",
+      "produto_encontrado": true,
+      "link_individual_produto": "https://lakma.com.br/products/fluido-passo-2-hialuronico-50ml?_pos=1&_sid=4c1d3e80d&_ss=r",
+      "campo_origem_link_individual_produto": "site_url",
+      "status_link_individual_produto": "aprovado"
+    },
+    {
+      "nome_citado_no_protocolo": "Fluido Revitalizante Passo 3 50ml",
+      "nome_cadastrado": "Fluido Revitalizante Passo 5 Nano Fill Up - 50ml",
+      "produto_encontrado": true,
+      "link_individual_produto": "https://lakma.com.br/products/fluido-passo-5-rejuvenescedor-50ml?_pos=1&_sid=bcf3c4f48&_ss=r",
+      "campo_origem_link_individual_produto": "site_url",
+      "status_link_individual_produto": "aprovado"
+    },
+    {
+      "nome_citado_no_protocolo": "Ideal Protect 50g",
+      "nome_cadastrado": "Ideal Protect - Protetor Solar 50g",
+      "produto_encontrado": true,
+      "link_individual_produto": "https://lakma.com.br/products/ideal-protect-protetor-solar-50gr?_pos=1&_sid=30aa08e72&_ss=r",
+      "campo_origem_link_individual_produto": "site_url",
+      "status_link_individual_produto": "aprovado"
+    }
+  ],
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
+  "site_geral_fallback": "https://www.lakma.com.br",
+  "regra_envio": "Se houver link_kit_unico, enviar esse link. Caso contrário, enviar a lista produtos_utilizados com link_individual_produto de cada item encontrado. Sinalizar individualmente apenas os itens sem link. Mover lead para 'Link do site enviado' ao enviar qualquer link.",
+  "proibicoes": [
+    "Nunca responder 'não tenho o link do protocolo' antes de checar produtos_utilizados.",
+    "Nunca enviar apenas o site geral quando existir ao menos um link_individual_produto resolvido.",
+    "Nunca inventar links."
+  ]
+}
+```
+

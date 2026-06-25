@@ -614,3 +614,4 @@ A Nina não deve criar, adaptar, misturar ou alterar protocolos.
 
 Quando não houver protocolo aprovado para a necessidade, ou quando houver risco técnico, deve encaminhar para dermoconsultora.
 ```
+

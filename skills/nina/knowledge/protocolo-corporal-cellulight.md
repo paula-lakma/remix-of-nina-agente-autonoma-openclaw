@@ -173,3 +173,85 @@ Antes de indicar este protocolo, a Nina deve verificar:
 
 Se houver risco, dúvida técnica ou pedido de adaptação, encaminhar para dermoconsultora.
 ```
+
+## Produtos do protocolo — links individuais (resolvidos automaticamente)
+
+> A Nina DEVE enviar esta lista quando o lead pedir o link do protocolo, quiser comprar os produtos do protocolo ou demonstrar interesse em adquirir os itens. **NÃO** dizer "não tenho link do protocolo" — usar a lista abaixo.
+
+- **Esfoliante Corporal** → https://lakma.com.br/products/esfoliante-facial-e-labial-30g?_pos=1&_psq=esfoliante&_ss=e&_v=1.0
+- **Gel Termoativado** → https://lakma.com.br/products/gel-termoativado-1kg?_pos=1&_sid=143e44dd4&_ss=r
+- **Creme de Massagem 7 Ativos** → https://lakma.com.br/products/creme-de-massagem-7-ativos-1-kg?_pos=1&_sid=ec61753f2&_ss=r
+- **Criogel** → https://lakma.com.br/products/criogel-1kg?_pos=1&_sid=82ecdae3f&_ss=r
+- **Kit BodyPro** → https://lakma.com.br/products/kit-bodypro?_pos=1&_sid=5464b8b38&_ss=r
+- **Esbeltea** → https://lakma.com.br/products/esbeltea-cha-soluvel?_pos=1&_sid=7d5b0a2d1&_ss=r
+
+No site oficial use o cupom **LAKMA35** = 35% de desconto.
+
+```json
+{
+  "nome_protocolo": "Protocolo Corporal Cellulight",
+  "tipo": "protocolo_profissional",
+  "aprovado": true,
+  "link_kit_unico": null,
+  "produtos_utilizados": [
+    {
+      "nome_citado_no_protocolo": "Esfoliante Corporal",
+      "nome_cadastrado": "Esfoliante Facial e Labial Bioativo - 30g",
+      "produto_encontrado": true,
+      "link_individual_produto": "https://lakma.com.br/products/esfoliante-facial-e-labial-30g?_pos=1&_psq=esfoliante&_ss=e&_v=1.0",
+      "campo_origem_link_individual_produto": "site_url",
+      "status_link_individual_produto": "aprovado"
+    },
+    {
+      "nome_citado_no_protocolo": "Gel Termoativado",
+      "nome_cadastrado": "Gel Termoativado - 1kg",
+      "produto_encontrado": true,
+      "link_individual_produto": "https://lakma.com.br/products/gel-termoativado-1kg?_pos=1&_sid=143e44dd4&_ss=r",
+      "campo_origem_link_individual_produto": "site_url",
+      "status_link_individual_produto": "aprovado"
+    },
+    {
+      "nome_citado_no_protocolo": "Creme de Massagem 7 Ativos",
+      "nome_cadastrado": "Creme de Massagem 7 Ativos - 1kg",
+      "produto_encontrado": true,
+      "link_individual_produto": "https://lakma.com.br/products/creme-de-massagem-7-ativos-1-kg?_pos=1&_sid=ec61753f2&_ss=r",
+      "campo_origem_link_individual_produto": "site_url",
+      "status_link_individual_produto": "aprovado"
+    },
+    {
+      "nome_citado_no_protocolo": "Criogel",
+      "nome_cadastrado": "CRIOGEL - 1kg",
+      "produto_encontrado": true,
+      "link_individual_produto": "https://lakma.com.br/products/criogel-1kg?_pos=1&_sid=82ecdae3f&_ss=r",
+      "campo_origem_link_individual_produto": "site_url",
+      "status_link_individual_produto": "aprovado"
+    },
+    {
+      "nome_citado_no_protocolo": "Kit BodyPro",
+      "nome_cadastrado": "Kit BodyPro Corporal Profissional",
+      "produto_encontrado": true,
+      "link_individual_produto": "https://lakma.com.br/products/kit-bodypro?_pos=1&_sid=5464b8b38&_ss=r",
+      "campo_origem_link_individual_produto": "site_url",
+      "status_link_individual_produto": "aprovado"
+    },
+    {
+      "nome_citado_no_protocolo": "Esbeltea",
+      "nome_cadastrado": "EsbelTEA Solúvel Sabor Limão - 210g",
+      "produto_encontrado": true,
+      "link_individual_produto": "https://lakma.com.br/products/esbeltea-cha-soluvel?_pos=1&_sid=7d5b0a2d1&_ss=r",
+      "campo_origem_link_individual_produto": "site_url",
+      "status_link_individual_produto": "aprovado"
+    }
+  ],
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
+  "site_geral_fallback": "https://www.lakma.com.br",
+  "regra_envio": "Se houver link_kit_unico, enviar esse link. Caso contrário, enviar a lista produtos_utilizados com link_individual_produto de cada item encontrado. Sinalizar individualmente apenas os itens sem link. Mover lead para 'Link do site enviado' ao enviar qualquer link.",
+  "proibicoes": [
+    "Nunca responder 'não tenho o link do protocolo' antes de checar produtos_utilizados.",
+    "Nunca enviar apenas o site geral quando existir ao menos um link_individual_produto resolvido.",
+    "Nunca inventar links."
+  ]
+}
+```
+

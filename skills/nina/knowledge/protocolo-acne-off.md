@@ -278,3 +278,76 @@ Antes de indicar este protocolo, a Nina deve verificar:
 
 Se houver risco, dúvida técnica ou pedido de adaptação, encaminhar para dermoconsultora.
 ```
+
+## Produtos do protocolo — links individuais (resolvidos automaticamente)
+
+> A Nina DEVE enviar esta lista quando o lead pedir o link do protocolo, quiser comprar os produtos do protocolo ou demonstrar interesse em adquirir os itens. **NÃO** dizer "não tenho link do protocolo" — usar a lista abaixo.
+
+- **Esfoliante Facial 250g** → https://lakma.com.br/products/esfoliante-facial-e-labial-30g?_pos=1&_psq=esfoliante&_ss=e&_v=1.0
+- **Peeling Químico 50ml** → https://lakma.com.br/products/peeling-quimico-secativo-50ml?_pos=1&_sid=60a60c291&_ss=r
+- **Zen Marine** → https://lakma.com.br/products/mascara-zen-marine-hidroplastica-150g?_pos=1&_sid=70f050ddf&_ss=r
+- **Fluido Melaleuca 50ml** → https://lakma.com.br/products/fluido-secativo-melaleuca-para-acne-50ml?_pos=1&_sid=b08c5f760&_ss=r
+- **Sabonete Ácido Glicólico 200ml** → https://lakma.com.br/products/sabonete-de-acido-glicolico-150ml?_pos=1&_sid=2f97aa27a&_ss=r
+
+No site oficial use o cupom **LAKMA35** = 35% de desconto.
+
+```json
+{
+  "nome_protocolo": "Protocolo ACNE OFF",
+  "tipo": "protocolo_profissional",
+  "aprovado": true,
+  "link_kit_unico": null,
+  "produtos_utilizados": [
+    {
+      "nome_citado_no_protocolo": "Esfoliante Facial 250g",
+      "nome_cadastrado": "Esfoliante Facial e Labial Bioativo - 30g",
+      "produto_encontrado": true,
+      "link_individual_produto": "https://lakma.com.br/products/esfoliante-facial-e-labial-30g?_pos=1&_psq=esfoliante&_ss=e&_v=1.0",
+      "campo_origem_link_individual_produto": "site_url",
+      "status_link_individual_produto": "aprovado"
+    },
+    {
+      "nome_citado_no_protocolo": "Peeling Químico 50ml",
+      "nome_cadastrado": "Peeling Químico Secativo - 50ml",
+      "produto_encontrado": true,
+      "link_individual_produto": "https://lakma.com.br/products/peeling-quimico-secativo-50ml?_pos=1&_sid=60a60c291&_ss=r",
+      "campo_origem_link_individual_produto": "site_url",
+      "status_link_individual_produto": "aprovado"
+    },
+    {
+      "nome_citado_no_protocolo": "Zen Marine",
+      "nome_cadastrado": "Máscara Hidroplástica Zen Marine - 150g",
+      "produto_encontrado": true,
+      "link_individual_produto": "https://lakma.com.br/products/mascara-zen-marine-hidroplastica-150g?_pos=1&_sid=70f050ddf&_ss=r",
+      "campo_origem_link_individual_produto": "site_url",
+      "status_link_individual_produto": "aprovado"
+    },
+    {
+      "nome_citado_no_protocolo": "Fluido Melaleuca 50ml",
+      "nome_cadastrado": "Fluido Secativo - Melaleuca para acne 50ml",
+      "produto_encontrado": true,
+      "link_individual_produto": "https://lakma.com.br/products/fluido-secativo-melaleuca-para-acne-50ml?_pos=1&_sid=b08c5f760&_ss=r",
+      "campo_origem_link_individual_produto": "site_url",
+      "status_link_individual_produto": "aprovado"
+    },
+    {
+      "nome_citado_no_protocolo": "Sabonete Ácido Glicólico 200ml",
+      "nome_cadastrado": "Sabonete de Ácido Glicólico - 150ml",
+      "produto_encontrado": true,
+      "link_individual_produto": "https://lakma.com.br/products/sabonete-de-acido-glicolico-150ml?_pos=1&_sid=2f97aa27a&_ss=r",
+      "campo_origem_link_individual_produto": "site_url",
+      "status_link_individual_produto": "aprovado"
+    }
+  ],
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
+  "site_geral_fallback": "https://www.lakma.com.br",
+  "regra_envio": "Se houver link_kit_unico, enviar esse link. Caso contrário, enviar a lista produtos_utilizados com link_individual_produto de cada item encontrado. Sinalizar individualmente apenas os itens sem link. Mover lead para 'Link do site enviado' ao enviar qualquer link.",
+  "proibicoes": [
+    "Nunca responder 'não tenho o link do protocolo' antes de checar produtos_utilizados.",
+    "Nunca enviar apenas o site geral quando existir ao menos um link_individual_produto resolvido.",
+    "Nunca inventar links."
+  ]
+}
+```
+

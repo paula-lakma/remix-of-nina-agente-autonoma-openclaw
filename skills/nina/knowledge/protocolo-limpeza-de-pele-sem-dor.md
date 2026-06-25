@@ -225,3 +225,94 @@ Antes de indicar este protocolo, a Nina deve verificar:
 
 Se houver risco, dúvida técnica ou pedido de adaptação, encaminhar para dermoconsultora.
 ```
+
+## Produtos do protocolo — links individuais (resolvidos automaticamente)
+
+> A Nina DEVE enviar esta lista quando o lead pedir o link do protocolo, quiser comprar os produtos do protocolo ou demonstrar interesse em adquirir os itens. **NÃO** dizer "não tenho link do protocolo" — usar a lista abaixo.
+
+- **Sabonete de Ácido Glicólico** → https://lakma.com.br/products/sabonete-de-acido-glicolico-150ml?_pos=1&_sid=2f97aa27a&_ss=r
+- **Melange Especial** → https://lakma.com.br/products/melange-especial-fator-de-crescimento-para-microagulhamento-50ml?_pos=1&_sid=e3164b646&_ss=r
+- **Peeling Biocomplex** → _produto não localizado na base; pedir confirmação ou encaminhar humano._
+- **Emoliente de Cravos** → https://lakma.com.br/products/emoliente-de-cravos-250gr?_pos=1&_sid=3dbce4669&_ss=r
+- **Fluido de Melaleuca** → https://lakma.com.br/products/fluido-secativo-melaleuca-para-acne-50ml?_pos=1&_sid=b08c5f760&_ss=r
+- **Máscara Zen Marine** → https://lakma.com.br/products/mascara-zen-marine-hidroplastica-150g?_pos=1&_sid=70f050ddf&_ss=r
+- **Fluido de Vitamina C 40%** → https://lakma.com.br/products/fluido-passo-4-vitamina-c-50ml?_pos=1&_sid=976b990d3&_ss=r
+
+No site oficial use o cupom **LAKMA35** = 35% de desconto.
+
+```json
+{
+  "nome_protocolo": "Protocolo Limpeza de Pele Sem Dor",
+  "tipo": "protocolo_profissional",
+  "aprovado": true,
+  "link_kit_unico": null,
+  "produtos_utilizados": [
+    {
+      "nome_citado_no_protocolo": "Sabonete de Ácido Glicólico",
+      "nome_cadastrado": "Sabonete de Ácido Glicólico - 150ml",
+      "produto_encontrado": true,
+      "link_individual_produto": "https://lakma.com.br/products/sabonete-de-acido-glicolico-150ml?_pos=1&_sid=2f97aa27a&_ss=r",
+      "campo_origem_link_individual_produto": "site_url",
+      "status_link_individual_produto": "aprovado"
+    },
+    {
+      "nome_citado_no_protocolo": "Melange Especial",
+      "nome_cadastrado": "Fator de Crescimento Melange Especial - 50ml",
+      "produto_encontrado": true,
+      "link_individual_produto": "https://lakma.com.br/products/melange-especial-fator-de-crescimento-para-microagulhamento-50ml?_pos=1&_sid=e3164b646&_ss=r",
+      "campo_origem_link_individual_produto": "site_url",
+      "status_link_individual_produto": "aprovado"
+    },
+    {
+      "nome_citado_no_protocolo": "Peeling Biocomplex",
+      "nome_cadastrado": null,
+      "produto_encontrado": false,
+      "link_individual_produto": null,
+      "campo_origem_link_individual_produto": "site_url",
+      "status_link_individual_produto": "produto_nao_encontrado"
+    },
+    {
+      "nome_citado_no_protocolo": "Emoliente de Cravos",
+      "nome_cadastrado": "Emoliente de Cravos - 250g",
+      "produto_encontrado": true,
+      "link_individual_produto": "https://lakma.com.br/products/emoliente-de-cravos-250gr?_pos=1&_sid=3dbce4669&_ss=r",
+      "campo_origem_link_individual_produto": "site_url",
+      "status_link_individual_produto": "aprovado"
+    },
+    {
+      "nome_citado_no_protocolo": "Fluido de Melaleuca",
+      "nome_cadastrado": "Fluido Secativo - Melaleuca para acne 50ml",
+      "produto_encontrado": true,
+      "link_individual_produto": "https://lakma.com.br/products/fluido-secativo-melaleuca-para-acne-50ml?_pos=1&_sid=b08c5f760&_ss=r",
+      "campo_origem_link_individual_produto": "site_url",
+      "status_link_individual_produto": "aprovado"
+    },
+    {
+      "nome_citado_no_protocolo": "Máscara Zen Marine",
+      "nome_cadastrado": "Máscara Hidroplástica Zen Marine - 150g",
+      "produto_encontrado": true,
+      "link_individual_produto": "https://lakma.com.br/products/mascara-zen-marine-hidroplastica-150g?_pos=1&_sid=70f050ddf&_ss=r",
+      "campo_origem_link_individual_produto": "site_url",
+      "status_link_individual_produto": "aprovado"
+    },
+    {
+      "nome_citado_no_protocolo": "Fluido de Vitamina C 40%",
+      "nome_cadastrado": "Fluido Revitalizante Passo 4 - Vitamina C 40% - 50ml",
+      "produto_encontrado": true,
+      "link_individual_produto": "https://lakma.com.br/products/fluido-passo-4-vitamina-c-50ml?_pos=1&_sid=976b990d3&_ss=r",
+      "campo_origem_link_individual_produto": "site_url",
+      "status_link_individual_produto": "aprovado"
+    }
+  ],
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
+  "site_geral_fallback": "https://www.lakma.com.br",
+  "regra_envio": "Se houver link_kit_unico, enviar esse link. Caso contrário, enviar a lista produtos_utilizados com link_individual_produto de cada item encontrado. Sinalizar individualmente apenas os itens sem link. Mover lead para 'Link do site enviado' ao enviar qualquer link.",
+  "proibicoes": [
+    "Nunca responder 'não tenho o link do protocolo' antes de checar produtos_utilizados.",
+    "Nunca enviar apenas o site geral quando existir ao menos um link_individual_produto resolvido.",
+    "Nunca inventar links."
+  ]
+}
+```
+

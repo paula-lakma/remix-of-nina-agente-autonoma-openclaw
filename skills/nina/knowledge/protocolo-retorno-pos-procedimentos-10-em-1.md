@@ -226,3 +226,112 @@ Antes de indicar este protocolo, a Nina deve verificar:
 
 Se houver risco, dúvida técnica ou pedido de adaptação, encaminhar para dermoconsultora.
 ```
+
+## Produtos do protocolo — links individuais (resolvidos automaticamente)
+
+> A Nina DEVE enviar esta lista quando o lead pedir o link do protocolo, quiser comprar os produtos do protocolo ou demonstrar interesse em adquirir os itens. **NÃO** dizer "não tenho link do protocolo" — usar a lista abaixo.
+
+- **Sabonete Líquido Facial** → https://lakma.com.br/products/sabonete-liquido-facial-250ml?_pos=1&_sid=e71294b11&_ss=r
+- **Gel Esfoliante** → https://lakma.com.br/products/gel-esfoliante-corporal-ozonizado-1kg?_pos=1&_sid=633454ffc&_ss=r
+- **Máscara Golden Glitter** → https://lakma.com.br/products/mascara-ouro-rejuvenescedora-150gr?_pos=1&_sid=7b0b04bfc&_ss=r
+- **Máscara do Kit Joias Raras** → https://lakma.com.br/products/kit-joias-raras?_pos=1&_sid=cc2e24439&_ss=r
+- **Fluido Revitalizante Passo 1** → https://lakma.com.br/products/fluido-passo-5-rejuvenescedor-50ml?_pos=1&_sid=bcf3c4f48&_ss=r
+- **Fluido Revitalizante Passo 2** → https://lakma.com.br/products/fluido-passo-2-hialuronico-50ml?_pos=1&_sid=4c1d3e80d&_ss=r
+- **Fluido Revitalizante Passo 3** → https://lakma.com.br/products/fluido-passo-5-rejuvenescedor-50ml?_pos=1&_sid=bcf3c4f48&_ss=r
+- **Fluido Revitalizante Passo 4** → https://lakma.com.br/products/fluido-passo-4-vitamina-c-50ml?_pos=1&_sid=976b990d3&_ss=r
+- **Fluido Revitalizante Passo 5** → https://lakma.com.br/products/fluido-passo-5-rejuvenescedor-50ml?_pos=1&_sid=bcf3c4f48&_ss=r
+
+No site oficial use o cupom **LAKMA35** = 35% de desconto.
+
+```json
+{
+  "nome_protocolo": "Protocolo Retorno Pós-Procedimentos 10 em 1",
+  "tipo": "protocolo_profissional",
+  "aprovado": true,
+  "link_kit_unico": null,
+  "produtos_utilizados": [
+    {
+      "nome_citado_no_protocolo": "Sabonete Líquido Facial",
+      "nome_cadastrado": "Sabonete Líquido Facial - 250ml",
+      "produto_encontrado": true,
+      "link_individual_produto": "https://lakma.com.br/products/sabonete-liquido-facial-250ml?_pos=1&_sid=e71294b11&_ss=r",
+      "campo_origem_link_individual_produto": "site_url",
+      "status_link_individual_produto": "aprovado"
+    },
+    {
+      "nome_citado_no_protocolo": "Gel Esfoliante",
+      "nome_cadastrado": "Gel Esfoliante Corporal Ozonizado - 1kg",
+      "produto_encontrado": true,
+      "link_individual_produto": "https://lakma.com.br/products/gel-esfoliante-corporal-ozonizado-1kg?_pos=1&_sid=633454ffc&_ss=r",
+      "campo_origem_link_individual_produto": "site_url",
+      "status_link_individual_produto": "aprovado"
+    },
+    {
+      "nome_citado_no_protocolo": "Máscara Golden Glitter",
+      "nome_cadastrado": "Máscara Facial de Ouro Golden Glitter - 150g",
+      "produto_encontrado": true,
+      "link_individual_produto": "https://lakma.com.br/products/mascara-ouro-rejuvenescedora-150gr?_pos=1&_sid=7b0b04bfc&_ss=r",
+      "campo_origem_link_individual_produto": "site_url",
+      "status_link_individual_produto": "aprovado"
+    },
+    {
+      "nome_citado_no_protocolo": "Máscara do Kit Joias Raras",
+      "nome_cadastrado": "Kit Jóias Raras",
+      "produto_encontrado": true,
+      "link_individual_produto": "https://lakma.com.br/products/kit-joias-raras?_pos=1&_sid=cc2e24439&_ss=r",
+      "campo_origem_link_individual_produto": "site_url",
+      "status_link_individual_produto": "aprovado"
+    },
+    {
+      "nome_citado_no_protocolo": "Fluido Revitalizante Passo 1",
+      "nome_cadastrado": "Fluido Revitalizante Passo 5 Nano Fill Up - 50ml",
+      "produto_encontrado": true,
+      "link_individual_produto": "https://lakma.com.br/products/fluido-passo-5-rejuvenescedor-50ml?_pos=1&_sid=bcf3c4f48&_ss=r",
+      "campo_origem_link_individual_produto": "site_url",
+      "status_link_individual_produto": "aprovado"
+    },
+    {
+      "nome_citado_no_protocolo": "Fluido Revitalizante Passo 2",
+      "nome_cadastrado": "Fluido Revitalizante Passo 2 - Ácido Hialurônico - 50ml",
+      "produto_encontrado": true,
+      "link_individual_produto": "https://lakma.com.br/products/fluido-passo-2-hialuronico-50ml?_pos=1&_sid=4c1d3e80d&_ss=r",
+      "campo_origem_link_individual_produto": "site_url",
+      "status_link_individual_produto": "aprovado"
+    },
+    {
+      "nome_citado_no_protocolo": "Fluido Revitalizante Passo 3",
+      "nome_cadastrado": "Fluido Revitalizante Passo 5 Nano Fill Up - 50ml",
+      "produto_encontrado": true,
+      "link_individual_produto": "https://lakma.com.br/products/fluido-passo-5-rejuvenescedor-50ml?_pos=1&_sid=bcf3c4f48&_ss=r",
+      "campo_origem_link_individual_produto": "site_url",
+      "status_link_individual_produto": "aprovado"
+    },
+    {
+      "nome_citado_no_protocolo": "Fluido Revitalizante Passo 4",
+      "nome_cadastrado": "Fluido Revitalizante Passo 4 - Vitamina C 40% - 50ml",
+      "produto_encontrado": true,
+      "link_individual_produto": "https://lakma.com.br/products/fluido-passo-4-vitamina-c-50ml?_pos=1&_sid=976b990d3&_ss=r",
+      "campo_origem_link_individual_produto": "site_url",
+      "status_link_individual_produto": "aprovado"
+    },
+    {
+      "nome_citado_no_protocolo": "Fluido Revitalizante Passo 5",
+      "nome_cadastrado": "Fluido Revitalizante Passo 5 Nano Fill Up - 50ml",
+      "produto_encontrado": true,
+      "link_individual_produto": "https://lakma.com.br/products/fluido-passo-5-rejuvenescedor-50ml?_pos=1&_sid=bcf3c4f48&_ss=r",
+      "campo_origem_link_individual_produto": "site_url",
+      "status_link_individual_produto": "aprovado"
+    }
+  ],
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
+  "site_geral_fallback": "https://www.lakma.com.br",
+  "regra_envio": "Se houver link_kit_unico, enviar esse link. Caso contrário, enviar a lista produtos_utilizados com link_individual_produto de cada item encontrado. Sinalizar individualmente apenas os itens sem link. Mover lead para 'Link do site enviado' ao enviar qualquer link.",
+  "proibicoes": [
+    "Nunca responder 'não tenho o link do protocolo' antes de checar produtos_utilizados.",
+    "Nunca enviar apenas o site geral quando existir ao menos um link_individual_produto resolvido.",
+    "Nunca inventar links."
+  ]
+}
+```
+

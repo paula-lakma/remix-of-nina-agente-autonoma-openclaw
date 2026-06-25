@@ -171,3 +171,76 @@ Antes de indicar este protocolo, a Nina deve verificar:
 
 Se houver risco, dúvida técnica ou pedido de adaptação, encaminhar para dermoconsultora.
 ```
+
+## Produtos do protocolo — links individuais (resolvidos automaticamente)
+
+> A Nina DEVE enviar esta lista quando o lead pedir o link do protocolo, quiser comprar os produtos do protocolo ou demonstrar interesse em adquirir os itens. **NÃO** dizer "não tenho link do protocolo" — usar a lista abaixo.
+
+- **Fluido Crioredutor** → _produto não localizado na base; pedir confirmação ou encaminhar humano._
+- **Massodivine** → _produto não localizado na base; pedir confirmação ou encaminhar humano._
+- **Sabonete Líquido Facial Lakma** → https://lakma.com.br/products/sabonete-liquido-facial-250ml?_pos=1&_sid=e71294b11&_ss=r
+- **Espuma Dermatológica** → _produto não localizado na base; pedir confirmação ou encaminhar humano._
+- **Sabonete de Ácido Glicólico** → https://lakma.com.br/products/sabonete-de-acido-glicolico-150ml?_pos=1&_sid=2f97aa27a&_ss=r
+
+No site oficial use o cupom **LAKMA35** = 35% de desconto.
+
+```json
+{
+  "nome_protocolo": "Protocolo Facial CrioFirmador 40+",
+  "tipo": "protocolo_profissional",
+  "aprovado": true,
+  "link_kit_unico": null,
+  "produtos_utilizados": [
+    {
+      "nome_citado_no_protocolo": "Fluido Crioredutor",
+      "nome_cadastrado": null,
+      "produto_encontrado": false,
+      "link_individual_produto": null,
+      "campo_origem_link_individual_produto": "site_url",
+      "status_link_individual_produto": "produto_nao_encontrado"
+    },
+    {
+      "nome_citado_no_protocolo": "Massodivine",
+      "nome_cadastrado": null,
+      "produto_encontrado": false,
+      "link_individual_produto": null,
+      "campo_origem_link_individual_produto": "site_url",
+      "status_link_individual_produto": "produto_nao_encontrado"
+    },
+    {
+      "nome_citado_no_protocolo": "Sabonete Líquido Facial Lakma",
+      "nome_cadastrado": "Sabonete Líquido Facial - 250ml",
+      "produto_encontrado": true,
+      "link_individual_produto": "https://lakma.com.br/products/sabonete-liquido-facial-250ml?_pos=1&_sid=e71294b11&_ss=r",
+      "campo_origem_link_individual_produto": "site_url",
+      "status_link_individual_produto": "aprovado"
+    },
+    {
+      "nome_citado_no_protocolo": "Espuma Dermatológica",
+      "nome_cadastrado": null,
+      "produto_encontrado": false,
+      "link_individual_produto": null,
+      "campo_origem_link_individual_produto": "site_url",
+      "status_link_individual_produto": "produto_nao_encontrado"
+    },
+    {
+      "nome_citado_no_protocolo": "Sabonete de Ácido Glicólico",
+      "nome_cadastrado": "Sabonete de Ácido Glicólico - 150ml",
+      "produto_encontrado": true,
+      "link_individual_produto": "https://lakma.com.br/products/sabonete-de-acido-glicolico-150ml?_pos=1&_sid=2f97aa27a&_ss=r",
+      "campo_origem_link_individual_produto": "site_url",
+      "status_link_individual_produto": "aprovado"
+    }
+  ],
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
+  "site_geral_fallback": "https://www.lakma.com.br",
+  "regra_envio": "Se houver link_kit_unico, enviar esse link. Caso contrário, enviar a lista produtos_utilizados com link_individual_produto de cada item encontrado. Sinalizar individualmente apenas os itens sem link. Mover lead para 'Link do site enviado' ao enviar qualquer link.",
+  "proibicoes": [
+    "Nunca responder 'não tenho o link do protocolo' antes de checar produtos_utilizados.",
+    "Nunca enviar apenas o site geral quando existir ao menos um link_individual_produto resolvido.",
+    "Nunca inventar links."
+  ]
+}
+```
+

@@ -180,3 +180,121 @@ Antes de indicar este protocolo, a Nina deve verificar:
 
 Se houver risco, dúvida técnica ou pedido de adaptação, encaminhar para dermoconsultora.
 ```
+
+## Produtos do protocolo — links individuais (resolvidos automaticamente)
+
+> A Nina DEVE enviar esta lista quando o lead pedir o link do protocolo, quiser comprar os produtos do protocolo ou demonstrar interesse em adquirir os itens. **NÃO** dizer "não tenho link do protocolo" — usar a lista abaixo.
+
+- **Sabonete Glicólico Lakma** → https://lakma.com.br/products/sabonete-de-acido-glicolico-150ml?_pos=1&_sid=2f97aa27a&_ss=r
+- **Kit Fluidos** → https://lakma.com.br/products/kit-fluidos-revitalizantes-para-microagulhamento?_pos=1&_sid=e3adb7d8b&_ss=r
+- **Peeling de Cristal Líquido** → https://lakma.com.br/products/kit-acidos-sem-misterios-peeling-de-cristal-liquido-guia-pratico-de-peeling?_pos=2&_sid=092c25f53&_ss=r
+- **Neuroplasma Nutricomplex** → _produto não localizado na base; pedir confirmação ou encaminhar humano._
+- **Fluido Revitalizante Passo 1** → https://lakma.com.br/products/fluido-passo-5-rejuvenescedor-50ml?_pos=1&_sid=bcf3c4f48&_ss=r
+- **Fluido Revitalizante Passo 2** → https://lakma.com.br/products/fluido-passo-2-hialuronico-50ml?_pos=1&_sid=4c1d3e80d&_ss=r
+- **Fluido Revitalizante Passo 3** → https://lakma.com.br/products/fluido-passo-5-rejuvenescedor-50ml?_pos=1&_sid=bcf3c4f48&_ss=r
+- **Fluido Revitalizante Passo 4** → https://lakma.com.br/products/fluido-passo-4-vitamina-c-50ml?_pos=1&_sid=976b990d3&_ss=r
+- **Fluido Revitalizante Passo 5** → https://lakma.com.br/products/fluido-passo-5-rejuvenescedor-50ml?_pos=1&_sid=bcf3c4f48&_ss=r
+- **Microagulhamento em Creme** → https://lakma.com.br/products/microagulhamento-em-creme-8g?_pos=1&_psq=microagul&_ss=e&_v=1.0
+
+No site oficial use o cupom **LAKMA35** = 35% de desconto.
+
+```json
+{
+  "nome_protocolo": "Protocolo Cicatriz de Acne e Estrias",
+  "tipo": "protocolo_profissional",
+  "aprovado": true,
+  "link_kit_unico": null,
+  "produtos_utilizados": [
+    {
+      "nome_citado_no_protocolo": "Sabonete Glicólico Lakma",
+      "nome_cadastrado": "Sabonete de Ácido Glicólico - 150ml",
+      "produto_encontrado": true,
+      "link_individual_produto": "https://lakma.com.br/products/sabonete-de-acido-glicolico-150ml?_pos=1&_sid=2f97aa27a&_ss=r",
+      "campo_origem_link_individual_produto": "site_url",
+      "status_link_individual_produto": "aprovado"
+    },
+    {
+      "nome_citado_no_protocolo": "Kit Fluidos",
+      "nome_cadastrado": "Kit Fluidos Revitalizantes para Microagulhamento - 5 Passos",
+      "produto_encontrado": true,
+      "link_individual_produto": "https://lakma.com.br/products/kit-fluidos-revitalizantes-para-microagulhamento?_pos=1&_sid=e3adb7d8b&_ss=r",
+      "campo_origem_link_individual_produto": "site_url",
+      "status_link_individual_produto": "aprovado"
+    },
+    {
+      "nome_citado_no_protocolo": "Peeling de Cristal Líquido",
+      "nome_cadastrado": "Kit Ácidos Sem Mistérios + Peeling de Cristal Líquido",
+      "produto_encontrado": true,
+      "link_individual_produto": "https://lakma.com.br/products/kit-acidos-sem-misterios-peeling-de-cristal-liquido-guia-pratico-de-peeling?_pos=2&_sid=092c25f53&_ss=r",
+      "campo_origem_link_individual_produto": "site_url",
+      "status_link_individual_produto": "aprovado"
+    },
+    {
+      "nome_citado_no_protocolo": "Neuroplasma Nutricomplex",
+      "nome_cadastrado": null,
+      "produto_encontrado": false,
+      "link_individual_produto": null,
+      "campo_origem_link_individual_produto": "site_url",
+      "status_link_individual_produto": "produto_nao_encontrado"
+    },
+    {
+      "nome_citado_no_protocolo": "Fluido Revitalizante Passo 1",
+      "nome_cadastrado": "Fluido Revitalizante Passo 5 Nano Fill Up - 50ml",
+      "produto_encontrado": true,
+      "link_individual_produto": "https://lakma.com.br/products/fluido-passo-5-rejuvenescedor-50ml?_pos=1&_sid=bcf3c4f48&_ss=r",
+      "campo_origem_link_individual_produto": "site_url",
+      "status_link_individual_produto": "aprovado"
+    },
+    {
+      "nome_citado_no_protocolo": "Fluido Revitalizante Passo 2",
+      "nome_cadastrado": "Fluido Revitalizante Passo 2 - Ácido Hialurônico - 50ml",
+      "produto_encontrado": true,
+      "link_individual_produto": "https://lakma.com.br/products/fluido-passo-2-hialuronico-50ml?_pos=1&_sid=4c1d3e80d&_ss=r",
+      "campo_origem_link_individual_produto": "site_url",
+      "status_link_individual_produto": "aprovado"
+    },
+    {
+      "nome_citado_no_protocolo": "Fluido Revitalizante Passo 3",
+      "nome_cadastrado": "Fluido Revitalizante Passo 5 Nano Fill Up - 50ml",
+      "produto_encontrado": true,
+      "link_individual_produto": "https://lakma.com.br/products/fluido-passo-5-rejuvenescedor-50ml?_pos=1&_sid=bcf3c4f48&_ss=r",
+      "campo_origem_link_individual_produto": "site_url",
+      "status_link_individual_produto": "aprovado"
+    },
+    {
+      "nome_citado_no_protocolo": "Fluido Revitalizante Passo 4",
+      "nome_cadastrado": "Fluido Revitalizante Passo 4 - Vitamina C 40% - 50ml",
+      "produto_encontrado": true,
+      "link_individual_produto": "https://lakma.com.br/products/fluido-passo-4-vitamina-c-50ml?_pos=1&_sid=976b990d3&_ss=r",
+      "campo_origem_link_individual_produto": "site_url",
+      "status_link_individual_produto": "aprovado"
+    },
+    {
+      "nome_citado_no_protocolo": "Fluido Revitalizante Passo 5",
+      "nome_cadastrado": "Fluido Revitalizante Passo 5 Nano Fill Up - 50ml",
+      "produto_encontrado": true,
+      "link_individual_produto": "https://lakma.com.br/products/fluido-passo-5-rejuvenescedor-50ml?_pos=1&_sid=bcf3c4f48&_ss=r",
+      "campo_origem_link_individual_produto": "site_url",
+      "status_link_individual_produto": "aprovado"
+    },
+    {
+      "nome_citado_no_protocolo": "Microagulhamento em Creme",
+      "nome_cadastrado": "Microagulhamento em Creme - 8g",
+      "produto_encontrado": true,
+      "link_individual_produto": "https://lakma.com.br/products/microagulhamento-em-creme-8g?_pos=1&_psq=microagul&_ss=e&_v=1.0",
+      "campo_origem_link_individual_produto": "site_url",
+      "status_link_individual_produto": "aprovado"
+    }
+  ],
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
+  "site_geral_fallback": "https://www.lakma.com.br",
+  "regra_envio": "Se houver link_kit_unico, enviar esse link. Caso contrário, enviar a lista produtos_utilizados com link_individual_produto de cada item encontrado. Sinalizar individualmente apenas os itens sem link. Mover lead para 'Link do site enviado' ao enviar qualquer link.",
+  "proibicoes": [
+    "Nunca responder 'não tenho o link do protocolo' antes de checar produtos_utilizados.",
+    "Nunca enviar apenas o site geral quando existir ao menos um link_individual_produto resolvido.",
+    "Nunca inventar links."
+  ]
+}
+```
+

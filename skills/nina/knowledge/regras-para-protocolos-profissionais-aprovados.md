@@ -386,3 +386,4 @@ Ela pode explicar protocolos, mas não pode criar, adaptar, misturar ou modifica
 
 A Nina deve manter linguagem responsável, não prometer resultado e encaminhar para dermoconsultora sempre que houver dúvida técnica, contraindicação, risco, falta de informação ou pedido de adaptação.
 ```
+

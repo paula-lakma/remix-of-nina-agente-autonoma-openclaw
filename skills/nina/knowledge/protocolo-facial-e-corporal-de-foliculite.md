@@ -282,3 +282,103 @@ Antes de indicar este protocolo, a Nina deve verificar:
 
 Se houver risco, dúvida técnica ou pedido de adaptação, encaminhar para dermoconsultora.
 ```
+
+## Produtos do protocolo — links individuais (resolvidos automaticamente)
+
+> A Nina DEVE enviar esta lista quando o lead pedir o link do protocolo, quiser comprar os produtos do protocolo ou demonstrar interesse em adquirir os itens. **NÃO** dizer "não tenho link do protocolo" — usar a lista abaixo.
+
+- **Sabonete de Ácido Glicólico** → https://lakma.com.br/products/sabonete-de-acido-glicolico-150ml?_pos=1&_sid=2f97aa27a&_ss=r
+- **Gel Esfoliante Facial** → https://lakma.com.br/products/gel-esfoliante-corporal-ozonizado-1kg?_pos=1&_sid=633454ffc&_ss=r
+- **Loção Tônica** → https://lakma.com.br/products/locao-tonica-200ml?_pos=1&_sid=8de5c51f8&_ss=r
+- **Peeling Químico** → https://lakma.com.br/products/peeling-quimico-secativo-50ml?_pos=1&_sid=60a60c291&_ss=r
+- **Clay Mask Manguezal** → _produto não localizado na base; pedir confirmação ou encaminhar humano._
+- **Máscara Zen Marine** → https://lakma.com.br/products/mascara-zen-marine-hidroplastica-150g?_pos=1&_sid=70f050ddf&_ss=r
+- **Fluido Niacinamida 10%** → _produto não localizado na base; pedir confirmação ou encaminhar humano._
+- **Gel Esfoliante Facial Lakma** → https://lakma.com.br/products/gel-esfoliante-corporal-ozonizado-1kg?_pos=1&_sid=633454ffc&_ss=r
+
+No site oficial use o cupom **LAKMA35** = 35% de desconto.
+
+```json
+{
+  "nome_protocolo": "Protocolo Facial e Corporal de Foliculite",
+  "tipo": "protocolo_profissional",
+  "aprovado": true,
+  "link_kit_unico": null,
+  "produtos_utilizados": [
+    {
+      "nome_citado_no_protocolo": "Sabonete de Ácido Glicólico",
+      "nome_cadastrado": "Sabonete de Ácido Glicólico - 150ml",
+      "produto_encontrado": true,
+      "link_individual_produto": "https://lakma.com.br/products/sabonete-de-acido-glicolico-150ml?_pos=1&_sid=2f97aa27a&_ss=r",
+      "campo_origem_link_individual_produto": "site_url",
+      "status_link_individual_produto": "aprovado"
+    },
+    {
+      "nome_citado_no_protocolo": "Gel Esfoliante Facial",
+      "nome_cadastrado": "Gel Esfoliante Corporal Ozonizado - 1kg",
+      "produto_encontrado": true,
+      "link_individual_produto": "https://lakma.com.br/products/gel-esfoliante-corporal-ozonizado-1kg?_pos=1&_sid=633454ffc&_ss=r",
+      "campo_origem_link_individual_produto": "site_url",
+      "status_link_individual_produto": "aprovado"
+    },
+    {
+      "nome_citado_no_protocolo": "Loção Tônica",
+      "nome_cadastrado": "Loção Tônica - 200ml",
+      "produto_encontrado": true,
+      "link_individual_produto": "https://lakma.com.br/products/locao-tonica-200ml?_pos=1&_sid=8de5c51f8&_ss=r",
+      "campo_origem_link_individual_produto": "site_url",
+      "status_link_individual_produto": "aprovado"
+    },
+    {
+      "nome_citado_no_protocolo": "Peeling Químico",
+      "nome_cadastrado": "Peeling Químico Secativo - 50ml",
+      "produto_encontrado": true,
+      "link_individual_produto": "https://lakma.com.br/products/peeling-quimico-secativo-50ml?_pos=1&_sid=60a60c291&_ss=r",
+      "campo_origem_link_individual_produto": "site_url",
+      "status_link_individual_produto": "aprovado"
+    },
+    {
+      "nome_citado_no_protocolo": "Clay Mask Manguezal",
+      "nome_cadastrado": null,
+      "produto_encontrado": false,
+      "link_individual_produto": null,
+      "campo_origem_link_individual_produto": "site_url",
+      "status_link_individual_produto": "produto_nao_encontrado"
+    },
+    {
+      "nome_citado_no_protocolo": "Máscara Zen Marine",
+      "nome_cadastrado": "Máscara Hidroplástica Zen Marine - 150g",
+      "produto_encontrado": true,
+      "link_individual_produto": "https://lakma.com.br/products/mascara-zen-marine-hidroplastica-150g?_pos=1&_sid=70f050ddf&_ss=r",
+      "campo_origem_link_individual_produto": "site_url",
+      "status_link_individual_produto": "aprovado"
+    },
+    {
+      "nome_citado_no_protocolo": "Fluido Niacinamida 10%",
+      "nome_cadastrado": null,
+      "produto_encontrado": false,
+      "link_individual_produto": null,
+      "campo_origem_link_individual_produto": "site_url",
+      "status_link_individual_produto": "produto_nao_encontrado"
+    },
+    {
+      "nome_citado_no_protocolo": "Gel Esfoliante Facial Lakma",
+      "nome_cadastrado": "Gel Esfoliante Corporal Ozonizado - 1kg",
+      "produto_encontrado": true,
+      "link_individual_produto": "https://lakma.com.br/products/gel-esfoliante-corporal-ozonizado-1kg?_pos=1&_sid=633454ffc&_ss=r",
+      "campo_origem_link_individual_produto": "site_url",
+      "status_link_individual_produto": "aprovado"
+    }
+  ],
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
+  "site_geral_fallback": "https://www.lakma.com.br",
+  "regra_envio": "Se houver link_kit_unico, enviar esse link. Caso contrário, enviar a lista produtos_utilizados com link_individual_produto de cada item encontrado. Sinalizar individualmente apenas os itens sem link. Mover lead para 'Link do site enviado' ao enviar qualquer link.",
+  "proibicoes": [
+    "Nunca responder 'não tenho o link do protocolo' antes de checar produtos_utilizados.",
+    "Nunca enviar apenas o site geral quando existir ao menos um link_individual_produto resolvido.",
+    "Nunca inventar links."
+  ]
+}
+```
+
