@@ -12,6 +12,8 @@ import { useCompanySettings } from '@/hooks/useCompanySettings';
 import { api } from '@/services/api';
 import { TagSelector } from './TagSelector';
 import { Popover, PopoverContent, PopoverTrigger } from './ui/popover';
+import { FileText } from 'lucide-react';
+import { MessageActions } from './MessageActions';
 
 const ChatInterface: React.FC = () => {
   const { conversations, loading, sendMessage, updateStatus, markAsRead, assignConversation } = useConversations();
@@ -189,16 +191,35 @@ const ChatInterface: React.FC = () => {
     if (msg.type === MessageType.IMAGE) {
       return (
         <div className="mb-1 group relative">
-          <img 
-            src={msg.mediaUrl || msg.content} 
-            alt="Anexo" 
-            className="rounded-lg max-w-full h-auto max-h-72 object-cover border border-slate-700/50 shadow-lg"
-            loading="lazy"
-            onError={(e) => {
-              (e.target as HTMLImageElement).src = 'https://placehold.co/300x200/1e293b/cbd5e1?text=Erro+Imagem';
-            }}
-          />
+          <a href={msg.mediaUrl || msg.content} target="_blank" rel="noreferrer">
+            <img 
+              src={msg.mediaUrl || msg.content} 
+              alt="Anexo" 
+              className="rounded-lg max-w-full h-auto max-h-72 object-cover border border-slate-700/50 shadow-lg cursor-zoom-in"
+              loading="lazy"
+              onError={(e) => {
+                (e.target as HTMLImageElement).src = 'https://placehold.co/300x200/1e293b/cbd5e1?text=Erro+Imagem';
+              }}
+            />
+          </a>
+          {msg.content && <p className="text-xs mt-2 opacity-90 whitespace-pre-wrap">{msg.content}</p>}
         </div>
+      );
+    }
+
+    if (msg.type === MessageType.DOCUMENT) {
+      const name = (msg.mediaUrl || '').split('/').pop()?.split('?')[0] || 'documento';
+      return (
+        <a href={msg.mediaUrl || '#'} target="_blank" rel="noreferrer" className="flex items-center gap-3 p-2 -m-1 rounded-lg hover:bg-black/10 transition-colors">
+          <div className="w-10 h-10 rounded-lg bg-black/20 flex items-center justify-center flex-shrink-0">
+            <FileText className="w-5 h-5" />
+          </div>
+          <div className="min-w-0">
+            <p className="text-sm font-medium truncate">{name}</p>
+            <p className="text-[10px] opacity-70">Documento — clique para abrir</p>
+            {msg.content && <p className="text-xs mt-1 opacity-90 whitespace-pre-wrap">{msg.content}</p>}
+          </div>
+        </a>
       );
     }
 
@@ -496,6 +517,8 @@ const ChatInterface: React.FC = () => {
                           >
                             {renderMessageContent(msg)}
                           </div>
+
+                          <MessageActions msg={msg} />
                           
                           <div className="flex items-center mt-1.5 gap-1.5 opacity-60 group-hover:opacity-100 transition-opacity px-1">
                             {isOutgoing && msg.fromType === 'nina' && (
