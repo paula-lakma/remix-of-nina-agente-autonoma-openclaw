@@ -197,5 +197,66 @@ Deno.serve(async (req: Request) => {
     EdgeRuntime.waitUntil(triggerAnalyze);
   }
 
+  // ── DERMOCONSULTORA HANDOFF DETECTION ──────────────────────────────────────
+  // If Nina's reply indicates a handoff to dermoconsultora, pause automation,
+  // flag the conversation for human takeover and move the deal pipeline stage.
+  try {
+    const dermoRegex = /\bdermo\s*-?\s*consult|encaminhar.{0,20}dermo|passar.{0,20}dermo|chamar.{0,20}dermo/i;
+    if (dermoRegex.test(content)) {
+      const reasonKeywords: Record<string, RegExp> = {
+        gestante: /gestante|gr[áa]vida|gesta(ç|c)[ãa]o/i,
+        lactante: /lactante|amament/i,
+        alergia: /alergi/i,
+        reacao: /rea[çc][ãa]o|reagiu/i,
+        pele_sensibilizada: /sensibiliz|sensiv/i,
+        contraindicacao: /contraindic|contra-indic/i,
+        duvida_tecnica: /d[úu]vida t[ée]cnica|t[ée]cnic/i,
+        adaptacao_protocolo: /adapta[çc][ãa]o.{0,15}protocolo|trocar.{0,10}produto.{0,10}protocolo/i,
+        protocolo_nao_aprovado: /protocolo n[ãa]o aprovado|protocolo n[ãa]o cadastr/i,
+      };
+      let detectedReason = "dermoconsultora";
+      for (const [k, rx] of Object.entries(reasonKeywords)) {
+        if (rx.test(content)) { detectedReason = k; break; }
+      }
+      const nowIso = new Date().toISOString();
+      await supabase
+        .from("conversations")
+        .update({
+          ai_paused: true,
+          requires_dermoconsultant: true,
+          human_takeover_required: true,
+          handoff_type: "dermoconsultant",
+          handoff_reason: detectedReason,
+          handoff_created_at: nowIso,
+          human_status: "aguardando_dermoconsultora",
+          status: "paused",
+        })
+        .eq("id", conversation.id);
+
+      await supabase.from("conversation_handoff_events").insert({
+        conversation_id: conversation.id,
+        event_type: "handoff_dermoconsultant",
+        handoff_reason: detectedReason,
+        metadata: { run_id: runId ?? null, snippet: content.slice(0, 200) },
+      });
+
+      // Move deal to "Encaminhado para humano" pipeline stage
+      const { data: stage } = await supabase
+        .from("pipeline_stages")
+        .select("id")
+        .eq("title", "Encaminhado para humano")
+        .maybeSingle();
+      if (stage?.id) {
+        await supabase
+          .from("deals")
+          .update({ stage_id: stage.id, stage: "human_handoff" })
+          .eq("contact_id", conversation.contact_id);
+      }
+      console.log(`[nina-reply] handoff dermoconsultora aplicado (conv=${conversation.id}, reason=${detectedReason})`);
+    }
+  } catch (e) {
+    console.error("[nina-reply] handoff detection error:", e);
+  }
+
   return jsonResponse({ queued: true, send_queue_id: queued.id });
 });
