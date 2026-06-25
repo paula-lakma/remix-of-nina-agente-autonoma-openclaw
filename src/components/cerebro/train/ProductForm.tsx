@@ -114,6 +114,20 @@ const ProductForm: React.FC<ProductFormProps> = ({ draft, onChange }) => {
         </div>
       </div>
 
+      {/* ── Bloco 2.5: Aliases / sinônimos ── */}
+      <div>
+        <label className={labelClass}>Aliases / sinônimos do produto</label>
+        <TagsInput
+          value={draft.aliases}
+          onChange={(next) => set('aliases', next)}
+          placeholder='Ex: "Biocomplex", "Bio Complex", "Peeling Inverno"… (usado p/ casar com nomes citados em protocolos)'
+        />
+        <p className="text-[10px] text-slate-500 mt-1">
+          Cadastre variações de escrita ou apelidos. A Nina usa esses aliases ao cruzar com o
+          nome citado nos protocolos para achar o link individual do produto.
+        </p>
+      </div>
+
       {/* ── Bloco 3: Indicações / uso ── */}
       <div className="space-y-3">
         <div>

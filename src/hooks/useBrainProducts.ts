@@ -9,6 +9,7 @@ export interface BrainProduct {
   details_md: string | null;
   site_url: string | null;
   mercadolivre_url: string | null;
+  aliases: string[];
   category: string[];
   skin_types: string[];
   main_goals: string[];
@@ -37,7 +38,7 @@ interface UseBrainProductsResult {
 }
 
 const PRODUCT_COLUMNS =
-  'id, name, summary, details_md, site_url, mercadolivre_url, category, skin_types, main_goals, usage_short, in_protocols, related_protocols, protocol_role, combines_with, avoid_combinations, common_objections_md, internal_notes_md, position, is_active';
+  'id, name, summary, details_md, site_url, mercadolivre_url, aliases, category, skin_types, main_goals, usage_short, in_protocols, related_protocols, protocol_role, combines_with, avoid_combinations, common_objections_md, internal_notes_md, position, is_active';
 
 /** CRUD de brain_products (RLS owner-scoped; owner_user_id default = auth.uid()). */
 export function useBrainProducts(): UseBrainProductsResult {
@@ -137,6 +138,7 @@ export const EMPTY_PRODUCT_DRAFT: BrainProductInput = {
   details_md: '',
   site_url: '',
   mercadolivre_url: '',
+  aliases: [],
   category: [],
   skin_types: [],
   main_goals: [],
@@ -158,6 +160,7 @@ export function productToDraft(p: BrainProduct): BrainProductInput {
     details_md: p.details_md,
     site_url: p.site_url,
     mercadolivre_url: p.mercadolivre_url,
+    aliases: p.aliases ?? [],
     category: p.category ?? [],
     skin_types: p.skin_types ?? [],
     main_goals: p.main_goals ?? [],

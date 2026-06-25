@@ -127,6 +127,7 @@ function renderProducts(products: any[]): string {
       if (mlUrl) md += `- **Mercado Livre (link aprovado):** ${mlUrl}\n`;
       md += `\n\`\`\`json\n${JSON.stringify({
         produto: v(p.name),
+        aliases: arr(p.aliases),
         link_individual_produto: siteUrl || null,
         campo_origem_link_individual_produto: "site_url",
         link_site: siteUrl || null,
@@ -204,46 +205,110 @@ function normProductName(s: string): string {
     .toLowerCase()
     .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
     .replace(/\b\d+\s?(ml|g|gr|kg|un|unidades?|cápsulas?|capsulas?|produtos?)\b/g, " ")
-    .replace(/\b(lakma|kit|profissional|home\s+care|bioativo|facial|corporal|labial)\b/g, " ")
+    .replace(/\b(lakma|kit|linha|profissional|home\s+care|bioativo|facial|corporal|labial|clareador|clareadora|secativo|rejuvenescedor|enzimatico|enzimatica|liquido|liquida)\b/g, " ")
     .replace(/[^a-z0-9\s]/g, " ")
     .replace(/\s+/g, " ")
     .trim();
 }
 
-// Tokeniza e calcula score de overlap entre nome citado no protocolo e nome cadastrado no produto.
-function matchProductByName(refName: string, products: any[]): any | null {
-  const ref = normProductName(refName);
-  if (!ref) return null;
-  const refTokens = new Set(ref.split(" ").filter((t) => t.length >= 3));
-  if (refTokens.size === 0) {
-    // fallback: substring direto
-    return products.find((p) => normProductName(p.name).includes(ref)) ?? null;
+// Forma compacta sem espaços, p/ casar "Bio Complex" ↔ "Biocomplex".
+const compact = (s: string) => normProductName(s).replace(/\s+/g, "");
+
+// Levenshtein simples para fallback fuzzy seguro em tokens curtos.
+function lev(a: string, b: string): number {
+  if (a === b) return 0;
+  const al = a.length, bl = b.length;
+  if (!al) return bl; if (!bl) return al;
+  const dp: number[] = Array(bl + 1).fill(0).map((_, j) => j);
+  for (let i = 1; i <= al; i++) {
+    let prev = dp[0]; dp[0] = i;
+    for (let j = 1; j <= bl; j++) {
+      const tmp = dp[j];
+      dp[j] = a[i - 1] === b[j - 1] ? prev : 1 + Math.min(prev, dp[j], dp[j - 1]);
+      prev = tmp;
+    }
   }
-  let best: { p: any; score: number } | null = null;
+  return dp[bl];
+}
+
+type MatchResult = { product: any; match_tipo: "exato" | "normalizado" | "compacto" | "alias" | "token" | "fuzzy" } | null;
+
+// Estratégia em camadas: exato → normalizado → compacto → aliases → token overlap → fuzzy seguro.
+function matchProductByName(refName: string, products: any[]): MatchResult {
+  const refRaw = v(refName);
+  if (!refRaw) return null;
+  const refNorm = normProductName(refRaw);
+  const refCompact = compact(refRaw);
+  if (!refNorm) return null;
+
+  // 1) exato (case-insensitive bruto)
   for (const p of products) {
-    const cand = normProductName(p.name);
-    if (!cand) continue;
-    const candTokens = new Set(cand.split(" ").filter((t) => t.length >= 3));
-    let hits = 0;
-    for (const t of refTokens) if (candTokens.has(t)) hits++;
-    // bônus por substring completa
-    if (cand.includes(ref) || ref.includes(cand)) hits += 2;
-    const score = hits / Math.max(refTokens.size, 1);
-    if (score >= 0.6 && (!best || score > best.score)) best = { p, score };
+    if (v(p.name).toLowerCase() === refRaw.toLowerCase()) return { product: p, match_tipo: "exato" };
   }
-  return best ? best.p : null;
+  // 2) normalizado igual
+  for (const p of products) {
+    if (normProductName(p.name) === refNorm) return { product: p, match_tipo: "normalizado" };
+  }
+  // 3) compacto (sem espaços) substring nos dois sentidos
+  for (const p of products) {
+    const pc = compact(p.name);
+    if (pc && refCompact && (pc.includes(refCompact) || refCompact.includes(pc))) {
+      return { product: p, match_tipo: "compacto" };
+    }
+  }
+  // 4) aliases cadastrados manualmente
+  for (const p of products) {
+    for (const al of arr(p.aliases)) {
+      const an = normProductName(al);
+      const ac = compact(al);
+      if (!an) continue;
+      if (an === refNorm || ac === refCompact) return { product: p, match_tipo: "alias" };
+      if (ac && refCompact && (ac.includes(refCompact) || refCompact.includes(ac))) {
+        return { product: p, match_tipo: "alias" };
+      }
+    }
+  }
+  // 5) token overlap (limiar 0.5, com bônus por substring)
+  const refTokens = new Set(refNorm.split(" ").filter((t) => t.length >= 3));
+  if (refTokens.size > 0) {
+    let best: { p: any; score: number } | null = null;
+    for (const p of products) {
+      const cand = normProductName(p.name);
+      const candTokens = new Set(cand.split(" ").filter((t) => t.length >= 3));
+      let hits = 0;
+      for (const t of refTokens) if (candTokens.has(t)) hits++;
+      if (cand.includes(refNorm) || refNorm.includes(cand)) hits += 2;
+      const score = hits / Math.max(refTokens.size, 1);
+      if (score >= 0.5 && (!best || score > best.score)) best = { p, score };
+    }
+    if (best) return { product: best.p, match_tipo: "token" };
+  }
+  // 6) fuzzy seguro: distância ≤ 2 em compacto p/ termos com >= 6 chars
+  if (refCompact.length >= 6) {
+    let best: { p: any; d: number } | null = null;
+    for (const p of products) {
+      const pc = compact(p.name);
+      if (!pc) continue;
+      const d = lev(refCompact, pc);
+      if (d <= 2 && (!best || d < best.d)) best = { p, d };
+    }
+    if (best) return { product: best.p, match_tipo: "fuzzy" };
+  }
+  return null;
 }
 
 function renderProtocolProductsBlock(k: any, products: any[]): string {
   const refs = arr(k.related_products);
   if (refs.length === 0) return "";
   const items = refs.map((name) => {
-    const p = matchProductByName(name, products);
+    const m = matchProductByName(name, products);
+    const p = m?.product ?? null;
     const link = p ? v(p.site_url) : "";
     return {
-      nome_citado_no_protocolo: name,
-      nome_cadastrado: p ? v(p.name) : null,
+      nome_no_protocolo: name,
       produto_encontrado: !!p,
+      nome_produto_cadastrado: p ? v(p.name) : null,
+      match_tipo: m?.match_tipo ?? null,
       link_individual_produto: link || null,
       campo_origem_link_individual_produto: "site_url",
       status_link_individual_produto: link ? "aprovado" : (p ? "indisponivel" : "produto_nao_encontrado"),
@@ -254,11 +319,12 @@ function renderProtocolProductsBlock(k: any, products: any[]): string {
   md += `> A Nina DEVE enviar esta lista quando o lead pedir o link do protocolo, quiser comprar os produtos do protocolo ou demonstrar interesse em adquirir os itens. **NÃO** dizer "não tenho link do protocolo" — usar a lista abaixo.\n\n`;
   for (const it of items) {
     if (it.link_individual_produto) {
-      md += `- **${it.nome_citado_no_protocolo}** → ${it.link_individual_produto}\n`;
+      const tag = it.match_tipo && it.match_tipo !== "exato" ? ` _(match: ${it.match_tipo} → "${it.nome_produto_cadastrado}")_` : "";
+      md += `- **${it.nome_no_protocolo}** → ${it.link_individual_produto}${tag}\n`;
     } else if (it.produto_encontrado) {
-      md += `- **${it.nome_citado_no_protocolo}** → _link individual indisponível no cadastro — sinalizar apenas este item; usar ${LAKMA_SITE_FALLBACK} como fallback só para ele._\n`;
+      md += `- **${it.nome_no_protocolo}** → _link individual indisponível no cadastro de "${it.nome_produto_cadastrado}" — sinalizar apenas este item; usar ${LAKMA_SITE_FALLBACK} como fallback só para ele._\n`;
     } else {
-      md += `- **${it.nome_citado_no_protocolo}** → _produto não localizado na base; pedir confirmação ou encaminhar humano._\n`;
+      md += `- **${it.nome_no_protocolo}** → _produto não localizado na base mesmo após match exato, normalizado, compacto, alias, token e fuzzy; pedir confirmação ao lead ou encaminhar humano._\n`;
     }
   }
   md += `\nNo site oficial use o cupom **LAKMA35** = 35% de desconto.\n\n`;
@@ -272,11 +338,13 @@ function renderProtocolProductsBlock(k: any, products: any[]): string {
     desconto_site: "35%",
     site_geral_fallback: LAKMA_SITE_FALLBACK,
     regra_envio:
-      "Se houver link_kit_unico, enviar esse link. Caso contrário, enviar a lista produtos_utilizados com link_individual_produto de cada item encontrado. Sinalizar individualmente apenas os itens sem link. Mover lead para 'Link do site enviado' ao enviar qualquer link.",
+      "Se houver link_kit_unico, enviar esse link. Caso contrário, enviar a lista produtos_utilizados com link_individual_produto de cada item encontrado (independente do match_tipo: exato, normalizado, compacto, alias, token ou fuzzy). Sinalizar individualmente apenas os itens sem link. Mover lead para 'Link do site enviado' ao enviar qualquer link.",
     proibicoes: [
       "Nunca responder 'não tenho o link do protocolo' antes de checar produtos_utilizados.",
+      "Nunca declarar um produto como 'sem link no cadastro' se ele aparece em produtos_utilizados com link_individual_produto preenchido — confiar no match (exato/normalizado/compacto/alias/token/fuzzy) já resolvido aqui.",
       "Nunca enviar apenas o site geral quando existir ao menos um link_individual_produto resolvido.",
       "Nunca inventar links.",
+      "Se houver dúvida entre dois produtos parecidos, pedir confirmação ao lead em vez de escolher errado.",
     ],
   }, null, 2)}\n\`\`\`\n\n`;
   return md;
@@ -372,7 +440,7 @@ Deno.serve(async (req: Request) => {
 
   const { data: products } = await admin
     .from("brain_products")
-    .select("name, summary, details_md, site_url, mercadolivre_url, position, is_active, category, skin_types, main_goals, usage_short, in_protocols, related_protocols, protocol_role, combines_with, avoid_combinations, common_objections_md, internal_notes_md")
+    .select("name, summary, details_md, site_url, mercadolivre_url, aliases, position, is_active, category, skin_types, main_goals, usage_short, in_protocols, related_protocols, protocol_role, combines_with, avoid_combinations, common_objections_md, internal_notes_md")
     .eq("owner_user_id", user.id)
     .eq("is_active", true)
     .order("position", { ascending: true });
