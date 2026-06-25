@@ -168,15 +168,76 @@ const ChatInterface: React.FC = () => {
     await updateStatus(activeChat.id, status);
   };
 
-  const filteredConversations = conversations.filter(chat => {
-    if (!searchQuery) return true;
-    const query = searchQuery.toLowerCase();
-    return (
-      chat.contactName.toLowerCase().includes(query) ||
-      chat.contactPhone.includes(query) ||
-      chat.lastMessage.toLowerCase().includes(query)
-    );
-  });
+  const handleTakeover = async () => {
+    if (!activeChat) return;
+    try {
+      await api.takeoverConversation(activeChat.id);
+      toast.success('Você assumiu esta conversa. Nina segue pausada.');
+    } catch (e: any) {
+      toast.error(e?.message || 'Erro ao assumir conversa');
+    }
+  };
+
+  const handleReactivateNina = async () => {
+    if (!activeChat) return;
+    if (!confirm('Reativar Nina nesta conversa? A automação voltará a responder novas mensagens.')) return;
+    try {
+      await api.reactivateNina(activeChat.id);
+      toast.success('Nina reativada nesta conversa.');
+    } catch (e: any) {
+      toast.error(e?.message || 'Erro ao reativar Nina');
+    }
+  };
+
+  const handoffReasonLabel = (reason?: string | null) => {
+    if (!reason) return null;
+    const map: Record<string, string> = {
+      gestante: 'Gestante',
+      lactante: 'Lactante',
+      alergia: 'Alergia',
+      reacao: 'Reação adversa',
+      pele_sensibilizada: 'Pele sensibilizada',
+      contraindicacao: 'Contraindicação',
+      duvida_tecnica: 'Dúvida técnica',
+      adaptacao_protocolo: 'Adaptação de protocolo',
+      protocolo_nao_aprovado: 'Protocolo não aprovado',
+      dermoconsultora: 'Encaminhamento técnico',
+    };
+    return map[reason] || reason;
+  };
+
+  // Filter + priority sort: dermo handoff > human takeover > unread > recent
+  const priorityScore = (c: UIConversation) => {
+    if (c.requiresDermoconsultant && c.humanTakeoverRequired) return 0;
+    if (c.humanTakeoverRequired) return 1;
+    if (c.aiPaused) return 2;
+    if (c.unreadCount > 0) return 3;
+    return 4;
+  };
+
+  const filteredConversations = conversations
+    .filter(chat => {
+      if (dermoFilter) {
+        if (!(chat.requiresDermoconsultant && chat.humanTakeoverRequired && chat.handoffType === 'dermoconsultant')) {
+          return false;
+        }
+      }
+      if (!searchQuery) return true;
+      const query = searchQuery.toLowerCase();
+      return (
+        chat.contactName.toLowerCase().includes(query) ||
+        chat.contactPhone.includes(query) ||
+        chat.lastMessage.toLowerCase().includes(query)
+      );
+    })
+    .sort((a, b) => {
+      const pa = priorityScore(a);
+      const pb = priorityScore(b);
+      if (pa !== pb) return pa - pb;
+      const ta = a.lastMessageAtRaw ? new Date(a.lastMessageAtRaw).getTime() : 0;
+      const tb = b.lastMessageAtRaw ? new Date(b.lastMessageAtRaw).getTime() : 0;
+      return tb - ta;
+    });
 
   const renderStatusBadge = (status: ConversationStatus) => {
     const config = {
