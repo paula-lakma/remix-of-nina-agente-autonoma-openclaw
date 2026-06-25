@@ -118,6 +118,13 @@ const Team: React.FC = () => {
   };
 
   const handleUpdateMember = async (id: string, field: string, value: any) => {
+    if (field === 'role' && value === 'admin') {
+      const target = members.find((m) => m.id === id);
+      if (target && !isMasterEmail(target.email)) {
+        toast.error(`Apenas ${MASTER_ADMIN_EMAIL} pode receber o papel Admin/Master.`);
+        return;
+      }
+    }
     try {
       await api.updateTeamMember(id, { [field]: value });
       toast.success('Membro atualizado com sucesso');
