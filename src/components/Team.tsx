@@ -1,11 +1,28 @@
 import React, { useEffect, useState } from 'react';
-import { UserPlus, Search, Loader2, X, Check, Edit2, Users, Settings, Trash2 } from 'lucide-react';
+import { UserPlus, Search, Loader2, X, Check, Edit2, Users, Settings, Trash2, AlertTriangle, ShieldCheck } from 'lucide-react';
 import { Button } from './Button';
 import { api } from '../services/api';
 import { TeamMember, type Team as TeamType, type TeamFunction } from '../types';
 import { supabase } from '@/integrations/supabase/client';
 import TeamConfigModal from './TeamConfigModal';
 import { toast } from 'sonner';
+
+const MASTER_ADMIN_EMAIL = 'paula@lakma.com.br';
+
+const ROLE_LABEL: Record<string, string> = {
+  agent: 'Atendente',
+  manager: 'Gerente',
+  admin: 'Admin',
+};
+
+const ROLE_DESCRIPTIONS: Record<string, string> = {
+  agent: 'Acesso ao atendimento: Chat Ao Vivo, Pipeline, Contatos e Agendamentos.',
+  manager: 'Acompanha operação e indicadores, sem acesso ao Cérebro ou Configurações.',
+  admin: 'Acesso total à plataforma. Restrito a usuários autorizados.',
+};
+
+const isMasterEmail = (email: string) =>
+  email.trim().toLowerCase() === MASTER_ADMIN_EMAIL;
 
 const Team: React.FC = () => {
   const [members, setMembers] = useState<TeamMember[]>([]);
