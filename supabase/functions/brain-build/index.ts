@@ -94,13 +94,17 @@ function renderProducts(products: any[]): string {
   md += `> Cada produto traz: identificação, categoria, indicações, participação em protocolos\n`;
   md += `> e orientações para a Nina. O passo a passo completo dos protocolos está em outros\n`;
   md += `> arquivos desta pasta \`knowledge/\`.\n\n`;
-  md += `## Regra obrigatória para envio de links\n\n`;
+  md += `## Regra obrigatória para envio de links (LEITURA CRÍTICA)\n\n`;
   md += `- O campo do banco/cadastro que representa o link individual do produto é \`site_url\` (campo visual: "Link do site").\n`;
   md += `- No contexto da Nina, esse campo deve ser tratado como \`link_individual_produto\`.\n`;
-  md += `- Quando o lead pedir link de um produto específico, a Nina deve localizar o produto nesta base e enviar \`link_individual_produto\` se ele estiver preenchido.\n`;
-  md += `- A Nina NÃO deve enviar apenas o site geral \`${LAKMA_SITE_FALLBACK}\` quando existir \`link_individual_produto\` para o produto citado.\n`;
-  md += `- O site geral \`${LAKMA_SITE_FALLBACK}\` é fallback somente quando o produto não foi especificado, quando o lead pediu o site da Lakma em geral, ou quando o produto específico não tiver link individual cadastrado.\n`;
-  md += `- A Nina nunca inventa links; usa somente os links aprovados deste arquivo ou o fallback geral aprovado.\n\n`;
+  md += `- A Nina SÓ pode enviar uma URL de produto se ela aparecer literalmente neste arquivo, dentro do bloco JSON do produto correspondente, no campo \`link_individual_produto\` ou \`link_mercadolivre\`, com \`link_source = "product_database"\` e \`link_is_generated = false\`.\n`;
+  md += `- É TERMINANTEMENTE PROIBIDO: gerar, montar, inferir, completar, corrigir, adaptar, adivinhar, "deduzir" ou construir links a partir do nome, slug, categoria ou URL base. Nada de \`${LAKMA_SITE_FALLBACK}/products/<nome-do-produto>\`, nada de slugify, nada de concatenação.\n`;
+  md += `- Exemplo PROIBIDO (link fabricado): \`${LAKMA_SITE_FALLBACK}/products/sabonete-glicolico\` — esse padrão NUNCA pode ser enviado se não aparecer neste arquivo.\n`;
+  md += `- Se o produto existe no cadastro mas \`link_individual_produto\` está vazio/nulo, a Nina responde: "Não encontrei o link individual desse produto no cadastro. Você pode consultar no site oficial da Lakma (${LAKMA_SITE_FALLBACK}) ou falar com a equipe de atendimento." — sem inventar URL específica.\n`;
+  md += `- Se o produto NÃO existe no cadastro, a Nina pede confirmação do nome ou encaminha para humano. Nunca chuta link.\n`;
+  md += `- O site geral \`${LAKMA_SITE_FALLBACK}\` (raiz) é o único fallback aprovado e só pode ser enviado como página inicial — nunca com path \`/products/...\` fabricado.\n`;
+  md += `- Quando enviar um link individual aprovado, sempre informar o cupom **LAKMA35** = 35% de desconto no site.\n\n`;
+
   if (!products.length) {
     md += `_(Nenhum produto cadastrado.)_\n`;
     return md;
@@ -130,6 +134,8 @@ function renderProducts(products: any[]): string {
         aliases: arr(p.aliases),
         link_individual_produto: siteUrl || null,
         campo_origem_link_individual_produto: "site_url",
+        link_source: siteUrl ? "product_database" : null,
+        link_is_generated: false,
         link_site: siteUrl || null,
         link_mercadolivre: mlUrl || null,
         site_geral_fallback: LAKMA_SITE_FALLBACK,
@@ -138,15 +144,18 @@ function renderProducts(products: any[]): string {
         status_link_individual_produto: siteUrl ? "aprovado" : "indisponivel",
         status_link: (siteUrl || mlUrl) ? "aprovado" : "indisponivel",
         regra_prioridade_link: siteUrl
-          ? "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
-          : "Produto específico citado sem link_individual_produto: pode usar site_geral_fallback ou encaminhar humano se não houver fallback aprovado.",
+          ? "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL."
+          : "Produto específico citado sem link_individual_produto: NÃO inventar URL; responder que não há link cadastrado e oferecer site geral (raiz) ou encaminhar humano.",
+        proibicao_invencao_url: "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
       }, null, 2)}\n\`\`\`\n\n`;
     } else {
-      md += `_(Nenhum link individual cadastrado para este produto. SOMENTE neste caso, se o lead pediu este produto específico, a Nina pode usar o site geral ${LAKMA_SITE_FALLBACK} como fallback aprovado e avisar que não encontrou o link individual no cadastro.)_\n\n`;
+      md += `_(Nenhum link individual cadastrado para este produto. A Nina NÃO pode inventar uma URL — deve dizer que não encontrou o link individual no cadastro e oferecer o site geral ${LAKMA_SITE_FALLBACK} (apenas a raiz, sem path \`/products/...\`) ou encaminhar humano.)_\n\n`;
       md += `\`\`\`json\n${JSON.stringify({
         produto: v(p.name),
         link_individual_produto: null,
         campo_origem_link_individual_produto: "site_url",
+        link_source: null,
+        link_is_generated: false,
         link_site: null,
         link_mercadolivre: null,
         site_geral_fallback: LAKMA_SITE_FALLBACK,
@@ -154,9 +163,11 @@ function renderProducts(products: any[]): string {
         desconto_site: "35%",
         status_link_individual_produto: "indisponivel",
         status_link: "indisponivel",
-        regra_prioridade_link: "Produto específico citado sem link_individual_produto: usar site_geral_fallback somente como fallback claro ou encaminhar humano se o fallback não estiver disponível.",
+        regra_prioridade_link: "Sem link_individual_produto cadastrado: PROIBIDO fabricar URL. Responder ao lead que o link individual não está no cadastro e oferecer site geral (raiz) ou encaminhamento humano.",
+        proibicao_invencao_url: "Nunca construir URL a partir do nome deste produto. Nada de site_geral_fallback + '/products/' + slug.",
       }, null, 2)}\n\`\`\`\n\n`;
     }
+
 
     // Protocolos
     if (p.in_protocols === true || arr(p.related_protocols).length || v(p.protocol_role)) {
