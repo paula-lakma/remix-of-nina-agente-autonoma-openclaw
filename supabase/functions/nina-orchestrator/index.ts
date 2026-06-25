@@ -162,7 +162,7 @@ serve(async (req) => {
         // Get user_id from conversation to fetch correct settings
         const { data: conversation } = await supabase
           .from('conversations')
-          .select('user_id')
+          .select('user_id, ai_paused, status')
           .eq('id', item.conversation_id)
           .single();
 
@@ -174,6 +174,21 @@ serve(async (req) => {
               status: 'failed', 
               processed_at: new Date().toISOString(),
               error_message: 'Conversation not found'
+            })
+            .eq('id', item.id);
+          continue;
+        }
+
+        // HANDOFF GUARD: if conversation is paused for human takeover (e.g. dermoconsultora),
+        // Nina must NOT respond automatically. Only manual "Reativar Nina" can clear ai_paused.
+        if ((conversation as any).ai_paused === true) {
+          console.log('[Nina] Skipping: ai_paused=true for conversation', item.conversation_id);
+          await supabase
+            .from('nina_processing_queue')
+            .update({ 
+              status: 'completed', 
+              processed_at: new Date().toISOString(),
+              error_message: 'ai_paused: awaiting manual reactivation'
             })
             .eq('id', item.id);
           continue;
