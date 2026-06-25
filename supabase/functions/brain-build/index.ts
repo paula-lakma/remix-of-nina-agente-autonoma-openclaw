@@ -392,7 +392,7 @@ Deno.serve(async (req: Request) => {
   for (const k of knowledge ?? []) {
     files.push({
       path: `${SKILL_BASE}/knowledge/${safeSlug(k.slug)}.md`,
-      content: renderKnowledgeEntry(k),
+      content: renderKnowledgeEntry(k, products ?? []),
     });
   }
 
