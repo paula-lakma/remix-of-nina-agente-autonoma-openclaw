@@ -7,130 +7,161 @@
 
 ## Quando usar este conhecimento
 
-Usar quando a pessoa demonstrar interesse em comprar, pedir link, preço, cupom, catálogo, melhor valor, site oficial, Mercado Livre, formas de contato, continuidade do atendimento, registro no CRM, pós-venda, estoque, prazo de entrega, troca, devolução, reclamação, parceria, distribuição ou condições comerciais.
+Usar quando a pessoa pedir link, site, onde comprar, comprar pelo site, Mercado Livre, preço, cupom, catálogo, ou mencionar um produto/kit específico pedindo o link.
 
 ## Quando encaminhar para atendimento humano
 
-Encaminhar quando a pessoa pedir preço não confirmado, cupom não confirmado, link não disponível, estoque, prazo de entrega, condição comercial especial, troca, devolução, reclamação, pedido com problema, parceria, distribuição, fornecedor, lojista, nota fiscal, SAC ou qualquer informação comercial que não esteja confirmada no material aprovado.
+Encaminhar quando o produto citado não for encontrado, quando não houver link individual nem fallback geral aprovado, ou quando a pessoa pedir estoque, prazo, condição comercial especial, troca, devolução, reclamação, pedido com problema, parceria, distribuição, fornecedor, nota fiscal ou SAC.
 
 ## Conteúdo
 
-```markdown
 ## Objetivo
 
-Este conhecimento define COMO a Nina envia links de produtos, cupons e preços de forma segura.
+Este conhecimento define COMO a Nina envia links de produtos, cupom e preços de forma segura.
 
-A regra é clara: a Nina envia o link cadastrado do produto quando ele existir, e só usa a resposta de "link indisponível" quando o produto realmente não tiver nenhum link aprovado.
+Regra principal: quando o lead pedir o link de um produto específico, a Nina deve enviar o link individual cadastrado naquele produto. Ela não deve responder apenas com o site geral da Lakma quando existir link individual do produto.
 
-## Onde estão os links aprovados
+## Campo oficial do link individual
 
-Os links aprovados de cada produto estão em `knowledge/produtos.md`, dentro do bloco **"Links aprovados deste produto"** de cada produto. Esse arquivo é o material aprovado oficial de links.
+Na tabela/cadastro de Produtos, o campo real do link individual do produto é:
 
-Cada produto traz um bloco JSON com:
+- `site_url` — exibido na interface como "Link do site".
 
-- `link_site`: link oficial do site (quando cadastrado);
-- `link_mercadolivre`: link da loja oficial no Mercado Livre (quando cadastrado);
-- `cupom_site`: cupom válido no site (LAKMA35, quando o site tiver link);
-- `desconto_site`: 35% quando há cupom;
-- `status_link`: `aprovado` quando há link, `indisponivel` quando não há nenhum.
+Para a Nina, esse campo deve sempre ser interpretado e exposto como:
 
-A Nina deve sempre consultar esse bloco antes de responder sobre link.
+- `link_individual_produto`.
 
-## Quando o lead pede o link
+O campo `link_individual_produto` é o link oficial do produto específico no site da Lakma. O site geral `https://www.lakma.com.br` NÃO é o link individual do produto.
 
-Gatilhos que disparam envio de link:
+## Onde consultar os links aprovados
 
-- "link";
-- "me manda o link";
-- "onde compro";
-- "quero comprar";
-- "tem no site";
-- "me envia o site";
-- "qual o link desse produto";
-- "manda o link do produto";
-- "tem no mercado livre";
-- "como faço pra comprar".
+Os links aprovados de cada produto estão em `knowledge/produtos.md`, dentro do bloco **"Links aprovados deste produto"** de cada produto.
 
-Fluxo obrigatório:
+Cada produto deve trazer um bloco JSON com:
 
-1. Identificar qual produto a pessoa quer.
-2. Localizar o produto em `produtos.md`.
-3. Ler o bloco "Links aprovados deste produto".
-4. Se `link_site` estiver preenchido: enviar o link do site **e** informar o cupom LAKMA35 (35% off).
-5. Se só `link_mercadolivre` estiver preenchido: enviar o link do Mercado Livre.
-6. Se ambos estiverem preenchidos: enviar os dois canais e destacar o cupom do site.
-7. Após enviar o link do site, o pipeline será movido automaticamente para "Link do site enviado".
+- `produto`: nome do produto;
+- `link_individual_produto`: link individual do produto vindo de `site_url`;
+- `campo_origem_link_individual_produto`: deve ser `site_url`;
+- `link_site`: espelho do link individual do produto no site;
+- `link_mercadolivre`: link aprovado do Mercado Livre, quando cadastrado;
+- `site_geral_fallback`: `https://www.lakma.com.br`;
+- `cupom_site`: `LAKMA35` quando enviar link do site;
+- `desconto_site`: `35%`;
+- `status_link_individual_produto`: `aprovado` quando `link_individual_produto` estiver preenchido, `indisponivel` quando estiver vazio.
 
-## Resposta padrão quando o produto TEM link de site
+A Nina deve consultar esse bloco antes de responder sobre link.
 
-> Esse é o link oficial do produto: [LINK]
-> No site você pode usar o cupom **LAKMA35** para ter 35% de desconto.
+## Ordem obrigatória quando o lead pede link
 
-Variação natural permitida:
+Siga esta prioridade, sem pular etapas:
 
-> Claro. Vou te enviar o link oficial do [produto]: [LINK]
-> Aproveita que no site o cupom **LAKMA35** garante 35% de desconto.
+1. Identificar se existe produto específico mencionado na conversa.
+2. Se houver produto específico, localizar esse produto em `produtos.md`.
+3. Ler o bloco JSON do produto.
+4. Se `link_individual_produto` estiver preenchido, enviar esse link individual do produto.
+5. Não enviar apenas `https://www.lakma.com.br` quando `link_individual_produto` existir.
+6. Só se o produto específico não tiver `link_individual_produto`, usar `site_geral_fallback` como fallback, deixando claro que não encontrou o link individual no cadastro.
+7. Se não houver produto específico identificado, pode enviar o site geral `https://www.lakma.com.br`.
+8. Se nem link individual nem fallback geral aprovado estiverem disponíveis, encaminhar para atendimento humano.
 
-## Resposta padrão quando o produto SÓ tem Mercado Livre
+## Gatilhos que indicam pedido de link de produto específico
 
-> Esse produto está disponível na nossa loja oficial no Mercado Livre: [LINK]
+Quando a mensagem mencionar produto, kit, linha, nome, apelido ou referência contextual como "esse produto", trate como pedido de link específico. Exemplos:
 
-## Resposta padrão quando o produto TEM os dois canais
+- "me manda o link do Acne Off";
+- "qual o link do sabonete glicólico?";
+- "quero o link do Peeling Biocomplex";
+- "onde compro esse produto?";
+- "me envia o link desse kit";
+- "tem link desse sérum?";
+- "link do kit".
 
-> Esse produto tem dois canais oficiais:
-> Site: [LINK_SITE] — você pode usar o cupom **LAKMA35** para 35% de desconto.
-> Mercado Livre: [LINK_ML]
+Nesses casos, a Nina deve buscar o produto citado e enviar `link_individual_produto` se existir.
 
-## Quando usar a resposta de link indisponível
+## O que NÃO deve acontecer
 
-A frase:
+Se existir `link_individual_produto` para o produto citado, a Nina NÃO deve responder apenas com:
 
-> Esse link não está disponível no material aprovado no momento. Vou encaminhar para a equipe de atendimento verificar e te enviar o link correto.
+- `https://www.lakma.com.br`
 
-**SÓ** pode ser usada quando:
+O site geral só é permitido quando:
 
-- o produto foi encontrado em `produtos.md`;
-- o bloco "Links aprovados deste produto" mostra `status_link: indisponivel`;
-- ou seja, `link_site` E `link_mercadolivre` estão ambos vazios/ausentes.
+- o produto não foi especificado;
+- a pessoa pediu o site da Lakma de forma geral;
+- a pessoa pediu onde comprar sem mencionar produto específico;
+- ou o produto específico realmente não tiver link individual cadastrado.
 
-Se o produto tiver QUALQUER link cadastrado, essa resposta é proibida. A Nina deve enviar o link cadastrado.
+## Resposta correta quando houver link individual
 
-## O que a Nina não deve fazer
+Quando `link_individual_produto` estiver preenchido, responder de forma natural usando um destes modelos:
 
-- Inventar link, encurtador, domínio ou caminho de produto.
-- Usar link de um produto para outro produto.
-- Dizer que o link "não está aprovado" quando o bloco do produto mostra `status_link: aprovado`.
-- Depender só do texto livre ou da descrição em markdown — o link mora no bloco JSON estruturado de cada produto.
-- Inventar cupom diferente de LAKMA35. O único cupom oficial aprovado é LAKMA35 e ele vale apenas no site oficial.
+> Claro. Esse é o link oficial do produto: [LINK_INDIVIDUAL_DO_PRODUTO]
+>
+> Você pode usar o cupom **LAKMA35** para ter 35% de desconto no site.
+
+Ou:
+
+> Te envio o link oficial do produto: [LINK_INDIVIDUAL_DO_PRODUTO]
+>
+> No site, você pode usar o cupom **LAKMA35** para ter 35% de desconto.
+
+## Resposta correta quando não houver produto específico
+
+Se a pessoa pedir apenas "me manda o site", "onde compro?", "qual o site?" ou "quero comprar pelo site" sem produto específico identificado, aí sim a Nina pode responder:
+
+> Te envio o site oficial da Lakma: https://www.lakma.com.br
+>
+> Você pode usar o cupom **LAKMA35** para ter 35% de desconto no site.
+
+## Resposta correta quando o produto não tiver link individual
+
+Se o produto foi identificado, mas `link_individual_produto` estiver vazio, inválido ou com `status_link_individual_produto: indisponivel`, a Nina pode usar o site geral como fallback, mas deve deixar claro:
+
+> Não encontrei o link individual desse produto no cadastro, mas te envio o site oficial da Lakma para você consultar: https://www.lakma.com.br
+>
+> Você pode usar o cupom **LAKMA35** para ter 35% de desconto no site.
+
+## Mercado Livre
+
+Se o lead pedir especificamente Mercado Livre e `link_mercadolivre` estiver cadastrado para o produto, a Nina pode enviar esse link. Não informar o cupom LAKMA35 para Mercado Livre, porque o cupom vale somente no site oficial.
 
 ## Cupom LAKMA35
 
-- Vale somente para o **site oficial** (`link_site`).
-- Não vale para Mercado Livre.
-- Sempre que enviar o link do site, mencionar LAKMA35 e o desconto de 35%.
+- O único cupom aprovado é **LAKMA35**.
+- O desconto aprovado é **35%**.
+- Vale somente para links do site oficial da Lakma.
+- Sempre que enviar qualquer link do site — link individual do produto ou site geral — informar o cupom LAKMA35 e o desconto de 35%.
 
 ## Preços
 
-A Nina não informa preço diretamente. Quando perguntarem preço, responder:
+A Nina não informa preço diretamente. Quando perguntarem preço de produto com link individual:
 
-> Pra confirmar o valor atualizado, é melhor abrir o link oficial: [LINK]
-> No site o cupom **LAKMA35** dá 35% de desconto.
+> Pra confirmar o valor atualizado, é melhor abrir o link oficial do produto: [LINK_INDIVIDUAL_DO_PRODUTO]
+>
+> No site, o cupom **LAKMA35** dá 35% de desconto.
 
-Se não houver link cadastrado para o produto:
+Se não houver link individual cadastrado:
 
 > O valor atualizado eu prefiro confirmar com a equipe pra não te passar nada desatualizado. Posso encaminhar?
 
-## Estoque, prazo de entrega, formas de pagamento
+## Encaminhamento humano
 
-A Nina não informa essas condições. Encaminha para atendimento humano ou orienta a pessoa a consultar direto no link oficial enviado.
+Encaminhar quando:
 
-## Catálogo
+- o produto citado não for encontrado na base aprovada;
+- não houver link individual nem fallback geral aprovado;
+- a pessoa pedir condição comercial, estoque, prazo, troca, devolução, SAC, nota fiscal, problema em pedido, parceria, distribuição ou fornecedor;
+- houver dúvida sobre qual produto a pessoa quer e não for possível confirmar com uma pergunta simples.
 
-Quando a pessoa pedir catálogo geral (não um produto específico), enviar o link do site oficial da Lakma se estiver cadastrado em algum produto ou em conhecimento dedicado. Se não houver catálogo aprovado disponível:
+## Pipeline
 
-> Vou encaminhar para a equipe te enviar o catálogo atualizado.
+Quando a Nina enviar qualquer link aprovado do site — `link_individual_produto` ou `https://www.lakma.com.br` — o pipeline deve avançar para **Link do site enviado**. A Nina não precisa explicar essa mudança ao lead.
 
-## Coleta de nome e contato
+## Guardrails
 
-Manter o comportamento atual: pedir nome de forma natural para registro no CRM; só pedir WhatsApp quando o contato não estiver identificado ou a pessoa quiser ser atendida em outro número.
-```
+- Nunca inventar links, caminhos, encurtadores ou URLs de produto.
+- Nunca usar o link de um produto para outro produto.
+- Nunca substituir `link_individual_produto` pelo site geral quando o link individual existir.
+- Nunca dizer que o link não está disponível quando o JSON do produto mostra `status_link_individual_produto: aprovado`.
+- Nunca inventar cupom diferente de LAKMA35.
+- Depender do bloco JSON estruturado do produto para links; não depender só de texto livre.

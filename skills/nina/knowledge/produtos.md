@@ -4,6 +4,15 @@
 > e orientações para a Nina. O passo a passo completo dos protocolos está em outros
 > arquivos desta pasta `knowledge/`.
 
+## Regra obrigatória para envio de links
+
+- O campo do banco/cadastro que representa o link individual do produto é `site_url` (campo visual: "Link do site").
+- No contexto da Nina, esse campo deve ser tratado como `link_individual_produto`.
+- Quando o lead pedir link de um produto específico, a Nina deve localizar o produto nesta base e enviar `link_individual_produto` se ele estiver preenchido.
+- A Nina NÃO deve enviar apenas o site geral `https://www.lakma.com.br` quando existir `link_individual_produto` para o produto citado.
+- O site geral `https://www.lakma.com.br` é fallback somente quando o produto não foi especificado, quando o lead pediu o site da Lakma em geral, ou quando o produto específico não tiver link individual cadastrado.
+- A Nina nunca inventa links; usa somente os links aprovados deste arquivo ou o fallback geral aprovado.
+
 ## Kit Ácidos Sem Mistérios + Peeling de Cristal Líquido
 
 Kit profissional de peelings clareadores para protocolos faciais e corporais de manchas, melasma, hiperpigmentações, textura irregular e renovação celular.
@@ -12,7 +21,28 @@ Kit profissional de peelings clareadores para protocolos faciais e corporais de 
 - **Principais objetivos:** Clareamento, renovação celular, uniformização do tom, melhora da textura, luminosidade.
 - **Tipo de pele / condição indicada:** Peles com manchas, melasma, hiperpigmentações, manchas pós-inflamatórias, manchas solares, manchas de idade, manchas de acne, textura irregular ou opacidade, conforme avaliação profissional.
 - **Modo de uso:** Uso profissional em cabine. Avaliar pele, fototipo, sensibilidade e contraindicações. Higienizar com Sabonete de Ácido Glicólico, aplicar o peeling indicado conforme protocolo, respeitar o tempo de ação e finalizar conforme orientação profissional. Fotoproteção é indispensável.
-- **Site:** https://lakma.com.br/products/kit-acidos-sem-misterios-peeling-de-cristal-liquido-guia-pratico-de-peeling?_pos=2&_sid=092c25f53&_ss=r
+
+### Links aprovados deste produto
+
+- **Campo real no cadastro:** `site_url`
+- **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/kit-acidos-sem-misterios-peeling-de-cristal-liquido-guia-pratico-de-peeling?_pos=2&_sid=092c25f53&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+
+```json
+{
+  "produto": "Kit Ácidos Sem Mistérios + Peeling de Cristal Líquido",
+  "link_individual_produto": "https://lakma.com.br/products/kit-acidos-sem-misterios-peeling-de-cristal-liquido-guia-pratico-de-peeling?_pos=2&_sid=092c25f53&_ss=r",
+  "campo_origem_link_individual_produto": "site_url",
+  "link_site": "https://lakma.com.br/products/kit-acidos-sem-misterios-peeling-de-cristal-liquido-guia-pratico-de-peeling?_pos=2&_sid=092c25f53&_ss=r",
+  "link_mercadolivre": null,
+  "site_geral_fallback": "https://www.lakma.com.br",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
+  "status_link_individual_produto": "aprovado",
+  "status_link": "aprovado",
+  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+}
+```
 
 ### Combinações
 
@@ -195,7 +225,28 @@ Sérum facial revitalizante com foco em firmeza, efeito lifting, elasticidade e 
 - **Principais objetivos:** Firmeza, efeito lifting, sustentação, elasticidade, rejuvenescimento, linhas de expressão, ação antioxidante.
 - **Tipo de pele / condição indicada:** Peles maduras, envelhecidas ou com sinais de flacidez, perda de firmeza e linhas de expressão, especialmente a partir dos 35 anos.
 - **Modo de uso:** Aplicar algumas gotas sobre a pele limpa e seca. Espalhar no rosto e pescoço até completa absorção. Pode ser usado de dia e/ou à noite. Durante o dia, finalizar com protetor solar.
-- **Site:** https://lakma.com.br/products/fluido-passo-5-rejuvenescedor-50ml?_pos=1&_sid=bcf3c4f48&_ss=r
+
+### Links aprovados deste produto
+
+- **Campo real no cadastro:** `site_url`
+- **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/fluido-passo-5-rejuvenescedor-50ml?_pos=1&_sid=bcf3c4f48&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+
+```json
+{
+  "produto": "Fluido Revitalizante Passo 5 Nano Fill Up - 50ml",
+  "link_individual_produto": "https://lakma.com.br/products/fluido-passo-5-rejuvenescedor-50ml?_pos=1&_sid=bcf3c4f48&_ss=r",
+  "campo_origem_link_individual_produto": "site_url",
+  "link_site": "https://lakma.com.br/products/fluido-passo-5-rejuvenescedor-50ml?_pos=1&_sid=bcf3c4f48&_ss=r",
+  "link_mercadolivre": null,
+  "site_geral_fallback": "https://www.lakma.com.br",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
+  "status_link_individual_produto": "aprovado",
+  "status_link": "aprovado",
+  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+}
+```
 
 ### Participação em protocolos
 
@@ -314,7 +365,28 @@ Creme emoliente facial profissional, livre de trietanolamina, indicado para amol
 - **Principais objetivos:** Emoliência, limpeza de pele, extração de cravos, amolecimento de comedões, conforto na extração.
 - **Tipo de pele / condição indicada:** Todos os tipos de pele, conforme avaliação profissional para limpeza de pele. Indicado para peles com cravos, espinhas e comedões antes da extração mecânica.
 - **Modo de uso:** Aplicar camada uniforme sobre a região. Potencializar com vapor de ozônio ou máscara térmica por 15 a 20 minutos. Pode adicionar 5 gotas do Fluido Revitalizante Passo 01, conforme orientação aprovada. Remover o excesso antes da extração.
-- **Site:** https://lakma.com.br/products/emoliente-zero?_pos=1&_sid=1345a38d7&_ss=r
+
+### Links aprovados deste produto
+
+- **Campo real no cadastro:** `site_url`
+- **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/emoliente-zero?_pos=1&_sid=1345a38d7&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+
+```json
+{
+  "produto": "Emoliente Zero Trieta - 250g",
+  "link_individual_produto": "https://lakma.com.br/products/emoliente-zero?_pos=1&_sid=1345a38d7&_ss=r",
+  "campo_origem_link_individual_produto": "site_url",
+  "link_site": "https://lakma.com.br/products/emoliente-zero?_pos=1&_sid=1345a38d7&_ss=r",
+  "link_mercadolivre": null,
+  "site_geral_fallback": "https://www.lakma.com.br",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
+  "status_link_individual_produto": "aprovado",
+  "status_link": "aprovado",
+  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+}
+```
 
 ### Participação em protocolos
 
@@ -434,7 +506,28 @@ Booster facial profissional indicado para protocolos de rejuvenescimento, firmez
 - **Principais objetivos:** Rejuvenescimento, firmeza, elasticidade, revitalização, linhas finas, luminosidade.
 - **Tipo de pele / condição indicada:** Peles com rugas, linhas, flacidez leve, perda de elasticidade, opacidade ou textura irregular, conforme avaliação profissional.
 - **Modo de uso:** Uso profissional em cabine. Higienizar a pele, aplicar a técnica profissional escolhida e aplicar de 2 a 3ml do booster na região tratada com seringa. Deixar secar. Pode aplicar fluidos revitalizantes ou infusão biomimética por cima, conforme orientação aprovada. Não remover por pelo menos 8 horas.
-- **Site:** https://lakma.com.br/products/booster-fibras-elasticas?_pos=1&_psq=fibras+elas&_ss=e&_v=1.0
+
+### Links aprovados deste produto
+
+- **Campo real no cadastro:** `site_url`
+- **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/booster-fibras-elasticas?_pos=1&_psq=fibras+elas&_ss=e&_v=1.0 ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+
+```json
+{
+  "produto": "Booster Fibras Elásticas",
+  "link_individual_produto": "https://lakma.com.br/products/booster-fibras-elasticas?_pos=1&_psq=fibras+elas&_ss=e&_v=1.0",
+  "campo_origem_link_individual_produto": "site_url",
+  "link_site": "https://lakma.com.br/products/booster-fibras-elasticas?_pos=1&_psq=fibras+elas&_ss=e&_v=1.0",
+  "link_mercadolivre": null,
+  "site_geral_fallback": "https://www.lakma.com.br",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
+  "status_link_individual_produto": "aprovado",
+  "status_link": "aprovado",
+  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+}
+```
 
 ### Participação em protocolos
 
@@ -550,7 +643,28 @@ Máscara facial hidroplástica profissional com ação tensora, refrescante, det
 - **Principais objetivos:** Ação tensora, detox, calmante, refrescância, revitalização, luminosidade, finalização de protocolos.
 - **Tipo de pele / condição indicada:** Todos os tipos e fototipos, especialmente peles normais, cansadas, estressadas, sem viço, irritadas ou com vermelhidão leve.
 - **Modo de uso:** Uso profissional em cabine. Pode ser usada com a Máscara Detox Zen Marine, misturando 2 espátulas da hidroplástica com 1 da Detox, ou de forma tradicional, dissolvida em água, soro ou água termal até formar pasta homogênea. Aplicar no rosto, deixar agir e remover conforme orientação aprovada.
-- **Site:** https://lakma.com.br/products/mascara-zen-marine-hidroplastica-150g?_pos=1&_sid=70f050ddf&_ss=r
+
+### Links aprovados deste produto
+
+- **Campo real no cadastro:** `site_url`
+- **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/mascara-zen-marine-hidroplastica-150g?_pos=1&_sid=70f050ddf&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+
+```json
+{
+  "produto": "Máscara Hidroplástica Zen Marine - 150g",
+  "link_individual_produto": "https://lakma.com.br/products/mascara-zen-marine-hidroplastica-150g?_pos=1&_sid=70f050ddf&_ss=r",
+  "campo_origem_link_individual_produto": "site_url",
+  "link_site": "https://lakma.com.br/products/mascara-zen-marine-hidroplastica-150g?_pos=1&_sid=70f050ddf&_ss=r",
+  "link_mercadolivre": null,
+  "site_geral_fallback": "https://www.lakma.com.br",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
+  "status_link_individual_produto": "aprovado",
+  "status_link": "aprovado",
+  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+}
+```
 
 ### Participação em protocolos
 
@@ -675,7 +789,28 @@ Kit profissional com 4 peelings faciais de 50ml para protocolos de renovação c
 - **Principais objetivos:** Renovação celular, clareamento, controle de oleosidade, acne, textura irregular, uniformização, luminosidade.
 - **Tipo de pele / condição indicada:** Peles com manchas, acne, oleosidade, textura irregular ou necessidade de renovação, conforme avaliação profissional.
 - **Modo de uso:** Uso profissional em cabine. Avaliar pele, fototipo e sensibilidade. Aplicar o peeling escolhido na pele limpa e seca, evitando olhos, mucosas e áreas sensibilizadas. Tempo de ação, remoção, neutralização e frequência devem seguir o protocolo profissional. Fotoproteção indispensável após o uso.
-- **Site:** https://lakma.com.br/products/kit-peelings?_pos=2&_sid=e517bc874&_ss=r
+
+### Links aprovados deste produto
+
+- **Campo real no cadastro:** `site_url`
+- **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/kit-peelings?_pos=2&_sid=e517bc874&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+
+```json
+{
+  "produto": "Kit Peelings Profissionais - 4 Produtos 50ml",
+  "link_individual_produto": "https://lakma.com.br/products/kit-peelings?_pos=2&_sid=e517bc874&_ss=r",
+  "campo_origem_link_individual_produto": "site_url",
+  "link_site": "https://lakma.com.br/products/kit-peelings?_pos=2&_sid=e517bc874&_ss=r",
+  "link_mercadolivre": null,
+  "site_geral_fallback": "https://www.lakma.com.br",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
+  "status_link_individual_produto": "aprovado",
+  "status_link": "aprovado",
+  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+}
+```
 
 ### Participação em protocolos
 
@@ -806,7 +941,28 @@ Kit corporal profissional com produtos para protocolos de esfoliação, massagem
 - **Principais objetivos:** Massagem corporal, esfoliação, drenagem, celulite, gordura localizada, flacidez, ação termoativada, crioterapia, revitalização corporal.
 - **Tipo de pele / condição indicada:** Pele corporal, conforme avaliação profissional e tolerância a frio e calor. Indicado para protocolos corporais de celulite, gordura localizada, flacidez, drenagem, massagem, esfoliação, hidratação e revitalização.
 - **Modo de uso:** Uso profissional em cabine. Usar o Esfoliante BodyPro para preparo da pele, o Creme de Massagem para manobras, o Gel Termoativado em protocolos de celulite e gordura localizada, e o Gel Crioterápico em protocolos de flacidez e tonificação. Frequência conforme protocolo profissional.
-- **Site:** https://lakma.com.br/products/kit-bodypro?_pos=1&_sid=5464b8b38&_ss=r
+
+### Links aprovados deste produto
+
+- **Campo real no cadastro:** `site_url`
+- **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/kit-bodypro?_pos=1&_sid=5464b8b38&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+
+```json
+{
+  "produto": "Kit BodyPro Corporal Profissional",
+  "link_individual_produto": "https://lakma.com.br/products/kit-bodypro?_pos=1&_sid=5464b8b38&_ss=r",
+  "campo_origem_link_individual_produto": "site_url",
+  "link_site": "https://lakma.com.br/products/kit-bodypro?_pos=1&_sid=5464b8b38&_ss=r",
+  "link_mercadolivre": null,
+  "site_geral_fallback": "https://www.lakma.com.br",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
+  "status_link_individual_produto": "aprovado",
+  "status_link": "aprovado",
+  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+}
+```
 
 ### Participação em protocolos
 
@@ -934,7 +1090,28 @@ Kit home care de cuidados labiais com esfoliação, tratamento e finalização p
 - **Principais objetivos:** Hidratação labial, renovação, maciez, brilho, cuidado labial, melhora da aparência dos lábios.
 - **Tipo de pele / condição indicada:** Lábios ressecados, ásperos, opacos ou com descamação leve.
 - **Modo de uso:** Esfoliar os lábios limpos e secos e remover o excesso. Aplicar o Microagulhamento em Creme e espalhar. Finalizar com Gloss Biolips. Usar o esfoliante de 1 a 2 vezes por semana, o gloss ao longo do dia e o microagulhamento conforme orientação.
-- **Site:** https://lakma.com.br/products/kit-labial-home-care?_pos=1&_sid=1789b10ca&_ss=r
+
+### Links aprovados deste produto
+
+- **Campo real no cadastro:** `site_url`
+- **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/kit-labial-home-care?_pos=1&_sid=1789b10ca&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+
+```json
+{
+  "produto": "Kit Labial Home Care",
+  "link_individual_produto": "https://lakma.com.br/products/kit-labial-home-care?_pos=1&_sid=1789b10ca&_ss=r",
+  "campo_origem_link_individual_produto": "site_url",
+  "link_site": "https://lakma.com.br/products/kit-labial-home-care?_pos=1&_sid=1789b10ca&_ss=r",
+  "link_mercadolivre": null,
+  "site_geral_fallback": "https://www.lakma.com.br",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
+  "status_link_individual_produto": "aprovado",
+  "status_link": "aprovado",
+  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+}
+```
 
 ### Combinações
 
@@ -1049,7 +1226,28 @@ Kit profissional para limpeza de pele facial com etapas de higienização, esfol
 - **Principais objetivos:** Limpeza de pele, higienização, esfoliação, emoliência, extração de cravos, tonificação, controle de oleosidade, finalização calmante.
 - **Tipo de pele / condição indicada:** Peles com cravos, oleosidade, acne ou necessidade de limpeza de pele, conforme avaliação profissional.
 - **Modo de uso:** Uso profissional em cabine. Higienizar com sabonete, esfoliar, aplicar o Emoliente Sem Trieta e realizar a extração, tonificar com Loção Tônica e finalizar com Máscara Calmante. Frequência conforme orientação profissional. Usar protetor solar após procedimentos diurnos.
-- **Site:** https://lakma.com.br/products/kit-limpeza-de-pele-creme-emoliente-sem-trieta?_pos=3&_sid=376784632&_ss=r
+
+### Links aprovados deste produto
+
+- **Campo real no cadastro:** `site_url`
+- **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/kit-limpeza-de-pele-creme-emoliente-sem-trieta?_pos=3&_sid=376784632&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+
+```json
+{
+  "produto": "Kit Limpeza de Pele Facial + Ativos Sem Trieta",
+  "link_individual_produto": "https://lakma.com.br/products/kit-limpeza-de-pele-creme-emoliente-sem-trieta?_pos=3&_sid=376784632&_ss=r",
+  "campo_origem_link_individual_produto": "site_url",
+  "link_site": "https://lakma.com.br/products/kit-limpeza-de-pele-creme-emoliente-sem-trieta?_pos=3&_sid=376784632&_ss=r",
+  "link_mercadolivre": null,
+  "site_geral_fallback": "https://www.lakma.com.br",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
+  "status_link_individual_produto": "aprovado",
+  "status_link": "aprovado",
+  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+}
+```
 
 ### Participação em protocolos
 
@@ -1184,7 +1382,28 @@ Sérum facial home care com Niacinamida 10% e Zinco PCA 1%, indicado para oleosi
 - **Principais objetivos:** Controle de oleosidade, acne, cravos, poros aparentes, manchas pós-inflamatórias, uniformização do tom, textura irregular, vermelhidão.
 - **Tipo de pele / condição indicada:** Todos os tipos de pele, especialmente peles mistas, oleosas e acneicas. Indicado para acne, cravos, poros dilatados, oleosidade, manchas pós-inflamatórias, textura irregular e vermelhidão.
 - **Modo de uso:** Aplicar 2 a 3 gotas no rosto limpo e seco. Usar diariamente de manhã e à noite. Pode ser usado antes de hidratante, protetor solar ou maquiagem. Durante o dia, finalizar com protetor solar.
-- **Site:** https://lakma.com.br/products/serum-10-niacinamida-1-zinco-pca?_pos=1&_sid=5b47fa0fb&_ss=r
+
+### Links aprovados deste produto
+
+- **Campo real no cadastro:** `site_url`
+- **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/serum-10-niacinamida-1-zinco-pca?_pos=1&_sid=5b47fa0fb&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+
+```json
+{
+  "produto": "Sérum Lakma NC-10 - Niacinamida 10% + Zinco PCA 1%",
+  "link_individual_produto": "https://lakma.com.br/products/serum-10-niacinamida-1-zinco-pca?_pos=1&_sid=5b47fa0fb&_ss=r",
+  "campo_origem_link_individual_produto": "site_url",
+  "link_site": "https://lakma.com.br/products/serum-10-niacinamida-1-zinco-pca?_pos=1&_sid=5b47fa0fb&_ss=r",
+  "link_mercadolivre": null,
+  "site_geral_fallback": "https://www.lakma.com.br",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
+  "status_link_individual_produto": "aprovado",
+  "status_link": "aprovado",
+  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+}
+```
 
 ### Participação em protocolos
 
@@ -1313,7 +1532,28 @@ Sérum facial noturno com Retinol 0,5% e Vitamina E 1%, indicado para renovaçã
 - **Principais objetivos:** Renovação celular, antissinais, rugas, linhas finas, manchas, firmeza, elasticidade, textura irregular, poros aparentes.
 - **Tipo de pele / condição indicada:** Todos os tipos de pele, exceto peles sensibilizadas, irritadas ou lesionadas. Indicado para rotina noturna de rejuvenescimento, manchas, rugas, linhas finas, flacidez e poros aparentes.
 - **Modo de uso:** À noite, aplicar 2 a 3 gotas na pele limpa e seca. Iniciar de 2 a 3 vezes por semana e aumentar conforme tolerância. Evitar a área dos olhos. Finalizar com hidratante se necessário. Protetor solar obrigatório durante o dia.
-- **Site:** https://lakma.com.br/products/serum-retinol-0-5-vitamina-e-1?_pos=1&_psq=serum+re&_ss=e&_v=1.0
+
+### Links aprovados deste produto
+
+- **Campo real no cadastro:** `site_url`
+- **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/serum-retinol-0-5-vitamina-e-1?_pos=1&_psq=serum+re&_ss=e&_v=1.0 ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+
+```json
+{
+  "produto": "Sérum Lakma RN-0,3 - Retinol 0,5% + Vitamina E 1%",
+  "link_individual_produto": "https://lakma.com.br/products/serum-retinol-0-5-vitamina-e-1?_pos=1&_psq=serum+re&_ss=e&_v=1.0",
+  "campo_origem_link_individual_produto": "site_url",
+  "link_site": "https://lakma.com.br/products/serum-retinol-0-5-vitamina-e-1?_pos=1&_psq=serum+re&_ss=e&_v=1.0",
+  "link_mercadolivre": null,
+  "site_geral_fallback": "https://www.lakma.com.br",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
+  "status_link_individual_produto": "aprovado",
+  "status_link": "aprovado",
+  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+}
+```
 
 ### Participação em protocolos
 
@@ -1437,7 +1677,28 @@ Sérum facial home care com Vitamina C 10% e Ácido Ferúlico 1%, indicado para 
 - **Principais objetivos:** Clareamento, luminosidade, ação antioxidante, uniformização do tom, viço, manchas, textura irregular, prevenção do envelhecimento.
 - **Tipo de pele / condição indicada:** Todos os tipos de pele, especialmente peles com manchas, hiperpigmentações, falta de luminosidade, textura irregular, linhas finas, poros aparentes, oleosidade e prevenção do envelhecimento precoce.
 - **Modo de uso:** Aplicar 2 a 3 gotas na pele limpa e seca, direto na pele ou nas mãos. Espalhar no rosto, evitando contato com os olhos. Usar de manhã e/ou à noite. Durante o dia, o uso de protetor solar é obrigatório.
-- **Site:** https://lakma.com.br/products/vitamina-c-10?_pos=1&_psq=s%C3%A9rum&_ss=e&_v=1.0
+
+### Links aprovados deste produto
+
+- **Campo real no cadastro:** `site_url`
+- **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/vitamina-c-10?_pos=1&_psq=s%C3%A9rum&_ss=e&_v=1.0 ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+
+```json
+{
+  "produto": "Sérum Lakma VC-10 - Vitamina C 10% + Ácido Ferúlico 1%",
+  "link_individual_produto": "https://lakma.com.br/products/vitamina-c-10?_pos=1&_psq=s%C3%A9rum&_ss=e&_v=1.0",
+  "campo_origem_link_individual_produto": "site_url",
+  "link_site": "https://lakma.com.br/products/vitamina-c-10?_pos=1&_psq=s%C3%A9rum&_ss=e&_v=1.0",
+  "link_mercadolivre": null,
+  "site_geral_fallback": "https://www.lakma.com.br",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
+  "status_link_individual_produto": "aprovado",
+  "status_link": "aprovado",
+  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+}
+```
 
 ### Participação em protocolos
 
@@ -1564,7 +1825,28 @@ Creme facial profissional com espículas de esponja hidrolisada, indicado para r
 - **Principais objetivos:** Renovação, revitalização, firmeza, tonificação, melhora da textura, permeação de ativos, rejuvenescimento, hidratação, nutrição e reparação.
 - **Tipo de pele / condição indicada:** Todos os tipos de pele, conforme avaliação profissional. Evitar uso em pele lesionada, irritada, sensibilizada ou inflamada.
 - **Modo de uso:** Aplicar pequena quantidade na pele limpa e seca. Massagear suavemente até espalhar. Deixar agir por 5 minutos. Aplicar fluidos ou peeling por cima, sem remoção, conforme finalidade. Frequência conforme orientação profissional.
-- **Site:** https://lakma.com.br/products/microagulhamento-em-creme-8g?_pos=1&_psq=microagul&_ss=e&_v=1.0
+
+### Links aprovados deste produto
+
+- **Campo real no cadastro:** `site_url`
+- **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/microagulhamento-em-creme-8g?_pos=1&_psq=microagul&_ss=e&_v=1.0 ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+
+```json
+{
+  "produto": "Microagulhamento em Creme - 8g",
+  "link_individual_produto": "https://lakma.com.br/products/microagulhamento-em-creme-8g?_pos=1&_psq=microagul&_ss=e&_v=1.0",
+  "campo_origem_link_individual_produto": "site_url",
+  "link_site": "https://lakma.com.br/products/microagulhamento-em-creme-8g?_pos=1&_psq=microagul&_ss=e&_v=1.0",
+  "link_mercadolivre": null,
+  "site_geral_fallback": "https://www.lakma.com.br",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
+  "status_link_individual_produto": "aprovado",
+  "status_link": "aprovado",
+  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+}
+```
 
 ### Participação em protocolos
 
@@ -1695,7 +1977,28 @@ Gloss labial bioativo home care com ação booster, indicado para hidratação, 
 - **Principais objetivos:** Hidratação labial, brilho, maciez, volumização epitelial, ação booster, melhora da aparência dos lábios.
 - **Tipo de pele / condição indicada:** Lábios ressecados, opacos ou sem brilho.
 - **Modo de uso:** Aplicar diretamente nos lábios limpos e secos. Espalhar até cobertura uniforme. Reaplicar ao longo do dia. Pode ser usado sozinho ou após esfoliação e hidratação.
-- **Site:** https://lakma.com.br/products/gloss-bioativo-8g?_pos=1&_psq=gloss&_ss=e&_v=1.0
+
+### Links aprovados deste produto
+
+- **Campo real no cadastro:** `site_url`
+- **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/gloss-bioativo-8g?_pos=1&_psq=gloss&_ss=e&_v=1.0 ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+
+```json
+{
+  "produto": "Gloss Biolips Bioativo - Booster Labial - 8g",
+  "link_individual_produto": "https://lakma.com.br/products/gloss-bioativo-8g?_pos=1&_psq=gloss&_ss=e&_v=1.0",
+  "campo_origem_link_individual_produto": "site_url",
+  "link_site": "https://lakma.com.br/products/gloss-bioativo-8g?_pos=1&_psq=gloss&_ss=e&_v=1.0",
+  "link_mercadolivre": null,
+  "site_geral_fallback": "https://www.lakma.com.br",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
+  "status_link_individual_produto": "aprovado",
+  "status_link": "aprovado",
+  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+}
+```
 
 ### Combinações
 
@@ -1809,7 +2112,28 @@ Tratamento home care para cílios em formato de rímel, indicado para fortalecim
 - **Principais objetivos:** Fortalecimento dos cílios, crescimento saudável, cuidado dos fios, resistência, melhora da aparência dos cílios.
 - **Tipo de pele / condição indicada:** Cílios frágeis, finos, enfraquecidos ou com necessidade de fortalecimento.
 - **Modo de uso:** Aplicar nos cílios limpos e secos com o aplicador. Espalhar delicadamente da raiz às pontas. Usar diariamente ou conforme necessidade.
-- **Site:** https://lakma.com.br/products/rimel-bioativo-8ml?_pos=1&_psq=r%C3%ADmel&_ss=e&_v=1.0
+
+### Links aprovados deste produto
+
+- **Campo real no cadastro:** `site_url`
+- **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/rimel-bioativo-8ml?_pos=1&_psq=r%C3%ADmel&_ss=e&_v=1.0 ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+
+```json
+{
+  "produto": "Rímel Fioativo - 8ml",
+  "link_individual_produto": "https://lakma.com.br/products/rimel-bioativo-8ml?_pos=1&_psq=r%C3%ADmel&_ss=e&_v=1.0",
+  "campo_origem_link_individual_produto": "site_url",
+  "link_site": "https://lakma.com.br/products/rimel-bioativo-8ml?_pos=1&_psq=r%C3%ADmel&_ss=e&_v=1.0",
+  "link_mercadolivre": null,
+  "site_geral_fallback": "https://www.lakma.com.br",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
+  "status_link_individual_produto": "aprovado",
+  "status_link": "aprovado",
+  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+}
+```
 
 ### Combinações
 
@@ -1920,7 +2244,28 @@ Esfoliante home care para rosto e lábios, indicado para renovação suave, remo
 - **Principais objetivos:** Esfoliação, renovação suave, remoção de células mortas, maciez, melhora da textura, preparo da pele e dos lábios para hidratação e ativos.
 - **Tipo de pele / condição indicada:** Todos os tipos de pele. Indicado para pele ou lábios ásperos, textura irregular, rotina semanal de skincare e preparação para ativos. Evitar pele ou lábios lesionados, irritados ou sensibilizados.
 - **Modo de uso:** Aplicar pequena quantidade na pele limpa e levemente úmida. Massagear suavemente em movimentos circulares no rosto ou lábios. Remover com água. Usar de 1 a 2 vezes por semana ou conforme necessidade.
-- **Site:** https://lakma.com.br/products/esfoliante-facial-e-labial-30g?_pos=1&_psq=esfoliante&_ss=e&_v=1.0
+
+### Links aprovados deste produto
+
+- **Campo real no cadastro:** `site_url`
+- **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/esfoliante-facial-e-labial-30g?_pos=1&_psq=esfoliante&_ss=e&_v=1.0 ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+
+```json
+{
+  "produto": "Esfoliante Facial e Labial Bioativo - 30g",
+  "link_individual_produto": "https://lakma.com.br/products/esfoliante-facial-e-labial-30g?_pos=1&_psq=esfoliante&_ss=e&_v=1.0",
+  "campo_origem_link_individual_produto": "site_url",
+  "link_site": "https://lakma.com.br/products/esfoliante-facial-e-labial-30g?_pos=1&_psq=esfoliante&_ss=e&_v=1.0",
+  "link_mercadolivre": null,
+  "site_geral_fallback": "https://www.lakma.com.br",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
+  "status_link_individual_produto": "aprovado",
+  "status_link": "aprovado",
+  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+}
+```
 
 ### Participação em protocolos
 
@@ -2045,7 +2390,28 @@ Espuma de limpeza facial home care para uso diário, indicada para remover impur
 - **Principais objetivos:** Limpeza facial diária, remoção de impurezas, controle de oleosidade, suavidade, ação calmante, ação antioxidante, preparo da pele para skincare.
 - **Tipo de pele / condição indicada:** Todos os tipos de pele, inclusive pele sensível ou sensibilizada conforme tolerância. Indicada para limpeza facial diária, remoção de impurezas, controle do excesso de oleosidade, ação calmante e cuidado antioxidante.
 - **Modo de uso:** Aplicar sobre o rosto úmido, massagear com movimentos circulares e enxaguar. Usar diariamente de manhã e à noite, evitando contato direto com os olhos.
-- **Site:** https://lakma.com.br/products/espuma-de-limpeza?_pos=1&_psq=espuma+de+limpeza&_ss=e&_v=1.0
+
+### Links aprovados deste produto
+
+- **Campo real no cadastro:** `site_url`
+- **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/espuma-de-limpeza?_pos=1&_psq=espuma+de+limpeza&_ss=e&_v=1.0 ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+
+```json
+{
+  "produto": "Espuma de Limpeza Facial - Camomila, Própolis e Vitamina E - 140ml",
+  "link_individual_produto": "https://lakma.com.br/products/espuma-de-limpeza?_pos=1&_psq=espuma+de+limpeza&_ss=e&_v=1.0",
+  "campo_origem_link_individual_produto": "site_url",
+  "link_site": "https://lakma.com.br/products/espuma-de-limpeza?_pos=1&_psq=espuma+de+limpeza&_ss=e&_v=1.0",
+  "link_mercadolivre": null,
+  "site_geral_fallback": "https://www.lakma.com.br",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
+  "status_link_individual_produto": "aprovado",
+  "status_link": "aprovado",
+  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+}
+```
 
 ### Participação em protocolos
 
@@ -2175,7 +2541,28 @@ Máscara facial hidratante com ação refrescante, indicada para hidratar, suavi
 - **Principais objetivos:** Hidratação, refrescância, suavização, combate ao ressecamento, maciez, conforto, aparência descansada.
 - **Tipo de pele / condição indicada:** Todos os tipos de pele, especialmente pele ressecada, desconfortável ou cansada. Há observação no material para confirmar comunicação oficial para pele oleosa.
 - **Modo de uso:** Aplicar camada uniforme sobre a pele limpa e seca. Deixar agir conforme protocolo ou necessidade. Remover com água ou gaze umedecida. Usar conforme necessidade.
-- **Site:** https://lakma.com.br/products/mascara-hidratante-de-pepino-pele-oleosa?_pos=1&_sid=e309c92f3&_ss=r
+
+### Links aprovados deste produto
+
+- **Campo real no cadastro:** `site_url`
+- **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/mascara-hidratante-de-pepino-pele-oleosa?_pos=1&_sid=e309c92f3&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+
+```json
+{
+  "produto": "Máscara Hidratante de Pepino - 100g",
+  "link_individual_produto": "https://lakma.com.br/products/mascara-hidratante-de-pepino-pele-oleosa?_pos=1&_sid=e309c92f3&_ss=r",
+  "campo_origem_link_individual_produto": "site_url",
+  "link_site": "https://lakma.com.br/products/mascara-hidratante-de-pepino-pele-oleosa?_pos=1&_sid=e309c92f3&_ss=r",
+  "link_mercadolivre": null,
+  "site_geral_fallback": "https://www.lakma.com.br",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
+  "status_link_individual_produto": "aprovado",
+  "status_link": "aprovado",
+  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+}
+```
 
 ### Participação em protocolos
 
@@ -2300,7 +2687,28 @@ Creme facial antissinais home care com Nano Coenzima Q10 e Nano Vitamina E, indi
 - **Principais objetivos:** Antissinais, rugas, linhas de expressão, flacidez, firmeza, efeito lifting, tonificação, hidratação, revitalização, ação antioxidante.
 - **Tipo de pele / condição indicada:** Todos os tipos de pele, especialmente a partir dos 35 anos, com sinais de envelhecimento, flacidez, rugas, linhas de expressão, perda de firmeza e falta de vitalidade.
 - **Modo de uso:** Aplicar pequena quantidade na pele limpa e seca. Espalhar no rosto com movimentos ascendentes. Usar de manhã e/ou à noite, com melhor aproveitamento à noite. Durante o dia, finalizar com protetor solar.
-- **Site:** https://lakma.com.br/products/creme-antissinais-q10-facial-rejuvenescedor?_pos=1&_sid=0b9a15e5b&_ss=r
+
+### Links aprovados deste produto
+
+- **Campo real no cadastro:** `site_url`
+- **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/creme-antissinais-q10-facial-rejuvenescedor?_pos=1&_sid=0b9a15e5b&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+
+```json
+{
+  "produto": "Creme Antissinais Q-10 - 100g",
+  "link_individual_produto": "https://lakma.com.br/products/creme-antissinais-q10-facial-rejuvenescedor?_pos=1&_sid=0b9a15e5b&_ss=r",
+  "campo_origem_link_individual_produto": "site_url",
+  "link_site": "https://lakma.com.br/products/creme-antissinais-q10-facial-rejuvenescedor?_pos=1&_sid=0b9a15e5b&_ss=r",
+  "link_mercadolivre": null,
+  "site_geral_fallback": "https://www.lakma.com.br",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
+  "status_link_individual_produto": "aprovado",
+  "status_link": "aprovado",
+  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+}
+```
 
 ### Participação em protocolos
 
@@ -2425,7 +2833,28 @@ Creme facial hidratante home care com Nano Ácido Hialurônico e Nano Vitamina E
 - **Principais objetivos:** Hidratação profunda, firmeza, elasticidade, suavização de linhas finas, efeito preenchedor, luminosidade, maciez.
 - **Tipo de pele / condição indicada:** Todos os tipos de pele, especialmente a partir dos 30 anos, com ressecamento, desidratação, linhas finas ou perda de elasticidade.
 - **Modo de uso:** Aplicar pequena quantidade na pele limpa e seca. Espalhar com movimentos circulares até absorção. Usar de manhã e/ou à noite. Durante o dia, finalizar com protetor solar.
-- **Site:** https://lakma.com.br/products/creme-de-acido-hialuronico-facial-hidratante?_pos=1&_psq=hialuro&_ss=e&_v=1.0
+
+### Links aprovados deste produto
+
+- **Campo real no cadastro:** `site_url`
+- **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/creme-de-acido-hialuronico-facial-hidratante?_pos=1&_psq=hialuro&_ss=e&_v=1.0 ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+
+```json
+{
+  "produto": "Creme Facial Ácido Hialurônico - 100g",
+  "link_individual_produto": "https://lakma.com.br/products/creme-de-acido-hialuronico-facial-hidratante?_pos=1&_psq=hialuro&_ss=e&_v=1.0",
+  "campo_origem_link_individual_produto": "site_url",
+  "link_site": "https://lakma.com.br/products/creme-de-acido-hialuronico-facial-hidratante?_pos=1&_psq=hialuro&_ss=e&_v=1.0",
+  "link_mercadolivre": null,
+  "site_geral_fallback": "https://www.lakma.com.br",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
+  "status_link_individual_produto": "aprovado",
+  "status_link": "aprovado",
+  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+}
+```
 
 ### Participação em protocolos
 
@@ -2551,7 +2980,28 @@ Chá solúvel sabor limão para rotina de bem-estar, com proposta detox, leveza,
 - **Principais objetivos:** Bem-estar, rotina detox, sensação de leveza, disposição, saúde intestinal, metabolismo, foco, energia, fonte de colágeno.
 - **Tipo de pele / condição indicada:** Não se aplica à pele. Produto de consumo oral, indicado para pessoas que buscam bebida prática para rotina de bem-estar, leveza, disposição, saúde intestinal e cuidados com a pele.
 - **Modo de uso:** Diluir a quantidade recomendada em água conforme embalagem. Mexer até dissolver. Consumir ao longo do dia conforme preferência ou orientação. Pode ser consumido gelado. Evitar após 18h para não atrapalhar o sono, conforme material aprovado.
-- **Site:** https://lakma.com.br/products/esbeltea-cha-soluvel?_pos=1&_sid=7d5b0a2d1&_ss=r
+
+### Links aprovados deste produto
+
+- **Campo real no cadastro:** `site_url`
+- **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/esbeltea-cha-soluvel?_pos=1&_sid=7d5b0a2d1&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+
+```json
+{
+  "produto": "EsbelTEA Solúvel Sabor Limão - 210g",
+  "link_individual_produto": "https://lakma.com.br/products/esbeltea-cha-soluvel?_pos=1&_sid=7d5b0a2d1&_ss=r",
+  "campo_origem_link_individual_produto": "site_url",
+  "link_site": "https://lakma.com.br/products/esbeltea-cha-soluvel?_pos=1&_sid=7d5b0a2d1&_ss=r",
+  "link_mercadolivre": null,
+  "site_geral_fallback": "https://www.lakma.com.br",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
+  "status_link_individual_produto": "aprovado",
+  "status_link": "aprovado",
+  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+}
+```
 
 ### Participação em protocolos
 
@@ -2678,7 +3128,28 @@ Suplemento em cápsulas com blend de chás, fibras e extratos vegetais, indicado
 - **Principais objetivos:** Bem-estar, sensação de leveza, rotina detox, praticidade, consumo de chás e ativos vegetais, apoio à rotina equilibrada.
 - **Tipo de pele / condição indicada:** Não se aplica à pele. Produto de consumo oral adulto, indicado para complementar a rotina com blend de chás, fibras e extratos vegetais, associado a alimentação equilibrada e hábitos saudáveis.
 - **Modo de uso:** Ingerir 2 cápsulas conforme embalagem ou orientação profissional. Usar até 18h para não atrapalhar o sono. Não exceder a recomendação diária.
-- **Site:** https://lakma.com.br/products/esbeltea-cha-seca-barriga-cha-detox-em-capsulas-60un?_pos=2&_sid=7d5b0a2d1&_ss=r
+
+### Links aprovados deste produto
+
+- **Campo real no cadastro:** `site_url`
+- **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/esbeltea-cha-seca-barriga-cha-detox-em-capsulas-60un?_pos=2&_sid=7d5b0a2d1&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+
+```json
+{
+  "produto": "Esbeltea Chá Seca Barriga + Chá Detox em Cápsulas - 60 cápsulas",
+  "link_individual_produto": "https://lakma.com.br/products/esbeltea-cha-seca-barriga-cha-detox-em-capsulas-60un?_pos=2&_sid=7d5b0a2d1&_ss=r",
+  "campo_origem_link_individual_produto": "site_url",
+  "link_site": "https://lakma.com.br/products/esbeltea-cha-seca-barriga-cha-detox-em-capsulas-60un?_pos=2&_sid=7d5b0a2d1&_ss=r",
+  "link_mercadolivre": null,
+  "site_geral_fallback": "https://www.lakma.com.br",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
+  "status_link_individual_produto": "aprovado",
+  "status_link": "aprovado",
+  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+}
+```
 
 ### Participação em protocolos
 
@@ -2816,7 +3287,28 @@ Produto corporal profissional com ação térmica e lipolítica, indicado para p
 - **Principais objetivos:** Ação térmica, ação lipolítica, redução de medidas, gordura localizada, celulite, drenagem, edema, retenção de líquidos, metabolismo local.
 - **Tipo de pele / condição indicada:** Todos os tipos de pele corporal, conforme avaliação profissional e tolerância ao produto térmico. Indicado para protocolos corporais de redução de medidas, gordura localizada, celulite, drenagem, edema, retenção de líquidos, estimulação metabólica e regeneração tecidual.
 - **Modo de uso:** Uso profissional externo. Dissolver a quantidade desejada em pequena quantidade de água. Aplicar na região corporal. Associar com faixa, faixa gessada, manta térmica ou plástico filme. Tempo máximo de até 2 horas. Remover completamente.
-- **Site:** https://lakma.com.br/products/sal-termico-lipolitico-500g?_pos=1&_sid=927df9fcc&_ss=r
+
+### Links aprovados deste produto
+
+- **Campo real no cadastro:** `site_url`
+- **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/sal-termico-lipolitico-500g?_pos=1&_sid=927df9fcc&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+
+```json
+{
+  "produto": "Sal Térmico Lipolítico - 500g",
+  "link_individual_produto": "https://lakma.com.br/products/sal-termico-lipolitico-500g?_pos=1&_sid=927df9fcc&_ss=r",
+  "campo_origem_link_individual_produto": "site_url",
+  "link_site": "https://lakma.com.br/products/sal-termico-lipolitico-500g?_pos=1&_sid=927df9fcc&_ss=r",
+  "link_mercadolivre": null,
+  "site_geral_fallback": "https://www.lakma.com.br",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
+  "status_link_individual_produto": "aprovado",
+  "status_link": "aprovado",
+  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+}
+```
 
 ### Participação em protocolos
 
@@ -2944,7 +3436,28 @@ Kit com 3 máscaras faciais finalizadoras para hidratação, viço, luminosidade
 - **Principais objetivos:** Hidratação, finalização de protocolos, viço, luminosidade, ação calmante, revitalização, clareamento, uniformização e ação antioxidante.
 - **Tipo de pele / condição indicada:** Todos os tipos de pele, com cautela em peles oleosas, acneicas ou sensibilizadas. Indicada para finalização de protocolos, hidratação, ação calmante, revitalização, clareamento, pós-extração, pós-peeling e pós-sol conforme avaliação.
 - **Modo de uso:** Aplicar a máscara escolhida sobre a pele limpa e seca. Deixar agir de 8 a 10 minutos. Remover com gaze umedecida em água. Usar conforme necessidade ou protocolo. As máscaras são independentes.
-- **Site:** https://lakma.com.br/products/kit-3-mascaras-tropicalia-frutas-colageno-vitamina-c-e-acido-hialuronico?_pos=1&_sid=56edf1a9d&_ss=r
+
+### Links aprovados deste produto
+
+- **Campo real no cadastro:** `site_url`
+- **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/kit-3-mascaras-tropicalia-frutas-colageno-vitamina-c-e-acido-hialuronico?_pos=1&_sid=56edf1a9d&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+
+```json
+{
+  "produto": "Kit Máscaras Faciais Tropicalia - 3 Unidades de 150g",
+  "link_individual_produto": "https://lakma.com.br/products/kit-3-mascaras-tropicalia-frutas-colageno-vitamina-c-e-acido-hialuronico?_pos=1&_sid=56edf1a9d&_ss=r",
+  "campo_origem_link_individual_produto": "site_url",
+  "link_site": "https://lakma.com.br/products/kit-3-mascaras-tropicalia-frutas-colageno-vitamina-c-e-acido-hialuronico?_pos=1&_sid=56edf1a9d&_ss=r",
+  "link_mercadolivre": null,
+  "site_geral_fallback": "https://www.lakma.com.br",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
+  "status_link_individual_produto": "aprovado",
+  "status_link": "aprovado",
+  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+}
+```
 
 ### Participação em protocolos
 
@@ -3072,7 +3585,28 @@ Kit labial home care com esfoliante e tratamento hidratante/nutritivo, indicado 
 - **Principais objetivos:** Esfoliação labial, renovação, hidratação, nutrição, maciez, brilho natural, melhora da aparência dos lábios.
 - **Tipo de pele / condição indicada:** Lábios ressecados, ásperos, opacos, sem brilho ou com células superficiais. Evitar uso em lábios lesionados, irritados ou sensibilizados.
 - **Modo de uso:** Usar o Dolce Peel nos lábios limpos, massageando suavemente com movimentos circulares, e remover o excesso conforme necessidade. Em seguida, aplicar o Dolce Lips e espalhar até formar camada uniforme. O Dolce Lips não precisa ser removido.
-- **Site:** https://lakma.com.br/products/dolce-lips-dolce-peel-labial?_pos=2&_sid=49466bc8e&_ss=r
+
+### Links aprovados deste produto
+
+- **Campo real no cadastro:** `site_url`
+- **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/dolce-lips-dolce-peel-labial?_pos=2&_sid=49466bc8e&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+
+```json
+{
+  "produto": "Kit Dolce Lips + Dolce Peel Labial - 2 Produtos",
+  "link_individual_produto": "https://lakma.com.br/products/dolce-lips-dolce-peel-labial?_pos=2&_sid=49466bc8e&_ss=r",
+  "campo_origem_link_individual_produto": "site_url",
+  "link_site": "https://lakma.com.br/products/dolce-lips-dolce-peel-labial?_pos=2&_sid=49466bc8e&_ss=r",
+  "link_mercadolivre": null,
+  "site_geral_fallback": "https://www.lakma.com.br",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
+  "status_link_individual_produto": "aprovado",
+  "status_link": "aprovado",
+  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+}
+```
 
 ### Combinações
 
@@ -3198,7 +3732,28 @@ Indicar para clientes que buscam uma rotina labial simples com esfoliação e hi
 - **Principais objetivos:** Massagem corporal, alto deslizamento, drenagem linfática, massagem relaxante, massagem modeladora, hidratação, nutrição, maciez e conforto.
 - **Tipo de pele / condição indicada:** Pele corporal, conforme avaliação profissional e tolerância a óleos vegetais.
 - **Modo de uso:** Aplicar quantidade suficiente na região corporal e realizar manobras conforme protocolo. Reaplicar quando necessário para manter o deslizamento.
-- **Site:** https://lakma.com.br/products/oleo-de-massagem?_pos=1&_sid=1b7efcfc1&_ss=r
+
+### Links aprovados deste produto
+
+- **Campo real no cadastro:** `site_url`
+- **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/oleo-de-massagem?_pos=1&_sid=1b7efcfc1&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+
+```json
+{
+  "produto": "Óleo para Massagem Corporal - 500ml",
+  "link_individual_produto": "https://lakma.com.br/products/oleo-de-massagem?_pos=1&_sid=1b7efcfc1&_ss=r",
+  "campo_origem_link_individual_produto": "site_url",
+  "link_site": "https://lakma.com.br/products/oleo-de-massagem?_pos=1&_sid=1b7efcfc1&_ss=r",
+  "link_mercadolivre": null,
+  "site_geral_fallback": "https://www.lakma.com.br",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
+  "status_link_individual_produto": "aprovado",
+  "status_link": "aprovado",
+  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+}
+```
 
 ### Participação em protocolos
 
@@ -3322,7 +3877,28 @@ Kit corporal profissional de lipoplastia não invasiva em 3 etapas, indicado par
 - **Principais objetivos:** Lipoplastia não invasiva, redução de medidas, gordura localizada, celulite, flacidez, ação detox, contorno corporal, massagem modeladora e protocolos corporais intensivos.
 - **Tipo de pele / condição indicada:** Pele corporal com celulite, gordura localizada, flacidez ou necessidade de contorno, conforme avaliação profissional.
 - **Modo de uso:** Uso profissional em cabine. Borrifar Enzima e massagear até hiperemia; pode usar endermologia ou ventosas. Aplicar Polpa em pé, ocluir com filme, manta por 20 a 30 minutos ou vapor. Remover o excesso. Reaplicar Enzima, aplicar Creme e fazer massagem modeladora; pode usar aparelhos vibradores.
-- **Site:** https://lakma.com.br/products/kit-venus-de-lipoplastia?_pos=1&_sid=7a228ca1f&_ss=r
+
+### Links aprovados deste produto
+
+- **Campo real no cadastro:** `site_url`
+- **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/kit-venus-de-lipoplastia?_pos=1&_sid=7a228ca1f&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+
+```json
+{
+  "produto": "Kit Profissional Venus de Lipoplastia - 3 Produtos",
+  "link_individual_produto": "https://lakma.com.br/products/kit-venus-de-lipoplastia?_pos=1&_sid=7a228ca1f&_ss=r",
+  "campo_origem_link_individual_produto": "site_url",
+  "link_site": "https://lakma.com.br/products/kit-venus-de-lipoplastia?_pos=1&_sid=7a228ca1f&_ss=r",
+  "link_mercadolivre": null,
+  "site_geral_fallback": "https://www.lakma.com.br",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
+  "status_link_individual_produto": "aprovado",
+  "status_link": "aprovado",
+  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+}
+```
 
 ### Participação em protocolos
 
@@ -3457,7 +4033,28 @@ Peeling profissional facial para renovação celular, clareamento, uniformizaç�
 - **Principais objetivos:** Renovação celular, clareamento facial, uniformização do tom, melhora da textura, luminosidade e revitalização.
 - **Tipo de pele / condição indicada:** Peles com manchas, textura irregular, opacidade ou necessidade de renovação e revitalização, conforme avaliação profissional. Evitar em pele irritada, lesionada ou sensibilizada.
 - **Modo de uso:** Aplicar sobre a pele limpa e seca conforme protocolo. Tempo de ação informado no modo de uso: 4 a 8 minutos. Remover com algodão embebido em água. Usar protetor solar após o procedimento.
-- **Site:** https://lakma.com.br/products/peeling-de-cristal-liquido-retinol-30ml?_pos=1&_sid=0edd2d86f&_ss=r
+
+### Links aprovados deste produto
+
+- **Campo real no cadastro:** `site_url`
+- **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/peeling-de-cristal-liquido-retinol-30ml?_pos=1&_sid=0edd2d86f&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+
+```json
+{
+  "produto": "Peeling de Cristal Líquido - 30g",
+  "link_individual_produto": "https://lakma.com.br/products/peeling-de-cristal-liquido-retinol-30ml?_pos=1&_sid=0edd2d86f&_ss=r",
+  "campo_origem_link_individual_produto": "site_url",
+  "link_site": "https://lakma.com.br/products/peeling-de-cristal-liquido-retinol-30ml?_pos=1&_sid=0edd2d86f&_ss=r",
+  "link_mercadolivre": null,
+  "site_geral_fallback": "https://www.lakma.com.br",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
+  "status_link_individual_produto": "aprovado",
+  "status_link": "aprovado",
+  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+}
+```
 
 ### Participação em protocolos
 
@@ -3588,7 +4185,28 @@ Máscara facial calmante profissional, indicada para acalmar, hidratar, suavizar
 - **Principais objetivos:** Ação calmante, hidratação, suavização, redução de vermelhidão, conforto imediato, recuperação da barreira cutânea e finalização pós-procedimento.
 - **Tipo de pele / condição indicada:** Peles normais, peles sensíveis, peles irritadas, peles avermelhadas, peles ressecadas, pós-limpeza de pele, pós-extração, pós-peelings, pós-microagulhamento, pós-depilação, protocolos sensibilizantes.
 - **Modo de uso:** Aplicar camada uniforme no rosto limpo e seco. Deixar agir de 10 a 20 minutos. Remover com algodão umedecido ou água morna. Finalizar com tônico ou conforme protocolo profissional.
-- **Site:** https://lakma.com.br/products/mascara-calmante-500gr?_pos=2&_sid=06389087d&_ss=r
+
+### Links aprovados deste produto
+
+- **Campo real no cadastro:** `site_url`
+- **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/mascara-calmante-500gr?_pos=2&_sid=06389087d&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+
+```json
+{
+  "produto": "Máscara Calmante Limpeza de Pele - 500g",
+  "link_individual_produto": "https://lakma.com.br/products/mascara-calmante-500gr?_pos=2&_sid=06389087d&_ss=r",
+  "campo_origem_link_individual_produto": "site_url",
+  "link_site": "https://lakma.com.br/products/mascara-calmante-500gr?_pos=2&_sid=06389087d&_ss=r",
+  "link_mercadolivre": null,
+  "site_geral_fallback": "https://www.lakma.com.br",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
+  "status_link_individual_produto": "aprovado",
+  "status_link": "aprovado",
+  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+}
+```
 
 ### Participação em protocolos
 
@@ -3733,7 +4351,28 @@ Sérum facial calmante para peles sensíveis, irritáveis, reativas, com vermelh
 - **Principais objetivos:** Ação calmante, suavização, redução de irritação, redução de desconforto, equilíbrio da barreira cutânea, hidratação, frescor, suporte para pele sensível, suporte pós-procedimento quando aprovado.
 - **Tipo de pele / condição indicada:** Peles sensíveis, peles irritáveis, peles reativas, tendência à vermelhidão, rosácea conforme orientação, telangiectasias conforme orientação, desconforto cutâneo, barreira cutânea fragilizada, pele sensibilizada conforme avaliação.
 - **Modo de uso:** Aplicar pequena quantidade sobre a pele limpa e seca. Espalhar até completa absorção. Usar de dia e/ou à noite. Durante o dia, finalizar com protetor solar.
-- **Site:** https://lakma.com.br/products/neuroplasma-ultra-calmante-pos-laser-e-procedimentos-50ml?_pos=3&_psq=calman&_ss=e&_v=1.0
+
+### Links aprovados deste produto
+
+- **Campo real no cadastro:** `site_url`
+- **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/neuroplasma-ultra-calmante-pos-laser-e-procedimentos-50ml?_pos=3&_psq=calman&_ss=e&_v=1.0 ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+
+```json
+{
+  "produto": "Neuroplasma Calmante - 50ml",
+  "link_individual_produto": "https://lakma.com.br/products/neuroplasma-ultra-calmante-pos-laser-e-procedimentos-50ml?_pos=3&_psq=calman&_ss=e&_v=1.0",
+  "campo_origem_link_individual_produto": "site_url",
+  "link_site": "https://lakma.com.br/products/neuroplasma-ultra-calmante-pos-laser-e-procedimentos-50ml?_pos=3&_psq=calman&_ss=e&_v=1.0",
+  "link_mercadolivre": null,
+  "site_geral_fallback": "https://www.lakma.com.br",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
+  "status_link_individual_produto": "aprovado",
+  "status_link": "aprovado",
+  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+}
+```
 
 ### Participação em protocolos
 
@@ -3865,7 +4504,28 @@ Loção facial profissional de limpeza desengordurante com Ácido Glicólico e N
 - **Principais objetivos:** Limpeza desengordurante, remoção de sebo, remoção de células mortas, preparação da pele, pré-clareamento, uniformização, renovação celular, melhora da absorção de ativos, oxigenação dos tecidos.
 - **Tipo de pele / condição indicada:** Peles que precisam de preparo, desengorduramento, pré-clareamento, renovação, aplicação de ativos ou protocolos faciais profissionais, conforme avaliação profissional.
 - **Modo de uso:** Aplicar sobre pele limpa na região desejada. Espalhar com algodão ou gaze conforme protocolo. Usar como etapa preparatória. Remover se necessário conforme procedimento.
-- **Site:** https://lakma.com.br/products/locao-ozonizada-200ml?_pos=1&_sid=c585f5ad1&_ss=r
+
+### Links aprovados deste produto
+
+- **Campo real no cadastro:** `site_url`
+- **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/locao-ozonizada-200ml?_pos=1&_sid=c585f5ad1&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+
+```json
+{
+  "produto": "Loção de Limpeza Ozonizada - 200ml",
+  "link_individual_produto": "https://lakma.com.br/products/locao-ozonizada-200ml?_pos=1&_sid=c585f5ad1&_ss=r",
+  "campo_origem_link_individual_produto": "site_url",
+  "link_site": "https://lakma.com.br/products/locao-ozonizada-200ml?_pos=1&_sid=c585f5ad1&_ss=r",
+  "link_mercadolivre": null,
+  "site_geral_fallback": "https://www.lakma.com.br",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
+  "status_link_individual_produto": "aprovado",
+  "status_link": "aprovado",
+  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+}
+```
 
 ### Participação em protocolos
 
@@ -3991,7 +4651,28 @@ Gel esfoliante corporal profissional para pré-tratamento, indicado para remover
 - **Principais objetivos:** Esfoliação corporal, pré-tratamento corporal, remoção de células mortas, renovação corporal, melhora da textura, preparo da pele, melhora da permeação de ativos, pele limpa e revitalizada.
 - **Tipo de pele / condição indicada:** Todos os tipos de pele corporal, esfoliação corporal, preparação da pele antes de tratamentos estéticos corporais, áreas ásperas, áreas ressecadas, protocolos corporais profissionais, evitando pele lesionada, irritada ou sensibilizada.
 - **Modo de uso:** Aplicar sobre a pele úmida na região corporal. Massagear com movimentos circulares, especialmente em áreas ásperas ou ressecadas. Remover com água ou toalha umedecida. Usar conforme protocolo.
-- **Site:** https://lakma.com.br/products/gel-esfoliante-corporal-ozonizado-1kg?_pos=1&_sid=633454ffc&_ss=r
+
+### Links aprovados deste produto
+
+- **Campo real no cadastro:** `site_url`
+- **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/gel-esfoliante-corporal-ozonizado-1kg?_pos=1&_sid=633454ffc&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+
+```json
+{
+  "produto": "Gel Esfoliante Corporal Ozonizado - 1kg",
+  "link_individual_produto": "https://lakma.com.br/products/gel-esfoliante-corporal-ozonizado-1kg?_pos=1&_sid=633454ffc&_ss=r",
+  "campo_origem_link_individual_produto": "site_url",
+  "link_site": "https://lakma.com.br/products/gel-esfoliante-corporal-ozonizado-1kg?_pos=1&_sid=633454ffc&_ss=r",
+  "link_mercadolivre": null,
+  "site_geral_fallback": "https://www.lakma.com.br",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
+  "status_link_individual_produto": "aprovado",
+  "status_link": "aprovado",
+  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+}
+```
 
 ### Participação em protocolos
 
@@ -4131,7 +4812,28 @@ Kit profissional com mesclas estéreis de uso único para protocolos noturnos de
 - **Principais objetivos:** Clareamento de manchas, despigmentação, melasma, uniformização do tom, rejuvenescimento, firmeza, estímulo de colágeno, melhora da textura, redução da aparência de rugas e linhas.
 - **Tipo de pele / condição indicada:** Todos os tipos e fototipos de pele adulta, manchas faciais, melasma, cloasma, sardas, manchas senis, manchas pós-inflamatórias, manchas de acne, manchas hormonais, textura irregular, rugas acentuadas, perda de firmeza, necessidade de rejuvenescimento, conforme avaliação profissional.
 - **Modo de uso:** Aplicação profissional em pele limpa. Usar somente à noite. Permanecer no rosto por até 8 horas. Remover conforme orientação profissional. Frequência conforme protocolo e tolerância. Protetor solar diário indispensável durante todo o tratamento. Agitar ampola antes do uso.
-- **Site:** https://lakma.com.br/products/kit-booster-fibras-reticulares?_pos=1&_sid=266082018&_ss=r
+
+### Links aprovados deste produto
+
+- **Campo real no cadastro:** `site_url`
+- **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/kit-booster-fibras-reticulares?_pos=1&_sid=266082018&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+
+```json
+{
+  "produto": "Kit Booster Fibras Reticulares",
+  "link_individual_produto": "https://lakma.com.br/products/kit-booster-fibras-reticulares?_pos=1&_sid=266082018&_ss=r",
+  "campo_origem_link_individual_produto": "site_url",
+  "link_site": "https://lakma.com.br/products/kit-booster-fibras-reticulares?_pos=1&_sid=266082018&_ss=r",
+  "link_mercadolivre": null,
+  "site_geral_fallback": "https://www.lakma.com.br",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
+  "status_link_individual_produto": "aprovado",
+  "status_link": "aprovado",
+  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+}
+```
 
 ### Participação em protocolos
 
@@ -4271,7 +4973,28 @@ Kit corporal profissional detox para cabine, indicado para protocolos de drenage
 - **Principais objetivos:** Protocolo corporal detox, drenagem linfática, retenção hídrica, áreas inchadas, sensação de leveza corporal, revitalização, melhora da aparência da pele, suporte em cabine estética.
 - **Tipo de pele / condição indicada:** Pele corporal conforme avaliação profissional, retenção hídrica, áreas inchadas, sensação de peso corporal, necessidade de drenagem linfática, protocolos corporais detox, revitalização corporal, melhora da aparência da pele.
 - **Modo de uso:** Uso profissional em cabine. Oferecer 1 cápsula antes do procedimento conforme rótulo, aplicar o spray na área, envolver com filme osmótico ou usar manta térmica por 20 minutos, realizar drenagem linfática com a mousse por pelo menos 40 minutos, oferecer 1 cápsula após finalizar, conforme orientação profissional e rótulo.
-- **Site:** https://lakma.com.br/products/esbeltea-detox?_pos=1&_sid=3f9884a06&_ss=r
+
+### Links aprovados deste produto
+
+- **Campo real no cadastro:** `site_url`
+- **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/esbeltea-detox?_pos=1&_sid=3f9884a06&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+
+```json
+{
+  "produto": "Esbeltea Detox",
+  "link_individual_produto": "https://lakma.com.br/products/esbeltea-detox?_pos=1&_sid=3f9884a06&_ss=r",
+  "campo_origem_link_individual_produto": "site_url",
+  "link_site": "https://lakma.com.br/products/esbeltea-detox?_pos=1&_sid=3f9884a06&_ss=r",
+  "link_mercadolivre": null,
+  "site_geral_fallback": "https://www.lakma.com.br",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
+  "status_link_individual_produto": "aprovado",
+  "status_link": "aprovado",
+  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+}
+```
 
 ### Participação em protocolos
 
@@ -4414,7 +5137,28 @@ Gel corporal crioterápico profissional com efeito frio e ação refrescante, in
 - **Principais objetivos:** Efeito frio, ação refrescante, crioterapia corporal, suporte em protocolos redutores, gordura localizada, flacidez, ação lipolítica, finalização fria, melhora da aparência corporal.
 - **Tipo de pele / condição indicada:** Pele corporal conforme avaliação profissional, gordura localizada, flacidez, protocolos corporais redutores, protocolos com efeito frio, protocolos com massagem, protocolos com oclusão conforme avaliação, evitando pele irritada, lesionada, recém-depilada ou sensibilizada.
 - **Modo de uso:** Aplicar na área corporal limpa. Pode ser usado com manobras de massagem e oclusão com plástico filme, conforme avaliação profissional. Tempo máximo de permanência: até 4 horas.
-- **Site:** https://lakma.com.br/products/criogel-1kg?_pos=1&_sid=82ecdae3f&_ss=r
+
+### Links aprovados deste produto
+
+- **Campo real no cadastro:** `site_url`
+- **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/criogel-1kg?_pos=1&_sid=82ecdae3f&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+
+```json
+{
+  "produto": "CRIOGEL - 1kg",
+  "link_individual_produto": "https://lakma.com.br/products/criogel-1kg?_pos=1&_sid=82ecdae3f&_ss=r",
+  "campo_origem_link_individual_produto": "site_url",
+  "link_site": "https://lakma.com.br/products/criogel-1kg?_pos=1&_sid=82ecdae3f&_ss=r",
+  "link_mercadolivre": null,
+  "site_geral_fallback": "https://www.lakma.com.br",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
+  "status_link_individual_produto": "aprovado",
+  "status_link": "aprovado",
+  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+}
+```
 
 ### Participação em protocolos
 
@@ -4556,7 +5300,28 @@ Gel corporal profissional bioestimulante e condutor, indicado para protocolos dr
 - **Principais objetivos:** Drenagem, massagem suave, sensação de leveza, bem-estar corporal, cuidado auxiliar em lipedema, inchaço, desconforto corporal, ação estimulante, uso condutor, suporte em ultrassom, suporte em eletroterapia.
 - **Tipo de pele / condição indicada:** Pele corporal sensível ou com necessidade de drenagem, sensação de peso, inchaço, desconforto corporal, protocolos drenantes, massagens de baixa pressão, tecidos sensíveis, cuidado auxiliar da pele em lipedema, uso condutor em ultrassom e eletroterapia conforme protocolo profissional.
 - **Modo de uso:** Aplicar quantidade suficiente e espalhar com movimentos suaves e ascendentes. Em cabine, pode associar à drenagem manual, manta térmica, eletroterapia e ultrassom conforme protocolo profissional.
-- **Site:** https://lakma.com.br/products/gel-bioestimulante-1kg?_pos=1&_sid=0114635cb&_ss=r
+
+### Links aprovados deste produto
+
+- **Campo real no cadastro:** `site_url`
+- **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/gel-bioestimulante-1kg?_pos=1&_sid=0114635cb&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+
+```json
+{
+  "produto": "Gel Bioestimulante - 1kg",
+  "link_individual_produto": "https://lakma.com.br/products/gel-bioestimulante-1kg?_pos=1&_sid=0114635cb&_ss=r",
+  "campo_origem_link_individual_produto": "site_url",
+  "link_site": "https://lakma.com.br/products/gel-bioestimulante-1kg?_pos=1&_sid=0114635cb&_ss=r",
+  "link_mercadolivre": null,
+  "site_geral_fallback": "https://www.lakma.com.br",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
+  "status_link_individual_produto": "aprovado",
+  "status_link": "aprovado",
+  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+}
+```
 
 ### Participação em protocolos
 
@@ -4686,7 +5451,28 @@ Gel corporal termoativado profissional com efeito de aquecimento, indicado para 
 - **Principais objetivos:** Efeito aquecimento, ação termoativada, protocolos redutores, gordura localizada, celulite, redução de medidas, massagem modeladora, ação lipolítica, estímulo do metabolismo local, hiperemia controlada.
 - **Tipo de pele / condição indicada:** Pele corporal conforme avaliação profissional, gordura localizada, celulite, protocolos redutores, protocolos modeladores, protocolos corporais com efeito aquecimento, tolerância ao calor, evitando pele irritada, lesionada, recém-depilada ou sensibilizada.
 - **Modo de uso:** Aplicar sobre a pele limpa e seca. O profissional deve preferir luvas ou pincel. Espalhar com movimentos circulares ou manobras corporais. Pode usar oclusão com plástico filme conforme avaliação. Não usar com manta térmica, conforme ficha do produto.
-- **Site:** https://lakma.com.br/products/gel-termoativado-1kg?_pos=1&_sid=143e44dd4&_ss=r
+
+### Links aprovados deste produto
+
+- **Campo real no cadastro:** `site_url`
+- **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/gel-termoativado-1kg?_pos=1&_sid=143e44dd4&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+
+```json
+{
+  "produto": "Gel Termoativado - 1kg",
+  "link_individual_produto": "https://lakma.com.br/products/gel-termoativado-1kg?_pos=1&_sid=143e44dd4&_ss=r",
+  "campo_origem_link_individual_produto": "site_url",
+  "link_site": "https://lakma.com.br/products/gel-termoativado-1kg?_pos=1&_sid=143e44dd4&_ss=r",
+  "link_mercadolivre": null,
+  "site_geral_fallback": "https://www.lakma.com.br",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
+  "status_link_individual_produto": "aprovado",
+  "status_link": "aprovado",
+  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+}
+```
 
 ### Participação em protocolos
 
@@ -4835,7 +5621,28 @@ Kit corporal com fluido/spray e creme, indicado para cuidados corporais com foco
 - **Principais objetivos:** Firmeza corporal, melhora da aparência da celulite, suporte em gordura localizada, cuidado redutor, tonificação, melhora da aparência corporal, massagem corporal, rotina corporal com spray e creme.
 - **Tipo de pele / condição indicada:** Pele corporal conforme avaliação profissional, celulite, flacidez, gordura localizada, necessidade de firmeza, necessidade de tonificação, melhora da aparência corporal, protocolos corporais com fluido e creme, evitando pele lesionada, irritada ou sensibilizada.
 - **Modo de uso:** Aplicar o spray na região desejada com pele limpa e seca. Em seguida, aplicar o creme na mesma região e massagear até completa absorção.
-- **Site:** https://lakma.com.br/products/kit-booster-mitocondrial-esbeltea-creme-900g-fluido-300ml-para-detox?_pos=1&_sid=76c4d2dc4&_ss=r
+
+### Links aprovados deste produto
+
+- **Campo real no cadastro:** `site_url`
+- **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/kit-booster-mitocondrial-esbeltea-creme-900g-fluido-300ml-para-detox?_pos=1&_sid=76c4d2dc4&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+
+```json
+{
+  "produto": "KIT BOOSTER MITOCONDRIAL ESBELTEA - Creme 900g + Fluido 300ml para Detox",
+  "link_individual_produto": "https://lakma.com.br/products/kit-booster-mitocondrial-esbeltea-creme-900g-fluido-300ml-para-detox?_pos=1&_sid=76c4d2dc4&_ss=r",
+  "campo_origem_link_individual_produto": "site_url",
+  "link_site": "https://lakma.com.br/products/kit-booster-mitocondrial-esbeltea-creme-900g-fluido-300ml-para-detox?_pos=1&_sid=76c4d2dc4&_ss=r",
+  "link_mercadolivre": null,
+  "site_geral_fallback": "https://www.lakma.com.br",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
+  "status_link_individual_produto": "aprovado",
+  "status_link": "aprovado",
+  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+}
+```
 
 ### Participação em protocolos
 
@@ -4963,7 +5770,28 @@ Tratamento labial hidratante e nutritivo, indicado para lábios ressecados, ásp
 - **Principais objetivos:** Hidratação labial, nutrição labial, rejuvenescimento dos lábios, maciez, elasticidade, brilho natural, toque aveludado, melhora da aparência dos lábios.
 - **Tipo de pele / condição indicada:** Lábios ressecados, lábios ásperos, lábios sem brilho, lábios com necessidade de cuidado diário, lábios com necessidade de hidratação, lábios com necessidade de nutrição, evitando lábios lesionados, irritados ou sensibilizados.
 - **Modo de uso:** Aplicar pequena quantidade nos lábios e espalhar até formar camada uniforme. Não remover.
-- **Site:** https://lakma.com.br/products/dolce-lips-10gr?_pos=3&_sid=5437e421c&_ss=r
+
+### Links aprovados deste produto
+
+- **Campo real no cadastro:** `site_url`
+- **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/dolce-lips-10gr?_pos=3&_sid=5437e421c&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+
+```json
+{
+  "produto": "Dolce Lips - 10g",
+  "link_individual_produto": "https://lakma.com.br/products/dolce-lips-10gr?_pos=3&_sid=5437e421c&_ss=r",
+  "campo_origem_link_individual_produto": "site_url",
+  "link_site": "https://lakma.com.br/products/dolce-lips-10gr?_pos=3&_sid=5437e421c&_ss=r",
+  "link_mercadolivre": null,
+  "site_geral_fallback": "https://www.lakma.com.br",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
+  "status_link_individual_produto": "aprovado",
+  "status_link": "aprovado",
+  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+}
+```
 
 ### Combinações
 
@@ -5082,7 +5910,28 @@ Produto profissional para massagem facial, indicado para protocolos de deslizame
 - **Principais objetivos:** Massagem facial, deslizamento, conforto durante manobras, massagem revitalizante, finalização facial, suporte em protocolo lifting, suporte em protocolo glow, experiência sensorial em cabine.
 - **Tipo de pele / condição indicada:** protocolos faciais de massagem, protocolos faciais de deslizamento, protocolos faciais de conforto, protocolos de revitalização, protocolos de lifting, protocolos de rejuvenescimento, protocolos de efeito glow, conforme avaliação profissional.
 - **Modo de uso:** Aplicar quantidade suficiente sobre a pele limpa e realizar manobras de massagem facial conforme protocolo profissional. No Protocolo Facial CrioFirmador 40+, aplicar camada média por cima do Fluido Crioredutor e realizar massagem revitalizante por 5 a 10 minutos.
-- **Site:** https://lakma.com.br/products/masso-divine-massagem-facial-250g?_pos=1&_sid=8c2d863a0&_ss=r
+
+### Links aprovados deste produto
+
+- **Campo real no cadastro:** `site_url`
+- **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/masso-divine-massagem-facial-250g?_pos=1&_sid=8c2d863a0&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+
+```json
+{
+  "produto": "MASSO DIVINE, massagem facial - 250g",
+  "link_individual_produto": "https://lakma.com.br/products/masso-divine-massagem-facial-250g?_pos=1&_sid=8c2d863a0&_ss=r",
+  "campo_origem_link_individual_produto": "site_url",
+  "link_site": "https://lakma.com.br/products/masso-divine-massagem-facial-250g?_pos=1&_sid=8c2d863a0&_ss=r",
+  "link_mercadolivre": null,
+  "site_geral_fallback": "https://www.lakma.com.br",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
+  "status_link_individual_produto": "aprovado",
+  "status_link": "aprovado",
+  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+}
+```
 
 ### Participação em protocolos
 
@@ -5215,7 +6064,28 @@ Kit profissional com 3 máscaras faciais finalizadoras premium, indicado para hi
 - **Principais objetivos:** Finalização facial, hidratação profunda, luminosidade, viço, revitalização, uniformização do tom, clareamento de manchas, rejuvenescimento, melhora geral da aparência da pele.
 - **Tipo de pele / condição indicada:** Peles que precisam de finalização profissional, hidratação profunda, luminosidade, revitalização, uniformização, clareamento, melhora de viço, melhora geral da aparência, conforme necessidade da pele e avaliação profissional, evitando pele irritada, lesionada ou sensibilizada.
 - **Modo de uso:** Após o protocolo facial, aplicar camada uniforme da máscara escolhida sobre a pele limpa. Deixar agir conforme protocolo e remover com gaze umedecida em água.
-- **Site:** https://lakma.com.br/products/kit-joias-raras?_pos=1&_sid=cc2e24439&_ss=r
+
+### Links aprovados deste produto
+
+- **Campo real no cadastro:** `site_url`
+- **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/kit-joias-raras?_pos=1&_sid=cc2e24439&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+
+```json
+{
+  "produto": "Kit Jóias Raras",
+  "link_individual_produto": "https://lakma.com.br/products/kit-joias-raras?_pos=1&_sid=cc2e24439&_ss=r",
+  "campo_origem_link_individual_produto": "site_url",
+  "link_site": "https://lakma.com.br/products/kit-joias-raras?_pos=1&_sid=cc2e24439&_ss=r",
+  "link_mercadolivre": null,
+  "site_geral_fallback": "https://www.lakma.com.br",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
+  "status_link_individual_produto": "aprovado",
+  "status_link": "aprovado",
+  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+}
+```
 
 ### Participação em protocolos
 
@@ -5350,7 +6220,28 @@ Creme emoliente facial profissional, indicado para emoliência de cravos, comed�
 - **Principais objetivos:** Emoliência de cravos, emoliência de comedões, emoliência de espinhas, facilitar extração, limpeza de pele profissional, conforto na extração, preparo antes da extração mecânica.
 - **Tipo de pele / condição indicada:** Peles com cravos, peles com comedões, peles com espinhas, pele oleosa conforme avaliação profissional, pele com necessidade de limpeza de pele, pele com necessidade de extração mecânica, evitando acne muito inflamada, pele lesionada, pele irritada, pele sensibilizada, dermatite em crise, rosácea em crise.
 - **Modo de uso:** Aplicar camada uniforme. Usar vapor de ozônio ou máscara térmica por 20 a 30 minutos. Remover o excesso antes da extração. Para potencializar, aplicar 5 gotas do Fluido Passo 1 para dispensar fonte de calor somente se aprovado por Paula.
-- **Site:** https://lakma.com.br/products/emoliente-de-cravos-250gr?_pos=1&_sid=3dbce4669&_ss=r
+
+### Links aprovados deste produto
+
+- **Campo real no cadastro:** `site_url`
+- **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/emoliente-de-cravos-250gr?_pos=1&_sid=3dbce4669&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+
+```json
+{
+  "produto": "Emoliente de Cravos - 250g",
+  "link_individual_produto": "https://lakma.com.br/products/emoliente-de-cravos-250gr?_pos=1&_sid=3dbce4669&_ss=r",
+  "campo_origem_link_individual_produto": "site_url",
+  "link_site": "https://lakma.com.br/products/emoliente-de-cravos-250gr?_pos=1&_sid=3dbce4669&_ss=r",
+  "link_mercadolivre": null,
+  "site_geral_fallback": "https://www.lakma.com.br",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
+  "status_link_individual_produto": "aprovado",
+  "status_link": "aprovado",
+  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+}
+```
 
 ### Participação em protocolos
 
@@ -5487,7 +6378,28 @@ Sérum facial multifuncional com ação clareadora, rejuvenescedora, hidratante 
 - **Principais objetivos:** Clareamento de manchas, rejuvenescimento facial, hidratação, uniformização do tom, melhora da textura, luminosidade, ação antioxidante, suavização de rugas e linhas finas, revitalização.
 - **Tipo de pele / condição indicada:** Peles com manchas, textura irregular, linhas finas, rugas, falta de viço, sinais de envelhecimento, necessidade de hidratação, necessidade de luminosidade, necessidade de uniformização, evitando peles sensibilizadas, irritadas ou lesionadas.
 - **Modo de uso:** Aplicar na rotina facial após a limpeza, introduzindo gradualmente. Espalhar sobre o rosto, evitando olhos e mucosas. Durante o dia, finalizar com protetor solar. Usar conforme orientação profissional.
-- **Site:** https://lakma.com.br/products/nano-drone-clareador-rejuvenescedor-hidratante-30ml?_pos=1&_sid=b4eaa40f4&_ss=r
+
+### Links aprovados deste produto
+
+- **Campo real no cadastro:** `site_url`
+- **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/nano-drone-clareador-rejuvenescedor-hidratante-30ml?_pos=1&_sid=b4eaa40f4&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+
+```json
+{
+  "produto": "Nano Drone, clareador, rejuvenescedor, hidratante - 30ml",
+  "link_individual_produto": "https://lakma.com.br/products/nano-drone-clareador-rejuvenescedor-hidratante-30ml?_pos=1&_sid=b4eaa40f4&_ss=r",
+  "campo_origem_link_individual_produto": "site_url",
+  "link_site": "https://lakma.com.br/products/nano-drone-clareador-rejuvenescedor-hidratante-30ml?_pos=1&_sid=b4eaa40f4&_ss=r",
+  "link_mercadolivre": null,
+  "site_geral_fallback": "https://www.lakma.com.br",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
+  "status_link_individual_produto": "aprovado",
+  "status_link": "aprovado",
+  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+}
+```
 
 ### Participação em protocolos
 
@@ -5627,7 +6539,28 @@ Protetor solar facial FPS 30 com Vitamina E, indicado para proteção UVA/UVB, p
 - **Principais objetivos:** Fotoproteção facial, proteção UVA/UVB, prevenção do fotoenvelhecimento, proteção diária, ação antioxidante, ação dermoprotetora, finalização da rotina diurna, suporte indispensável em rotinas com clareadores, ácidos, retinol, peelings e produtos renovadores.
 - **Tipo de pele / condição indicada:** uso facial diário, pele exposta à radiação solar, rotina diurna, rotinas com clareadores, rotinas com ácidos, rotinas com retinol, rotinas com peelings, rotinas com produtos renovadores, prevenção de danos solares, prevenção de fotoenvelhecimento, evitando pele irritada, lesionada ou com alergia a componentes.
 - **Modo de uso:** Aplicar quantidade adequada na pele limpa e seca como última etapa da rotina diurna. Reaplicar após suor, contato com água ou limpeza da pele.
-- **Site:** https://lakma.com.br/products/ideal-protect-protetor-solar-50gr?_pos=1&_sid=30aa08e72&_ss=r
+
+### Links aprovados deste produto
+
+- **Campo real no cadastro:** `site_url`
+- **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/ideal-protect-protetor-solar-50gr?_pos=1&_sid=30aa08e72&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+
+```json
+{
+  "produto": "Ideal Protect - Protetor Solar 50g",
+  "link_individual_produto": "https://lakma.com.br/products/ideal-protect-protetor-solar-50gr?_pos=1&_sid=30aa08e72&_ss=r",
+  "campo_origem_link_individual_produto": "site_url",
+  "link_site": "https://lakma.com.br/products/ideal-protect-protetor-solar-50gr?_pos=1&_sid=30aa08e72&_ss=r",
+  "link_mercadolivre": null,
+  "site_geral_fallback": "https://www.lakma.com.br",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
+  "status_link_individual_produto": "aprovado",
+  "status_link": "aprovado",
+  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+}
+```
 
 ### Participação em protocolos
 
@@ -5776,7 +6709,28 @@ Peeling químico profissional com Ácido Glicólico, indicado para renovação c
 - **Principais objetivos:** Renovação celular, rejuvenescimento facial, melhora da textura, suavização de manchas, suavização de marcas, redução da aparência de rugas, redução da aparência de linhas, luminosidade, revitalização.
 - **Tipo de pele / condição indicada:** Peles com rugas, textura irregular, opacidade, sinais de envelhecimento, manchas, marcas, linhas, necessidade de renovação, necessidade de revitalização, conforme avaliação profissional, evitando pele lesionada, irritada, sensibilizada, rosácea ativa ou dermatite ativa.
 - **Modo de uso:** Aplicar na pele limpa e seca conforme orientação profissional, evitando contorno dos olhos. Deixar agir conforme protocolo e tolerância. Remover completamente. Fotoproteção indispensável após o uso.
-- **Site:** https://lakma.com.br/products/peeling-rejuvenescedor-50ml?_pos=1&_sid=b70efd411&_ss=r
+
+### Links aprovados deste produto
+
+- **Campo real no cadastro:** `site_url`
+- **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/peeling-rejuvenescedor-50ml?_pos=1&_sid=b70efd411&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+
+```json
+{
+  "produto": "Peeling Rejuvenescedor - 50ml",
+  "link_individual_produto": "https://lakma.com.br/products/peeling-rejuvenescedor-50ml?_pos=1&_sid=b70efd411&_ss=r",
+  "campo_origem_link_individual_produto": "site_url",
+  "link_site": "https://lakma.com.br/products/peeling-rejuvenescedor-50ml?_pos=1&_sid=b70efd411&_ss=r",
+  "link_mercadolivre": null,
+  "site_geral_fallback": "https://www.lakma.com.br",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
+  "status_link_individual_produto": "aprovado",
+  "status_link": "aprovado",
+  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+}
+```
 
 ### Participação em protocolos
 
@@ -5905,7 +6859,28 @@ Loção tônica facial para tonificação, controle de pH, frescor e remoção d
 - **Principais objetivos:** Controle de pH, tonificação, frescor, remoção de resíduos pós-higienização, preparo da pele, equilíbrio facial, etapa pós-limpeza, preparação para séruns, preparação para máscaras, preparação para finalização.
 - **Tipo de pele / condição indicada:** Tipo de pele oficial sem informação, uso facial conforme orientação, pele após higienização, pele após extração conforme protocolo, pele que precisa de tonificação, pele que precisa de equilíbrio de pH, pele que precisa de remoção de resíduos, evitando pele lesionada, irritada ou muito sensibilizada.
 - **Modo de uso:** Após higienizar, aplicar com algodão no rosto, evitando olhos e mucosas. Não remover. Pode ser usada diariamente ou conforme protocolo profissional.
-- **Site:** https://lakma.com.br/products/locao-tonica-200ml?_pos=1&_sid=8de5c51f8&_ss=r
+
+### Links aprovados deste produto
+
+- **Campo real no cadastro:** `site_url`
+- **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/locao-tonica-200ml?_pos=1&_sid=8de5c51f8&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+
+```json
+{
+  "produto": "Loção Tônica - 200ml",
+  "link_individual_produto": "https://lakma.com.br/products/locao-tonica-200ml?_pos=1&_sid=8de5c51f8&_ss=r",
+  "campo_origem_link_individual_produto": "site_url",
+  "link_site": "https://lakma.com.br/products/locao-tonica-200ml?_pos=1&_sid=8de5c51f8&_ss=r",
+  "link_mercadolivre": null,
+  "site_geral_fallback": "https://www.lakma.com.br",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
+  "status_link_individual_produto": "aprovado",
+  "status_link": "aprovado",
+  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+}
+```
 
 ### Participação em protocolos
 
@@ -6049,7 +7024,28 @@ Booster facial profissional com foco em colágeno, elastina, firmeza, hidrataç�
 - **Principais objetivos:** Produção de colágeno, produção de elastina, firmeza, sustentação, hidratação profunda, rejuvenescimento, suavização de rugas, suavização de linhas, melhora da flacidez, revitalização, luminosidade, ação preenchedora.
 - **Tipo de pele / condição indicada:** Peles com flacidez, rugas, linhas, perda de firmeza, necessidade de bioestimulação, necessidade de hidratação profunda, opacidade, textura irregular, necessidade de revitalização, conforme avaliação profissional, evitando pele lesionada, irritada ou sensibilizada.
 - **Modo de uso:** Aplicar pequena quantidade na pele limpa e seca e espalhar até absorção. Pode ser usado em microagulhamento, peelings, máscaras e tratamentos profissionais conforme protocolo. Durante o dia, finalizar com fotoproteção.
-- **Site:** https://lakma.com.br/products/booster-colageno-50ml?_pos=1&_sid=3164bec58&_ss=r
+
+### Links aprovados deste produto
+
+- **Campo real no cadastro:** `site_url`
+- **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/booster-colageno-50ml?_pos=1&_sid=3164bec58&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+
+```json
+{
+  "produto": "Booster Colágeno - 50ml",
+  "link_individual_produto": "https://lakma.com.br/products/booster-colageno-50ml?_pos=1&_sid=3164bec58&_ss=r",
+  "campo_origem_link_individual_produto": "site_url",
+  "link_site": "https://lakma.com.br/products/booster-colageno-50ml?_pos=1&_sid=3164bec58&_ss=r",
+  "link_mercadolivre": null,
+  "site_geral_fallback": "https://www.lakma.com.br",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
+  "status_link_individual_produto": "aprovado",
+  "status_link": "aprovado",
+  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+}
+```
 
 ### Participação em protocolos
 
@@ -6189,7 +7185,28 @@ Creme corporal profissional neutro para massagem, indicado para alto deslizament
 - **Principais objetivos:** Massagem corporal, alto deslizamento, conforto durante manobras, opção neutra, opção sem fragrância, opção sem ativos específicos, uso em clientes sensíveis, suporte para protocolos corporais.
 - **Tipo de pele / condição indicada:** Todos os tipos de pele corporal, pele corporal sensível conforme avaliação, gestantes conforme avaliação profissional, lactantes conforme avaliação profissional, pessoas sensíveis a fragrâncias, clientes que preferem produtos neutros, protocolos que exigem deslizamento, evitando pele lesionada, irritada ou sensibilizada.
 - **Modo de uso:** Aplicar a quantidade necessária na região corporal e realizar as manobras de massagem. Reaplicar se necessário para manter o deslizamento.
-- **Site:** https://lakma.com.br/products/creme-de-massagem-neutro-1kg?_pos=1&_sid=3277b35f1&_ss=r
+
+### Links aprovados deste produto
+
+- **Campo real no cadastro:** `site_url`
+- **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/creme-de-massagem-neutro-1kg?_pos=1&_sid=3277b35f1&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+
+```json
+{
+  "produto": "Creme de Massagem Neutro - 1kg",
+  "link_individual_produto": "https://lakma.com.br/products/creme-de-massagem-neutro-1kg?_pos=1&_sid=3277b35f1&_ss=r",
+  "campo_origem_link_individual_produto": "site_url",
+  "link_site": "https://lakma.com.br/products/creme-de-massagem-neutro-1kg?_pos=1&_sid=3277b35f1&_ss=r",
+  "link_mercadolivre": null,
+  "site_geral_fallback": "https://www.lakma.com.br",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
+  "status_link_individual_produto": "aprovado",
+  "status_link": "aprovado",
+  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+}
+```
 
 ### Participação em protocolos
 
@@ -6321,7 +7338,28 @@ Fluido/tônico home care para fios, indicado para auxiliar no crescimento, forta
 - **Principais objetivos:** Crescimento de fios, fortalecimento de fios, revitalização dos fios, aparência de fios mais fortes, aparência de fios mais saudáveis, cuidado com cabelo, cuidado com barba, cuidado com sobrancelha, suporte em protocolos profissionais de fios.
 - **Tipo de pele / condição indicada:** Couro cabeludo, barba, sobrancelhas, pelos, fios enfraquecidos, fios com necessidade de fortalecimento, fios com necessidade de revitalização, evitando pele lesionada, pele irritada, feridas, coceira intensa, descamação intensa ou irritações.
 - **Modo de uso:** Aplicar com dosador diretamente na região desejada e espalhar até absorção. Não enxaguar. Pode ser usado com microagulhamento apenas conforme protocolo profissional.
-- **Site:** https://lakma.com.br/products/perfect-growth-crescimento-de-cabelo-braba-e-sobrancelha-50ml?_pos=1&_sid=848eab35d&_ss=r
+
+### Links aprovados deste produto
+
+- **Campo real no cadastro:** `site_url`
+- **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/perfect-growth-crescimento-de-cabelo-braba-e-sobrancelha-50ml?_pos=1&_sid=848eab35d&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+
+```json
+{
+  "produto": "Perfect Growth, crescimento de cabelo, barba e sobrancelha - 50ml",
+  "link_individual_produto": "https://lakma.com.br/products/perfect-growth-crescimento-de-cabelo-braba-e-sobrancelha-50ml?_pos=1&_sid=848eab35d&_ss=r",
+  "campo_origem_link_individual_produto": "site_url",
+  "link_site": "https://lakma.com.br/products/perfect-growth-crescimento-de-cabelo-braba-e-sobrancelha-50ml?_pos=1&_sid=848eab35d&_ss=r",
+  "link_mercadolivre": null,
+  "site_geral_fallback": "https://www.lakma.com.br",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
+  "status_link_individual_produto": "aprovado",
+  "status_link": "aprovado",
+  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+}
+```
 
 ### Participação em protocolos
 
@@ -6449,7 +7487,28 @@ Máscara facial calmante profissional, indicada para acalmar, hidratar, suavizar
 - **Principais objetivos:** Ação calmante, hidratação, suavização, redução de vermelhidão, conforto imediato, recuperação da barreira cutânea, finalização de protocolos, cuidado pós-procedimento.
 - **Tipo de pele / condição indicada:** Peles sensibilizadas, peles irritadas, peles avermelhadas, peles ressecadas, pele pós-procedimento, pós-limpeza de pele, pós-extração, pós-peelings, pós-microagulhamento, pós-depilação, conforme avaliação profissional.
 - **Modo de uso:** Aplicar camada uniforme no rosto limpo e seco. Deixar agir de 10 a 20 minutos. Remover com algodão umedecido ou água morna. Finalizar com tônico ou conforme protocolo profissional.
-- **Site:** https://lakma.com.br/products/mascara-calmante-250gr?_pos=1&_sid=861decedf&_ss=r
+
+### Links aprovados deste produto
+
+- **Campo real no cadastro:** `site_url`
+- **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/mascara-calmante-250gr?_pos=1&_sid=861decedf&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+
+```json
+{
+  "produto": "Máscara Calmante - 250g",
+  "link_individual_produto": "https://lakma.com.br/products/mascara-calmante-250gr?_pos=1&_sid=861decedf&_ss=r",
+  "campo_origem_link_individual_produto": "site_url",
+  "link_site": "https://lakma.com.br/products/mascara-calmante-250gr?_pos=1&_sid=861decedf&_ss=r",
+  "link_mercadolivre": null,
+  "site_geral_fallback": "https://www.lakma.com.br",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
+  "status_link_individual_produto": "aprovado",
+  "status_link": "aprovado",
+  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+}
+```
 
 ### Participação em protocolos
 
@@ -6601,7 +7660,28 @@ Fluido revitalizante facial com Ureia, indicado para hidratação profunda, recu
 - **Principais objetivos:** Hidratação profunda, recuperação da barreira cutânea, revitalização, maciez, conforto, viço, combate ao ressecamento, suporte antes de procedimentos, suporte depois de procedimentos, preparo da pele, associação com emoliente em limpeza de pele.
 - **Tipo de pele / condição indicada:** Peles ressecadas, peles sensibilizadas, peles com necessidade de hidratação, peles com necessidade de recuperação de barreira, pele em preparo para protocolos, pele em suporte pós-procedimento conforme orientação, evitando pele lesionada, reação ativa ou barreira comprometida sem avaliação profissional.
 - **Modo de uso:** Aplicar pequena quantidade na pele limpa e seca e espalhar em rosto e pescoço. Em cabine, pode ser usado antes da limpeza com emoliente ou depois como hidratação ativa. Durante o dia, finalizar com fotoproteção.
-- **Site:** https://lakma.com.br/products/fluido-passo-1-ureia-50ml?_pos=1&_sid=12378b763&_ss=r
+
+### Links aprovados deste produto
+
+- **Campo real no cadastro:** `site_url`
+- **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/fluido-passo-1-ureia-50ml?_pos=1&_sid=12378b763&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+
+```json
+{
+  "produto": "Fluido Passo 1 - Ureia 50ml",
+  "link_individual_produto": "https://lakma.com.br/products/fluido-passo-1-ureia-50ml?_pos=1&_sid=12378b763&_ss=r",
+  "campo_origem_link_individual_produto": "site_url",
+  "link_site": "https://lakma.com.br/products/fluido-passo-1-ureia-50ml?_pos=1&_sid=12378b763&_ss=r",
+  "link_mercadolivre": null,
+  "site_geral_fallback": "https://www.lakma.com.br",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
+  "status_link_individual_produto": "aprovado",
+  "status_link": "aprovado",
+  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+}
+```
 
 ### Participação em protocolos
 
@@ -6735,7 +7815,28 @@ Kit corporal profissional ozonizado com 3 etapas para preparo, massagem e finali
 - **Principais objetivos:** Protocolo corporal ozonizado, preparo da pele, esfoliação corporal, massagem corporal, finalização corporal, drenagem, massagem modeladora, celulite, flacidez, gordura localizada, redução de medidas, ação detox.
 - **Tipo de pele / condição indicada:** Pele corporal conforme avaliação profissional, protocolos corporais profissionais, pré-tratamento corporal, massagem corporal, drenagem, massagem modeladora, celulite, flacidez, gordura localizada, redução de medidas, evitando pele lesionada, irritada ou sensibilizada.
 - **Modo de uso:** Esfoliar e remover completamente. Massagear com Creme Ozonizado. Finalizar com Splash O3 direto na pele ou misturado a outros produtos corporais Lakma conforme protocolo.
-- **Site:** https://lakma.com.br/products/kit-ozonio-premium-corporal?_pos=1&_sid=ecdf2ef25&_ss=r
+
+### Links aprovados deste produto
+
+- **Campo real no cadastro:** `site_url`
+- **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/kit-ozonio-premium-corporal?_pos=1&_sid=ecdf2ef25&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+
+```json
+{
+  "produto": "Kit Ozônio Premium - Corporal",
+  "link_individual_produto": "https://lakma.com.br/products/kit-ozonio-premium-corporal?_pos=1&_sid=ecdf2ef25&_ss=r",
+  "campo_origem_link_individual_produto": "site_url",
+  "link_site": "https://lakma.com.br/products/kit-ozonio-premium-corporal?_pos=1&_sid=ecdf2ef25&_ss=r",
+  "link_mercadolivre": null,
+  "site_geral_fallback": "https://www.lakma.com.br",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
+  "status_link_individual_produto": "aprovado",
+  "status_link": "aprovado",
+  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+}
+```
 
 ### Participação em protocolos
 
@@ -6889,7 +7990,28 @@ Creme corporal profissional para massagem estética, indicado para alto deslizam
 - **Principais objetivos:** Massagem corporal, alto deslizamento, massagem estética, protocolos redutores, celulite, flacidez, gordura localizada, retenção de líquidos, hidratação intensa, revitalização, melhora da aparência da pele.
 - **Tipo de pele / condição indicada:** Pele corporal conforme avaliação profissional, celulite, flacidez, gordura localizada, retenção de líquidos, pele com necessidade de hidratação, pele com necessidade de revitalização, protocolos corporais redutores, protocolos modeladores, massagens corporais, evitando pele lesionada, sensibilizada ou com alergias.
 - **Modo de uso:** Aplicar quantidade suficiente na região corporal e realizar as manobras de massagem. Pode usar com manta térmica, endermoterapia e gessoterapia. Não usar com ultrassom, LED, laser ou radiofrequência até confirmação técnica.
-- **Site:** https://lakma.com.br/products/creme-de-massagem-7-ativos-1-kg?_pos=1&_sid=ec61753f2&_ss=r
+
+### Links aprovados deste produto
+
+- **Campo real no cadastro:** `site_url`
+- **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/creme-de-massagem-7-ativos-1-kg?_pos=1&_sid=ec61753f2&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+
+```json
+{
+  "produto": "Creme de Massagem 7 Ativos - 1kg",
+  "link_individual_produto": "https://lakma.com.br/products/creme-de-massagem-7-ativos-1-kg?_pos=1&_sid=ec61753f2&_ss=r",
+  "campo_origem_link_individual_produto": "site_url",
+  "link_site": "https://lakma.com.br/products/creme-de-massagem-7-ativos-1-kg?_pos=1&_sid=ec61753f2&_ss=r",
+  "link_mercadolivre": null,
+  "site_geral_fallback": "https://www.lakma.com.br",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
+  "status_link_individual_produto": "aprovado",
+  "status_link": "aprovado",
+  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+}
+```
 
 ### Participação em protocolos
 
@@ -7039,7 +8161,28 @@ Esfoliante labial home care, indicado para lábios ressecados, ásperos, opacos 
 - **Principais objetivos:** Esfoliação labial, renovação labial, remoção de células mortas, redução de aspereza, redução de ressecamento, preparo para hidratação, melhora da maciez, melhora da aparência dos lábios.
 - **Tipo de pele / condição indicada:** Lábios ásperos, lábios ressecados, lábios opacos, lábios com células superficiais, lábios com necessidade de esfoliação, lábios com necessidade de preparo para hidratação, evitando lábios lesionados, irritados ou sensibilizados.
 - **Modo de uso:** Aplicar nos lábios limpos, massagear suavemente com movimentos circulares e remover o excesso conforme necessidade. Usar antes do Dolce Lips ou outro hidratante labial indicado.
-- **Site:** https://lakma.com.br/products/dolce-peel-10gr?_pos=1&_sid=557a2fe70&_ss=r
+
+### Links aprovados deste produto
+
+- **Campo real no cadastro:** `site_url`
+- **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/dolce-peel-10gr?_pos=1&_sid=557a2fe70&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+
+```json
+{
+  "produto": "Dolce Peel - 10g",
+  "link_individual_produto": "https://lakma.com.br/products/dolce-peel-10gr?_pos=1&_sid=557a2fe70&_ss=r",
+  "campo_origem_link_individual_produto": "site_url",
+  "link_site": "https://lakma.com.br/products/dolce-peel-10gr?_pos=1&_sid=557a2fe70&_ss=r",
+  "link_mercadolivre": null,
+  "site_geral_fallback": "https://www.lakma.com.br",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
+  "status_link_individual_produto": "aprovado",
+  "status_link": "aprovado",
+  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+}
+```
 
 ### Participação em protocolos
 
@@ -7166,7 +8309,28 @@ Body splash corporal home care, indicado para finalização corporal, perfumaç�
 - **Principais objetivos:** Finalização corporal, perfumação corporal, uso diário, firmeza corporal, tonificação, melhora da aparência da pele, cuidado corporal prático, complemento de protocolos firmadores.
 - **Tipo de pele / condição indicada:** Pele corporal conforme avaliação e tolerância, uso diário após banho, finalização corporal, finalização pós-protocolo quando aprovado, cuidados corporais com foco em firmeza, tonificação e aparência da pele, evitando pele lesionada, irritada ou sensibilizada.
 - **Modo de uso:** Aplicar na pele corporal limpa e seca. Borrifar na região desejada e espalhar até absorção se necessário, conforme rótulo ou orientação profissional.
-- **Site:** https://lakma.com.br/products/body-splash-firmador-corporal-300ml?_pos=1&_sid=7c2587a80&_ss=r
+
+### Links aprovados deste produto
+
+- **Campo real no cadastro:** `site_url`
+- **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/body-splash-firmador-corporal-300ml?_pos=1&_sid=7c2587a80&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+
+```json
+{
+  "produto": "Body Splash Firmador Corporal - 300ml",
+  "link_individual_produto": "https://lakma.com.br/products/body-splash-firmador-corporal-300ml?_pos=1&_sid=7c2587a80&_ss=r",
+  "campo_origem_link_individual_produto": "site_url",
+  "link_site": "https://lakma.com.br/products/body-splash-firmador-corporal-300ml?_pos=1&_sid=7c2587a80&_ss=r",
+  "link_mercadolivre": null,
+  "site_geral_fallback": "https://www.lakma.com.br",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
+  "status_link_individual_produto": "aprovado",
+  "status_link": "aprovado",
+  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+}
+```
 
 ### Participação em protocolos
 
@@ -7290,7 +8454,28 @@ Booster profissional em ampolas com Vitamina C 100% nanoencapsulada e ozonizada,
 - **Principais objetivos:** Clareamento de manchas, luminosidade, ação antioxidante, combate aos radicais livres, prevenção do envelhecimento precoce, rejuvenescimento, estímulo de colágeno, estímulo de elastina, viço, uniformização da pele.
 - **Tipo de pele / condição indicada:** Peles opacas, peles com manchas, peles com necessidade antioxidante, peles com falta de viço, peles com necessidade de clareamento, peles com necessidade de luminosidade, peles com necessidade de rejuvenescimento, conforme avaliação profissional, evitando pele irritada, descamando, lesionada ou sensibilizada.
 - **Modo de uso:** Aplicar a quantidade indicada na pele limpa e seca em rosto, pescoço e contorno dos olhos, conforme protocolo. Pode ser usado em peelings, microagulhamento e máscaras conforme protocolo profissional. Durante o dia, finalizar com fotoproteção.
-- **Site:** https://lakma.com.br/products/booster-c100-vitamina-c-100-pura?_pos=1&_sid=40a87e8d0&_ss=r
+
+### Links aprovados deste produto
+
+- **Campo real no cadastro:** `site_url`
+- **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/booster-c100-vitamina-c-100-pura?_pos=1&_sid=40a87e8d0&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+
+```json
+{
+  "produto": "Booster C100 Vitamina C 100% Pura",
+  "link_individual_produto": "https://lakma.com.br/products/booster-c100-vitamina-c-100-pura?_pos=1&_sid=40a87e8d0&_ss=r",
+  "campo_origem_link_individual_produto": "site_url",
+  "link_site": "https://lakma.com.br/products/booster-c100-vitamina-c-100-pura?_pos=1&_sid=40a87e8d0&_ss=r",
+  "link_mercadolivre": null,
+  "site_geral_fallback": "https://www.lakma.com.br",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
+  "status_link_individual_produto": "aprovado",
+  "status_link": "aprovado",
+  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+}
+```
 
 ### Participação em protocolos
 
@@ -7427,7 +8612,28 @@ Fluido revitalizante facial com foco em colágeno, elastina, firmeza, rejuvenesc
 - **Principais objetivos:** Estímulo de colágeno, estímulo de elastina, firmeza facial, sustentação, combate à flacidez facial, rejuvenescimento, melhora da textura, elasticidade, suporte em peelings, suporte em microagulhamento, suporte em máscaras.
 - **Tipo de pele / condição indicada:** Peles com flacidez, linhas finas, perda de firmeza, perda de elasticidade, textura irregular, sinais de envelhecimento, necessidade de estímulo de colágeno, necessidade de estímulo de elastina, conforme avaliação profissional, evitando pele irritada, lesionada ou sensibilizada.
 - **Modo de uso:** Aplicar pequena quantidade sobre pele limpa e seca e espalhar até absorção. Pode ser usado em peelings, microagulhamento, máscaras e associações profissionais conforme protocolo. Durante o dia, finalizar com fotoproteção.
-- **Site:** https://lakma.com.br/products/fluido-passo-3-colageno-50ml?_pos=1&_sid=7ee7cabd2&_ss=r
+
+### Links aprovados deste produto
+
+- **Campo real no cadastro:** `site_url`
+- **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/fluido-passo-3-colageno-50ml?_pos=1&_sid=7ee7cabd2&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+
+```json
+{
+  "produto": "Fluido Passo 3 - Colágeno 50ml",
+  "link_individual_produto": "https://lakma.com.br/products/fluido-passo-3-colageno-50ml?_pos=1&_sid=7ee7cabd2&_ss=r",
+  "campo_origem_link_individual_produto": "site_url",
+  "link_site": "https://lakma.com.br/products/fluido-passo-3-colageno-50ml?_pos=1&_sid=7ee7cabd2&_ss=r",
+  "link_mercadolivre": null,
+  "site_geral_fallback": "https://www.lakma.com.br",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
+  "status_link_individual_produto": "aprovado",
+  "status_link": "aprovado",
+  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+}
+```
 
 ### Participação em protocolos
 
@@ -7562,7 +8768,28 @@ Kit com 4 argilas prontas em creme, indicado para personalizar protocolos faciai
 - **Principais objetivos:** Revitalização, limpeza de pele, controle de oleosidade, nutrição, suavização, uniformização do tom, melhora da textura, cuidado para peles desvitalizadas, personalização de protocolos com argilas prontas.
 - **Tipo de pele / condição indicada:** Escolher a argila conforme necessidade da pele e avaliação, peles oleosas, peles com acne conforme avaliação, peles desvitalizadas, peles com necessidade de nutrição, peles com necessidade de revitalização, peles com necessidade de luminosidade, peles com necessidade de uniformização, evitando pele irritada, lesionada ou sensibilizada.
 - **Modo de uso:** Aplicar sobre pele limpa. Deixar agir de 8 a 10 minutos. Remover com gaze embebida em água. No rosto, evitar olhos e mucosas. Durante o dia, finalizar com fotoproteção.
-- **Site:** https://lakma.com.br/products/kit-terras-do-brasil-argilas-facial-em-creme?_pos=1&_sid=5402f47c7&_ss=r
+
+### Links aprovados deste produto
+
+- **Campo real no cadastro:** `site_url`
+- **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/kit-terras-do-brasil-argilas-facial-em-creme?_pos=1&_sid=5402f47c7&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+
+```json
+{
+  "produto": "Kit Terras do Brasil, argilas facial e corporal em creme",
+  "link_individual_produto": "https://lakma.com.br/products/kit-terras-do-brasil-argilas-facial-em-creme?_pos=1&_sid=5402f47c7&_ss=r",
+  "campo_origem_link_individual_produto": "site_url",
+  "link_site": "https://lakma.com.br/products/kit-terras-do-brasil-argilas-facial-em-creme?_pos=1&_sid=5402f47c7&_ss=r",
+  "link_mercadolivre": null,
+  "site_geral_fallback": "https://www.lakma.com.br",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
+  "status_link_individual_produto": "aprovado",
+  "status_link": "aprovado",
+  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+}
+```
 
 ### Participação em protocolos
 
@@ -7706,7 +8933,28 @@ Creme corporal profissional de massagem ozonizado, indicado para drenagem linfá
 - **Principais objetivos:** Massagem corporal, drenagem linfática, massagem modeladora, massagem relaxante, deslizamento, alta absorção, tecnologia ozonizada, celulite, flacidez, gordura localizada, redução de medidas, suporte em protocolos corporais ozonizados.
 - **Tipo de pele / condição indicada:** Pele corporal conforme avaliação profissional, drenagem linfática, massagem modeladora, massagem relaxante, celulite, flacidez, gordura localizada, redução de medidas, protocolos corporais ozonizados, evitando pele lesionada, sensibilizada ou com alterações circulatórias sem avaliação.
 - **Modo de uso:** Aplicar quantidade suficiente na região corporal e realizar manobras de massagem. Reaplicar se necessário. Uso somente no corpo.
-- **Site:** https://lakma.com.br/products/creme-de-massagem-ozonizado-900g?_pos=1&_sid=50477e7eb&_ss=r
+
+### Links aprovados deste produto
+
+- **Campo real no cadastro:** `site_url`
+- **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/creme-de-massagem-ozonizado-900g?_pos=1&_sid=50477e7eb&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+
+```json
+{
+  "produto": "Creme de Massagem Ozonizado - 900g",
+  "link_individual_produto": "https://lakma.com.br/products/creme-de-massagem-ozonizado-900g?_pos=1&_sid=50477e7eb&_ss=r",
+  "campo_origem_link_individual_produto": "site_url",
+  "link_site": "https://lakma.com.br/products/creme-de-massagem-ozonizado-900g?_pos=1&_sid=50477e7eb&_ss=r",
+  "link_mercadolivre": null,
+  "site_geral_fallback": "https://www.lakma.com.br",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
+  "status_link_individual_produto": "aprovado",
+  "status_link": "aprovado",
+  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+}
+```
 
 ### Participação em protocolos
 
@@ -7859,7 +9107,28 @@ Sabonete líquido facial para higienização, remoção de impurezas, controle d
 - **Principais objetivos:** Higienização facial, remoção de impurezas, controle de oleosidade, ação adstringente, preparo da pele, limpeza diária, etapa inicial de protocolos, suporte para pele oleosa, suporte para pele seca.
 - **Tipo de pele / condição indicada:** Tipo de pele oficial sem informação, pele com necessidade de higienização, pele com oleosidade, pele com impurezas, pele em preparo para skincare, pele em preparo para protocolos profissionais, evitando pele lesionada, irritada ou sensibilizada.
 - **Modo de uso:** Aplicar no rosto, massagear com a ponta dos dedos e remover com gaze embebida em água. Evitar olhos e mucosas.
-- **Site:** https://lakma.com.br/products/sabonete-liquido-facial-250ml?_pos=1&_sid=e71294b11&_ss=r
+
+### Links aprovados deste produto
+
+- **Campo real no cadastro:** `site_url`
+- **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/sabonete-liquido-facial-250ml?_pos=1&_sid=e71294b11&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+
+```json
+{
+  "produto": "Sabonete Líquido Facial - 250ml",
+  "link_individual_produto": "https://lakma.com.br/products/sabonete-liquido-facial-250ml?_pos=1&_sid=e71294b11&_ss=r",
+  "campo_origem_link_individual_produto": "site_url",
+  "link_site": "https://lakma.com.br/products/sabonete-liquido-facial-250ml?_pos=1&_sid=e71294b11&_ss=r",
+  "link_mercadolivre": null,
+  "site_geral_fallback": "https://www.lakma.com.br",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
+  "status_link_individual_produto": "aprovado",
+  "status_link": "aprovado",
+  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+}
+```
 
 ### Participação em protocolos
 
@@ -8003,7 +9272,28 @@ Sabonete facial com Ácido Glicólico, indicado para higienização com ação r
 - **Principais objetivos:** Higienização facial, limpeza renovadora, renovação celular, melhora da textura, uniformização, controle de oleosidade, suporte para pele acneica, remoção de impurezas, preparo da pele, suporte em protocolos com ácidos e renovação.
 - **Tipo de pele / condição indicada:** Peles com oleosidade, manchas, textura irregular, poros aparentes, pele acneica conforme avaliação, pele com necessidade de limpeza renovadora, pele com necessidade de preparo para protocolos, evitando peles sensibilizadas, irritadas, descamando ou lesionadas.
 - **Modo de uso:** Aplicar no rosto úmido, massagear suavemente evitando olhos e mucosas, enxaguar completamente. Usar protetor solar durante o dia.
-- **Site:** https://lakma.com.br/products/sabonete-de-acido-glicolico-150ml?_pos=1&_sid=2f97aa27a&_ss=r
+
+### Links aprovados deste produto
+
+- **Campo real no cadastro:** `site_url`
+- **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/sabonete-de-acido-glicolico-150ml?_pos=1&_sid=2f97aa27a&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+
+```json
+{
+  "produto": "Sabonete de Ácido Glicólico - 150ml",
+  "link_individual_produto": "https://lakma.com.br/products/sabonete-de-acido-glicolico-150ml?_pos=1&_sid=2f97aa27a&_ss=r",
+  "campo_origem_link_individual_produto": "site_url",
+  "link_site": "https://lakma.com.br/products/sabonete-de-acido-glicolico-150ml?_pos=1&_sid=2f97aa27a&_ss=r",
+  "link_mercadolivre": null,
+  "site_geral_fallback": "https://www.lakma.com.br",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
+  "status_link_individual_produto": "aprovado",
+  "status_link": "aprovado",
+  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+}
+```
 
 ### Participação em protocolos
 
@@ -8151,7 +9441,28 @@ Máscara facial hidratante e nutritiva, indicada para hidratação profunda, nut
 - **Principais objetivos:** Hidratação profunda, nutrição, suavização, viço, luminosidade, maciez, conforto, rejuvenescimento, finalização nutritiva, suporte para peles secas e senis.
 - **Tipo de pele / condição indicada:** Peles secas, peles senis, peles maduras, peles com necessidade de nutrição, peles com necessidade de hidratação profunda, peles com falta de viço, peles com desconforto, peles com necessidade de maciez, evitando pele lesionada, sensibilizada, acne inflamada, dermatite ativa ou rosácea ativa.
 - **Modo de uso:** Aplicar camada uniforme no rosto limpo e seco. Deixar agir de 10 a 15 minutos. Remover com algodão ou gaze umedecida e finalizar conforme protocolo.
-- **Site:** https://lakma.com.br/products/mascara-brownie-de-chocolate-hidratacao-profunda-150gr?_pos=1&_sid=5a64b5ef8&_ss=r
+
+### Links aprovados deste produto
+
+- **Campo real no cadastro:** `site_url`
+- **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/mascara-brownie-de-chocolate-hidratacao-profunda-150gr?_pos=1&_sid=5a64b5ef8&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+
+```json
+{
+  "produto": "Máscara Brownie de Chocolate, hidratação profunda - 150g",
+  "link_individual_produto": "https://lakma.com.br/products/mascara-brownie-de-chocolate-hidratacao-profunda-150gr?_pos=1&_sid=5a64b5ef8&_ss=r",
+  "campo_origem_link_individual_produto": "site_url",
+  "link_site": "https://lakma.com.br/products/mascara-brownie-de-chocolate-hidratacao-profunda-150gr?_pos=1&_sid=5a64b5ef8&_ss=r",
+  "link_mercadolivre": null,
+  "site_geral_fallback": "https://www.lakma.com.br",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
+  "status_link_individual_produto": "aprovado",
+  "status_link": "aprovado",
+  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+}
+```
 
 ### Participação em protocolos
 
@@ -8286,7 +9597,28 @@ Gel roll-on para olheiras, indicado para contorno dos olhos, olheiras pigmentada
 - **Principais objetivos:** Clareamento de olheiras, cuidado do contorno dos olhos, melhora de olheiras pigmentadas, melhora de olheiras vasculares, melhora de olheiras profundas, redução da aparência de bolsas, redução do aspecto inchado, melhora da textura, uniformização, praticidade roll-on.
 - **Tipo de pele / condição indicada:** Todos os tipos de olheiras, olheiras vasculares, olheiras pigmentadas, olheiras profundas, olheiras escuras, bolsas leves, inchaço, aspecto cansado, textura irregular no contorno dos olhos, 18+, conforme tolerância.
 - **Modo de uso:** Aplicar com pele limpa e seca na região das olheiras, espalhar delicadamente até absorção. Usar manhã e noite. Evitar contato direto com olhos e linha d’água. Durante o dia, finalizar com protetor solar.
-- **Site:** https://lakma.com.br/products/nanohydrat-roll-para-olheiras-15ml?_pos=1&_sid=17dd3224b&_ss=r
+
+### Links aprovados deste produto
+
+- **Campo real no cadastro:** `site_url`
+- **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/nanohydrat-roll-para-olheiras-15ml?_pos=1&_sid=17dd3224b&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+
+```json
+{
+  "produto": "Nanohydrat Roll para Olheiras - 15ml",
+  "link_individual_produto": "https://lakma.com.br/products/nanohydrat-roll-para-olheiras-15ml?_pos=1&_sid=17dd3224b&_ss=r",
+  "campo_origem_link_individual_produto": "site_url",
+  "link_site": "https://lakma.com.br/products/nanohydrat-roll-para-olheiras-15ml?_pos=1&_sid=17dd3224b&_ss=r",
+  "link_mercadolivre": null,
+  "site_geral_fallback": "https://www.lakma.com.br",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
+  "status_link_individual_produto": "aprovado",
+  "status_link": "aprovado",
+  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+}
+```
 
 ### Participação em protocolos
 
@@ -8420,7 +9752,28 @@ Fluido secativo facial para peles oleosas e acneicas, indicado para ação secat
 - **Principais objetivos:** Ação secativa, controle de oleosidade, melhora da aparência da acne, melhora da aparência de cravos, melhora da aparência de espinhas, pele com aspecto mais equilibrado, suporte em rotina antiacne, suporte em protocolos de limpeza de pele.
 - **Tipo de pele / condição indicada:** Peles oleosas, peles acneicas, cravos, espinhas, áreas com acne, áreas com oleosidade, pele com necessidade de ação secativa, pele com necessidade de controle de oleosidade, evitando pele lesionada, sensibilizada, acne cística, acne inflamada, acne dolorida, alergia a melaleuca ou própolis.
 - **Modo de uso:** Aplicar pequena quantidade sobre as áreas desejadas com pele limpa e seca e deixar agir. Em cabine, pode agir por 15 minutos e remover ou permanecer na pele conforme protocolo. Durante o dia, finalizar com protetor solar.
-- **Site:** https://lakma.com.br/products/fluido-secativo-melaleuca-para-acne-50ml?_pos=1&_sid=b08c5f760&_ss=r
+
+### Links aprovados deste produto
+
+- **Campo real no cadastro:** `site_url`
+- **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/fluido-secativo-melaleuca-para-acne-50ml?_pos=1&_sid=b08c5f760&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+
+```json
+{
+  "produto": "Fluido Secativo - Melaleuca para acne 50ml",
+  "link_individual_produto": "https://lakma.com.br/products/fluido-secativo-melaleuca-para-acne-50ml?_pos=1&_sid=b08c5f760&_ss=r",
+  "campo_origem_link_individual_produto": "site_url",
+  "link_site": "https://lakma.com.br/products/fluido-secativo-melaleuca-para-acne-50ml?_pos=1&_sid=b08c5f760&_ss=r",
+  "link_mercadolivre": null,
+  "site_geral_fallback": "https://www.lakma.com.br",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
+  "status_link_individual_produto": "aprovado",
+  "status_link": "aprovado",
+  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+}
+```
 
 ### Participação em protocolos
 
@@ -8557,7 +9910,28 @@ Esfoliante facial para renovação, preparo da pele, remoção de células morta
 - **Principais objetivos:** Esfoliação facial, renovação da pele, remoção de células mortas, preparo da pele, melhora da textura, apoio em limpeza de pele, apoio em protocolos clareadores, melhora da uniformidade, luminosidade.
 - **Tipo de pele / condição indicada:** Peles com textura irregular, peles opacas, peles com necessidade de renovação, peles com necessidade de preparo para protocolos, peles com necessidade de esfoliação facial, conforme avaliação profissional, evitando pele lesionada, irritada, sensibilizada, descamando, acne inflamada, rosácea ativa ou dermatite ativa.
 - **Modo de uso:** Aplicar sobre a pele limpa e úmida, massagear suavemente com movimentos circulares e deixar agir por até 2 minutos quando usado em protocolo de limpeza de pele. Remover completamente com água ou gaze umedecida. Durante o dia, finalizar com protetor solar.
-- **Site:** https://lakma.com.br/products/esfoliante-facial-250ml?_pos=1&_sid=6964d0934&_ss=r
+
+### Links aprovados deste produto
+
+- **Campo real no cadastro:** `site_url`
+- **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/esfoliante-facial-250ml?_pos=1&_sid=6964d0934&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+
+```json
+{
+  "produto": "Esfoliante Facial - 250ml",
+  "link_individual_produto": "https://lakma.com.br/products/esfoliante-facial-250ml?_pos=1&_sid=6964d0934&_ss=r",
+  "campo_origem_link_individual_produto": "site_url",
+  "link_site": "https://lakma.com.br/products/esfoliante-facial-250ml?_pos=1&_sid=6964d0934&_ss=r",
+  "link_mercadolivre": null,
+  "site_geral_fallback": "https://www.lakma.com.br",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
+  "status_link_individual_produto": "aprovado",
+  "status_link": "aprovado",
+  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+}
+```
 
 ### Participação em protocolos
 
@@ -8696,7 +10070,28 @@ Peeling químico profissional clareador, indicado para clareamento de manchas, h
 - **Principais objetivos:** Clareamento de manchas, clareamento de hiperpigmentações, cuidado profissional de olheiras, uniformização do tom, renovação celular, melhora da textura, luminosidade, suporte em protocolos clareadores.
 - **Tipo de pele / condição indicada:** Todos os tipos e fototipos conforme avaliação profissional, manchas faciais, hiperpigmentações, olheiras conforme protocolo aprovado, tom irregular, textura irregular, falta de luminosidade, evitando pele irritada, lesionada, sensibilizada, uso recente de procedimentos, alergia aos ácidos, melasma ou manchas sem avaliação profissional.
 - **Modo de uso:** Uso exclusivamente profissional. Aplicar 8 a 12 gotas no rosto com pincel ou dedos. Tempo máximo de ação: até 4 horas. Não necessita neutralizar em uso normal. Remover com gaze umedecida em água. Se houver pinicação, ardência intensa ou desconforto, remover imediatamente com algodão e neutralizar com Solução Neutralizante.
-- **Site:** https://lakma.com.br/products/peeling-bio-complex-clareador-50ml?_pos=1&_sid=3b6d9d823&_ss=r
+
+### Links aprovados deste produto
+
+- **Campo real no cadastro:** `site_url`
+- **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/peeling-bio-complex-clareador-50ml?_pos=1&_sid=3b6d9d823&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+
+```json
+{
+  "produto": "Peeling Bio Complex, Clareador - 50ml",
+  "link_individual_produto": "https://lakma.com.br/products/peeling-bio-complex-clareador-50ml?_pos=1&_sid=3b6d9d823&_ss=r",
+  "campo_origem_link_individual_produto": "site_url",
+  "link_site": "https://lakma.com.br/products/peeling-bio-complex-clareador-50ml?_pos=1&_sid=3b6d9d823&_ss=r",
+  "link_mercadolivre": null,
+  "site_geral_fallback": "https://www.lakma.com.br",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
+  "status_link_individual_produto": "aprovado",
+  "status_link": "aprovado",
+  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+}
+```
 
 ### Participação em protocolos
 
@@ -8836,7 +10231,28 @@ Emoliente facial profissional para limpeza de pele, indicado para amolecer cravo
 - **Principais objetivos:** Emoliência de cravos, emoliência de espinhas, amolecimento de comedões, facilitar extração, limpeza de pele profissional, conforto na extração, preparo antes da extração mecânica.
 - **Tipo de pele / condição indicada:** Todos os tipos de pele ou conforme avaliação profissional, pele com cravos, pele com espinhas, pele com comedões, pele com necessidade de limpeza de pele facial, pele com necessidade de extração mecânica, evitando pele lesionada, irritada, sensibilizada, acne muito inflamada, rosácea em crise ou dermatite em crise.
 - **Modo de uso:** Aplicar sobre a pele limpa. Ocluir com máscara térmica ou utilizar vapor de ozônio. Deixar agir de 10 a 20 minutos. Remover o excesso com gaze umedecida e realizar a extração conforme técnica profissional.
-- **Site:** https://lakma.com.br/products/emoliente-de-cravos-250gr?_pos=1&_sid=9b5e6289b&_ss=r
+
+### Links aprovados deste produto
+
+- **Campo real no cadastro:** `site_url`
+- **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/emoliente-de-cravos-250gr?_pos=1&_sid=9b5e6289b&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+
+```json
+{
+  "produto": "Emoliente de Cravos e Espinhas - 500g",
+  "link_individual_produto": "https://lakma.com.br/products/emoliente-de-cravos-250gr?_pos=1&_sid=9b5e6289b&_ss=r",
+  "campo_origem_link_individual_produto": "site_url",
+  "link_site": "https://lakma.com.br/products/emoliente-de-cravos-250gr?_pos=1&_sid=9b5e6289b&_ss=r",
+  "link_mercadolivre": null,
+  "site_geral_fallback": "https://www.lakma.com.br",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
+  "status_link_individual_produto": "aprovado",
+  "status_link": "aprovado",
+  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+}
+```
 
 ### Participação em protocolos
 
@@ -8981,7 +10397,28 @@ Creme corporal redutor para massagem, indicado para protocolos profissionais de 
 - **Principais objetivos:** Celulite, gordura localizada, flacidez, redução de medidas, massagem modeladora, ação lipolítica, estímulo da circulação, estímulo do metabolismo local, protocolos redutores, endermoterapia, manta térmica.
 - **Tipo de pele / condição indicada:** Todos os tipos de pele corporal conforme avaliação profissional, celulite, gordura localizada, flacidez, protocolos redutores, protocolos de massagem modeladora, protocolos com endermoterapia, protocolos com manta térmica, evitando pele lesionada, irritada, sensibilizada ou alterações circulatórias sem avaliação.
 - **Modo de uso:** Aplicar quantidade suficiente na região corporal. Espalhar com movimentos circulares, ascendentes ou manobras de massagem. Pode ser usado com endermoterapia ou manta térmica conforme avaliação profissional.
-- **Site:** https://lakma.com.br/products/creme-de-massagem-10-ativos-900g?_pos=1&_sid=96328ab85&_ss=r
+
+### Links aprovados deste produto
+
+- **Campo real no cadastro:** `site_url`
+- **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/creme-de-massagem-10-ativos-900g?_pos=1&_sid=96328ab85&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+
+```json
+{
+  "produto": "Creme 10 Ativos para Celulite - 900g",
+  "link_individual_produto": "https://lakma.com.br/products/creme-de-massagem-10-ativos-900g?_pos=1&_sid=96328ab85&_ss=r",
+  "campo_origem_link_individual_produto": "site_url",
+  "link_site": "https://lakma.com.br/products/creme-de-massagem-10-ativos-900g?_pos=1&_sid=96328ab85&_ss=r",
+  "link_mercadolivre": null,
+  "site_geral_fallback": "https://www.lakma.com.br",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
+  "status_link_individual_produto": "aprovado",
+  "status_link": "aprovado",
+  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+}
+```
 
 ### Participação em protocolos
 
@@ -9123,7 +10560,28 @@ Loção profissional neutralizante, indicada para controlar ou interromper a aç
 - **Principais objetivos:** Neutralização de ácidos, controle do tempo de ação, segurança em protocolos químicos, finalização técnica após peelings, suporte em protocolos profissionais com ácidos.
 - **Tipo de pele / condição indicada:** Pele normal conforme ficha, rosto e pescoço, protocolos profissionais com ácidos, protocolos de peelings químicos, protocolos que exigem neutralização, evitando pele com reação intensa, feridas, alergia ativa ou pós-procedimento sem protocolo.
 - **Modo de uso:** Após o tempo de ação do ácido, aplicar na região tratada, espalhar com gaze ou algodão, deixar agir por 5 minutos e remover o excesso. Usar somente quando o protocolo exigir neutralização.
-- **Site:** https://lakma.com.br/products/solucao-neutralizante-50ml?_pos=1&_sid=11920c378&_ss=r
+
+### Links aprovados deste produto
+
+- **Campo real no cadastro:** `site_url`
+- **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/solucao-neutralizante-50ml?_pos=1&_sid=11920c378&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+
+```json
+{
+  "produto": "Solução Neutralizante de Ácidos - 50ml",
+  "link_individual_produto": "https://lakma.com.br/products/solucao-neutralizante-50ml?_pos=1&_sid=11920c378&_ss=r",
+  "campo_origem_link_individual_produto": "site_url",
+  "link_site": "https://lakma.com.br/products/solucao-neutralizante-50ml?_pos=1&_sid=11920c378&_ss=r",
+  "link_mercadolivre": null,
+  "site_geral_fallback": "https://www.lakma.com.br",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
+  "status_link_individual_produto": "aprovado",
+  "status_link": "aprovado",
+  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+}
+```
 
 ### Participação em protocolos
 
@@ -9260,7 +10718,28 @@ Máscara facial hidratante e revitalizante com efeito dourado, indicada para hid
 - **Principais objetivos:** Hidratação, maciez, luminosidade, viço, revitalização, uniformidade do tom, aparência mais firme, finalização de protocolos faciais, experiência sensorial sofisticada.
 - **Tipo de pele / condição indicada:** Todos os tipos de pele, pele com falta de luminosidade, pele com falta de viço, pele com necessidade de hidratação, pele com necessidade de maciez, pele com aparência cansada, pele com sinais de envelhecimento, pele com rugas, pele com flacidez, conforme avaliação profissional, evitando pele lesionada, irritada ou sensibilizada.
 - **Modo de uso:** Aplicar camada uniforme sobre pele limpa e seca. Deixar agir de 10 a 15 minutos ou conforme protocolo. Remover completamente após o tempo de ação. Pode aplicar também em pescoço e colo.
-- **Site:** https://lakma.com.br/products/mascara-ouro-rejuvenescedora-150gr?_pos=1&_sid=7b0b04bfc&_ss=r
+
+### Links aprovados deste produto
+
+- **Campo real no cadastro:** `site_url`
+- **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/mascara-ouro-rejuvenescedora-150gr?_pos=1&_sid=7b0b04bfc&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+
+```json
+{
+  "produto": "Máscara Facial de Ouro Golden Glitter - 150g",
+  "link_individual_produto": "https://lakma.com.br/products/mascara-ouro-rejuvenescedora-150gr?_pos=1&_sid=7b0b04bfc&_ss=r",
+  "campo_origem_link_individual_produto": "site_url",
+  "link_site": "https://lakma.com.br/products/mascara-ouro-rejuvenescedora-150gr?_pos=1&_sid=7b0b04bfc&_ss=r",
+  "link_mercadolivre": null,
+  "site_geral_fallback": "https://www.lakma.com.br",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
+  "status_link_individual_produto": "aprovado",
+  "status_link": "aprovado",
+  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+}
+```
 
 ### Participação em protocolos
 
@@ -9409,7 +10888,28 @@ Sérum facial com fator de crescimento e peptídeos, indicado para firmeza, revi
 - **Principais objetivos:** Firmeza, revitalização, hidratação, vitalidade, cuidado antienvelhecimento, melhora da aparência de linhas de expressão, aparência rejuvenescida, suporte em protocolos faciais, suporte com tecnologias profissionais, cuidado de sobrancelhas e barba sem promessa de crescimento garantido.
 - **Tipo de pele / condição indicada:** Todos os tipos de pele, pele com linhas de expressão, pele com perda de firmeza, pele sem vitalidade, pele com necessidade de hidratação, pele com necessidade de revitalização, pele com sinais de envelhecimento, sobrancelhas e barba conforme orientação, evitando pele lesionada, irritada, reativa ou sensibilizada.
 - **Modo de uso:** Aplicar pequena quantidade sobre a pele limpa e seca. Espalhar pelo rosto até completa absorção. Usar de dia e à noite. Durante o dia, finalizar com protetor solar. Uso com tecnologias apenas conforme protocolo profissional.
-- **Site:** https://lakma.com.br/products/melange-especial-fator-de-crescimento-para-microagulhamento-50ml?_pos=1&_sid=e3164b646&_ss=r
+
+### Links aprovados deste produto
+
+- **Campo real no cadastro:** `site_url`
+- **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/melange-especial-fator-de-crescimento-para-microagulhamento-50ml?_pos=1&_sid=e3164b646&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+
+```json
+{
+  "produto": "Fator de Crescimento Melange Especial - 50ml",
+  "link_individual_produto": "https://lakma.com.br/products/melange-especial-fator-de-crescimento-para-microagulhamento-50ml?_pos=1&_sid=e3164b646&_ss=r",
+  "campo_origem_link_individual_produto": "site_url",
+  "link_site": "https://lakma.com.br/products/melange-especial-fator-de-crescimento-para-microagulhamento-50ml?_pos=1&_sid=e3164b646&_ss=r",
+  "link_mercadolivre": null,
+  "site_geral_fallback": "https://www.lakma.com.br",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
+  "status_link_individual_produto": "aprovado",
+  "status_link": "aprovado",
+  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+}
+```
 
 ### Participação em protocolos
 
@@ -9556,7 +11056,28 @@ Fluido dermocosmético regenerador facial e corporal, indicado para melhorar a a
 - **Principais objetivos:** Regeneração da pele, melhora da aparência de cicatrizes de acne, melhora da aparência de estrias, melhora da textura, uniformização, firmeza, elasticidade, renovação celular, preenchimento visual, suporte em microagulhamento profissional.
 - **Tipo de pele / condição indicada:** Todos os tipos de pele, pele com cicatrizes de acne, pele com estrias, textura irregular, perda de firmeza, falta de uniformidade, áreas faciais ou corporais com marcas, conforme avaliação profissional, evitando feridas abertas, infecção, acne muito inflamada ou pele sensibilizada.
 - **Modo de uso:** Aplicar aproximadamente 5 gotas sobre a pele limpa. Espalhar até absorção e não remover. Pode ser usado em microagulhamento ou home care conforme orientação profissional. Em microagulhamento, usar a cada 15 ou 21 dias conforme avaliação e protocolo. Em home care, pode usar todos os dias conforme orientação.
-- **Site:** https://lakma.com.br/products/neuroplasma-nutri-complex-para-cicatriz-a-acne-e-estrias-50ml?_pos=2&_sid=06b71ae8f&_ss=r
+
+### Links aprovados deste produto
+
+- **Campo real no cadastro:** `site_url`
+- **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/neuroplasma-nutri-complex-para-cicatriz-a-acne-e-estrias-50ml?_pos=2&_sid=06b71ae8f&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+
+```json
+{
+  "produto": "Neuroplasma Nutri-Complex - 50ml",
+  "link_individual_produto": "https://lakma.com.br/products/neuroplasma-nutri-complex-para-cicatriz-a-acne-e-estrias-50ml?_pos=2&_sid=06b71ae8f&_ss=r",
+  "campo_origem_link_individual_produto": "site_url",
+  "link_site": "https://lakma.com.br/products/neuroplasma-nutri-complex-para-cicatriz-a-acne-e-estrias-50ml?_pos=2&_sid=06b71ae8f&_ss=r",
+  "link_mercadolivre": null,
+  "site_geral_fallback": "https://www.lakma.com.br",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
+  "status_link_individual_produto": "aprovado",
+  "status_link": "aprovado",
+  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+}
+```
 
 ### Participação em protocolos
 
@@ -9694,7 +11215,28 @@ Máscara facial em pó de Argila Verde 100%, indicada para peles normais, oleosa
 - **Principais objetivos:** Controle da oleosidade, ação secativa, ação purificante, ação desintoxicante, ação drenante, remoção de impurezas, suporte para pele acneica, melhora da aparência da pele, aparência mais limpa e equilibrada, apoio em protocolos detox e secativos.
 - **Tipo de pele / condição indicada:** Pele normal, pele oleosa, pele acneica, excesso de brilho, sensação de impurezas, poros com aspecto obstruído, pele com necessidade de purificação, pele com necessidade de ação secativa, protocolos secativos, protocolos purificantes, protocolos detox, evitando pele lesionada, irritada, muito sensibilizada, acne inflamada intensa, feridas, rosácea ativa ou dermatite ativa.
 - **Modo de uso:** Preparar a argila conforme orientação do rótulo ou protocolo, aplicar no rosto limpo evitando olhos e mucosas, deixar agir pelo tempo indicado, remover completamente com água ou gaze umedecida e finalizar conforme necessidade da pele. Durante o dia, finalizar com protetor solar.
-- **Site:** https://lakma.com.br/products/argila-verde-150gr?_pos=1&_sid=d2cd41c2a&_ss=r
+
+### Links aprovados deste produto
+
+- **Campo real no cadastro:** `site_url`
+- **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/argila-verde-150gr?_pos=1&_sid=d2cd41c2a&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+
+```json
+{
+  "produto": "Argila Verde - 150g",
+  "link_individual_produto": "https://lakma.com.br/products/argila-verde-150gr?_pos=1&_sid=d2cd41c2a&_ss=r",
+  "campo_origem_link_individual_produto": "site_url",
+  "link_site": "https://lakma.com.br/products/argila-verde-150gr?_pos=1&_sid=d2cd41c2a&_ss=r",
+  "link_mercadolivre": null,
+  "site_geral_fallback": "https://www.lakma.com.br",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
+  "status_link_individual_produto": "aprovado",
+  "status_link": "aprovado",
+  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+}
+```
 
 ### Participação em protocolos
 
@@ -9849,7 +11391,28 @@ Kit profissional de peelings clareadores para protocolos de clareamento, manchas
 - **Principais objetivos:** Clareamento de manchas, melasma, hiperpigmentações, manchas solares, manchas pós-inflamatórias, manchas de acne, manchas de idade, renovação celular, uniformização do tom, melhora da textura, luminosidade, rejuvenescimento.
 - **Tipo de pele / condição indicada:** Todos os tipos de pele conforme avaliação profissional, manchas, melasma, manchas solares, manchas pós-inflamatórias, manchas de acne, manchas de idade, hiperpigmentações, textura irregular, opacidade, falta de luminosidade, necessidade de renovação celular, evitando pele lesionada, sensibilizada, irritada, acne inflamada, rosácea ativa, dermatite ativa, gestantes e lactantes.
 - **Modo de uso:** Uso em cabine por profissional habilitado. Usar os produtos conforme avaliação da pele, fototipo, tolerância e protocolo. Alguns produtos podem agir até 8 horas. Não se expor ao sol durante o tempo de ação. No dia seguinte, lavar, remover resíduos e aplicar protetor solar no mínimo 2 vezes ao dia.
-- **Site:** https://lakma.com.br/products/kit-acidos-sem-misterios-clareamento-de-manchas?_pos=1&_sid=5200ce86c&_ss=r
+
+### Links aprovados deste produto
+
+- **Campo real no cadastro:** `site_url`
+- **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/kit-acidos-sem-misterios-clareamento-de-manchas?_pos=1&_sid=5200ce86c&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+
+```json
+{
+  "produto": "Kit Ácidos Sem Mistérios - 5 Produtos",
+  "link_individual_produto": "https://lakma.com.br/products/kit-acidos-sem-misterios-clareamento-de-manchas?_pos=1&_sid=5200ce86c&_ss=r",
+  "campo_origem_link_individual_produto": "site_url",
+  "link_site": "https://lakma.com.br/products/kit-acidos-sem-misterios-clareamento-de-manchas?_pos=1&_sid=5200ce86c&_ss=r",
+  "link_mercadolivre": null,
+  "site_geral_fallback": "https://www.lakma.com.br",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
+  "status_link_individual_produto": "aprovado",
+  "status_link": "aprovado",
+  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+}
+```
 
 ### Participação em protocolos
 
@@ -9996,7 +11559,28 @@ Máscara facial em gel prebiótica e detox, indicada para equilíbrio da microbi
 - **Principais objetivos:** Ação detox, equilíbrio da microbiota, controle de pH, barreira cutânea, viço, brilho, luminosidade, maciez, finalização pós-limpeza, finalização pós-peeling, suporte para acne, suporte para foliculite, suporte pós-procedimento conforme orientação.
 - **Tipo de pele / condição indicada:** Todos os tipos de pele, pele com necessidade de equilíbrio da microbiota, pele com necessidade de barreira cutânea, pele com necessidade de viço, pele com necessidade de luminosidade, pele pós-limpeza, pele pós-peeling conforme orientação, pele com acne ou foliculite como suporte, evitando feridas abertas, infecção ativa, reação alérgica intensa, rosácea em crise, dermatite em crise, ardência forte ou pós-procedimento agressivo sem avaliação.
 - **Modo de uso:** Aplicar pequena quantidade sobre o rosto limpo, espalhar até formar camada uniforme e deixar na pele. Não remover. Usar no final dos procedimentos, antes do protetor solar.
-- **Site:** https://lakma.com.br/products/zen-marine-detox-150gr?_pos=1&_sid=6ef45705f&_ss=r
+
+### Links aprovados deste produto
+
+- **Campo real no cadastro:** `site_url`
+- **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/zen-marine-detox-150gr?_pos=1&_sid=6ef45705f&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+
+```json
+{
+  "produto": "Máscara Detox Zen Marine Prebiótica - 150g",
+  "link_individual_produto": "https://lakma.com.br/products/zen-marine-detox-150gr?_pos=1&_sid=6ef45705f&_ss=r",
+  "campo_origem_link_individual_produto": "site_url",
+  "link_site": "https://lakma.com.br/products/zen-marine-detox-150gr?_pos=1&_sid=6ef45705f&_ss=r",
+  "link_mercadolivre": null,
+  "site_geral_fallback": "https://www.lakma.com.br",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
+  "status_link_individual_produto": "aprovado",
+  "status_link": "aprovado",
+  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+}
+```
 
 ### Participação em protocolos
 
@@ -10141,7 +11725,28 @@ Sérum facial com ação de peeling enzimático clareador e renovador, indicado 
 - **Principais objetivos:** Clareamento de manchas, renovação celular, uniformização do tom, melhora da textura, luminosidade, revitalização, suporte em protocolos clareadores, suporte em rotinas renovadoras, melhora da aparência da pele.
 - **Tipo de pele / condição indicada:** Todos os tipos de pele, manchas, tom irregular, textura irregular, pele opaca, pele com falta de luminosidade, pele com necessidade de renovação, pele com necessidade de revitalização, conforme avaliação e tolerância, evitando pele lesionada, sensibilizada, irritada, rosácea ativa, dermatite ativa ou pós-procedimento recente.
 - **Modo de uso:** Aplicar sobre o rosto limpo e higienizado. Espalhar até completa absorção. Não remover. Usar conforme necessidade ou orientação. Durante o dia, finalizar com protetor solar.
-- **Site:** https://lakma.com.br/products/peeling-enzimatico-de-roma-clareador-60ml?_pos=1&_sid=1bc092cdb&_ss=r
+
+### Links aprovados deste produto
+
+- **Campo real no cadastro:** `site_url`
+- **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/peeling-enzimatico-de-roma-clareador-60ml?_pos=1&_sid=1bc092cdb&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+
+```json
+{
+  "produto": "Peeling Enzimático de Romã Facial - 60ml",
+  "link_individual_produto": "https://lakma.com.br/products/peeling-enzimatico-de-roma-clareador-60ml?_pos=1&_sid=1bc092cdb&_ss=r",
+  "campo_origem_link_individual_produto": "site_url",
+  "link_site": "https://lakma.com.br/products/peeling-enzimatico-de-roma-clareador-60ml?_pos=1&_sid=1bc092cdb&_ss=r",
+  "link_mercadolivre": null,
+  "site_geral_fallback": "https://www.lakma.com.br",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
+  "status_link_individual_produto": "aprovado",
+  "status_link": "aprovado",
+  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+}
+```
 
 ### Participação em protocolos
 
@@ -10279,7 +11884,28 @@ Kit facial Eco Skin com 3 produtos, indicado para limpeza facial express, limpez
 - **Principais objetivos:** Limpeza facial express, limpeza profunda, esfoliação suave, preparação para extração, fechamento de poros, revitalização, hidratação, suavização, efeito mate, finalização, dermaplaning profissional.
 - **Tipo de pele / condição indicada:** Todos os tipos de pele, pele com necessidade de limpeza express, pele com necessidade de revitalização, pele com necessidade de hidratação, pele com necessidade de suavização, pele com necessidade de finalização, protocolos de dermaplaning profissional, protocolos de limpeza facial profunda, evitando pele lesionada, irritada, acne inflamada, acne severa, feridas, alergia ativa, uso recente de ácidos, retinoides, peeling, laser, microagulhamento ou isotretinoína sem avaliação.
 - **Modo de uso:** Aplicar Creme 3 em 1 por 2 minutos sem remover. Usar vapor ou máscara térmica por 15 minutos quando houver extração profissional. Realizar extração se indicada. Remover excesso. Aplicar a Bruma Immun'Eau com algodão ou borrifar. Aplicar Máscara Suavizante Oligo-Mat até absorção, não remover e finalizar com protetor solar.
-- **Site:** https://lakma.com.br/products/kit-eco-skin-para-dermaplaning?_pos=1&_sid=b9365a88d&_ss=r
+
+### Links aprovados deste produto
+
+- **Campo real no cadastro:** `site_url`
+- **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/kit-eco-skin-para-dermaplaning?_pos=1&_sid=b9365a88d&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+
+```json
+{
+  "produto": "Kit Lakma Limpeza de Pele Profunda Skin Care - ECOSKIN",
+  "link_individual_produto": "https://lakma.com.br/products/kit-eco-skin-para-dermaplaning?_pos=1&_sid=b9365a88d&_ss=r",
+  "campo_origem_link_individual_produto": "site_url",
+  "link_site": "https://lakma.com.br/products/kit-eco-skin-para-dermaplaning?_pos=1&_sid=b9365a88d&_ss=r",
+  "link_mercadolivre": null,
+  "site_geral_fallback": "https://www.lakma.com.br",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
+  "status_link_individual_produto": "aprovado",
+  "status_link": "aprovado",
+  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+}
+```
 
 ### Participação em protocolos
 
@@ -10427,7 +12053,28 @@ Kit profissional com 5 fluidos revitalizantes nanotecnológicos e biotecnológic
 - **Principais objetivos:** Microagulhamento profissional, hidratação, preenchimento visual, firmeza, clareamento, ação antioxidante, rejuvenescimento, revitalização profissional, melhora da textura, luminosidade, vitalidade, suporte em tecnologias estéticas.
 - **Tipo de pele / condição indicada:** Todos os tipos de pele conforme avaliação profissional, pele com necessidade de hidratação, pele com necessidade de firmeza, pele com necessidade de clareamento, pele com necessidade de rejuvenescimento, textura irregular, falta de luminosidade, falta de vitalidade, cicatrizes de acne, estrias, protocolos de microagulhamento, LED, laser, eletroterapia, jato de plasma e protocolos revitalizantes, evitando pele lesionada, sensibilizada, acne inflamada, feridas, rosácea ativa, gestantes e lactantes sem liberação.
 - **Modo de uso:** Aplicar o fluido escolhido ou todos os fluidos, um por cima do outro, sobre a pele limpa conforme protocolo profissional. Pode associar com produtos Lakma. Deixar agir e não remover, salvo quando o protocolo orientar remoção.
-- **Site:** https://lakma.com.br/products/kit-fluidos-revitalizantes-para-microagulhamento?_pos=1&_sid=e3adb7d8b&_ss=r
+
+### Links aprovados deste produto
+
+- **Campo real no cadastro:** `site_url`
+- **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/kit-fluidos-revitalizantes-para-microagulhamento?_pos=1&_sid=e3adb7d8b&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+
+```json
+{
+  "produto": "Kit Fluidos Revitalizantes para Microagulhamento - 5 Passos",
+  "link_individual_produto": "https://lakma.com.br/products/kit-fluidos-revitalizantes-para-microagulhamento?_pos=1&_sid=e3adb7d8b&_ss=r",
+  "campo_origem_link_individual_produto": "site_url",
+  "link_site": "https://lakma.com.br/products/kit-fluidos-revitalizantes-para-microagulhamento?_pos=1&_sid=e3adb7d8b&_ss=r",
+  "link_mercadolivre": null,
+  "site_geral_fallback": "https://www.lakma.com.br",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
+  "status_link_individual_produto": "aprovado",
+  "status_link": "aprovado",
+  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+}
+```
 
 ### Participação em protocolos
 
@@ -10595,7 +12242,28 @@ Peeling químico profissional secativo, indicado para peles acneicas, cravos, co
 - **Principais objetivos:** Ação secativa, controle de oleosidade, melhora da aparência da acne, redução da aparência de cravos, redução da aparência de espinhas, melhora de comedões, ação queratolítica, melhora da textura, suporte pré-limpeza de pele, suporte pós-limpeza de pele.
 - **Tipo de pele / condição indicada:** Pele acneica, cravos, comedões, oleosidade excessiva, pele com necessidade de ação secativa, pele com necessidade de ação queratolítica, pele com textura irregular por acne e oleosidade, protocolos profissionais para acne, cravos e oleosidade, evitando pele lesionada, sensibilizada, acne severa, acne cística, uso de isotretinoína, gestantes, lactantes ou alergia a ácidos.
 - **Modo de uso:** Uso exclusivamente profissional. Aplicar de 8 a 12 gotas no rosto com pincel ou dedos. Deixar agir no máximo 15 minutos. Pode ser usado no pré ou pós-limpeza de pele. Remover conforme protocolo. Fazer prova de toque 48 horas antes. Durante o tratamento, usar protetor solar.
-- **Site:** https://lakma.com.br/products/peeling-quimico-secativo-50ml?_pos=1&_sid=60a60c291&_ss=r
+
+### Links aprovados deste produto
+
+- **Campo real no cadastro:** `site_url`
+- **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/peeling-quimico-secativo-50ml?_pos=1&_sid=60a60c291&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+
+```json
+{
+  "produto": "Peeling Químico Secativo - 50ml",
+  "link_individual_produto": "https://lakma.com.br/products/peeling-quimico-secativo-50ml?_pos=1&_sid=60a60c291&_ss=r",
+  "campo_origem_link_individual_produto": "site_url",
+  "link_site": "https://lakma.com.br/products/peeling-quimico-secativo-50ml?_pos=1&_sid=60a60c291&_ss=r",
+  "link_mercadolivre": null,
+  "site_geral_fallback": "https://www.lakma.com.br",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
+  "status_link_individual_produto": "aprovado",
+  "status_link": "aprovado",
+  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+}
+```
 
 ### Participação em protocolos
 
@@ -10736,7 +12404,28 @@ Fluido revitalizante facial com Ácido Hialurônico, indicado para hidratação 
 - **Principais objetivos:** Hidratação profunda, retenção de umidade, elasticidade, firmeza, rejuvenescimento, melhora da aparência de linhas finas, maciez, revitalização, suporte de barreira, finalização hidratante, suporte em protocolos profissionais.
 - **Tipo de pele / condição indicada:** Todos os tipos de pele, pele desidratada, pele ressecada, pele com linhas finas, pele com perda de elasticidade, pele com perda de firmeza, pele com necessidade de maciez, pele com necessidade de revitalização, pele pós-protocolo conforme orientação, evitando pele lesionada, irritada, alergia ativa, rosácea em crise, dermatite em crise ou pós-procedimento agressivo sem orientação.
 - **Modo de uso:** Limpar e tonificar a pele. Aplicar algumas gotas na palma da mão e espalhar pelo rosto e pescoço, evitando a área dos olhos. Aguardar absorção. Usar de manhã e à noite. Durante o dia, finalizar com protetor solar.
-- **Site:** https://lakma.com.br/products/fluido-passo-2-hialuronico-50ml?_pos=1&_sid=4c1d3e80d&_ss=r
+
+### Links aprovados deste produto
+
+- **Campo real no cadastro:** `site_url`
+- **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/fluido-passo-2-hialuronico-50ml?_pos=1&_sid=4c1d3e80d&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+
+```json
+{
+  "produto": "Fluido Revitalizante Passo 2 - Ácido Hialurônico - 50ml",
+  "link_individual_produto": "https://lakma.com.br/products/fluido-passo-2-hialuronico-50ml?_pos=1&_sid=4c1d3e80d&_ss=r",
+  "campo_origem_link_individual_produto": "site_url",
+  "link_site": "https://lakma.com.br/products/fluido-passo-2-hialuronico-50ml?_pos=1&_sid=4c1d3e80d&_ss=r",
+  "link_mercadolivre": null,
+  "site_geral_fallback": "https://www.lakma.com.br",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
+  "status_link_individual_produto": "aprovado",
+  "status_link": "aprovado",
+  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+}
+```
 
 ### Participação em protocolos
 
@@ -10875,7 +12564,28 @@ Fluido revitalizante facial com Vitamina C 40%, indicado para clareamento, hiper
 - **Principais objetivos:** Clareamento, hiperpigmentações, prevenção do fotoenvelhecimento, tratamento do fotoenvelhecimento, ação antioxidante, luminosidade, uniformização, hidratação, suporte de barreira, suporte em peelings, suporte em microagulhamento, suporte em máscaras, suporte em eletroterapia.
 - **Tipo de pele / condição indicada:** Peles com manchas, hiperpigmentações, fotoenvelhecimento, falta de luminosidade, tom irregular, textura irregular, necessidade de ação antioxidante, necessidade de hidratação e barreira, conforme avaliação e tolerância, evitando pele lesionada, sensibilizada, ardência intensa, rosácea ativa, dermatite ativa ou pós-procedimento sem orientação.
 - **Modo de uso:** Aplicar pequena quantidade na pele limpa e seca. Espalhar até absorção. Pode ser usado de dia ou à noite. Em protocolos profissionais, associar conforme avaliação. Durante o dia, finalizar com protetor solar.
-- **Site:** https://lakma.com.br/products/fluido-passo-4-vitamina-c-50ml?_pos=1&_sid=976b990d3&_ss=r
+
+### Links aprovados deste produto
+
+- **Campo real no cadastro:** `site_url`
+- **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/fluido-passo-4-vitamina-c-50ml?_pos=1&_sid=976b990d3&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+
+```json
+{
+  "produto": "Fluido Revitalizante Passo 4 - Vitamina C 40% - 50ml",
+  "link_individual_produto": "https://lakma.com.br/products/fluido-passo-4-vitamina-c-50ml?_pos=1&_sid=976b990d3&_ss=r",
+  "campo_origem_link_individual_produto": "site_url",
+  "link_site": "https://lakma.com.br/products/fluido-passo-4-vitamina-c-50ml?_pos=1&_sid=976b990d3&_ss=r",
+  "link_mercadolivre": null,
+  "site_geral_fallback": "https://www.lakma.com.br",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
+  "status_link_individual_produto": "aprovado",
+  "status_link": "aprovado",
+  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+}
+```
 
 ### Participação em protocolos
 
@@ -11028,7 +12738,28 @@ Máscara clareadora facial e corporal, indicada para manchas, uniformização do
 - **Principais objetivos:** Clareamento de manchas, uniformização do tom, luminosidade, renovação, melhora da textura, cuidado de manchas faciais, cuidado de manchas corporais, suporte em protocolos clareadores, suporte pós-peeling conforme orientação, home care noturno orientado.
 - **Tipo de pele / condição indicada:** Todos os tipos de pele, manchas faciais, manchas corporais, tom irregular, textura irregular, falta de luminosidade, pele com necessidade de renovação, protocolos clareadores, home care noturno orientado, evitando contorno dos olhos, pele irritada, pele lesionada, alergia ativa, gestantes sem orientação, lactantes sem orientação, melasma resistente, manchas suspeitas ou pós-procedimentos recentes sem avaliação.
 - **Modo de uso:** Uso profissional conforme protocolo. No home care, aplicar à noite sobre a pele limpa e seca, nas manchas ou no rosto todo conforme orientação. Espalhar camada uniforme. Pode usar diariamente conforme tolerância. Protetor solar é indispensável durante o dia.
-- **Site:** https://lakma.com.br/products/mascara-clareadora-30g?_pos=2&_sid=1cf15edab&_ss=r
+
+### Links aprovados deste produto
+
+- **Campo real no cadastro:** `site_url`
+- **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/mascara-clareadora-30g?_pos=2&_sid=1cf15edab&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+
+```json
+{
+  "produto": "Máscara Clareadora - 30g",
+  "link_individual_produto": "https://lakma.com.br/products/mascara-clareadora-30g?_pos=2&_sid=1cf15edab&_ss=r",
+  "campo_origem_link_individual_produto": "site_url",
+  "link_site": "https://lakma.com.br/products/mascara-clareadora-30g?_pos=2&_sid=1cf15edab&_ss=r",
+  "link_mercadolivre": null,
+  "site_geral_fallback": "https://www.lakma.com.br",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
+  "status_link_individual_produto": "aprovado",
+  "status_link": "aprovado",
+  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+}
+```
 
 ### Participação em protocolos
 
@@ -11176,7 +12907,28 @@ Máscara clareadora facial e corporal em apresentação menor, indicada para man
 - **Principais objetivos:** Clareamento de manchas, melasma, manchas pós-inflamatórias, manchas solares, manchas de acne, marcas escurecidas, uniformização do tom, luminosidade, renovação, melhora da textura, aplicação localizada.
 - **Tipo de pele / condição indicada:** Peles com manchas, melasma, manchas pós-inflamatórias, manchas solares, manchas de acne, marcas escurecidas, tom irregular, textura irregular, falta de luminosidade, necessidade de aplicação localizada, conforme avaliação e tolerância, evitando pele lesionada, sensibilizada, irritada, alergia ativa, gestantes sem orientação, lactantes sem orientação, melasma resistente, manchas suspeitas ou pós-procedimentos recentes sem avaliação.
 - **Modo de uso:** Limpar e secar a pele. Aplicar camada uniforme no rosto, corpo ou diretamente nas manchas. No home care, usar à noite, preferencialmente nas manchas ou conforme orientação. Pode usar diariamente conforme tolerância. Protetor solar é indispensável durante o dia.
-- **Site:** https://lakma.com.br/products/mascara-clareadora-10g?_pos=1&_sid=1cf15edab&_ss=r
+
+### Links aprovados deste produto
+
+- **Campo real no cadastro:** `site_url`
+- **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/mascara-clareadora-10g?_pos=1&_sid=1cf15edab&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+
+```json
+{
+  "produto": "Máscara Clareadora Facial e Corporal - 10g",
+  "link_individual_produto": "https://lakma.com.br/products/mascara-clareadora-10g?_pos=1&_sid=1cf15edab&_ss=r",
+  "campo_origem_link_individual_produto": "site_url",
+  "link_site": "https://lakma.com.br/products/mascara-clareadora-10g?_pos=1&_sid=1cf15edab&_ss=r",
+  "link_mercadolivre": null,
+  "site_geral_fallback": "https://www.lakma.com.br",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
+  "status_link_individual_produto": "aprovado",
+  "status_link": "aprovado",
+  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+}
+```
 
 ### Participação em protocolos
 
@@ -11319,7 +13071,28 @@ Kit profissional facial para limpeza de pele, com 5 produtos para higienização
 - **Principais objetivos:** Limpeza de pele profissional, higienização, esfoliação, emoliência, extração de cravos, tonificação, finalização calmante, praticidade em cabine, alto rendimento, suporte para todos os tipos de pele conforme avaliação.
 - **Tipo de pele / condição indicada:** Todos os tipos de pele conforme avaliação profissional, pele com cravos, pele com necessidade de limpeza de pele, pele com necessidade de esfoliação, pele com necessidade de emoliência, pele com necessidade de extração, pele com necessidade de tonificação, evitando acne inflamada severa, infecção, feridas, irritação intensa, rosácea ativa, dermatite ativa, alergia, pele sensibilizada por ácidos, retinoides ou pós-procedimentos recentes.
 - **Modo de uso:** Higienizar com Sabonete Líquido Facial. Esfoliar e deixar agir por 2 minutos. Tonificar sem remover. Aplicar Emoliente de Cravos, usar máscara térmica ou vapor por 25 minutos. Realizar extração profissional. Se necessário, aplicar Máscara Calmante por 5 minutos após a extração e finalizar conforme pele e objetivo.
-- **Site:** https://lakma.com.br/products/kit-limpeza-de-pele?_pos=1&_sid=422b7e433&_ss=r
+
+### Links aprovados deste produto
+
+- **Campo real no cadastro:** `site_url`
+- **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/kit-limpeza-de-pele?_pos=1&_sid=422b7e433&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+
+```json
+{
+  "produto": "Kit Limpeza de Pele Profissional - 5 Produtos",
+  "link_individual_produto": "https://lakma.com.br/products/kit-limpeza-de-pele?_pos=1&_sid=422b7e433&_ss=r",
+  "campo_origem_link_individual_produto": "site_url",
+  "link_site": "https://lakma.com.br/products/kit-limpeza-de-pele?_pos=1&_sid=422b7e433&_ss=r",
+  "link_mercadolivre": null,
+  "site_geral_fallback": "https://www.lakma.com.br",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
+  "status_link_individual_produto": "aprovado",
+  "status_link": "aprovado",
+  "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+}
+```
 
 ### Participação em protocolos
 
