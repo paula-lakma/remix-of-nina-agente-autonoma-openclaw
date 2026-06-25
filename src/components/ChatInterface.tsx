@@ -628,11 +628,11 @@ const ChatInterface: React.FC = () => {
                 <ShieldAlert className="w-5 h-5 text-rose-400 flex-shrink-0 mt-0.5" />
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-semibold text-rose-200">
-                    {(activeChat as any).outsideDermoconsultantHours
+                    {activeChat.outsideDermoconsultantHours
                       ? 'Aguardando dermoconsultora no próximo horário de atendimento.'
                       : 'Dermoconsultora precisa assumir esta conversa.'}
                   </p>
-                  {(activeChat as any).outsideDermoconsultantHours && (
+                  {activeChat.outsideDermoconsultantHours && (
                     <p className="text-xs text-rose-300/80 mt-0.5">
                       Horário da dermoconsultora: seg–qui 08h–18h · sex 08h–17h (America/São_Paulo)
                     </p>
