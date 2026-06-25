@@ -578,21 +578,35 @@ const Team: React.FC = () => {
                     <div className="space-y-2">
                         <label className="text-sm font-medium text-slate-300">Nível de Acesso</label>
                         <div className="grid grid-cols-3 gap-2">
-                            {['agent', 'manager', 'admin'].map((role) => (
-                                <div 
-                                    key={role}
-                                    onClick={() => setEditFormData({...editFormData, role})}
-                                    className={`cursor-pointer rounded-lg border p-2 text-center transition-all ${
-                                        editFormData.role === role 
-                                        ? 'bg-slate-800 border-slate-500 text-white' 
-                                        : 'bg-slate-950 border-slate-800 text-slate-500 hover:border-slate-700'
-                                    }`}
-                                >
-                                    <div className="text-xs font-bold uppercase mb-1">{role === 'agent' ? 'Atendente' : role === 'manager' ? 'Gerente' : 'Admin'}</div>
-                                    {editFormData.role === role && <div className="flex justify-center"><Check className="w-3 h-3" /></div>}
-                                </div>
-                            ))}
+                            {(['agent', 'manager', 'admin'] as const).map((role) => {
+                                const adminBlocked = role === 'admin' && !isMasterEmail(editFormData.email);
+                                const selected = editFormData.role === role;
+                                return (
+                                    <button
+                                        type="button"
+                                        key={role}
+                                        disabled={adminBlocked}
+                                        onClick={() => !adminBlocked && setEditFormData({ ...editFormData, role })}
+                                        title={adminBlocked ? `Admin só é permitido para ${MASTER_ADMIN_EMAIL}` : ROLE_DESCRIPTIONS[role]}
+                                        className={`relative cursor-pointer rounded-lg border p-2 text-center transition-all ${
+                                            selected
+                                                ? 'bg-slate-800 border-slate-500 text-white'
+                                                : 'bg-slate-950 border-slate-800 text-slate-500 hover:border-slate-700'
+                                        } ${adminBlocked ? 'opacity-40 cursor-not-allowed' : ''}`}
+                                    >
+                                        <div className="text-xs font-bold uppercase mb-1">{ROLE_LABEL[role]}</div>
+                                        {selected && <div className="flex justify-center"><Check className="w-3 h-3" /></div>}
+                                    </button>
+                                );
+                            })}
                         </div>
+                        <p className="text-xs text-slate-500 leading-relaxed">{ROLE_DESCRIPTIONS[editFormData.role]}</p>
+                        {editFormData.role === 'admin' && (
+                            <div className="flex items-start gap-2 p-2.5 rounded-lg bg-amber-950/40 border border-amber-900/50 text-amber-300 text-xs">
+                                <AlertTriangle className="w-4 h-4 flex-shrink-0 mt-0.5" />
+                                <span>Admin tem acesso total à plataforma. Use apenas para usuários autorizados.</span>
+                            </div>
+                        )}
                     </div>
 
                     <div className="space-y-2">
