@@ -194,23 +194,29 @@ const ChatInterface: React.FC = () => {
 
   const renderMessageContent = (msg: UIMessage) => {
     if (msg.type === MessageType.IMAGE) {
+      const src = msg.mediaUrl || msg.content;
       return (
         <div className="mb-1 group relative">
-          <a href={msg.mediaUrl || msg.content} target="_blank" rel="noreferrer">
-            <img 
-              src={msg.mediaUrl || msg.content} 
-              alt="Anexo" 
+          <button
+            type="button"
+            onClick={() => setLightboxUrl(src)}
+            className="block w-full text-left"
+          >
+            <img
+              src={src}
+              alt="Anexo"
               className="rounded-lg max-w-full h-auto max-h-72 object-cover border border-slate-700/50 shadow-lg cursor-zoom-in"
               loading="lazy"
               onError={(e) => {
                 (e.target as HTMLImageElement).src = 'https://placehold.co/300x200/1e293b/cbd5e1?text=Erro+Imagem';
               }}
             />
-          </a>
+          </button>
           {msg.content && <p className="text-xs mt-2 opacity-90 whitespace-pre-wrap">{msg.content}</p>}
         </div>
       );
     }
+
 
     if (msg.type === MessageType.DOCUMENT) {
       const name = (msg.mediaUrl || '').split('/').pop()?.split('?')[0] || 'documento';
