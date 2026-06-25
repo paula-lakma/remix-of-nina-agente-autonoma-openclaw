@@ -337,11 +337,13 @@ function renderProtocolProductsBlock(k: any, products: any[]): string {
     desconto_site: "35%",
     site_geral_fallback: LAKMA_SITE_FALLBACK,
     regra_envio:
-      "Se houver link_kit_unico, enviar esse link. Caso contrário, enviar a lista produtos_utilizados com link_individual_produto de cada item encontrado. Sinalizar individualmente apenas os itens sem link. Mover lead para 'Link do site enviado' ao enviar qualquer link.",
+      "Se houver link_kit_unico, enviar esse link. Caso contrário, enviar a lista produtos_utilizados com link_individual_produto de cada item encontrado (independente do match_tipo: exato, normalizado, compacto, alias, token ou fuzzy). Sinalizar individualmente apenas os itens sem link. Mover lead para 'Link do site enviado' ao enviar qualquer link.",
     proibicoes: [
       "Nunca responder 'não tenho o link do protocolo' antes de checar produtos_utilizados.",
+      "Nunca declarar um produto como 'sem link no cadastro' se ele aparece em produtos_utilizados com link_individual_produto preenchido — confiar no match (exato/normalizado/compacto/alias/token/fuzzy) já resolvido aqui.",
       "Nunca enviar apenas o site geral quando existir ao menos um link_individual_produto resolvido.",
       "Nunca inventar links.",
+      "Se houver dúvida entre dois produtos parecidos, pedir confirmação ao lead em vez de escolher errado.",
     ],
   }, null, 2)}\n\`\`\`\n\n`;
   return md;
