@@ -26,7 +26,7 @@ Kit profissional de peelings clareadores para protocolos faciais e corporais de 
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/kit-acidos-sem-misterios-peeling-de-cristal-liquido-guia-pratico-de-peeling?_pos=2&_sid=092c25f53&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/kit-acidos-sem-misterios-peeling-de-cristal-liquido-guia-pratico-de-peeling?_pos=2&_sid=092c25f53&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
@@ -36,8 +36,8 @@ Kit profissional de peelings clareadores para protocolos faciais e corporais de 
   "link_site": "https://lakma.com.br/products/kit-acidos-sem-misterios-peeling-de-cristal-liquido-guia-pratico-de-peeling?_pos=2&_sid=092c25f53&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA30",
-  "desconto_site": "30%",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
@@ -230,7 +230,7 @@ Sérum facial revitalizante com foco em firmeza, efeito lifting, elasticidade e 
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/fluido-passo-5-rejuvenescedor-50ml?_pos=1&_sid=bcf3c4f48&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/fluido-passo-5-rejuvenescedor-50ml?_pos=1&_sid=bcf3c4f48&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
@@ -240,8 +240,8 @@ Sérum facial revitalizante com foco em firmeza, efeito lifting, elasticidade e 
   "link_site": "https://lakma.com.br/products/fluido-passo-5-rejuvenescedor-50ml?_pos=1&_sid=bcf3c4f48&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA30",
-  "desconto_site": "30%",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
@@ -370,7 +370,7 @@ Creme emoliente facial profissional, livre de trietanolamina, indicado para amol
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/emoliente-zero?_pos=1&_sid=1345a38d7&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/emoliente-zero?_pos=1&_sid=1345a38d7&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
@@ -380,8 +380,8 @@ Creme emoliente facial profissional, livre de trietanolamina, indicado para amol
   "link_site": "https://lakma.com.br/products/emoliente-zero?_pos=1&_sid=1345a38d7&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA30",
-  "desconto_site": "30%",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
@@ -511,7 +511,7 @@ Booster facial profissional indicado para protocolos de rejuvenescimento, firmez
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/booster-fibras-elasticas?_pos=1&_psq=fibras+elas&_ss=e&_v=1.0 ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/booster-fibras-elasticas?_pos=1&_psq=fibras+elas&_ss=e&_v=1.0 ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
@@ -521,8 +521,8 @@ Booster facial profissional indicado para protocolos de rejuvenescimento, firmez
   "link_site": "https://lakma.com.br/products/booster-fibras-elasticas?_pos=1&_psq=fibras+elas&_ss=e&_v=1.0",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA30",
-  "desconto_site": "30%",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
@@ -648,7 +648,7 @@ Máscara facial hidroplástica profissional com ação tensora, refrescante, det
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/mascara-zen-marine-hidroplastica-150g?_pos=1&_sid=70f050ddf&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/mascara-zen-marine-hidroplastica-150g?_pos=1&_sid=70f050ddf&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
@@ -658,8 +658,8 @@ Máscara facial hidroplástica profissional com ação tensora, refrescante, det
   "link_site": "https://lakma.com.br/products/mascara-zen-marine-hidroplastica-150g?_pos=1&_sid=70f050ddf&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA30",
-  "desconto_site": "30%",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
@@ -794,7 +794,7 @@ Kit profissional com 4 peelings faciais de 50ml para protocolos de renovação c
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/kit-peelings?_pos=2&_sid=e517bc874&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/kit-peelings?_pos=2&_sid=e517bc874&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
@@ -804,8 +804,8 @@ Kit profissional com 4 peelings faciais de 50ml para protocolos de renovação c
   "link_site": "https://lakma.com.br/products/kit-peelings?_pos=2&_sid=e517bc874&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA30",
-  "desconto_site": "30%",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
@@ -946,7 +946,7 @@ Kit corporal profissional com produtos para protocolos de esfoliação, massagem
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/kit-bodypro?_pos=1&_sid=5464b8b38&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/kit-bodypro?_pos=1&_sid=5464b8b38&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
@@ -956,8 +956,8 @@ Kit corporal profissional com produtos para protocolos de esfoliação, massagem
   "link_site": "https://lakma.com.br/products/kit-bodypro?_pos=1&_sid=5464b8b38&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA30",
-  "desconto_site": "30%",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
@@ -1095,7 +1095,7 @@ Kit home care de cuidados labiais com esfoliação, tratamento e finalização p
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/kit-labial-home-care?_pos=1&_sid=1789b10ca&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/kit-labial-home-care?_pos=1&_sid=1789b10ca&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
@@ -1105,8 +1105,8 @@ Kit home care de cuidados labiais com esfoliação, tratamento e finalização p
   "link_site": "https://lakma.com.br/products/kit-labial-home-care?_pos=1&_sid=1789b10ca&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA30",
-  "desconto_site": "30%",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
@@ -1231,7 +1231,7 @@ Kit profissional para limpeza de pele facial com etapas de higienização, esfol
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/kit-limpeza-de-pele-creme-emoliente-sem-trieta?_pos=3&_sid=376784632&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/kit-limpeza-de-pele-creme-emoliente-sem-trieta?_pos=3&_sid=376784632&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
@@ -1241,8 +1241,8 @@ Kit profissional para limpeza de pele facial com etapas de higienização, esfol
   "link_site": "https://lakma.com.br/products/kit-limpeza-de-pele-creme-emoliente-sem-trieta?_pos=3&_sid=376784632&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA30",
-  "desconto_site": "30%",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
@@ -1387,7 +1387,7 @@ Sérum facial home care com Niacinamida 10% e Zinco PCA 1%, indicado para oleosi
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/serum-10-niacinamida-1-zinco-pca?_pos=1&_sid=5b47fa0fb&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/serum-10-niacinamida-1-zinco-pca?_pos=1&_sid=5b47fa0fb&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
@@ -1397,8 +1397,8 @@ Sérum facial home care com Niacinamida 10% e Zinco PCA 1%, indicado para oleosi
   "link_site": "https://lakma.com.br/products/serum-10-niacinamida-1-zinco-pca?_pos=1&_sid=5b47fa0fb&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA30",
-  "desconto_site": "30%",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
@@ -1537,7 +1537,7 @@ Sérum facial noturno com Retinol 0,5% e Vitamina E 1%, indicado para renovaçã
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/serum-retinol-0-5-vitamina-e-1?_pos=1&_psq=serum+re&_ss=e&_v=1.0 ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/serum-retinol-0-5-vitamina-e-1?_pos=1&_psq=serum+re&_ss=e&_v=1.0 ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
@@ -1547,8 +1547,8 @@ Sérum facial noturno com Retinol 0,5% e Vitamina E 1%, indicado para renovaçã
   "link_site": "https://lakma.com.br/products/serum-retinol-0-5-vitamina-e-1?_pos=1&_psq=serum+re&_ss=e&_v=1.0",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA30",
-  "desconto_site": "30%",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
@@ -1682,7 +1682,7 @@ Sérum facial home care com Vitamina C 10% e Ácido Ferúlico 1%, indicado para 
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/vitamina-c-10?_pos=1&_psq=s%C3%A9rum&_ss=e&_v=1.0 ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/vitamina-c-10?_pos=1&_psq=s%C3%A9rum&_ss=e&_v=1.0 ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
@@ -1692,8 +1692,8 @@ Sérum facial home care com Vitamina C 10% e Ácido Ferúlico 1%, indicado para 
   "link_site": "https://lakma.com.br/products/vitamina-c-10?_pos=1&_psq=s%C3%A9rum&_ss=e&_v=1.0",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA30",
-  "desconto_site": "30%",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
@@ -1830,7 +1830,7 @@ Creme facial profissional com espículas de esponja hidrolisada, indicado para r
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/microagulhamento-em-creme-8g?_pos=1&_psq=microagul&_ss=e&_v=1.0 ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/microagulhamento-em-creme-8g?_pos=1&_psq=microagul&_ss=e&_v=1.0 ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
@@ -1840,8 +1840,8 @@ Creme facial profissional com espículas de esponja hidrolisada, indicado para r
   "link_site": "https://lakma.com.br/products/microagulhamento-em-creme-8g?_pos=1&_psq=microagul&_ss=e&_v=1.0",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA30",
-  "desconto_site": "30%",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
@@ -1982,7 +1982,7 @@ Gloss labial bioativo home care com ação booster, indicado para hidratação, 
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/gloss-bioativo-8g?_pos=1&_psq=gloss&_ss=e&_v=1.0 ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/gloss-bioativo-8g?_pos=1&_psq=gloss&_ss=e&_v=1.0 ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
@@ -1992,8 +1992,8 @@ Gloss labial bioativo home care com ação booster, indicado para hidratação, 
   "link_site": "https://lakma.com.br/products/gloss-bioativo-8g?_pos=1&_psq=gloss&_ss=e&_v=1.0",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA30",
-  "desconto_site": "30%",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
@@ -2117,7 +2117,7 @@ Tratamento home care para cílios em formato de rímel, indicado para fortalecim
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/rimel-bioativo-8ml?_pos=1&_psq=r%C3%ADmel&_ss=e&_v=1.0 ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/rimel-bioativo-8ml?_pos=1&_psq=r%C3%ADmel&_ss=e&_v=1.0 ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
@@ -2127,8 +2127,8 @@ Tratamento home care para cílios em formato de rímel, indicado para fortalecim
   "link_site": "https://lakma.com.br/products/rimel-bioativo-8ml?_pos=1&_psq=r%C3%ADmel&_ss=e&_v=1.0",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA30",
-  "desconto_site": "30%",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
@@ -2249,7 +2249,7 @@ Esfoliante home care para rosto e lábios, indicado para renovação suave, remo
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/esfoliante-facial-e-labial-30g?_pos=1&_psq=esfoliante&_ss=e&_v=1.0 ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/esfoliante-facial-e-labial-30g?_pos=1&_psq=esfoliante&_ss=e&_v=1.0 ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
@@ -2259,8 +2259,8 @@ Esfoliante home care para rosto e lábios, indicado para renovação suave, remo
   "link_site": "https://lakma.com.br/products/esfoliante-facial-e-labial-30g?_pos=1&_psq=esfoliante&_ss=e&_v=1.0",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA30",
-  "desconto_site": "30%",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
@@ -2395,7 +2395,7 @@ Espuma de limpeza facial home care para uso diário, indicada para remover impur
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/espuma-de-limpeza?_pos=1&_psq=espuma+de+limpeza&_ss=e&_v=1.0 ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/espuma-de-limpeza?_pos=1&_psq=espuma+de+limpeza&_ss=e&_v=1.0 ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
@@ -2405,8 +2405,8 @@ Espuma de limpeza facial home care para uso diário, indicada para remover impur
   "link_site": "https://lakma.com.br/products/espuma-de-limpeza?_pos=1&_psq=espuma+de+limpeza&_ss=e&_v=1.0",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA30",
-  "desconto_site": "30%",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
@@ -2546,7 +2546,7 @@ Máscara facial hidratante com ação refrescante, indicada para hidratar, suavi
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/mascara-hidratante-de-pepino-pele-oleosa?_pos=1&_sid=e309c92f3&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/mascara-hidratante-de-pepino-pele-oleosa?_pos=1&_sid=e309c92f3&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
@@ -2556,8 +2556,8 @@ Máscara facial hidratante com ação refrescante, indicada para hidratar, suavi
   "link_site": "https://lakma.com.br/products/mascara-hidratante-de-pepino-pele-oleosa?_pos=1&_sid=e309c92f3&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA30",
-  "desconto_site": "30%",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
@@ -2692,7 +2692,7 @@ Creme facial antissinais home care com Nano Coenzima Q10 e Nano Vitamina E, indi
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/creme-antissinais-q10-facial-rejuvenescedor?_pos=1&_sid=0b9a15e5b&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/creme-antissinais-q10-facial-rejuvenescedor?_pos=1&_sid=0b9a15e5b&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
@@ -2702,8 +2702,8 @@ Creme facial antissinais home care com Nano Coenzima Q10 e Nano Vitamina E, indi
   "link_site": "https://lakma.com.br/products/creme-antissinais-q10-facial-rejuvenescedor?_pos=1&_sid=0b9a15e5b&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA30",
-  "desconto_site": "30%",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
@@ -2838,7 +2838,7 @@ Creme facial hidratante home care com Nano Ácido Hialurônico e Nano Vitamina E
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/creme-de-acido-hialuronico-facial-hidratante?_pos=1&_psq=hialuro&_ss=e&_v=1.0 ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/creme-de-acido-hialuronico-facial-hidratante?_pos=1&_psq=hialuro&_ss=e&_v=1.0 ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
@@ -2848,8 +2848,8 @@ Creme facial hidratante home care com Nano Ácido Hialurônico e Nano Vitamina E
   "link_site": "https://lakma.com.br/products/creme-de-acido-hialuronico-facial-hidratante?_pos=1&_psq=hialuro&_ss=e&_v=1.0",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA30",
-  "desconto_site": "30%",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
@@ -2985,7 +2985,7 @@ Chá solúvel sabor limão para rotina de bem-estar, com proposta detox, leveza,
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/esbeltea-cha-soluvel?_pos=1&_sid=7d5b0a2d1&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/esbeltea-cha-soluvel?_pos=1&_sid=7d5b0a2d1&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
@@ -2995,8 +2995,8 @@ Chá solúvel sabor limão para rotina de bem-estar, com proposta detox, leveza,
   "link_site": "https://lakma.com.br/products/esbeltea-cha-soluvel?_pos=1&_sid=7d5b0a2d1&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA30",
-  "desconto_site": "30%",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
@@ -3133,7 +3133,7 @@ Suplemento em cápsulas com blend de chás, fibras e extratos vegetais, indicado
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/esbeltea-cha-seca-barriga-cha-detox-em-capsulas-60un?_pos=2&_sid=7d5b0a2d1&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/esbeltea-cha-seca-barriga-cha-detox-em-capsulas-60un?_pos=2&_sid=7d5b0a2d1&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
@@ -3143,8 +3143,8 @@ Suplemento em cápsulas com blend de chás, fibras e extratos vegetais, indicado
   "link_site": "https://lakma.com.br/products/esbeltea-cha-seca-barriga-cha-detox-em-capsulas-60un?_pos=2&_sid=7d5b0a2d1&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA30",
-  "desconto_site": "30%",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
@@ -3292,7 +3292,7 @@ Produto corporal profissional com ação térmica e lipolítica, indicado para p
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/sal-termico-lipolitico-500g?_pos=1&_sid=927df9fcc&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/sal-termico-lipolitico-500g?_pos=1&_sid=927df9fcc&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
@@ -3302,8 +3302,8 @@ Produto corporal profissional com ação térmica e lipolítica, indicado para p
   "link_site": "https://lakma.com.br/products/sal-termico-lipolitico-500g?_pos=1&_sid=927df9fcc&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA30",
-  "desconto_site": "30%",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
@@ -3441,7 +3441,7 @@ Kit com 3 máscaras faciais finalizadoras para hidratação, viço, luminosidade
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/kit-3-mascaras-tropicalia-frutas-colageno-vitamina-c-e-acido-hialuronico?_pos=1&_sid=56edf1a9d&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/kit-3-mascaras-tropicalia-frutas-colageno-vitamina-c-e-acido-hialuronico?_pos=1&_sid=56edf1a9d&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
@@ -3451,8 +3451,8 @@ Kit com 3 máscaras faciais finalizadoras para hidratação, viço, luminosidade
   "link_site": "https://lakma.com.br/products/kit-3-mascaras-tropicalia-frutas-colageno-vitamina-c-e-acido-hialuronico?_pos=1&_sid=56edf1a9d&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA30",
-  "desconto_site": "30%",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
@@ -3590,7 +3590,7 @@ Kit labial home care com esfoliante e tratamento hidratante/nutritivo, indicado 
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/dolce-lips-dolce-peel-labial?_pos=2&_sid=49466bc8e&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/dolce-lips-dolce-peel-labial?_pos=2&_sid=49466bc8e&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
@@ -3600,8 +3600,8 @@ Kit labial home care com esfoliante e tratamento hidratante/nutritivo, indicado 
   "link_site": "https://lakma.com.br/products/dolce-lips-dolce-peel-labial?_pos=2&_sid=49466bc8e&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA30",
-  "desconto_site": "30%",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
@@ -3737,7 +3737,7 @@ Indicar para clientes que buscam uma rotina labial simples com esfoliação e hi
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/oleo-de-massagem?_pos=1&_sid=1b7efcfc1&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/oleo-de-massagem?_pos=1&_sid=1b7efcfc1&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
@@ -3747,8 +3747,8 @@ Indicar para clientes que buscam uma rotina labial simples com esfoliação e hi
   "link_site": "https://lakma.com.br/products/oleo-de-massagem?_pos=1&_sid=1b7efcfc1&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA30",
-  "desconto_site": "30%",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
@@ -3882,7 +3882,7 @@ Kit corporal profissional de lipoplastia não invasiva em 3 etapas, indicado par
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/kit-venus-de-lipoplastia?_pos=1&_sid=7a228ca1f&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/kit-venus-de-lipoplastia?_pos=1&_sid=7a228ca1f&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
@@ -3892,8 +3892,8 @@ Kit corporal profissional de lipoplastia não invasiva em 3 etapas, indicado par
   "link_site": "https://lakma.com.br/products/kit-venus-de-lipoplastia?_pos=1&_sid=7a228ca1f&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA30",
-  "desconto_site": "30%",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
@@ -4038,7 +4038,7 @@ Peeling profissional facial para renovação celular, clareamento, uniformizaç�
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/peeling-de-cristal-liquido-retinol-30ml?_pos=1&_sid=0edd2d86f&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/peeling-de-cristal-liquido-retinol-30ml?_pos=1&_sid=0edd2d86f&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
@@ -4048,8 +4048,8 @@ Peeling profissional facial para renovação celular, clareamento, uniformizaç�
   "link_site": "https://lakma.com.br/products/peeling-de-cristal-liquido-retinol-30ml?_pos=1&_sid=0edd2d86f&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA30",
-  "desconto_site": "30%",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
@@ -4190,7 +4190,7 @@ Máscara facial calmante profissional, indicada para acalmar, hidratar, suavizar
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/mascara-calmante-500gr?_pos=2&_sid=06389087d&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/mascara-calmante-500gr?_pos=2&_sid=06389087d&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
@@ -4200,8 +4200,8 @@ Máscara facial calmante profissional, indicada para acalmar, hidratar, suavizar
   "link_site": "https://lakma.com.br/products/mascara-calmante-500gr?_pos=2&_sid=06389087d&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA30",
-  "desconto_site": "30%",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
@@ -4356,7 +4356,7 @@ Sérum facial calmante para peles sensíveis, irritáveis, reativas, com vermelh
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/neuroplasma-ultra-calmante-pos-laser-e-procedimentos-50ml?_pos=3&_psq=calman&_ss=e&_v=1.0 ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/neuroplasma-ultra-calmante-pos-laser-e-procedimentos-50ml?_pos=3&_psq=calman&_ss=e&_v=1.0 ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
@@ -4366,8 +4366,8 @@ Sérum facial calmante para peles sensíveis, irritáveis, reativas, com vermelh
   "link_site": "https://lakma.com.br/products/neuroplasma-ultra-calmante-pos-laser-e-procedimentos-50ml?_pos=3&_psq=calman&_ss=e&_v=1.0",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA30",
-  "desconto_site": "30%",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
@@ -4509,7 +4509,7 @@ Loção facial profissional de limpeza desengordurante com Ácido Glicólico e N
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/locao-ozonizada-200ml?_pos=1&_sid=c585f5ad1&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/locao-ozonizada-200ml?_pos=1&_sid=c585f5ad1&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
@@ -4519,8 +4519,8 @@ Loção facial profissional de limpeza desengordurante com Ácido Glicólico e N
   "link_site": "https://lakma.com.br/products/locao-ozonizada-200ml?_pos=1&_sid=c585f5ad1&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA30",
-  "desconto_site": "30%",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
@@ -4656,7 +4656,7 @@ Gel esfoliante corporal profissional para pré-tratamento, indicado para remover
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/gel-esfoliante-corporal-ozonizado-1kg?_pos=1&_sid=633454ffc&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/gel-esfoliante-corporal-ozonizado-1kg?_pos=1&_sid=633454ffc&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
@@ -4666,8 +4666,8 @@ Gel esfoliante corporal profissional para pré-tratamento, indicado para remover
   "link_site": "https://lakma.com.br/products/gel-esfoliante-corporal-ozonizado-1kg?_pos=1&_sid=633454ffc&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA30",
-  "desconto_site": "30%",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
@@ -4817,7 +4817,7 @@ Kit profissional com mesclas estéreis de uso único para protocolos noturnos de
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/kit-booster-fibras-reticulares?_pos=1&_sid=266082018&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/kit-booster-fibras-reticulares?_pos=1&_sid=266082018&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
@@ -4827,8 +4827,8 @@ Kit profissional com mesclas estéreis de uso único para protocolos noturnos de
   "link_site": "https://lakma.com.br/products/kit-booster-fibras-reticulares?_pos=1&_sid=266082018&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA30",
-  "desconto_site": "30%",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
@@ -4978,7 +4978,7 @@ Kit corporal profissional detox para cabine, indicado para protocolos de drenage
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/esbeltea-detox?_pos=1&_sid=3f9884a06&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/esbeltea-detox?_pos=1&_sid=3f9884a06&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
@@ -4988,8 +4988,8 @@ Kit corporal profissional detox para cabine, indicado para protocolos de drenage
   "link_site": "https://lakma.com.br/products/esbeltea-detox?_pos=1&_sid=3f9884a06&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA30",
-  "desconto_site": "30%",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
@@ -5142,7 +5142,7 @@ Gel corporal crioterápico profissional com efeito frio e ação refrescante, in
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/criogel-1kg?_pos=1&_sid=82ecdae3f&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/criogel-1kg?_pos=1&_sid=82ecdae3f&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
@@ -5152,8 +5152,8 @@ Gel corporal crioterápico profissional com efeito frio e ação refrescante, in
   "link_site": "https://lakma.com.br/products/criogel-1kg?_pos=1&_sid=82ecdae3f&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA30",
-  "desconto_site": "30%",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
@@ -5305,7 +5305,7 @@ Gel corporal profissional bioestimulante e condutor, indicado para protocolos dr
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/gel-bioestimulante-1kg?_pos=1&_sid=0114635cb&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/gel-bioestimulante-1kg?_pos=1&_sid=0114635cb&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
@@ -5315,8 +5315,8 @@ Gel corporal profissional bioestimulante e condutor, indicado para protocolos dr
   "link_site": "https://lakma.com.br/products/gel-bioestimulante-1kg?_pos=1&_sid=0114635cb&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA30",
-  "desconto_site": "30%",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
@@ -5456,7 +5456,7 @@ Gel corporal termoativado profissional com efeito de aquecimento, indicado para 
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/gel-termoativado-1kg?_pos=1&_sid=143e44dd4&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/gel-termoativado-1kg?_pos=1&_sid=143e44dd4&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
@@ -5466,8 +5466,8 @@ Gel corporal termoativado profissional com efeito de aquecimento, indicado para 
   "link_site": "https://lakma.com.br/products/gel-termoativado-1kg?_pos=1&_sid=143e44dd4&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA30",
-  "desconto_site": "30%",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
@@ -5626,7 +5626,7 @@ Kit corporal com fluido/spray e creme, indicado para cuidados corporais com foco
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/kit-booster-mitocondrial-esbeltea-creme-900g-fluido-300ml-para-detox?_pos=1&_sid=76c4d2dc4&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/kit-booster-mitocondrial-esbeltea-creme-900g-fluido-300ml-para-detox?_pos=1&_sid=76c4d2dc4&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
@@ -5636,8 +5636,8 @@ Kit corporal com fluido/spray e creme, indicado para cuidados corporais com foco
   "link_site": "https://lakma.com.br/products/kit-booster-mitocondrial-esbeltea-creme-900g-fluido-300ml-para-detox?_pos=1&_sid=76c4d2dc4&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA30",
-  "desconto_site": "30%",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
@@ -5775,7 +5775,7 @@ Tratamento labial hidratante e nutritivo, indicado para lábios ressecados, ásp
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/dolce-lips-10gr?_pos=3&_sid=5437e421c&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/dolce-lips-10gr?_pos=3&_sid=5437e421c&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
@@ -5785,8 +5785,8 @@ Tratamento labial hidratante e nutritivo, indicado para lábios ressecados, ásp
   "link_site": "https://lakma.com.br/products/dolce-lips-10gr?_pos=3&_sid=5437e421c&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA30",
-  "desconto_site": "30%",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
@@ -5915,7 +5915,7 @@ Produto profissional para massagem facial, indicado para protocolos de deslizame
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/masso-divine-massagem-facial-250g?_pos=1&_sid=8c2d863a0&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/masso-divine-massagem-facial-250g?_pos=1&_sid=8c2d863a0&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
@@ -5925,8 +5925,8 @@ Produto profissional para massagem facial, indicado para protocolos de deslizame
   "link_site": "https://lakma.com.br/products/masso-divine-massagem-facial-250g?_pos=1&_sid=8c2d863a0&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA30",
-  "desconto_site": "30%",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
@@ -6069,7 +6069,7 @@ Kit profissional com 3 máscaras faciais finalizadoras premium, indicado para hi
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/kit-joias-raras?_pos=1&_sid=cc2e24439&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/kit-joias-raras?_pos=1&_sid=cc2e24439&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
@@ -6079,8 +6079,8 @@ Kit profissional com 3 máscaras faciais finalizadoras premium, indicado para hi
   "link_site": "https://lakma.com.br/products/kit-joias-raras?_pos=1&_sid=cc2e24439&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA30",
-  "desconto_site": "30%",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
@@ -6225,7 +6225,7 @@ Creme emoliente facial profissional, indicado para emoliência de cravos, comed�
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/emoliente-de-cravos-250gr?_pos=1&_sid=3dbce4669&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/emoliente-de-cravos-250gr?_pos=1&_sid=3dbce4669&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
@@ -6235,8 +6235,8 @@ Creme emoliente facial profissional, indicado para emoliência de cravos, comed�
   "link_site": "https://lakma.com.br/products/emoliente-de-cravos-250gr?_pos=1&_sid=3dbce4669&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA30",
-  "desconto_site": "30%",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
@@ -6383,7 +6383,7 @@ Sérum facial multifuncional com ação clareadora, rejuvenescedora, hidratante 
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/nano-drone-clareador-rejuvenescedor-hidratante-30ml?_pos=1&_sid=b4eaa40f4&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/nano-drone-clareador-rejuvenescedor-hidratante-30ml?_pos=1&_sid=b4eaa40f4&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
@@ -6393,8 +6393,8 @@ Sérum facial multifuncional com ação clareadora, rejuvenescedora, hidratante 
   "link_site": "https://lakma.com.br/products/nano-drone-clareador-rejuvenescedor-hidratante-30ml?_pos=1&_sid=b4eaa40f4&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA30",
-  "desconto_site": "30%",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
@@ -6544,7 +6544,7 @@ Protetor solar facial FPS 30 com Vitamina E, indicado para proteção UVA/UVB, p
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/ideal-protect-protetor-solar-50gr?_pos=1&_sid=30aa08e72&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/ideal-protect-protetor-solar-50gr?_pos=1&_sid=30aa08e72&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
@@ -6554,8 +6554,8 @@ Protetor solar facial FPS 30 com Vitamina E, indicado para proteção UVA/UVB, p
   "link_site": "https://lakma.com.br/products/ideal-protect-protetor-solar-50gr?_pos=1&_sid=30aa08e72&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA30",
-  "desconto_site": "30%",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
@@ -6714,7 +6714,7 @@ Peeling químico profissional com Ácido Glicólico, indicado para renovação c
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/peeling-rejuvenescedor-50ml?_pos=1&_sid=b70efd411&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/peeling-rejuvenescedor-50ml?_pos=1&_sid=b70efd411&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
@@ -6724,8 +6724,8 @@ Peeling químico profissional com Ácido Glicólico, indicado para renovação c
   "link_site": "https://lakma.com.br/products/peeling-rejuvenescedor-50ml?_pos=1&_sid=b70efd411&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA30",
-  "desconto_site": "30%",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
@@ -6864,7 +6864,7 @@ Loção tônica facial para tonificação, controle de pH, frescor e remoção d
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/locao-tonica-200ml?_pos=1&_sid=8de5c51f8&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/locao-tonica-200ml?_pos=1&_sid=8de5c51f8&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
@@ -6874,8 +6874,8 @@ Loção tônica facial para tonificação, controle de pH, frescor e remoção d
   "link_site": "https://lakma.com.br/products/locao-tonica-200ml?_pos=1&_sid=8de5c51f8&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA30",
-  "desconto_site": "30%",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
@@ -7029,7 +7029,7 @@ Booster facial profissional com foco em colágeno, elastina, firmeza, hidrataç�
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/booster-colageno-50ml?_pos=1&_sid=3164bec58&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/booster-colageno-50ml?_pos=1&_sid=3164bec58&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
@@ -7039,8 +7039,8 @@ Booster facial profissional com foco em colágeno, elastina, firmeza, hidrataç�
   "link_site": "https://lakma.com.br/products/booster-colageno-50ml?_pos=1&_sid=3164bec58&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA30",
-  "desconto_site": "30%",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
@@ -7190,7 +7190,7 @@ Creme corporal profissional neutro para massagem, indicado para alto deslizament
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/creme-de-massagem-neutro-1kg?_pos=1&_sid=3277b35f1&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/creme-de-massagem-neutro-1kg?_pos=1&_sid=3277b35f1&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
@@ -7200,8 +7200,8 @@ Creme corporal profissional neutro para massagem, indicado para alto deslizament
   "link_site": "https://lakma.com.br/products/creme-de-massagem-neutro-1kg?_pos=1&_sid=3277b35f1&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA30",
-  "desconto_site": "30%",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
@@ -7343,7 +7343,7 @@ Fluido/tônico home care para fios, indicado para auxiliar no crescimento, forta
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/perfect-growth-crescimento-de-cabelo-braba-e-sobrancelha-50ml?_pos=1&_sid=848eab35d&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/perfect-growth-crescimento-de-cabelo-braba-e-sobrancelha-50ml?_pos=1&_sid=848eab35d&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
@@ -7353,8 +7353,8 @@ Fluido/tônico home care para fios, indicado para auxiliar no crescimento, forta
   "link_site": "https://lakma.com.br/products/perfect-growth-crescimento-de-cabelo-braba-e-sobrancelha-50ml?_pos=1&_sid=848eab35d&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA30",
-  "desconto_site": "30%",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
@@ -7492,7 +7492,7 @@ Máscara facial calmante profissional, indicada para acalmar, hidratar, suavizar
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/mascara-calmante-250gr?_pos=1&_sid=861decedf&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/mascara-calmante-250gr?_pos=1&_sid=861decedf&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
@@ -7502,8 +7502,8 @@ Máscara facial calmante profissional, indicada para acalmar, hidratar, suavizar
   "link_site": "https://lakma.com.br/products/mascara-calmante-250gr?_pos=1&_sid=861decedf&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA30",
-  "desconto_site": "30%",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
@@ -7665,7 +7665,7 @@ Fluido revitalizante facial com Ureia, indicado para hidratação profunda, recu
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/fluido-passo-1-ureia-50ml?_pos=1&_sid=12378b763&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/fluido-passo-1-ureia-50ml?_pos=1&_sid=12378b763&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
@@ -7675,8 +7675,8 @@ Fluido revitalizante facial com Ureia, indicado para hidratação profunda, recu
   "link_site": "https://lakma.com.br/products/fluido-passo-1-ureia-50ml?_pos=1&_sid=12378b763&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA30",
-  "desconto_site": "30%",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
@@ -7820,7 +7820,7 @@ Kit corporal profissional ozonizado com 3 etapas para preparo, massagem e finali
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/kit-ozonio-premium-corporal?_pos=1&_sid=ecdf2ef25&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/kit-ozonio-premium-corporal?_pos=1&_sid=ecdf2ef25&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
@@ -7830,8 +7830,8 @@ Kit corporal profissional ozonizado com 3 etapas para preparo, massagem e finali
   "link_site": "https://lakma.com.br/products/kit-ozonio-premium-corporal?_pos=1&_sid=ecdf2ef25&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA30",
-  "desconto_site": "30%",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
@@ -7995,7 +7995,7 @@ Creme corporal profissional para massagem estética, indicado para alto deslizam
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/creme-de-massagem-7-ativos-1-kg?_pos=1&_sid=ec61753f2&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/creme-de-massagem-7-ativos-1-kg?_pos=1&_sid=ec61753f2&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
@@ -8005,8 +8005,8 @@ Creme corporal profissional para massagem estética, indicado para alto deslizam
   "link_site": "https://lakma.com.br/products/creme-de-massagem-7-ativos-1-kg?_pos=1&_sid=ec61753f2&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA30",
-  "desconto_site": "30%",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
@@ -8166,7 +8166,7 @@ Esfoliante labial home care, indicado para lábios ressecados, ásperos, opacos 
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/dolce-peel-10gr?_pos=1&_sid=557a2fe70&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/dolce-peel-10gr?_pos=1&_sid=557a2fe70&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
@@ -8176,8 +8176,8 @@ Esfoliante labial home care, indicado para lábios ressecados, ásperos, opacos 
   "link_site": "https://lakma.com.br/products/dolce-peel-10gr?_pos=1&_sid=557a2fe70&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA30",
-  "desconto_site": "30%",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
@@ -8314,7 +8314,7 @@ Body splash corporal home care, indicado para finalização corporal, perfumaç�
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/body-splash-firmador-corporal-300ml?_pos=1&_sid=7c2587a80&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/body-splash-firmador-corporal-300ml?_pos=1&_sid=7c2587a80&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
@@ -8324,8 +8324,8 @@ Body splash corporal home care, indicado para finalização corporal, perfumaç�
   "link_site": "https://lakma.com.br/products/body-splash-firmador-corporal-300ml?_pos=1&_sid=7c2587a80&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA30",
-  "desconto_site": "30%",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
@@ -8459,7 +8459,7 @@ Booster profissional em ampolas com Vitamina C 100% nanoencapsulada e ozonizada,
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/booster-c100-vitamina-c-100-pura?_pos=1&_sid=40a87e8d0&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/booster-c100-vitamina-c-100-pura?_pos=1&_sid=40a87e8d0&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
@@ -8469,8 +8469,8 @@ Booster profissional em ampolas com Vitamina C 100% nanoencapsulada e ozonizada,
   "link_site": "https://lakma.com.br/products/booster-c100-vitamina-c-100-pura?_pos=1&_sid=40a87e8d0&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA30",
-  "desconto_site": "30%",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
@@ -8617,7 +8617,7 @@ Fluido revitalizante facial com foco em colágeno, elastina, firmeza, rejuvenesc
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/fluido-passo-3-colageno-50ml?_pos=1&_sid=7ee7cabd2&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/fluido-passo-3-colageno-50ml?_pos=1&_sid=7ee7cabd2&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
@@ -8627,8 +8627,8 @@ Fluido revitalizante facial com foco em colágeno, elastina, firmeza, rejuvenesc
   "link_site": "https://lakma.com.br/products/fluido-passo-3-colageno-50ml?_pos=1&_sid=7ee7cabd2&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA30",
-  "desconto_site": "30%",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
@@ -8773,7 +8773,7 @@ Kit com 4 argilas prontas em creme, indicado para personalizar protocolos faciai
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/kit-terras-do-brasil-argilas-facial-em-creme?_pos=1&_sid=5402f47c7&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/kit-terras-do-brasil-argilas-facial-em-creme?_pos=1&_sid=5402f47c7&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
@@ -8783,8 +8783,8 @@ Kit com 4 argilas prontas em creme, indicado para personalizar protocolos faciai
   "link_site": "https://lakma.com.br/products/kit-terras-do-brasil-argilas-facial-em-creme?_pos=1&_sid=5402f47c7&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA30",
-  "desconto_site": "30%",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
@@ -8938,7 +8938,7 @@ Creme corporal profissional de massagem ozonizado, indicado para drenagem linfá
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/creme-de-massagem-ozonizado-900g?_pos=1&_sid=50477e7eb&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/creme-de-massagem-ozonizado-900g?_pos=1&_sid=50477e7eb&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
@@ -8948,8 +8948,8 @@ Creme corporal profissional de massagem ozonizado, indicado para drenagem linfá
   "link_site": "https://lakma.com.br/products/creme-de-massagem-ozonizado-900g?_pos=1&_sid=50477e7eb&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA30",
-  "desconto_site": "30%",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
@@ -9112,7 +9112,7 @@ Sabonete líquido facial para higienização, remoção de impurezas, controle d
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/sabonete-liquido-facial-250ml?_pos=1&_sid=e71294b11&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/sabonete-liquido-facial-250ml?_pos=1&_sid=e71294b11&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
@@ -9122,8 +9122,8 @@ Sabonete líquido facial para higienização, remoção de impurezas, controle d
   "link_site": "https://lakma.com.br/products/sabonete-liquido-facial-250ml?_pos=1&_sid=e71294b11&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA30",
-  "desconto_site": "30%",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
@@ -9277,7 +9277,7 @@ Sabonete facial com Ácido Glicólico, indicado para higienização com ação r
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/sabonete-de-acido-glicolico-150ml?_pos=1&_sid=2f97aa27a&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/sabonete-de-acido-glicolico-150ml?_pos=1&_sid=2f97aa27a&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
@@ -9287,8 +9287,8 @@ Sabonete facial com Ácido Glicólico, indicado para higienização com ação r
   "link_site": "https://lakma.com.br/products/sabonete-de-acido-glicolico-150ml?_pos=1&_sid=2f97aa27a&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA30",
-  "desconto_site": "30%",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
@@ -9446,7 +9446,7 @@ Máscara facial hidratante e nutritiva, indicada para hidratação profunda, nut
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/mascara-brownie-de-chocolate-hidratacao-profunda-150gr?_pos=1&_sid=5a64b5ef8&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/mascara-brownie-de-chocolate-hidratacao-profunda-150gr?_pos=1&_sid=5a64b5ef8&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
@@ -9456,8 +9456,8 @@ Máscara facial hidratante e nutritiva, indicada para hidratação profunda, nut
   "link_site": "https://lakma.com.br/products/mascara-brownie-de-chocolate-hidratacao-profunda-150gr?_pos=1&_sid=5a64b5ef8&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA30",
-  "desconto_site": "30%",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
@@ -9602,7 +9602,7 @@ Gel roll-on para olheiras, indicado para contorno dos olhos, olheiras pigmentada
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/nanohydrat-roll-para-olheiras-15ml?_pos=1&_sid=17dd3224b&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/nanohydrat-roll-para-olheiras-15ml?_pos=1&_sid=17dd3224b&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
@@ -9612,8 +9612,8 @@ Gel roll-on para olheiras, indicado para contorno dos olhos, olheiras pigmentada
   "link_site": "https://lakma.com.br/products/nanohydrat-roll-para-olheiras-15ml?_pos=1&_sid=17dd3224b&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA30",
-  "desconto_site": "30%",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
@@ -9757,7 +9757,7 @@ Fluido secativo facial para peles oleosas e acneicas, indicado para ação secat
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/fluido-secativo-melaleuca-para-acne-50ml?_pos=1&_sid=b08c5f760&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/fluido-secativo-melaleuca-para-acne-50ml?_pos=1&_sid=b08c5f760&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
@@ -9767,8 +9767,8 @@ Fluido secativo facial para peles oleosas e acneicas, indicado para ação secat
   "link_site": "https://lakma.com.br/products/fluido-secativo-melaleuca-para-acne-50ml?_pos=1&_sid=b08c5f760&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA30",
-  "desconto_site": "30%",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
@@ -9915,7 +9915,7 @@ Esfoliante facial para renovação, preparo da pele, remoção de células morta
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/esfoliante-facial-250ml?_pos=1&_sid=6964d0934&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/esfoliante-facial-250ml?_pos=1&_sid=6964d0934&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
@@ -9925,8 +9925,8 @@ Esfoliante facial para renovação, preparo da pele, remoção de células morta
   "link_site": "https://lakma.com.br/products/esfoliante-facial-250ml?_pos=1&_sid=6964d0934&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA30",
-  "desconto_site": "30%",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
@@ -10075,7 +10075,7 @@ Peeling químico profissional clareador, indicado para clareamento de manchas, h
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/peeling-bio-complex-clareador-50ml?_pos=1&_sid=3b6d9d823&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/peeling-bio-complex-clareador-50ml?_pos=1&_sid=3b6d9d823&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
@@ -10085,8 +10085,8 @@ Peeling químico profissional clareador, indicado para clareamento de manchas, h
   "link_site": "https://lakma.com.br/products/peeling-bio-complex-clareador-50ml?_pos=1&_sid=3b6d9d823&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA30",
-  "desconto_site": "30%",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
@@ -10236,7 +10236,7 @@ Emoliente facial profissional para limpeza de pele, indicado para amolecer cravo
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/emoliente-de-cravos-250gr?_pos=1&_sid=9b5e6289b&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/emoliente-de-cravos-250gr?_pos=1&_sid=9b5e6289b&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
@@ -10246,8 +10246,8 @@ Emoliente facial profissional para limpeza de pele, indicado para amolecer cravo
   "link_site": "https://lakma.com.br/products/emoliente-de-cravos-250gr?_pos=1&_sid=9b5e6289b&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA30",
-  "desconto_site": "30%",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
@@ -10402,7 +10402,7 @@ Creme corporal redutor para massagem, indicado para protocolos profissionais de 
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/creme-de-massagem-10-ativos-900g?_pos=1&_sid=96328ab85&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/creme-de-massagem-10-ativos-900g?_pos=1&_sid=96328ab85&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
@@ -10412,8 +10412,8 @@ Creme corporal redutor para massagem, indicado para protocolos profissionais de 
   "link_site": "https://lakma.com.br/products/creme-de-massagem-10-ativos-900g?_pos=1&_sid=96328ab85&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA30",
-  "desconto_site": "30%",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
@@ -10565,7 +10565,7 @@ Loção profissional neutralizante, indicada para controlar ou interromper a aç
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/solucao-neutralizante-50ml?_pos=1&_sid=11920c378&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/solucao-neutralizante-50ml?_pos=1&_sid=11920c378&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
@@ -10575,8 +10575,8 @@ Loção profissional neutralizante, indicada para controlar ou interromper a aç
   "link_site": "https://lakma.com.br/products/solucao-neutralizante-50ml?_pos=1&_sid=11920c378&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA30",
-  "desconto_site": "30%",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
@@ -10723,7 +10723,7 @@ Máscara facial hidratante e revitalizante com efeito dourado, indicada para hid
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/mascara-ouro-rejuvenescedora-150gr?_pos=1&_sid=7b0b04bfc&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/mascara-ouro-rejuvenescedora-150gr?_pos=1&_sid=7b0b04bfc&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
@@ -10733,8 +10733,8 @@ Máscara facial hidratante e revitalizante com efeito dourado, indicada para hid
   "link_site": "https://lakma.com.br/products/mascara-ouro-rejuvenescedora-150gr?_pos=1&_sid=7b0b04bfc&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA30",
-  "desconto_site": "30%",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
@@ -10893,7 +10893,7 @@ Sérum facial com fator de crescimento e peptídeos, indicado para firmeza, revi
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/melange-especial-fator-de-crescimento-para-microagulhamento-50ml?_pos=1&_sid=e3164b646&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/melange-especial-fator-de-crescimento-para-microagulhamento-50ml?_pos=1&_sid=e3164b646&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
@@ -10903,8 +10903,8 @@ Sérum facial com fator de crescimento e peptídeos, indicado para firmeza, revi
   "link_site": "https://lakma.com.br/products/melange-especial-fator-de-crescimento-para-microagulhamento-50ml?_pos=1&_sid=e3164b646&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA30",
-  "desconto_site": "30%",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
@@ -11061,7 +11061,7 @@ Fluido dermocosmético regenerador facial e corporal, indicado para melhorar a a
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/neuroplasma-nutri-complex-para-cicatriz-a-acne-e-estrias-50ml?_pos=2&_sid=06b71ae8f&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/neuroplasma-nutri-complex-para-cicatriz-a-acne-e-estrias-50ml?_pos=2&_sid=06b71ae8f&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
@@ -11071,8 +11071,8 @@ Fluido dermocosmético regenerador facial e corporal, indicado para melhorar a a
   "link_site": "https://lakma.com.br/products/neuroplasma-nutri-complex-para-cicatriz-a-acne-e-estrias-50ml?_pos=2&_sid=06b71ae8f&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA30",
-  "desconto_site": "30%",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
@@ -11220,7 +11220,7 @@ Máscara facial em pó de Argila Verde 100%, indicada para peles normais, oleosa
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/argila-verde-150gr?_pos=1&_sid=d2cd41c2a&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/argila-verde-150gr?_pos=1&_sid=d2cd41c2a&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
@@ -11230,8 +11230,8 @@ Máscara facial em pó de Argila Verde 100%, indicada para peles normais, oleosa
   "link_site": "https://lakma.com.br/products/argila-verde-150gr?_pos=1&_sid=d2cd41c2a&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA30",
-  "desconto_site": "30%",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
@@ -11396,7 +11396,7 @@ Kit profissional de peelings clareadores para protocolos de clareamento, manchas
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/kit-acidos-sem-misterios-clareamento-de-manchas?_pos=1&_sid=5200ce86c&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/kit-acidos-sem-misterios-clareamento-de-manchas?_pos=1&_sid=5200ce86c&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
@@ -11406,8 +11406,8 @@ Kit profissional de peelings clareadores para protocolos de clareamento, manchas
   "link_site": "https://lakma.com.br/products/kit-acidos-sem-misterios-clareamento-de-manchas?_pos=1&_sid=5200ce86c&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA30",
-  "desconto_site": "30%",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
@@ -11564,7 +11564,7 @@ Máscara facial em gel prebiótica e detox, indicada para equilíbrio da microbi
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/zen-marine-detox-150gr?_pos=1&_sid=6ef45705f&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/zen-marine-detox-150gr?_pos=1&_sid=6ef45705f&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
@@ -11574,8 +11574,8 @@ Máscara facial em gel prebiótica e detox, indicada para equilíbrio da microbi
   "link_site": "https://lakma.com.br/products/zen-marine-detox-150gr?_pos=1&_sid=6ef45705f&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA30",
-  "desconto_site": "30%",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
@@ -11730,7 +11730,7 @@ Sérum facial com ação de peeling enzimático clareador e renovador, indicado 
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/peeling-enzimatico-de-roma-clareador-60ml?_pos=1&_sid=1bc092cdb&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/peeling-enzimatico-de-roma-clareador-60ml?_pos=1&_sid=1bc092cdb&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
@@ -11740,8 +11740,8 @@ Sérum facial com ação de peeling enzimático clareador e renovador, indicado 
   "link_site": "https://lakma.com.br/products/peeling-enzimatico-de-roma-clareador-60ml?_pos=1&_sid=1bc092cdb&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA30",
-  "desconto_site": "30%",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
@@ -11889,7 +11889,7 @@ Kit facial Eco Skin com 3 produtos, indicado para limpeza facial express, limpez
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/kit-eco-skin-para-dermaplaning?_pos=1&_sid=b9365a88d&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/kit-eco-skin-para-dermaplaning?_pos=1&_sid=b9365a88d&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
@@ -11899,8 +11899,8 @@ Kit facial Eco Skin com 3 produtos, indicado para limpeza facial express, limpez
   "link_site": "https://lakma.com.br/products/kit-eco-skin-para-dermaplaning?_pos=1&_sid=b9365a88d&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA30",
-  "desconto_site": "30%",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
@@ -12058,7 +12058,7 @@ Kit profissional com 5 fluidos revitalizantes nanotecnológicos e biotecnológic
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/kit-fluidos-revitalizantes-para-microagulhamento?_pos=1&_sid=e3adb7d8b&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/kit-fluidos-revitalizantes-para-microagulhamento?_pos=1&_sid=e3adb7d8b&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
@@ -12068,8 +12068,8 @@ Kit profissional com 5 fluidos revitalizantes nanotecnológicos e biotecnológic
   "link_site": "https://lakma.com.br/products/kit-fluidos-revitalizantes-para-microagulhamento?_pos=1&_sid=e3adb7d8b&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA30",
-  "desconto_site": "30%",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
@@ -12247,7 +12247,7 @@ Peeling químico profissional secativo, indicado para peles acneicas, cravos, co
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/peeling-quimico-secativo-50ml?_pos=1&_sid=60a60c291&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/peeling-quimico-secativo-50ml?_pos=1&_sid=60a60c291&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
@@ -12257,8 +12257,8 @@ Peeling químico profissional secativo, indicado para peles acneicas, cravos, co
   "link_site": "https://lakma.com.br/products/peeling-quimico-secativo-50ml?_pos=1&_sid=60a60c291&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA30",
-  "desconto_site": "30%",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
@@ -12409,7 +12409,7 @@ Fluido revitalizante facial com Ácido Hialurônico, indicado para hidratação 
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/fluido-passo-2-hialuronico-50ml?_pos=1&_sid=4c1d3e80d&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/fluido-passo-2-hialuronico-50ml?_pos=1&_sid=4c1d3e80d&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
@@ -12419,8 +12419,8 @@ Fluido revitalizante facial com Ácido Hialurônico, indicado para hidratação 
   "link_site": "https://lakma.com.br/products/fluido-passo-2-hialuronico-50ml?_pos=1&_sid=4c1d3e80d&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA30",
-  "desconto_site": "30%",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
@@ -12569,7 +12569,7 @@ Fluido revitalizante facial com Vitamina C 40%, indicado para clareamento, hiper
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/fluido-passo-4-vitamina-c-50ml?_pos=1&_sid=976b990d3&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/fluido-passo-4-vitamina-c-50ml?_pos=1&_sid=976b990d3&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
@@ -12579,8 +12579,8 @@ Fluido revitalizante facial com Vitamina C 40%, indicado para clareamento, hiper
   "link_site": "https://lakma.com.br/products/fluido-passo-4-vitamina-c-50ml?_pos=1&_sid=976b990d3&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA30",
-  "desconto_site": "30%",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
@@ -12743,7 +12743,7 @@ Máscara clareadora facial e corporal, indicada para manchas, uniformização do
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/mascara-clareadora-30g?_pos=2&_sid=1cf15edab&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/mascara-clareadora-30g?_pos=2&_sid=1cf15edab&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
@@ -12753,8 +12753,8 @@ Máscara clareadora facial e corporal, indicada para manchas, uniformização do
   "link_site": "https://lakma.com.br/products/mascara-clareadora-30g?_pos=2&_sid=1cf15edab&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA30",
-  "desconto_site": "30%",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
@@ -12912,7 +12912,7 @@ Máscara clareadora facial e corporal em apresentação menor, indicada para man
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/mascara-clareadora-10g?_pos=1&_sid=1cf15edab&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/mascara-clareadora-10g?_pos=1&_sid=1cf15edab&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
@@ -12922,8 +12922,8 @@ Máscara clareadora facial e corporal em apresentação menor, indicada para man
   "link_site": "https://lakma.com.br/products/mascara-clareadora-10g?_pos=1&_sid=1cf15edab&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA30",
-  "desconto_site": "30%",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
@@ -13076,7 +13076,7 @@ Kit profissional facial para limpeza de pele, com 5 produtos para higienização
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/kit-limpeza-de-pele?_pos=1&_sid=422b7e433&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/kit-limpeza-de-pele?_pos=1&_sid=422b7e433&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
@@ -13086,8 +13086,8 @@ Kit profissional facial para limpeza de pele, com 5 produtos para higienização
   "link_site": "https://lakma.com.br/products/kit-limpeza-de-pele?_pos=1&_sid=422b7e433&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA30",
-  "desconto_site": "30%",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."

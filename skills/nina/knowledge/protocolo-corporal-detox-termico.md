@@ -190,7 +190,7 @@ Se houver risco, dúvida técnica ou pedido de adaptação, encaminhar para derm
 - **Creme de Massagem 7 Ativos** → https://lakma.com.br/products/creme-de-massagem-7-ativos-1-kg?_pos=1&_sid=ec61753f2&_ss=r
 - **Esfoliante Corporal** → https://lakma.com.br/products/esfoliante-facial-e-labial-30g?_pos=1&_psq=esfoliante&_ss=e&_v=1.0
 
-No site oficial use o cupom **LAKMA30** = 30% de desconto.
+No site oficial use o cupom **LAKMA35** = 35% de desconto.
 
 ```json
 {
@@ -240,8 +240,8 @@ No site oficial use o cupom **LAKMA30** = 30% de desconto.
       "status_link_individual_produto": "aprovado"
     }
   ],
-  "cupom_site": "LAKMA30",
-  "desconto_site": "30%",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
   "site_geral_fallback": "https://www.lakma.com.br",
   "regra_envio": "Se houver link_kit_unico, enviar esse link. Caso contrário, enviar a lista produtos_utilizados com link_individual_produto de cada item encontrado. Sinalizar individualmente apenas os itens sem link. Mover lead para 'Link do site enviado' ao enviar qualquer link.",
   "proibicoes": [

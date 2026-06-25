@@ -215,7 +215,7 @@ Se houver risco, dúvida técnica ou pedido de adaptação, encaminhar para derm
 - **Fluido Revitalizante Passo 3 50ml** → https://lakma.com.br/products/fluido-passo-5-rejuvenescedor-50ml?_pos=1&_sid=bcf3c4f48&_ss=r
 - **Ideal Protect 50g** → https://lakma.com.br/products/ideal-protect-protetor-solar-50gr?_pos=1&_sid=30aa08e72&_ss=r
 
-No site oficial use o cupom **LAKMA30** = 30% de desconto.
+No site oficial use o cupom **LAKMA35** = 35% de desconto.
 
 ```json
 {
@@ -273,8 +273,8 @@ No site oficial use o cupom **LAKMA30** = 30% de desconto.
       "status_link_individual_produto": "aprovado"
     }
   ],
-  "cupom_site": "LAKMA30",
-  "desconto_site": "30%",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%",
   "site_geral_fallback": "https://www.lakma.com.br",
   "regra_envio": "Se houver link_kit_unico, enviar esse link. Caso contrário, enviar a lista produtos_utilizados com link_individual_produto de cada item encontrado. Sinalizar individualmente apenas os itens sem link. Mover lead para 'Link do site enviado' ao enviar qualquer link.",
   "proibicoes": [
