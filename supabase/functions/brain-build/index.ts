@@ -300,12 +300,14 @@ function renderProtocolProductsBlock(k: any, products: any[]): string {
   const refs = arr(k.related_products);
   if (refs.length === 0) return "";
   const items = refs.map((name) => {
-    const p = matchProductByName(name, products);
+    const m = matchProductByName(name, products);
+    const p = m?.product ?? null;
     const link = p ? v(p.site_url) : "";
     return {
-      nome_citado_no_protocolo: name,
-      nome_cadastrado: p ? v(p.name) : null,
+      nome_no_protocolo: name,
       produto_encontrado: !!p,
+      nome_produto_cadastrado: p ? v(p.name) : null,
+      match_tipo: m?.match_tipo ?? null,
       link_individual_produto: link || null,
       campo_origem_link_individual_produto: "site_url",
       status_link_individual_produto: link ? "aprovado" : (p ? "indisponivel" : "produto_nao_encontrado"),
