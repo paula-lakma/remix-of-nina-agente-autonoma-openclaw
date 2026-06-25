@@ -283,7 +283,7 @@ Se houver risco, dúvida técnica ou pedido de adaptação, encaminhar para derm
 - **Peeling de Cristal Líquido** → https://lakma.com.br/products/kit-acidos-sem-misterios-peeling-de-cristal-liquido-guia-pratico-de-peeling?_pos=2&_sid=092c25f53&_ss=r
 - **Fluido Vitamina C 10%** → https://lakma.com.br/products/fluido-passo-4-vitamina-c-50ml?_pos=1&_sid=976b990d3&_ss=r
 
-No site oficial use o cupom **LAKMA35** = 35% de desconto.
+No site oficial use o cupom **LAKMA30** = 30% de desconto.
 
 ```json
 {
@@ -365,8 +365,8 @@ No site oficial use o cupom **LAKMA35** = 35% de desconto.
       "status_link_individual_produto": "aprovado"
     }
   ],
-  "cupom_site": "LAKMA35",
-  "desconto_site": "35%",
+  "cupom_site": "LAKMA30",
+  "desconto_site": "30%",
   "site_geral_fallback": "https://www.lakma.com.br",
   "regra_envio": "Se houver link_kit_unico, enviar esse link. Caso contrário, enviar a lista produtos_utilizados com link_individual_produto de cada item encontrado. Sinalizar individualmente apenas os itens sem link. Mover lead para 'Link do site enviado' ao enviar qualquer link.",
   "proibicoes": [

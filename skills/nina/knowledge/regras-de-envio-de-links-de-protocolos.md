@@ -53,7 +53,7 @@ Antes de responder "link", "onde compro", "quero comprar" etc., a Nina DEVE olha
 4. Se existir `link_kit_unico`, enviar esse link.
 5. Se NÃO existir, ler `produtos_utilizados[]` do bloco JSON e enviar a lista organizada `Nome do produto: link_individual_produto` de cada item encontrado.
 6. Se algum item estiver sem link, sinalizar APENAS aquele item (não bloquear o envio dos demais).
-7. Informar o cupom **LAKMA35** = 35% de desconto no site.
+7. Informar o cupom **LAKMA30** = 30% de desconto no site.
 8. Mover o lead para a etapa "Link do site enviado" no pipeline.
 
 ## Proibições
@@ -83,7 +83,7 @@ Resposta:
 - Produto B: <link individual>
 - Produto C: <link individual>
 
-No site, você pode usar o cupom **LAKMA35** para ter 35% de desconto."
+No site, você pode usar o cupom **LAKMA30** para ter 30% de desconto."
 
 ### Alguns produtos sem link
 "Claro. Vou te enviar os links que encontrei dos produtos usados nesse protocolo:
@@ -93,12 +93,12 @@ No site, você pode usar o cupom **LAKMA35** para ter 35% de desconto."
 
 Não encontrei o link individual de **Produto C** no cadastro. Para esse item, você pode consultar no site oficial da Lakma ou falar com a equipe de atendimento.
 
-No site, você pode usar o cupom **LAKMA35** para ter 35% de desconto."
+No site, você pode usar o cupom **LAKMA30** para ter 30% de desconto."
 
 ### Protocolo com kit/link único
 "Claro. Esse é o link do kit/protocolo: <link do kit>
 
-No site, você pode usar o cupom **LAKMA35** para ter 35% de desconto."
+No site, você pode usar o cupom **LAKMA30** para ter 30% de desconto."
 
 ## Cenários de teste obrigatórios
 

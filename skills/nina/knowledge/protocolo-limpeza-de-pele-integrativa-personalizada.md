@@ -315,7 +315,7 @@ Se houver risco, dúvida técnica ou pedido de adaptação, encaminhar para derm
 - **Máscara Clareadora** → https://lakma.com.br/products/mascara-clareadora-30g?_pos=2&_sid=1cf15edab&_ss=r
 - **Kit Freestyle** → _produto não localizado na base; pedir confirmação ou encaminhar humano._
 
-No site oficial use o cupom **LAKMA35** = 35% de desconto.
+No site oficial use o cupom **LAKMA30** = 30% de desconto.
 
 ```json
 {
@@ -517,8 +517,8 @@ No site oficial use o cupom **LAKMA35** = 35% de desconto.
       "status_link_individual_produto": "produto_nao_encontrado"
     }
   ],
-  "cupom_site": "LAKMA35",
-  "desconto_site": "35%",
+  "cupom_site": "LAKMA30",
+  "desconto_site": "30%",
   "site_geral_fallback": "https://www.lakma.com.br",
   "regra_envio": "Se houver link_kit_unico, enviar esse link. Caso contrário, enviar a lista produtos_utilizados com link_individual_produto de cada item encontrado. Sinalizar individualmente apenas os itens sem link. Mover lead para 'Link do site enviado' ao enviar qualquer link.",
   "proibicoes": [

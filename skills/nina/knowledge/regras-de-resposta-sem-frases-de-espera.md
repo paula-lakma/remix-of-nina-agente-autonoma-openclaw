@@ -47,7 +47,7 @@ Para conteúdo longo (protocolo completo, lista de produtos com links), chamar `
 
 **Correto:**
 - Msg 1: "Claro, Paula. O Protocolo X é aprovado para uso em cabine. Vou te organizar o passo a passo."
-- Msg 2: "[passo a passo completo + produtos + links com cupom LAKMA35]"
+- Msg 2: "[passo a passo completo + produtos + links com cupom LAKMA30]"
 
 **Errado:** "Vou buscar o passo a passo agora. Um momento." ❌ — para e espera. Proibido.
 

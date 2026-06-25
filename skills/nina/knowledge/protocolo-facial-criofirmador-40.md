@@ -182,7 +182,7 @@ Se houver risco, dúvida técnica ou pedido de adaptação, encaminhar para derm
 - **Espuma Dermatológica** → _produto não localizado na base; pedir confirmação ou encaminhar humano._
 - **Sabonete de Ácido Glicólico** → https://lakma.com.br/products/sabonete-de-acido-glicolico-150ml?_pos=1&_sid=2f97aa27a&_ss=r
 
-No site oficial use o cupom **LAKMA35** = 35% de desconto.
+No site oficial use o cupom **LAKMA30** = 30% de desconto.
 
 ```json
 {
@@ -232,8 +232,8 @@ No site oficial use o cupom **LAKMA35** = 35% de desconto.
       "status_link_individual_produto": "aprovado"
     }
   ],
-  "cupom_site": "LAKMA35",
-  "desconto_site": "35%",
+  "cupom_site": "LAKMA30",
+  "desconto_site": "30%",
   "site_geral_fallback": "https://www.lakma.com.br",
   "regra_envio": "Se houver link_kit_unico, enviar esse link. Caso contrário, enviar a lista produtos_utilizados com link_individual_produto de cada item encontrado. Sinalizar individualmente apenas os itens sem link. Mover lead para 'Link do site enviado' ao enviar qualquer link.",
   "proibicoes": [
