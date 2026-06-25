@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { 
   Search, MoreVertical, Phone, Paperclip, Send, Check, CheckCheck, 
   Smile, Play, Loader2, MessageSquare, Info, X, Mail, 
-  Tag, Bot, User, Pause, Brain, Plus
+  Tag, Bot, User, Pause, Brain, Plus, ShieldAlert, Stethoscope, RotateCcw
 } from 'lucide-react';
 import { MessageDirection, MessageType, UIConversation, UIMessage, ConversationStatus, TagDefinition } from '../types';
 import { Button } from './Button';
@@ -24,6 +24,7 @@ const ChatInterface: React.FC = () => {
   const [inputText, setInputText] = useState('');
   const [showProfileInfo, setShowProfileInfo] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
+  const [dermoFilter, setDermoFilter] = useState(false);
   const [availableTags, setAvailableTags] = useState<TagDefinition[]>([]);
   const [isTagSelectorOpen, setIsTagSelectorOpen] = useState(false);
   const [teamMembers, setTeamMembers] = useState<any[]>([]);
@@ -167,15 +168,76 @@ const ChatInterface: React.FC = () => {
     await updateStatus(activeChat.id, status);
   };
 
-  const filteredConversations = conversations.filter(chat => {
-    if (!searchQuery) return true;
-    const query = searchQuery.toLowerCase();
-    return (
-      chat.contactName.toLowerCase().includes(query) ||
-      chat.contactPhone.includes(query) ||
-      chat.lastMessage.toLowerCase().includes(query)
-    );
-  });
+  const handleTakeover = async () => {
+    if (!activeChat) return;
+    try {
+      await api.takeoverConversation(activeChat.id);
+      toast.success('Você assumiu esta conversa. Nina segue pausada.');
+    } catch (e: any) {
+      toast.error(e?.message || 'Erro ao assumir conversa');
+    }
+  };
+
+  const handleReactivateNina = async () => {
+    if (!activeChat) return;
+    if (!confirm('Reativar Nina nesta conversa? A automação voltará a responder novas mensagens.')) return;
+    try {
+      await api.reactivateNina(activeChat.id);
+      toast.success('Nina reativada nesta conversa.');
+    } catch (e: any) {
+      toast.error(e?.message || 'Erro ao reativar Nina');
+    }
+  };
+
+  const handoffReasonLabel = (reason?: string | null) => {
+    if (!reason) return null;
+    const map: Record<string, string> = {
+      gestante: 'Gestante',
+      lactante: 'Lactante',
+      alergia: 'Alergia',
+      reacao: 'Reação adversa',
+      pele_sensibilizada: 'Pele sensibilizada',
+      contraindicacao: 'Contraindicação',
+      duvida_tecnica: 'Dúvida técnica',
+      adaptacao_protocolo: 'Adaptação de protocolo',
+      protocolo_nao_aprovado: 'Protocolo não aprovado',
+      dermoconsultora: 'Encaminhamento técnico',
+    };
+    return map[reason] || reason;
+  };
+
+  // Filter + priority sort: dermo handoff > human takeover > unread > recent
+  const priorityScore = (c: UIConversation) => {
+    if (c.requiresDermoconsultant && c.humanTakeoverRequired) return 0;
+    if (c.humanTakeoverRequired) return 1;
+    if (c.aiPaused) return 2;
+    if (c.unreadCount > 0) return 3;
+    return 4;
+  };
+
+  const filteredConversations = conversations
+    .filter(chat => {
+      if (dermoFilter) {
+        if (!(chat.requiresDermoconsultant && chat.humanTakeoverRequired && chat.handoffType === 'dermoconsultant')) {
+          return false;
+        }
+      }
+      if (!searchQuery) return true;
+      const query = searchQuery.toLowerCase();
+      return (
+        chat.contactName.toLowerCase().includes(query) ||
+        chat.contactPhone.includes(query) ||
+        chat.lastMessage.toLowerCase().includes(query)
+      );
+    })
+    .sort((a, b) => {
+      const pa = priorityScore(a);
+      const pb = priorityScore(b);
+      if (pa !== pb) return pa - pb;
+      const ta = a.lastMessageAtRaw ? new Date(a.lastMessageAtRaw).getTime() : 0;
+      const tb = b.lastMessageAtRaw ? new Date(b.lastMessageAtRaw).getTime() : 0;
+      return tb - ta;
+    });
 
   const renderStatusBadge = (status: ConversationStatus) => {
     const config = {
@@ -353,7 +415,33 @@ const ChatInterface: React.FC = () => {
               className="w-full pl-9 pr-4 py-2.5 bg-slate-950/50 border border-slate-800 rounded-xl text-sm focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 outline-none text-slate-200 placeholder:text-slate-600 transition-all"
             />
           </div>
+          {/* Filter chips */}
+          {(() => {
+            const dermoCount = conversations.filter(c => c.requiresDermoconsultant && c.humanTakeoverRequired && c.handoffType === 'dermoconsultant').length;
+            return (
+              <div className="flex flex-wrap gap-2 mt-3">
+                <button
+                  onClick={() => setDermoFilter(v => !v)}
+                  className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-medium border transition-all ${
+                    dermoFilter
+                      ? 'bg-rose-500/20 border-rose-500/50 text-rose-300'
+                      : 'bg-slate-800/60 border-slate-700 text-slate-400 hover:text-slate-200'
+                  }`}
+                  title="Mostrar somente conversas aguardando dermoconsultora"
+                >
+                  <Stethoscope className="w-3 h-3" />
+                  Aguardando dermoconsultora
+                  {dermoCount > 0 && (
+                    <span className="ml-1 px-1.5 py-0.5 rounded-full bg-rose-500/30 text-rose-200 text-[10px] font-bold leading-none">
+                      {dermoCount}
+                    </span>
+                  )}
+                </button>
+              </div>
+            );
+          })()}
         </div>
+
 
         {/* Conversation List */}
         <div className="flex-1 overflow-y-auto custom-scrollbar">
@@ -369,9 +457,11 @@ const ChatInterface: React.FC = () => {
                 key={chat.id}
                 onClick={() => setSelectedChatId(chat.id)}
                 className={`flex items-center p-4 cursor-pointer transition-all duration-200 border-b border-slate-800/30 hover:bg-slate-800/50 ${
-                  selectedChatId === chat.id 
-                    ? 'bg-slate-800/80 border-l-2 border-l-cyan-500' 
-                    : 'border-l-2 border-l-transparent'
+                  chat.requiresDermoconsultant && chat.humanTakeoverRequired
+                    ? 'bg-rose-500/5 border-l-4 border-l-rose-500'
+                    : selectedChatId === chat.id 
+                      ? 'bg-slate-800/80 border-l-2 border-l-cyan-500' 
+                      : 'border-l-2 border-l-transparent'
                 }`}
               >
                 <div className="relative">
@@ -402,8 +492,19 @@ const ChatInterface: React.FC = () => {
                      chat.lastMessage || 'Sem mensagens'}
                   </p>
                   
-                  <div className="flex items-center mt-2 gap-1.5">
+                  <div className="flex items-center mt-2 gap-1.5 flex-wrap">
                     {renderStatusBadge(chat.status)}
+                    {chat.requiresDermoconsultant && chat.humanTakeoverRequired && (
+                      <span className="px-2 py-0.5 rounded-md text-[10px] font-semibold border bg-rose-500/20 text-rose-300 border-rose-500/40 flex items-center gap-1">
+                        <Stethoscope className="w-3 h-3" />
+                        Dermo
+                      </span>
+                    )}
+                    {chat.aiPaused && !chat.requiresDermoconsultant && (
+                      <span className="px-2 py-0.5 rounded-md text-[10px] font-medium border bg-amber-500/15 text-amber-300 border-amber-500/30">
+                        Nina pausada
+                      </span>
+                    )}
                     {chat.tags.slice(0, 1).map(tag => (
                       <span key={tag} className="px-2 py-0.5 bg-slate-800/80 border border-slate-700 text-slate-400 text-[10px] rounded-md font-medium">
                         {tag}
@@ -447,35 +548,58 @@ const ChatInterface: React.FC = () => {
                   <p className="text-xs text-cyan-500 font-medium">{activeChat.contactPhone}</p>
                 </div>
               </div>
-              <div className="flex items-center gap-1">
-                {/* Status control buttons */}
-                <Button 
-                  variant="ghost" 
-                  size="icon" 
-                  className={`text-slate-400 hover:text-white ${activeChat.status === 'nina' ? 'bg-violet-500/20 text-violet-400' : ''}`}
-                  onClick={() => handleStatusChange('nina')}
-                  title={`Ativar ${sdrName} (IA)`}
-                >
-                  <Bot className="w-5 h-5" />
-                </Button>
-                <Button 
-                  variant="ghost" 
-                  size="icon" 
-                  className={`text-slate-400 hover:text-white ${activeChat.status === 'human' ? 'bg-emerald-500/20 text-emerald-400' : ''}`}
-                  onClick={() => handleStatusChange('human')}
-                  title="Assumir conversa"
-                >
-                  <User className="w-5 h-5" />
-                </Button>
-                <Button 
-                  variant="ghost" 
-                  size="icon" 
-                  className={`text-slate-400 hover:text-white ${activeChat.status === 'paused' ? 'bg-amber-500/20 text-amber-400' : ''}`}
-                  onClick={() => handleStatusChange('paused')}
-                  title="Pausar conversa"
-                >
-                  <Pause className="w-5 h-5" />
-                </Button>
+              <div className="flex items-center gap-1.5">
+                {activeChat.humanTakeoverRequired && (
+                  <Button
+                    onClick={handleTakeover}
+                    className="h-9 px-3 text-xs font-semibold bg-rose-600 hover:bg-rose-500 text-white"
+                    title="Assumir esta conversa como atendente humano"
+                  >
+                    <User className="w-4 h-4 mr-1.5" />
+                    Assumir conversa
+                  </Button>
+                )}
+                {activeChat.aiPaused && (
+                  <Button
+                    onClick={handleReactivateNina}
+                    className="h-9 px-3 text-xs font-semibold bg-violet-600 hover:bg-violet-500 text-white"
+                    title="Devolver atendimento automático para a Nina"
+                  >
+                    <RotateCcw className="w-4 h-4 mr-1.5" />
+                    Reativar Nina
+                  </Button>
+                )}
+                {!activeChat.aiPaused && (
+                  <>
+                    <Button 
+                      variant="ghost" 
+                      size="icon" 
+                      className={`text-slate-400 hover:text-white ${activeChat.status === 'nina' ? 'bg-violet-500/20 text-violet-400' : ''}`}
+                      onClick={() => handleStatusChange('nina')}
+                      title={`Ativar ${sdrName} (IA)`}
+                    >
+                      <Bot className="w-5 h-5" />
+                    </Button>
+                    <Button 
+                      variant="ghost" 
+                      size="icon" 
+                      className={`text-slate-400 hover:text-white ${activeChat.status === 'human' ? 'bg-emerald-500/20 text-emerald-400' : ''}`}
+                      onClick={() => handleStatusChange('human')}
+                      title="Marcar como atendimento humano"
+                    >
+                      <User className="w-5 h-5" />
+                    </Button>
+                    <Button 
+                      variant="ghost" 
+                      size="icon" 
+                      className={`text-slate-400 hover:text-white ${activeChat.status === 'paused' ? 'bg-amber-500/20 text-amber-400' : ''}`}
+                      onClick={() => handleStatusChange('paused')}
+                      title="Pausar conversa"
+                    >
+                      <Pause className="w-5 h-5" />
+                    </Button>
+                  </>
+                )}
                 <div className="h-6 w-px bg-slate-800 mx-1"></div>
                 <Button 
                   variant="ghost" 
@@ -497,6 +621,35 @@ const ChatInterface: React.FC = () => {
                 </Button>
               </div>
             </div>
+
+            {/* Handoff / Pause banners */}
+            {activeChat.requiresDermoconsultant && activeChat.humanTakeoverRequired && (
+              <div className="px-6 py-3 bg-rose-500/10 border-b border-rose-500/30 flex items-start gap-3 z-10">
+                <ShieldAlert className="w-5 h-5 text-rose-400 flex-shrink-0 mt-0.5" />
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-semibold text-rose-200">
+                    Dermoconsultora precisa assumir esta conversa.
+                  </p>
+                  {handoffReasonLabel(activeChat.handoffReason) && (
+                    <p className="text-xs text-rose-300/80 mt-0.5">
+                      Motivo: <span className="font-medium">{handoffReasonLabel(activeChat.handoffReason)}</span>
+                    </p>
+                  )}
+                </div>
+              </div>
+            )}
+            {activeChat.aiPaused && !activeChat.humanTakeoverRequired && (
+              <div className="px-6 py-3 bg-amber-500/10 border-b border-amber-500/30 flex items-start gap-3 z-10">
+                <Pause className="w-5 h-5 text-amber-400 flex-shrink-0 mt-0.5" />
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-semibold text-amber-200">
+                    {activeChat.assignedUserId
+                      ? 'Conversa em atendimento humano. Nina pausada.'
+                      : "Nina pausada. Clique em 'Reativar Nina' para devolver o atendimento automático."}
+                  </p>
+                </div>
+              </div>
+            )}
 
             {/* Messages Area */}
             <div className="flex-1 overflow-y-auto p-6 space-y-6 custom-scrollbar relative z-0">

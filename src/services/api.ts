@@ -1436,6 +1436,64 @@ export const api = {
   },
 
   /**
+   * Assume a conversation handed off to a dermoconsultora / human agent.
+   * Keeps Nina paused; clears the takeover-pending flags.
+   */
+  takeoverConversation: async (conversationId: string): Promise<void> => {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) throw new Error('Not authenticated');
+    const nowIso = new Date().toISOString();
+    const { error } = await supabase
+      .from('conversations')
+      .update({
+        assigned_user_id: user.id,
+        assigned_at: nowIso,
+        human_takeover_required: false,
+        requires_dermoconsultant: false,
+        human_status: 'em_atendimento',
+        ai_paused: true,
+        status: 'paused',
+      })
+      .eq('id', conversationId);
+    if (error) throw error;
+    await supabase.from('conversation_handoff_events').insert({
+      conversation_id: conversationId,
+      event_type: 'assumed',
+      actor_user_id: user.id,
+    });
+  },
+
+  /**
+   * Manually return automation to Nina. The only allowed way to clear ai_paused.
+   */
+  reactivateNina: async (conversationId: string): Promise<void> => {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) throw new Error('Not authenticated');
+    const nowIso = new Date().toISOString();
+    const { error } = await supabase
+      .from('conversations')
+      .update({
+        ai_paused: false,
+        human_takeover_required: false,
+        requires_dermoconsultant: false,
+        handoff_type: null,
+        handoff_reason: null,
+        human_status: 'devolvido_para_nina',
+        nina_reactivated_by: user.id,
+        nina_reactivated_at: nowIso,
+        status: 'nina',
+      })
+      .eq('id', conversationId);
+    if (error) throw error;
+    await supabase.from('conversation_handoff_events').insert({
+      conversation_id: conversationId,
+      event_type: 'nina_reactivated',
+      actor_user_id: user.id,
+    });
+  },
+
+
+  /**
    * Update contact notes
    */
   updateContactNotes: async (contactId: string, notes: string): Promise<void> => {

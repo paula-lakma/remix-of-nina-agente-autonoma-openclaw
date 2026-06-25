@@ -247,6 +247,16 @@ export interface DBConversation {
   last_message_at: string;
   created_at: string;
   updated_at: string;
+  ai_paused?: boolean;
+  requires_dermoconsultant?: boolean;
+  human_takeover_required?: boolean;
+  handoff_type?: string | null;
+  handoff_reason?: string | null;
+  handoff_created_at?: string | null;
+  human_status?: string | null;
+  assigned_at?: string | null;
+  nina_reactivated_by?: string | null;
+  nina_reactivated_at?: string | null;
   // Joined data
   contact?: DBContact;
   messages?: DBMessage[];
@@ -292,6 +302,14 @@ export interface UIConversation {
   messages: UIMessage[];
   clientMemory: ClientMemory;
   notes: string | null;
+  aiPaused?: boolean;
+  requiresDermoconsultant?: boolean;
+  humanTakeoverRequired?: boolean;
+  handoffType?: string | null;
+  handoffReason?: string | null;
+  handoffCreatedAt?: string | null;
+  humanStatus?: string | null;
+  lastMessageAtRaw?: string;
 }
 
 export interface UIMessage {
@@ -338,7 +356,15 @@ export function transformDBToUIConversation(
     tags: [...(conv.tags || []), ...(conv.contact?.tags || [])],
     messages: sortedMessages.map(transformDBToUIMessage),
     clientMemory: conv.contact?.client_memory || getDefaultClientMemory(),
-    notes: conv.contact?.notes || null
+    notes: conv.contact?.notes || null,
+    aiPaused: !!conv.ai_paused,
+    requiresDermoconsultant: !!conv.requires_dermoconsultant,
+    humanTakeoverRequired: !!conv.human_takeover_required,
+    handoffType: conv.handoff_type ?? null,
+    handoffReason: conv.handoff_reason ?? null,
+    handoffCreatedAt: conv.handoff_created_at ?? null,
+    humanStatus: conv.human_status ?? null,
+    lastMessageAtRaw: conv.last_message_at,
   };
 }
 
