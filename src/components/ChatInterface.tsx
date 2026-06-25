@@ -548,35 +548,58 @@ const ChatInterface: React.FC = () => {
                   <p className="text-xs text-cyan-500 font-medium">{activeChat.contactPhone}</p>
                 </div>
               </div>
-              <div className="flex items-center gap-1">
-                {/* Status control buttons */}
-                <Button 
-                  variant="ghost" 
-                  size="icon" 
-                  className={`text-slate-400 hover:text-white ${activeChat.status === 'nina' ? 'bg-violet-500/20 text-violet-400' : ''}`}
-                  onClick={() => handleStatusChange('nina')}
-                  title={`Ativar ${sdrName} (IA)`}
-                >
-                  <Bot className="w-5 h-5" />
-                </Button>
-                <Button 
-                  variant="ghost" 
-                  size="icon" 
-                  className={`text-slate-400 hover:text-white ${activeChat.status === 'human' ? 'bg-emerald-500/20 text-emerald-400' : ''}`}
-                  onClick={() => handleStatusChange('human')}
-                  title="Assumir conversa"
-                >
-                  <User className="w-5 h-5" />
-                </Button>
-                <Button 
-                  variant="ghost" 
-                  size="icon" 
-                  className={`text-slate-400 hover:text-white ${activeChat.status === 'paused' ? 'bg-amber-500/20 text-amber-400' : ''}`}
-                  onClick={() => handleStatusChange('paused')}
-                  title="Pausar conversa"
-                >
-                  <Pause className="w-5 h-5" />
-                </Button>
+              <div className="flex items-center gap-1.5">
+                {activeChat.humanTakeoverRequired && (
+                  <Button
+                    onClick={handleTakeover}
+                    className="h-9 px-3 text-xs font-semibold bg-rose-600 hover:bg-rose-500 text-white"
+                    title="Assumir esta conversa como atendente humano"
+                  >
+                    <User className="w-4 h-4 mr-1.5" />
+                    Assumir conversa
+                  </Button>
+                )}
+                {activeChat.aiPaused && (
+                  <Button
+                    onClick={handleReactivateNina}
+                    className="h-9 px-3 text-xs font-semibold bg-violet-600 hover:bg-violet-500 text-white"
+                    title="Devolver atendimento automático para a Nina"
+                  >
+                    <RotateCcw className="w-4 h-4 mr-1.5" />
+                    Reativar Nina
+                  </Button>
+                )}
+                {!activeChat.aiPaused && (
+                  <>
+                    <Button 
+                      variant="ghost" 
+                      size="icon" 
+                      className={`text-slate-400 hover:text-white ${activeChat.status === 'nina' ? 'bg-violet-500/20 text-violet-400' : ''}`}
+                      onClick={() => handleStatusChange('nina')}
+                      title={`Ativar ${sdrName} (IA)`}
+                    >
+                      <Bot className="w-5 h-5" />
+                    </Button>
+                    <Button 
+                      variant="ghost" 
+                      size="icon" 
+                      className={`text-slate-400 hover:text-white ${activeChat.status === 'human' ? 'bg-emerald-500/20 text-emerald-400' : ''}`}
+                      onClick={() => handleStatusChange('human')}
+                      title="Marcar como atendimento humano"
+                    >
+                      <User className="w-5 h-5" />
+                    </Button>
+                    <Button 
+                      variant="ghost" 
+                      size="icon" 
+                      className={`text-slate-400 hover:text-white ${activeChat.status === 'paused' ? 'bg-amber-500/20 text-amber-400' : ''}`}
+                      onClick={() => handleStatusChange('paused')}
+                      title="Pausar conversa"
+                    >
+                      <Pause className="w-5 h-5" />
+                    </Button>
+                  </>
+                )}
                 <div className="h-6 w-px bg-slate-800 mx-1"></div>
                 <Button 
                   variant="ghost" 
@@ -598,6 +621,35 @@ const ChatInterface: React.FC = () => {
                 </Button>
               </div>
             </div>
+
+            {/* Handoff / Pause banners */}
+            {activeChat.requiresDermoconsultant && activeChat.humanTakeoverRequired && (
+              <div className="px-6 py-3 bg-rose-500/10 border-b border-rose-500/30 flex items-start gap-3 z-10">
+                <ShieldAlert className="w-5 h-5 text-rose-400 flex-shrink-0 mt-0.5" />
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-semibold text-rose-200">
+                    Dermoconsultora precisa assumir esta conversa.
+                  </p>
+                  {handoffReasonLabel(activeChat.handoffReason) && (
+                    <p className="text-xs text-rose-300/80 mt-0.5">
+                      Motivo: <span className="font-medium">{handoffReasonLabel(activeChat.handoffReason)}</span>
+                    </p>
+                  )}
+                </div>
+              </div>
+            )}
+            {activeChat.aiPaused && !activeChat.humanTakeoverRequired && (
+              <div className="px-6 py-3 bg-amber-500/10 border-b border-amber-500/30 flex items-start gap-3 z-10">
+                <Pause className="w-5 h-5 text-amber-400 flex-shrink-0 mt-0.5" />
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-semibold text-amber-200">
+                    {activeChat.assignedUserId
+                      ? 'Conversa em atendimento humano. Nina pausada.'
+                      : "Nina pausada. Clique em 'Reativar Nina' para devolver o atendimento automático."}
+                  </p>
+                </div>
+              </div>
+            )}
 
             {/* Messages Area */}
             <div className="flex-1 overflow-y-auto p-6 space-y-6 custom-scrollbar relative z-0">
