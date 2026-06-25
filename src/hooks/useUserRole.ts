@@ -1,0 +1,52 @@
+import { useEffect, useState } from 'react';
+import { supabase } from '@/integrations/supabase/client';
+import { useAuth } from '@/hooks/useAuth';
+
+export type AppRole = 'admin' | 'manager' | 'sdr' | 'user' | 'moderator';
+
+// Permissões por área (rota base)
+const ROLE_PERMISSIONS: Record<AppRole, string[]> = {
+  admin:     ['dashboard', 'pipeline', 'chat', 'contacts', 'scheduling', 'team', 'cerebro', 'settings'],
+  manager:   ['dashboard', 'pipeline', 'chat', 'contacts', 'scheduling'],
+  sdr:       ['pipeline', 'chat', 'contacts', 'scheduling'],
+  user:      ['pipeline', 'chat', 'contacts', 'scheduling'], // legado = SDR
+  moderator: ['dashboard', 'pipeline', 'chat', 'contacts', 'scheduling'],
+};
+
+export function useUserRole() {
+  const { user, loading: authLoading } = useAuth();
+  const [role, setRole] = useState<AppRole | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    let active = true;
+    if (authLoading) return;
+    if (!user) {
+      setRole(null);
+      setLoading(false);
+      return;
+    }
+    (async () => {
+      const { data } = await supabase
+        .from('user_roles')
+        .select('role')
+        .eq('user_id', user.id)
+        .order('role', { ascending: true });
+      if (!active) return;
+      const roles = (data || []).map((r) => r.role as AppRole);
+      // prioridade: admin > manager > moderator > sdr > user
+      const priority: AppRole[] = ['admin', 'manager', 'moderator', 'sdr', 'user'];
+      const resolved = priority.find((p) => roles.includes(p)) || 'sdr';
+      setRole(resolved);
+      setLoading(false);
+    })();
+    return () => {
+      active = false;
+    };
+  }, [user, authLoading]);
+
+  const isAdmin = role === 'admin';
+  const can = (area: string) => (role ? ROLE_PERMISSIONS[role]?.includes(area) ?? false : false);
+
+  return { role, isAdmin, can, loading };
+}
