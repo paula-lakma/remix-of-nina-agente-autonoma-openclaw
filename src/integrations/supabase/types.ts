@@ -281,6 +281,44 @@ export type Database = {
         }
         Relationships: []
       }
+      conversation_handoff_events: {
+        Row: {
+          actor_user_id: string | null
+          conversation_id: string
+          created_at: string
+          event_type: string
+          handoff_reason: string | null
+          id: string
+          metadata: Json
+        }
+        Insert: {
+          actor_user_id?: string | null
+          conversation_id: string
+          created_at?: string
+          event_type: string
+          handoff_reason?: string | null
+          id?: string
+          metadata?: Json
+        }
+        Update: {
+          actor_user_id?: string | null
+          conversation_id?: string
+          created_at?: string
+          event_type?: string
+          handoff_reason?: string | null
+          id?: string
+          metadata?: Json
+        }
+        Relationships: [
+          {
+            foreignKeyName: "conversation_handoff_events_conversation_id_fkey"
+            columns: ["conversation_id"]
+            isOneToOne: false
+            referencedRelation: "conversations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       conversation_states: {
         Row: {
           conversation_id: string
@@ -324,15 +362,25 @@ export type Database = {
       }
       conversations: {
         Row: {
+          ai_paused: boolean
+          assigned_at: string | null
           assigned_team: Database["public"]["Enums"]["team_assignment"] | null
           assigned_user_id: string | null
           contact_id: string
           created_at: string
+          handoff_created_at: string | null
+          handoff_reason: string | null
+          handoff_type: string | null
+          human_status: string | null
+          human_takeover_required: boolean
           id: string
           is_active: boolean
           last_message_at: string
           metadata: Json | null
           nina_context: Json | null
+          nina_reactivated_at: string | null
+          nina_reactivated_by: string | null
+          requires_dermoconsultant: boolean
           started_at: string
           status: Database["public"]["Enums"]["conversation_status"]
           tags: string[] | null
@@ -340,15 +388,25 @@ export type Database = {
           user_id: string | null
         }
         Insert: {
+          ai_paused?: boolean
+          assigned_at?: string | null
           assigned_team?: Database["public"]["Enums"]["team_assignment"] | null
           assigned_user_id?: string | null
           contact_id: string
           created_at?: string
+          handoff_created_at?: string | null
+          handoff_reason?: string | null
+          handoff_type?: string | null
+          human_status?: string | null
+          human_takeover_required?: boolean
           id?: string
           is_active?: boolean
           last_message_at?: string
           metadata?: Json | null
           nina_context?: Json | null
+          nina_reactivated_at?: string | null
+          nina_reactivated_by?: string | null
+          requires_dermoconsultant?: boolean
           started_at?: string
           status?: Database["public"]["Enums"]["conversation_status"]
           tags?: string[] | null
@@ -356,15 +414,25 @@ export type Database = {
           user_id?: string | null
         }
         Update: {
+          ai_paused?: boolean
+          assigned_at?: string | null
           assigned_team?: Database["public"]["Enums"]["team_assignment"] | null
           assigned_user_id?: string | null
           contact_id?: string
           created_at?: string
+          handoff_created_at?: string | null
+          handoff_reason?: string | null
+          handoff_type?: string | null
+          human_status?: string | null
+          human_takeover_required?: boolean
           id?: string
           is_active?: boolean
           last_message_at?: string
           metadata?: Json | null
           nina_context?: Json | null
+          nina_reactivated_at?: string | null
+          nina_reactivated_by?: string | null
+          requires_dermoconsultant?: boolean
           started_at?: string
           status?: Database["public"]["Enums"]["conversation_status"]
           tags?: string[] | null
