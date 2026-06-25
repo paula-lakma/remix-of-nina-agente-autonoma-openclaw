@@ -318,11 +318,12 @@ function renderProtocolProductsBlock(k: any, products: any[]): string {
   md += `> A Nina DEVE enviar esta lista quando o lead pedir o link do protocolo, quiser comprar os produtos do protocolo ou demonstrar interesse em adquirir os itens. **NÃO** dizer "não tenho link do protocolo" — usar a lista abaixo.\n\n`;
   for (const it of items) {
     if (it.link_individual_produto) {
-      md += `- **${it.nome_citado_no_protocolo}** → ${it.link_individual_produto}\n`;
+      const tag = it.match_tipo && it.match_tipo !== "exato" ? ` _(match: ${it.match_tipo} → "${it.nome_produto_cadastrado}")_` : "";
+      md += `- **${it.nome_no_protocolo}** → ${it.link_individual_produto}${tag}\n`;
     } else if (it.produto_encontrado) {
-      md += `- **${it.nome_citado_no_protocolo}** → _link individual indisponível no cadastro — sinalizar apenas este item; usar ${LAKMA_SITE_FALLBACK} como fallback só para ele._\n`;
+      md += `- **${it.nome_no_protocolo}** → _link individual indisponível no cadastro de "${it.nome_produto_cadastrado}" — sinalizar apenas este item; usar ${LAKMA_SITE_FALLBACK} como fallback só para ele._\n`;
     } else {
-      md += `- **${it.nome_citado_no_protocolo}** → _produto não localizado na base; pedir confirmação ou encaminhar humano._\n`;
+      md += `- **${it.nome_no_protocolo}** → _produto não localizado na base mesmo após match exato, normalizado, compacto, alias, token e fuzzy; pedir confirmação ao lead ou encaminhar humano._\n`;
     }
   }
   md += `\nNo site oficial use o cupom **LAKMA35** = 35% de desconto.\n\n`;
