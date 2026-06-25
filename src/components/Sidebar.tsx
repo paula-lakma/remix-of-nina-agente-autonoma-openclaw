@@ -3,6 +3,7 @@ import { LayoutDashboard, MessageSquare, Users, Settings as SettingsIcon, LogOut
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useCompanySettings } from '@/hooks/useCompanySettings';
 import { useAuth } from '@/hooks/useAuth';
+import { useUserRole } from '@/hooks/useUserRole';
 import { Sidebar, SidebarBody, SidebarLink, useSidebar } from '@/components/ui/sidebar';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
@@ -63,12 +64,15 @@ const SidebarContent = () => {
   const navigate = useNavigate();
   const currentPath = location.pathname.substring(1) || 'dashboard';
   const { open, setOpen } = useSidebar();
+  const { can, loading: roleLoading } = useUserRole();
 
-  const links = menuItems.map(item => ({
-    label: item.label,
-    href: `/${item.id}`,
-    icon: <item.icon className="h-5 w-5" />,
-  }));
+  const links = menuItems
+    .filter(item => roleLoading ? false : can(item.id))
+    .map(item => ({
+      label: item.label,
+      href: `/${item.id}`,
+      icon: <item.icon className="h-5 w-5" />,
+    }));
 
   const handleLogout = async () => {
     try {

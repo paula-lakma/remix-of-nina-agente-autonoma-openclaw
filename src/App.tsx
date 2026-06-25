@@ -12,6 +12,7 @@ import Cerebro from './components/Cerebro';
 import Auth from './pages/Auth';
 import ResetPassword from './pages/ResetPassword';
 import ProtectedRoute from './components/ProtectedRoute';
+import RoleGate from './components/RoleGate';
 
 import { CompanySettingsProvider } from './hooks/useCompanySettings';
 import { AuthProvider } from './hooks/useAuth';
@@ -78,14 +79,14 @@ const App: React.FC = () => {
                 </ProtectedRoute>
               }>
                 <Route path="/" element={<Navigate to="/dashboard" replace />} />
-                <Route path="/dashboard" element={<Dashboard />} />
-                <Route path="/pipeline" element={<Kanban />} />
-                <Route path="/chat" element={<ChatInterface />} />
-                <Route path="/contacts" element={<Contacts />} />
-                <Route path="/scheduling" element={<Scheduling />} />
-                <Route path="/team" element={<Team />} />
-                <Route path="/cerebro" element={<Cerebro />} />
-                <Route path="/settings" element={<Settings />} />
+                <Route path="/dashboard" element={<RoleGate area="dashboard"><Dashboard /></RoleGate>} />
+                <Route path="/pipeline" element={<RoleGate area="pipeline"><Kanban /></RoleGate>} />
+                <Route path="/chat" element={<RoleGate area="chat"><ChatInterface /></RoleGate>} />
+                <Route path="/contacts" element={<RoleGate area="contacts"><Contacts /></RoleGate>} />
+                <Route path="/scheduling" element={<RoleGate area="scheduling"><Scheduling /></RoleGate>} />
+                <Route path="/team" element={<RoleGate area="team"><Team /></RoleGate>} />
+                <Route path="/cerebro" element={<RoleGate area="cerebro"><Cerebro /></RoleGate>} />
+                <Route path="/settings" element={<RoleGate area="settings"><Settings /></RoleGate>} />
               </Route>
 
               {/* Catch all - redirect to dashboard */}
