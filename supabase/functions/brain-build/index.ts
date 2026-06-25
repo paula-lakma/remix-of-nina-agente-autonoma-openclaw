@@ -123,7 +123,7 @@ function renderProducts(products: any[]): string {
     md += `- **Campo real no cadastro:** \`site_url\`\n`;
     md += `- **Nome obrigatório para a Nina:** \`link_individual_produto\`\n`;
     if (siteUrl || mlUrl) {
-      if (siteUrl) md += `- **Link individual do produto no site oficial:** ${siteUrl} ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site\n`;
+      if (siteUrl) md += `- **Link individual do produto no site oficial:** ${siteUrl} ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site\n`;
       if (mlUrl) md += `- **Mercado Livre (link aprovado):** ${mlUrl}\n`;
       md += `\n\`\`\`json\n${JSON.stringify({
         produto: v(p.name),
@@ -132,8 +132,8 @@ function renderProducts(products: any[]): string {
         link_site: siteUrl || null,
         link_mercadolivre: mlUrl || null,
         site_geral_fallback: LAKMA_SITE_FALLBACK,
-        cupom_site: siteUrl ? "LAKMA30" : null,
-        desconto_site: siteUrl ? "30%" : null,
+        cupom_site: siteUrl ? "LAKMA35" : null,
+        desconto_site: siteUrl ? "35%" : null,
         status_link_individual_produto: siteUrl ? "aprovado" : "indisponivel",
         status_link: (siteUrl || mlUrl) ? "aprovado" : "indisponivel",
         regra_prioridade_link: siteUrl
@@ -149,8 +149,8 @@ function renderProducts(products: any[]): string {
         link_site: null,
         link_mercadolivre: null,
         site_geral_fallback: LAKMA_SITE_FALLBACK,
-        cupom_site: "LAKMA30",
-        desconto_site: "30%",
+        cupom_site: "LAKMA35",
+        desconto_site: "35%",
         status_link_individual_produto: "indisponivel",
         status_link: "indisponivel",
         regra_prioridade_link: "Produto específico citado sem link_individual_produto: usar site_geral_fallback somente como fallback claro ou encaminhar humano se o fallback não estiver disponível.",
@@ -261,15 +261,15 @@ function renderProtocolProductsBlock(k: any, products: any[]): string {
       md += `- **${it.nome_citado_no_protocolo}** → _produto não localizado na base; pedir confirmação ou encaminhar humano._\n`;
     }
   }
-  md += `\nNo site oficial use o cupom **LAKMA30** = 30% de desconto.\n\n`;
+  md += `\nNo site oficial use o cupom **LAKMA35** = 35% de desconto.\n\n`;
   md += `\`\`\`json\n${JSON.stringify({
     nome_protocolo: v(k.title),
     tipo: "protocolo_profissional",
     aprovado: true,
     link_kit_unico: null,
     produtos_utilizados: items,
-    cupom_site: "LAKMA30",
-    desconto_site: "30%",
+    cupom_site: "LAKMA35",
+    desconto_site: "35%",
     site_geral_fallback: LAKMA_SITE_FALLBACK,
     regra_envio:
       "Se houver link_kit_unico, enviar esse link. Caso contrário, enviar a lista produtos_utilizados com link_individual_produto de cada item encontrado. Sinalizar individualmente apenas os itens sem link. Mover lead para 'Link do site enviado' ao enviar qualquer link.",
