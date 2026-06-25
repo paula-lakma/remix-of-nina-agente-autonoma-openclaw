@@ -306,6 +306,7 @@ export interface UIConversation {
   aiPaused?: boolean;
   requiresDermoconsultant?: boolean;
   humanTakeoverRequired?: boolean;
+  outsideDermoconsultantHours?: boolean;
   handoffType?: string | null;
   handoffReason?: string | null;
   handoffCreatedAt?: string | null;
