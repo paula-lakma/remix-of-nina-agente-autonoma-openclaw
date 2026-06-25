@@ -356,7 +356,15 @@ export function transformDBToUIConversation(
     tags: [...(conv.tags || []), ...(conv.contact?.tags || [])],
     messages: sortedMessages.map(transformDBToUIMessage),
     clientMemory: conv.contact?.client_memory || getDefaultClientMemory(),
-    notes: conv.contact?.notes || null
+    notes: conv.contact?.notes || null,
+    aiPaused: !!conv.ai_paused,
+    requiresDermoconsultant: !!conv.requires_dermoconsultant,
+    humanTakeoverRequired: !!conv.human_takeover_required,
+    handoffType: conv.handoff_type ?? null,
+    handoffReason: conv.handoff_reason ?? null,
+    handoffCreatedAt: conv.handoff_created_at ?? null,
+    humanStatus: conv.human_status ?? null,
+    lastMessageAtRaw: conv.last_message_at,
   };
 }
 
