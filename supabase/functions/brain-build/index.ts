@@ -204,34 +204,96 @@ function normProductName(s: string): string {
     .toLowerCase()
     .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
     .replace(/\b\d+\s?(ml|g|gr|kg|un|unidades?|cápsulas?|capsulas?|produtos?)\b/g, " ")
-    .replace(/\b(lakma|kit|profissional|home\s+care|bioativo|facial|corporal|labial)\b/g, " ")
+    .replace(/\b(lakma|kit|linha|profissional|home\s+care|bioativo|facial|corporal|labial|clareador|clareadora|secativo|rejuvenescedor|enzimatico|enzimatica|liquido|liquida)\b/g, " ")
     .replace(/[^a-z0-9\s]/g, " ")
     .replace(/\s+/g, " ")
     .trim();
 }
 
-// Tokeniza e calcula score de overlap entre nome citado no protocolo e nome cadastrado no produto.
-function matchProductByName(refName: string, products: any[]): any | null {
-  const ref = normProductName(refName);
-  if (!ref) return null;
-  const refTokens = new Set(ref.split(" ").filter((t) => t.length >= 3));
-  if (refTokens.size === 0) {
-    // fallback: substring direto
-    return products.find((p) => normProductName(p.name).includes(ref)) ?? null;
+// Forma compacta sem espaços, p/ casar "Bio Complex" ↔ "Biocomplex".
+const compact = (s: string) => normProductName(s).replace(/\s+/g, "");
+
+// Levenshtein simples para fallback fuzzy seguro em tokens curtos.
+function lev(a: string, b: string): number {
+  if (a === b) return 0;
+  const al = a.length, bl = b.length;
+  if (!al) return bl; if (!bl) return al;
+  const dp: number[] = Array(bl + 1).fill(0).map((_, j) => j);
+  for (let i = 1; i <= al; i++) {
+    let prev = dp[0]; dp[0] = i;
+    for (let j = 1; j <= bl; j++) {
+      const tmp = dp[j];
+      dp[j] = a[i - 1] === b[j - 1] ? prev : 1 + Math.min(prev, dp[j], dp[j - 1]);
+      prev = tmp;
+    }
   }
-  let best: { p: any; score: number } | null = null;
+  return dp[bl];
+}
+
+type MatchResult = { product: any; match_tipo: "exato" | "normalizado" | "compacto" | "alias" | "token" | "fuzzy" } | null;
+
+// Estratégia em camadas: exato → normalizado → compacto → aliases → token overlap → fuzzy seguro.
+function matchProductByName(refName: string, products: any[]): MatchResult {
+  const refRaw = v(refName);
+  if (!refRaw) return null;
+  const refNorm = normProductName(refRaw);
+  const refCompact = compact(refRaw);
+  if (!refNorm) return null;
+
+  // 1) exato (case-insensitive bruto)
   for (const p of products) {
-    const cand = normProductName(p.name);
-    if (!cand) continue;
-    const candTokens = new Set(cand.split(" ").filter((t) => t.length >= 3));
-    let hits = 0;
-    for (const t of refTokens) if (candTokens.has(t)) hits++;
-    // bônus por substring completa
-    if (cand.includes(ref) || ref.includes(cand)) hits += 2;
-    const score = hits / Math.max(refTokens.size, 1);
-    if (score >= 0.6 && (!best || score > best.score)) best = { p, score };
+    if (v(p.name).toLowerCase() === refRaw.toLowerCase()) return { product: p, match_tipo: "exato" };
   }
-  return best ? best.p : null;
+  // 2) normalizado igual
+  for (const p of products) {
+    if (normProductName(p.name) === refNorm) return { product: p, match_tipo: "normalizado" };
+  }
+  // 3) compacto (sem espaços) substring nos dois sentidos
+  for (const p of products) {
+    const pc = compact(p.name);
+    if (pc && refCompact && (pc.includes(refCompact) || refCompact.includes(pc))) {
+      return { product: p, match_tipo: "compacto" };
+    }
+  }
+  // 4) aliases cadastrados manualmente
+  for (const p of products) {
+    for (const al of arr(p.aliases)) {
+      const an = normProductName(al);
+      const ac = compact(al);
+      if (!an) continue;
+      if (an === refNorm || ac === refCompact) return { product: p, match_tipo: "alias" };
+      if (ac && refCompact && (ac.includes(refCompact) || refCompact.includes(ac))) {
+        return { product: p, match_tipo: "alias" };
+      }
+    }
+  }
+  // 5) token overlap (limiar 0.5, com bônus por substring)
+  const refTokens = new Set(refNorm.split(" ").filter((t) => t.length >= 3));
+  if (refTokens.size > 0) {
+    let best: { p: any; score: number } | null = null;
+    for (const p of products) {
+      const cand = normProductName(p.name);
+      const candTokens = new Set(cand.split(" ").filter((t) => t.length >= 3));
+      let hits = 0;
+      for (const t of refTokens) if (candTokens.has(t)) hits++;
+      if (cand.includes(refNorm) || refNorm.includes(cand)) hits += 2;
+      const score = hits / Math.max(refTokens.size, 1);
+      if (score >= 0.5 && (!best || score > best.score)) best = { p, score };
+    }
+    if (best) return { product: best.p, match_tipo: "token" };
+  }
+  // 6) fuzzy seguro: distância ≤ 2 em compacto p/ termos com >= 6 chars
+  if (refCompact.length >= 6) {
+    let best: { p: any; d: number } | null = null;
+    for (const p of products) {
+      const pc = compact(p.name);
+      if (!pc) continue;
+      const d = lev(refCompact, pc);
+      if (d <= 2 && (!best || d < best.d)) best = { p, d };
+    }
+    if (best) return { product: best.p, match_tipo: "fuzzy" };
+  }
+  return null;
 }
 
 function renderProtocolProductsBlock(k: any, products: any[]): string {
