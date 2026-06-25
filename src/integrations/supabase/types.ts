@@ -139,6 +139,7 @@ export type Database = {
       }
       brain_products: {
         Row: {
+          aliases: string[]
           avoid_combinations: string | null
           category: string[] | null
           combines_with: string[]
@@ -163,6 +164,7 @@ export type Database = {
           usage_short: string | null
         }
         Insert: {
+          aliases?: string[]
           avoid_combinations?: string | null
           category?: string[] | null
           combines_with?: string[]
@@ -187,6 +189,7 @@ export type Database = {
           usage_short?: string | null
         }
         Update: {
+          aliases?: string[]
           avoid_combinations?: string | null
           category?: string[] | null
           combines_with?: string[]
