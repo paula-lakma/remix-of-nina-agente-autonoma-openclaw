@@ -22,9 +22,29 @@ export async function createAppointmentFromAI(
     duration?: number;
     type?: 'demo' | 'meeting' | 'support' | 'followup';
     description?: string;
+    // NINA — fluxos aprovados de agendamento (distribuição / influenciadora).
+    interest_type?: 'distribuicao' | 'influenciadora' | string;
+    responsible?: 'Paula Rodrigues' | 'Ana Carla' | string;
+    contact_name?: string;
+    contact_phone?: string;
+    attendees?: string[];
+    notes?: string;
   }
 ): Promise<any> {
   console.log('[Nina] Creating appointment from AI:', args, 'for user:', userId);
+
+  // Guardrail: a Nina só pode agendar automaticamente dois fluxos aprovados.
+  // Outros casos devem ser encaminhados para humano, não agendados pela Nina.
+  if (args.interest_type || args.responsible) {
+    const interest = (args.interest_type || '').toLowerCase();
+    const resp = (args.responsible || '').toLowerCase();
+    const distribuicaoOk = interest === 'distribuicao' && resp.includes('paula');
+    const influencerOk = interest === 'influenciadora' && resp.includes('ana carla');
+    if (!distribuicaoOk && !influencerOk) {
+      console.warn('[Nina] Agendamento bloqueado: interest_type/responsible fora do permitido', { interest, resp });
+      return { error: 'unauthorized_appointment_flow' };
+    }
+  }
 
   // Validate date is not in the past
   const appointmentDate = new Date(`${args.date}T${args.time}:00`);
@@ -92,13 +112,20 @@ export async function createAppointmentFromAI(
     time: args.time,
     duration: args.duration || 60,
     type: args.type,
-    description: args.description || null,
+    description: args.description || args.notes || null,
     contact_id: contactId,
     status: 'scheduled',
+    attendees: Array.isArray(args.attendees) && args.attendees.length
+      ? args.attendees
+      : (args.responsible ? [args.responsible] : []),
     metadata: {
       source: 'nina_ai',
       conversation_id: conversationId,
-      created_at_conversation: new Date().toISOString()
+      created_at_conversation: new Date().toISOString(),
+      interest_type: args.interest_type || null,
+      responsible: args.responsible || null,
+      contact_name: args.contact_name || null,
+      contact_phone: args.contact_phone || null,
     }
   };
 
