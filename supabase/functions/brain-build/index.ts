@@ -322,9 +322,12 @@ function renderProtocolProductsBlock(k: any, products: any[]): string {
       match_tipo: m?.match_tipo ?? null,
       link_individual_produto: link || null,
       campo_origem_link_individual_produto: "site_url",
+      link_source: link ? "product_database" : null,
+      link_is_generated: false,
       status_link_individual_produto: link ? "aprovado" : (p ? "indisponivel" : "produto_nao_encontrado"),
     };
   });
+
 
   let md = `## Produtos do protocolo — links individuais (resolvidos automaticamente)\n\n`;
   md += `> A Nina DEVE enviar esta lista quando o lead pedir o link do protocolo, quiser comprar os produtos do protocolo ou demonstrar interesse em adquirir os itens. **NÃO** dizer "não tenho link do protocolo" — usar a lista abaixo.\n\n`;
@@ -354,9 +357,11 @@ function renderProtocolProductsBlock(k: any, products: any[]): string {
       "Nunca responder 'não tenho o link do protocolo' antes de checar produtos_utilizados.",
       "Nunca declarar um produto como 'sem link no cadastro' se ele aparece em produtos_utilizados com link_individual_produto preenchido — confiar no match (exato/normalizado/compacto/alias/token/fuzzy) já resolvido aqui.",
       "Nunca enviar apenas o site geral quando existir ao menos um link_individual_produto resolvido.",
-      "Nunca inventar links.",
+      "PROIBIDO inventar, gerar, montar, slugificar ou concatenar URLs. Só enviar URLs que apareçam literalmente em link_individual_produto com link_source='product_database' e link_is_generated=false.",
+      "PROIBIDO enviar URLs do tipo site_geral_fallback + '/products/' + nome — esse padrão é fabricação e nunca é aceito.",
       "Se houver dúvida entre dois produtos parecidos, pedir confirmação ao lead em vez de escolher errado.",
     ],
+
   }, null, 2)}\n\`\`\`\n\n`;
   return md;
 }
