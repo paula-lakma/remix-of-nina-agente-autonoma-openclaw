@@ -9,6 +9,7 @@ export interface BrainProduct {
   details_md: string | null;
   site_url: string | null;
   mercadolivre_url: string | null;
+  aliases: string[];
   category: string[];
   skin_types: string[];
   main_goals: string[];
