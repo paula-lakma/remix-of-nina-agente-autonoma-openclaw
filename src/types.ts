@@ -302,6 +302,14 @@ export interface UIConversation {
   messages: UIMessage[];
   clientMemory: ClientMemory;
   notes: string | null;
+  aiPaused?: boolean;
+  requiresDermoconsultant?: boolean;
+  humanTakeoverRequired?: boolean;
+  handoffType?: string | null;
+  handoffReason?: string | null;
+  handoffCreatedAt?: string | null;
+  humanStatus?: string | null;
+  lastMessageAtRaw?: string;
 }
 
 export interface UIMessage {
