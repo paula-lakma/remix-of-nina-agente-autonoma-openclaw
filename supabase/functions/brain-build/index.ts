@@ -127,6 +127,7 @@ function renderProducts(products: any[]): string {
       if (mlUrl) md += `- **Mercado Livre (link aprovado):** ${mlUrl}\n`;
       md += `\n\`\`\`json\n${JSON.stringify({
         produto: v(p.name),
+        aliases: arr(p.aliases),
         link_individual_produto: siteUrl || null,
         campo_origem_link_individual_produto: "site_url",
         link_site: siteUrl || null,
