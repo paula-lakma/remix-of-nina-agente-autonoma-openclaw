@@ -1,11 +1,28 @@
 import React, { useEffect, useState } from 'react';
-import { UserPlus, Search, Loader2, X, Check, Edit2, Users, Settings, Trash2 } from 'lucide-react';
+import { UserPlus, Search, Loader2, X, Check, Edit2, Users, Settings, Trash2, AlertTriangle, ShieldCheck } from 'lucide-react';
 import { Button } from './Button';
 import { api } from '../services/api';
 import { TeamMember, type Team as TeamType, type TeamFunction } from '../types';
 import { supabase } from '@/integrations/supabase/client';
 import TeamConfigModal from './TeamConfigModal';
 import { toast } from 'sonner';
+
+const MASTER_ADMIN_EMAIL = 'paula@lakma.com.br';
+
+const ROLE_LABEL: Record<string, string> = {
+  agent: 'Atendente',
+  manager: 'Gerente',
+  admin: 'Admin',
+};
+
+const ROLE_DESCRIPTIONS: Record<string, string> = {
+  agent: 'Acesso ao atendimento: Chat Ao Vivo, Pipeline, Contatos e Agendamentos.',
+  manager: 'Acompanha operação e indicadores, sem acesso ao Cérebro ou Configurações.',
+  admin: 'Acesso total à plataforma. Restrito a usuários autorizados.',
+};
+
+const isMasterEmail = (email: string) =>
+  email.trim().toLowerCase() === MASTER_ADMIN_EMAIL;
 
 const Team: React.FC = () => {
   const [members, setMembers] = useState<TeamMember[]>([]);
@@ -74,7 +91,12 @@ const Team: React.FC = () => {
 
   const handleInvite = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
+    if (formData.role === 'admin' && !isMasterEmail(formData.email)) {
+      toast.error(`Apenas ${MASTER_ADMIN_EMAIL} pode ser Admin/Master. Selecione Atendente ou Gerente.`);
+      return;
+    }
+
     try {
       await api.createTeamMember({
         name: formData.name,
@@ -96,6 +118,13 @@ const Team: React.FC = () => {
   };
 
   const handleUpdateMember = async (id: string, field: string, value: any) => {
+    if (field === 'role' && value === 'admin') {
+      const target = members.find((m) => m.id === id);
+      if (target && !isMasterEmail(target.email)) {
+        toast.error(`Apenas ${MASTER_ADMIN_EMAIL} pode receber o papel Admin/Master.`);
+        return;
+      }
+    }
     try {
       await api.updateTeamMember(id, { [field]: value });
       toast.success('Membro atualizado com sucesso');
@@ -134,6 +163,11 @@ const Team: React.FC = () => {
   const handleEditSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!editingMember) return;
+
+    if (editFormData.role === 'admin' && !isMasterEmail(editFormData.email)) {
+      toast.error(`Apenas ${MASTER_ADMIN_EMAIL} pode ser Admin/Master.`);
+      return;
+    }
 
     try {
       await api.updateTeamMember(editingMember.id, {
@@ -303,7 +337,9 @@ const Team: React.FC = () => {
                                     >
                                         <option value="agent">Atendente</option>
                                         <option value="manager">Gerente</option>
-                                        <option value="admin">Admin</option>
+                                        <option value="admin" disabled={!isMasterEmail(member.email)}>
+                                            Admin{!isMasterEmail(member.email) ? ' (restrito)' : ''}
+                                        </option>
                                     </select>
                                 </td>
 
@@ -416,21 +452,41 @@ const Team: React.FC = () => {
                     <div className="space-y-2">
                         <label className="text-sm font-medium text-slate-300">Nível de Acesso</label>
                         <div className="grid grid-cols-3 gap-2">
-                            {['agent', 'manager', 'admin'].map((role) => (
-                                <div 
-                                    key={role}
-                                    onClick={() => setFormData({...formData, role})}
-                                    className={`cursor-pointer rounded-lg border p-2 text-center transition-all ${
-                                        formData.role === role 
-                                        ? 'bg-slate-800 border-slate-500 text-white' 
-                                        : 'bg-slate-950 border-slate-800 text-slate-500 hover:border-slate-700'
-                                    }`}
-                                >
-                                    <div className="text-xs font-bold uppercase mb-1">{role === 'agent' ? 'Atendente' : role === 'manager' ? 'Gerente' : 'Admin'}</div>
-                                    {formData.role === role && <div className="flex justify-center"><Check className="w-3 h-3" /></div>}
-                                </div>
-                            ))}
+                            {(['agent', 'manager', 'admin'] as const).map((role) => {
+                                const adminBlocked = role === 'admin' && !isMasterEmail(formData.email);
+                                const selected = formData.role === role;
+                                return (
+                                    <button
+                                        type="button"
+                                        key={role}
+                                        disabled={adminBlocked}
+                                        onClick={() => !adminBlocked && setFormData({ ...formData, role })}
+                                        title={adminBlocked ? `Admin só é permitido para ${MASTER_ADMIN_EMAIL}` : ROLE_DESCRIPTIONS[role]}
+                                        className={`relative cursor-pointer rounded-lg border p-2 text-center transition-all ${
+                                            selected
+                                                ? 'bg-slate-800 border-slate-500 text-white'
+                                                : 'bg-slate-950 border-slate-800 text-slate-500 hover:border-slate-700'
+                                        } ${adminBlocked ? 'opacity-40 cursor-not-allowed' : ''}`}
+                                    >
+                                        <div className="text-xs font-bold uppercase mb-1">{ROLE_LABEL[role]}</div>
+                                        {selected && <div className="flex justify-center"><Check className="w-3 h-3" /></div>}
+                                        {role === 'agent' && (
+                                            <div className="absolute -top-2 -right-2 text-[9px] px-1.5 py-0.5 rounded-full bg-emerald-600 text-white font-bold uppercase tracking-wider">SDR</div>
+                                        )}
+                                    </button>
+                                );
+                            })}
                         </div>
+                        <p className="text-xs text-slate-500 leading-relaxed">{ROLE_DESCRIPTIONS[formData.role]}</p>
+                        {formData.role === 'admin' && (
+                            <div className="flex items-start gap-2 p-2.5 rounded-lg bg-amber-950/40 border border-amber-900/50 text-amber-300 text-xs">
+                                <AlertTriangle className="w-4 h-4 flex-shrink-0 mt-0.5" />
+                                <span>Admin tem acesso total ao Cérebro, Configurações, Equipe, Produtos, Conhecimento, Habilidades e System Prompt. Use apenas para usuários autorizados.</span>
+                            </div>
+                        )}
+                        {formData.role !== 'admin' && formData.email && !isMasterEmail(formData.email) && (
+                            <p className="text-[11px] text-slate-600 flex items-center gap-1"><ShieldCheck className="w-3 h-3" /> Admin/Master é exclusivo de {MASTER_ADMIN_EMAIL}.</p>
+                        )}
                     </div>
 
                     <div className="space-y-2">
@@ -524,21 +580,35 @@ const Team: React.FC = () => {
                     <div className="space-y-2">
                         <label className="text-sm font-medium text-slate-300">Nível de Acesso</label>
                         <div className="grid grid-cols-3 gap-2">
-                            {['agent', 'manager', 'admin'].map((role) => (
-                                <div 
-                                    key={role}
-                                    onClick={() => setEditFormData({...editFormData, role})}
-                                    className={`cursor-pointer rounded-lg border p-2 text-center transition-all ${
-                                        editFormData.role === role 
-                                        ? 'bg-slate-800 border-slate-500 text-white' 
-                                        : 'bg-slate-950 border-slate-800 text-slate-500 hover:border-slate-700'
-                                    }`}
-                                >
-                                    <div className="text-xs font-bold uppercase mb-1">{role === 'agent' ? 'Atendente' : role === 'manager' ? 'Gerente' : 'Admin'}</div>
-                                    {editFormData.role === role && <div className="flex justify-center"><Check className="w-3 h-3" /></div>}
-                                </div>
-                            ))}
+                            {(['agent', 'manager', 'admin'] as const).map((role) => {
+                                const adminBlocked = role === 'admin' && !isMasterEmail(editFormData.email);
+                                const selected = editFormData.role === role;
+                                return (
+                                    <button
+                                        type="button"
+                                        key={role}
+                                        disabled={adminBlocked}
+                                        onClick={() => !adminBlocked && setEditFormData({ ...editFormData, role })}
+                                        title={adminBlocked ? `Admin só é permitido para ${MASTER_ADMIN_EMAIL}` : ROLE_DESCRIPTIONS[role]}
+                                        className={`relative cursor-pointer rounded-lg border p-2 text-center transition-all ${
+                                            selected
+                                                ? 'bg-slate-800 border-slate-500 text-white'
+                                                : 'bg-slate-950 border-slate-800 text-slate-500 hover:border-slate-700'
+                                        } ${adminBlocked ? 'opacity-40 cursor-not-allowed' : ''}`}
+                                    >
+                                        <div className="text-xs font-bold uppercase mb-1">{ROLE_LABEL[role]}</div>
+                                        {selected && <div className="flex justify-center"><Check className="w-3 h-3" /></div>}
+                                    </button>
+                                );
+                            })}
                         </div>
+                        <p className="text-xs text-slate-500 leading-relaxed">{ROLE_DESCRIPTIONS[editFormData.role]}</p>
+                        {editFormData.role === 'admin' && (
+                            <div className="flex items-start gap-2 p-2.5 rounded-lg bg-amber-950/40 border border-amber-900/50 text-amber-300 text-xs">
+                                <AlertTriangle className="w-4 h-4 flex-shrink-0 mt-0.5" />
+                                <span>Admin tem acesso total à plataforma. Use apenas para usuários autorizados.</span>
+                            </div>
+                        )}
                     </div>
 
                     <div className="space-y-2">
