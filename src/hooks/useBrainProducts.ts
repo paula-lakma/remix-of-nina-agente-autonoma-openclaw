@@ -138,6 +138,7 @@ export const EMPTY_PRODUCT_DRAFT: BrainProductInput = {
   details_md: '',
   site_url: '',
   mercadolivre_url: '',
+  aliases: [],
   category: [],
   skin_types: [],
   main_goals: [],
