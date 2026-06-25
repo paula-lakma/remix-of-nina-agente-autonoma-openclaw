@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Plus, Loader2, Package } from 'lucide-react';
+import React, { useMemo, useState } from 'react';
+import { Plus, Loader2, Package, Search, X } from 'lucide-react';
 import { Button } from '../../Button';
 import { toast } from 'sonner';
 import { useBrainProducts, EMPTY_PRODUCT_DRAFT, type BrainProductInput } from '@/hooks/useBrainProducts';
@@ -11,6 +11,23 @@ const ProductsManager: React.FC = () => {
   const [adding, setAdding] = useState(false);
   const [busy, setBusy] = useState(false);
   const [draft, setDraft] = useState<BrainProductInput>(EMPTY_PRODUCT_DRAFT);
+  const [query, setQuery] = useState('');
+
+  const normalize = (v: string) =>
+    v.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+
+  const filtered = useMemo(() => {
+    const q = normalize(query.trim());
+    if (!q) return products.map((p, i) => ({ p, index: i + 1 }));
+    return products
+      .map((p, i) => ({ p, index: i + 1 }))
+      .filter(({ p }) =>
+        [p.name, p.summary, ...(p.category ?? []), ...(p.main_goals ?? []), ...(p.related_protocols ?? [])]
+          .filter(Boolean)
+          .some((field) => normalize(String(field)).includes(q))
+      );
+  }, [products, query]);
+
 
   const handleCreate = async () => {
     const err = validateProductDraft(draft);
@@ -46,6 +63,28 @@ const ProductsManager: React.FC = () => {
         completo (passo a passo) deve ficar na aba <em>Conhecimento</em>.
       </div>
 
+      {products.length > 0 && (
+        <div className="relative">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
+          <input
+            type="text"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Buscar produto por nome, categoria, objetivo ou protocolo..."
+            className="w-full pl-9 pr-9 py-2 rounded-lg border border-slate-800 bg-slate-950/60 text-sm text-slate-200 placeholder:text-slate-500 focus:outline-none focus:ring-1 focus:ring-cyan-500/50 focus:border-cyan-500/50"
+          />
+          {query && (
+            <button
+              onClick={() => setQuery('')}
+              className="absolute right-2 top-1/2 -translate-y-1/2 p-1 rounded text-slate-500 hover:text-slate-200 hover:bg-slate-800"
+              aria-label="Limpar busca"
+            >
+              <X className="w-3.5 h-3.5" />
+            </button>
+          )}
+        </div>
+      )}
+
       {products.length === 0 && !adding && (
         <div className="rounded-lg border border-dashed border-slate-700 bg-slate-950/40 p-6 text-center">
           <Package className="w-6 h-6 mx-auto text-slate-600 mb-2" />
@@ -53,9 +92,16 @@ const ProductsManager: React.FC = () => {
         </div>
       )}
 
-      {products.map((p, idx) => (
-        <ProductItem key={p.id} product={p} index={idx + 1} onSave={update} onDelete={remove} />
+      {products.length > 0 && filtered.length === 0 && (
+        <div className="rounded-lg border border-dashed border-slate-700 bg-slate-950/40 p-6 text-center">
+          <p className="text-sm text-slate-400">Nenhum produto encontrado para "{query}".</p>
+        </div>
+      )}
+
+      {filtered.map(({ p, index }) => (
+        <ProductItem key={p.id} product={p} index={index} onSave={update} onDelete={remove} />
       ))}
+
 
       {adding ? (
         <div className="rounded-lg border border-cyan-500/30 bg-slate-950/40 p-4 space-y-4">
