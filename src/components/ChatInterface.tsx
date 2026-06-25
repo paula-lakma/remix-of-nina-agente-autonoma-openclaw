@@ -492,8 +492,19 @@ const ChatInterface: React.FC = () => {
                      chat.lastMessage || 'Sem mensagens'}
                   </p>
                   
-                  <div className="flex items-center mt-2 gap-1.5">
+                  <div className="flex items-center mt-2 gap-1.5 flex-wrap">
                     {renderStatusBadge(chat.status)}
+                    {chat.requiresDermoconsultant && chat.humanTakeoverRequired && (
+                      <span className="px-2 py-0.5 rounded-md text-[10px] font-semibold border bg-rose-500/20 text-rose-300 border-rose-500/40 flex items-center gap-1">
+                        <Stethoscope className="w-3 h-3" />
+                        Dermo
+                      </span>
+                    )}
+                    {chat.aiPaused && !chat.requiresDermoconsultant && (
+                      <span className="px-2 py-0.5 rounded-md text-[10px] font-medium border bg-amber-500/15 text-amber-300 border-amber-500/30">
+                        Nina pausada
+                      </span>
+                    )}
                     {chat.tags.slice(0, 1).map(tag => (
                       <span key={tag} className="px-2 py-0.5 bg-slate-800/80 border border-slate-700 text-slate-400 text-[10px] rounded-md font-medium">
                         {tag}
