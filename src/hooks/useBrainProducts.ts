@@ -38,7 +38,7 @@ interface UseBrainProductsResult {
 }
 
 const PRODUCT_COLUMNS =
-  'id, name, summary, details_md, site_url, mercadolivre_url, category, skin_types, main_goals, usage_short, in_protocols, related_protocols, protocol_role, combines_with, avoid_combinations, common_objections_md, internal_notes_md, position, is_active';
+  'id, name, summary, details_md, site_url, mercadolivre_url, aliases, category, skin_types, main_goals, usage_short, in_protocols, related_protocols, protocol_role, combines_with, avoid_combinations, common_objections_md, internal_notes_md, position, is_active';
 
 /** CRUD de brain_products (RLS owner-scoped; owner_user_id default = auth.uid()). */
 export function useBrainProducts(): UseBrainProductsResult {
