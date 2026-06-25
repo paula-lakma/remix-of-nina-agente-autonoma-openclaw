@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Plus, Loader2, BookOpen } from 'lucide-react';
+import React, { useMemo, useState } from 'react';
+import { Plus, Loader2, BookOpen, Search, X } from 'lucide-react';
 import { Button } from '../../Button';
 import { toast } from 'sonner';
 import { useBrainKnowledge, slugify, EMPTY_KNOWLEDGE_DRAFT, type BrainKnowledgeInput } from '@/hooks/useBrainKnowledge';
@@ -12,6 +12,20 @@ const KnowledgeManager: React.FC = () => {
   const [busy, setBusy] = useState(false);
   const [slugTouched, setSlugTouched] = useState(false);
   const [draft, setDraft] = useState<BrainKnowledgeInput>(EMPTY_KNOWLEDGE_DRAFT);
+  const [query, setQuery] = useState('');
+
+  const normalize = (v: string) =>
+    v.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+
+  const filtered = useMemo(() => {
+    const q = normalize(query.trim());
+    if (!q) return entries;
+    return entries.filter((e) =>
+      [e.title, e.slug, e.content_md, e.category, e.knowledge_type, ...(e.tags ?? []), ...(e.related_products ?? [])]
+        .filter(Boolean)
+        .some((f) => normalize(String(f)).includes(q))
+    );
+  }, [entries, query]);
 
   const reset = () => {
     setDraft(EMPTY_KNOWLEDGE_DRAFT);
