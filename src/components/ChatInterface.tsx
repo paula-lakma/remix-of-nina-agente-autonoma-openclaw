@@ -457,9 +457,11 @@ const ChatInterface: React.FC = () => {
                 key={chat.id}
                 onClick={() => setSelectedChatId(chat.id)}
                 className={`flex items-center p-4 cursor-pointer transition-all duration-200 border-b border-slate-800/30 hover:bg-slate-800/50 ${
-                  selectedChatId === chat.id 
-                    ? 'bg-slate-800/80 border-l-2 border-l-cyan-500' 
-                    : 'border-l-2 border-l-transparent'
+                  chat.requiresDermoconsultant && chat.humanTakeoverRequired
+                    ? 'bg-rose-500/5 border-l-4 border-l-rose-500'
+                    : selectedChatId === chat.id 
+                      ? 'bg-slate-800/80 border-l-2 border-l-cyan-500' 
+                      : 'border-l-2 border-l-transparent'
                 }`}
               >
                 <div className="relative">
