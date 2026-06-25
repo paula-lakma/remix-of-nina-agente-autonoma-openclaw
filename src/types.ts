@@ -250,6 +250,7 @@ export interface DBConversation {
   ai_paused?: boolean;
   requires_dermoconsultant?: boolean;
   human_takeover_required?: boolean;
+  outside_dermoconsultant_hours?: boolean;
   handoff_type?: string | null;
   handoff_reason?: string | null;
   handoff_created_at?: string | null;
