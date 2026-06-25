@@ -91,7 +91,12 @@ const Team: React.FC = () => {
 
   const handleInvite = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
+    if (formData.role === 'admin' && !isMasterEmail(formData.email)) {
+      toast.error(`Apenas ${MASTER_ADMIN_EMAIL} pode ser Admin/Master. Selecione Atendente ou Gerente.`);
+      return;
+    }
+
     try {
       await api.createTeamMember({
         name: formData.name,
