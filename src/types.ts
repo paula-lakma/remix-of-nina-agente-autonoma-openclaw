@@ -247,6 +247,16 @@ export interface DBConversation {
   last_message_at: string;
   created_at: string;
   updated_at: string;
+  ai_paused?: boolean;
+  requires_dermoconsultant?: boolean;
+  human_takeover_required?: boolean;
+  handoff_type?: string | null;
+  handoff_reason?: string | null;
+  handoff_created_at?: string | null;
+  human_status?: string | null;
+  assigned_at?: string | null;
+  nina_reactivated_by?: string | null;
+  nina_reactivated_at?: string | null;
   // Joined data
   contact?: DBContact;
   messages?: DBMessage[];
