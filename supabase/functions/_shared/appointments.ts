@@ -22,9 +22,29 @@ export async function createAppointmentFromAI(
     duration?: number;
     type?: 'demo' | 'meeting' | 'support' | 'followup';
     description?: string;
+    // NINA — fluxos aprovados de agendamento (distribuição / influenciadora).
+    interest_type?: 'distribuicao' | 'influenciadora' | string;
+    responsible?: 'Paula Rodrigues' | 'Ana Carla' | string;
+    contact_name?: string;
+    contact_phone?: string;
+    attendees?: string[];
+    notes?: string;
   }
 ): Promise<any> {
   console.log('[Nina] Creating appointment from AI:', args, 'for user:', userId);
+
+  // Guardrail: a Nina só pode agendar automaticamente dois fluxos aprovados.
+  // Outros casos devem ser encaminhados para humano, não agendados pela Nina.
+  if (args.interest_type || args.responsible) {
+    const interest = (args.interest_type || '').toLowerCase();
+    const resp = (args.responsible || '').toLowerCase();
+    const distribuicaoOk = interest === 'distribuicao' && resp.includes('paula');
+    const influencerOk = interest === 'influenciadora' && resp.includes('ana carla');
+    if (!distribuicaoOk && !influencerOk) {
+      console.warn('[Nina] Agendamento bloqueado: interest_type/responsible fora do permitido', { interest, resp });
+      return { error: 'unauthorized_appointment_flow' };
+    }
+  }
 
   // Validate date is not in the past
   const appointmentDate = new Date(`${args.date}T${args.time}:00`);
