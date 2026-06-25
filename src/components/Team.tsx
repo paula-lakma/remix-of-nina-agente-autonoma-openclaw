@@ -450,21 +450,41 @@ const Team: React.FC = () => {
                     <div className="space-y-2">
                         <label className="text-sm font-medium text-slate-300">Nível de Acesso</label>
                         <div className="grid grid-cols-3 gap-2">
-                            {['agent', 'manager', 'admin'].map((role) => (
-                                <div 
-                                    key={role}
-                                    onClick={() => setFormData({...formData, role})}
-                                    className={`cursor-pointer rounded-lg border p-2 text-center transition-all ${
-                                        formData.role === role 
-                                        ? 'bg-slate-800 border-slate-500 text-white' 
-                                        : 'bg-slate-950 border-slate-800 text-slate-500 hover:border-slate-700'
-                                    }`}
-                                >
-                                    <div className="text-xs font-bold uppercase mb-1">{role === 'agent' ? 'Atendente' : role === 'manager' ? 'Gerente' : 'Admin'}</div>
-                                    {formData.role === role && <div className="flex justify-center"><Check className="w-3 h-3" /></div>}
-                                </div>
-                            ))}
+                            {(['agent', 'manager', 'admin'] as const).map((role) => {
+                                const adminBlocked = role === 'admin' && !isMasterEmail(formData.email);
+                                const selected = formData.role === role;
+                                return (
+                                    <button
+                                        type="button"
+                                        key={role}
+                                        disabled={adminBlocked}
+                                        onClick={() => !adminBlocked && setFormData({ ...formData, role })}
+                                        title={adminBlocked ? `Admin só é permitido para ${MASTER_ADMIN_EMAIL}` : ROLE_DESCRIPTIONS[role]}
+                                        className={`relative cursor-pointer rounded-lg border p-2 text-center transition-all ${
+                                            selected
+                                                ? 'bg-slate-800 border-slate-500 text-white'
+                                                : 'bg-slate-950 border-slate-800 text-slate-500 hover:border-slate-700'
+                                        } ${adminBlocked ? 'opacity-40 cursor-not-allowed' : ''}`}
+                                    >
+                                        <div className="text-xs font-bold uppercase mb-1">{ROLE_LABEL[role]}</div>
+                                        {selected && <div className="flex justify-center"><Check className="w-3 h-3" /></div>}
+                                        {role === 'agent' && (
+                                            <div className="absolute -top-2 -right-2 text-[9px] px-1.5 py-0.5 rounded-full bg-emerald-600 text-white font-bold uppercase tracking-wider">SDR</div>
+                                        )}
+                                    </button>
+                                );
+                            })}
                         </div>
+                        <p className="text-xs text-slate-500 leading-relaxed">{ROLE_DESCRIPTIONS[formData.role]}</p>
+                        {formData.role === 'admin' && (
+                            <div className="flex items-start gap-2 p-2.5 rounded-lg bg-amber-950/40 border border-amber-900/50 text-amber-300 text-xs">
+                                <AlertTriangle className="w-4 h-4 flex-shrink-0 mt-0.5" />
+                                <span>Admin tem acesso total ao Cérebro, Configurações, Equipe, Produtos, Conhecimento, Habilidades e System Prompt. Use apenas para usuários autorizados.</span>
+                            </div>
+                        )}
+                        {formData.role !== 'admin' && formData.email && !isMasterEmail(formData.email) && (
+                            <p className="text-[11px] text-slate-600 flex items-center gap-1"><ShieldCheck className="w-3 h-3" /> Admin/Master é exclusivo de {MASTER_ADMIN_EMAIL}.</p>
+                        )}
                     </div>
 
                     <div className="space-y-2">
