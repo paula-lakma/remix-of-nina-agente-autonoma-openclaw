@@ -35,6 +35,9 @@ const ChatInterface: React.FC = () => {
   const [audioDurations, setAudioDurations] = useState<Record<string, number>>({});
   const [audioProgress, setAudioProgress] = useState<Record<string, number>>({});
   const audioRefs = useRef<Record<string, HTMLAudioElement>>({});
+
+  // Image lightbox state
+  const [lightboxUrl, setLightboxUrl] = useState<string | null>(null);
   
   const activeChat = conversations.find(c => c.id === selectedChatId);
   const messagesEndRef = useRef<HTMLDivElement>(null);
