@@ -12,7 +12,9 @@ import { useCompanySettings } from '@/hooks/useCompanySettings';
 import { api } from '@/services/api';
 import { TagSelector } from './TagSelector';
 import { Popover, PopoverContent, PopoverTrigger } from './ui/popover';
-import { FileText } from 'lucide-react';
+import { Dialog, DialogContent, DialogTitle } from './ui/dialog';
+import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
+import { FileText, Download, ExternalLink } from 'lucide-react';
 import { MessageActions } from './MessageActions';
 
 const ChatInterface: React.FC = () => {
@@ -33,6 +35,9 @@ const ChatInterface: React.FC = () => {
   const [audioDurations, setAudioDurations] = useState<Record<string, number>>({});
   const [audioProgress, setAudioProgress] = useState<Record<string, number>>({});
   const audioRefs = useRef<Record<string, HTMLAudioElement>>({});
+
+  // Image lightbox state
+  const [lightboxUrl, setLightboxUrl] = useState<string | null>(null);
   
   const activeChat = conversations.find(c => c.id === selectedChatId);
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -189,23 +194,29 @@ const ChatInterface: React.FC = () => {
 
   const renderMessageContent = (msg: UIMessage) => {
     if (msg.type === MessageType.IMAGE) {
+      const src = msg.mediaUrl || msg.content;
       return (
         <div className="mb-1 group relative">
-          <a href={msg.mediaUrl || msg.content} target="_blank" rel="noreferrer">
-            <img 
-              src={msg.mediaUrl || msg.content} 
-              alt="Anexo" 
+          <button
+            type="button"
+            onClick={() => setLightboxUrl(src)}
+            className="block w-full text-left"
+          >
+            <img
+              src={src}
+              alt="Anexo"
               className="rounded-lg max-w-full h-auto max-h-72 object-cover border border-slate-700/50 shadow-lg cursor-zoom-in"
               loading="lazy"
               onError={(e) => {
                 (e.target as HTMLImageElement).src = 'https://placehold.co/300x200/1e293b/cbd5e1?text=Erro+Imagem';
               }}
             />
-          </a>
+          </button>
           {msg.content && <p className="text-xs mt-2 opacity-90 whitespace-pre-wrap">{msg.content}</p>}
         </div>
       );
     }
+
 
     if (msg.type === MessageType.DOCUMENT) {
       const name = (msg.mediaUrl || '').split('/').pop()?.split('?')[0] || 'documento';
@@ -821,6 +832,40 @@ const ChatInterface: React.FC = () => {
           </div>
         </div>
       )}
+
+      <Dialog open={!!lightboxUrl} onOpenChange={(open) => !open && setLightboxUrl(null)}>
+        <DialogContent className="max-w-5xl bg-slate-950/95 border-slate-800 p-2 sm:p-4">
+          <VisuallyHidden>
+            <DialogTitle>Visualizar imagem</DialogTitle>
+          </VisuallyHidden>
+          {lightboxUrl && (
+            <div className="flex flex-col items-center gap-3">
+              <img
+                src={lightboxUrl}
+                alt="Imagem ampliada"
+                className="max-h-[80vh] w-auto rounded-md object-contain"
+              />
+              <div className="flex gap-2">
+                <a
+                  href={lightboxUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-1 text-xs text-slate-300 hover:text-white"
+                >
+                  <ExternalLink className="w-3.5 h-3.5" /> Abrir em nova aba
+                </a>
+                <a
+                  href={lightboxUrl}
+                  download
+                  className="inline-flex items-center gap-1 text-xs text-slate-300 hover:text-white"
+                >
+                  <Download className="w-3.5 h-3.5" /> Baixar
+                </a>
+              </div>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

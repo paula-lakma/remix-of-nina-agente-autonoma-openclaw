@@ -1,67 +1,62 @@
 ## Diagnóstico
 
-A NINA já recebe `site_url` e `mercadolivre_url` no `produtos.md` (gerado pelo `brain-build`, linhas 109–110), mas:
+Hoje, quando o WhatsApp envia uma imagem:
+1. `whatsapp-webhook` grava a mensagem com `content = "[imagem recebida]"` e só guarda o `media_id` em `metadata` (`messages.media_url` fica `null`).
+2. `message-grouper` baixa só áudio (transcreve com Whisper). Imagem/documento/vídeo nunca são baixados nem descritos.
+3. Quando a `nina-orchestrator` monta o prompt, ela recebe literalmente `"[imagem recebida]"` — sem conteúdo visual, sem URL. Por isso a Nina "não identifica" a foto.
+4. No frontend, `ChatInterface` tenta exibir `<img src={mediaUrl || content}>`, mas `mediaUrl` é `null` e `content` é o placeholder, então a imagem nunca aparece. Mesmo que tivéssemos a URL bruta do Graph API, ela expira em ~5 min e exige `Bearer` token.
 
-1. O rendering atual lista apenas "Site: …" e "Mercado Livre: …" entre outros bullets, sem marcar explicitamente que é o **link aprovado** do produto — fácil de a IA ignorar.
-2. O conhecimento **`regras-de-venda-links-precos-crm-e-contato`** instrui a NINA a responder *"Esse link não está disponível no material aprovado…"* sempre que ela não enxerga um link "no material aprovado", **sem dizer onde está esse material** (o `produtos.md`). É essa instrução que está bloqueando o envio.
-3. Não há instrução explícita sobre cupom `LAKMA35` ao mandar link do site, nem sobre mover o deal para "Link do site enviado".
+Conclusão: precisamos (a) persistir o anexo num bucket nosso, (b) usar GPT para descrever a imagem e injetar essa descrição no que vai pra Nina, (c) trocar o `<a>` por um modal real.
 
-A correção é só de **conteúdo** (markdown + knowledge entry) + um pequeno ajuste no renderer. Nada de schema novo — os campos já existem (`brain_products.site_url`, `mercadolivre_url`).
+## O que será feito
 
-## Mudanças
+### 1. Storage — novo bucket privado `whatsapp-media`
+- Criar bucket privado `whatsapp-media` (mantém `audio-messages` como está).
+- RLS em `storage.objects`:
+  - `service_role`: leitura/escrita (uso das edge functions).
+  - `authenticated`: `SELECT` no bucket (chat UI baixa via signed URL gerada pelo backend; mas signed URL já funciona sem policy — a policy de SELECT garante que o player do navegador logado consiga abrir). Sem policy para `anon`.
+- Estrutura de chave: `{conversation_id}/in/{message_id}.{ext}` para recebidos e `{conversation_id}/out/{ts}.{ext}` para enviados.
 
-### 1. `supabase/functions/brain-build/index.ts` — `renderProducts`
+### 2. Edge function `message-grouper` — baixar e analisar imagem/documento/vídeo
+Estender `combineAndTranscribeMessages` (e criar helpers em `_shared`) para tratar `image`, `document` e `video`:
 
-Reescrever a seção de links para destacá-los como **dado estruturado e aprovado**, incluindo bloco JSON-like que a IA reconheça facilmente, e injetar cupom/canal:
+- `downloadWhatsAppMedia` já existe; reutilizar.
+- Novo helper `uploadMediaToStorage(supabase, buffer, conversationId, messageId, mimeType)` que joga em `whatsapp-media/{conversation_id}/in/{message_id}.{ext}` e retorna **signed URL de 7 dias** (renovável). Salvar essa URL em `messages.media_url` e o MIME em `messages.media_type`.
+- Para `image`: chamar Lovable AI Gateway com `openai/gpt-5-mini` (modelo de visão da GPT, conforme catálogo), enviando a imagem como `data:<mime>;base64,...` em bloco `image_url`. Prompt curto em PT pedindo descrição em até 3 linhas + leitura de texto visível (OCR leve). Atualizar `messages.content` para `"[imagem] " + descrição` (preservando legenda do usuário, se houver).
+- Para `document` (PDF): mesma rota, mas com bloco `file` (PDF base64). Gravar descrição em `content`.
+- Para `video`: por enquanto só persistir o arquivo + manter legenda; sem análise visual (modelo de vídeo fora do escopo).
+- O `combineAndTranscribeMessages` então passa a juntar o `content` já enriquecido — Nina recebe a descrição da imagem como texto e responde corretamente. (Não precisa mexer no `nina-orchestrator`.)
 
-```
-### Links aprovados deste produto
+Falhas de download/IA não bloqueiam: caem para `"[imagem recebida]"` e a mensagem segue.
 
-- **Site oficial (aprovado):** https://… ← cupom LAKMA35 = 35% de desconto
-- **Mercado Livre (aprovado):** https://…
+### 3. Frontend — modal de imagem
+- Substituir o `<a target="_blank">` em `ChatInterface.renderMessageContent` (case `IMAGE`) por um `Dialog` do shadcn:
+  - Thumbnail clicável (mantém o estilo atual).
+  - Modal abre imagem em tamanho real (`max-h-[85vh] object-contain`), com botão "Abrir original" e fechar.
+  - Mostrar legenda/descrição abaixo (já vem em `msg.content`).
+- Suporte a `DOCUMENT`: manter card atual (download direto faz mais sentido para PDF).
 
-```json
-{
-  "produto": "<nome>",
-  "link_site": "<site_url ou null>",
-  "link_mercadolivre": "<mercadolivre_url ou null>",
-  "cupom_site": "LAKMA35",
-  "desconto_site": "35%"
-}
-```
-```
+### 4. URL assinada — renovação no backend
+Como signed URL expira, criar pequena função utilitária `media-signed-url` (ou usar a própria orchestrator/grouper já gera no momento da gravação): basta gerar com 7 dias e regravar caso a UI peça refresh. Para o escopo atual, 7 dias é suficiente; renovação automática fica como follow-up.
 
-Se ambos vierem vazios, renderizar `_(Nenhum link cadastrado — só nesse caso a Nina deve responder que o link não está aprovado.)_` para deixar inequívoco para a IA.
+## Detalhes técnicos
 
-### 2. Atualizar o conhecimento `regras-de-venda-links-precos-crm-e-contato`
+- **Bucket via tool** `supabase--storage_create_bucket` (`name=whatsapp-media`, `public=false`). Policies em migration depois.
+- **Modelo de visão**: `openai/gpt-5-mini` no endpoint `/v1/chat/completions` do Lovable Gateway (multimodal `image_url` data URL). Já temos `LOVABLE_API_KEY`.
+- **Tamanho**: WhatsApp limita imagem em ~5 MB; ok para base64 inline.
+- **Tipos atualizados**: `media_type` passa a aceitar string MIME real (ex.: `image/jpeg`). Hoje a coluna é texto livre, sem migração.
+- **Sem mudança de schema** — `messages.media_url`/`media_type`/`content` já existem.
 
-Via `INSERT/UPDATE` no `brain_knowledge` (usando o insert tool), substituir as seções "Links que a Nina pode enviar" e "Preços e cupons" por regras explícitas:
+## Arquivos afetados
 
-- O **material aprovado de links** é `knowledge/produtos.md`, na seção "Links aprovados deste produto".
-- Quando o lead pedir link de um produto: localizar o produto em `produtos.md`, ler `link_site` / `link_mercadolivre`, e **enviar o link cadastrado**.
-- Se `link_site` estiver presente: enviar o link **e** informar o cupom `LAKMA35` (35% off no site).
-- Resposta-modelo: *"Esse é o link oficial do produto: [LINK]. Você pode usar o cupom LAKMA35 para 35% de desconto no site."*
-- A resposta *"Esse link não está disponível no material aprovado…"* **só** pode ser usada quando `link_site` e `link_mercadolivre` estiverem ambos vazios para o produto.
-- Adicionar lista de gatilhos (link, me manda o link, onde compro, quero comprar, tem no site, manda o link do produto, etc).
-- Após enviar link do site, deixar registrado que o pipeline deve mover para "Link do site enviado" (a movimentação automática é feita pelo `analyze-conversation` lendo os critérios do stage — esse estágio já existe e já tem `ai_trigger_criteria` desde a iteração de pipeline).
+- `supabase/functions/message-grouper/index.ts` — novo fluxo image/document; reuso do download.
+- `supabase/functions/_shared/media.ts` *(novo)* — `uploadMediaToStorage`, `describeImageWithGpt`, `extractDocumentText`.
+- Migration nova — policies RLS em `storage.objects` para bucket `whatsapp-media`.
+- `src/components/ChatInterface.tsx` — modal de imagem (Dialog shadcn).
+- (Opcional) `supabase/functions/whatsapp-webhook/index.ts` — manter como está; o enriquecimento acontece no grouper.
 
-### 3. Reforço de critério no stage "Link do site enviado"
+## Fora do escopo (follow-up)
 
-Garantir via `UPDATE pipeline_stages` que `ai_trigger_criteria` inclua "Nina enviou link de produto (site oficial ou Mercado Livre) durante a conversa" — para que o `analyze-conversation` mova o deal automaticamente.
-
-### 4. Próximo passo do usuário
-
-Depois das mudanças, clicar **Sincronizar / Brain Build** em `/cerebro` para o `produtos.md` e o knowledge atualizados subirem para o branch `nina-brain` e o cron `brain_sync.sh` puxar na VPS (até 2 min).
-
-## Critérios de aceite
-
-- `produtos.md` mostra cada produto com bloco "Links aprovados deste produto" e JSON inline com `link_site`/`link_mercadolivre`/`cupom_site`.
-- Conhecimento de links instrui a NINA a consultar `produtos.md` antes de usar o fallback.
-- Quando o produto tem `site_url`, a NINA envia o link + cupom LAKMA35.
-- Fallback "link indisponível" só dispara quando ambos os campos estão vazios.
-- Pipeline `Link do site enviado` move automaticamente quando link é enviado.
-
-## Fora de escopo
-
-- Não mexer no schema de `brain_products` (campos já existem).
-- Não mexer em `nina-orchestrator` nem nos scripts da skill — o fluxo já entrega `produtos.md` corretamente; o problema é puramente de conteúdo/instrução.
+- Persistir também os anexos **enviados** pela Nina (TTS já vai pra `audio-messages`; imagens/docs enviados ainda não existem como feature).
+- Renovação automática de signed URL expirada.
+- Análise de vídeo.
