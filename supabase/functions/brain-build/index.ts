@@ -87,12 +87,20 @@ const arr = (x: unknown): string[] => (Array.isArray(x) ? x.map((s) => v(s)).fil
 const list = (label: string, items: string[]) =>
   items.length ? `- **${label}:** ${items.join(", ")}\n` : "";
 const line = (label: string, val: string) => (val ? `- **${label}:** ${val}\n` : "");
+const LAKMA_SITE_FALLBACK = "https://www.lakma.com.br";
 
 function renderProducts(products: any[]): string {
   let md = `# Catálogo de produtos/soluções\n\n`;
   md += `> Cada produto traz: identificação, categoria, indicações, participação em protocolos\n`;
   md += `> e orientações para a Nina. O passo a passo completo dos protocolos está em outros\n`;
   md += `> arquivos desta pasta \`knowledge/\`.\n\n`;
+  md += `## Regra obrigatória para envio de links\n\n`;
+  md += `- O campo do banco/cadastro que representa o link individual do produto é \`site_url\` (campo visual: "Link do site").\n`;
+  md += `- No contexto da Nina, esse campo deve ser tratado como \`link_individual_produto\`.\n`;
+  md += `- Quando o lead pedir link de um produto específico, a Nina deve localizar o produto nesta base e enviar \`link_individual_produto\` se ele estiver preenchido.\n`;
+  md += `- A Nina NÃO deve enviar apenas o site geral \`${LAKMA_SITE_FALLBACK}\` quando existir \`link_individual_produto\` para o produto citado.\n`;
+  md += `- O site geral \`${LAKMA_SITE_FALLBACK}\` é fallback somente quando o produto não foi especificado, quando o lead pediu o site da Lakma em geral, ou quando o produto específico não tiver link individual cadastrado.\n`;
+  md += `- A Nina nunca inventa links; usa somente os links aprovados deste arquivo ou o fallback geral aprovado.\n\n`;
   if (!products.length) {
     md += `_(Nenhum produto cadastrado.)_\n`;
     return md;
@@ -112,19 +120,41 @@ function renderProducts(products: any[]): string {
     const siteUrl = v(p.site_url);
     const mlUrl = v(p.mercadolivre_url);
     md += `### Links aprovados deste produto\n\n`;
+    md += `- **Campo real no cadastro:** \`site_url\`\n`;
+    md += `- **Nome obrigatório para a Nina:** \`link_individual_produto\`\n`;
     if (siteUrl || mlUrl) {
-      if (siteUrl) md += `- **Site oficial (link aprovado):** ${siteUrl} ← cupom **LAKMA35** = 35% de desconto no site\n`;
+      if (siteUrl) md += `- **Link individual do produto no site oficial:** ${siteUrl} ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site\n`;
       if (mlUrl) md += `- **Mercado Livre (link aprovado):** ${mlUrl}\n`;
       md += `\n\`\`\`json\n${JSON.stringify({
         produto: v(p.name),
+        link_individual_produto: siteUrl || null,
+        campo_origem_link_individual_produto: "site_url",
         link_site: siteUrl || null,
         link_mercadolivre: mlUrl || null,
+        site_geral_fallback: LAKMA_SITE_FALLBACK,
         cupom_site: siteUrl ? "LAKMA35" : null,
         desconto_site: siteUrl ? "35%" : null,
+        status_link_individual_produto: siteUrl ? "aprovado" : "indisponivel",
         status_link: (siteUrl || mlUrl) ? "aprovado" : "indisponivel",
+        regra_prioridade_link: siteUrl
+          ? "Produto específico citado: enviar link_individual_produto; não enviar apenas o site geral."
+          : "Produto específico citado sem link_individual_produto: pode usar site_geral_fallback ou encaminhar humano se não houver fallback aprovado.",
       }, null, 2)}\n\`\`\`\n\n`;
     } else {
-      md += `_(Nenhum link cadastrado para este produto. SOMENTE neste caso a Nina deve responder que o link não está no material aprovado.)_\n\n`;
+      md += `_(Nenhum link individual cadastrado para este produto. SOMENTE neste caso, se o lead pediu este produto específico, a Nina pode usar o site geral ${LAKMA_SITE_FALLBACK} como fallback aprovado e avisar que não encontrou o link individual no cadastro.)_\n\n`;
+      md += `\`\`\`json\n${JSON.stringify({
+        produto: v(p.name),
+        link_individual_produto: null,
+        campo_origem_link_individual_produto: "site_url",
+        link_site: null,
+        link_mercadolivre: null,
+        site_geral_fallback: LAKMA_SITE_FALLBACK,
+        cupom_site: "LAKMA35",
+        desconto_site: "35%",
+        status_link_individual_produto: "indisponivel",
+        status_link: "indisponivel",
+        regra_prioridade_link: "Produto específico citado sem link_individual_produto: usar site_geral_fallback somente como fallback claro ou encaminhar humano se o fallback não estiver disponível.",
+      }, null, 2)}\n\`\`\`\n\n`;
     }
 
     // Protocolos
