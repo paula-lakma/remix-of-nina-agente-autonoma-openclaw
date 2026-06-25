@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Plus, Loader2, Package } from 'lucide-react';
+import React, { useMemo, useState } from 'react';
+import { Plus, Loader2, Package, Search, X } from 'lucide-react';
 import { Button } from '../../Button';
 import { toast } from 'sonner';
 import { useBrainProducts, EMPTY_PRODUCT_DRAFT, type BrainProductInput } from '@/hooks/useBrainProducts';
@@ -11,6 +11,23 @@ const ProductsManager: React.FC = () => {
   const [adding, setAdding] = useState(false);
   const [busy, setBusy] = useState(false);
   const [draft, setDraft] = useState<BrainProductInput>(EMPTY_PRODUCT_DRAFT);
+  const [query, setQuery] = useState('');
+
+  const normalize = (v: string) =>
+    v.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+
+  const filtered = useMemo(() => {
+    const q = normalize(query.trim());
+    if (!q) return products.map((p, i) => ({ p, index: i + 1 }));
+    return products
+      .map((p, i) => ({ p, index: i + 1 }))
+      .filter(({ p }) =>
+        [p.name, p.summary, ...(p.category ?? []), ...(p.main_goals ?? []), ...(p.related_protocols ?? [])]
+          .filter(Boolean)
+          .some((field) => normalize(String(field)).includes(q))
+      );
+  }, [products, query]);
+
 
   const handleCreate = async () => {
     const err = validateProductDraft(draft);
