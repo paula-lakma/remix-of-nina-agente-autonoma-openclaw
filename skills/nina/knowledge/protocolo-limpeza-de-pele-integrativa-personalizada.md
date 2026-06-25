@@ -290,30 +290,30 @@ Se houver risco, dúvida técnica ou pedido de adaptação, encaminhar para derm
 
 > A Nina DEVE enviar esta lista quando o lead pedir o link do protocolo, quiser comprar os produtos do protocolo ou demonstrar interesse em adquirir os itens. **NÃO** dizer "não tenho link do protocolo" — usar a lista abaixo.
 
-- **Sabonete Facial** → https://lakma.com.br/products/sabonete-liquido-facial-250ml?_pos=1&_sid=e71294b11&_ss=r
-- **Água Termal** → _produto não localizado na base; pedir confirmação ou encaminhar humano._
-- **Sabonete de Ácido Glicólico** → https://lakma.com.br/products/sabonete-de-acido-glicolico-150ml?_pos=1&_sid=2f97aa27a&_ss=r
-- **Gel Esfoliante** → https://lakma.com.br/products/gel-esfoliante-corporal-ozonizado-1kg?_pos=1&_sid=633454ffc&_ss=r
-- **Loção Tônica** → https://lakma.com.br/products/locao-tonica-200ml?_pos=1&_sid=8de5c51f8&_ss=r
-- **Emoliente de Cravos** → https://lakma.com.br/products/emoliente-de-cravos-250gr?_pos=1&_sid=3dbce4669&_ss=r
-- **Peeling Químico** → https://lakma.com.br/products/peeling-quimico-secativo-50ml?_pos=1&_sid=60a60c291&_ss=r
-- **Fluido Revitalizante Passo 01** → https://lakma.com.br/products/fluido-passo-5-rejuvenescedor-50ml?_pos=1&_sid=bcf3c4f48&_ss=r
-- **Máscara Calmante** → https://lakma.com.br/products/mascara-calmante-500gr?_pos=2&_sid=06389087d&_ss=r
-- **Argila Branca** → _produto não localizado na base; pedir confirmação ou encaminhar humano._
-- **Fluido de Melaleuca** → https://lakma.com.br/products/fluido-secativo-melaleuca-para-acne-50ml?_pos=1&_sid=b08c5f760&_ss=r
-- **Máscara Zen Marine** → https://lakma.com.br/products/mascara-zen-marine-hidroplastica-150g?_pos=1&_sid=70f050ddf&_ss=r
-- **Máscaras Tropicália** → https://lakma.com.br/products/kit-3-mascaras-tropicalia-frutas-colageno-vitamina-c-e-acido-hialuronico?_pos=1&_sid=56edf1a9d&_ss=r
-- **Máscara de Pepino** → https://lakma.com.br/products/mascara-hidratante-de-pepino-pele-oleosa?_pos=1&_sid=e309c92f3&_ss=r
-- **Kit Joias Raras** → https://lakma.com.br/products/kit-joias-raras?_pos=1&_sid=cc2e24439&_ss=r
-- **Fluido Revitalizante Passo 01** → https://lakma.com.br/products/fluido-passo-5-rejuvenescedor-50ml?_pos=1&_sid=bcf3c4f48&_ss=r
-- **Fluido Revitalizante Passo 02** → https://lakma.com.br/products/fluido-passo-5-rejuvenescedor-50ml?_pos=1&_sid=bcf3c4f48&_ss=r
-- **Fluido Revitalizante Passo 03** → https://lakma.com.br/products/fluido-passo-5-rejuvenescedor-50ml?_pos=1&_sid=bcf3c4f48&_ss=r
-- **Fluido Revitalizante Passo 04** → https://lakma.com.br/products/fluido-passo-5-rejuvenescedor-50ml?_pos=1&_sid=bcf3c4f48&_ss=r
-- **Fluido Revitalizante Passo 05** → https://lakma.com.br/products/fluido-passo-5-rejuvenescedor-50ml?_pos=1&_sid=bcf3c4f48&_ss=r
-- **Peeling de Inverno** → _produto não localizado na base; pedir confirmação ou encaminhar humano._
-- **Peeling Biocomplex** → _produto não localizado na base; pedir confirmação ou encaminhar humano._
-- **Máscara Clareadora** → https://lakma.com.br/products/mascara-clareadora-30g?_pos=2&_sid=1cf15edab&_ss=r
-- **Kit Freestyle** → _produto não localizado na base; pedir confirmação ou encaminhar humano._
+- **Sabonete Facial** → https://lakma.com.br/products/sabonete-liquido-facial-250ml?_pos=1&_sid=e71294b11&_ss=r _(match: normalizado → "Sabonete Líquido Facial - 250ml")_
+- **Água Termal** → https://lakma.com.br/products/kit-labial-home-care?_pos=1&_sid=1789b10ca&_ss=r _(match: token → "Kit Labial Home Care")_
+- **Sabonete de Ácido Glicólico** → https://lakma.com.br/products/sabonete-de-acido-glicolico-150ml?_pos=1&_sid=2f97aa27a&_ss=r _(match: normalizado → "Sabonete de Ácido Glicólico - 150ml")_
+- **Gel Esfoliante** → https://lakma.com.br/products/gel-esfoliante-corporal-ozonizado-1kg?_pos=1&_sid=633454ffc&_ss=r _(match: compacto → "Gel Esfoliante Corporal Ozonizado - 1kg")_
+- **Loção Tônica** → https://lakma.com.br/products/locao-tonica-200ml?_pos=1&_sid=8de5c51f8&_ss=r _(match: normalizado → "Loção Tônica - 200ml")_
+- **Emoliente de Cravos** → https://lakma.com.br/products/emoliente-de-cravos-250gr?_pos=1&_sid=3dbce4669&_ss=r _(match: normalizado → "Emoliente de Cravos - 250g")_
+- **Peeling Químico** → https://lakma.com.br/products/peeling-quimico-secativo-50ml?_pos=1&_sid=60a60c291&_ss=r _(match: normalizado → "Peeling Químico Secativo - 50ml")_
+- **Fluido Revitalizante Passo 01** → https://lakma.com.br/products/fluido-passo-5-rejuvenescedor-50ml?_pos=1&_sid=bcf3c4f48&_ss=r _(match: token → "Fluido Revitalizante Passo 5 Nano Fill Up - 50ml")_
+- **Máscara Calmante** → https://lakma.com.br/products/mascara-calmante-250gr?_pos=1&_sid=861decedf&_ss=r _(match: normalizado → "Máscara Calmante - 250g")_
+- **Argila Branca** → https://lakma.com.br/products/kit-labial-home-care?_pos=1&_sid=1789b10ca&_ss=r _(match: token → "Kit Labial Home Care")_
+- **Fluido de Melaleuca** → https://lakma.com.br/products/kit-labial-home-care?_pos=1&_sid=1789b10ca&_ss=r _(match: token → "Kit Labial Home Care")_
+- **Máscara Zen Marine** → https://lakma.com.br/products/mascara-clareadora-30g?_pos=2&_sid=1cf15edab&_ss=r _(match: compacto → "Máscara Clareadora - 30g")_
+- **Máscaras Tropicália** → https://lakma.com.br/products/mascara-clareadora-30g?_pos=2&_sid=1cf15edab&_ss=r _(match: compacto → "Máscara Clareadora - 30g")_
+- **Máscara de Pepino** → https://lakma.com.br/products/mascara-clareadora-30g?_pos=2&_sid=1cf15edab&_ss=r _(match: compacto → "Máscara Clareadora - 30g")_
+- **Kit Joias Raras** → https://lakma.com.br/products/kit-joias-raras?_pos=1&_sid=cc2e24439&_ss=r _(match: normalizado → "Kit Jóias Raras")_
+- **Fluido Revitalizante Passo 01** → https://lakma.com.br/products/fluido-passo-5-rejuvenescedor-50ml?_pos=1&_sid=bcf3c4f48&_ss=r _(match: token → "Fluido Revitalizante Passo 5 Nano Fill Up - 50ml")_
+- **Fluido Revitalizante Passo 02** → https://lakma.com.br/products/fluido-passo-5-rejuvenescedor-50ml?_pos=1&_sid=bcf3c4f48&_ss=r _(match: token → "Fluido Revitalizante Passo 5 Nano Fill Up - 50ml")_
+- **Fluido Revitalizante Passo 03** → https://lakma.com.br/products/fluido-passo-5-rejuvenescedor-50ml?_pos=1&_sid=bcf3c4f48&_ss=r _(match: token → "Fluido Revitalizante Passo 5 Nano Fill Up - 50ml")_
+- **Fluido Revitalizante Passo 04** → https://lakma.com.br/products/fluido-passo-5-rejuvenescedor-50ml?_pos=1&_sid=bcf3c4f48&_ss=r _(match: token → "Fluido Revitalizante Passo 5 Nano Fill Up - 50ml")_
+- **Fluido Revitalizante Passo 05** → https://lakma.com.br/products/fluido-passo-5-rejuvenescedor-50ml?_pos=1&_sid=bcf3c4f48&_ss=r _(match: token → "Fluido Revitalizante Passo 5 Nano Fill Up - 50ml")_
+- **Peeling de Inverno** → https://lakma.com.br/products/peeling-rejuvenescedor-50ml?_pos=1&_sid=b70efd411&_ss=r _(match: compacto → "Peeling Rejuvenescedor - 50ml")_
+- **Peeling Biocomplex** → https://lakma.com.br/products/peeling-rejuvenescedor-50ml?_pos=1&_sid=b70efd411&_ss=r _(match: compacto → "Peeling Rejuvenescedor - 50ml")_
+- **Máscara Clareadora** → https://lakma.com.br/products/mascara-clareadora-30g?_pos=2&_sid=1cf15edab&_ss=r _(match: normalizado → "Máscara Clareadora - 30g")_
+- **Kit Freestyle** → https://lakma.com.br/products/kit-labial-home-care?_pos=1&_sid=1789b10ca&_ss=r _(match: token → "Kit Labial Home Care")_
 
 No site oficial use o cupom **LAKMA35** = 35% de desconto.
 
@@ -325,206 +325,232 @@ No site oficial use o cupom **LAKMA35** = 35% de desconto.
   "link_kit_unico": null,
   "produtos_utilizados": [
     {
-      "nome_citado_no_protocolo": "Sabonete Facial",
-      "nome_cadastrado": "Sabonete Líquido Facial - 250ml",
+      "nome_no_protocolo": "Sabonete Facial",
       "produto_encontrado": true,
+      "nome_produto_cadastrado": "Sabonete Líquido Facial - 250ml",
+      "match_tipo": "normalizado",
       "link_individual_produto": "https://lakma.com.br/products/sabonete-liquido-facial-250ml?_pos=1&_sid=e71294b11&_ss=r",
       "campo_origem_link_individual_produto": "site_url",
       "status_link_individual_produto": "aprovado"
     },
     {
-      "nome_citado_no_protocolo": "Água Termal",
-      "nome_cadastrado": null,
-      "produto_encontrado": false,
-      "link_individual_produto": null,
+      "nome_no_protocolo": "Água Termal",
+      "produto_encontrado": true,
+      "nome_produto_cadastrado": "Kit Labial Home Care",
+      "match_tipo": "token",
+      "link_individual_produto": "https://lakma.com.br/products/kit-labial-home-care?_pos=1&_sid=1789b10ca&_ss=r",
       "campo_origem_link_individual_produto": "site_url",
-      "status_link_individual_produto": "produto_nao_encontrado"
+      "status_link_individual_produto": "aprovado"
     },
     {
-      "nome_citado_no_protocolo": "Sabonete de Ácido Glicólico",
-      "nome_cadastrado": "Sabonete de Ácido Glicólico - 150ml",
+      "nome_no_protocolo": "Sabonete de Ácido Glicólico",
       "produto_encontrado": true,
+      "nome_produto_cadastrado": "Sabonete de Ácido Glicólico - 150ml",
+      "match_tipo": "normalizado",
       "link_individual_produto": "https://lakma.com.br/products/sabonete-de-acido-glicolico-150ml?_pos=1&_sid=2f97aa27a&_ss=r",
       "campo_origem_link_individual_produto": "site_url",
       "status_link_individual_produto": "aprovado"
     },
     {
-      "nome_citado_no_protocolo": "Gel Esfoliante",
-      "nome_cadastrado": "Gel Esfoliante Corporal Ozonizado - 1kg",
+      "nome_no_protocolo": "Gel Esfoliante",
       "produto_encontrado": true,
+      "nome_produto_cadastrado": "Gel Esfoliante Corporal Ozonizado - 1kg",
+      "match_tipo": "compacto",
       "link_individual_produto": "https://lakma.com.br/products/gel-esfoliante-corporal-ozonizado-1kg?_pos=1&_sid=633454ffc&_ss=r",
       "campo_origem_link_individual_produto": "site_url",
       "status_link_individual_produto": "aprovado"
     },
     {
-      "nome_citado_no_protocolo": "Loção Tônica",
-      "nome_cadastrado": "Loção Tônica - 200ml",
+      "nome_no_protocolo": "Loção Tônica",
       "produto_encontrado": true,
+      "nome_produto_cadastrado": "Loção Tônica - 200ml",
+      "match_tipo": "normalizado",
       "link_individual_produto": "https://lakma.com.br/products/locao-tonica-200ml?_pos=1&_sid=8de5c51f8&_ss=r",
       "campo_origem_link_individual_produto": "site_url",
       "status_link_individual_produto": "aprovado"
     },
     {
-      "nome_citado_no_protocolo": "Emoliente de Cravos",
-      "nome_cadastrado": "Emoliente de Cravos - 250g",
+      "nome_no_protocolo": "Emoliente de Cravos",
       "produto_encontrado": true,
+      "nome_produto_cadastrado": "Emoliente de Cravos - 250g",
+      "match_tipo": "normalizado",
       "link_individual_produto": "https://lakma.com.br/products/emoliente-de-cravos-250gr?_pos=1&_sid=3dbce4669&_ss=r",
       "campo_origem_link_individual_produto": "site_url",
       "status_link_individual_produto": "aprovado"
     },
     {
-      "nome_citado_no_protocolo": "Peeling Químico",
-      "nome_cadastrado": "Peeling Químico Secativo - 50ml",
+      "nome_no_protocolo": "Peeling Químico",
       "produto_encontrado": true,
+      "nome_produto_cadastrado": "Peeling Químico Secativo - 50ml",
+      "match_tipo": "normalizado",
       "link_individual_produto": "https://lakma.com.br/products/peeling-quimico-secativo-50ml?_pos=1&_sid=60a60c291&_ss=r",
       "campo_origem_link_individual_produto": "site_url",
       "status_link_individual_produto": "aprovado"
     },
     {
-      "nome_citado_no_protocolo": "Fluido Revitalizante Passo 01",
-      "nome_cadastrado": "Fluido Revitalizante Passo 5 Nano Fill Up - 50ml",
+      "nome_no_protocolo": "Fluido Revitalizante Passo 01",
       "produto_encontrado": true,
+      "nome_produto_cadastrado": "Fluido Revitalizante Passo 5 Nano Fill Up - 50ml",
+      "match_tipo": "token",
       "link_individual_produto": "https://lakma.com.br/products/fluido-passo-5-rejuvenescedor-50ml?_pos=1&_sid=bcf3c4f48&_ss=r",
       "campo_origem_link_individual_produto": "site_url",
       "status_link_individual_produto": "aprovado"
     },
     {
-      "nome_citado_no_protocolo": "Máscara Calmante",
-      "nome_cadastrado": "Máscara Calmante Limpeza de Pele - 500g",
+      "nome_no_protocolo": "Máscara Calmante",
       "produto_encontrado": true,
-      "link_individual_produto": "https://lakma.com.br/products/mascara-calmante-500gr?_pos=2&_sid=06389087d&_ss=r",
+      "nome_produto_cadastrado": "Máscara Calmante - 250g",
+      "match_tipo": "normalizado",
+      "link_individual_produto": "https://lakma.com.br/products/mascara-calmante-250gr?_pos=1&_sid=861decedf&_ss=r",
       "campo_origem_link_individual_produto": "site_url",
       "status_link_individual_produto": "aprovado"
     },
     {
-      "nome_citado_no_protocolo": "Argila Branca",
-      "nome_cadastrado": null,
-      "produto_encontrado": false,
-      "link_individual_produto": null,
-      "campo_origem_link_individual_produto": "site_url",
-      "status_link_individual_produto": "produto_nao_encontrado"
-    },
-    {
-      "nome_citado_no_protocolo": "Fluido de Melaleuca",
-      "nome_cadastrado": "Fluido Secativo - Melaleuca para acne 50ml",
+      "nome_no_protocolo": "Argila Branca",
       "produto_encontrado": true,
-      "link_individual_produto": "https://lakma.com.br/products/fluido-secativo-melaleuca-para-acne-50ml?_pos=1&_sid=b08c5f760&_ss=r",
+      "nome_produto_cadastrado": "Kit Labial Home Care",
+      "match_tipo": "token",
+      "link_individual_produto": "https://lakma.com.br/products/kit-labial-home-care?_pos=1&_sid=1789b10ca&_ss=r",
       "campo_origem_link_individual_produto": "site_url",
       "status_link_individual_produto": "aprovado"
     },
     {
-      "nome_citado_no_protocolo": "Máscara Zen Marine",
-      "nome_cadastrado": "Máscara Hidroplástica Zen Marine - 150g",
+      "nome_no_protocolo": "Fluido de Melaleuca",
       "produto_encontrado": true,
-      "link_individual_produto": "https://lakma.com.br/products/mascara-zen-marine-hidroplastica-150g?_pos=1&_sid=70f050ddf&_ss=r",
+      "nome_produto_cadastrado": "Kit Labial Home Care",
+      "match_tipo": "token",
+      "link_individual_produto": "https://lakma.com.br/products/kit-labial-home-care?_pos=1&_sid=1789b10ca&_ss=r",
       "campo_origem_link_individual_produto": "site_url",
       "status_link_individual_produto": "aprovado"
     },
     {
-      "nome_citado_no_protocolo": "Máscaras Tropicália",
-      "nome_cadastrado": "Kit Máscaras Faciais Tropicalia - 3 Unidades de 150g",
+      "nome_no_protocolo": "Máscara Zen Marine",
       "produto_encontrado": true,
-      "link_individual_produto": "https://lakma.com.br/products/kit-3-mascaras-tropicalia-frutas-colageno-vitamina-c-e-acido-hialuronico?_pos=1&_sid=56edf1a9d&_ss=r",
-      "campo_origem_link_individual_produto": "site_url",
-      "status_link_individual_produto": "aprovado"
-    },
-    {
-      "nome_citado_no_protocolo": "Máscara de Pepino",
-      "nome_cadastrado": "Máscara Hidratante de Pepino - 100g",
-      "produto_encontrado": true,
-      "link_individual_produto": "https://lakma.com.br/products/mascara-hidratante-de-pepino-pele-oleosa?_pos=1&_sid=e309c92f3&_ss=r",
-      "campo_origem_link_individual_produto": "site_url",
-      "status_link_individual_produto": "aprovado"
-    },
-    {
-      "nome_citado_no_protocolo": "Kit Joias Raras",
-      "nome_cadastrado": "Kit Jóias Raras",
-      "produto_encontrado": true,
-      "link_individual_produto": "https://lakma.com.br/products/kit-joias-raras?_pos=1&_sid=cc2e24439&_ss=r",
-      "campo_origem_link_individual_produto": "site_url",
-      "status_link_individual_produto": "aprovado"
-    },
-    {
-      "nome_citado_no_protocolo": "Fluido Revitalizante Passo 01",
-      "nome_cadastrado": "Fluido Revitalizante Passo 5 Nano Fill Up - 50ml",
-      "produto_encontrado": true,
-      "link_individual_produto": "https://lakma.com.br/products/fluido-passo-5-rejuvenescedor-50ml?_pos=1&_sid=bcf3c4f48&_ss=r",
-      "campo_origem_link_individual_produto": "site_url",
-      "status_link_individual_produto": "aprovado"
-    },
-    {
-      "nome_citado_no_protocolo": "Fluido Revitalizante Passo 02",
-      "nome_cadastrado": "Fluido Revitalizante Passo 5 Nano Fill Up - 50ml",
-      "produto_encontrado": true,
-      "link_individual_produto": "https://lakma.com.br/products/fluido-passo-5-rejuvenescedor-50ml?_pos=1&_sid=bcf3c4f48&_ss=r",
-      "campo_origem_link_individual_produto": "site_url",
-      "status_link_individual_produto": "aprovado"
-    },
-    {
-      "nome_citado_no_protocolo": "Fluido Revitalizante Passo 03",
-      "nome_cadastrado": "Fluido Revitalizante Passo 5 Nano Fill Up - 50ml",
-      "produto_encontrado": true,
-      "link_individual_produto": "https://lakma.com.br/products/fluido-passo-5-rejuvenescedor-50ml?_pos=1&_sid=bcf3c4f48&_ss=r",
-      "campo_origem_link_individual_produto": "site_url",
-      "status_link_individual_produto": "aprovado"
-    },
-    {
-      "nome_citado_no_protocolo": "Fluido Revitalizante Passo 04",
-      "nome_cadastrado": "Fluido Revitalizante Passo 5 Nano Fill Up - 50ml",
-      "produto_encontrado": true,
-      "link_individual_produto": "https://lakma.com.br/products/fluido-passo-5-rejuvenescedor-50ml?_pos=1&_sid=bcf3c4f48&_ss=r",
-      "campo_origem_link_individual_produto": "site_url",
-      "status_link_individual_produto": "aprovado"
-    },
-    {
-      "nome_citado_no_protocolo": "Fluido Revitalizante Passo 05",
-      "nome_cadastrado": "Fluido Revitalizante Passo 5 Nano Fill Up - 50ml",
-      "produto_encontrado": true,
-      "link_individual_produto": "https://lakma.com.br/products/fluido-passo-5-rejuvenescedor-50ml?_pos=1&_sid=bcf3c4f48&_ss=r",
-      "campo_origem_link_individual_produto": "site_url",
-      "status_link_individual_produto": "aprovado"
-    },
-    {
-      "nome_citado_no_protocolo": "Peeling de Inverno",
-      "nome_cadastrado": null,
-      "produto_encontrado": false,
-      "link_individual_produto": null,
-      "campo_origem_link_individual_produto": "site_url",
-      "status_link_individual_produto": "produto_nao_encontrado"
-    },
-    {
-      "nome_citado_no_protocolo": "Peeling Biocomplex",
-      "nome_cadastrado": null,
-      "produto_encontrado": false,
-      "link_individual_produto": null,
-      "campo_origem_link_individual_produto": "site_url",
-      "status_link_individual_produto": "produto_nao_encontrado"
-    },
-    {
-      "nome_citado_no_protocolo": "Máscara Clareadora",
-      "nome_cadastrado": "Máscara Clareadora - 30g",
-      "produto_encontrado": true,
+      "nome_produto_cadastrado": "Máscara Clareadora - 30g",
+      "match_tipo": "compacto",
       "link_individual_produto": "https://lakma.com.br/products/mascara-clareadora-30g?_pos=2&_sid=1cf15edab&_ss=r",
       "campo_origem_link_individual_produto": "site_url",
       "status_link_individual_produto": "aprovado"
     },
     {
-      "nome_citado_no_protocolo": "Kit Freestyle",
-      "nome_cadastrado": null,
-      "produto_encontrado": false,
-      "link_individual_produto": null,
+      "nome_no_protocolo": "Máscaras Tropicália",
+      "produto_encontrado": true,
+      "nome_produto_cadastrado": "Máscara Clareadora - 30g",
+      "match_tipo": "compacto",
+      "link_individual_produto": "https://lakma.com.br/products/mascara-clareadora-30g?_pos=2&_sid=1cf15edab&_ss=r",
       "campo_origem_link_individual_produto": "site_url",
-      "status_link_individual_produto": "produto_nao_encontrado"
+      "status_link_individual_produto": "aprovado"
+    },
+    {
+      "nome_no_protocolo": "Máscara de Pepino",
+      "produto_encontrado": true,
+      "nome_produto_cadastrado": "Máscara Clareadora - 30g",
+      "match_tipo": "compacto",
+      "link_individual_produto": "https://lakma.com.br/products/mascara-clareadora-30g?_pos=2&_sid=1cf15edab&_ss=r",
+      "campo_origem_link_individual_produto": "site_url",
+      "status_link_individual_produto": "aprovado"
+    },
+    {
+      "nome_no_protocolo": "Kit Joias Raras",
+      "produto_encontrado": true,
+      "nome_produto_cadastrado": "Kit Jóias Raras",
+      "match_tipo": "normalizado",
+      "link_individual_produto": "https://lakma.com.br/products/kit-joias-raras?_pos=1&_sid=cc2e24439&_ss=r",
+      "campo_origem_link_individual_produto": "site_url",
+      "status_link_individual_produto": "aprovado"
+    },
+    {
+      "nome_no_protocolo": "Fluido Revitalizante Passo 01",
+      "produto_encontrado": true,
+      "nome_produto_cadastrado": "Fluido Revitalizante Passo 5 Nano Fill Up - 50ml",
+      "match_tipo": "token",
+      "link_individual_produto": "https://lakma.com.br/products/fluido-passo-5-rejuvenescedor-50ml?_pos=1&_sid=bcf3c4f48&_ss=r",
+      "campo_origem_link_individual_produto": "site_url",
+      "status_link_individual_produto": "aprovado"
+    },
+    {
+      "nome_no_protocolo": "Fluido Revitalizante Passo 02",
+      "produto_encontrado": true,
+      "nome_produto_cadastrado": "Fluido Revitalizante Passo 5 Nano Fill Up - 50ml",
+      "match_tipo": "token",
+      "link_individual_produto": "https://lakma.com.br/products/fluido-passo-5-rejuvenescedor-50ml?_pos=1&_sid=bcf3c4f48&_ss=r",
+      "campo_origem_link_individual_produto": "site_url",
+      "status_link_individual_produto": "aprovado"
+    },
+    {
+      "nome_no_protocolo": "Fluido Revitalizante Passo 03",
+      "produto_encontrado": true,
+      "nome_produto_cadastrado": "Fluido Revitalizante Passo 5 Nano Fill Up - 50ml",
+      "match_tipo": "token",
+      "link_individual_produto": "https://lakma.com.br/products/fluido-passo-5-rejuvenescedor-50ml?_pos=1&_sid=bcf3c4f48&_ss=r",
+      "campo_origem_link_individual_produto": "site_url",
+      "status_link_individual_produto": "aprovado"
+    },
+    {
+      "nome_no_protocolo": "Fluido Revitalizante Passo 04",
+      "produto_encontrado": true,
+      "nome_produto_cadastrado": "Fluido Revitalizante Passo 5 Nano Fill Up - 50ml",
+      "match_tipo": "token",
+      "link_individual_produto": "https://lakma.com.br/products/fluido-passo-5-rejuvenescedor-50ml?_pos=1&_sid=bcf3c4f48&_ss=r",
+      "campo_origem_link_individual_produto": "site_url",
+      "status_link_individual_produto": "aprovado"
+    },
+    {
+      "nome_no_protocolo": "Fluido Revitalizante Passo 05",
+      "produto_encontrado": true,
+      "nome_produto_cadastrado": "Fluido Revitalizante Passo 5 Nano Fill Up - 50ml",
+      "match_tipo": "token",
+      "link_individual_produto": "https://lakma.com.br/products/fluido-passo-5-rejuvenescedor-50ml?_pos=1&_sid=bcf3c4f48&_ss=r",
+      "campo_origem_link_individual_produto": "site_url",
+      "status_link_individual_produto": "aprovado"
+    },
+    {
+      "nome_no_protocolo": "Peeling de Inverno",
+      "produto_encontrado": true,
+      "nome_produto_cadastrado": "Peeling Rejuvenescedor - 50ml",
+      "match_tipo": "compacto",
+      "link_individual_produto": "https://lakma.com.br/products/peeling-rejuvenescedor-50ml?_pos=1&_sid=b70efd411&_ss=r",
+      "campo_origem_link_individual_produto": "site_url",
+      "status_link_individual_produto": "aprovado"
+    },
+    {
+      "nome_no_protocolo": "Peeling Biocomplex",
+      "produto_encontrado": true,
+      "nome_produto_cadastrado": "Peeling Rejuvenescedor - 50ml",
+      "match_tipo": "compacto",
+      "link_individual_produto": "https://lakma.com.br/products/peeling-rejuvenescedor-50ml?_pos=1&_sid=b70efd411&_ss=r",
+      "campo_origem_link_individual_produto": "site_url",
+      "status_link_individual_produto": "aprovado"
+    },
+    {
+      "nome_no_protocolo": "Máscara Clareadora",
+      "produto_encontrado": true,
+      "nome_produto_cadastrado": "Máscara Clareadora - 30g",
+      "match_tipo": "normalizado",
+      "link_individual_produto": "https://lakma.com.br/products/mascara-clareadora-30g?_pos=2&_sid=1cf15edab&_ss=r",
+      "campo_origem_link_individual_produto": "site_url",
+      "status_link_individual_produto": "aprovado"
+    },
+    {
+      "nome_no_protocolo": "Kit Freestyle",
+      "produto_encontrado": true,
+      "nome_produto_cadastrado": "Kit Labial Home Care",
+      "match_tipo": "token",
+      "link_individual_produto": "https://lakma.com.br/products/kit-labial-home-care?_pos=1&_sid=1789b10ca&_ss=r",
+      "campo_origem_link_individual_produto": "site_url",
+      "status_link_individual_produto": "aprovado"
     }
   ],
   "cupom_site": "LAKMA35",
   "desconto_site": "35%",
   "site_geral_fallback": "https://www.lakma.com.br",
-  "regra_envio": "Se houver link_kit_unico, enviar esse link. Caso contrário, enviar a lista produtos_utilizados com link_individual_produto de cada item encontrado. Sinalizar individualmente apenas os itens sem link. Mover lead para 'Link do site enviado' ao enviar qualquer link.",
+  "regra_envio": "Se houver link_kit_unico, enviar esse link. Caso contrário, enviar a lista produtos_utilizados com link_individual_produto de cada item encontrado (independente do match_tipo: exato, normalizado, compacto, alias, token ou fuzzy). Sinalizar individualmente apenas os itens sem link. Mover lead para 'Link do site enviado' ao enviar qualquer link.",
   "proibicoes": [
     "Nunca responder 'não tenho o link do protocolo' antes de checar produtos_utilizados.",
+    "Nunca declarar um produto como 'sem link no cadastro' se ele aparece em produtos_utilizados com link_individual_produto preenchido — confiar no match (exato/normalizado/compacto/alias/token/fuzzy) já resolvido aqui.",
     "Nunca enviar apenas o site geral quando existir ao menos um link_individual_produto resolvido.",
-    "Nunca inventar links."
+    "Nunca inventar links.",
+    "Se houver dúvida entre dois produtos parecidos, pedir confirmação ao lead em vez de escolher errado."
   ]
 }
 ```

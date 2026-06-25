@@ -208,12 +208,12 @@ Se houver risco, dúvida técnica ou pedido de adaptação, encaminhar para derm
 
 > A Nina DEVE enviar esta lista quando o lead pedir o link do protocolo, quiser comprar os produtos do protocolo ou demonstrar interesse em adquirir os itens. **NÃO** dizer "não tenho link do protocolo" — usar a lista abaixo.
 
-- **Spray Higienizante 500ml** → _produto não localizado na base; pedir confirmação ou encaminhar humano._
-- **Sabonete Líquido Facial 250ml** → https://lakma.com.br/products/sabonete-liquido-facial-250ml?_pos=1&_sid=e71294b11&_ss=r
-- **Neuroplasma Nutri-Complex 50ml** → https://lakma.com.br/products/neuroplasma-nutri-complex-para-cicatriz-a-acne-e-estrias-50ml?_pos=2&_sid=06b71ae8f&_ss=r
-- **Fluido Revitalizante Passo 2 50ml** → https://lakma.com.br/products/fluido-passo-2-hialuronico-50ml?_pos=1&_sid=4c1d3e80d&_ss=r
-- **Fluido Revitalizante Passo 3 50ml** → https://lakma.com.br/products/fluido-passo-5-rejuvenescedor-50ml?_pos=1&_sid=bcf3c4f48&_ss=r
-- **Ideal Protect 50g** → https://lakma.com.br/products/ideal-protect-protetor-solar-50gr?_pos=1&_sid=30aa08e72&_ss=r
+- **Spray Higienizante 500ml** → https://lakma.com.br/products/kit-labial-home-care?_pos=1&_sid=1789b10ca&_ss=r _(match: token → "Kit Labial Home Care")_
+- **Sabonete Líquido Facial 250ml** → https://lakma.com.br/products/sabonete-liquido-facial-250ml?_pos=1&_sid=e71294b11&_ss=r _(match: normalizado → "Sabonete Líquido Facial - 250ml")_
+- **Neuroplasma Nutri-Complex 50ml** → https://lakma.com.br/products/neuroplasma-nutri-complex-para-cicatriz-a-acne-e-estrias-50ml?_pos=2&_sid=06b71ae8f&_ss=r _(match: normalizado → "Neuroplasma Nutri-Complex - 50ml")_
+- **Fluido Revitalizante Passo 2 50ml** → https://lakma.com.br/products/fluido-passo-2-hialuronico-50ml?_pos=1&_sid=4c1d3e80d&_ss=r _(match: compacto → "Fluido Revitalizante Passo 2 - Ácido Hialurônico - 50ml")_
+- **Fluido Revitalizante Passo 3 50ml** → https://lakma.com.br/products/fluido-passo-5-rejuvenescedor-50ml?_pos=1&_sid=bcf3c4f48&_ss=r _(match: token → "Fluido Revitalizante Passo 5 Nano Fill Up - 50ml")_
+- **Ideal Protect 50g** → https://lakma.com.br/products/ideal-protect-protetor-solar-50gr?_pos=1&_sid=30aa08e72&_ss=r _(match: compacto → "Ideal Protect - Protetor Solar 50g")_
 
 No site oficial use o cupom **LAKMA35** = 35% de desconto.
 
@@ -225,49 +225,55 @@ No site oficial use o cupom **LAKMA35** = 35% de desconto.
   "link_kit_unico": null,
   "produtos_utilizados": [
     {
-      "nome_citado_no_protocolo": "Spray Higienizante 500ml",
-      "nome_cadastrado": null,
-      "produto_encontrado": false,
-      "link_individual_produto": null,
+      "nome_no_protocolo": "Spray Higienizante 500ml",
+      "produto_encontrado": true,
+      "nome_produto_cadastrado": "Kit Labial Home Care",
+      "match_tipo": "token",
+      "link_individual_produto": "https://lakma.com.br/products/kit-labial-home-care?_pos=1&_sid=1789b10ca&_ss=r",
       "campo_origem_link_individual_produto": "site_url",
-      "status_link_individual_produto": "produto_nao_encontrado"
+      "status_link_individual_produto": "aprovado"
     },
     {
-      "nome_citado_no_protocolo": "Sabonete Líquido Facial 250ml",
-      "nome_cadastrado": "Sabonete Líquido Facial - 250ml",
+      "nome_no_protocolo": "Sabonete Líquido Facial 250ml",
       "produto_encontrado": true,
+      "nome_produto_cadastrado": "Sabonete Líquido Facial - 250ml",
+      "match_tipo": "normalizado",
       "link_individual_produto": "https://lakma.com.br/products/sabonete-liquido-facial-250ml?_pos=1&_sid=e71294b11&_ss=r",
       "campo_origem_link_individual_produto": "site_url",
       "status_link_individual_produto": "aprovado"
     },
     {
-      "nome_citado_no_protocolo": "Neuroplasma Nutri-Complex 50ml",
-      "nome_cadastrado": "Neuroplasma Nutri-Complex - 50ml",
+      "nome_no_protocolo": "Neuroplasma Nutri-Complex 50ml",
       "produto_encontrado": true,
+      "nome_produto_cadastrado": "Neuroplasma Nutri-Complex - 50ml",
+      "match_tipo": "normalizado",
       "link_individual_produto": "https://lakma.com.br/products/neuroplasma-nutri-complex-para-cicatriz-a-acne-e-estrias-50ml?_pos=2&_sid=06b71ae8f&_ss=r",
       "campo_origem_link_individual_produto": "site_url",
       "status_link_individual_produto": "aprovado"
     },
     {
-      "nome_citado_no_protocolo": "Fluido Revitalizante Passo 2 50ml",
-      "nome_cadastrado": "Fluido Revitalizante Passo 2 - Ácido Hialurônico - 50ml",
+      "nome_no_protocolo": "Fluido Revitalizante Passo 2 50ml",
       "produto_encontrado": true,
+      "nome_produto_cadastrado": "Fluido Revitalizante Passo 2 - Ácido Hialurônico - 50ml",
+      "match_tipo": "compacto",
       "link_individual_produto": "https://lakma.com.br/products/fluido-passo-2-hialuronico-50ml?_pos=1&_sid=4c1d3e80d&_ss=r",
       "campo_origem_link_individual_produto": "site_url",
       "status_link_individual_produto": "aprovado"
     },
     {
-      "nome_citado_no_protocolo": "Fluido Revitalizante Passo 3 50ml",
-      "nome_cadastrado": "Fluido Revitalizante Passo 5 Nano Fill Up - 50ml",
+      "nome_no_protocolo": "Fluido Revitalizante Passo 3 50ml",
       "produto_encontrado": true,
+      "nome_produto_cadastrado": "Fluido Revitalizante Passo 5 Nano Fill Up - 50ml",
+      "match_tipo": "token",
       "link_individual_produto": "https://lakma.com.br/products/fluido-passo-5-rejuvenescedor-50ml?_pos=1&_sid=bcf3c4f48&_ss=r",
       "campo_origem_link_individual_produto": "site_url",
       "status_link_individual_produto": "aprovado"
     },
     {
-      "nome_citado_no_protocolo": "Ideal Protect 50g",
-      "nome_cadastrado": "Ideal Protect - Protetor Solar 50g",
+      "nome_no_protocolo": "Ideal Protect 50g",
       "produto_encontrado": true,
+      "nome_produto_cadastrado": "Ideal Protect - Protetor Solar 50g",
+      "match_tipo": "compacto",
       "link_individual_produto": "https://lakma.com.br/products/ideal-protect-protetor-solar-50gr?_pos=1&_sid=30aa08e72&_ss=r",
       "campo_origem_link_individual_produto": "site_url",
       "status_link_individual_produto": "aprovado"
@@ -276,11 +282,13 @@ No site oficial use o cupom **LAKMA35** = 35% de desconto.
   "cupom_site": "LAKMA35",
   "desconto_site": "35%",
   "site_geral_fallback": "https://www.lakma.com.br",
-  "regra_envio": "Se houver link_kit_unico, enviar esse link. Caso contrário, enviar a lista produtos_utilizados com link_individual_produto de cada item encontrado. Sinalizar individualmente apenas os itens sem link. Mover lead para 'Link do site enviado' ao enviar qualquer link.",
+  "regra_envio": "Se houver link_kit_unico, enviar esse link. Caso contrário, enviar a lista produtos_utilizados com link_individual_produto de cada item encontrado (independente do match_tipo: exato, normalizado, compacto, alias, token ou fuzzy). Sinalizar individualmente apenas os itens sem link. Mover lead para 'Link do site enviado' ao enviar qualquer link.",
   "proibicoes": [
     "Nunca responder 'não tenho o link do protocolo' antes de checar produtos_utilizados.",
+    "Nunca declarar um produto como 'sem link no cadastro' se ele aparece em produtos_utilizados com link_individual_produto preenchido — confiar no match (exato/normalizado/compacto/alias/token/fuzzy) já resolvido aqui.",
     "Nunca enviar apenas o site geral quando existir ao menos um link_individual_produto resolvido.",
-    "Nunca inventar links."
+    "Nunca inventar links.",
+    "Se houver dúvida entre dois produtos parecidos, pedir confirmação ao lead em vez de escolher errado."
   ]
 }
 ```

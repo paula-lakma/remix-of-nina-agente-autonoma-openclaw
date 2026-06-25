@@ -204,16 +204,16 @@ Se houver risco, dúvida técnica ou pedido de adaptação, encaminhar para derm
 
 > A Nina DEVE enviar esta lista quando o lead pedir o link do protocolo, quiser comprar os produtos do protocolo ou demonstrar interesse em adquirir os itens. **NÃO** dizer "não tenho link do protocolo" — usar a lista abaixo.
 
-- **Kit Limpeza de Pele** → https://lakma.com.br/products/kit-limpeza-de-pele-creme-emoliente-sem-trieta?_pos=3&_sid=376784632&_ss=r
-- **Sabonete de Ácido Glicólico** → https://lakma.com.br/products/sabonete-de-acido-glicolico-150ml?_pos=1&_sid=2f97aa27a&_ss=r
-- **Fluido Revitalizante Passo 01** → https://lakma.com.br/products/fluido-passo-5-rejuvenescedor-50ml?_pos=1&_sid=bcf3c4f48&_ss=r
-- **Peeling Químico** → https://lakma.com.br/products/peeling-quimico-secativo-50ml?_pos=1&_sid=60a60c291&_ss=r
-- **Sabonete Facial** → https://lakma.com.br/products/sabonete-liquido-facial-250ml?_pos=1&_sid=e71294b11&_ss=r
-- **Água Termal** → _produto não localizado na base; pedir confirmação ou encaminhar humano._
-- **Gel Esfoliante** → https://lakma.com.br/products/gel-esfoliante-corporal-ozonizado-1kg?_pos=1&_sid=633454ffc&_ss=r
-- **Loção Tônica** → https://lakma.com.br/products/locao-tonica-200ml?_pos=1&_sid=8de5c51f8&_ss=r
-- **Emoliente de Cravos** → https://lakma.com.br/products/emoliente-de-cravos-250gr?_pos=1&_sid=3dbce4669&_ss=r
-- **Máscara Calmante** → https://lakma.com.br/products/mascara-calmante-500gr?_pos=2&_sid=06389087d&_ss=r
+- **Kit Limpeza de Pele** → https://lakma.com.br/products/kit-limpeza-de-pele?_pos=1&_sid=422b7e433&_ss=r _(match: normalizado → "Kit Limpeza de Pele Profissional - 5 Produtos")_
+- **Sabonete de Ácido Glicólico** → https://lakma.com.br/products/sabonete-de-acido-glicolico-150ml?_pos=1&_sid=2f97aa27a&_ss=r _(match: normalizado → "Sabonete de Ácido Glicólico - 150ml")_
+- **Fluido Revitalizante Passo 01** → https://lakma.com.br/products/fluido-passo-5-rejuvenescedor-50ml?_pos=1&_sid=bcf3c4f48&_ss=r _(match: token → "Fluido Revitalizante Passo 5 Nano Fill Up - 50ml")_
+- **Peeling Químico** → https://lakma.com.br/products/peeling-quimico-secativo-50ml?_pos=1&_sid=60a60c291&_ss=r _(match: normalizado → "Peeling Químico Secativo - 50ml")_
+- **Sabonete Facial** → https://lakma.com.br/products/sabonete-liquido-facial-250ml?_pos=1&_sid=e71294b11&_ss=r _(match: normalizado → "Sabonete Líquido Facial - 250ml")_
+- **Água Termal** → https://lakma.com.br/products/kit-labial-home-care?_pos=1&_sid=1789b10ca&_ss=r _(match: token → "Kit Labial Home Care")_
+- **Gel Esfoliante** → https://lakma.com.br/products/gel-esfoliante-corporal-ozonizado-1kg?_pos=1&_sid=633454ffc&_ss=r _(match: compacto → "Gel Esfoliante Corporal Ozonizado - 1kg")_
+- **Loção Tônica** → https://lakma.com.br/products/locao-tonica-200ml?_pos=1&_sid=8de5c51f8&_ss=r _(match: normalizado → "Loção Tônica - 200ml")_
+- **Emoliente de Cravos** → https://lakma.com.br/products/emoliente-de-cravos-250gr?_pos=1&_sid=3dbce4669&_ss=r _(match: normalizado → "Emoliente de Cravos - 250g")_
+- **Máscara Calmante** → https://lakma.com.br/products/mascara-calmante-250gr?_pos=1&_sid=861decedf&_ss=r _(match: normalizado → "Máscara Calmante - 250g")_
 
 No site oficial use o cupom **LAKMA35** = 35% de desconto.
 
@@ -225,82 +225,92 @@ No site oficial use o cupom **LAKMA35** = 35% de desconto.
   "link_kit_unico": null,
   "produtos_utilizados": [
     {
-      "nome_citado_no_protocolo": "Kit Limpeza de Pele",
-      "nome_cadastrado": "Kit Limpeza de Pele Facial + Ativos Sem Trieta",
+      "nome_no_protocolo": "Kit Limpeza de Pele",
       "produto_encontrado": true,
-      "link_individual_produto": "https://lakma.com.br/products/kit-limpeza-de-pele-creme-emoliente-sem-trieta?_pos=3&_sid=376784632&_ss=r",
+      "nome_produto_cadastrado": "Kit Limpeza de Pele Profissional - 5 Produtos",
+      "match_tipo": "normalizado",
+      "link_individual_produto": "https://lakma.com.br/products/kit-limpeza-de-pele?_pos=1&_sid=422b7e433&_ss=r",
       "campo_origem_link_individual_produto": "site_url",
       "status_link_individual_produto": "aprovado"
     },
     {
-      "nome_citado_no_protocolo": "Sabonete de Ácido Glicólico",
-      "nome_cadastrado": "Sabonete de Ácido Glicólico - 150ml",
+      "nome_no_protocolo": "Sabonete de Ácido Glicólico",
       "produto_encontrado": true,
+      "nome_produto_cadastrado": "Sabonete de Ácido Glicólico - 150ml",
+      "match_tipo": "normalizado",
       "link_individual_produto": "https://lakma.com.br/products/sabonete-de-acido-glicolico-150ml?_pos=1&_sid=2f97aa27a&_ss=r",
       "campo_origem_link_individual_produto": "site_url",
       "status_link_individual_produto": "aprovado"
     },
     {
-      "nome_citado_no_protocolo": "Fluido Revitalizante Passo 01",
-      "nome_cadastrado": "Fluido Revitalizante Passo 5 Nano Fill Up - 50ml",
+      "nome_no_protocolo": "Fluido Revitalizante Passo 01",
       "produto_encontrado": true,
+      "nome_produto_cadastrado": "Fluido Revitalizante Passo 5 Nano Fill Up - 50ml",
+      "match_tipo": "token",
       "link_individual_produto": "https://lakma.com.br/products/fluido-passo-5-rejuvenescedor-50ml?_pos=1&_sid=bcf3c4f48&_ss=r",
       "campo_origem_link_individual_produto": "site_url",
       "status_link_individual_produto": "aprovado"
     },
     {
-      "nome_citado_no_protocolo": "Peeling Químico",
-      "nome_cadastrado": "Peeling Químico Secativo - 50ml",
+      "nome_no_protocolo": "Peeling Químico",
       "produto_encontrado": true,
+      "nome_produto_cadastrado": "Peeling Químico Secativo - 50ml",
+      "match_tipo": "normalizado",
       "link_individual_produto": "https://lakma.com.br/products/peeling-quimico-secativo-50ml?_pos=1&_sid=60a60c291&_ss=r",
       "campo_origem_link_individual_produto": "site_url",
       "status_link_individual_produto": "aprovado"
     },
     {
-      "nome_citado_no_protocolo": "Sabonete Facial",
-      "nome_cadastrado": "Sabonete Líquido Facial - 250ml",
+      "nome_no_protocolo": "Sabonete Facial",
       "produto_encontrado": true,
+      "nome_produto_cadastrado": "Sabonete Líquido Facial - 250ml",
+      "match_tipo": "normalizado",
       "link_individual_produto": "https://lakma.com.br/products/sabonete-liquido-facial-250ml?_pos=1&_sid=e71294b11&_ss=r",
       "campo_origem_link_individual_produto": "site_url",
       "status_link_individual_produto": "aprovado"
     },
     {
-      "nome_citado_no_protocolo": "Água Termal",
-      "nome_cadastrado": null,
-      "produto_encontrado": false,
-      "link_individual_produto": null,
+      "nome_no_protocolo": "Água Termal",
+      "produto_encontrado": true,
+      "nome_produto_cadastrado": "Kit Labial Home Care",
+      "match_tipo": "token",
+      "link_individual_produto": "https://lakma.com.br/products/kit-labial-home-care?_pos=1&_sid=1789b10ca&_ss=r",
       "campo_origem_link_individual_produto": "site_url",
-      "status_link_individual_produto": "produto_nao_encontrado"
+      "status_link_individual_produto": "aprovado"
     },
     {
-      "nome_citado_no_protocolo": "Gel Esfoliante",
-      "nome_cadastrado": "Gel Esfoliante Corporal Ozonizado - 1kg",
+      "nome_no_protocolo": "Gel Esfoliante",
       "produto_encontrado": true,
+      "nome_produto_cadastrado": "Gel Esfoliante Corporal Ozonizado - 1kg",
+      "match_tipo": "compacto",
       "link_individual_produto": "https://lakma.com.br/products/gel-esfoliante-corporal-ozonizado-1kg?_pos=1&_sid=633454ffc&_ss=r",
       "campo_origem_link_individual_produto": "site_url",
       "status_link_individual_produto": "aprovado"
     },
     {
-      "nome_citado_no_protocolo": "Loção Tônica",
-      "nome_cadastrado": "Loção Tônica - 200ml",
+      "nome_no_protocolo": "Loção Tônica",
       "produto_encontrado": true,
+      "nome_produto_cadastrado": "Loção Tônica - 200ml",
+      "match_tipo": "normalizado",
       "link_individual_produto": "https://lakma.com.br/products/locao-tonica-200ml?_pos=1&_sid=8de5c51f8&_ss=r",
       "campo_origem_link_individual_produto": "site_url",
       "status_link_individual_produto": "aprovado"
     },
     {
-      "nome_citado_no_protocolo": "Emoliente de Cravos",
-      "nome_cadastrado": "Emoliente de Cravos - 250g",
+      "nome_no_protocolo": "Emoliente de Cravos",
       "produto_encontrado": true,
+      "nome_produto_cadastrado": "Emoliente de Cravos - 250g",
+      "match_tipo": "normalizado",
       "link_individual_produto": "https://lakma.com.br/products/emoliente-de-cravos-250gr?_pos=1&_sid=3dbce4669&_ss=r",
       "campo_origem_link_individual_produto": "site_url",
       "status_link_individual_produto": "aprovado"
     },
     {
-      "nome_citado_no_protocolo": "Máscara Calmante",
-      "nome_cadastrado": "Máscara Calmante Limpeza de Pele - 500g",
+      "nome_no_protocolo": "Máscara Calmante",
       "produto_encontrado": true,
-      "link_individual_produto": "https://lakma.com.br/products/mascara-calmante-500gr?_pos=2&_sid=06389087d&_ss=r",
+      "nome_produto_cadastrado": "Máscara Calmante - 250g",
+      "match_tipo": "normalizado",
+      "link_individual_produto": "https://lakma.com.br/products/mascara-calmante-250gr?_pos=1&_sid=861decedf&_ss=r",
       "campo_origem_link_individual_produto": "site_url",
       "status_link_individual_produto": "aprovado"
     }
@@ -308,11 +318,13 @@ No site oficial use o cupom **LAKMA35** = 35% de desconto.
   "cupom_site": "LAKMA35",
   "desconto_site": "35%",
   "site_geral_fallback": "https://www.lakma.com.br",
-  "regra_envio": "Se houver link_kit_unico, enviar esse link. Caso contrário, enviar a lista produtos_utilizados com link_individual_produto de cada item encontrado. Sinalizar individualmente apenas os itens sem link. Mover lead para 'Link do site enviado' ao enviar qualquer link.",
+  "regra_envio": "Se houver link_kit_unico, enviar esse link. Caso contrário, enviar a lista produtos_utilizados com link_individual_produto de cada item encontrado (independente do match_tipo: exato, normalizado, compacto, alias, token ou fuzzy). Sinalizar individualmente apenas os itens sem link. Mover lead para 'Link do site enviado' ao enviar qualquer link.",
   "proibicoes": [
     "Nunca responder 'não tenho o link do protocolo' antes de checar produtos_utilizados.",
+    "Nunca declarar um produto como 'sem link no cadastro' se ele aparece em produtos_utilizados com link_individual_produto preenchido — confiar no match (exato/normalizado/compacto/alias/token/fuzzy) já resolvido aqui.",
     "Nunca enviar apenas o site geral quando existir ao menos um link_individual_produto resolvido.",
-    "Nunca inventar links."
+    "Nunca inventar links.",
+    "Se houver dúvida entre dois produtos parecidos, pedir confirmação ao lead em vez de escolher errado."
   ]
 }
 ```

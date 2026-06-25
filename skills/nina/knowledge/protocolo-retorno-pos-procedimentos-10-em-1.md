@@ -231,15 +231,15 @@ Se houver risco, dúvida técnica ou pedido de adaptação, encaminhar para derm
 
 > A Nina DEVE enviar esta lista quando o lead pedir o link do protocolo, quiser comprar os produtos do protocolo ou demonstrar interesse em adquirir os itens. **NÃO** dizer "não tenho link do protocolo" — usar a lista abaixo.
 
-- **Sabonete Líquido Facial** → https://lakma.com.br/products/sabonete-liquido-facial-250ml?_pos=1&_sid=e71294b11&_ss=r
-- **Gel Esfoliante** → https://lakma.com.br/products/gel-esfoliante-corporal-ozonizado-1kg?_pos=1&_sid=633454ffc&_ss=r
-- **Máscara Golden Glitter** → https://lakma.com.br/products/mascara-ouro-rejuvenescedora-150gr?_pos=1&_sid=7b0b04bfc&_ss=r
-- **Máscara do Kit Joias Raras** → https://lakma.com.br/products/kit-joias-raras?_pos=1&_sid=cc2e24439&_ss=r
-- **Fluido Revitalizante Passo 1** → https://lakma.com.br/products/fluido-passo-5-rejuvenescedor-50ml?_pos=1&_sid=bcf3c4f48&_ss=r
-- **Fluido Revitalizante Passo 2** → https://lakma.com.br/products/fluido-passo-2-hialuronico-50ml?_pos=1&_sid=4c1d3e80d&_ss=r
-- **Fluido Revitalizante Passo 3** → https://lakma.com.br/products/fluido-passo-5-rejuvenescedor-50ml?_pos=1&_sid=bcf3c4f48&_ss=r
-- **Fluido Revitalizante Passo 4** → https://lakma.com.br/products/fluido-passo-4-vitamina-c-50ml?_pos=1&_sid=976b990d3&_ss=r
-- **Fluido Revitalizante Passo 5** → https://lakma.com.br/products/fluido-passo-5-rejuvenescedor-50ml?_pos=1&_sid=bcf3c4f48&_ss=r
+- **Sabonete Líquido Facial** → https://lakma.com.br/products/sabonete-liquido-facial-250ml?_pos=1&_sid=e71294b11&_ss=r _(match: normalizado → "Sabonete Líquido Facial - 250ml")_
+- **Gel Esfoliante** → https://lakma.com.br/products/gel-esfoliante-corporal-ozonizado-1kg?_pos=1&_sid=633454ffc&_ss=r _(match: compacto → "Gel Esfoliante Corporal Ozonizado - 1kg")_
+- **Máscara Golden Glitter** → https://lakma.com.br/products/mascara-clareadora-30g?_pos=2&_sid=1cf15edab&_ss=r _(match: compacto → "Máscara Clareadora - 30g")_
+- **Máscara do Kit Joias Raras** → https://lakma.com.br/products/kit-joias-raras?_pos=1&_sid=cc2e24439&_ss=r _(match: compacto → "Kit Jóias Raras")_
+- **Fluido Revitalizante Passo 1** → https://lakma.com.br/products/fluido-passo-5-rejuvenescedor-50ml?_pos=1&_sid=bcf3c4f48&_ss=r _(match: token → "Fluido Revitalizante Passo 5 Nano Fill Up - 50ml")_
+- **Fluido Revitalizante Passo 2** → https://lakma.com.br/products/fluido-passo-2-hialuronico-50ml?_pos=1&_sid=4c1d3e80d&_ss=r _(match: compacto → "Fluido Revitalizante Passo 2 - Ácido Hialurônico - 50ml")_
+- **Fluido Revitalizante Passo 3** → https://lakma.com.br/products/fluido-passo-5-rejuvenescedor-50ml?_pos=1&_sid=bcf3c4f48&_ss=r _(match: token → "Fluido Revitalizante Passo 5 Nano Fill Up - 50ml")_
+- **Fluido Revitalizante Passo 4** → https://lakma.com.br/products/fluido-passo-4-vitamina-c-50ml?_pos=1&_sid=976b990d3&_ss=r _(match: compacto → "Fluido Revitalizante Passo 4 - Vitamina C 40% - 50ml")_
+- **Fluido Revitalizante Passo 5** → https://lakma.com.br/products/fluido-passo-5-rejuvenescedor-50ml?_pos=1&_sid=bcf3c4f48&_ss=r _(match: compacto → "Fluido Revitalizante Passo 5 Nano Fill Up - 50ml")_
 
 No site oficial use o cupom **LAKMA35** = 35% de desconto.
 
@@ -251,73 +251,82 @@ No site oficial use o cupom **LAKMA35** = 35% de desconto.
   "link_kit_unico": null,
   "produtos_utilizados": [
     {
-      "nome_citado_no_protocolo": "Sabonete Líquido Facial",
-      "nome_cadastrado": "Sabonete Líquido Facial - 250ml",
+      "nome_no_protocolo": "Sabonete Líquido Facial",
       "produto_encontrado": true,
+      "nome_produto_cadastrado": "Sabonete Líquido Facial - 250ml",
+      "match_tipo": "normalizado",
       "link_individual_produto": "https://lakma.com.br/products/sabonete-liquido-facial-250ml?_pos=1&_sid=e71294b11&_ss=r",
       "campo_origem_link_individual_produto": "site_url",
       "status_link_individual_produto": "aprovado"
     },
     {
-      "nome_citado_no_protocolo": "Gel Esfoliante",
-      "nome_cadastrado": "Gel Esfoliante Corporal Ozonizado - 1kg",
+      "nome_no_protocolo": "Gel Esfoliante",
       "produto_encontrado": true,
+      "nome_produto_cadastrado": "Gel Esfoliante Corporal Ozonizado - 1kg",
+      "match_tipo": "compacto",
       "link_individual_produto": "https://lakma.com.br/products/gel-esfoliante-corporal-ozonizado-1kg?_pos=1&_sid=633454ffc&_ss=r",
       "campo_origem_link_individual_produto": "site_url",
       "status_link_individual_produto": "aprovado"
     },
     {
-      "nome_citado_no_protocolo": "Máscara Golden Glitter",
-      "nome_cadastrado": "Máscara Facial de Ouro Golden Glitter - 150g",
+      "nome_no_protocolo": "Máscara Golden Glitter",
       "produto_encontrado": true,
-      "link_individual_produto": "https://lakma.com.br/products/mascara-ouro-rejuvenescedora-150gr?_pos=1&_sid=7b0b04bfc&_ss=r",
+      "nome_produto_cadastrado": "Máscara Clareadora - 30g",
+      "match_tipo": "compacto",
+      "link_individual_produto": "https://lakma.com.br/products/mascara-clareadora-30g?_pos=2&_sid=1cf15edab&_ss=r",
       "campo_origem_link_individual_produto": "site_url",
       "status_link_individual_produto": "aprovado"
     },
     {
-      "nome_citado_no_protocolo": "Máscara do Kit Joias Raras",
-      "nome_cadastrado": "Kit Jóias Raras",
+      "nome_no_protocolo": "Máscara do Kit Joias Raras",
       "produto_encontrado": true,
+      "nome_produto_cadastrado": "Kit Jóias Raras",
+      "match_tipo": "compacto",
       "link_individual_produto": "https://lakma.com.br/products/kit-joias-raras?_pos=1&_sid=cc2e24439&_ss=r",
       "campo_origem_link_individual_produto": "site_url",
       "status_link_individual_produto": "aprovado"
     },
     {
-      "nome_citado_no_protocolo": "Fluido Revitalizante Passo 1",
-      "nome_cadastrado": "Fluido Revitalizante Passo 5 Nano Fill Up - 50ml",
+      "nome_no_protocolo": "Fluido Revitalizante Passo 1",
       "produto_encontrado": true,
+      "nome_produto_cadastrado": "Fluido Revitalizante Passo 5 Nano Fill Up - 50ml",
+      "match_tipo": "token",
       "link_individual_produto": "https://lakma.com.br/products/fluido-passo-5-rejuvenescedor-50ml?_pos=1&_sid=bcf3c4f48&_ss=r",
       "campo_origem_link_individual_produto": "site_url",
       "status_link_individual_produto": "aprovado"
     },
     {
-      "nome_citado_no_protocolo": "Fluido Revitalizante Passo 2",
-      "nome_cadastrado": "Fluido Revitalizante Passo 2 - Ácido Hialurônico - 50ml",
+      "nome_no_protocolo": "Fluido Revitalizante Passo 2",
       "produto_encontrado": true,
+      "nome_produto_cadastrado": "Fluido Revitalizante Passo 2 - Ácido Hialurônico - 50ml",
+      "match_tipo": "compacto",
       "link_individual_produto": "https://lakma.com.br/products/fluido-passo-2-hialuronico-50ml?_pos=1&_sid=4c1d3e80d&_ss=r",
       "campo_origem_link_individual_produto": "site_url",
       "status_link_individual_produto": "aprovado"
     },
     {
-      "nome_citado_no_protocolo": "Fluido Revitalizante Passo 3",
-      "nome_cadastrado": "Fluido Revitalizante Passo 5 Nano Fill Up - 50ml",
+      "nome_no_protocolo": "Fluido Revitalizante Passo 3",
       "produto_encontrado": true,
+      "nome_produto_cadastrado": "Fluido Revitalizante Passo 5 Nano Fill Up - 50ml",
+      "match_tipo": "token",
       "link_individual_produto": "https://lakma.com.br/products/fluido-passo-5-rejuvenescedor-50ml?_pos=1&_sid=bcf3c4f48&_ss=r",
       "campo_origem_link_individual_produto": "site_url",
       "status_link_individual_produto": "aprovado"
     },
     {
-      "nome_citado_no_protocolo": "Fluido Revitalizante Passo 4",
-      "nome_cadastrado": "Fluido Revitalizante Passo 4 - Vitamina C 40% - 50ml",
+      "nome_no_protocolo": "Fluido Revitalizante Passo 4",
       "produto_encontrado": true,
+      "nome_produto_cadastrado": "Fluido Revitalizante Passo 4 - Vitamina C 40% - 50ml",
+      "match_tipo": "compacto",
       "link_individual_produto": "https://lakma.com.br/products/fluido-passo-4-vitamina-c-50ml?_pos=1&_sid=976b990d3&_ss=r",
       "campo_origem_link_individual_produto": "site_url",
       "status_link_individual_produto": "aprovado"
     },
     {
-      "nome_citado_no_protocolo": "Fluido Revitalizante Passo 5",
-      "nome_cadastrado": "Fluido Revitalizante Passo 5 Nano Fill Up - 50ml",
+      "nome_no_protocolo": "Fluido Revitalizante Passo 5",
       "produto_encontrado": true,
+      "nome_produto_cadastrado": "Fluido Revitalizante Passo 5 Nano Fill Up - 50ml",
+      "match_tipo": "compacto",
       "link_individual_produto": "https://lakma.com.br/products/fluido-passo-5-rejuvenescedor-50ml?_pos=1&_sid=bcf3c4f48&_ss=r",
       "campo_origem_link_individual_produto": "site_url",
       "status_link_individual_produto": "aprovado"
@@ -326,11 +335,13 @@ No site oficial use o cupom **LAKMA35** = 35% de desconto.
   "cupom_site": "LAKMA35",
   "desconto_site": "35%",
   "site_geral_fallback": "https://www.lakma.com.br",
-  "regra_envio": "Se houver link_kit_unico, enviar esse link. Caso contrário, enviar a lista produtos_utilizados com link_individual_produto de cada item encontrado. Sinalizar individualmente apenas os itens sem link. Mover lead para 'Link do site enviado' ao enviar qualquer link.",
+  "regra_envio": "Se houver link_kit_unico, enviar esse link. Caso contrário, enviar a lista produtos_utilizados com link_individual_produto de cada item encontrado (independente do match_tipo: exato, normalizado, compacto, alias, token ou fuzzy). Sinalizar individualmente apenas os itens sem link. Mover lead para 'Link do site enviado' ao enviar qualquer link.",
   "proibicoes": [
     "Nunca responder 'não tenho o link do protocolo' antes de checar produtos_utilizados.",
+    "Nunca declarar um produto como 'sem link no cadastro' se ele aparece em produtos_utilizados com link_individual_produto preenchido — confiar no match (exato/normalizado/compacto/alias/token/fuzzy) já resolvido aqui.",
     "Nunca enviar apenas o site geral quando existir ao menos um link_individual_produto resolvido.",
-    "Nunca inventar links."
+    "Nunca inventar links.",
+    "Se houver dúvida entre dois produtos parecidos, pedir confirmação ao lead em vez de escolher errado."
   ]
 }
 ```

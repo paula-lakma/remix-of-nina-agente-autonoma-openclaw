@@ -283,11 +283,11 @@ Se houver risco, dúvida técnica ou pedido de adaptação, encaminhar para derm
 
 > A Nina DEVE enviar esta lista quando o lead pedir o link do protocolo, quiser comprar os produtos do protocolo ou demonstrar interesse em adquirir os itens. **NÃO** dizer "não tenho link do protocolo" — usar a lista abaixo.
 
-- **Esfoliante Facial 250g** → https://lakma.com.br/products/esfoliante-facial-e-labial-30g?_pos=1&_psq=esfoliante&_ss=e&_v=1.0
-- **Peeling Químico 50ml** → https://lakma.com.br/products/peeling-quimico-secativo-50ml?_pos=1&_sid=60a60c291&_ss=r
-- **Zen Marine** → https://lakma.com.br/products/mascara-zen-marine-hidroplastica-150g?_pos=1&_sid=70f050ddf&_ss=r
-- **Fluido Melaleuca 50ml** → https://lakma.com.br/products/fluido-secativo-melaleuca-para-acne-50ml?_pos=1&_sid=b08c5f760&_ss=r
-- **Sabonete Ácido Glicólico 200ml** → https://lakma.com.br/products/sabonete-de-acido-glicolico-150ml?_pos=1&_sid=2f97aa27a&_ss=r
+- **Esfoliante Facial 250g** → https://lakma.com.br/products/esfoliante-facial-250ml?_pos=1&_sid=6964d0934&_ss=r _(match: normalizado → "Esfoliante Facial - 250ml")_
+- **Peeling Químico 50ml** → https://lakma.com.br/products/peeling-quimico-secativo-50ml?_pos=1&_sid=60a60c291&_ss=r _(match: normalizado → "Peeling Químico Secativo - 50ml")_
+- **Zen Marine** → https://lakma.com.br/products/mascara-zen-marine-hidroplastica-150g?_pos=1&_sid=70f050ddf&_ss=r _(match: compacto → "Máscara Hidroplástica Zen Marine - 150g")_
+- **Fluido Melaleuca 50ml** → https://lakma.com.br/products/fluido-secativo-melaleuca-para-acne-50ml?_pos=1&_sid=b08c5f760&_ss=r _(match: compacto → "Fluido Secativo - Melaleuca para acne 50ml")_
+- **Sabonete Ácido Glicólico 200ml** → https://lakma.com.br/products/sabonete-liquido-facial-250ml?_pos=1&_sid=e71294b11&_ss=r _(match: compacto → "Sabonete Líquido Facial - 250ml")_
 
 No site oficial use o cupom **LAKMA35** = 35% de desconto.
 
@@ -299,42 +299,47 @@ No site oficial use o cupom **LAKMA35** = 35% de desconto.
   "link_kit_unico": null,
   "produtos_utilizados": [
     {
-      "nome_citado_no_protocolo": "Esfoliante Facial 250g",
-      "nome_cadastrado": "Esfoliante Facial e Labial Bioativo - 30g",
+      "nome_no_protocolo": "Esfoliante Facial 250g",
       "produto_encontrado": true,
-      "link_individual_produto": "https://lakma.com.br/products/esfoliante-facial-e-labial-30g?_pos=1&_psq=esfoliante&_ss=e&_v=1.0",
+      "nome_produto_cadastrado": "Esfoliante Facial - 250ml",
+      "match_tipo": "normalizado",
+      "link_individual_produto": "https://lakma.com.br/products/esfoliante-facial-250ml?_pos=1&_sid=6964d0934&_ss=r",
       "campo_origem_link_individual_produto": "site_url",
       "status_link_individual_produto": "aprovado"
     },
     {
-      "nome_citado_no_protocolo": "Peeling Químico 50ml",
-      "nome_cadastrado": "Peeling Químico Secativo - 50ml",
+      "nome_no_protocolo": "Peeling Químico 50ml",
       "produto_encontrado": true,
+      "nome_produto_cadastrado": "Peeling Químico Secativo - 50ml",
+      "match_tipo": "normalizado",
       "link_individual_produto": "https://lakma.com.br/products/peeling-quimico-secativo-50ml?_pos=1&_sid=60a60c291&_ss=r",
       "campo_origem_link_individual_produto": "site_url",
       "status_link_individual_produto": "aprovado"
     },
     {
-      "nome_citado_no_protocolo": "Zen Marine",
-      "nome_cadastrado": "Máscara Hidroplástica Zen Marine - 150g",
+      "nome_no_protocolo": "Zen Marine",
       "produto_encontrado": true,
+      "nome_produto_cadastrado": "Máscara Hidroplástica Zen Marine - 150g",
+      "match_tipo": "compacto",
       "link_individual_produto": "https://lakma.com.br/products/mascara-zen-marine-hidroplastica-150g?_pos=1&_sid=70f050ddf&_ss=r",
       "campo_origem_link_individual_produto": "site_url",
       "status_link_individual_produto": "aprovado"
     },
     {
-      "nome_citado_no_protocolo": "Fluido Melaleuca 50ml",
-      "nome_cadastrado": "Fluido Secativo - Melaleuca para acne 50ml",
+      "nome_no_protocolo": "Fluido Melaleuca 50ml",
       "produto_encontrado": true,
+      "nome_produto_cadastrado": "Fluido Secativo - Melaleuca para acne 50ml",
+      "match_tipo": "compacto",
       "link_individual_produto": "https://lakma.com.br/products/fluido-secativo-melaleuca-para-acne-50ml?_pos=1&_sid=b08c5f760&_ss=r",
       "campo_origem_link_individual_produto": "site_url",
       "status_link_individual_produto": "aprovado"
     },
     {
-      "nome_citado_no_protocolo": "Sabonete Ácido Glicólico 200ml",
-      "nome_cadastrado": "Sabonete de Ácido Glicólico - 150ml",
+      "nome_no_protocolo": "Sabonete Ácido Glicólico 200ml",
       "produto_encontrado": true,
-      "link_individual_produto": "https://lakma.com.br/products/sabonete-de-acido-glicolico-150ml?_pos=1&_sid=2f97aa27a&_ss=r",
+      "nome_produto_cadastrado": "Sabonete Líquido Facial - 250ml",
+      "match_tipo": "compacto",
+      "link_individual_produto": "https://lakma.com.br/products/sabonete-liquido-facial-250ml?_pos=1&_sid=e71294b11&_ss=r",
       "campo_origem_link_individual_produto": "site_url",
       "status_link_individual_produto": "aprovado"
     }
@@ -342,11 +347,13 @@ No site oficial use o cupom **LAKMA35** = 35% de desconto.
   "cupom_site": "LAKMA35",
   "desconto_site": "35%",
   "site_geral_fallback": "https://www.lakma.com.br",
-  "regra_envio": "Se houver link_kit_unico, enviar esse link. Caso contrário, enviar a lista produtos_utilizados com link_individual_produto de cada item encontrado. Sinalizar individualmente apenas os itens sem link. Mover lead para 'Link do site enviado' ao enviar qualquer link.",
+  "regra_envio": "Se houver link_kit_unico, enviar esse link. Caso contrário, enviar a lista produtos_utilizados com link_individual_produto de cada item encontrado (independente do match_tipo: exato, normalizado, compacto, alias, token ou fuzzy). Sinalizar individualmente apenas os itens sem link. Mover lead para 'Link do site enviado' ao enviar qualquer link.",
   "proibicoes": [
     "Nunca responder 'não tenho o link do protocolo' antes de checar produtos_utilizados.",
+    "Nunca declarar um produto como 'sem link no cadastro' se ele aparece em produtos_utilizados com link_individual_produto preenchido — confiar no match (exato/normalizado/compacto/alias/token/fuzzy) já resolvido aqui.",
     "Nunca enviar apenas o site geral quando existir ao menos um link_individual_produto resolvido.",
-    "Nunca inventar links."
+    "Nunca inventar links.",
+    "Se houver dúvida entre dois produtos parecidos, pedir confirmação ao lead em vez de escolher errado."
   ]
 }
 ```

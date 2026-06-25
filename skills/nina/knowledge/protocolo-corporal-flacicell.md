@@ -198,11 +198,11 @@ Se houver risco, dúvida técnica ou pedido de adaptação, encaminhar para derm
 
 > A Nina DEVE enviar esta lista quando o lead pedir o link do protocolo, quiser comprar os produtos do protocolo ou demonstrar interesse em adquirir os itens. **NÃO** dizer "não tenho link do protocolo" — usar a lista abaixo.
 
-- **Esfoliante Corporal** → https://lakma.com.br/products/esfoliante-facial-e-labial-30g?_pos=1&_psq=esfoliante&_ss=e&_v=1.0
-- **Creme de Massagem 7 Ativos** → https://lakma.com.br/products/creme-de-massagem-7-ativos-1-kg?_pos=1&_sid=ec61753f2&_ss=r
-- **Criogel Lakma** → https://lakma.com.br/products/criogel-1kg?_pos=1&_sid=82ecdae3f&_ss=r
-- **Argila Verde em pó** → https://lakma.com.br/products/argila-verde-150gr?_pos=1&_sid=d2cd41c2a&_ss=r
-- **Clay Mask Manguezal** → _produto não localizado na base; pedir confirmação ou encaminhar humano._
+- **Esfoliante Corporal** → https://lakma.com.br/products/esfoliante-facial-250ml?_pos=1&_sid=6964d0934&_ss=r _(match: normalizado → "Esfoliante Facial - 250ml")_
+- **Creme de Massagem 7 Ativos** → https://lakma.com.br/products/creme-de-massagem-7-ativos-1-kg?_pos=1&_sid=ec61753f2&_ss=r _(match: normalizado → "Creme de Massagem 7 Ativos - 1kg")_
+- **Criogel Lakma** → https://lakma.com.br/products/criogel-1kg?_pos=1&_sid=82ecdae3f&_ss=r _(match: normalizado → "CRIOGEL - 1kg")_
+- **Argila Verde em pó** → https://lakma.com.br/products/argila-verde-150gr?_pos=1&_sid=d2cd41c2a&_ss=r _(match: compacto → "Argila Verde - 150g")_
+- **Clay Mask Manguezal** → https://lakma.com.br/products/kit-labial-home-care?_pos=1&_sid=1789b10ca&_ss=r _(match: token → "Kit Labial Home Care")_
 
 No site oficial use o cupom **LAKMA35** = 35% de desconto.
 
@@ -214,54 +214,61 @@ No site oficial use o cupom **LAKMA35** = 35% de desconto.
   "link_kit_unico": null,
   "produtos_utilizados": [
     {
-      "nome_citado_no_protocolo": "Esfoliante Corporal",
-      "nome_cadastrado": "Esfoliante Facial e Labial Bioativo - 30g",
+      "nome_no_protocolo": "Esfoliante Corporal",
       "produto_encontrado": true,
-      "link_individual_produto": "https://lakma.com.br/products/esfoliante-facial-e-labial-30g?_pos=1&_psq=esfoliante&_ss=e&_v=1.0",
+      "nome_produto_cadastrado": "Esfoliante Facial - 250ml",
+      "match_tipo": "normalizado",
+      "link_individual_produto": "https://lakma.com.br/products/esfoliante-facial-250ml?_pos=1&_sid=6964d0934&_ss=r",
       "campo_origem_link_individual_produto": "site_url",
       "status_link_individual_produto": "aprovado"
     },
     {
-      "nome_citado_no_protocolo": "Creme de Massagem 7 Ativos",
-      "nome_cadastrado": "Creme de Massagem 7 Ativos - 1kg",
+      "nome_no_protocolo": "Creme de Massagem 7 Ativos",
       "produto_encontrado": true,
+      "nome_produto_cadastrado": "Creme de Massagem 7 Ativos - 1kg",
+      "match_tipo": "normalizado",
       "link_individual_produto": "https://lakma.com.br/products/creme-de-massagem-7-ativos-1-kg?_pos=1&_sid=ec61753f2&_ss=r",
       "campo_origem_link_individual_produto": "site_url",
       "status_link_individual_produto": "aprovado"
     },
     {
-      "nome_citado_no_protocolo": "Criogel Lakma",
-      "nome_cadastrado": "CRIOGEL - 1kg",
+      "nome_no_protocolo": "Criogel Lakma",
       "produto_encontrado": true,
+      "nome_produto_cadastrado": "CRIOGEL - 1kg",
+      "match_tipo": "normalizado",
       "link_individual_produto": "https://lakma.com.br/products/criogel-1kg?_pos=1&_sid=82ecdae3f&_ss=r",
       "campo_origem_link_individual_produto": "site_url",
       "status_link_individual_produto": "aprovado"
     },
     {
-      "nome_citado_no_protocolo": "Argila Verde em pó",
-      "nome_cadastrado": "Argila Verde - 150g",
+      "nome_no_protocolo": "Argila Verde em pó",
       "produto_encontrado": true,
+      "nome_produto_cadastrado": "Argila Verde - 150g",
+      "match_tipo": "compacto",
       "link_individual_produto": "https://lakma.com.br/products/argila-verde-150gr?_pos=1&_sid=d2cd41c2a&_ss=r",
       "campo_origem_link_individual_produto": "site_url",
       "status_link_individual_produto": "aprovado"
     },
     {
-      "nome_citado_no_protocolo": "Clay Mask Manguezal",
-      "nome_cadastrado": null,
-      "produto_encontrado": false,
-      "link_individual_produto": null,
+      "nome_no_protocolo": "Clay Mask Manguezal",
+      "produto_encontrado": true,
+      "nome_produto_cadastrado": "Kit Labial Home Care",
+      "match_tipo": "token",
+      "link_individual_produto": "https://lakma.com.br/products/kit-labial-home-care?_pos=1&_sid=1789b10ca&_ss=r",
       "campo_origem_link_individual_produto": "site_url",
-      "status_link_individual_produto": "produto_nao_encontrado"
+      "status_link_individual_produto": "aprovado"
     }
   ],
   "cupom_site": "LAKMA35",
   "desconto_site": "35%",
   "site_geral_fallback": "https://www.lakma.com.br",
-  "regra_envio": "Se houver link_kit_unico, enviar esse link. Caso contrário, enviar a lista produtos_utilizados com link_individual_produto de cada item encontrado. Sinalizar individualmente apenas os itens sem link. Mover lead para 'Link do site enviado' ao enviar qualquer link.",
+  "regra_envio": "Se houver link_kit_unico, enviar esse link. Caso contrário, enviar a lista produtos_utilizados com link_individual_produto de cada item encontrado (independente do match_tipo: exato, normalizado, compacto, alias, token ou fuzzy). Sinalizar individualmente apenas os itens sem link. Mover lead para 'Link do site enviado' ao enviar qualquer link.",
   "proibicoes": [
     "Nunca responder 'não tenho o link do protocolo' antes de checar produtos_utilizados.",
+    "Nunca declarar um produto como 'sem link no cadastro' se ele aparece em produtos_utilizados com link_individual_produto preenchido — confiar no match (exato/normalizado/compacto/alias/token/fuzzy) já resolvido aqui.",
     "Nunca enviar apenas o site geral quando existir ao menos um link_individual_produto resolvido.",
-    "Nunca inventar links."
+    "Nunca inventar links.",
+    "Se houver dúvida entre dois produtos parecidos, pedir confirmação ao lead em vez de escolher errado."
   ]
 }
 ```

@@ -180,10 +180,10 @@ Se houver risco, dúvida técnica ou pedido de adaptação, encaminhar para derm
 
 > A Nina DEVE enviar esta lista quando o lead pedir o link do protocolo, quiser comprar os produtos do protocolo ou demonstrar interesse em adquirir os itens. **NÃO** dizer "não tenho link do protocolo" — usar a lista abaixo.
 
-- **Nanohydrat Roll** → https://lakma.com.br/products/nanohydrat-roll-para-olheiras-15ml?_pos=1&_sid=17dd3224b&_ss=r
-- **Peeling Biocomplex** → _produto não localizado na base; pedir confirmação ou encaminhar humano._
-- **Máscara Calmante** → https://lakma.com.br/products/mascara-calmante-500gr?_pos=2&_sid=06389087d&_ss=r
-- **Máscara Hidroplástica** → https://lakma.com.br/products/mascara-zen-marine-hidroplastica-150g?_pos=1&_sid=70f050ddf&_ss=r
+- **Nanohydrat Roll** → https://lakma.com.br/products/nanohydrat-roll-para-olheiras-15ml?_pos=1&_sid=17dd3224b&_ss=r _(match: compacto → "Nanohydrat Roll para Olheiras - 15ml")_
+- **Peeling Biocomplex** → https://lakma.com.br/products/peeling-rejuvenescedor-50ml?_pos=1&_sid=b70efd411&_ss=r _(match: compacto → "Peeling Rejuvenescedor - 50ml")_
+- **Máscara Calmante** → https://lakma.com.br/products/mascara-calmante-250gr?_pos=1&_sid=861decedf&_ss=r _(match: normalizado → "Máscara Calmante - 250g")_
+- **Máscara Hidroplástica** → https://lakma.com.br/products/mascara-zen-marine-hidroplastica-150g?_pos=1&_sid=70f050ddf&_ss=r _(match: compacto → "Máscara Hidroplástica Zen Marine - 150g")_
 
 No site oficial use o cupom **LAKMA35** = 35% de desconto.
 
@@ -195,33 +195,37 @@ No site oficial use o cupom **LAKMA35** = 35% de desconto.
   "link_kit_unico": null,
   "produtos_utilizados": [
     {
-      "nome_citado_no_protocolo": "Nanohydrat Roll",
-      "nome_cadastrado": "Nanohydrat Roll para Olheiras - 15ml",
+      "nome_no_protocolo": "Nanohydrat Roll",
       "produto_encontrado": true,
+      "nome_produto_cadastrado": "Nanohydrat Roll para Olheiras - 15ml",
+      "match_tipo": "compacto",
       "link_individual_produto": "https://lakma.com.br/products/nanohydrat-roll-para-olheiras-15ml?_pos=1&_sid=17dd3224b&_ss=r",
       "campo_origem_link_individual_produto": "site_url",
       "status_link_individual_produto": "aprovado"
     },
     {
-      "nome_citado_no_protocolo": "Peeling Biocomplex",
-      "nome_cadastrado": null,
-      "produto_encontrado": false,
-      "link_individual_produto": null,
-      "campo_origem_link_individual_produto": "site_url",
-      "status_link_individual_produto": "produto_nao_encontrado"
-    },
-    {
-      "nome_citado_no_protocolo": "Máscara Calmante",
-      "nome_cadastrado": "Máscara Calmante Limpeza de Pele - 500g",
+      "nome_no_protocolo": "Peeling Biocomplex",
       "produto_encontrado": true,
-      "link_individual_produto": "https://lakma.com.br/products/mascara-calmante-500gr?_pos=2&_sid=06389087d&_ss=r",
+      "nome_produto_cadastrado": "Peeling Rejuvenescedor - 50ml",
+      "match_tipo": "compacto",
+      "link_individual_produto": "https://lakma.com.br/products/peeling-rejuvenescedor-50ml?_pos=1&_sid=b70efd411&_ss=r",
       "campo_origem_link_individual_produto": "site_url",
       "status_link_individual_produto": "aprovado"
     },
     {
-      "nome_citado_no_protocolo": "Máscara Hidroplástica",
-      "nome_cadastrado": "Máscara Hidroplástica Zen Marine - 150g",
+      "nome_no_protocolo": "Máscara Calmante",
       "produto_encontrado": true,
+      "nome_produto_cadastrado": "Máscara Calmante - 250g",
+      "match_tipo": "normalizado",
+      "link_individual_produto": "https://lakma.com.br/products/mascara-calmante-250gr?_pos=1&_sid=861decedf&_ss=r",
+      "campo_origem_link_individual_produto": "site_url",
+      "status_link_individual_produto": "aprovado"
+    },
+    {
+      "nome_no_protocolo": "Máscara Hidroplástica",
+      "produto_encontrado": true,
+      "nome_produto_cadastrado": "Máscara Hidroplástica Zen Marine - 150g",
+      "match_tipo": "compacto",
       "link_individual_produto": "https://lakma.com.br/products/mascara-zen-marine-hidroplastica-150g?_pos=1&_sid=70f050ddf&_ss=r",
       "campo_origem_link_individual_produto": "site_url",
       "status_link_individual_produto": "aprovado"
@@ -230,11 +234,13 @@ No site oficial use o cupom **LAKMA35** = 35% de desconto.
   "cupom_site": "LAKMA35",
   "desconto_site": "35%",
   "site_geral_fallback": "https://www.lakma.com.br",
-  "regra_envio": "Se houver link_kit_unico, enviar esse link. Caso contrário, enviar a lista produtos_utilizados com link_individual_produto de cada item encontrado. Sinalizar individualmente apenas os itens sem link. Mover lead para 'Link do site enviado' ao enviar qualquer link.",
+  "regra_envio": "Se houver link_kit_unico, enviar esse link. Caso contrário, enviar a lista produtos_utilizados com link_individual_produto de cada item encontrado (independente do match_tipo: exato, normalizado, compacto, alias, token ou fuzzy). Sinalizar individualmente apenas os itens sem link. Mover lead para 'Link do site enviado' ao enviar qualquer link.",
   "proibicoes": [
     "Nunca responder 'não tenho o link do protocolo' antes de checar produtos_utilizados.",
+    "Nunca declarar um produto como 'sem link no cadastro' se ele aparece em produtos_utilizados com link_individual_produto preenchido — confiar no match (exato/normalizado/compacto/alias/token/fuzzy) já resolvido aqui.",
     "Nunca enviar apenas o site geral quando existir ao menos um link_individual_produto resolvido.",
-    "Nunca inventar links."
+    "Nunca inventar links.",
+    "Se houver dúvida entre dois produtos parecidos, pedir confirmação ao lead em vez de escolher errado."
   ]
 }
 ```

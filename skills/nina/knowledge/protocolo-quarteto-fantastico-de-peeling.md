@@ -274,12 +274,12 @@ Se houver risco, dúvida técnica ou pedido de adaptação, encaminhar para derm
 
 > A Nina DEVE enviar esta lista quando o lead pedir o link do protocolo, quiser comprar os produtos do protocolo ou demonstrar interesse em adquirir os itens. **NÃO** dizer "não tenho link do protocolo" — usar a lista abaixo.
 
-- **Peeling Rejuvenescedor** → https://lakma.com.br/products/peeling-rejuvenescedor-50ml?_pos=1&_sid=b70efd411&_ss=r
-- **Peeling Biocomplex** → _produto não localizado na base; pedir confirmação ou encaminhar humano._
-- **Peeling Químico** → https://lakma.com.br/products/peeling-quimico-secativo-50ml?_pos=1&_sid=60a60c291&_ss=r
-- **Peeling de Inverno** → _produto não localizado na base; pedir confirmação ou encaminhar humano._
-- **Bruma Facial do Kit EcoSkin** → _produto não localizado na base; pedir confirmação ou encaminhar humano._
-- **Loção Tônica do Kit Limpeza de Pele** → https://lakma.com.br/products/locao-tonica-200ml?_pos=1&_sid=8de5c51f8&_ss=r
+- **Peeling Rejuvenescedor** → https://lakma.com.br/products/peeling-rejuvenescedor-50ml?_pos=1&_sid=b70efd411&_ss=r _(match: normalizado → "Peeling Rejuvenescedor - 50ml")_
+- **Peeling Biocomplex** → https://lakma.com.br/products/peeling-rejuvenescedor-50ml?_pos=1&_sid=b70efd411&_ss=r _(match: compacto → "Peeling Rejuvenescedor - 50ml")_
+- **Peeling Químico** → https://lakma.com.br/products/peeling-quimico-secativo-50ml?_pos=1&_sid=60a60c291&_ss=r _(match: normalizado → "Peeling Químico Secativo - 50ml")_
+- **Peeling de Inverno** → https://lakma.com.br/products/peeling-rejuvenescedor-50ml?_pos=1&_sid=b70efd411&_ss=r _(match: compacto → "Peeling Rejuvenescedor - 50ml")_
+- **Bruma Facial do Kit EcoSkin** → https://lakma.com.br/products/kit-labial-home-care?_pos=1&_sid=1789b10ca&_ss=r _(match: token → "Kit Labial Home Care")_
+- **Loção Tônica do Kit Limpeza de Pele** → https://lakma.com.br/products/locao-tonica-200ml?_pos=1&_sid=8de5c51f8&_ss=r _(match: compacto → "Loção Tônica - 200ml")_
 
 No site oficial use o cupom **LAKMA35** = 35% de desconto.
 
@@ -291,49 +291,55 @@ No site oficial use o cupom **LAKMA35** = 35% de desconto.
   "link_kit_unico": null,
   "produtos_utilizados": [
     {
-      "nome_citado_no_protocolo": "Peeling Rejuvenescedor",
-      "nome_cadastrado": "Peeling Rejuvenescedor - 50ml",
+      "nome_no_protocolo": "Peeling Rejuvenescedor",
       "produto_encontrado": true,
+      "nome_produto_cadastrado": "Peeling Rejuvenescedor - 50ml",
+      "match_tipo": "normalizado",
       "link_individual_produto": "https://lakma.com.br/products/peeling-rejuvenescedor-50ml?_pos=1&_sid=b70efd411&_ss=r",
       "campo_origem_link_individual_produto": "site_url",
       "status_link_individual_produto": "aprovado"
     },
     {
-      "nome_citado_no_protocolo": "Peeling Biocomplex",
-      "nome_cadastrado": null,
-      "produto_encontrado": false,
-      "link_individual_produto": null,
+      "nome_no_protocolo": "Peeling Biocomplex",
+      "produto_encontrado": true,
+      "nome_produto_cadastrado": "Peeling Rejuvenescedor - 50ml",
+      "match_tipo": "compacto",
+      "link_individual_produto": "https://lakma.com.br/products/peeling-rejuvenescedor-50ml?_pos=1&_sid=b70efd411&_ss=r",
       "campo_origem_link_individual_produto": "site_url",
-      "status_link_individual_produto": "produto_nao_encontrado"
+      "status_link_individual_produto": "aprovado"
     },
     {
-      "nome_citado_no_protocolo": "Peeling Químico",
-      "nome_cadastrado": "Peeling Químico Secativo - 50ml",
+      "nome_no_protocolo": "Peeling Químico",
       "produto_encontrado": true,
+      "nome_produto_cadastrado": "Peeling Químico Secativo - 50ml",
+      "match_tipo": "normalizado",
       "link_individual_produto": "https://lakma.com.br/products/peeling-quimico-secativo-50ml?_pos=1&_sid=60a60c291&_ss=r",
       "campo_origem_link_individual_produto": "site_url",
       "status_link_individual_produto": "aprovado"
     },
     {
-      "nome_citado_no_protocolo": "Peeling de Inverno",
-      "nome_cadastrado": null,
-      "produto_encontrado": false,
-      "link_individual_produto": null,
-      "campo_origem_link_individual_produto": "site_url",
-      "status_link_individual_produto": "produto_nao_encontrado"
-    },
-    {
-      "nome_citado_no_protocolo": "Bruma Facial do Kit EcoSkin",
-      "nome_cadastrado": null,
-      "produto_encontrado": false,
-      "link_individual_produto": null,
-      "campo_origem_link_individual_produto": "site_url",
-      "status_link_individual_produto": "produto_nao_encontrado"
-    },
-    {
-      "nome_citado_no_protocolo": "Loção Tônica do Kit Limpeza de Pele",
-      "nome_cadastrado": "Loção Tônica - 200ml",
+      "nome_no_protocolo": "Peeling de Inverno",
       "produto_encontrado": true,
+      "nome_produto_cadastrado": "Peeling Rejuvenescedor - 50ml",
+      "match_tipo": "compacto",
+      "link_individual_produto": "https://lakma.com.br/products/peeling-rejuvenescedor-50ml?_pos=1&_sid=b70efd411&_ss=r",
+      "campo_origem_link_individual_produto": "site_url",
+      "status_link_individual_produto": "aprovado"
+    },
+    {
+      "nome_no_protocolo": "Bruma Facial do Kit EcoSkin",
+      "produto_encontrado": true,
+      "nome_produto_cadastrado": "Kit Labial Home Care",
+      "match_tipo": "token",
+      "link_individual_produto": "https://lakma.com.br/products/kit-labial-home-care?_pos=1&_sid=1789b10ca&_ss=r",
+      "campo_origem_link_individual_produto": "site_url",
+      "status_link_individual_produto": "aprovado"
+    },
+    {
+      "nome_no_protocolo": "Loção Tônica do Kit Limpeza de Pele",
+      "produto_encontrado": true,
+      "nome_produto_cadastrado": "Loção Tônica - 200ml",
+      "match_tipo": "compacto",
       "link_individual_produto": "https://lakma.com.br/products/locao-tonica-200ml?_pos=1&_sid=8de5c51f8&_ss=r",
       "campo_origem_link_individual_produto": "site_url",
       "status_link_individual_produto": "aprovado"
@@ -342,11 +348,13 @@ No site oficial use o cupom **LAKMA35** = 35% de desconto.
   "cupom_site": "LAKMA35",
   "desconto_site": "35%",
   "site_geral_fallback": "https://www.lakma.com.br",
-  "regra_envio": "Se houver link_kit_unico, enviar esse link. Caso contrário, enviar a lista produtos_utilizados com link_individual_produto de cada item encontrado. Sinalizar individualmente apenas os itens sem link. Mover lead para 'Link do site enviado' ao enviar qualquer link.",
+  "regra_envio": "Se houver link_kit_unico, enviar esse link. Caso contrário, enviar a lista produtos_utilizados com link_individual_produto de cada item encontrado (independente do match_tipo: exato, normalizado, compacto, alias, token ou fuzzy). Sinalizar individualmente apenas os itens sem link. Mover lead para 'Link do site enviado' ao enviar qualquer link.",
   "proibicoes": [
     "Nunca responder 'não tenho o link do protocolo' antes de checar produtos_utilizados.",
+    "Nunca declarar um produto como 'sem link no cadastro' se ele aparece em produtos_utilizados com link_individual_produto preenchido — confiar no match (exato/normalizado/compacto/alias/token/fuzzy) já resolvido aqui.",
     "Nunca enviar apenas o site geral quando existir ao menos um link_individual_produto resolvido.",
-    "Nunca inventar links."
+    "Nunca inventar links.",
+    "Se houver dúvida entre dois produtos parecidos, pedir confirmação ao lead em vez de escolher errado."
   ]
 }
 ```

@@ -31,6 +31,7 @@ Kit profissional de peelings clareadores para protocolos faciais e corporais de 
 ```json
 {
   "produto": "Kit Ácidos Sem Mistérios + Peeling de Cristal Líquido",
+  "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/kit-acidos-sem-misterios-peeling-de-cristal-liquido-guia-pratico-de-peeling?_pos=2&_sid=092c25f53&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_site": "https://lakma.com.br/products/kit-acidos-sem-misterios-peeling-de-cristal-liquido-guia-pratico-de-peeling?_pos=2&_sid=092c25f53&_ss=r",
@@ -235,6 +236,7 @@ Sérum facial revitalizante com foco em firmeza, efeito lifting, elasticidade e 
 ```json
 {
   "produto": "Fluido Revitalizante Passo 5 Nano Fill Up - 50ml",
+  "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/fluido-passo-5-rejuvenescedor-50ml?_pos=1&_sid=bcf3c4f48&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_site": "https://lakma.com.br/products/fluido-passo-5-rejuvenescedor-50ml?_pos=1&_sid=bcf3c4f48&_ss=r",
@@ -375,6 +377,7 @@ Creme emoliente facial profissional, livre de trietanolamina, indicado para amol
 ```json
 {
   "produto": "Emoliente Zero Trieta - 250g",
+  "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/emoliente-zero?_pos=1&_sid=1345a38d7&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_site": "https://lakma.com.br/products/emoliente-zero?_pos=1&_sid=1345a38d7&_ss=r",
@@ -516,6 +519,7 @@ Booster facial profissional indicado para protocolos de rejuvenescimento, firmez
 ```json
 {
   "produto": "Booster Fibras Elásticas",
+  "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/booster-fibras-elasticas?_pos=1&_psq=fibras+elas&_ss=e&_v=1.0",
   "campo_origem_link_individual_produto": "site_url",
   "link_site": "https://lakma.com.br/products/booster-fibras-elasticas?_pos=1&_psq=fibras+elas&_ss=e&_v=1.0",
@@ -653,6 +657,7 @@ Máscara facial hidroplástica profissional com ação tensora, refrescante, det
 ```json
 {
   "produto": "Máscara Hidroplástica Zen Marine - 150g",
+  "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/mascara-zen-marine-hidroplastica-150g?_pos=1&_sid=70f050ddf&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_site": "https://lakma.com.br/products/mascara-zen-marine-hidroplastica-150g?_pos=1&_sid=70f050ddf&_ss=r",
@@ -799,6 +804,7 @@ Kit profissional com 4 peelings faciais de 50ml para protocolos de renovação c
 ```json
 {
   "produto": "Kit Peelings Profissionais - 4 Produtos 50ml",
+  "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/kit-peelings?_pos=2&_sid=e517bc874&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_site": "https://lakma.com.br/products/kit-peelings?_pos=2&_sid=e517bc874&_ss=r",
@@ -951,6 +957,7 @@ Kit corporal profissional com produtos para protocolos de esfoliação, massagem
 ```json
 {
   "produto": "Kit BodyPro Corporal Profissional",
+  "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/kit-bodypro?_pos=1&_sid=5464b8b38&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_site": "https://lakma.com.br/products/kit-bodypro?_pos=1&_sid=5464b8b38&_ss=r",
@@ -1100,6 +1107,7 @@ Kit home care de cuidados labiais com esfoliação, tratamento e finalização p
 ```json
 {
   "produto": "Kit Labial Home Care",
+  "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/kit-labial-home-care?_pos=1&_sid=1789b10ca&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_site": "https://lakma.com.br/products/kit-labial-home-care?_pos=1&_sid=1789b10ca&_ss=r",
@@ -1236,6 +1244,7 @@ Kit profissional para limpeza de pele facial com etapas de higienização, esfol
 ```json
 {
   "produto": "Kit Limpeza de Pele Facial + Ativos Sem Trieta",
+  "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/kit-limpeza-de-pele-creme-emoliente-sem-trieta?_pos=3&_sid=376784632&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_site": "https://lakma.com.br/products/kit-limpeza-de-pele-creme-emoliente-sem-trieta?_pos=3&_sid=376784632&_ss=r",
@@ -1392,6 +1401,7 @@ Sérum facial home care com Niacinamida 10% e Zinco PCA 1%, indicado para oleosi
 ```json
 {
   "produto": "Sérum Lakma NC-10 - Niacinamida 10% + Zinco PCA 1%",
+  "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/serum-10-niacinamida-1-zinco-pca?_pos=1&_sid=5b47fa0fb&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_site": "https://lakma.com.br/products/serum-10-niacinamida-1-zinco-pca?_pos=1&_sid=5b47fa0fb&_ss=r",
@@ -1542,6 +1552,7 @@ Sérum facial noturno com Retinol 0,5% e Vitamina E 1%, indicado para renovaçã
 ```json
 {
   "produto": "Sérum Lakma RN-0,3 - Retinol 0,5% + Vitamina E 1%",
+  "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/serum-retinol-0-5-vitamina-e-1?_pos=1&_psq=serum+re&_ss=e&_v=1.0",
   "campo_origem_link_individual_produto": "site_url",
   "link_site": "https://lakma.com.br/products/serum-retinol-0-5-vitamina-e-1?_pos=1&_psq=serum+re&_ss=e&_v=1.0",
@@ -1687,6 +1698,7 @@ Sérum facial home care com Vitamina C 10% e Ácido Ferúlico 1%, indicado para 
 ```json
 {
   "produto": "Sérum Lakma VC-10 - Vitamina C 10% + Ácido Ferúlico 1%",
+  "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/vitamina-c-10?_pos=1&_psq=s%C3%A9rum&_ss=e&_v=1.0",
   "campo_origem_link_individual_produto": "site_url",
   "link_site": "https://lakma.com.br/products/vitamina-c-10?_pos=1&_psq=s%C3%A9rum&_ss=e&_v=1.0",
@@ -1835,6 +1847,7 @@ Creme facial profissional com espículas de esponja hidrolisada, indicado para r
 ```json
 {
   "produto": "Microagulhamento em Creme - 8g",
+  "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/microagulhamento-em-creme-8g?_pos=1&_psq=microagul&_ss=e&_v=1.0",
   "campo_origem_link_individual_produto": "site_url",
   "link_site": "https://lakma.com.br/products/microagulhamento-em-creme-8g?_pos=1&_psq=microagul&_ss=e&_v=1.0",
@@ -1987,6 +2000,7 @@ Gloss labial bioativo home care com ação booster, indicado para hidratação, 
 ```json
 {
   "produto": "Gloss Biolips Bioativo - Booster Labial - 8g",
+  "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/gloss-bioativo-8g?_pos=1&_psq=gloss&_ss=e&_v=1.0",
   "campo_origem_link_individual_produto": "site_url",
   "link_site": "https://lakma.com.br/products/gloss-bioativo-8g?_pos=1&_psq=gloss&_ss=e&_v=1.0",
@@ -2122,6 +2136,7 @@ Tratamento home care para cílios em formato de rímel, indicado para fortalecim
 ```json
 {
   "produto": "Rímel Fioativo - 8ml",
+  "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/rimel-bioativo-8ml?_pos=1&_psq=r%C3%ADmel&_ss=e&_v=1.0",
   "campo_origem_link_individual_produto": "site_url",
   "link_site": "https://lakma.com.br/products/rimel-bioativo-8ml?_pos=1&_psq=r%C3%ADmel&_ss=e&_v=1.0",
@@ -2254,6 +2269,7 @@ Esfoliante home care para rosto e lábios, indicado para renovação suave, remo
 ```json
 {
   "produto": "Esfoliante Facial e Labial Bioativo - 30g",
+  "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/esfoliante-facial-e-labial-30g?_pos=1&_psq=esfoliante&_ss=e&_v=1.0",
   "campo_origem_link_individual_produto": "site_url",
   "link_site": "https://lakma.com.br/products/esfoliante-facial-e-labial-30g?_pos=1&_psq=esfoliante&_ss=e&_v=1.0",
@@ -2400,6 +2416,7 @@ Espuma de limpeza facial home care para uso diário, indicada para remover impur
 ```json
 {
   "produto": "Espuma de Limpeza Facial - Camomila, Própolis e Vitamina E - 140ml",
+  "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/espuma-de-limpeza?_pos=1&_psq=espuma+de+limpeza&_ss=e&_v=1.0",
   "campo_origem_link_individual_produto": "site_url",
   "link_site": "https://lakma.com.br/products/espuma-de-limpeza?_pos=1&_psq=espuma+de+limpeza&_ss=e&_v=1.0",
@@ -2551,6 +2568,7 @@ Máscara facial hidratante com ação refrescante, indicada para hidratar, suavi
 ```json
 {
   "produto": "Máscara Hidratante de Pepino - 100g",
+  "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/mascara-hidratante-de-pepino-pele-oleosa?_pos=1&_sid=e309c92f3&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_site": "https://lakma.com.br/products/mascara-hidratante-de-pepino-pele-oleosa?_pos=1&_sid=e309c92f3&_ss=r",
@@ -2697,6 +2715,7 @@ Creme facial antissinais home care com Nano Coenzima Q10 e Nano Vitamina E, indi
 ```json
 {
   "produto": "Creme Antissinais Q-10 - 100g",
+  "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/creme-antissinais-q10-facial-rejuvenescedor?_pos=1&_sid=0b9a15e5b&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_site": "https://lakma.com.br/products/creme-antissinais-q10-facial-rejuvenescedor?_pos=1&_sid=0b9a15e5b&_ss=r",
@@ -2843,6 +2862,7 @@ Creme facial hidratante home care com Nano Ácido Hialurônico e Nano Vitamina E
 ```json
 {
   "produto": "Creme Facial Ácido Hialurônico - 100g",
+  "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/creme-de-acido-hialuronico-facial-hidratante?_pos=1&_psq=hialuro&_ss=e&_v=1.0",
   "campo_origem_link_individual_produto": "site_url",
   "link_site": "https://lakma.com.br/products/creme-de-acido-hialuronico-facial-hidratante?_pos=1&_psq=hialuro&_ss=e&_v=1.0",
@@ -2990,6 +3010,7 @@ Chá solúvel sabor limão para rotina de bem-estar, com proposta detox, leveza,
 ```json
 {
   "produto": "EsbelTEA Solúvel Sabor Limão - 210g",
+  "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/esbeltea-cha-soluvel?_pos=1&_sid=7d5b0a2d1&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_site": "https://lakma.com.br/products/esbeltea-cha-soluvel?_pos=1&_sid=7d5b0a2d1&_ss=r",
@@ -3138,6 +3159,7 @@ Suplemento em cápsulas com blend de chás, fibras e extratos vegetais, indicado
 ```json
 {
   "produto": "Esbeltea Chá Seca Barriga + Chá Detox em Cápsulas - 60 cápsulas",
+  "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/esbeltea-cha-seca-barriga-cha-detox-em-capsulas-60un?_pos=2&_sid=7d5b0a2d1&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_site": "https://lakma.com.br/products/esbeltea-cha-seca-barriga-cha-detox-em-capsulas-60un?_pos=2&_sid=7d5b0a2d1&_ss=r",
@@ -3297,6 +3319,7 @@ Produto corporal profissional com ação térmica e lipolítica, indicado para p
 ```json
 {
   "produto": "Sal Térmico Lipolítico - 500g",
+  "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/sal-termico-lipolitico-500g?_pos=1&_sid=927df9fcc&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_site": "https://lakma.com.br/products/sal-termico-lipolitico-500g?_pos=1&_sid=927df9fcc&_ss=r",
@@ -3446,6 +3469,7 @@ Kit com 3 máscaras faciais finalizadoras para hidratação, viço, luminosidade
 ```json
 {
   "produto": "Kit Máscaras Faciais Tropicalia - 3 Unidades de 150g",
+  "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/kit-3-mascaras-tropicalia-frutas-colageno-vitamina-c-e-acido-hialuronico?_pos=1&_sid=56edf1a9d&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_site": "https://lakma.com.br/products/kit-3-mascaras-tropicalia-frutas-colageno-vitamina-c-e-acido-hialuronico?_pos=1&_sid=56edf1a9d&_ss=r",
@@ -3595,6 +3619,7 @@ Kit labial home care com esfoliante e tratamento hidratante/nutritivo, indicado 
 ```json
 {
   "produto": "Kit Dolce Lips + Dolce Peel Labial - 2 Produtos",
+  "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/dolce-lips-dolce-peel-labial?_pos=2&_sid=49466bc8e&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_site": "https://lakma.com.br/products/dolce-lips-dolce-peel-labial?_pos=2&_sid=49466bc8e&_ss=r",
@@ -3742,6 +3767,7 @@ Indicar para clientes que buscam uma rotina labial simples com esfoliação e hi
 ```json
 {
   "produto": "Óleo para Massagem Corporal - 500ml",
+  "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/oleo-de-massagem?_pos=1&_sid=1b7efcfc1&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_site": "https://lakma.com.br/products/oleo-de-massagem?_pos=1&_sid=1b7efcfc1&_ss=r",
@@ -3887,6 +3913,7 @@ Kit corporal profissional de lipoplastia não invasiva em 3 etapas, indicado par
 ```json
 {
   "produto": "Kit Profissional Venus de Lipoplastia - 3 Produtos",
+  "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/kit-venus-de-lipoplastia?_pos=1&_sid=7a228ca1f&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_site": "https://lakma.com.br/products/kit-venus-de-lipoplastia?_pos=1&_sid=7a228ca1f&_ss=r",
@@ -4043,6 +4070,7 @@ Peeling profissional facial para renovação celular, clareamento, uniformizaç�
 ```json
 {
   "produto": "Peeling de Cristal Líquido - 30g",
+  "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/peeling-de-cristal-liquido-retinol-30ml?_pos=1&_sid=0edd2d86f&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_site": "https://lakma.com.br/products/peeling-de-cristal-liquido-retinol-30ml?_pos=1&_sid=0edd2d86f&_ss=r",
@@ -4195,6 +4223,7 @@ Máscara facial calmante profissional, indicada para acalmar, hidratar, suavizar
 ```json
 {
   "produto": "Máscara Calmante Limpeza de Pele - 500g",
+  "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/mascara-calmante-500gr?_pos=2&_sid=06389087d&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_site": "https://lakma.com.br/products/mascara-calmante-500gr?_pos=2&_sid=06389087d&_ss=r",
@@ -4361,6 +4390,7 @@ Sérum facial calmante para peles sensíveis, irritáveis, reativas, com vermelh
 ```json
 {
   "produto": "Neuroplasma Calmante - 50ml",
+  "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/neuroplasma-ultra-calmante-pos-laser-e-procedimentos-50ml?_pos=3&_psq=calman&_ss=e&_v=1.0",
   "campo_origem_link_individual_produto": "site_url",
   "link_site": "https://lakma.com.br/products/neuroplasma-ultra-calmante-pos-laser-e-procedimentos-50ml?_pos=3&_psq=calman&_ss=e&_v=1.0",
@@ -4514,6 +4544,7 @@ Loção facial profissional de limpeza desengordurante com Ácido Glicólico e N
 ```json
 {
   "produto": "Loção de Limpeza Ozonizada - 200ml",
+  "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/locao-ozonizada-200ml?_pos=1&_sid=c585f5ad1&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_site": "https://lakma.com.br/products/locao-ozonizada-200ml?_pos=1&_sid=c585f5ad1&_ss=r",
@@ -4661,6 +4692,7 @@ Gel esfoliante corporal profissional para pré-tratamento, indicado para remover
 ```json
 {
   "produto": "Gel Esfoliante Corporal Ozonizado - 1kg",
+  "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/gel-esfoliante-corporal-ozonizado-1kg?_pos=1&_sid=633454ffc&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_site": "https://lakma.com.br/products/gel-esfoliante-corporal-ozonizado-1kg?_pos=1&_sid=633454ffc&_ss=r",
@@ -4822,6 +4854,7 @@ Kit profissional com mesclas estéreis de uso único para protocolos noturnos de
 ```json
 {
   "produto": "Kit Booster Fibras Reticulares",
+  "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/kit-booster-fibras-reticulares?_pos=1&_sid=266082018&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_site": "https://lakma.com.br/products/kit-booster-fibras-reticulares?_pos=1&_sid=266082018&_ss=r",
@@ -4983,6 +5016,7 @@ Kit corporal profissional detox para cabine, indicado para protocolos de drenage
 ```json
 {
   "produto": "Esbeltea Detox",
+  "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/esbeltea-detox?_pos=1&_sid=3f9884a06&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_site": "https://lakma.com.br/products/esbeltea-detox?_pos=1&_sid=3f9884a06&_ss=r",
@@ -5147,6 +5181,7 @@ Gel corporal crioterápico profissional com efeito frio e ação refrescante, in
 ```json
 {
   "produto": "CRIOGEL - 1kg",
+  "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/criogel-1kg?_pos=1&_sid=82ecdae3f&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_site": "https://lakma.com.br/products/criogel-1kg?_pos=1&_sid=82ecdae3f&_ss=r",
@@ -5310,6 +5345,7 @@ Gel corporal profissional bioestimulante e condutor, indicado para protocolos dr
 ```json
 {
   "produto": "Gel Bioestimulante - 1kg",
+  "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/gel-bioestimulante-1kg?_pos=1&_sid=0114635cb&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_site": "https://lakma.com.br/products/gel-bioestimulante-1kg?_pos=1&_sid=0114635cb&_ss=r",
@@ -5461,6 +5497,7 @@ Gel corporal termoativado profissional com efeito de aquecimento, indicado para 
 ```json
 {
   "produto": "Gel Termoativado - 1kg",
+  "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/gel-termoativado-1kg?_pos=1&_sid=143e44dd4&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_site": "https://lakma.com.br/products/gel-termoativado-1kg?_pos=1&_sid=143e44dd4&_ss=r",
@@ -5631,6 +5668,7 @@ Kit corporal com fluido/spray e creme, indicado para cuidados corporais com foco
 ```json
 {
   "produto": "KIT BOOSTER MITOCONDRIAL ESBELTEA - Creme 900g + Fluido 300ml para Detox",
+  "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/kit-booster-mitocondrial-esbeltea-creme-900g-fluido-300ml-para-detox?_pos=1&_sid=76c4d2dc4&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_site": "https://lakma.com.br/products/kit-booster-mitocondrial-esbeltea-creme-900g-fluido-300ml-para-detox?_pos=1&_sid=76c4d2dc4&_ss=r",
@@ -5780,6 +5818,7 @@ Tratamento labial hidratante e nutritivo, indicado para lábios ressecados, ásp
 ```json
 {
   "produto": "Dolce Lips - 10g",
+  "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/dolce-lips-10gr?_pos=3&_sid=5437e421c&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_site": "https://lakma.com.br/products/dolce-lips-10gr?_pos=3&_sid=5437e421c&_ss=r",
@@ -5920,6 +5959,7 @@ Produto profissional para massagem facial, indicado para protocolos de deslizame
 ```json
 {
   "produto": "MASSO DIVINE, massagem facial - 250g",
+  "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/masso-divine-massagem-facial-250g?_pos=1&_sid=8c2d863a0&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_site": "https://lakma.com.br/products/masso-divine-massagem-facial-250g?_pos=1&_sid=8c2d863a0&_ss=r",
@@ -6074,6 +6114,7 @@ Kit profissional com 3 máscaras faciais finalizadoras premium, indicado para hi
 ```json
 {
   "produto": "Kit Jóias Raras",
+  "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/kit-joias-raras?_pos=1&_sid=cc2e24439&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_site": "https://lakma.com.br/products/kit-joias-raras?_pos=1&_sid=cc2e24439&_ss=r",
@@ -6230,6 +6271,7 @@ Creme emoliente facial profissional, indicado para emoliência de cravos, comed�
 ```json
 {
   "produto": "Emoliente de Cravos - 250g",
+  "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/emoliente-de-cravos-250gr?_pos=1&_sid=3dbce4669&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_site": "https://lakma.com.br/products/emoliente-de-cravos-250gr?_pos=1&_sid=3dbce4669&_ss=r",
@@ -6388,6 +6430,7 @@ Sérum facial multifuncional com ação clareadora, rejuvenescedora, hidratante 
 ```json
 {
   "produto": "Nano Drone, clareador, rejuvenescedor, hidratante - 30ml",
+  "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/nano-drone-clareador-rejuvenescedor-hidratante-30ml?_pos=1&_sid=b4eaa40f4&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_site": "https://lakma.com.br/products/nano-drone-clareador-rejuvenescedor-hidratante-30ml?_pos=1&_sid=b4eaa40f4&_ss=r",
@@ -6549,6 +6592,7 @@ Protetor solar facial FPS 30 com Vitamina E, indicado para proteção UVA/UVB, p
 ```json
 {
   "produto": "Ideal Protect - Protetor Solar 50g",
+  "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/ideal-protect-protetor-solar-50gr?_pos=1&_sid=30aa08e72&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_site": "https://lakma.com.br/products/ideal-protect-protetor-solar-50gr?_pos=1&_sid=30aa08e72&_ss=r",
@@ -6719,6 +6763,7 @@ Peeling químico profissional com Ácido Glicólico, indicado para renovação c
 ```json
 {
   "produto": "Peeling Rejuvenescedor - 50ml",
+  "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/peeling-rejuvenescedor-50ml?_pos=1&_sid=b70efd411&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_site": "https://lakma.com.br/products/peeling-rejuvenescedor-50ml?_pos=1&_sid=b70efd411&_ss=r",
@@ -6869,6 +6914,7 @@ Loção tônica facial para tonificação, controle de pH, frescor e remoção d
 ```json
 {
   "produto": "Loção Tônica - 200ml",
+  "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/locao-tonica-200ml?_pos=1&_sid=8de5c51f8&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_site": "https://lakma.com.br/products/locao-tonica-200ml?_pos=1&_sid=8de5c51f8&_ss=r",
@@ -7034,6 +7080,7 @@ Booster facial profissional com foco em colágeno, elastina, firmeza, hidrataç�
 ```json
 {
   "produto": "Booster Colágeno - 50ml",
+  "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/booster-colageno-50ml?_pos=1&_sid=3164bec58&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_site": "https://lakma.com.br/products/booster-colageno-50ml?_pos=1&_sid=3164bec58&_ss=r",
@@ -7195,6 +7242,7 @@ Creme corporal profissional neutro para massagem, indicado para alto deslizament
 ```json
 {
   "produto": "Creme de Massagem Neutro - 1kg",
+  "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/creme-de-massagem-neutro-1kg?_pos=1&_sid=3277b35f1&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_site": "https://lakma.com.br/products/creme-de-massagem-neutro-1kg?_pos=1&_sid=3277b35f1&_ss=r",
@@ -7348,6 +7396,7 @@ Fluido/tônico home care para fios, indicado para auxiliar no crescimento, forta
 ```json
 {
   "produto": "Perfect Growth, crescimento de cabelo, barba e sobrancelha - 50ml",
+  "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/perfect-growth-crescimento-de-cabelo-braba-e-sobrancelha-50ml?_pos=1&_sid=848eab35d&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_site": "https://lakma.com.br/products/perfect-growth-crescimento-de-cabelo-braba-e-sobrancelha-50ml?_pos=1&_sid=848eab35d&_ss=r",
@@ -7497,6 +7546,7 @@ Máscara facial calmante profissional, indicada para acalmar, hidratar, suavizar
 ```json
 {
   "produto": "Máscara Calmante - 250g",
+  "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/mascara-calmante-250gr?_pos=1&_sid=861decedf&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_site": "https://lakma.com.br/products/mascara-calmante-250gr?_pos=1&_sid=861decedf&_ss=r",
@@ -7670,6 +7720,7 @@ Fluido revitalizante facial com Ureia, indicado para hidratação profunda, recu
 ```json
 {
   "produto": "Fluido Passo 1 - Ureia 50ml",
+  "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/fluido-passo-1-ureia-50ml?_pos=1&_sid=12378b763&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_site": "https://lakma.com.br/products/fluido-passo-1-ureia-50ml?_pos=1&_sid=12378b763&_ss=r",
@@ -7825,6 +7876,7 @@ Kit corporal profissional ozonizado com 3 etapas para preparo, massagem e finali
 ```json
 {
   "produto": "Kit Ozônio Premium - Corporal",
+  "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/kit-ozonio-premium-corporal?_pos=1&_sid=ecdf2ef25&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_site": "https://lakma.com.br/products/kit-ozonio-premium-corporal?_pos=1&_sid=ecdf2ef25&_ss=r",
@@ -8000,6 +8052,7 @@ Creme corporal profissional para massagem estética, indicado para alto deslizam
 ```json
 {
   "produto": "Creme de Massagem 7 Ativos - 1kg",
+  "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/creme-de-massagem-7-ativos-1-kg?_pos=1&_sid=ec61753f2&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_site": "https://lakma.com.br/products/creme-de-massagem-7-ativos-1-kg?_pos=1&_sid=ec61753f2&_ss=r",
@@ -8171,6 +8224,7 @@ Esfoliante labial home care, indicado para lábios ressecados, ásperos, opacos 
 ```json
 {
   "produto": "Dolce Peel - 10g",
+  "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/dolce-peel-10gr?_pos=1&_sid=557a2fe70&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_site": "https://lakma.com.br/products/dolce-peel-10gr?_pos=1&_sid=557a2fe70&_ss=r",
@@ -8319,6 +8373,7 @@ Body splash corporal home care, indicado para finalização corporal, perfumaç�
 ```json
 {
   "produto": "Body Splash Firmador Corporal - 300ml",
+  "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/body-splash-firmador-corporal-300ml?_pos=1&_sid=7c2587a80&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_site": "https://lakma.com.br/products/body-splash-firmador-corporal-300ml?_pos=1&_sid=7c2587a80&_ss=r",
@@ -8464,6 +8519,7 @@ Booster profissional em ampolas com Vitamina C 100% nanoencapsulada e ozonizada,
 ```json
 {
   "produto": "Booster C100 Vitamina C 100% Pura",
+  "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/booster-c100-vitamina-c-100-pura?_pos=1&_sid=40a87e8d0&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_site": "https://lakma.com.br/products/booster-c100-vitamina-c-100-pura?_pos=1&_sid=40a87e8d0&_ss=r",
@@ -8622,6 +8678,7 @@ Fluido revitalizante facial com foco em colágeno, elastina, firmeza, rejuvenesc
 ```json
 {
   "produto": "Fluido Passo 3 - Colágeno 50ml",
+  "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/fluido-passo-3-colageno-50ml?_pos=1&_sid=7ee7cabd2&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_site": "https://lakma.com.br/products/fluido-passo-3-colageno-50ml?_pos=1&_sid=7ee7cabd2&_ss=r",
@@ -8778,6 +8835,7 @@ Kit com 4 argilas prontas em creme, indicado para personalizar protocolos faciai
 ```json
 {
   "produto": "Kit Terras do Brasil, argilas facial e corporal em creme",
+  "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/kit-terras-do-brasil-argilas-facial-em-creme?_pos=1&_sid=5402f47c7&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_site": "https://lakma.com.br/products/kit-terras-do-brasil-argilas-facial-em-creme?_pos=1&_sid=5402f47c7&_ss=r",
@@ -8943,6 +9001,7 @@ Creme corporal profissional de massagem ozonizado, indicado para drenagem linfá
 ```json
 {
   "produto": "Creme de Massagem Ozonizado - 900g",
+  "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/creme-de-massagem-ozonizado-900g?_pos=1&_sid=50477e7eb&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_site": "https://lakma.com.br/products/creme-de-massagem-ozonizado-900g?_pos=1&_sid=50477e7eb&_ss=r",
@@ -9117,6 +9176,7 @@ Sabonete líquido facial para higienização, remoção de impurezas, controle d
 ```json
 {
   "produto": "Sabonete Líquido Facial - 250ml",
+  "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/sabonete-liquido-facial-250ml?_pos=1&_sid=e71294b11&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_site": "https://lakma.com.br/products/sabonete-liquido-facial-250ml?_pos=1&_sid=e71294b11&_ss=r",
@@ -9282,6 +9342,7 @@ Sabonete facial com Ácido Glicólico, indicado para higienização com ação r
 ```json
 {
   "produto": "Sabonete de Ácido Glicólico - 150ml",
+  "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/sabonete-de-acido-glicolico-150ml?_pos=1&_sid=2f97aa27a&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_site": "https://lakma.com.br/products/sabonete-de-acido-glicolico-150ml?_pos=1&_sid=2f97aa27a&_ss=r",
@@ -9451,6 +9512,7 @@ Máscara facial hidratante e nutritiva, indicada para hidratação profunda, nut
 ```json
 {
   "produto": "Máscara Brownie de Chocolate, hidratação profunda - 150g",
+  "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/mascara-brownie-de-chocolate-hidratacao-profunda-150gr?_pos=1&_sid=5a64b5ef8&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_site": "https://lakma.com.br/products/mascara-brownie-de-chocolate-hidratacao-profunda-150gr?_pos=1&_sid=5a64b5ef8&_ss=r",
@@ -9607,6 +9669,7 @@ Gel roll-on para olheiras, indicado para contorno dos olhos, olheiras pigmentada
 ```json
 {
   "produto": "Nanohydrat Roll para Olheiras - 15ml",
+  "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/nanohydrat-roll-para-olheiras-15ml?_pos=1&_sid=17dd3224b&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_site": "https://lakma.com.br/products/nanohydrat-roll-para-olheiras-15ml?_pos=1&_sid=17dd3224b&_ss=r",
@@ -9762,6 +9825,7 @@ Fluido secativo facial para peles oleosas e acneicas, indicado para ação secat
 ```json
 {
   "produto": "Fluido Secativo - Melaleuca para acne 50ml",
+  "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/fluido-secativo-melaleuca-para-acne-50ml?_pos=1&_sid=b08c5f760&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_site": "https://lakma.com.br/products/fluido-secativo-melaleuca-para-acne-50ml?_pos=1&_sid=b08c5f760&_ss=r",
@@ -9920,6 +9984,7 @@ Esfoliante facial para renovação, preparo da pele, remoção de células morta
 ```json
 {
   "produto": "Esfoliante Facial - 250ml",
+  "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/esfoliante-facial-250ml?_pos=1&_sid=6964d0934&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_site": "https://lakma.com.br/products/esfoliante-facial-250ml?_pos=1&_sid=6964d0934&_ss=r",
@@ -10080,6 +10145,7 @@ Peeling químico profissional clareador, indicado para clareamento de manchas, h
 ```json
 {
   "produto": "Peeling Bio Complex, Clareador - 50ml",
+  "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/peeling-bio-complex-clareador-50ml?_pos=1&_sid=3b6d9d823&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_site": "https://lakma.com.br/products/peeling-bio-complex-clareador-50ml?_pos=1&_sid=3b6d9d823&_ss=r",
@@ -10241,6 +10307,7 @@ Emoliente facial profissional para limpeza de pele, indicado para amolecer cravo
 ```json
 {
   "produto": "Emoliente de Cravos e Espinhas - 500g",
+  "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/emoliente-de-cravos-250gr?_pos=1&_sid=9b5e6289b&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_site": "https://lakma.com.br/products/emoliente-de-cravos-250gr?_pos=1&_sid=9b5e6289b&_ss=r",
@@ -10407,6 +10474,7 @@ Creme corporal redutor para massagem, indicado para protocolos profissionais de 
 ```json
 {
   "produto": "Creme 10 Ativos para Celulite - 900g",
+  "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/creme-de-massagem-10-ativos-900g?_pos=1&_sid=96328ab85&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_site": "https://lakma.com.br/products/creme-de-massagem-10-ativos-900g?_pos=1&_sid=96328ab85&_ss=r",
@@ -10570,6 +10638,7 @@ Loção profissional neutralizante, indicada para controlar ou interromper a aç
 ```json
 {
   "produto": "Solução Neutralizante de Ácidos - 50ml",
+  "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/solucao-neutralizante-50ml?_pos=1&_sid=11920c378&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_site": "https://lakma.com.br/products/solucao-neutralizante-50ml?_pos=1&_sid=11920c378&_ss=r",
@@ -10728,6 +10797,7 @@ Máscara facial hidratante e revitalizante com efeito dourado, indicada para hid
 ```json
 {
   "produto": "Máscara Facial de Ouro Golden Glitter - 150g",
+  "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/mascara-ouro-rejuvenescedora-150gr?_pos=1&_sid=7b0b04bfc&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_site": "https://lakma.com.br/products/mascara-ouro-rejuvenescedora-150gr?_pos=1&_sid=7b0b04bfc&_ss=r",
@@ -10898,6 +10968,7 @@ Sérum facial com fator de crescimento e peptídeos, indicado para firmeza, revi
 ```json
 {
   "produto": "Fator de Crescimento Melange Especial - 50ml",
+  "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/melange-especial-fator-de-crescimento-para-microagulhamento-50ml?_pos=1&_sid=e3164b646&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_site": "https://lakma.com.br/products/melange-especial-fator-de-crescimento-para-microagulhamento-50ml?_pos=1&_sid=e3164b646&_ss=r",
@@ -11066,6 +11137,7 @@ Fluido dermocosmético regenerador facial e corporal, indicado para melhorar a a
 ```json
 {
   "produto": "Neuroplasma Nutri-Complex - 50ml",
+  "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/neuroplasma-nutri-complex-para-cicatriz-a-acne-e-estrias-50ml?_pos=2&_sid=06b71ae8f&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_site": "https://lakma.com.br/products/neuroplasma-nutri-complex-para-cicatriz-a-acne-e-estrias-50ml?_pos=2&_sid=06b71ae8f&_ss=r",
@@ -11225,6 +11297,7 @@ Máscara facial em pó de Argila Verde 100%, indicada para peles normais, oleosa
 ```json
 {
   "produto": "Argila Verde - 150g",
+  "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/argila-verde-150gr?_pos=1&_sid=d2cd41c2a&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_site": "https://lakma.com.br/products/argila-verde-150gr?_pos=1&_sid=d2cd41c2a&_ss=r",
@@ -11401,6 +11474,7 @@ Kit profissional de peelings clareadores para protocolos de clareamento, manchas
 ```json
 {
   "produto": "Kit Ácidos Sem Mistérios - 5 Produtos",
+  "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/kit-acidos-sem-misterios-clareamento-de-manchas?_pos=1&_sid=5200ce86c&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_site": "https://lakma.com.br/products/kit-acidos-sem-misterios-clareamento-de-manchas?_pos=1&_sid=5200ce86c&_ss=r",
@@ -11569,6 +11643,7 @@ Máscara facial em gel prebiótica e detox, indicada para equilíbrio da microbi
 ```json
 {
   "produto": "Máscara Detox Zen Marine Prebiótica - 150g",
+  "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/zen-marine-detox-150gr?_pos=1&_sid=6ef45705f&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_site": "https://lakma.com.br/products/zen-marine-detox-150gr?_pos=1&_sid=6ef45705f&_ss=r",
@@ -11735,6 +11810,7 @@ Sérum facial com ação de peeling enzimático clareador e renovador, indicado 
 ```json
 {
   "produto": "Peeling Enzimático de Romã Facial - 60ml",
+  "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/peeling-enzimatico-de-roma-clareador-60ml?_pos=1&_sid=1bc092cdb&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_site": "https://lakma.com.br/products/peeling-enzimatico-de-roma-clareador-60ml?_pos=1&_sid=1bc092cdb&_ss=r",
@@ -11894,6 +11970,7 @@ Kit facial Eco Skin com 3 produtos, indicado para limpeza facial express, limpez
 ```json
 {
   "produto": "Kit Lakma Limpeza de Pele Profunda Skin Care - ECOSKIN",
+  "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/kit-eco-skin-para-dermaplaning?_pos=1&_sid=b9365a88d&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_site": "https://lakma.com.br/products/kit-eco-skin-para-dermaplaning?_pos=1&_sid=b9365a88d&_ss=r",
@@ -12063,6 +12140,7 @@ Kit profissional com 5 fluidos revitalizantes nanotecnológicos e biotecnológic
 ```json
 {
   "produto": "Kit Fluidos Revitalizantes para Microagulhamento - 5 Passos",
+  "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/kit-fluidos-revitalizantes-para-microagulhamento?_pos=1&_sid=e3adb7d8b&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_site": "https://lakma.com.br/products/kit-fluidos-revitalizantes-para-microagulhamento?_pos=1&_sid=e3adb7d8b&_ss=r",
@@ -12252,6 +12330,7 @@ Peeling químico profissional secativo, indicado para peles acneicas, cravos, co
 ```json
 {
   "produto": "Peeling Químico Secativo - 50ml",
+  "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/peeling-quimico-secativo-50ml?_pos=1&_sid=60a60c291&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_site": "https://lakma.com.br/products/peeling-quimico-secativo-50ml?_pos=1&_sid=60a60c291&_ss=r",
@@ -12414,6 +12493,7 @@ Fluido revitalizante facial com Ácido Hialurônico, indicado para hidratação 
 ```json
 {
   "produto": "Fluido Revitalizante Passo 2 - Ácido Hialurônico - 50ml",
+  "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/fluido-passo-2-hialuronico-50ml?_pos=1&_sid=4c1d3e80d&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_site": "https://lakma.com.br/products/fluido-passo-2-hialuronico-50ml?_pos=1&_sid=4c1d3e80d&_ss=r",
@@ -12574,6 +12654,7 @@ Fluido revitalizante facial com Vitamina C 40%, indicado para clareamento, hiper
 ```json
 {
   "produto": "Fluido Revitalizante Passo 4 - Vitamina C 40% - 50ml",
+  "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/fluido-passo-4-vitamina-c-50ml?_pos=1&_sid=976b990d3&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_site": "https://lakma.com.br/products/fluido-passo-4-vitamina-c-50ml?_pos=1&_sid=976b990d3&_ss=r",
@@ -12748,6 +12829,7 @@ Máscara clareadora facial e corporal, indicada para manchas, uniformização do
 ```json
 {
   "produto": "Máscara Clareadora - 30g",
+  "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/mascara-clareadora-30g?_pos=2&_sid=1cf15edab&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_site": "https://lakma.com.br/products/mascara-clareadora-30g?_pos=2&_sid=1cf15edab&_ss=r",
@@ -12917,6 +12999,7 @@ Máscara clareadora facial e corporal em apresentação menor, indicada para man
 ```json
 {
   "produto": "Máscara Clareadora Facial e Corporal - 10g",
+  "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/mascara-clareadora-10g?_pos=1&_sid=1cf15edab&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_site": "https://lakma.com.br/products/mascara-clareadora-10g?_pos=1&_sid=1cf15edab&_ss=r",
@@ -13081,6 +13164,7 @@ Kit profissional facial para limpeza de pele, com 5 produtos para higienização
 ```json
 {
   "produto": "Kit Limpeza de Pele Profissional - 5 Produtos",
+  "aliases": [],
   "link_individual_produto": "https://lakma.com.br/products/kit-limpeza-de-pele?_pos=1&_sid=422b7e433&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_site": "https://lakma.com.br/products/kit-limpeza-de-pele?_pos=1&_sid=422b7e433&_ss=r",
