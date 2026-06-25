@@ -164,6 +164,11 @@ const Team: React.FC = () => {
     e.preventDefault();
     if (!editingMember) return;
 
+    if (editFormData.role === 'admin' && !isMasterEmail(editFormData.email)) {
+      toast.error(`Apenas ${MASTER_ADMIN_EMAIL} pode ser Admin/Master.`);
+      return;
+    }
+
     try {
       await api.updateTeamMember(editingMember.id, {
         name: editFormData.name,
