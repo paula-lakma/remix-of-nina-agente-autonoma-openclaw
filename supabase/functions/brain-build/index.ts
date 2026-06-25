@@ -106,9 +106,26 @@ function renderProducts(products: any[]): string {
     md += list("Principais objetivos", arr(p.main_goals));
     md += list("Tipo de pele / condição indicada", arr(p.skin_types));
     md += line("Modo de uso", v(p.usage_short));
-    md += line("Site", v(p.site_url));
-    md += line("Mercado Livre", v(p.mercadolivre_url));
     md += `\n`;
+
+    // ── Links aprovados (dado estruturado para a Nina) ──
+    const siteUrl = v(p.site_url);
+    const mlUrl = v(p.mercadolivre_url);
+    md += `### Links aprovados deste produto\n\n`;
+    if (siteUrl || mlUrl) {
+      if (siteUrl) md += `- **Site oficial (link aprovado):** ${siteUrl} ← cupom **LAKMA35** = 35% de desconto no site\n`;
+      if (mlUrl) md += `- **Mercado Livre (link aprovado):** ${mlUrl}\n`;
+      md += `\n\`\`\`json\n${JSON.stringify({
+        produto: v(p.name),
+        link_site: siteUrl || null,
+        link_mercadolivre: mlUrl || null,
+        cupom_site: siteUrl ? "LAKMA35" : null,
+        desconto_site: siteUrl ? "35%" : null,
+        status_link: (siteUrl || mlUrl) ? "aprovado" : "indisponivel",
+      }, null, 2)}\n\`\`\`\n\n`;
+    } else {
+      md += `_(Nenhum link cadastrado para este produto. SOMENTE neste caso a Nina deve responder que o link não está no material aprovado.)_\n\n`;
+    }
 
     // Protocolos
     if (p.in_protocols === true || arr(p.related_protocols).length || v(p.protocol_role)) {

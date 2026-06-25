@@ -1,52 +1,67 @@
-## Confirmação importante
+## Diagnóstico
 
-O `POST /894141783645722/subscribed_apps` retornou `{"success": true}` ✅ — o app **Lakma Wpp** agora está inscrito no WABA. Esse era o elo que faltava.
+A NINA já recebe `site_url` e `mercadolivre_url` no `produtos.md` (gerado pelo `brain-build`, linhas 109–110), mas:
 
-Porém: a tabela `messages` continua **vazia** e a função `whatsapp-webhook` **ainda não recebeu nenhum POST** desde a inscrição. Isso é esperado — Meta só envia eventos a partir do **próximo** evento gerado após a inscrição. Eventos anteriores não são reenviados.
+1. O rendering atual lista apenas "Site: …" e "Mercado Livre: …" entre outros bullets, sem marcar explicitamente que é o **link aprovado** do produto — fácil de a IA ignorar.
+2. O conhecimento **`regras-de-venda-links-precos-crm-e-contato`** instrui a NINA a responder *"Esse link não está disponível no material aprovado…"* sempre que ela não enxerga um link "no material aprovado", **sem dizer onde está esse material** (o `produtos.md`). É essa instrução que está bloqueando o envio.
+3. Não há instrução explícita sobre cupom `LAKMA35` ao mandar link do site, nem sobre mover o deal para "Link do site enviado".
 
-## Próximos passos (na ordem)
+A correção é só de **conteúdo** (markdown + knowledge entry) + um pequeno ajuste no renderer. Nada de schema novo — os campos já existem (`brain_products.site_url`, `mercadolivre_url`).
 
-### 1. Mande uma mensagem de teste agora
+## Mudanças
 
-Do seu celular pessoal (ou de qualquer outro número), envie um **"oi"** para o número de WhatsApp conectado ao `phone_number_id 1166218746570352`.
+### 1. `supabase/functions/brain-build/index.ts` — `renderProducts`
 
-### 2. Eu verifico a chegada
-
-Assim que você confirmar que enviou, eu rodo:
-- `whatsapp-webhook` logs → procuro o POST com o payload.
-- `SELECT FROM messages` → confirmo o registro.
-- `message-grouper` + `nina-orchestrator` logs → confirmo que a resposta da Nina foi enfileirada.
-- `whatsapp-sender` logs → confirmo o envio de volta ao lead.
-
-### 3. Se a mensagem ainda não chegar
-
-Verificamos via Graph API (você executa, eu interpreto):
+Reescrever a seção de links para destacá-los como **dado estruturado e aprovado**, incluindo bloco JSON-like que a IA reconheça facilmente, e injetar cupom/canal:
 
 ```
-GET https://graph.facebook.com/v22.0/894141783645722/subscribed_apps
-  Authorization: Bearer <seu_token>
+### Links aprovados deste produto
+
+- **Site oficial (aprovado):** https://… ← cupom LAKMA35 = 35% de desconto
+- **Mercado Livre (aprovado):** https://…
+
+```json
+{
+  "produto": "<nome>",
+  "link_site": "<site_url ou null>",
+  "link_mercadolivre": "<mercadolivre_url ou null>",
+  "cupom_site": "LAKMA35",
+  "desconto_site": "35%"
+}
+```
 ```
 
-A resposta tem que listar o app `Lakma Wpp` com os campos inscritos (precisa conter `messages`). Se vier vazio ou sem `messages`, fazemos:
+Se ambos vierem vazios, renderizar `_(Nenhum link cadastrado — só nesse caso a Nina deve responder que o link não está aprovado.)_` para deixar inequívoco para a IA.
 
-```
-POST https://graph.facebook.com/v22.0/<APP_ID>/subscriptions
-  object=whatsapp_business_account
-  callback_url=https://<seu-projeto>.functions.supabase.co/whatsapp-webhook
-  verify_token=<token>
-  fields=messages,message_template_status_update,messaging_handovers
-```
+### 2. Atualizar o conhecimento `regras-de-venda-links-precos-crm-e-contato`
 
-### 4. Causa secundária possível (só se nada chegar)
+Via `INSERT/UPDATE` no `brain_knowledge` (usando o insert tool), substituir as seções "Links que a Nina pode enviar" e "Preços e cupons" por regras explícitas:
 
-O número `1166218746570352` pode estar:
-- Vinculado a outro app/BSP que está consumindo os eventos (Meta entrega só ao app "dono").
-- Não registrado no Cloud API (precisa `POST /{phone_number_id}/register` com PIN).
+- O **material aprovado de links** é `knowledge/produtos.md`, na seção "Links aprovados deste produto".
+- Quando o lead pedir link de um produto: localizar o produto em `produtos.md`, ler `link_site` / `link_mercadolivre`, e **enviar o link cadastrado**.
+- Se `link_site` estiver presente: enviar o link **e** informar o cupom `LAKMA35` (35% off no site).
+- Resposta-modelo: *"Esse é o link oficial do produto: [LINK]. Você pode usar o cupom LAKMA35 para 35% de desconto no site."*
+- A resposta *"Esse link não está disponível no material aprovado…"* **só** pode ser usada quando `link_site` e `link_mercadolivre` estiverem ambos vazios para o produto.
+- Adicionar lista de gatilhos (link, me manda o link, onde compro, quero comprar, tem no site, manda o link do produto, etc).
+- Após enviar link do site, deixar registrado que o pipeline deve mover para "Link do site enviado" (a movimentação automática é feita pelo `analyze-conversation` lendo os critérios do stage — esse estágio já existe e já tem `ai_trigger_criteria` desde a iteração de pipeline).
 
-Investigamos isso se o teste do passo 1 falhar.
+### 3. Reforço de critério no stage "Link do site enviado"
 
-## O que não vai mudar no código
+Garantir via `UPDATE pipeline_stages` que `ai_trigger_criteria` inclua "Nina enviou link de produto (site oficial ou Mercado Livre) durante a conversa" — para que o `analyze-conversation` mova o deal automaticamente.
 
-Nada. O backend (`whatsapp-webhook` → `message-grouper` → `nina-orchestrator` → `whatsapp-sender`) está pronto e funcionando. Estamos apenas destravando a entrega do lado Meta.
+### 4. Próximo passo do usuário
 
-**Manda o "oi" agora e me avisa.**
+Depois das mudanças, clicar **Sincronizar / Brain Build** em `/cerebro` para o `produtos.md` e o knowledge atualizados subirem para o branch `nina-brain` e o cron `brain_sync.sh` puxar na VPS (até 2 min).
+
+## Critérios de aceite
+
+- `produtos.md` mostra cada produto com bloco "Links aprovados deste produto" e JSON inline com `link_site`/`link_mercadolivre`/`cupom_site`.
+- Conhecimento de links instrui a NINA a consultar `produtos.md` antes de usar o fallback.
+- Quando o produto tem `site_url`, a NINA envia o link + cupom LAKMA35.
+- Fallback "link indisponível" só dispara quando ambos os campos estão vazios.
+- Pipeline `Link do site enviado` move automaticamente quando link é enviado.
+
+## Fora de escopo
+
+- Não mexer no schema de `brain_products` (campos já existem).
+- Não mexer em `nina-orchestrator` nem nos scripts da skill — o fluxo já entrega `produtos.md` corretamente; o problema é puramente de conteúdo/instrução.
