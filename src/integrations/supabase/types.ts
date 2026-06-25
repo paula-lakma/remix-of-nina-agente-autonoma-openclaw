@@ -380,6 +380,7 @@ export type Database = {
           nina_context: Json | null
           nina_reactivated_at: string | null
           nina_reactivated_by: string | null
+          outside_dermoconsultant_hours: boolean
           requires_dermoconsultant: boolean
           started_at: string
           status: Database["public"]["Enums"]["conversation_status"]
@@ -406,6 +407,7 @@ export type Database = {
           nina_context?: Json | null
           nina_reactivated_at?: string | null
           nina_reactivated_by?: string | null
+          outside_dermoconsultant_hours?: boolean
           requires_dermoconsultant?: boolean
           started_at?: string
           status?: Database["public"]["Enums"]["conversation_status"]
@@ -432,6 +434,7 @@ export type Database = {
           nina_context?: Json | null
           nina_reactivated_at?: string | null
           nina_reactivated_by?: string | null
+          outside_dermoconsultant_hours?: boolean
           requires_dermoconsultant?: boolean
           started_at?: string
           status?: Database["public"]["Enums"]["conversation_status"]

@@ -1,0 +1,1 @@
+ALTER TABLE public.conversations ADD COLUMN IF NOT EXISTS outside_dermoconsultant_hours boolean NOT NULL DEFAULT false;
