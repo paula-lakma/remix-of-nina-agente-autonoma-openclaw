@@ -237,7 +237,7 @@ serve(async (req) => {
   }
 });
 
-// Combine content from multiple messages and transcribe audio
+// Combine content from multiple messages and transcribe audio / describe media
 async function combineAndTranscribeMessages(
   supabase: any,
   queueMessages: any[],
@@ -245,7 +245,16 @@ async function combineAndTranscribeMessages(
   settings: any,
   lovableApiKey: string
 ): Promise<string> {
+  const {
+    fetchWhatsAppMediaInfo,
+    downloadWhatsAppBinary,
+    uploadMediaToStorage,
+    describeImageWithGpt,
+    describeDocumentWithGpt,
+  } = await import("../_shared/media.ts");
+
   const contentParts: string[] = [];
+  const accessToken: string | undefined = settings?.whatsapp_access_token;
 
   for (let i = 0; i < queueMessages.length; i++) {
     const queueMsg = queueMessages[i];
@@ -259,7 +268,7 @@ async function combineAndTranscribeMessages(
     // Handle audio transcription
     if (messageData.type === 'audio') {
       const audioMediaId = messageData.audio?.id;
-      if (audioMediaId && settings?.whatsapp_access_token && lovableApiKey) {
+      if (audioMediaId && accessToken && lovableApiKey) {
         console.log('[MessageGrouper] Transcribing audio:', audioMediaId);
         const audioBuffer = await downloadWhatsAppMedia(settings, audioMediaId);
         if (audioBuffer) {
@@ -270,6 +279,112 @@ async function combineAndTranscribeMessages(
             await supabase
               .from('messages')
               .update({ content: transcription })
+              .eq('id', dbMsg.id);
+          }
+        }
+      }
+    }
+
+    // Handle image: persist + GPT vision description
+    if (messageData.type === 'image') {
+      const mediaId = messageData.image?.id;
+      const caption: string = messageData.image?.caption || '';
+      if (mediaId && accessToken) {
+        console.log('[MessageGrouper] Processing image:', mediaId);
+        const info = await fetchWhatsAppMediaInfo(accessToken, mediaId);
+        if (info) {
+          const buf = await downloadWhatsAppBinary(accessToken, info.url);
+          if (buf) {
+            const uploaded = await uploadMediaToStorage(supabase, buf, {
+              conversationId: dbMsg.conversation_id,
+              messageId: dbMsg.id,
+              mimeType: info.mime_type,
+              direction: 'in',
+            });
+            let description: string | null = null;
+            if (lovableApiKey) {
+              description = await describeImageWithGpt(buf, info.mime_type, lovableApiKey, caption);
+            }
+
+            const parts: string[] = [];
+            parts.push(caption ? `[imagem com legenda: "${caption}"]` : '[imagem recebida]');
+            if (description) parts.push(`Descrição da imagem: ${description}`);
+            content = parts.join('\n');
+
+            await supabase
+              .from('messages')
+              .update({
+                content,
+                media_url: uploaded?.signedUrl ?? null,
+                media_type: info.mime_type,
+              })
+              .eq('id', dbMsg.id);
+          }
+        }
+      }
+    }
+
+    // Handle document: persist + GPT summary
+    if (messageData.type === 'document') {
+      const mediaId = messageData.document?.id;
+      const filename: string = messageData.document?.filename || 'documento';
+      if (mediaId && accessToken) {
+        console.log('[MessageGrouper] Processing document:', mediaId, filename);
+        const info = await fetchWhatsAppMediaInfo(accessToken, mediaId);
+        if (info) {
+          const buf = await downloadWhatsAppBinary(accessToken, info.url);
+          if (buf) {
+            const uploaded = await uploadMediaToStorage(supabase, buf, {
+              conversationId: dbMsg.conversation_id,
+              messageId: dbMsg.id,
+              mimeType: info.mime_type,
+              direction: 'in',
+            });
+            let summary: string | null = null;
+            if (lovableApiKey && info.mime_type === 'application/pdf') {
+              summary = await describeDocumentWithGpt(buf, info.mime_type, filename, lovableApiKey);
+            }
+            const parts: string[] = [`[documento recebido: ${filename}]`];
+            if (summary) parts.push(`Resumo do documento: ${summary}`);
+            content = parts.join('\n');
+
+            await supabase
+              .from('messages')
+              .update({
+                content,
+                media_url: uploaded?.signedUrl ?? null,
+                media_type: info.mime_type,
+              })
+              .eq('id', dbMsg.id);
+          }
+        }
+      }
+    }
+
+    // Handle video: persist only (no visual analysis for now)
+    if (messageData.type === 'video') {
+      const mediaId = messageData.video?.id;
+      const caption: string = messageData.video?.caption || '';
+      if (mediaId && accessToken) {
+        console.log('[MessageGrouper] Processing video:', mediaId);
+        const info = await fetchWhatsAppMediaInfo(accessToken, mediaId);
+        if (info) {
+          const buf = await downloadWhatsAppBinary(accessToken, info.url);
+          if (buf) {
+            const uploaded = await uploadMediaToStorage(supabase, buf, {
+              conversationId: dbMsg.conversation_id,
+              messageId: dbMsg.id,
+              mimeType: info.mime_type,
+              direction: 'in',
+            });
+            content = caption ? `[vídeo com legenda: "${caption}"]` : '[vídeo recebido]';
+            await supabase
+              .from('messages')
+              .update({
+                content,
+                media_url: uploaded?.signedUrl ?? null,
+                media_type: info.mime_type,
+              })
               .eq('id', dbMsg.id);
           }
         }
