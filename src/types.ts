@@ -362,6 +362,7 @@ export function transformDBToUIConversation(
     aiPaused: !!conv.ai_paused,
     requiresDermoconsultant: !!conv.requires_dermoconsultant,
     humanTakeoverRequired: !!conv.human_takeover_required,
+    outsideDermoconsultantHours: !!conv.outside_dermoconsultant_hours,
     handoffType: conv.handoff_type ?? null,
     handoffReason: conv.handoff_reason ?? null,
     handoffCreatedAt: conv.handoff_created_at ?? null,
