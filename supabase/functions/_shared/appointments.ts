@@ -112,13 +112,20 @@ export async function createAppointmentFromAI(
     time: args.time,
     duration: args.duration || 60,
     type: args.type,
-    description: args.description || null,
+    description: args.description || args.notes || null,
     contact_id: contactId,
     status: 'scheduled',
+    attendees: Array.isArray(args.attendees) && args.attendees.length
+      ? args.attendees
+      : (args.responsible ? [args.responsible] : []),
     metadata: {
       source: 'nina_ai',
       conversation_id: conversationId,
-      created_at_conversation: new Date().toISOString()
+      created_at_conversation: new Date().toISOString(),
+      interest_type: args.interest_type || null,
+      responsible: args.responsible || null,
+      contact_name: args.contact_name || null,
+      contact_phone: args.contact_phone || null,
     }
   };
 
