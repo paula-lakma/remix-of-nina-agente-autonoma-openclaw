@@ -832,6 +832,40 @@ const ChatInterface: React.FC = () => {
           </div>
         </div>
       )}
+
+      <Dialog open={!!lightboxUrl} onOpenChange={(open) => !open && setLightboxUrl(null)}>
+        <DialogContent className="max-w-5xl bg-slate-950/95 border-slate-800 p-2 sm:p-4">
+          <VisuallyHidden>
+            <DialogTitle>Visualizar imagem</DialogTitle>
+          </VisuallyHidden>
+          {lightboxUrl && (
+            <div className="flex flex-col items-center gap-3">
+              <img
+                src={lightboxUrl}
+                alt="Imagem ampliada"
+                className="max-h-[80vh] w-auto rounded-md object-contain"
+              />
+              <div className="flex gap-2">
+                <a
+                  href={lightboxUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-1 text-xs text-slate-300 hover:text-white"
+                >
+                  <ExternalLink className="w-3.5 h-3.5" /> Abrir em nova aba
+                </a>
+                <a
+                  href={lightboxUrl}
+                  download
+                  className="inline-flex items-center gap-1 text-xs text-slate-300 hover:text-white"
+                >
+                  <Download className="w-3.5 h-3.5" /> Baixar
+                </a>
+              </div>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
