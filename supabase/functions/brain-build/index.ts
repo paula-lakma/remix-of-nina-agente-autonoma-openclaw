@@ -198,7 +198,91 @@ const KNOWLEDGE_TYPE_LABEL: Record<string, string> = {
   treinamento: "Treinamento comercial",
 };
 
-function renderKnowledgeEntry(k: any): string {
+// Normaliza nome de produto para matching tolerante (acentos, caixa, tamanho/ml/g, pontuação).
+function normProductName(s: string): string {
+  return v(s)
+    .toLowerCase()
+    .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+    .replace(/\b\d+\s?(ml|g|gr|kg|un|unidades?|cápsulas?|capsulas?|produtos?)\b/g, " ")
+    .replace(/\b(lakma|kit|profissional|home\s+care|bioativo|facial|corporal|labial)\b/g, " ")
+    .replace(/[^a-z0-9\s]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+// Tokeniza e calcula score de overlap entre nome citado no protocolo e nome cadastrado no produto.
+function matchProductByName(refName: string, products: any[]): any | null {
+  const ref = normProductName(refName);
+  if (!ref) return null;
+  const refTokens = new Set(ref.split(" ").filter((t) => t.length >= 3));
+  if (refTokens.size === 0) {
+    // fallback: substring direto
+    return products.find((p) => normProductName(p.name).includes(ref)) ?? null;
+  }
+  let best: { p: any; score: number } | null = null;
+  for (const p of products) {
+    const cand = normProductName(p.name);
+    if (!cand) continue;
+    const candTokens = new Set(cand.split(" ").filter((t) => t.length >= 3));
+    let hits = 0;
+    for (const t of refTokens) if (candTokens.has(t)) hits++;
+    // bônus por substring completa
+    if (cand.includes(ref) || ref.includes(cand)) hits += 2;
+    const score = hits / Math.max(refTokens.size, 1);
+    if (score >= 0.6 && (!best || score > best.score)) best = { p, score };
+  }
+  return best ? best.p : null;
+}
+
+function renderProtocolProductsBlock(k: any, products: any[]): string {
+  const refs = arr(k.related_products);
+  if (refs.length === 0) return "";
+  const items = refs.map((name) => {
+    const p = matchProductByName(name, products);
+    const link = p ? v(p.site_url) : "";
+    return {
+      nome_citado_no_protocolo: name,
+      nome_cadastrado: p ? v(p.name) : null,
+      produto_encontrado: !!p,
+      link_individual_produto: link || null,
+      campo_origem_link_individual_produto: "site_url",
+      status_link_individual_produto: link ? "aprovado" : (p ? "indisponivel" : "produto_nao_encontrado"),
+    };
+  });
+
+  let md = `## Produtos do protocolo — links individuais (resolvidos automaticamente)\n\n`;
+  md += `> A Nina DEVE enviar esta lista quando o lead pedir o link do protocolo, quiser comprar os produtos do protocolo ou demonstrar interesse em adquirir os itens. **NÃO** dizer "não tenho link do protocolo" — usar a lista abaixo.\n\n`;
+  for (const it of items) {
+    if (it.link_individual_produto) {
+      md += `- **${it.nome_citado_no_protocolo}** → ${it.link_individual_produto}\n`;
+    } else if (it.produto_encontrado) {
+      md += `- **${it.nome_citado_no_protocolo}** → _link individual indisponível no cadastro — sinalizar apenas este item; usar ${LAKMA_SITE_FALLBACK} como fallback só para ele._\n`;
+    } else {
+      md += `- **${it.nome_citado_no_protocolo}** → _produto não localizado na base; pedir confirmação ou encaminhar humano._\n`;
+    }
+  }
+  md += `\nNo site oficial use o cupom **LAKMA35** = 35% de desconto.\n\n`;
+  md += `\`\`\`json\n${JSON.stringify({
+    nome_protocolo: v(k.title),
+    tipo: "protocolo_profissional",
+    aprovado: true,
+    link_kit_unico: null,
+    produtos_utilizados: items,
+    cupom_site: "LAKMA35",
+    desconto_site: "35%",
+    site_geral_fallback: LAKMA_SITE_FALLBACK,
+    regra_envio:
+      "Se houver link_kit_unico, enviar esse link. Caso contrário, enviar a lista produtos_utilizados com link_individual_produto de cada item encontrado. Sinalizar individualmente apenas os itens sem link. Mover lead para 'Link do site enviado' ao enviar qualquer link.",
+    proibicoes: [
+      "Nunca responder 'não tenho o link do protocolo' antes de checar produtos_utilizados.",
+      "Nunca enviar apenas o site geral quando existir ao menos um link_individual_produto resolvido.",
+      "Nunca inventar links.",
+    ],
+  }, null, 2)}\n\`\`\`\n\n`;
+  return md;
+}
+
+function renderKnowledgeEntry(k: any, products: any[] = []): string {
   const typeKey = v(k.knowledge_type).toLowerCase();
   const typeLabel = KNOWLEDGE_TYPE_LABEL[typeKey] || v(k.knowledge_type);
   let md = `# ${v(k.title)}\n\n`;
@@ -220,6 +304,11 @@ function renderKnowledgeEntry(k: any): string {
   }
 
   md += `## Conteúdo\n\n${v(k.content_md)}\n`;
+
+  // Para protocolos: anexa cross-reference automática com links individuais dos produtos participantes.
+  if (typeKey === "protocolo") {
+    md += `\n` + renderProtocolProductsBlock(k, products);
+  }
   return md;
 }
 
