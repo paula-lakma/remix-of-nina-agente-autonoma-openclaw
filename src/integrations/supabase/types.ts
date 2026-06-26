@@ -85,51 +85,63 @@ export type Database = {
       }
       brain_knowledge: {
         Row: {
+          categoria_intencao: string[]
           category: string | null
           content_md: string
           created_at: string
           id: string
+          imagem_protocolo_url: string | null
           knowledge_type: string | null
           owner_user_id: string
           position: number
           priority: string | null
+          protocolo_pdf_url: string | null
           related_products: string[]
           slug: string
           tags: string[]
+          tipo_uso: string | null
           title: string
           updated_at: string
           when_to_escalate_md: string | null
           when_to_use_md: string | null
         }
         Insert: {
+          categoria_intencao?: string[]
           category?: string | null
           content_md: string
           created_at?: string
           id?: string
+          imagem_protocolo_url?: string | null
           knowledge_type?: string | null
           owner_user_id?: string
           position?: number
           priority?: string | null
+          protocolo_pdf_url?: string | null
           related_products?: string[]
           slug: string
           tags?: string[]
+          tipo_uso?: string | null
           title: string
           updated_at?: string
           when_to_escalate_md?: string | null
           when_to_use_md?: string | null
         }
         Update: {
+          categoria_intencao?: string[]
           category?: string | null
           content_md?: string
           created_at?: string
           id?: string
+          imagem_protocolo_url?: string | null
           knowledge_type?: string | null
           owner_user_id?: string
           position?: number
           priority?: string | null
+          protocolo_pdf_url?: string | null
           related_products?: string[]
           slug?: string
           tags?: string[]
+          tipo_uso?: string | null
           title?: string
           updated_at?: string
           when_to_escalate_md?: string | null

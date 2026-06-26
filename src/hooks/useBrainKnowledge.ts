@@ -26,6 +26,10 @@ export interface BrainKnowledge {
   when_to_escalate_md: string | null;
   priority: KnowledgePriority | string | null;
   position: number;
+  imagem_protocolo_url: string | null;
+  protocolo_pdf_url: string | null;
+  tipo_uso: string | null;
+  categoria_intencao: string[];
 }
 
 export type BrainKnowledgeInput = Omit<BrainKnowledge, 'id' | 'position'>;
@@ -41,7 +45,7 @@ interface UseBrainKnowledgeResult {
 }
 
 const KNOWLEDGE_COLUMNS =
-  'id, title, slug, content_md, knowledge_type, category, tags, related_products, when_to_use_md, when_to_escalate_md, priority, position';
+  'id, title, slug, content_md, knowledge_type, category, tags, related_products, when_to_use_md, when_to_escalate_md, priority, position, imagem_protocolo_url, protocolo_pdf_url, tipo_uso, categoria_intencao';
 
 /** Gera um slug a partir do título (minúsculo, sem acento, hifenizado). */
 export function slugify(value: string): string {
@@ -161,6 +165,10 @@ export const EMPTY_KNOWLEDGE_DRAFT: BrainKnowledgeInput = {
   when_to_use_md: '',
   when_to_escalate_md: '',
   priority: '',
+  imagem_protocolo_url: '',
+  protocolo_pdf_url: '',
+  tipo_uso: '',
+  categoria_intencao: [],
 };
 
 export function knowledgeToDraft(k: BrainKnowledge): BrainKnowledgeInput {
@@ -175,5 +183,9 @@ export function knowledgeToDraft(k: BrainKnowledge): BrainKnowledgeInput {
     when_to_use_md: k.when_to_use_md ?? '',
     when_to_escalate_md: k.when_to_escalate_md ?? '',
     priority: k.priority ?? '',
+    imagem_protocolo_url: k.imagem_protocolo_url ?? '',
+    protocolo_pdf_url: k.protocolo_pdf_url ?? '',
+    tipo_uso: k.tipo_uso ?? '',
+    categoria_intencao: k.categoria_intencao ?? [],
   };
 }

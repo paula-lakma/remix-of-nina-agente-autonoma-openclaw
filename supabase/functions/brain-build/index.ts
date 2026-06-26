@@ -501,6 +501,8 @@ function renderKnowledgeEntry(k: any, products: any[] = []): string {
   if (typeLabel) meta.push(`- **Tipo:** ${typeLabel}`);
   if (v(k.category)) meta.push(`- **Categoria:** ${v(k.category)}`);
   if (v(k.priority)) meta.push(`- **Prioridade:** ${v(k.priority)}`);
+  if (v(k.tipo_uso)) meta.push(`- **Tipo de uso:** ${v(k.tipo_uso)}`);
+  if (arr(k.categoria_intencao).length) meta.push(`- **Categoria de intenção:** ${arr(k.categoria_intencao).join(", ")}`);
   if (arr(k.tags).length) meta.push(`- **Tags:** ${arr(k.tags).join(", ")}`);
   if (arr(k.related_products).length) meta.push(`- **Produtos relacionados:** ${arr(k.related_products).join(", ")}`);
   if (meta.length) md += meta.join("\n") + "\n\n";
@@ -510,6 +512,40 @@ function renderKnowledgeEntry(k: any, products: any[] = []): string {
   }
   if (v(k.when_to_escalate_md)) {
     md += `## Quando encaminhar para atendimento humano\n\n${v(k.when_to_escalate_md)}\n\n`;
+  }
+
+  // ── Mídia aprovada do protocolo ────────────────────────────────────────
+  // A Nina SÓ pode enviar imagem/PDF se a URL estiver cadastrada aqui.
+  // Os marcadores [[IMG:url]] e [[PDF:url]] são detectados pelo `nina-reply`
+  // e enfileirados como mensagens WhatsApp (image / document) antes do texto.
+  const imgUrl = v(k.imagem_protocolo_url);
+  const pdfUrl = v(k.protocolo_pdf_url);
+  if (typeKey === "protocolo" || imgUrl || pdfUrl) {
+    md += `## Mídia aprovada do protocolo\n\n`;
+    if (imgUrl) {
+      md += `- **Imagem aprovada (\`imagem_protocolo_url\`):** ${imgUrl} ← enviar usando \`[[IMG:${imgUrl}]]\` no topo da resposta (vai como imagem WhatsApp).\n`;
+    } else {
+      md += `- **Imagem aprovada (\`imagem_protocolo_url\`):** _(não cadastrada — PROIBIDO inventar, gerar, buscar externamente ou substituir. Se o lead pedir a imagem, responder literalmente: "Não encontrei uma imagem aprovada cadastrada para esse protocolo, mas posso te enviar as informações aprovadas por escrito.")_\n`;
+    }
+    if (pdfUrl) {
+      md += `- **PDF aprovado (\`protocolo_pdf_url\`):** ${pdfUrl} ← enviar usando \`[[PDF:${pdfUrl}]]\` no topo da resposta (vai como documento WhatsApp).\n`;
+    } else {
+      md += `- **PDF aprovado (\`protocolo_pdf_url\`):** _(não cadastrado — NÃO mencionar PDF, NÃO escrever "te envio o protocolo em PDF".)_\n`;
+    }
+    md += `\n**Formato da resposta quando houver mídia aprovada:**\n\n`;
+    md += "```\n";
+    if (imgUrl) md += `[[IMG:${imgUrl}]]\n`;
+    if (pdfUrl) md += `[[PDF:${pdfUrl}]]\n`;
+    md += `Esse é um protocolo aprovado da Lakma:\n\n`;
+    md += `${v(k.title)}\n\n`;
+    md += imgUrl && pdfUrl
+      ? `Vou te enviar a imagem do protocolo e o PDF aprovado.\n`
+      : imgUrl
+        ? `Vou te enviar a imagem aprovada desse protocolo.\n`
+        : pdfUrl
+          ? `Vou te enviar o PDF aprovado desse protocolo.\n`
+          : ``;
+    md += "```\n\n";
   }
 
   md += `## Conteúdo\n\n${v(k.content_md)}\n`;
@@ -588,7 +624,7 @@ Deno.serve(async (req: Request) => {
 
   const { data: knowledge } = await admin
     .from("brain_knowledge")
-    .select("title, slug, content_md, position, knowledge_type, category, tags, related_products, when_to_use_md, when_to_escalate_md, priority")
+    .select("title, slug, content_md, position, knowledge_type, category, tags, related_products, when_to_use_md, when_to_escalate_md, priority, imagem_protocolo_url, protocolo_pdf_url, tipo_uso, categoria_intencao")
     .eq("owner_user_id", user.id)
     .order("position", { ascending: true });
 
