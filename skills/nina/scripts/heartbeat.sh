@@ -67,12 +67,13 @@ fi
 # A resposta do /heartbeat traz a chave ATUAL do Vault (rota autenticada por
 # X-Panel-Token, sobre HTTPS — mesmo nível de confiança do install). Se vier
 # não-vazia E DIFERENTE da do .env, atualiza o .env e reinicia o gateway.
-# CRÍTICO: só reinicia quando a chave REALMENTE mudou (nada de restart a cada 5min).
 NEW_KEY=$(printf '%s' "$RESP" | python3 -c "import sys,json
 try:
     print(json.load(sys.stdin).get('anthropic_api_key','') or '')
 except Exception:
     print('')" 2>/dev/null || echo "")
+
+NEED_RESTART=0
 
 if [[ -n "$NEW_KEY" && "$NEW_KEY" != "${ANTHROPIC_API_KEY:-}" && -f "$_ENV_FILE" ]]; then
     if grep -q "^ANTHROPIC_API_KEY=" "$_ENV_FILE"; then
@@ -81,10 +82,44 @@ if [[ -n "$NEW_KEY" && "$NEW_KEY" != "${ANTHROPIC_API_KEY:-}" && -f "$_ENV_FILE"
         echo "ANTHROPIC_API_KEY=${NEW_KEY}" >> "$_ENV_FILE"
     fi
     ANTHROPIC_API_KEY="$NEW_KEY"
-    echo "[$(date '+%F %T')] ANTHROPIC_API_KEY mudou (self-heal) — reiniciando gateway" >> "$LOG_FILE"
+    echo "[$(date '+%F %T')] ANTHROPIC_API_KEY mudou (self-heal)" >> "$LOG_FILE"
+    NEED_RESTART=1
+fi
+
+# ── Self-heal do MODELO Claude (escolhido em /cerebro) ────────────────────────
+# A resposta do /heartbeat traz nina_settings.openclaw_model. Se vier diferente
+# do default atual registrado no OpenClaw, registra o modelo (se faltar), aplica
+# via `openclaw models set` e marca o gateway para reiniciar uma única vez.
+NEW_MODEL=$(printf '%s' "$RESP" | python3 -c "import sys,json
+try:
+    print(json.load(sys.stdin).get('openclaw_model','') or '')
+except Exception:
+    print('')" 2>/dev/null || echo "")
+
+if [[ -n "$NEW_MODEL" ]]; then
+    if [[ "$NEW_MODEL" != */* ]]; then NEW_MODEL_FQ="anthropic/${NEW_MODEL}"; else NEW_MODEL_FQ="$NEW_MODEL"; fi
+    CUR_MODEL=$(openclaw models get 2>/dev/null | grep -oE 'anthropic/claude-[a-z0-9-]+' | head -1 || echo "")
+    if [[ "$NEW_MODEL_FQ" != "$CUR_MODEL" ]]; then
+        echo "[$(date '+%F %T')] openclaw_model mudou: ${CUR_MODEL:-vazio} -> ${NEW_MODEL_FQ}" >> "$LOG_FILE"
+        _MID="${NEW_MODEL_FQ#anthropic/}"
+        _MP=$(mktemp /tmp/nina-model-XXXXXX.json5)
+        cat > "$_MP" <<MODEOF
+{ "models": { "providers": { "anthropic": { "models": [
+  { "id": "${_MID}", "name": "${_MID}", "api": "anthropic-messages", "input": ["text", "image"], "maxTokens": 4096 }
+] } } }, "agents": { "defaults": { "model": { "primary": "${NEW_MODEL_FQ}" } } } }
+MODEOF
+        openclaw config patch --file "$_MP" >> "$LOG_FILE" 2>&1 || echo "[$(date '+%F %T')] WARN: config patch model falhou" >> "$LOG_FILE"
+        rm -f "$_MP"
+        openclaw models set "$NEW_MODEL_FQ" >> "$LOG_FILE" 2>&1 || echo "[$(date '+%F %T')] WARN: models set ${NEW_MODEL_FQ} falhou" >> "$LOG_FILE"
+        NEED_RESTART=1
+    fi
+fi
+
+if [[ "$NEED_RESTART" == "1" ]]; then
+    echo "[$(date '+%F %T')] reiniciando openclaw-gateway (self-heal)" >> "$LOG_FILE"
     if systemctl restart openclaw-gateway 2>/dev/null || sudo -n systemctl restart openclaw-gateway 2>/dev/null; then
-        echo "[$(date '+%F %T')] openclaw-gateway reiniciado (nova chave aplicada)" >> "$LOG_FILE"
+        echo "[$(date '+%F %T')] openclaw-gateway reiniciado" >> "$LOG_FILE"
     else
-        echo "[$(date '+%F %T')] WARN: restart do openclaw-gateway falhou (chave gravada no .env, restart pendente)" >> "$LOG_FILE"
+        echo "[$(date '+%F %T')] WARN: restart do openclaw-gateway falhou" >> "$LOG_FILE"
     fi
 fi
