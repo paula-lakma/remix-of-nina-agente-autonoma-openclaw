@@ -118,6 +118,39 @@ function renderProducts(products: any[]): string {
   md += `- Se o produto NÃO existe no cadastro, a Nina pede confirmação do nome ou encaminha para humano. Nunca chuta link.\n`;
   md += `- O site geral \`${LAKMA_SITE_FALLBACK}\` (raiz) é o único fallback aprovado e só pode ser enviado como página inicial — nunca com path \`/products/...\` fabricado.\n`;
   md += `- Quando enviar um link individual aprovado do site, sempre informar o cupom **LAKMA35** = 35% de desconto no site.\n\n`;
+  md += `## Envio de PDF de protocolo (aprovado pela Paula)\n\n`;
+  md += `- O cadastro do produto traz \`protocolo_pdf_url\` (campo visual "PDF aprovado do protocolo"). Trate como \`pdf_aprovado_protocolo\`.\n`;
+  md += `- Quando indicar um kit/produto profissional com PDF cadastrado, inclua uma linha no TOPO da resposta no formato exato \`[[PDF:<URL exata do protocolo_pdf_url>]]\`. O backend (\`nina-reply\`) detecta esse marcador, enfileira o PDF como mensagem WhatsApp do tipo \`document\` (filename = nome do produto) e remove o marcador do texto.\n`;
+  md += `- Múltiplos PDFs: uma linha \`[[PDF:...]]\` por arquivo, todas no topo, antes do texto. Nunca escrever \`[[PDF:...]]\` no meio de uma frase.\n`;
+  md += `- A Nina **só pode** usar URLs que aparecem literalmente em \`pdf_aprovado_protocolo\` deste arquivo. PROIBIDO: gerar PDF, inventar URL de PDF, reusar PDF de outro produto, oferecer "vou montar um PDF".\n`;
+  md += `- Se não houver PDF cadastrado, a Nina não menciona PDF e não escreve "Também te envio o protocolo aprovado em PDF.".\n\n`;
+  md += `## Fluxo comercial (Paula): uso profissional vs home care\n\n`;
+  md += `- Quando o lead pedir peeling, clareamento, manchas/carreamento de manchas, acne, rejuvenescimento, hidratação ou limpeza de pele, faça PRIMEIRO esta única pergunta de qualificação: **"Você procura para uso profissional ou para home care?"**. Sem outras perguntas (não pedir idade, tipo de pele, foto, etc.) — exceto em casos sensíveis (gestante, lactante, alergia, reação, pele sensibilizada/lesionada, procedimento recente, medicamentos, contraindicação) → encaminhar dermoconsultora.\n`;
+  md += `- Resposta para **uso profissional** em peeling/clareamento/carreamento de manchas/ácidos: priorize o **Kit Ácidos Sem Mistérios** se cadastrado e ativo. Caso contrário, escolha o produto profissional aderente (\`tipo_uso = 'profissional'\` ou \`'ambos'\`, \`categoria_intencao\` cruzando com a necessidade). Formato exato (copie):\n\n`;
+  md += "```\n";
+  md += `[[IMG:<foto_produto_url>]]   ← se houver\n`;
+  md += `[[PDF:<protocolo_pdf_url>]]  ← se houver\n`;
+  md += `Para uso profissional, eu indicaria o {{nome}}.\n\n`;
+  md += `Valor sem desconto: R$ {{valor_sem_desconto}}\n`;
+  md += `Valor com cupom LAKMA35: R$ {{valor_com_cupom}}\n\n`;
+  md += `Link oficial: {{link_individual_produto}}\n\n`;
+  md += `Também te envio o protocolo aprovado em PDF.   ← REMOVER se não houver PDF\n`;
+  md += "```\n\n";
+  md += `- Resposta para **home care** de clareamento de manchas: priorize **Vitamina C** e **Máscara Clareadora 10g** se cadastradas e ativas. Para outras intenções home care, escolha 2 a 3 produtos com \`tipo_uso = 'home_care'\` ou \`'ambos'\`. Formato exato:\n\n`;
+  md += "```\n";
+  md += `[[IMG:<foto_produto_url_1>]]   ← uma linha por foto cadastrada\n`;
+  md += `[[IMG:<foto_produto_url_2>]]\n`;
+  md += `Para home care de {{necessidade}}, temos essas opções:\n\n`;
+  md += `{{Produto 1}}\nValor sem desconto: R$ ...\nValor com cupom LAKMA35: R$ ...\nLink: ...\n\n`;
+  md += `{{Produto 2}}\nValor sem desconto: R$ ...\nValor com cupom LAKMA35: R$ ...\nLink: ...\n\n`;
+  md += `Quer que eu te explique como usar e quais cuidados precisa ter?\n`;
+  md += "```\n\n";
+  md += `## Regra de preço (CRÍTICA)\n\n`;
+  md += `- Use o campo \`valor_sem_desconto\` (number) do bloco JSON do produto.\n`;
+  md += `- O valor com cupom **LAKMA35** já vem pré-calculado em \`valor_com_cupom_lakma35\` (= \`valor_sem_desconto * 0,65\`, 2 casas, formato BR). Use esse valor diretamente — NUNCA calcule manualmente.\n`;
+  md += `- Se \`valor_sem_desconto\` for null/ausente, **PROIBIDO inventar preço**. Substituir as duas linhas de preço por uma única frase: "Você consegue consultar o valor atualizado diretamente no link oficial."\n`;
+  md += `- Sempre exibir os preços no formato brasileiro com duas casas (ex.: R$ 129,90 → R$ 84,44).\n\n`;
+
 
   if (!products.length) {
     md += `_(Nenhum produto cadastrado.)_\n`;
