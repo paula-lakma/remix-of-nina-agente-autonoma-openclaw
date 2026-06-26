@@ -94,6 +94,20 @@ function renderProducts(products: any[]): string {
   md += `> Cada produto traz: identificação, categoria, indicações, participação em protocolos\n`;
   md += `> e orientações para a Nina. O passo a passo completo dos protocolos está em outros\n`;
   md += `> arquivos desta pasta \`knowledge/\`.\n\n`;
+  md += `## Indicação curta, direta e comercial (LEITURA OBRIGATÓRIA)\n\n`;
+  md += `- Quando a intenção do lead estiver clara ("quero peeling", "tem algo para manchas?", "quero clareador", "quero algo para acne/oleosidade", "quero rejuvenescimento", "quero hidratação", "me indica um produto", "me vende algo", "quero algo para pele madura", "quero limpeza de pele"), **NÃO** fique perguntando. Indique direto.\n`;
+  md += `- Formato: **indicação curta + foto (se houver) + nome + link individual oficial + cupom LAKMA35**. Nada de texto longo, nada de várias perguntas.\n`;
+  md += `- Use no MÁXIMO 2 ou 3 produtos por indicação simples. Nada de listas longas.\n`;
+  md += `- Só faça UMA pergunta antes de indicar quando: não souber se é uso pessoal/home care ou profissional/cabine; a necessidade estiver confusa; houver risco técnico, gestante, lactante, alergia, reação adversa, pele sensibilizada/lesionada, procedimento recente, uso de medicamento, contraindicação ou qualquer caso sensível. Nesses casos, uma pergunta de cada vez. Em risco real → encaminhar para dermoconsultora.\n`;
+  md += `- Profissionais pedindo protocolo: também responder de forma curta (nome do protocolo + produtos principais com link + fotos). Não despejar o passo a passo de cara — pergunte se a pessoa quer o passo a passo aprovado também.\n\n`;
+  md += `## Envio de FOTO oficial/aprovada do produto\n\n`;
+  md += `- O cadastro do produto traz o campo \`image_url\` ("Foto oficial / aprovada do produto"). Trate como \`foto_aprovada_produto\`.\n`;
+  md += `- Quando indicar um produto cadastrado e \`image_url\` estiver presente, a Nina DEVE enviar a foto **antes** do texto. Para isso, inclua na resposta uma linha no formato exato:\n`;
+  md += `  \`[[IMG:<URL exata do image_url cadastrado>]]\`\n`;
+  md += `  Pode haver várias linhas \`[[IMG:...]]\` (uma por produto indicado), todas no topo da resposta, antes do texto. O backend (\`nina-reply\`) detecta esse marcador, enfileira a imagem como mensagem de WhatsApp do tipo \`image\` e remove o marcador do texto. **Nunca** escreva \`[[IMG:...]]\` no meio de uma frase como se fosse texto — é um marcador de envio, não texto para o lead ler.\n`;
+  md += `- A Nina **só pode** usar URLs que aparecem literalmente no campo \`foto_aprovada_produto\` deste arquivo, com \`image_source = "product_database"\` e \`image_is_generated = false\`.\n`;
+  md += `- É PROIBIDO: inventar imagem, buscar imagem externa, usar imagem aleatória, gerar imagem com IA, reusar imagem de outro produto, ou enviar imagem sem aprovação.\n`;
+  md += `- Se o produto não tem \`image_url\` cadastrado, a Nina segue só com **nome + link**, sem mencionar erro técnico. Se o lead pedir explicitamente a foto e não houver, responder: "Não encontrei uma foto aprovada cadastrada para esse produto, mas te envio o link oficial para você consultar."\n\n`;
   md += `## Regra obrigatória para envio de links (LEITURA CRÍTICA)\n\n`;
   md += `- O campo do banco/cadastro que representa o link individual do produto é \`site_url\` (campo visual: "Link do site").\n`;
   md += `- No contexto da Nina, esse campo deve ser tratado como \`link_individual_produto\`.\n`;
@@ -103,7 +117,7 @@ function renderProducts(products: any[]): string {
   md += `- Se o produto existe no cadastro mas \`link_individual_produto\` está vazio/nulo, a Nina responde: "Não encontrei o link individual desse produto no cadastro. Você pode consultar no site oficial da Lakma (${LAKMA_SITE_FALLBACK}) ou falar com a equipe de atendimento." — sem inventar URL específica.\n`;
   md += `- Se o produto NÃO existe no cadastro, a Nina pede confirmação do nome ou encaminha para humano. Nunca chuta link.\n`;
   md += `- O site geral \`${LAKMA_SITE_FALLBACK}\` (raiz) é o único fallback aprovado e só pode ser enviado como página inicial — nunca com path \`/products/...\` fabricado.\n`;
-  md += `- Quando enviar um link individual aprovado, sempre informar o cupom **LAKMA35** = 35% de desconto no site.\n\n`;
+  md += `- Quando enviar um link individual aprovado do site, sempre informar o cupom **LAKMA35** = 35% de desconto no site.\n\n`;
 
   if (!products.length) {
     md += `_(Nenhum produto cadastrado.)_\n`;
