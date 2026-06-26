@@ -14,6 +14,20 @@ Usar quando a profissional da estética pedir protocolo para pele sensível, pel
 
 Encaminhar quando houver rosácea em fase ativa intensa, pele ferida, irritação forte, ardência intensa, reação, alergia, dermatite ativa, uso recente de ácidos, retinoides ou procedimentos, tratamento dermatológico, uso de medicamentos, gestante, lactante, dúvida sobre rosácea, dúvida sobre fase ativa, pedido de adaptação do protocolo, troca de produto, alteração de tempo, ordem ou técnica, ou qualquer insegurança técnica.
 
+## Mídia aprovada do protocolo
+
+- **Imagem aprovada (`imagem_protocolo_url`):** _(não cadastrada — PROIBIDO inventar, gerar, buscar externamente ou substituir. Se o lead pedir a imagem, responder literalmente: "Não encontrei uma imagem aprovada cadastrada para esse protocolo, mas posso te enviar as informações aprovadas por escrito.")_
+- **PDF aprovado (`protocolo_pdf_url`):** _(não cadastrado — NÃO mencionar PDF, NÃO escrever "te envio o protocolo em PDF".)_
+
+**Formato da resposta quando houver mídia aprovada:**
+
+```
+Esse é um protocolo aprovado da Lakma:
+
+Protocolo Rosácea e Pele Sensibilizada
+
+```
+
 ## Conteúdo
 
 ```markdown id="protocolo-rosacea-e-pele-sensibilizada"
@@ -246,6 +260,8 @@ No site oficial use o cupom **LAKMA35** = 35% de desconto.
       "produto_encontrado": true,
       "nome_produto_cadastrado": "Sabonete Líquido Facial - 250ml",
       "match_tipo": "normalizado",
+      "foto_aprovada_produto": null,
+      "instrucao_envio_foto": null,
       "link_individual_produto": "https://lakma.com.br/products/sabonete-liquido-facial-250ml?_pos=1&_sid=e71294b11&_ss=r",
       "campo_origem_link_individual_produto": "site_url",
       "link_source": "product_database",
@@ -257,6 +273,8 @@ No site oficial use o cupom **LAKMA35** = 35% de desconto.
       "produto_encontrado": true,
       "nome_produto_cadastrado": "Loção Tônica - 200ml",
       "match_tipo": "normalizado",
+      "foto_aprovada_produto": null,
+      "instrucao_envio_foto": null,
       "link_individual_produto": "https://lakma.com.br/products/locao-tonica-200ml?_pos=1&_sid=8de5c51f8&_ss=r",
       "campo_origem_link_individual_produto": "site_url",
       "link_source": "product_database",
@@ -268,6 +286,8 @@ No site oficial use o cupom **LAKMA35** = 35% de desconto.
       "produto_encontrado": true,
       "nome_produto_cadastrado": "Máscara Calmante - 250g",
       "match_tipo": "normalizado",
+      "foto_aprovada_produto": null,
+      "instrucao_envio_foto": null,
       "link_individual_produto": "https://lakma.com.br/products/mascara-calmante-250gr?_pos=1&_sid=861decedf&_ss=r",
       "campo_origem_link_individual_produto": "site_url",
       "link_source": "product_database",
@@ -279,6 +299,8 @@ No site oficial use o cupom **LAKMA35** = 35% de desconto.
       "produto_encontrado": true,
       "nome_produto_cadastrado": "Máscara Hidroplástica Zen Marine - 150g",
       "match_tipo": "compacto",
+      "foto_aprovada_produto": null,
+      "instrucao_envio_foto": null,
       "link_individual_produto": "https://lakma.com.br/products/mascara-zen-marine-hidroplastica-150g?_pos=1&_sid=70f050ddf&_ss=r",
       "campo_origem_link_individual_produto": "site_url",
       "link_source": "product_database",
@@ -290,6 +312,8 @@ No site oficial use o cupom **LAKMA35** = 35% de desconto.
       "produto_encontrado": true,
       "nome_produto_cadastrado": "Máscara Clareadora - 30g",
       "match_tipo": "compacto",
+      "foto_aprovada_produto": null,
+      "instrucao_envio_foto": null,
       "link_individual_produto": "https://lakma.com.br/products/mascara-clareadora-30g?_pos=2&_sid=1cf15edab&_ss=r",
       "campo_origem_link_individual_produto": "site_url",
       "link_source": "product_database",
@@ -301,6 +325,8 @@ No site oficial use o cupom **LAKMA35** = 35% de desconto.
       "produto_encontrado": true,
       "nome_produto_cadastrado": "Fluido Revitalizante Passo 5 Nano Fill Up - 50ml",
       "match_tipo": "token",
+      "foto_aprovada_produto": null,
+      "instrucao_envio_foto": null,
       "link_individual_produto": "https://lakma.com.br/products/fluido-passo-5-rejuvenescedor-50ml?_pos=1&_sid=bcf3c4f48&_ss=r",
       "campo_origem_link_individual_produto": "site_url",
       "link_source": "product_database",

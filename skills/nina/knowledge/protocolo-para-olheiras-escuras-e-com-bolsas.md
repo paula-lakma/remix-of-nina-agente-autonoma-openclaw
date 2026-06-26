@@ -14,6 +14,20 @@ Usar quando a profissional da estética pedir protocolo para olheiras escuras, o
 
 Encaminhar quando houver contraindicações, gestantes, lactantes, bolsas acentuadas, sensibilidade intensa na área dos olhos, dermatite, lesões, feridas, alergias, reação, irritação ocular, lacrimejamento, ardência intensa, dúvida sobre aplicação próxima aos olhos, dúvida sobre tipo de olheira, associação com outros produtos, pedido de adaptação do protocolo ou qualquer insegurança técnica.
 
+## Mídia aprovada do protocolo
+
+- **Imagem aprovada (`imagem_protocolo_url`):** _(não cadastrada — PROIBIDO inventar, gerar, buscar externamente ou substituir. Se o lead pedir a imagem, responder literalmente: "Não encontrei uma imagem aprovada cadastrada para esse protocolo, mas posso te enviar as informações aprovadas por escrito.")_
+- **PDF aprovado (`protocolo_pdf_url`):** _(não cadastrado — NÃO mencionar PDF, NÃO escrever "te envio o protocolo em PDF".)_
+
+**Formato da resposta quando houver mídia aprovada:**
+
+```
+Esse é um protocolo aprovado da Lakma:
+
+Protocolo para Olheiras Escuras e com Bolsas
+
+```
+
 ## Conteúdo
 
 ```markdown id="protocolo-olheiras-escuras-e-bolsas"
@@ -199,6 +213,8 @@ No site oficial use o cupom **LAKMA35** = 35% de desconto.
       "produto_encontrado": true,
       "nome_produto_cadastrado": "Nanohydrat Roll para Olheiras - 15ml",
       "match_tipo": "compacto",
+      "foto_aprovada_produto": null,
+      "instrucao_envio_foto": null,
       "link_individual_produto": "https://lakma.com.br/products/nanohydrat-roll-para-olheiras-15ml?_pos=1&_sid=17dd3224b&_ss=r",
       "campo_origem_link_individual_produto": "site_url",
       "link_source": "product_database",
@@ -210,6 +226,8 @@ No site oficial use o cupom **LAKMA35** = 35% de desconto.
       "produto_encontrado": true,
       "nome_produto_cadastrado": "Peeling Rejuvenescedor - 50ml",
       "match_tipo": "compacto",
+      "foto_aprovada_produto": null,
+      "instrucao_envio_foto": null,
       "link_individual_produto": "https://lakma.com.br/products/peeling-rejuvenescedor-50ml?_pos=1&_sid=b70efd411&_ss=r",
       "campo_origem_link_individual_produto": "site_url",
       "link_source": "product_database",
@@ -221,6 +239,8 @@ No site oficial use o cupom **LAKMA35** = 35% de desconto.
       "produto_encontrado": true,
       "nome_produto_cadastrado": "Máscara Calmante - 250g",
       "match_tipo": "normalizado",
+      "foto_aprovada_produto": null,
+      "instrucao_envio_foto": null,
       "link_individual_produto": "https://lakma.com.br/products/mascara-calmante-250gr?_pos=1&_sid=861decedf&_ss=r",
       "campo_origem_link_individual_produto": "site_url",
       "link_source": "product_database",
@@ -232,6 +252,8 @@ No site oficial use o cupom **LAKMA35** = 35% de desconto.
       "produto_encontrado": true,
       "nome_produto_cadastrado": "Máscara Hidroplástica Zen Marine - 150g",
       "match_tipo": "compacto",
+      "foto_aprovada_produto": null,
+      "instrucao_envio_foto": null,
       "link_individual_produto": "https://lakma.com.br/products/mascara-zen-marine-hidroplastica-150g?_pos=1&_sid=70f050ddf&_ss=r",
       "campo_origem_link_individual_produto": "site_url",
       "link_source": "product_database",

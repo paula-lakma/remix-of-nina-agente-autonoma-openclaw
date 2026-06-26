@@ -14,6 +14,20 @@ Usar quando a profissional da estética pedir protocolo de retorno após procedi
 
 Encaminhar quando houver intercorrência pós-procedimento, pele ferida, pele inflamada, pele sensibilizada, reação, alergia, ardência intensa, dor, infecção, gestante, lactante, tratamento dermatológico, uso de medicamentos, dúvida sobre intervalo após procedimento, dúvida sobre esfoliação pós-procedimento, dúvida sobre associação com laser, LED, microagulhamento, dermaplaning, jato de plasma, harmonização, botox, pedido de adaptação do protocolo ou qualquer insegurança técnica.
 
+## Mídia aprovada do protocolo
+
+- **Imagem aprovada (`imagem_protocolo_url`):** _(não cadastrada — PROIBIDO inventar, gerar, buscar externamente ou substituir. Se o lead pedir a imagem, responder literalmente: "Não encontrei uma imagem aprovada cadastrada para esse protocolo, mas posso te enviar as informações aprovadas por escrito.")_
+- **PDF aprovado (`protocolo_pdf_url`):** _(não cadastrado — NÃO mencionar PDF, NÃO escrever "te envio o protocolo em PDF".)_
+
+**Formato da resposta quando houver mídia aprovada:**
+
+```
+Esse é um protocolo aprovado da Lakma:
+
+Protocolo Retorno Pós-Procedimentos 10 em 1
+
+```
+
 ## Conteúdo
 
 ```markdown id="protocolo-retorno-pos-procedimentos-10-em-1"
@@ -255,6 +269,8 @@ No site oficial use o cupom **LAKMA35** = 35% de desconto.
       "produto_encontrado": true,
       "nome_produto_cadastrado": "Sabonete Líquido Facial - 250ml",
       "match_tipo": "normalizado",
+      "foto_aprovada_produto": null,
+      "instrucao_envio_foto": null,
       "link_individual_produto": "https://lakma.com.br/products/sabonete-liquido-facial-250ml?_pos=1&_sid=e71294b11&_ss=r",
       "campo_origem_link_individual_produto": "site_url",
       "link_source": "product_database",
@@ -266,6 +282,8 @@ No site oficial use o cupom **LAKMA35** = 35% de desconto.
       "produto_encontrado": true,
       "nome_produto_cadastrado": "Gel Esfoliante Corporal Ozonizado - 1kg",
       "match_tipo": "compacto",
+      "foto_aprovada_produto": null,
+      "instrucao_envio_foto": null,
       "link_individual_produto": "https://lakma.com.br/products/gel-esfoliante-corporal-ozonizado-1kg?_pos=1&_sid=633454ffc&_ss=r",
       "campo_origem_link_individual_produto": "site_url",
       "link_source": "product_database",
@@ -277,6 +295,8 @@ No site oficial use o cupom **LAKMA35** = 35% de desconto.
       "produto_encontrado": true,
       "nome_produto_cadastrado": "Máscara Clareadora - 30g",
       "match_tipo": "compacto",
+      "foto_aprovada_produto": null,
+      "instrucao_envio_foto": null,
       "link_individual_produto": "https://lakma.com.br/products/mascara-clareadora-30g?_pos=2&_sid=1cf15edab&_ss=r",
       "campo_origem_link_individual_produto": "site_url",
       "link_source": "product_database",
@@ -288,6 +308,8 @@ No site oficial use o cupom **LAKMA35** = 35% de desconto.
       "produto_encontrado": true,
       "nome_produto_cadastrado": "Kit Jóias Raras",
       "match_tipo": "compacto",
+      "foto_aprovada_produto": null,
+      "instrucao_envio_foto": null,
       "link_individual_produto": "https://lakma.com.br/products/kit-joias-raras?_pos=1&_sid=cc2e24439&_ss=r",
       "campo_origem_link_individual_produto": "site_url",
       "link_source": "product_database",
@@ -299,6 +321,8 @@ No site oficial use o cupom **LAKMA35** = 35% de desconto.
       "produto_encontrado": true,
       "nome_produto_cadastrado": "Fluido Revitalizante Passo 5 Nano Fill Up - 50ml",
       "match_tipo": "token",
+      "foto_aprovada_produto": null,
+      "instrucao_envio_foto": null,
       "link_individual_produto": "https://lakma.com.br/products/fluido-passo-5-rejuvenescedor-50ml?_pos=1&_sid=bcf3c4f48&_ss=r",
       "campo_origem_link_individual_produto": "site_url",
       "link_source": "product_database",
@@ -310,6 +334,8 @@ No site oficial use o cupom **LAKMA35** = 35% de desconto.
       "produto_encontrado": true,
       "nome_produto_cadastrado": "Fluido Revitalizante Passo 2 - Ácido Hialurônico - 50ml",
       "match_tipo": "compacto",
+      "foto_aprovada_produto": null,
+      "instrucao_envio_foto": null,
       "link_individual_produto": "https://lakma.com.br/products/fluido-passo-2-hialuronico-50ml?_pos=1&_sid=4c1d3e80d&_ss=r",
       "campo_origem_link_individual_produto": "site_url",
       "link_source": "product_database",
@@ -321,6 +347,8 @@ No site oficial use o cupom **LAKMA35** = 35% de desconto.
       "produto_encontrado": true,
       "nome_produto_cadastrado": "Fluido Revitalizante Passo 5 Nano Fill Up - 50ml",
       "match_tipo": "token",
+      "foto_aprovada_produto": null,
+      "instrucao_envio_foto": null,
       "link_individual_produto": "https://lakma.com.br/products/fluido-passo-5-rejuvenescedor-50ml?_pos=1&_sid=bcf3c4f48&_ss=r",
       "campo_origem_link_individual_produto": "site_url",
       "link_source": "product_database",
@@ -332,6 +360,8 @@ No site oficial use o cupom **LAKMA35** = 35% de desconto.
       "produto_encontrado": true,
       "nome_produto_cadastrado": "Fluido Revitalizante Passo 4 - Vitamina C 40% - 50ml",
       "match_tipo": "compacto",
+      "foto_aprovada_produto": null,
+      "instrucao_envio_foto": null,
       "link_individual_produto": "https://lakma.com.br/products/fluido-passo-4-vitamina-c-50ml?_pos=1&_sid=976b990d3&_ss=r",
       "campo_origem_link_individual_produto": "site_url",
       "link_source": "product_database",
@@ -343,6 +373,8 @@ No site oficial use o cupom **LAKMA35** = 35% de desconto.
       "produto_encontrado": true,
       "nome_produto_cadastrado": "Fluido Revitalizante Passo 5 Nano Fill Up - 50ml",
       "match_tipo": "compacto",
+      "foto_aprovada_produto": null,
+      "instrucao_envio_foto": null,
       "link_individual_produto": "https://lakma.com.br/products/fluido-passo-5-rejuvenescedor-50ml?_pos=1&_sid=bcf3c4f48&_ss=r",
       "campo_origem_link_individual_produto": "site_url",
       "link_source": "product_database",

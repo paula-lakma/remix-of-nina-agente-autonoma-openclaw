@@ -14,6 +14,20 @@ Usar quando a profissional da estética pedir protocolo com peelings, protocolo 
 
 Encaminhar quando houver gestante, lactante, menor de 18 anos, alergia, reação, pele lesionada, pele sensibilizada, pele irritada, ardência intensa, acne muito inflamada, feridas, uso recente de ácidos, retinoides, peeling, laser, microagulhamento ou procedimento recente, tratamento dermatológico, uso de medicamentos, doença de pele, doença autoimune, dúvida sobre fototipo, tempo de ação, permanência dos produtos, associação de peelings, fotoproteção, pedido de adaptação do protocolo, troca de produto, alteração de tempo, ordem ou técnica, ou qualquer insegurança técnica.
 
+## Mídia aprovada do protocolo
+
+- **Imagem aprovada (`imagem_protocolo_url`):** _(não cadastrada — PROIBIDO inventar, gerar, buscar externamente ou substituir. Se o lead pedir a imagem, responder literalmente: "Não encontrei uma imagem aprovada cadastrada para esse protocolo, mas posso te enviar as informações aprovadas por escrito.")_
+- **PDF aprovado (`protocolo_pdf_url`):** _(não cadastrado — NÃO mencionar PDF, NÃO escrever "te envio o protocolo em PDF".)_
+
+**Formato da resposta quando houver mídia aprovada:**
+
+```
+Esse é um protocolo aprovado da Lakma:
+
+Protocolo Quarteto Fantástico de Peeling
+
+```
+
 ## Conteúdo
 
 ```markdown id="protocolo-quarteto-fantastico-de-peeling"
@@ -295,6 +309,8 @@ No site oficial use o cupom **LAKMA35** = 35% de desconto.
       "produto_encontrado": true,
       "nome_produto_cadastrado": "Peeling Rejuvenescedor - 50ml",
       "match_tipo": "normalizado",
+      "foto_aprovada_produto": null,
+      "instrucao_envio_foto": null,
       "link_individual_produto": "https://lakma.com.br/products/peeling-rejuvenescedor-50ml?_pos=1&_sid=b70efd411&_ss=r",
       "campo_origem_link_individual_produto": "site_url",
       "link_source": "product_database",
@@ -306,6 +322,8 @@ No site oficial use o cupom **LAKMA35** = 35% de desconto.
       "produto_encontrado": true,
       "nome_produto_cadastrado": "Peeling Rejuvenescedor - 50ml",
       "match_tipo": "compacto",
+      "foto_aprovada_produto": null,
+      "instrucao_envio_foto": null,
       "link_individual_produto": "https://lakma.com.br/products/peeling-rejuvenescedor-50ml?_pos=1&_sid=b70efd411&_ss=r",
       "campo_origem_link_individual_produto": "site_url",
       "link_source": "product_database",
@@ -317,6 +335,8 @@ No site oficial use o cupom **LAKMA35** = 35% de desconto.
       "produto_encontrado": true,
       "nome_produto_cadastrado": "Peeling Químico Secativo - 50ml",
       "match_tipo": "normalizado",
+      "foto_aprovada_produto": null,
+      "instrucao_envio_foto": null,
       "link_individual_produto": "https://lakma.com.br/products/peeling-quimico-secativo-50ml?_pos=1&_sid=60a60c291&_ss=r",
       "campo_origem_link_individual_produto": "site_url",
       "link_source": "product_database",
@@ -328,6 +348,8 @@ No site oficial use o cupom **LAKMA35** = 35% de desconto.
       "produto_encontrado": true,
       "nome_produto_cadastrado": "Peeling Rejuvenescedor - 50ml",
       "match_tipo": "compacto",
+      "foto_aprovada_produto": null,
+      "instrucao_envio_foto": null,
       "link_individual_produto": "https://lakma.com.br/products/peeling-rejuvenescedor-50ml?_pos=1&_sid=b70efd411&_ss=r",
       "campo_origem_link_individual_produto": "site_url",
       "link_source": "product_database",
@@ -339,6 +361,8 @@ No site oficial use o cupom **LAKMA35** = 35% de desconto.
       "produto_encontrado": true,
       "nome_produto_cadastrado": "Kit Labial Home Care",
       "match_tipo": "token",
+      "foto_aprovada_produto": null,
+      "instrucao_envio_foto": null,
       "link_individual_produto": "https://lakma.com.br/products/kit-labial-home-care?_pos=1&_sid=1789b10ca&_ss=r",
       "campo_origem_link_individual_produto": "site_url",
       "link_source": "product_database",
@@ -350,6 +374,8 @@ No site oficial use o cupom **LAKMA35** = 35% de desconto.
       "produto_encontrado": true,
       "nome_produto_cadastrado": "Loção Tônica - 200ml",
       "match_tipo": "compacto",
+      "foto_aprovada_produto": null,
+      "instrucao_envio_foto": null,
       "link_individual_produto": "https://lakma.com.br/products/locao-tonica-200ml?_pos=1&_sid=8de5c51f8&_ss=r",
       "campo_origem_link_individual_produto": "site_url",
       "link_source": "product_database",

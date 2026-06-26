@@ -14,6 +14,20 @@ Usar quando a profissional da estética pedir protocolo corporal com Kit Venus, 
 
 Encaminhar quando houver contraindicações, gestantes, lactantes, varizes, alterações circulatórias, sensibilidade ao calor, alergias, reação, dor, pele lesionada, pele sensibilizada, uso de medicamentos controlados, dúvida sobre endermologia, ventosas, manta térmica, vapor de ozônio, gessoterapia, oclusão, tempo de ação, pedido de adaptação do protocolo, troca de produto, alteração de tempo, ordem ou técnica, ou qualquer insegurança técnica.
 
+## Mídia aprovada do protocolo
+
+- **Imagem aprovada (`imagem_protocolo_url`):** _(não cadastrada — PROIBIDO inventar, gerar, buscar externamente ou substituir. Se o lead pedir a imagem, responder literalmente: "Não encontrei uma imagem aprovada cadastrada para esse protocolo, mas posso te enviar as informações aprovadas por escrito.")_
+- **PDF aprovado (`protocolo_pdf_url`):** _(não cadastrado — NÃO mencionar PDF, NÃO escrever "te envio o protocolo em PDF".)_
+
+**Formato da resposta quando houver mídia aprovada:**
+
+```
+Esse é um protocolo aprovado da Lakma:
+
+Protocolo Kit Venus | Massagem Corporal
+
+```
+
 ## Conteúdo
 
 ```markdown id="protocolo-kit-venus-massagem-corporal"
@@ -226,6 +240,8 @@ No site oficial use o cupom **LAKMA35** = 35% de desconto.
       "produto_encontrado": true,
       "nome_produto_cadastrado": "Kit Labial Home Care",
       "match_tipo": "token",
+      "foto_aprovada_produto": null,
+      "instrucao_envio_foto": null,
       "link_individual_produto": "https://lakma.com.br/products/kit-labial-home-care?_pos=1&_sid=1789b10ca&_ss=r",
       "campo_origem_link_individual_produto": "site_url",
       "link_source": "product_database",
@@ -237,6 +253,8 @@ No site oficial use o cupom **LAKMA35** = 35% de desconto.
       "produto_encontrado": true,
       "nome_produto_cadastrado": "Kit Labial Home Care",
       "match_tipo": "token",
+      "foto_aprovada_produto": null,
+      "instrucao_envio_foto": null,
       "link_individual_produto": "https://lakma.com.br/products/kit-labial-home-care?_pos=1&_sid=1789b10ca&_ss=r",
       "campo_origem_link_individual_produto": "site_url",
       "link_source": "product_database",
@@ -248,6 +266,8 @@ No site oficial use o cupom **LAKMA35** = 35% de desconto.
       "produto_encontrado": true,
       "nome_produto_cadastrado": "Kit Labial Home Care",
       "match_tipo": "token",
+      "foto_aprovada_produto": null,
+      "instrucao_envio_foto": null,
       "link_individual_produto": "https://lakma.com.br/products/kit-labial-home-care?_pos=1&_sid=1789b10ca&_ss=r",
       "campo_origem_link_individual_produto": "site_url",
       "link_source": "product_database",

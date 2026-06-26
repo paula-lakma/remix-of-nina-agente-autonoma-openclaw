@@ -4,6 +4,24 @@
 > e orientações para a Nina. O passo a passo completo dos protocolos está em outros
 > arquivos desta pasta `knowledge/`.
 
+## Indicação curta, direta e comercial (LEITURA OBRIGATÓRIA)
+
+- Quando a intenção do lead estiver clara ("quero peeling", "tem algo para manchas?", "quero clareador", "quero algo para acne/oleosidade", "quero rejuvenescimento", "quero hidratação", "me indica um produto", "me vende algo", "quero algo para pele madura", "quero limpeza de pele"), **NÃO** fique perguntando. Indique direto.
+- Formato: **indicação curta + foto (se houver) + nome + link individual oficial + cupom LAKMA35**. Nada de texto longo, nada de várias perguntas.
+- Use no MÁXIMO 2 ou 3 produtos por indicação simples. Nada de listas longas.
+- Só faça UMA pergunta antes de indicar quando: não souber se é uso pessoal/home care ou profissional/cabine; a necessidade estiver confusa; houver risco técnico, gestante, lactante, alergia, reação adversa, pele sensibilizada/lesionada, procedimento recente, uso de medicamento, contraindicação ou qualquer caso sensível. Nesses casos, uma pergunta de cada vez. Em risco real → encaminhar para dermoconsultora.
+- Profissionais pedindo protocolo: também responder de forma curta (nome do protocolo + produtos principais com link + fotos). Não despejar o passo a passo de cara — pergunte se a pessoa quer o passo a passo aprovado também.
+
+## Envio de FOTO oficial/aprovada do produto
+
+- O cadastro do produto traz o campo `image_url` ("Foto oficial / aprovada do produto"). Trate como `foto_aprovada_produto`.
+- Quando indicar um produto cadastrado e `image_url` estiver presente, a Nina DEVE enviar a foto **antes** do texto. Para isso, inclua na resposta uma linha no formato exato:
+  `[[IMG:<URL exata do image_url cadastrado>]]`
+  Pode haver várias linhas `[[IMG:...]]` (uma por produto indicado), todas no topo da resposta, antes do texto. O backend (`nina-reply`) detecta esse marcador, enfileira a imagem como mensagem de WhatsApp do tipo `image` e remove o marcador do texto. **Nunca** escreva `[[IMG:...]]` no meio de uma frase como se fosse texto — é um marcador de envio, não texto para o lead ler.
+- A Nina **só pode** usar URLs que aparecem literalmente no campo `foto_aprovada_produto` deste arquivo, com `image_source = "product_database"` e `image_is_generated = false`.
+- É PROIBIDO: inventar imagem, buscar imagem externa, usar imagem aleatória, gerar imagem com IA, reusar imagem de outro produto, ou enviar imagem sem aprovação.
+- Se o produto não tem `image_url` cadastrado, a Nina segue só com **nome + link**, sem mencionar erro técnico. Se o lead pedir explicitamente a foto e não houver, responder: "Não encontrei uma foto aprovada cadastrada para esse produto, mas te envio o link oficial para você consultar."
+
 ## Regra obrigatória para envio de links (LEITURA CRÍTICA)
 
 - O campo do banco/cadastro que representa o link individual do produto é `site_url` (campo visual: "Link do site").
@@ -14,7 +32,60 @@
 - Se o produto existe no cadastro mas `link_individual_produto` está vazio/nulo, a Nina responde: "Não encontrei o link individual desse produto no cadastro. Você pode consultar no site oficial da Lakma (https://www.lakma.com.br) ou falar com a equipe de atendimento." — sem inventar URL específica.
 - Se o produto NÃO existe no cadastro, a Nina pede confirmação do nome ou encaminha para humano. Nunca chuta link.
 - O site geral `https://www.lakma.com.br` (raiz) é o único fallback aprovado e só pode ser enviado como página inicial — nunca com path `/products/...` fabricado.
-- Quando enviar um link individual aprovado, sempre informar o cupom **LAKMA35** = 35% de desconto no site.
+- Quando enviar um link individual aprovado do site, sempre informar o cupom **LAKMA35** = 35% de desconto no site.
+
+## Envio de PDF de protocolo (aprovado pela Paula)
+
+- O cadastro do produto traz `protocolo_pdf_url` (campo visual "PDF aprovado do protocolo"). Trate como `pdf_aprovado_protocolo`.
+- Quando indicar um kit/produto profissional com PDF cadastrado, inclua uma linha no TOPO da resposta no formato exato `[[PDF:<URL exata do protocolo_pdf_url>]]`. O backend (`nina-reply`) detecta esse marcador, enfileira o PDF como mensagem WhatsApp do tipo `document` (filename = nome do produto) e remove o marcador do texto.
+- Múltiplos PDFs: uma linha `[[PDF:...]]` por arquivo, todas no topo, antes do texto. Nunca escrever `[[PDF:...]]` no meio de uma frase.
+- A Nina **só pode** usar URLs que aparecem literalmente em `pdf_aprovado_protocolo` deste arquivo. PROIBIDO: gerar PDF, inventar URL de PDF, reusar PDF de outro produto, oferecer "vou montar um PDF".
+- Se não houver PDF cadastrado, a Nina não menciona PDF e não escreve "Também te envio o protocolo aprovado em PDF.".
+
+## Fluxo comercial (Paula): uso profissional vs home care
+
+- Quando o lead pedir peeling, clareamento, manchas/carreamento de manchas, acne, rejuvenescimento, hidratação ou limpeza de pele, faça PRIMEIRO esta única pergunta de qualificação: **"Você procura para uso profissional ou para home care?"**. Sem outras perguntas (não pedir idade, tipo de pele, foto, etc.) — exceto em casos sensíveis (gestante, lactante, alergia, reação, pele sensibilizada/lesionada, procedimento recente, medicamentos, contraindicação) → encaminhar dermoconsultora.
+- Resposta para **uso profissional** em peeling/clareamento/carreamento de manchas/ácidos: priorize o **Kit Ácidos Sem Mistérios** se cadastrado e ativo. Caso contrário, escolha o produto profissional aderente (`tipo_uso = 'profissional'` ou `'ambos'`, `categoria_intencao` cruzando com a necessidade). Formato exato (copie):
+
+```
+[[IMG:<foto_produto_url>]]   ← se houver
+[[PDF:<protocolo_pdf_url>]]  ← se houver
+Para uso profissional, eu indicaria o {{nome}}.
+
+Valor sem desconto: R$ {{valor_sem_desconto}}
+Valor com cupom LAKMA35: R$ {{valor_com_cupom}}
+
+Link oficial: {{link_individual_produto}}
+
+Também te envio o protocolo aprovado em PDF.   ← REMOVER se não houver PDF
+```
+
+- Resposta para **home care** de clareamento de manchas: priorize **Vitamina C** e **Máscara Clareadora 10g** se cadastradas e ativas. Para outras intenções home care, escolha 2 a 3 produtos com `tipo_uso = 'home_care'` ou `'ambos'`. Formato exato:
+
+```
+[[IMG:<foto_produto_url_1>]]   ← uma linha por foto cadastrada
+[[IMG:<foto_produto_url_2>]]
+Para home care de {{necessidade}}, temos essas opções:
+
+{{Produto 1}}
+Valor sem desconto: R$ ...
+Valor com cupom LAKMA35: R$ ...
+Link: ...
+
+{{Produto 2}}
+Valor sem desconto: R$ ...
+Valor com cupom LAKMA35: R$ ...
+Link: ...
+
+Quer que eu te explique como usar e quais cuidados precisa ter?
+```
+
+## Regra de preço (CRÍTICA)
+
+- Use o campo `valor_sem_desconto` (number) do bloco JSON do produto.
+- O valor com cupom **LAKMA35** já vem pré-calculado em `valor_com_cupom_lakma35` (= `valor_sem_desconto * 0,65`, 2 casas, formato BR). Use esse valor diretamente — NUNCA calcule manualmente.
+- Se `valor_sem_desconto` for null/ausente, **PROIBIDO inventar preço**. Substituir as duas linhas de preço por uma única frase: "Você consegue consultar o valor atualizado diretamente no link oficial."
+- Sempre exibir os preços no formato brasileiro com duas casas (ex.: R$ 129,90 → R$ 84,44).
 
 ## Kit Ácidos Sem Mistérios + Peeling de Cristal Líquido
 
@@ -29,12 +100,20 @@ Kit profissional de peelings clareadores para protocolos faciais e corporais de 
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Foto oficial aprovada (`image_url`):** _(não cadastrada — NÃO inventar imagem; seguir só com nome + link)_
+- **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
+- **Valor:** _(não cadastrado — NÃO inventar preço; responder "Você consegue consultar o valor atualizado diretamente no link oficial.")_
 - **Link individual do produto no site oficial:** https://lakma.com.br/products/kit-acidos-sem-misterios-peeling-de-cristal-liquido-guia-pratico-de-peeling?_pos=2&_sid=092c25f53&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
   "produto": "Kit Ácidos Sem Mistérios + Peeling de Cristal Líquido",
   "aliases": [],
+  "foto_aprovada_produto": null,
+  "campo_origem_foto": "image_url",
+  "image_source": null,
+  "image_is_generated": false,
+  "instrucao_envio_foto": "Sem foto cadastrada: não inventar, não buscar externa, não gerar. Indicar só com nome + link.",
   "link_individual_produto": "https://lakma.com.br/products/kit-acidos-sem-misterios-peeling-de-cristal-liquido-guia-pratico-de-peeling?_pos=2&_sid=092c25f53&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -47,7 +126,21 @@ Kit profissional de peelings clareadores para protocolos faciais e corporais de 
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
-  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "valor_sem_desconto": null,
+  "valor_com_cupom_lakma35": null,
+  "valor_sem_desconto_br": null,
+  "valor_com_cupom_lakma35_br": null,
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "pdf_aprovado_protocolo": null,
+  "pdf_source": null,
+  "pdf_is_generated": false,
+  "instrucao_envio_pdf": "Sem PDF cadastrado: NÃO inventar PDF, NÃO escrever 'te envio o protocolo em PDF'.",
+  "tipo_uso": null,
+  "categoria_intencao": [],
+  "quando_indicar_direto": [],
+  "indicacao_curta": null,
+  "regra_preco": "valor_sem_desconto ausente: PROIBIDO inventar preço. Resposta padrão: 'Você consegue consultar o valor atualizado diretamente no link oficial.'"
 }
 ```
 
@@ -237,12 +330,20 @@ Sérum facial revitalizante com foco em firmeza, efeito lifting, elasticidade e 
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Foto oficial aprovada (`image_url`):** _(não cadastrada — NÃO inventar imagem; seguir só com nome + link)_
+- **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
+- **Valor:** _(não cadastrado — NÃO inventar preço; responder "Você consegue consultar o valor atualizado diretamente no link oficial.")_
 - **Link individual do produto no site oficial:** https://lakma.com.br/products/fluido-passo-5-rejuvenescedor-50ml?_pos=1&_sid=bcf3c4f48&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
   "produto": "Fluido Revitalizante Passo 5 Nano Fill Up - 50ml",
   "aliases": [],
+  "foto_aprovada_produto": null,
+  "campo_origem_foto": "image_url",
+  "image_source": null,
+  "image_is_generated": false,
+  "instrucao_envio_foto": "Sem foto cadastrada: não inventar, não buscar externa, não gerar. Indicar só com nome + link.",
   "link_individual_produto": "https://lakma.com.br/products/fluido-passo-5-rejuvenescedor-50ml?_pos=1&_sid=bcf3c4f48&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -255,7 +356,21 @@ Sérum facial revitalizante com foco em firmeza, efeito lifting, elasticidade e 
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
-  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "valor_sem_desconto": null,
+  "valor_com_cupom_lakma35": null,
+  "valor_sem_desconto_br": null,
+  "valor_com_cupom_lakma35_br": null,
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "pdf_aprovado_protocolo": null,
+  "pdf_source": null,
+  "pdf_is_generated": false,
+  "instrucao_envio_pdf": "Sem PDF cadastrado: NÃO inventar PDF, NÃO escrever 'te envio o protocolo em PDF'.",
+  "tipo_uso": null,
+  "categoria_intencao": [],
+  "quando_indicar_direto": [],
+  "indicacao_curta": null,
+  "regra_preco": "valor_sem_desconto ausente: PROIBIDO inventar preço. Resposta padrão: 'Você consegue consultar o valor atualizado diretamente no link oficial.'"
 }
 ```
 
@@ -381,12 +496,20 @@ Creme emoliente facial profissional, livre de trietanolamina, indicado para amol
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Foto oficial aprovada (`image_url`):** _(não cadastrada — NÃO inventar imagem; seguir só com nome + link)_
+- **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
+- **Valor:** _(não cadastrado — NÃO inventar preço; responder "Você consegue consultar o valor atualizado diretamente no link oficial.")_
 - **Link individual do produto no site oficial:** https://lakma.com.br/products/emoliente-zero?_pos=1&_sid=1345a38d7&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
   "produto": "Emoliente Zero Trieta - 250g",
   "aliases": [],
+  "foto_aprovada_produto": null,
+  "campo_origem_foto": "image_url",
+  "image_source": null,
+  "image_is_generated": false,
+  "instrucao_envio_foto": "Sem foto cadastrada: não inventar, não buscar externa, não gerar. Indicar só com nome + link.",
   "link_individual_produto": "https://lakma.com.br/products/emoliente-zero?_pos=1&_sid=1345a38d7&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -399,7 +522,21 @@ Creme emoliente facial profissional, livre de trietanolamina, indicado para amol
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
-  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "valor_sem_desconto": null,
+  "valor_com_cupom_lakma35": null,
+  "valor_sem_desconto_br": null,
+  "valor_com_cupom_lakma35_br": null,
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "pdf_aprovado_protocolo": null,
+  "pdf_source": null,
+  "pdf_is_generated": false,
+  "instrucao_envio_pdf": "Sem PDF cadastrado: NÃO inventar PDF, NÃO escrever 'te envio o protocolo em PDF'.",
+  "tipo_uso": null,
+  "categoria_intencao": [],
+  "quando_indicar_direto": [],
+  "indicacao_curta": null,
+  "regra_preco": "valor_sem_desconto ausente: PROIBIDO inventar preço. Resposta padrão: 'Você consegue consultar o valor atualizado diretamente no link oficial.'"
 }
 ```
 
@@ -526,12 +663,20 @@ Booster facial profissional indicado para protocolos de rejuvenescimento, firmez
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Foto oficial aprovada (`image_url`):** _(não cadastrada — NÃO inventar imagem; seguir só com nome + link)_
+- **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
+- **Valor:** _(não cadastrado — NÃO inventar preço; responder "Você consegue consultar o valor atualizado diretamente no link oficial.")_
 - **Link individual do produto no site oficial:** https://lakma.com.br/products/booster-fibras-elasticas?_pos=1&_psq=fibras+elas&_ss=e&_v=1.0 ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
   "produto": "Booster Fibras Elásticas",
   "aliases": [],
+  "foto_aprovada_produto": null,
+  "campo_origem_foto": "image_url",
+  "image_source": null,
+  "image_is_generated": false,
+  "instrucao_envio_foto": "Sem foto cadastrada: não inventar, não buscar externa, não gerar. Indicar só com nome + link.",
   "link_individual_produto": "https://lakma.com.br/products/booster-fibras-elasticas?_pos=1&_psq=fibras+elas&_ss=e&_v=1.0",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -544,7 +689,21 @@ Booster facial profissional indicado para protocolos de rejuvenescimento, firmez
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
-  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "valor_sem_desconto": null,
+  "valor_com_cupom_lakma35": null,
+  "valor_sem_desconto_br": null,
+  "valor_com_cupom_lakma35_br": null,
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "pdf_aprovado_protocolo": null,
+  "pdf_source": null,
+  "pdf_is_generated": false,
+  "instrucao_envio_pdf": "Sem PDF cadastrado: NÃO inventar PDF, NÃO escrever 'te envio o protocolo em PDF'.",
+  "tipo_uso": null,
+  "categoria_intencao": [],
+  "quando_indicar_direto": [],
+  "indicacao_curta": null,
+  "regra_preco": "valor_sem_desconto ausente: PROIBIDO inventar preço. Resposta padrão: 'Você consegue consultar o valor atualizado diretamente no link oficial.'"
 }
 ```
 
@@ -667,12 +826,20 @@ Máscara facial hidroplástica profissional com ação tensora, refrescante, det
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Foto oficial aprovada (`image_url`):** _(não cadastrada — NÃO inventar imagem; seguir só com nome + link)_
+- **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
+- **Valor:** _(não cadastrado — NÃO inventar preço; responder "Você consegue consultar o valor atualizado diretamente no link oficial.")_
 - **Link individual do produto no site oficial:** https://lakma.com.br/products/mascara-zen-marine-hidroplastica-150g?_pos=1&_sid=70f050ddf&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
   "produto": "Máscara Hidroplástica Zen Marine - 150g",
   "aliases": [],
+  "foto_aprovada_produto": null,
+  "campo_origem_foto": "image_url",
+  "image_source": null,
+  "image_is_generated": false,
+  "instrucao_envio_foto": "Sem foto cadastrada: não inventar, não buscar externa, não gerar. Indicar só com nome + link.",
   "link_individual_produto": "https://lakma.com.br/products/mascara-zen-marine-hidroplastica-150g?_pos=1&_sid=70f050ddf&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -685,7 +852,21 @@ Máscara facial hidroplástica profissional com ação tensora, refrescante, det
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
-  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "valor_sem_desconto": null,
+  "valor_com_cupom_lakma35": null,
+  "valor_sem_desconto_br": null,
+  "valor_com_cupom_lakma35_br": null,
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "pdf_aprovado_protocolo": null,
+  "pdf_source": null,
+  "pdf_is_generated": false,
+  "instrucao_envio_pdf": "Sem PDF cadastrado: NÃO inventar PDF, NÃO escrever 'te envio o protocolo em PDF'.",
+  "tipo_uso": null,
+  "categoria_intencao": [],
+  "quando_indicar_direto": [],
+  "indicacao_curta": null,
+  "regra_preco": "valor_sem_desconto ausente: PROIBIDO inventar preço. Resposta padrão: 'Você consegue consultar o valor atualizado diretamente no link oficial.'"
 }
 ```
 
@@ -817,12 +998,20 @@ Kit profissional com 4 peelings faciais de 50ml para protocolos de renovação c
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Foto oficial aprovada (`image_url`):** _(não cadastrada — NÃO inventar imagem; seguir só com nome + link)_
+- **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
+- **Valor:** _(não cadastrado — NÃO inventar preço; responder "Você consegue consultar o valor atualizado diretamente no link oficial.")_
 - **Link individual do produto no site oficial:** https://lakma.com.br/products/kit-peelings?_pos=2&_sid=e517bc874&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
   "produto": "Kit Peelings Profissionais - 4 Produtos 50ml",
   "aliases": [],
+  "foto_aprovada_produto": null,
+  "campo_origem_foto": "image_url",
+  "image_source": null,
+  "image_is_generated": false,
+  "instrucao_envio_foto": "Sem foto cadastrada: não inventar, não buscar externa, não gerar. Indicar só com nome + link.",
   "link_individual_produto": "https://lakma.com.br/products/kit-peelings?_pos=2&_sid=e517bc874&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -835,7 +1024,21 @@ Kit profissional com 4 peelings faciais de 50ml para protocolos de renovação c
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
-  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "valor_sem_desconto": null,
+  "valor_com_cupom_lakma35": null,
+  "valor_sem_desconto_br": null,
+  "valor_com_cupom_lakma35_br": null,
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "pdf_aprovado_protocolo": null,
+  "pdf_source": null,
+  "pdf_is_generated": false,
+  "instrucao_envio_pdf": "Sem PDF cadastrado: NÃO inventar PDF, NÃO escrever 'te envio o protocolo em PDF'.",
+  "tipo_uso": null,
+  "categoria_intencao": [],
+  "quando_indicar_direto": [],
+  "indicacao_curta": null,
+  "regra_preco": "valor_sem_desconto ausente: PROIBIDO inventar preço. Resposta padrão: 'Você consegue consultar o valor atualizado diretamente no link oficial.'"
 }
 ```
 
@@ -973,12 +1176,20 @@ Kit corporal profissional com produtos para protocolos de esfoliação, massagem
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Foto oficial aprovada (`image_url`):** _(não cadastrada — NÃO inventar imagem; seguir só com nome + link)_
+- **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
+- **Valor:** _(não cadastrado — NÃO inventar preço; responder "Você consegue consultar o valor atualizado diretamente no link oficial.")_
 - **Link individual do produto no site oficial:** https://lakma.com.br/products/kit-bodypro?_pos=1&_sid=5464b8b38&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
   "produto": "Kit BodyPro Corporal Profissional",
   "aliases": [],
+  "foto_aprovada_produto": null,
+  "campo_origem_foto": "image_url",
+  "image_source": null,
+  "image_is_generated": false,
+  "instrucao_envio_foto": "Sem foto cadastrada: não inventar, não buscar externa, não gerar. Indicar só com nome + link.",
   "link_individual_produto": "https://lakma.com.br/products/kit-bodypro?_pos=1&_sid=5464b8b38&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -991,7 +1202,21 @@ Kit corporal profissional com produtos para protocolos de esfoliação, massagem
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
-  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "valor_sem_desconto": null,
+  "valor_com_cupom_lakma35": null,
+  "valor_sem_desconto_br": null,
+  "valor_com_cupom_lakma35_br": null,
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "pdf_aprovado_protocolo": null,
+  "pdf_source": null,
+  "pdf_is_generated": false,
+  "instrucao_envio_pdf": "Sem PDF cadastrado: NÃO inventar PDF, NÃO escrever 'te envio o protocolo em PDF'.",
+  "tipo_uso": null,
+  "categoria_intencao": [],
+  "quando_indicar_direto": [],
+  "indicacao_curta": null,
+  "regra_preco": "valor_sem_desconto ausente: PROIBIDO inventar preço. Resposta padrão: 'Você consegue consultar o valor atualizado diretamente no link oficial.'"
 }
 ```
 
@@ -1126,12 +1351,20 @@ Kit home care de cuidados labiais com esfoliação, tratamento e finalização p
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Foto oficial aprovada (`image_url`):** _(não cadastrada — NÃO inventar imagem; seguir só com nome + link)_
+- **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
+- **Valor:** _(não cadastrado — NÃO inventar preço; responder "Você consegue consultar o valor atualizado diretamente no link oficial.")_
 - **Link individual do produto no site oficial:** https://lakma.com.br/products/kit-labial-home-care?_pos=1&_sid=1789b10ca&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
   "produto": "Kit Labial Home Care",
   "aliases": [],
+  "foto_aprovada_produto": null,
+  "campo_origem_foto": "image_url",
+  "image_source": null,
+  "image_is_generated": false,
+  "instrucao_envio_foto": "Sem foto cadastrada: não inventar, não buscar externa, não gerar. Indicar só com nome + link.",
   "link_individual_produto": "https://lakma.com.br/products/kit-labial-home-care?_pos=1&_sid=1789b10ca&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -1144,7 +1377,21 @@ Kit home care de cuidados labiais com esfoliação, tratamento e finalização p
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
-  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "valor_sem_desconto": null,
+  "valor_com_cupom_lakma35": null,
+  "valor_sem_desconto_br": null,
+  "valor_com_cupom_lakma35_br": null,
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "pdf_aprovado_protocolo": null,
+  "pdf_source": null,
+  "pdf_is_generated": false,
+  "instrucao_envio_pdf": "Sem PDF cadastrado: NÃO inventar PDF, NÃO escrever 'te envio o protocolo em PDF'.",
+  "tipo_uso": null,
+  "categoria_intencao": [],
+  "quando_indicar_direto": [],
+  "indicacao_curta": null,
+  "regra_preco": "valor_sem_desconto ausente: PROIBIDO inventar preço. Resposta padrão: 'Você consegue consultar o valor atualizado diretamente no link oficial.'"
 }
 ```
 
@@ -1266,12 +1513,20 @@ Kit profissional para limpeza de pele facial com etapas de higienização, esfol
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Foto oficial aprovada (`image_url`):** _(não cadastrada — NÃO inventar imagem; seguir só com nome + link)_
+- **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
+- **Valor:** _(não cadastrado — NÃO inventar preço; responder "Você consegue consultar o valor atualizado diretamente no link oficial.")_
 - **Link individual do produto no site oficial:** https://lakma.com.br/products/kit-limpeza-de-pele-creme-emoliente-sem-trieta?_pos=3&_sid=376784632&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
   "produto": "Kit Limpeza de Pele Facial + Ativos Sem Trieta",
   "aliases": [],
+  "foto_aprovada_produto": null,
+  "campo_origem_foto": "image_url",
+  "image_source": null,
+  "image_is_generated": false,
+  "instrucao_envio_foto": "Sem foto cadastrada: não inventar, não buscar externa, não gerar. Indicar só com nome + link.",
   "link_individual_produto": "https://lakma.com.br/products/kit-limpeza-de-pele-creme-emoliente-sem-trieta?_pos=3&_sid=376784632&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -1284,7 +1539,21 @@ Kit profissional para limpeza de pele facial com etapas de higienização, esfol
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
-  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "valor_sem_desconto": null,
+  "valor_com_cupom_lakma35": null,
+  "valor_sem_desconto_br": null,
+  "valor_com_cupom_lakma35_br": null,
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "pdf_aprovado_protocolo": null,
+  "pdf_source": null,
+  "pdf_is_generated": false,
+  "instrucao_envio_pdf": "Sem PDF cadastrado: NÃO inventar PDF, NÃO escrever 'te envio o protocolo em PDF'.",
+  "tipo_uso": null,
+  "categoria_intencao": [],
+  "quando_indicar_direto": [],
+  "indicacao_curta": null,
+  "regra_preco": "valor_sem_desconto ausente: PROIBIDO inventar preço. Resposta padrão: 'Você consegue consultar o valor atualizado diretamente no link oficial.'"
 }
 ```
 
@@ -1426,12 +1695,20 @@ Sérum facial home care com Niacinamida 10% e Zinco PCA 1%, indicado para oleosi
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Foto oficial aprovada (`image_url`):** _(não cadastrada — NÃO inventar imagem; seguir só com nome + link)_
+- **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
+- **Valor:** _(não cadastrado — NÃO inventar preço; responder "Você consegue consultar o valor atualizado diretamente no link oficial.")_
 - **Link individual do produto no site oficial:** https://lakma.com.br/products/serum-10-niacinamida-1-zinco-pca?_pos=1&_sid=5b47fa0fb&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
   "produto": "Sérum Lakma NC-10 - Niacinamida 10% + Zinco PCA 1%",
   "aliases": [],
+  "foto_aprovada_produto": null,
+  "campo_origem_foto": "image_url",
+  "image_source": null,
+  "image_is_generated": false,
+  "instrucao_envio_foto": "Sem foto cadastrada: não inventar, não buscar externa, não gerar. Indicar só com nome + link.",
   "link_individual_produto": "https://lakma.com.br/products/serum-10-niacinamida-1-zinco-pca?_pos=1&_sid=5b47fa0fb&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -1444,7 +1721,21 @@ Sérum facial home care com Niacinamida 10% e Zinco PCA 1%, indicado para oleosi
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
-  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "valor_sem_desconto": null,
+  "valor_com_cupom_lakma35": null,
+  "valor_sem_desconto_br": null,
+  "valor_com_cupom_lakma35_br": null,
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "pdf_aprovado_protocolo": null,
+  "pdf_source": null,
+  "pdf_is_generated": false,
+  "instrucao_envio_pdf": "Sem PDF cadastrado: NÃO inventar PDF, NÃO escrever 'te envio o protocolo em PDF'.",
+  "tipo_uso": null,
+  "categoria_intencao": [],
+  "quando_indicar_direto": [],
+  "indicacao_curta": null,
+  "regra_preco": "valor_sem_desconto ausente: PROIBIDO inventar preço. Resposta padrão: 'Você consegue consultar o valor atualizado diretamente no link oficial.'"
 }
 ```
 
@@ -1580,12 +1871,20 @@ Sérum facial noturno com Retinol 0,5% e Vitamina E 1%, indicado para renovaçã
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Foto oficial aprovada (`image_url`):** _(não cadastrada — NÃO inventar imagem; seguir só com nome + link)_
+- **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
+- **Valor:** _(não cadastrado — NÃO inventar preço; responder "Você consegue consultar o valor atualizado diretamente no link oficial.")_
 - **Link individual do produto no site oficial:** https://lakma.com.br/products/serum-retinol-0-5-vitamina-e-1?_pos=1&_psq=serum+re&_ss=e&_v=1.0 ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
   "produto": "Sérum Lakma RN-0,3 - Retinol 0,5% + Vitamina E 1%",
   "aliases": [],
+  "foto_aprovada_produto": null,
+  "campo_origem_foto": "image_url",
+  "image_source": null,
+  "image_is_generated": false,
+  "instrucao_envio_foto": "Sem foto cadastrada: não inventar, não buscar externa, não gerar. Indicar só com nome + link.",
   "link_individual_produto": "https://lakma.com.br/products/serum-retinol-0-5-vitamina-e-1?_pos=1&_psq=serum+re&_ss=e&_v=1.0",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -1598,7 +1897,21 @@ Sérum facial noturno com Retinol 0,5% e Vitamina E 1%, indicado para renovaçã
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
-  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "valor_sem_desconto": null,
+  "valor_com_cupom_lakma35": null,
+  "valor_sem_desconto_br": null,
+  "valor_com_cupom_lakma35_br": null,
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "pdf_aprovado_protocolo": null,
+  "pdf_source": null,
+  "pdf_is_generated": false,
+  "instrucao_envio_pdf": "Sem PDF cadastrado: NÃO inventar PDF, NÃO escrever 'te envio o protocolo em PDF'.",
+  "tipo_uso": null,
+  "categoria_intencao": [],
+  "quando_indicar_direto": [],
+  "indicacao_curta": null,
+  "regra_preco": "valor_sem_desconto ausente: PROIBIDO inventar preço. Resposta padrão: 'Você consegue consultar o valor atualizado diretamente no link oficial.'"
 }
 ```
 
@@ -1729,12 +2042,20 @@ Sérum facial home care com Vitamina C 10% e Ácido Ferúlico 1%, indicado para 
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Foto oficial aprovada (`image_url`):** _(não cadastrada — NÃO inventar imagem; seguir só com nome + link)_
+- **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
+- **Valor:** _(não cadastrado — NÃO inventar preço; responder "Você consegue consultar o valor atualizado diretamente no link oficial.")_
 - **Link individual do produto no site oficial:** https://lakma.com.br/products/vitamina-c-10?_pos=1&_psq=s%C3%A9rum&_ss=e&_v=1.0 ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
   "produto": "Sérum Lakma VC-10 - Vitamina C 10% + Ácido Ferúlico 1%",
   "aliases": [],
+  "foto_aprovada_produto": null,
+  "campo_origem_foto": "image_url",
+  "image_source": null,
+  "image_is_generated": false,
+  "instrucao_envio_foto": "Sem foto cadastrada: não inventar, não buscar externa, não gerar. Indicar só com nome + link.",
   "link_individual_produto": "https://lakma.com.br/products/vitamina-c-10?_pos=1&_psq=s%C3%A9rum&_ss=e&_v=1.0",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -1747,7 +2068,21 @@ Sérum facial home care com Vitamina C 10% e Ácido Ferúlico 1%, indicado para 
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
-  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "valor_sem_desconto": null,
+  "valor_com_cupom_lakma35": null,
+  "valor_sem_desconto_br": null,
+  "valor_com_cupom_lakma35_br": null,
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "pdf_aprovado_protocolo": null,
+  "pdf_source": null,
+  "pdf_is_generated": false,
+  "instrucao_envio_pdf": "Sem PDF cadastrado: NÃO inventar PDF, NÃO escrever 'te envio o protocolo em PDF'.",
+  "tipo_uso": null,
+  "categoria_intencao": [],
+  "quando_indicar_direto": [],
+  "indicacao_curta": null,
+  "regra_preco": "valor_sem_desconto ausente: PROIBIDO inventar preço. Resposta padrão: 'Você consegue consultar o valor atualizado diretamente no link oficial.'"
 }
 ```
 
@@ -1881,12 +2216,20 @@ Creme facial profissional com espículas de esponja hidrolisada, indicado para r
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Foto oficial aprovada (`image_url`):** _(não cadastrada — NÃO inventar imagem; seguir só com nome + link)_
+- **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
+- **Valor:** _(não cadastrado — NÃO inventar preço; responder "Você consegue consultar o valor atualizado diretamente no link oficial.")_
 - **Link individual do produto no site oficial:** https://lakma.com.br/products/microagulhamento-em-creme-8g?_pos=1&_psq=microagul&_ss=e&_v=1.0 ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
   "produto": "Microagulhamento em Creme - 8g",
   "aliases": [],
+  "foto_aprovada_produto": null,
+  "campo_origem_foto": "image_url",
+  "image_source": null,
+  "image_is_generated": false,
+  "instrucao_envio_foto": "Sem foto cadastrada: não inventar, não buscar externa, não gerar. Indicar só com nome + link.",
   "link_individual_produto": "https://lakma.com.br/products/microagulhamento-em-creme-8g?_pos=1&_psq=microagul&_ss=e&_v=1.0",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -1899,7 +2242,21 @@ Creme facial profissional com espículas de esponja hidrolisada, indicado para r
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
-  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "valor_sem_desconto": null,
+  "valor_com_cupom_lakma35": null,
+  "valor_sem_desconto_br": null,
+  "valor_com_cupom_lakma35_br": null,
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "pdf_aprovado_protocolo": null,
+  "pdf_source": null,
+  "pdf_is_generated": false,
+  "instrucao_envio_pdf": "Sem PDF cadastrado: NÃO inventar PDF, NÃO escrever 'te envio o protocolo em PDF'.",
+  "tipo_uso": null,
+  "categoria_intencao": [],
+  "quando_indicar_direto": [],
+  "indicacao_curta": null,
+  "regra_preco": "valor_sem_desconto ausente: PROIBIDO inventar preço. Resposta padrão: 'Você consegue consultar o valor atualizado diretamente no link oficial.'"
 }
 ```
 
@@ -2037,12 +2394,20 @@ Gloss labial bioativo home care com ação booster, indicado para hidratação, 
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Foto oficial aprovada (`image_url`):** _(não cadastrada — NÃO inventar imagem; seguir só com nome + link)_
+- **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
+- **Valor:** _(não cadastrado — NÃO inventar preço; responder "Você consegue consultar o valor atualizado diretamente no link oficial.")_
 - **Link individual do produto no site oficial:** https://lakma.com.br/products/gloss-bioativo-8g?_pos=1&_psq=gloss&_ss=e&_v=1.0 ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
   "produto": "Gloss Biolips Bioativo - Booster Labial - 8g",
   "aliases": [],
+  "foto_aprovada_produto": null,
+  "campo_origem_foto": "image_url",
+  "image_source": null,
+  "image_is_generated": false,
+  "instrucao_envio_foto": "Sem foto cadastrada: não inventar, não buscar externa, não gerar. Indicar só com nome + link.",
   "link_individual_produto": "https://lakma.com.br/products/gloss-bioativo-8g?_pos=1&_psq=gloss&_ss=e&_v=1.0",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -2055,7 +2420,21 @@ Gloss labial bioativo home care com ação booster, indicado para hidratação, 
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
-  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "valor_sem_desconto": null,
+  "valor_com_cupom_lakma35": null,
+  "valor_sem_desconto_br": null,
+  "valor_com_cupom_lakma35_br": null,
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "pdf_aprovado_protocolo": null,
+  "pdf_source": null,
+  "pdf_is_generated": false,
+  "instrucao_envio_pdf": "Sem PDF cadastrado: NÃO inventar PDF, NÃO escrever 'te envio o protocolo em PDF'.",
+  "tipo_uso": null,
+  "categoria_intencao": [],
+  "quando_indicar_direto": [],
+  "indicacao_curta": null,
+  "regra_preco": "valor_sem_desconto ausente: PROIBIDO inventar preço. Resposta padrão: 'Você consegue consultar o valor atualizado diretamente no link oficial.'"
 }
 ```
 
@@ -2176,12 +2555,20 @@ Tratamento home care para cílios em formato de rímel, indicado para fortalecim
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Foto oficial aprovada (`image_url`):** _(não cadastrada — NÃO inventar imagem; seguir só com nome + link)_
+- **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
+- **Valor:** _(não cadastrado — NÃO inventar preço; responder "Você consegue consultar o valor atualizado diretamente no link oficial.")_
 - **Link individual do produto no site oficial:** https://lakma.com.br/products/rimel-bioativo-8ml?_pos=1&_psq=r%C3%ADmel&_ss=e&_v=1.0 ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
   "produto": "Rímel Fioativo - 8ml",
   "aliases": [],
+  "foto_aprovada_produto": null,
+  "campo_origem_foto": "image_url",
+  "image_source": null,
+  "image_is_generated": false,
+  "instrucao_envio_foto": "Sem foto cadastrada: não inventar, não buscar externa, não gerar. Indicar só com nome + link.",
   "link_individual_produto": "https://lakma.com.br/products/rimel-bioativo-8ml?_pos=1&_psq=r%C3%ADmel&_ss=e&_v=1.0",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -2194,7 +2581,21 @@ Tratamento home care para cílios em formato de rímel, indicado para fortalecim
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
-  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "valor_sem_desconto": null,
+  "valor_com_cupom_lakma35": null,
+  "valor_sem_desconto_br": null,
+  "valor_com_cupom_lakma35_br": null,
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "pdf_aprovado_protocolo": null,
+  "pdf_source": null,
+  "pdf_is_generated": false,
+  "instrucao_envio_pdf": "Sem PDF cadastrado: NÃO inventar PDF, NÃO escrever 'te envio o protocolo em PDF'.",
+  "tipo_uso": null,
+  "categoria_intencao": [],
+  "quando_indicar_direto": [],
+  "indicacao_curta": null,
+  "regra_preco": "valor_sem_desconto ausente: PROIBIDO inventar preço. Resposta padrão: 'Você consegue consultar o valor atualizado diretamente no link oficial.'"
 }
 ```
 
@@ -2312,12 +2713,20 @@ Esfoliante home care para rosto e lábios, indicado para renovação suave, remo
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Foto oficial aprovada (`image_url`):** _(não cadastrada — NÃO inventar imagem; seguir só com nome + link)_
+- **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
+- **Valor:** _(não cadastrado — NÃO inventar preço; responder "Você consegue consultar o valor atualizado diretamente no link oficial.")_
 - **Link individual do produto no site oficial:** https://lakma.com.br/products/esfoliante-facial-e-labial-30g?_pos=1&_psq=esfoliante&_ss=e&_v=1.0 ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
   "produto": "Esfoliante Facial e Labial Bioativo - 30g",
   "aliases": [],
+  "foto_aprovada_produto": null,
+  "campo_origem_foto": "image_url",
+  "image_source": null,
+  "image_is_generated": false,
+  "instrucao_envio_foto": "Sem foto cadastrada: não inventar, não buscar externa, não gerar. Indicar só com nome + link.",
   "link_individual_produto": "https://lakma.com.br/products/esfoliante-facial-e-labial-30g?_pos=1&_psq=esfoliante&_ss=e&_v=1.0",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -2330,7 +2739,21 @@ Esfoliante home care para rosto e lábios, indicado para renovação suave, remo
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
-  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "valor_sem_desconto": null,
+  "valor_com_cupom_lakma35": null,
+  "valor_sem_desconto_br": null,
+  "valor_com_cupom_lakma35_br": null,
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "pdf_aprovado_protocolo": null,
+  "pdf_source": null,
+  "pdf_is_generated": false,
+  "instrucao_envio_pdf": "Sem PDF cadastrado: NÃO inventar PDF, NÃO escrever 'te envio o protocolo em PDF'.",
+  "tipo_uso": null,
+  "categoria_intencao": [],
+  "quando_indicar_direto": [],
+  "indicacao_curta": null,
+  "regra_preco": "valor_sem_desconto ausente: PROIBIDO inventar preço. Resposta padrão: 'Você consegue consultar o valor atualizado diretamente no link oficial.'"
 }
 ```
 
@@ -2462,12 +2885,20 @@ Espuma de limpeza facial home care para uso diário, indicada para remover impur
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Foto oficial aprovada (`image_url`):** _(não cadastrada — NÃO inventar imagem; seguir só com nome + link)_
+- **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
+- **Valor:** _(não cadastrado — NÃO inventar preço; responder "Você consegue consultar o valor atualizado diretamente no link oficial.")_
 - **Link individual do produto no site oficial:** https://lakma.com.br/products/espuma-de-limpeza?_pos=1&_psq=espuma+de+limpeza&_ss=e&_v=1.0 ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
   "produto": "Espuma de Limpeza Facial - Camomila, Própolis e Vitamina E - 140ml",
   "aliases": [],
+  "foto_aprovada_produto": null,
+  "campo_origem_foto": "image_url",
+  "image_source": null,
+  "image_is_generated": false,
+  "instrucao_envio_foto": "Sem foto cadastrada: não inventar, não buscar externa, não gerar. Indicar só com nome + link.",
   "link_individual_produto": "https://lakma.com.br/products/espuma-de-limpeza?_pos=1&_psq=espuma+de+limpeza&_ss=e&_v=1.0",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -2480,7 +2911,21 @@ Espuma de limpeza facial home care para uso diário, indicada para remover impur
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
-  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "valor_sem_desconto": null,
+  "valor_com_cupom_lakma35": null,
+  "valor_sem_desconto_br": null,
+  "valor_com_cupom_lakma35_br": null,
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "pdf_aprovado_protocolo": null,
+  "pdf_source": null,
+  "pdf_is_generated": false,
+  "instrucao_envio_pdf": "Sem PDF cadastrado: NÃO inventar PDF, NÃO escrever 'te envio o protocolo em PDF'.",
+  "tipo_uso": null,
+  "categoria_intencao": [],
+  "quando_indicar_direto": [],
+  "indicacao_curta": null,
+  "regra_preco": "valor_sem_desconto ausente: PROIBIDO inventar preço. Resposta padrão: 'Você consegue consultar o valor atualizado diretamente no link oficial.'"
 }
 ```
 
@@ -2617,12 +3062,20 @@ Máscara facial hidratante com ação refrescante, indicada para hidratar, suavi
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Foto oficial aprovada (`image_url`):** _(não cadastrada — NÃO inventar imagem; seguir só com nome + link)_
+- **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
+- **Valor:** _(não cadastrado — NÃO inventar preço; responder "Você consegue consultar o valor atualizado diretamente no link oficial.")_
 - **Link individual do produto no site oficial:** https://lakma.com.br/products/mascara-hidratante-de-pepino-pele-oleosa?_pos=1&_sid=e309c92f3&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
   "produto": "Máscara Hidratante de Pepino - 100g",
   "aliases": [],
+  "foto_aprovada_produto": null,
+  "campo_origem_foto": "image_url",
+  "image_source": null,
+  "image_is_generated": false,
+  "instrucao_envio_foto": "Sem foto cadastrada: não inventar, não buscar externa, não gerar. Indicar só com nome + link.",
   "link_individual_produto": "https://lakma.com.br/products/mascara-hidratante-de-pepino-pele-oleosa?_pos=1&_sid=e309c92f3&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -2635,7 +3088,21 @@ Máscara facial hidratante com ação refrescante, indicada para hidratar, suavi
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
-  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "valor_sem_desconto": null,
+  "valor_com_cupom_lakma35": null,
+  "valor_sem_desconto_br": null,
+  "valor_com_cupom_lakma35_br": null,
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "pdf_aprovado_protocolo": null,
+  "pdf_source": null,
+  "pdf_is_generated": false,
+  "instrucao_envio_pdf": "Sem PDF cadastrado: NÃO inventar PDF, NÃO escrever 'te envio o protocolo em PDF'.",
+  "tipo_uso": null,
+  "categoria_intencao": [],
+  "quando_indicar_direto": [],
+  "indicacao_curta": null,
+  "regra_preco": "valor_sem_desconto ausente: PROIBIDO inventar preço. Resposta padrão: 'Você consegue consultar o valor atualizado diretamente no link oficial.'"
 }
 ```
 
@@ -2767,12 +3234,20 @@ Creme facial antissinais home care com Nano Coenzima Q10 e Nano Vitamina E, indi
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Foto oficial aprovada (`image_url`):** _(não cadastrada — NÃO inventar imagem; seguir só com nome + link)_
+- **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
+- **Valor:** _(não cadastrado — NÃO inventar preço; responder "Você consegue consultar o valor atualizado diretamente no link oficial.")_
 - **Link individual do produto no site oficial:** https://lakma.com.br/products/creme-antissinais-q10-facial-rejuvenescedor?_pos=1&_sid=0b9a15e5b&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
   "produto": "Creme Antissinais Q-10 - 100g",
   "aliases": [],
+  "foto_aprovada_produto": null,
+  "campo_origem_foto": "image_url",
+  "image_source": null,
+  "image_is_generated": false,
+  "instrucao_envio_foto": "Sem foto cadastrada: não inventar, não buscar externa, não gerar. Indicar só com nome + link.",
   "link_individual_produto": "https://lakma.com.br/products/creme-antissinais-q10-facial-rejuvenescedor?_pos=1&_sid=0b9a15e5b&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -2785,7 +3260,21 @@ Creme facial antissinais home care com Nano Coenzima Q10 e Nano Vitamina E, indi
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
-  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "valor_sem_desconto": null,
+  "valor_com_cupom_lakma35": null,
+  "valor_sem_desconto_br": null,
+  "valor_com_cupom_lakma35_br": null,
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "pdf_aprovado_protocolo": null,
+  "pdf_source": null,
+  "pdf_is_generated": false,
+  "instrucao_envio_pdf": "Sem PDF cadastrado: NÃO inventar PDF, NÃO escrever 'te envio o protocolo em PDF'.",
+  "tipo_uso": null,
+  "categoria_intencao": [],
+  "quando_indicar_direto": [],
+  "indicacao_curta": null,
+  "regra_preco": "valor_sem_desconto ausente: PROIBIDO inventar preço. Resposta padrão: 'Você consegue consultar o valor atualizado diretamente no link oficial.'"
 }
 ```
 
@@ -2917,12 +3406,20 @@ Creme facial hidratante home care com Nano Ácido Hialurônico e Nano Vitamina E
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Foto oficial aprovada (`image_url`):** _(não cadastrada — NÃO inventar imagem; seguir só com nome + link)_
+- **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
+- **Valor:** _(não cadastrado — NÃO inventar preço; responder "Você consegue consultar o valor atualizado diretamente no link oficial.")_
 - **Link individual do produto no site oficial:** https://lakma.com.br/products/creme-de-acido-hialuronico-facial-hidratante?_pos=1&_psq=hialuro&_ss=e&_v=1.0 ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
   "produto": "Creme Facial Ácido Hialurônico - 100g",
   "aliases": [],
+  "foto_aprovada_produto": null,
+  "campo_origem_foto": "image_url",
+  "image_source": null,
+  "image_is_generated": false,
+  "instrucao_envio_foto": "Sem foto cadastrada: não inventar, não buscar externa, não gerar. Indicar só com nome + link.",
   "link_individual_produto": "https://lakma.com.br/products/creme-de-acido-hialuronico-facial-hidratante?_pos=1&_psq=hialuro&_ss=e&_v=1.0",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -2935,7 +3432,21 @@ Creme facial hidratante home care com Nano Ácido Hialurônico e Nano Vitamina E
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
-  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "valor_sem_desconto": null,
+  "valor_com_cupom_lakma35": null,
+  "valor_sem_desconto_br": null,
+  "valor_com_cupom_lakma35_br": null,
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "pdf_aprovado_protocolo": null,
+  "pdf_source": null,
+  "pdf_is_generated": false,
+  "instrucao_envio_pdf": "Sem PDF cadastrado: NÃO inventar PDF, NÃO escrever 'te envio o protocolo em PDF'.",
+  "tipo_uso": null,
+  "categoria_intencao": [],
+  "quando_indicar_direto": [],
+  "indicacao_curta": null,
+  "regra_preco": "valor_sem_desconto ausente: PROIBIDO inventar preço. Resposta padrão: 'Você consegue consultar o valor atualizado diretamente no link oficial.'"
 }
 ```
 
@@ -3068,12 +3579,20 @@ Chá solúvel sabor limão para rotina de bem-estar, com proposta detox, leveza,
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Foto oficial aprovada (`image_url`):** _(não cadastrada — NÃO inventar imagem; seguir só com nome + link)_
+- **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
+- **Valor:** _(não cadastrado — NÃO inventar preço; responder "Você consegue consultar o valor atualizado diretamente no link oficial.")_
 - **Link individual do produto no site oficial:** https://lakma.com.br/products/esbeltea-cha-soluvel?_pos=1&_sid=7d5b0a2d1&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
   "produto": "EsbelTEA Solúvel Sabor Limão - 210g",
   "aliases": [],
+  "foto_aprovada_produto": null,
+  "campo_origem_foto": "image_url",
+  "image_source": null,
+  "image_is_generated": false,
+  "instrucao_envio_foto": "Sem foto cadastrada: não inventar, não buscar externa, não gerar. Indicar só com nome + link.",
   "link_individual_produto": "https://lakma.com.br/products/esbeltea-cha-soluvel?_pos=1&_sid=7d5b0a2d1&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -3086,7 +3605,21 @@ Chá solúvel sabor limão para rotina de bem-estar, com proposta detox, leveza,
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
-  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "valor_sem_desconto": null,
+  "valor_com_cupom_lakma35": null,
+  "valor_sem_desconto_br": null,
+  "valor_com_cupom_lakma35_br": null,
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "pdf_aprovado_protocolo": null,
+  "pdf_source": null,
+  "pdf_is_generated": false,
+  "instrucao_envio_pdf": "Sem PDF cadastrado: NÃO inventar PDF, NÃO escrever 'te envio o protocolo em PDF'.",
+  "tipo_uso": null,
+  "categoria_intencao": [],
+  "quando_indicar_direto": [],
+  "indicacao_curta": null,
+  "regra_preco": "valor_sem_desconto ausente: PROIBIDO inventar preço. Resposta padrão: 'Você consegue consultar o valor atualizado diretamente no link oficial.'"
 }
 ```
 
@@ -3220,12 +3753,20 @@ Suplemento em cápsulas com blend de chás, fibras e extratos vegetais, indicado
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Foto oficial aprovada (`image_url`):** _(não cadastrada — NÃO inventar imagem; seguir só com nome + link)_
+- **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
+- **Valor:** _(não cadastrado — NÃO inventar preço; responder "Você consegue consultar o valor atualizado diretamente no link oficial.")_
 - **Link individual do produto no site oficial:** https://lakma.com.br/products/esbeltea-cha-seca-barriga-cha-detox-em-capsulas-60un?_pos=2&_sid=7d5b0a2d1&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
   "produto": "Esbeltea Chá Seca Barriga + Chá Detox em Cápsulas - 60 cápsulas",
   "aliases": [],
+  "foto_aprovada_produto": null,
+  "campo_origem_foto": "image_url",
+  "image_source": null,
+  "image_is_generated": false,
+  "instrucao_envio_foto": "Sem foto cadastrada: não inventar, não buscar externa, não gerar. Indicar só com nome + link.",
   "link_individual_produto": "https://lakma.com.br/products/esbeltea-cha-seca-barriga-cha-detox-em-capsulas-60un?_pos=2&_sid=7d5b0a2d1&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -3238,7 +3779,21 @@ Suplemento em cápsulas com blend de chás, fibras e extratos vegetais, indicado
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
-  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "valor_sem_desconto": null,
+  "valor_com_cupom_lakma35": null,
+  "valor_sem_desconto_br": null,
+  "valor_com_cupom_lakma35_br": null,
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "pdf_aprovado_protocolo": null,
+  "pdf_source": null,
+  "pdf_is_generated": false,
+  "instrucao_envio_pdf": "Sem PDF cadastrado: NÃO inventar PDF, NÃO escrever 'te envio o protocolo em PDF'.",
+  "tipo_uso": null,
+  "categoria_intencao": [],
+  "quando_indicar_direto": [],
+  "indicacao_curta": null,
+  "regra_preco": "valor_sem_desconto ausente: PROIBIDO inventar preço. Resposta padrão: 'Você consegue consultar o valor atualizado diretamente no link oficial.'"
 }
 ```
 
@@ -3383,12 +3938,20 @@ Produto corporal profissional com ação térmica e lipolítica, indicado para p
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Foto oficial aprovada (`image_url`):** _(não cadastrada — NÃO inventar imagem; seguir só com nome + link)_
+- **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
+- **Valor:** _(não cadastrado — NÃO inventar preço; responder "Você consegue consultar o valor atualizado diretamente no link oficial.")_
 - **Link individual do produto no site oficial:** https://lakma.com.br/products/sal-termico-lipolitico-500g?_pos=1&_sid=927df9fcc&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
   "produto": "Sal Térmico Lipolítico - 500g",
   "aliases": [],
+  "foto_aprovada_produto": null,
+  "campo_origem_foto": "image_url",
+  "image_source": null,
+  "image_is_generated": false,
+  "instrucao_envio_foto": "Sem foto cadastrada: não inventar, não buscar externa, não gerar. Indicar só com nome + link.",
   "link_individual_produto": "https://lakma.com.br/products/sal-termico-lipolitico-500g?_pos=1&_sid=927df9fcc&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -3401,7 +3964,21 @@ Produto corporal profissional com ação térmica e lipolítica, indicado para p
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
-  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "valor_sem_desconto": null,
+  "valor_com_cupom_lakma35": null,
+  "valor_sem_desconto_br": null,
+  "valor_com_cupom_lakma35_br": null,
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "pdf_aprovado_protocolo": null,
+  "pdf_source": null,
+  "pdf_is_generated": false,
+  "instrucao_envio_pdf": "Sem PDF cadastrado: NÃO inventar PDF, NÃO escrever 'te envio o protocolo em PDF'.",
+  "tipo_uso": null,
+  "categoria_intencao": [],
+  "quando_indicar_direto": [],
+  "indicacao_curta": null,
+  "regra_preco": "valor_sem_desconto ausente: PROIBIDO inventar preço. Resposta padrão: 'Você consegue consultar o valor atualizado diretamente no link oficial.'"
 }
 ```
 
@@ -3536,12 +4113,20 @@ Kit com 3 máscaras faciais finalizadoras para hidratação, viço, luminosidade
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Foto oficial aprovada (`image_url`):** _(não cadastrada — NÃO inventar imagem; seguir só com nome + link)_
+- **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
+- **Valor:** _(não cadastrado — NÃO inventar preço; responder "Você consegue consultar o valor atualizado diretamente no link oficial.")_
 - **Link individual do produto no site oficial:** https://lakma.com.br/products/kit-3-mascaras-tropicalia-frutas-colageno-vitamina-c-e-acido-hialuronico?_pos=1&_sid=56edf1a9d&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
   "produto": "Kit Máscaras Faciais Tropicalia - 3 Unidades de 150g",
   "aliases": [],
+  "foto_aprovada_produto": null,
+  "campo_origem_foto": "image_url",
+  "image_source": null,
+  "image_is_generated": false,
+  "instrucao_envio_foto": "Sem foto cadastrada: não inventar, não buscar externa, não gerar. Indicar só com nome + link.",
   "link_individual_produto": "https://lakma.com.br/products/kit-3-mascaras-tropicalia-frutas-colageno-vitamina-c-e-acido-hialuronico?_pos=1&_sid=56edf1a9d&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -3554,7 +4139,21 @@ Kit com 3 máscaras faciais finalizadoras para hidratação, viço, luminosidade
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
-  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "valor_sem_desconto": null,
+  "valor_com_cupom_lakma35": null,
+  "valor_sem_desconto_br": null,
+  "valor_com_cupom_lakma35_br": null,
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "pdf_aprovado_protocolo": null,
+  "pdf_source": null,
+  "pdf_is_generated": false,
+  "instrucao_envio_pdf": "Sem PDF cadastrado: NÃO inventar PDF, NÃO escrever 'te envio o protocolo em PDF'.",
+  "tipo_uso": null,
+  "categoria_intencao": [],
+  "quando_indicar_direto": [],
+  "indicacao_curta": null,
+  "regra_preco": "valor_sem_desconto ausente: PROIBIDO inventar preço. Resposta padrão: 'Você consegue consultar o valor atualizado diretamente no link oficial.'"
 }
 ```
 
@@ -3689,12 +4288,20 @@ Kit labial home care com esfoliante e tratamento hidratante/nutritivo, indicado 
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Foto oficial aprovada (`image_url`):** _(não cadastrada — NÃO inventar imagem; seguir só com nome + link)_
+- **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
+- **Valor:** _(não cadastrado — NÃO inventar preço; responder "Você consegue consultar o valor atualizado diretamente no link oficial.")_
 - **Link individual do produto no site oficial:** https://lakma.com.br/products/dolce-lips-dolce-peel-labial?_pos=2&_sid=49466bc8e&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
   "produto": "Kit Dolce Lips + Dolce Peel Labial - 2 Produtos",
   "aliases": [],
+  "foto_aprovada_produto": null,
+  "campo_origem_foto": "image_url",
+  "image_source": null,
+  "image_is_generated": false,
+  "instrucao_envio_foto": "Sem foto cadastrada: não inventar, não buscar externa, não gerar. Indicar só com nome + link.",
   "link_individual_produto": "https://lakma.com.br/products/dolce-lips-dolce-peel-labial?_pos=2&_sid=49466bc8e&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -3707,7 +4314,21 @@ Kit labial home care com esfoliante e tratamento hidratante/nutritivo, indicado 
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
-  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "valor_sem_desconto": null,
+  "valor_com_cupom_lakma35": null,
+  "valor_sem_desconto_br": null,
+  "valor_com_cupom_lakma35_br": null,
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "pdf_aprovado_protocolo": null,
+  "pdf_source": null,
+  "pdf_is_generated": false,
+  "instrucao_envio_pdf": "Sem PDF cadastrado: NÃO inventar PDF, NÃO escrever 'te envio o protocolo em PDF'.",
+  "tipo_uso": null,
+  "categoria_intencao": [],
+  "quando_indicar_direto": [],
+  "indicacao_curta": null,
+  "regra_preco": "valor_sem_desconto ausente: PROIBIDO inventar preço. Resposta padrão: 'Você consegue consultar o valor atualizado diretamente no link oficial.'"
 }
 ```
 
@@ -3840,12 +4461,20 @@ Indicar para clientes que buscam uma rotina labial simples com esfoliação e hi
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Foto oficial aprovada (`image_url`):** _(não cadastrada — NÃO inventar imagem; seguir só com nome + link)_
+- **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
+- **Valor:** _(não cadastrado — NÃO inventar preço; responder "Você consegue consultar o valor atualizado diretamente no link oficial.")_
 - **Link individual do produto no site oficial:** https://lakma.com.br/products/oleo-de-massagem?_pos=1&_sid=1b7efcfc1&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
   "produto": "Óleo para Massagem Corporal - 500ml",
   "aliases": [],
+  "foto_aprovada_produto": null,
+  "campo_origem_foto": "image_url",
+  "image_source": null,
+  "image_is_generated": false,
+  "instrucao_envio_foto": "Sem foto cadastrada: não inventar, não buscar externa, não gerar. Indicar só com nome + link.",
   "link_individual_produto": "https://lakma.com.br/products/oleo-de-massagem?_pos=1&_sid=1b7efcfc1&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -3858,7 +4487,21 @@ Indicar para clientes que buscam uma rotina labial simples com esfoliação e hi
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
-  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "valor_sem_desconto": null,
+  "valor_com_cupom_lakma35": null,
+  "valor_sem_desconto_br": null,
+  "valor_com_cupom_lakma35_br": null,
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "pdf_aprovado_protocolo": null,
+  "pdf_source": null,
+  "pdf_is_generated": false,
+  "instrucao_envio_pdf": "Sem PDF cadastrado: NÃO inventar PDF, NÃO escrever 'te envio o protocolo em PDF'.",
+  "tipo_uso": null,
+  "categoria_intencao": [],
+  "quando_indicar_direto": [],
+  "indicacao_curta": null,
+  "regra_preco": "valor_sem_desconto ausente: PROIBIDO inventar preço. Resposta padrão: 'Você consegue consultar o valor atualizado diretamente no link oficial.'"
 }
 ```
 
@@ -3989,12 +4632,20 @@ Kit corporal profissional de lipoplastia não invasiva em 3 etapas, indicado par
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Foto oficial aprovada (`image_url`):** _(não cadastrada — NÃO inventar imagem; seguir só com nome + link)_
+- **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
+- **Valor:** _(não cadastrado — NÃO inventar preço; responder "Você consegue consultar o valor atualizado diretamente no link oficial.")_
 - **Link individual do produto no site oficial:** https://lakma.com.br/products/kit-venus-de-lipoplastia?_pos=1&_sid=7a228ca1f&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
   "produto": "Kit Profissional Venus de Lipoplastia - 3 Produtos",
   "aliases": [],
+  "foto_aprovada_produto": null,
+  "campo_origem_foto": "image_url",
+  "image_source": null,
+  "image_is_generated": false,
+  "instrucao_envio_foto": "Sem foto cadastrada: não inventar, não buscar externa, não gerar. Indicar só com nome + link.",
   "link_individual_produto": "https://lakma.com.br/products/kit-venus-de-lipoplastia?_pos=1&_sid=7a228ca1f&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -4007,7 +4658,21 @@ Kit corporal profissional de lipoplastia não invasiva em 3 etapas, indicado par
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
-  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "valor_sem_desconto": null,
+  "valor_com_cupom_lakma35": null,
+  "valor_sem_desconto_br": null,
+  "valor_com_cupom_lakma35_br": null,
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "pdf_aprovado_protocolo": null,
+  "pdf_source": null,
+  "pdf_is_generated": false,
+  "instrucao_envio_pdf": "Sem PDF cadastrado: NÃO inventar PDF, NÃO escrever 'te envio o protocolo em PDF'.",
+  "tipo_uso": null,
+  "categoria_intencao": [],
+  "quando_indicar_direto": [],
+  "indicacao_curta": null,
+  "regra_preco": "valor_sem_desconto ausente: PROIBIDO inventar preço. Resposta padrão: 'Você consegue consultar o valor atualizado diretamente no link oficial.'"
 }
 ```
 
@@ -4149,12 +4814,20 @@ Peeling profissional facial para renovação celular, clareamento, uniformizaç�
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Foto oficial aprovada (`image_url`):** _(não cadastrada — NÃO inventar imagem; seguir só com nome + link)_
+- **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
+- **Valor:** _(não cadastrado — NÃO inventar preço; responder "Você consegue consultar o valor atualizado diretamente no link oficial.")_
 - **Link individual do produto no site oficial:** https://lakma.com.br/products/peeling-de-cristal-liquido-retinol-30ml?_pos=1&_sid=0edd2d86f&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
   "produto": "Peeling de Cristal Líquido - 30g",
   "aliases": [],
+  "foto_aprovada_produto": null,
+  "campo_origem_foto": "image_url",
+  "image_source": null,
+  "image_is_generated": false,
+  "instrucao_envio_foto": "Sem foto cadastrada: não inventar, não buscar externa, não gerar. Indicar só com nome + link.",
   "link_individual_produto": "https://lakma.com.br/products/peeling-de-cristal-liquido-retinol-30ml?_pos=1&_sid=0edd2d86f&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -4167,7 +4840,21 @@ Peeling profissional facial para renovação celular, clareamento, uniformizaç�
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
-  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "valor_sem_desconto": null,
+  "valor_com_cupom_lakma35": null,
+  "valor_sem_desconto_br": null,
+  "valor_com_cupom_lakma35_br": null,
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "pdf_aprovado_protocolo": null,
+  "pdf_source": null,
+  "pdf_is_generated": false,
+  "instrucao_envio_pdf": "Sem PDF cadastrado: NÃO inventar PDF, NÃO escrever 'te envio o protocolo em PDF'.",
+  "tipo_uso": null,
+  "categoria_intencao": [],
+  "quando_indicar_direto": [],
+  "indicacao_curta": null,
+  "regra_preco": "valor_sem_desconto ausente: PROIBIDO inventar preço. Resposta padrão: 'Você consegue consultar o valor atualizado diretamente no link oficial.'"
 }
 ```
 
@@ -4305,12 +4992,20 @@ Máscara facial calmante profissional, indicada para acalmar, hidratar, suavizar
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Foto oficial aprovada (`image_url`):** _(não cadastrada — NÃO inventar imagem; seguir só com nome + link)_
+- **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
+- **Valor:** _(não cadastrado — NÃO inventar preço; responder "Você consegue consultar o valor atualizado diretamente no link oficial.")_
 - **Link individual do produto no site oficial:** https://lakma.com.br/products/mascara-calmante-500gr?_pos=2&_sid=06389087d&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
   "produto": "Máscara Calmante Limpeza de Pele - 500g",
   "aliases": [],
+  "foto_aprovada_produto": null,
+  "campo_origem_foto": "image_url",
+  "image_source": null,
+  "image_is_generated": false,
+  "instrucao_envio_foto": "Sem foto cadastrada: não inventar, não buscar externa, não gerar. Indicar só com nome + link.",
   "link_individual_produto": "https://lakma.com.br/products/mascara-calmante-500gr?_pos=2&_sid=06389087d&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -4323,7 +5018,21 @@ Máscara facial calmante profissional, indicada para acalmar, hidratar, suavizar
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
-  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "valor_sem_desconto": null,
+  "valor_com_cupom_lakma35": null,
+  "valor_sem_desconto_br": null,
+  "valor_com_cupom_lakma35_br": null,
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "pdf_aprovado_protocolo": null,
+  "pdf_source": null,
+  "pdf_is_generated": false,
+  "instrucao_envio_pdf": "Sem PDF cadastrado: NÃO inventar PDF, NÃO escrever 'te envio o protocolo em PDF'.",
+  "tipo_uso": null,
+  "categoria_intencao": [],
+  "quando_indicar_direto": [],
+  "indicacao_curta": null,
+  "regra_preco": "valor_sem_desconto ausente: PROIBIDO inventar preço. Resposta padrão: 'Você consegue consultar o valor atualizado diretamente no link oficial.'"
 }
 ```
 
@@ -4475,12 +5184,20 @@ Sérum facial calmante para peles sensíveis, irritáveis, reativas, com vermelh
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Foto oficial aprovada (`image_url`):** _(não cadastrada — NÃO inventar imagem; seguir só com nome + link)_
+- **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
+- **Valor:** _(não cadastrado — NÃO inventar preço; responder "Você consegue consultar o valor atualizado diretamente no link oficial.")_
 - **Link individual do produto no site oficial:** https://lakma.com.br/products/neuroplasma-ultra-calmante-pos-laser-e-procedimentos-50ml?_pos=3&_psq=calman&_ss=e&_v=1.0 ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
   "produto": "Neuroplasma Calmante - 50ml",
   "aliases": [],
+  "foto_aprovada_produto": null,
+  "campo_origem_foto": "image_url",
+  "image_source": null,
+  "image_is_generated": false,
+  "instrucao_envio_foto": "Sem foto cadastrada: não inventar, não buscar externa, não gerar. Indicar só com nome + link.",
   "link_individual_produto": "https://lakma.com.br/products/neuroplasma-ultra-calmante-pos-laser-e-procedimentos-50ml?_pos=3&_psq=calman&_ss=e&_v=1.0",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -4493,7 +5210,21 @@ Sérum facial calmante para peles sensíveis, irritáveis, reativas, com vermelh
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
-  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "valor_sem_desconto": null,
+  "valor_com_cupom_lakma35": null,
+  "valor_sem_desconto_br": null,
+  "valor_com_cupom_lakma35_br": null,
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "pdf_aprovado_protocolo": null,
+  "pdf_source": null,
+  "pdf_is_generated": false,
+  "instrucao_envio_pdf": "Sem PDF cadastrado: NÃO inventar PDF, NÃO escrever 'te envio o protocolo em PDF'.",
+  "tipo_uso": null,
+  "categoria_intencao": [],
+  "quando_indicar_direto": [],
+  "indicacao_curta": null,
+  "regra_preco": "valor_sem_desconto ausente: PROIBIDO inventar preço. Resposta padrão: 'Você consegue consultar o valor atualizado diretamente no link oficial.'"
 }
 ```
 
@@ -4632,12 +5363,20 @@ Loção facial profissional de limpeza desengordurante com Ácido Glicólico e N
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Foto oficial aprovada (`image_url`):** _(não cadastrada — NÃO inventar imagem; seguir só com nome + link)_
+- **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
+- **Valor:** _(não cadastrado — NÃO inventar preço; responder "Você consegue consultar o valor atualizado diretamente no link oficial.")_
 - **Link individual do produto no site oficial:** https://lakma.com.br/products/locao-ozonizada-200ml?_pos=1&_sid=c585f5ad1&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
   "produto": "Loção de Limpeza Ozonizada - 200ml",
   "aliases": [],
+  "foto_aprovada_produto": null,
+  "campo_origem_foto": "image_url",
+  "image_source": null,
+  "image_is_generated": false,
+  "instrucao_envio_foto": "Sem foto cadastrada: não inventar, não buscar externa, não gerar. Indicar só com nome + link.",
   "link_individual_produto": "https://lakma.com.br/products/locao-ozonizada-200ml?_pos=1&_sid=c585f5ad1&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -4650,7 +5389,21 @@ Loção facial profissional de limpeza desengordurante com Ácido Glicólico e N
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
-  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "valor_sem_desconto": null,
+  "valor_com_cupom_lakma35": null,
+  "valor_sem_desconto_br": null,
+  "valor_com_cupom_lakma35_br": null,
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "pdf_aprovado_protocolo": null,
+  "pdf_source": null,
+  "pdf_is_generated": false,
+  "instrucao_envio_pdf": "Sem PDF cadastrado: NÃO inventar PDF, NÃO escrever 'te envio o protocolo em PDF'.",
+  "tipo_uso": null,
+  "categoria_intencao": [],
+  "quando_indicar_direto": [],
+  "indicacao_curta": null,
+  "regra_preco": "valor_sem_desconto ausente: PROIBIDO inventar preço. Resposta padrão: 'Você consegue consultar o valor atualizado diretamente no link oficial.'"
 }
 ```
 
@@ -4783,12 +5536,20 @@ Gel esfoliante corporal profissional para pré-tratamento, indicado para remover
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Foto oficial aprovada (`image_url`):** _(não cadastrada — NÃO inventar imagem; seguir só com nome + link)_
+- **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
+- **Valor:** _(não cadastrado — NÃO inventar preço; responder "Você consegue consultar o valor atualizado diretamente no link oficial.")_
 - **Link individual do produto no site oficial:** https://lakma.com.br/products/gel-esfoliante-corporal-ozonizado-1kg?_pos=1&_sid=633454ffc&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
   "produto": "Gel Esfoliante Corporal Ozonizado - 1kg",
   "aliases": [],
+  "foto_aprovada_produto": null,
+  "campo_origem_foto": "image_url",
+  "image_source": null,
+  "image_is_generated": false,
+  "instrucao_envio_foto": "Sem foto cadastrada: não inventar, não buscar externa, não gerar. Indicar só com nome + link.",
   "link_individual_produto": "https://lakma.com.br/products/gel-esfoliante-corporal-ozonizado-1kg?_pos=1&_sid=633454ffc&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -4801,7 +5562,21 @@ Gel esfoliante corporal profissional para pré-tratamento, indicado para remover
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
-  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "valor_sem_desconto": null,
+  "valor_com_cupom_lakma35": null,
+  "valor_sem_desconto_br": null,
+  "valor_com_cupom_lakma35_br": null,
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "pdf_aprovado_protocolo": null,
+  "pdf_source": null,
+  "pdf_is_generated": false,
+  "instrucao_envio_pdf": "Sem PDF cadastrado: NÃO inventar PDF, NÃO escrever 'te envio o protocolo em PDF'.",
+  "tipo_uso": null,
+  "categoria_intencao": [],
+  "quando_indicar_direto": [],
+  "indicacao_curta": null,
+  "regra_preco": "valor_sem_desconto ausente: PROIBIDO inventar preço. Resposta padrão: 'Você consegue consultar o valor atualizado diretamente no link oficial.'"
 }
 ```
 
@@ -4948,12 +5723,20 @@ Kit profissional com mesclas estéreis de uso único para protocolos noturnos de
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Foto oficial aprovada (`image_url`):** _(não cadastrada — NÃO inventar imagem; seguir só com nome + link)_
+- **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
+- **Valor:** _(não cadastrado — NÃO inventar preço; responder "Você consegue consultar o valor atualizado diretamente no link oficial.")_
 - **Link individual do produto no site oficial:** https://lakma.com.br/products/kit-booster-fibras-reticulares?_pos=1&_sid=266082018&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
   "produto": "Kit Booster Fibras Reticulares",
   "aliases": [],
+  "foto_aprovada_produto": null,
+  "campo_origem_foto": "image_url",
+  "image_source": null,
+  "image_is_generated": false,
+  "instrucao_envio_foto": "Sem foto cadastrada: não inventar, não buscar externa, não gerar. Indicar só com nome + link.",
   "link_individual_produto": "https://lakma.com.br/products/kit-booster-fibras-reticulares?_pos=1&_sid=266082018&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -4966,7 +5749,21 @@ Kit profissional com mesclas estéreis de uso único para protocolos noturnos de
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
-  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "valor_sem_desconto": null,
+  "valor_com_cupom_lakma35": null,
+  "valor_sem_desconto_br": null,
+  "valor_com_cupom_lakma35_br": null,
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "pdf_aprovado_protocolo": null,
+  "pdf_source": null,
+  "pdf_is_generated": false,
+  "instrucao_envio_pdf": "Sem PDF cadastrado: NÃO inventar PDF, NÃO escrever 'te envio o protocolo em PDF'.",
+  "tipo_uso": null,
+  "categoria_intencao": [],
+  "quando_indicar_direto": [],
+  "indicacao_curta": null,
+  "regra_preco": "valor_sem_desconto ausente: PROIBIDO inventar preço. Resposta padrão: 'Você consegue consultar o valor atualizado diretamente no link oficial.'"
 }
 ```
 
@@ -5113,12 +5910,20 @@ Kit corporal profissional detox para cabine, indicado para protocolos de drenage
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Foto oficial aprovada (`image_url`):** _(não cadastrada — NÃO inventar imagem; seguir só com nome + link)_
+- **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
+- **Valor:** _(não cadastrado — NÃO inventar preço; responder "Você consegue consultar o valor atualizado diretamente no link oficial.")_
 - **Link individual do produto no site oficial:** https://lakma.com.br/products/esbeltea-detox?_pos=1&_sid=3f9884a06&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
   "produto": "Esbeltea Detox",
   "aliases": [],
+  "foto_aprovada_produto": null,
+  "campo_origem_foto": "image_url",
+  "image_source": null,
+  "image_is_generated": false,
+  "instrucao_envio_foto": "Sem foto cadastrada: não inventar, não buscar externa, não gerar. Indicar só com nome + link.",
   "link_individual_produto": "https://lakma.com.br/products/esbeltea-detox?_pos=1&_sid=3f9884a06&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -5131,7 +5936,21 @@ Kit corporal profissional detox para cabine, indicado para protocolos de drenage
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
-  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "valor_sem_desconto": null,
+  "valor_com_cupom_lakma35": null,
+  "valor_sem_desconto_br": null,
+  "valor_com_cupom_lakma35_br": null,
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "pdf_aprovado_protocolo": null,
+  "pdf_source": null,
+  "pdf_is_generated": false,
+  "instrucao_envio_pdf": "Sem PDF cadastrado: NÃO inventar PDF, NÃO escrever 'te envio o protocolo em PDF'.",
+  "tipo_uso": null,
+  "categoria_intencao": [],
+  "quando_indicar_direto": [],
+  "indicacao_curta": null,
+  "regra_preco": "valor_sem_desconto ausente: PROIBIDO inventar preço. Resposta padrão: 'Você consegue consultar o valor atualizado diretamente no link oficial.'"
 }
 ```
 
@@ -5281,12 +6100,20 @@ Gel corporal crioterápico profissional com efeito frio e ação refrescante, in
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Foto oficial aprovada (`image_url`):** _(não cadastrada — NÃO inventar imagem; seguir só com nome + link)_
+- **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
+- **Valor:** _(não cadastrado — NÃO inventar preço; responder "Você consegue consultar o valor atualizado diretamente no link oficial.")_
 - **Link individual do produto no site oficial:** https://lakma.com.br/products/criogel-1kg?_pos=1&_sid=82ecdae3f&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
   "produto": "CRIOGEL - 1kg",
   "aliases": [],
+  "foto_aprovada_produto": null,
+  "campo_origem_foto": "image_url",
+  "image_source": null,
+  "image_is_generated": false,
+  "instrucao_envio_foto": "Sem foto cadastrada: não inventar, não buscar externa, não gerar. Indicar só com nome + link.",
   "link_individual_produto": "https://lakma.com.br/products/criogel-1kg?_pos=1&_sid=82ecdae3f&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -5299,7 +6126,21 @@ Gel corporal crioterápico profissional com efeito frio e ação refrescante, in
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
-  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "valor_sem_desconto": null,
+  "valor_com_cupom_lakma35": null,
+  "valor_sem_desconto_br": null,
+  "valor_com_cupom_lakma35_br": null,
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "pdf_aprovado_protocolo": null,
+  "pdf_source": null,
+  "pdf_is_generated": false,
+  "instrucao_envio_pdf": "Sem PDF cadastrado: NÃO inventar PDF, NÃO escrever 'te envio o protocolo em PDF'.",
+  "tipo_uso": null,
+  "categoria_intencao": [],
+  "quando_indicar_direto": [],
+  "indicacao_curta": null,
+  "regra_preco": "valor_sem_desconto ausente: PROIBIDO inventar preço. Resposta padrão: 'Você consegue consultar o valor atualizado diretamente no link oficial.'"
 }
 ```
 
@@ -5448,12 +6289,20 @@ Gel corporal profissional bioestimulante e condutor, indicado para protocolos dr
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Foto oficial aprovada (`image_url`):** _(não cadastrada — NÃO inventar imagem; seguir só com nome + link)_
+- **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
+- **Valor:** _(não cadastrado — NÃO inventar preço; responder "Você consegue consultar o valor atualizado diretamente no link oficial.")_
 - **Link individual do produto no site oficial:** https://lakma.com.br/products/gel-bioestimulante-1kg?_pos=1&_sid=0114635cb&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
   "produto": "Gel Bioestimulante - 1kg",
   "aliases": [],
+  "foto_aprovada_produto": null,
+  "campo_origem_foto": "image_url",
+  "image_source": null,
+  "image_is_generated": false,
+  "instrucao_envio_foto": "Sem foto cadastrada: não inventar, não buscar externa, não gerar. Indicar só com nome + link.",
   "link_individual_produto": "https://lakma.com.br/products/gel-bioestimulante-1kg?_pos=1&_sid=0114635cb&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -5466,7 +6315,21 @@ Gel corporal profissional bioestimulante e condutor, indicado para protocolos dr
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
-  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "valor_sem_desconto": null,
+  "valor_com_cupom_lakma35": null,
+  "valor_sem_desconto_br": null,
+  "valor_com_cupom_lakma35_br": null,
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "pdf_aprovado_protocolo": null,
+  "pdf_source": null,
+  "pdf_is_generated": false,
+  "instrucao_envio_pdf": "Sem PDF cadastrado: NÃO inventar PDF, NÃO escrever 'te envio o protocolo em PDF'.",
+  "tipo_uso": null,
+  "categoria_intencao": [],
+  "quando_indicar_direto": [],
+  "indicacao_curta": null,
+  "regra_preco": "valor_sem_desconto ausente: PROIBIDO inventar preço. Resposta padrão: 'Você consegue consultar o valor atualizado diretamente no link oficial.'"
 }
 ```
 
@@ -5603,12 +6466,20 @@ Gel corporal termoativado profissional com efeito de aquecimento, indicado para 
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Foto oficial aprovada (`image_url`):** _(não cadastrada — NÃO inventar imagem; seguir só com nome + link)_
+- **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
+- **Valor:** _(não cadastrado — NÃO inventar preço; responder "Você consegue consultar o valor atualizado diretamente no link oficial.")_
 - **Link individual do produto no site oficial:** https://lakma.com.br/products/gel-termoativado-1kg?_pos=1&_sid=143e44dd4&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
   "produto": "Gel Termoativado - 1kg",
   "aliases": [],
+  "foto_aprovada_produto": null,
+  "campo_origem_foto": "image_url",
+  "image_source": null,
+  "image_is_generated": false,
+  "instrucao_envio_foto": "Sem foto cadastrada: não inventar, não buscar externa, não gerar. Indicar só com nome + link.",
   "link_individual_produto": "https://lakma.com.br/products/gel-termoativado-1kg?_pos=1&_sid=143e44dd4&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -5621,7 +6492,21 @@ Gel corporal termoativado profissional com efeito de aquecimento, indicado para 
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
-  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "valor_sem_desconto": null,
+  "valor_com_cupom_lakma35": null,
+  "valor_sem_desconto_br": null,
+  "valor_com_cupom_lakma35_br": null,
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "pdf_aprovado_protocolo": null,
+  "pdf_source": null,
+  "pdf_is_generated": false,
+  "instrucao_envio_pdf": "Sem PDF cadastrado: NÃO inventar PDF, NÃO escrever 'te envio o protocolo em PDF'.",
+  "tipo_uso": null,
+  "categoria_intencao": [],
+  "quando_indicar_direto": [],
+  "indicacao_curta": null,
+  "regra_preco": "valor_sem_desconto ausente: PROIBIDO inventar preço. Resposta padrão: 'Você consegue consultar o valor atualizado diretamente no link oficial.'"
 }
 ```
 
@@ -5777,12 +6662,20 @@ Kit corporal com fluido/spray e creme, indicado para cuidados corporais com foco
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Foto oficial aprovada (`image_url`):** _(não cadastrada — NÃO inventar imagem; seguir só com nome + link)_
+- **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
+- **Valor:** _(não cadastrado — NÃO inventar preço; responder "Você consegue consultar o valor atualizado diretamente no link oficial.")_
 - **Link individual do produto no site oficial:** https://lakma.com.br/products/kit-booster-mitocondrial-esbeltea-creme-900g-fluido-300ml-para-detox?_pos=1&_sid=76c4d2dc4&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
   "produto": "KIT BOOSTER MITOCONDRIAL ESBELTEA - Creme 900g + Fluido 300ml para Detox",
   "aliases": [],
+  "foto_aprovada_produto": null,
+  "campo_origem_foto": "image_url",
+  "image_source": null,
+  "image_is_generated": false,
+  "instrucao_envio_foto": "Sem foto cadastrada: não inventar, não buscar externa, não gerar. Indicar só com nome + link.",
   "link_individual_produto": "https://lakma.com.br/products/kit-booster-mitocondrial-esbeltea-creme-900g-fluido-300ml-para-detox?_pos=1&_sid=76c4d2dc4&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -5795,7 +6688,21 @@ Kit corporal com fluido/spray e creme, indicado para cuidados corporais com foco
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
-  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "valor_sem_desconto": null,
+  "valor_com_cupom_lakma35": null,
+  "valor_sem_desconto_br": null,
+  "valor_com_cupom_lakma35_br": null,
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "pdf_aprovado_protocolo": null,
+  "pdf_source": null,
+  "pdf_is_generated": false,
+  "instrucao_envio_pdf": "Sem PDF cadastrado: NÃO inventar PDF, NÃO escrever 'te envio o protocolo em PDF'.",
+  "tipo_uso": null,
+  "categoria_intencao": [],
+  "quando_indicar_direto": [],
+  "indicacao_curta": null,
+  "regra_preco": "valor_sem_desconto ausente: PROIBIDO inventar preço. Resposta padrão: 'Você consegue consultar o valor atualizado diretamente no link oficial.'"
 }
 ```
 
@@ -5930,12 +6837,20 @@ Tratamento labial hidratante e nutritivo, indicado para lábios ressecados, ásp
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Foto oficial aprovada (`image_url`):** _(não cadastrada — NÃO inventar imagem; seguir só com nome + link)_
+- **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
+- **Valor:** _(não cadastrado — NÃO inventar preço; responder "Você consegue consultar o valor atualizado diretamente no link oficial.")_
 - **Link individual do produto no site oficial:** https://lakma.com.br/products/dolce-lips-10gr?_pos=3&_sid=5437e421c&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
   "produto": "Dolce Lips - 10g",
   "aliases": [],
+  "foto_aprovada_produto": null,
+  "campo_origem_foto": "image_url",
+  "image_source": null,
+  "image_is_generated": false,
+  "instrucao_envio_foto": "Sem foto cadastrada: não inventar, não buscar externa, não gerar. Indicar só com nome + link.",
   "link_individual_produto": "https://lakma.com.br/products/dolce-lips-10gr?_pos=3&_sid=5437e421c&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -5948,7 +6863,21 @@ Tratamento labial hidratante e nutritivo, indicado para lábios ressecados, ásp
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
-  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "valor_sem_desconto": null,
+  "valor_com_cupom_lakma35": null,
+  "valor_sem_desconto_br": null,
+  "valor_com_cupom_lakma35_br": null,
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "pdf_aprovado_protocolo": null,
+  "pdf_source": null,
+  "pdf_is_generated": false,
+  "instrucao_envio_pdf": "Sem PDF cadastrado: NÃO inventar PDF, NÃO escrever 'te envio o protocolo em PDF'.",
+  "tipo_uso": null,
+  "categoria_intencao": [],
+  "quando_indicar_direto": [],
+  "indicacao_curta": null,
+  "regra_preco": "valor_sem_desconto ausente: PROIBIDO inventar preço. Resposta padrão: 'Você consegue consultar o valor atualizado diretamente no link oficial.'"
 }
 ```
 
@@ -6074,12 +7003,20 @@ Produto profissional para massagem facial, indicado para protocolos de deslizame
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Foto oficial aprovada (`image_url`):** _(não cadastrada — NÃO inventar imagem; seguir só com nome + link)_
+- **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
+- **Valor:** _(não cadastrado — NÃO inventar preço; responder "Você consegue consultar o valor atualizado diretamente no link oficial.")_
 - **Link individual do produto no site oficial:** https://lakma.com.br/products/masso-divine-massagem-facial-250g?_pos=1&_sid=8c2d863a0&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
   "produto": "MASSO DIVINE, massagem facial - 250g",
   "aliases": [],
+  "foto_aprovada_produto": null,
+  "campo_origem_foto": "image_url",
+  "image_source": null,
+  "image_is_generated": false,
+  "instrucao_envio_foto": "Sem foto cadastrada: não inventar, não buscar externa, não gerar. Indicar só com nome + link.",
   "link_individual_produto": "https://lakma.com.br/products/masso-divine-massagem-facial-250g?_pos=1&_sid=8c2d863a0&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -6092,7 +7029,21 @@ Produto profissional para massagem facial, indicado para protocolos de deslizame
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
-  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "valor_sem_desconto": null,
+  "valor_com_cupom_lakma35": null,
+  "valor_sem_desconto_br": null,
+  "valor_com_cupom_lakma35_br": null,
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "pdf_aprovado_protocolo": null,
+  "pdf_source": null,
+  "pdf_is_generated": false,
+  "instrucao_envio_pdf": "Sem PDF cadastrado: NÃO inventar PDF, NÃO escrever 'te envio o protocolo em PDF'.",
+  "tipo_uso": null,
+  "categoria_intencao": [],
+  "quando_indicar_direto": [],
+  "indicacao_curta": null,
+  "regra_preco": "valor_sem_desconto ausente: PROIBIDO inventar preço. Resposta padrão: 'Você consegue consultar o valor atualizado diretamente no link oficial.'"
 }
 ```
 
@@ -6232,12 +7183,20 @@ Kit profissional com 3 máscaras faciais finalizadoras premium, indicado para hi
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Foto oficial aprovada (`image_url`):** _(não cadastrada — NÃO inventar imagem; seguir só com nome + link)_
+- **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
+- **Valor:** _(não cadastrado — NÃO inventar preço; responder "Você consegue consultar o valor atualizado diretamente no link oficial.")_
 - **Link individual do produto no site oficial:** https://lakma.com.br/products/kit-joias-raras?_pos=1&_sid=cc2e24439&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
   "produto": "Kit Jóias Raras",
   "aliases": [],
+  "foto_aprovada_produto": null,
+  "campo_origem_foto": "image_url",
+  "image_source": null,
+  "image_is_generated": false,
+  "instrucao_envio_foto": "Sem foto cadastrada: não inventar, não buscar externa, não gerar. Indicar só com nome + link.",
   "link_individual_produto": "https://lakma.com.br/products/kit-joias-raras?_pos=1&_sid=cc2e24439&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -6250,7 +7209,21 @@ Kit profissional com 3 máscaras faciais finalizadoras premium, indicado para hi
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
-  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "valor_sem_desconto": null,
+  "valor_com_cupom_lakma35": null,
+  "valor_sem_desconto_br": null,
+  "valor_com_cupom_lakma35_br": null,
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "pdf_aprovado_protocolo": null,
+  "pdf_source": null,
+  "pdf_is_generated": false,
+  "instrucao_envio_pdf": "Sem PDF cadastrado: NÃO inventar PDF, NÃO escrever 'te envio o protocolo em PDF'.",
+  "tipo_uso": null,
+  "categoria_intencao": [],
+  "quando_indicar_direto": [],
+  "indicacao_curta": null,
+  "regra_preco": "valor_sem_desconto ausente: PROIBIDO inventar preço. Resposta padrão: 'Você consegue consultar o valor atualizado diretamente no link oficial.'"
 }
 ```
 
@@ -6392,12 +7365,20 @@ Creme emoliente facial profissional, indicado para emoliência de cravos, comed�
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Foto oficial aprovada (`image_url`):** _(não cadastrada — NÃO inventar imagem; seguir só com nome + link)_
+- **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
+- **Valor:** _(não cadastrado — NÃO inventar preço; responder "Você consegue consultar o valor atualizado diretamente no link oficial.")_
 - **Link individual do produto no site oficial:** https://lakma.com.br/products/emoliente-de-cravos-250gr?_pos=1&_sid=3dbce4669&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
   "produto": "Emoliente de Cravos - 250g",
   "aliases": [],
+  "foto_aprovada_produto": null,
+  "campo_origem_foto": "image_url",
+  "image_source": null,
+  "image_is_generated": false,
+  "instrucao_envio_foto": "Sem foto cadastrada: não inventar, não buscar externa, não gerar. Indicar só com nome + link.",
   "link_individual_produto": "https://lakma.com.br/products/emoliente-de-cravos-250gr?_pos=1&_sid=3dbce4669&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -6410,7 +7391,21 @@ Creme emoliente facial profissional, indicado para emoliência de cravos, comed�
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
-  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "valor_sem_desconto": null,
+  "valor_com_cupom_lakma35": null,
+  "valor_sem_desconto_br": null,
+  "valor_com_cupom_lakma35_br": null,
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "pdf_aprovado_protocolo": null,
+  "pdf_source": null,
+  "pdf_is_generated": false,
+  "instrucao_envio_pdf": "Sem PDF cadastrado: NÃO inventar PDF, NÃO escrever 'te envio o protocolo em PDF'.",
+  "tipo_uso": null,
+  "categoria_intencao": [],
+  "quando_indicar_direto": [],
+  "indicacao_curta": null,
+  "regra_preco": "valor_sem_desconto ausente: PROIBIDO inventar preço. Resposta padrão: 'Você consegue consultar o valor atualizado diretamente no link oficial.'"
 }
 ```
 
@@ -6554,12 +7549,20 @@ Sérum facial multifuncional com ação clareadora, rejuvenescedora, hidratante 
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Foto oficial aprovada (`image_url`):** _(não cadastrada — NÃO inventar imagem; seguir só com nome + link)_
+- **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
+- **Valor:** _(não cadastrado — NÃO inventar preço; responder "Você consegue consultar o valor atualizado diretamente no link oficial.")_
 - **Link individual do produto no site oficial:** https://lakma.com.br/products/nano-drone-clareador-rejuvenescedor-hidratante-30ml?_pos=1&_sid=b4eaa40f4&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
   "produto": "Nano Drone, clareador, rejuvenescedor, hidratante - 30ml",
   "aliases": [],
+  "foto_aprovada_produto": null,
+  "campo_origem_foto": "image_url",
+  "image_source": null,
+  "image_is_generated": false,
+  "instrucao_envio_foto": "Sem foto cadastrada: não inventar, não buscar externa, não gerar. Indicar só com nome + link.",
   "link_individual_produto": "https://lakma.com.br/products/nano-drone-clareador-rejuvenescedor-hidratante-30ml?_pos=1&_sid=b4eaa40f4&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -6572,7 +7575,21 @@ Sérum facial multifuncional com ação clareadora, rejuvenescedora, hidratante 
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
-  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "valor_sem_desconto": null,
+  "valor_com_cupom_lakma35": null,
+  "valor_sem_desconto_br": null,
+  "valor_com_cupom_lakma35_br": null,
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "pdf_aprovado_protocolo": null,
+  "pdf_source": null,
+  "pdf_is_generated": false,
+  "instrucao_envio_pdf": "Sem PDF cadastrado: NÃO inventar PDF, NÃO escrever 'te envio o protocolo em PDF'.",
+  "tipo_uso": null,
+  "categoria_intencao": [],
+  "quando_indicar_direto": [],
+  "indicacao_curta": null,
+  "regra_preco": "valor_sem_desconto ausente: PROIBIDO inventar preço. Resposta padrão: 'Você consegue consultar o valor atualizado diretamente no link oficial.'"
 }
 ```
 
@@ -6719,12 +7736,20 @@ Protetor solar facial FPS 30 com Vitamina E, indicado para proteção UVA/UVB, p
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Foto oficial aprovada (`image_url`):** _(não cadastrada — NÃO inventar imagem; seguir só com nome + link)_
+- **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
+- **Valor:** _(não cadastrado — NÃO inventar preço; responder "Você consegue consultar o valor atualizado diretamente no link oficial.")_
 - **Link individual do produto no site oficial:** https://lakma.com.br/products/ideal-protect-protetor-solar-50gr?_pos=1&_sid=30aa08e72&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
   "produto": "Ideal Protect - Protetor Solar 50g",
   "aliases": [],
+  "foto_aprovada_produto": null,
+  "campo_origem_foto": "image_url",
+  "image_source": null,
+  "image_is_generated": false,
+  "instrucao_envio_foto": "Sem foto cadastrada: não inventar, não buscar externa, não gerar. Indicar só com nome + link.",
   "link_individual_produto": "https://lakma.com.br/products/ideal-protect-protetor-solar-50gr?_pos=1&_sid=30aa08e72&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -6737,7 +7762,21 @@ Protetor solar facial FPS 30 com Vitamina E, indicado para proteção UVA/UVB, p
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
-  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "valor_sem_desconto": null,
+  "valor_com_cupom_lakma35": null,
+  "valor_sem_desconto_br": null,
+  "valor_com_cupom_lakma35_br": null,
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "pdf_aprovado_protocolo": null,
+  "pdf_source": null,
+  "pdf_is_generated": false,
+  "instrucao_envio_pdf": "Sem PDF cadastrado: NÃO inventar PDF, NÃO escrever 'te envio o protocolo em PDF'.",
+  "tipo_uso": null,
+  "categoria_intencao": [],
+  "quando_indicar_direto": [],
+  "indicacao_curta": null,
+  "regra_preco": "valor_sem_desconto ausente: PROIBIDO inventar preço. Resposta padrão: 'Você consegue consultar o valor atualizado diretamente no link oficial.'"
 }
 ```
 
@@ -6893,12 +7932,20 @@ Peeling químico profissional com Ácido Glicólico, indicado para renovação c
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Foto oficial aprovada (`image_url`):** _(não cadastrada — NÃO inventar imagem; seguir só com nome + link)_
+- **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
+- **Valor:** _(não cadastrado — NÃO inventar preço; responder "Você consegue consultar o valor atualizado diretamente no link oficial.")_
 - **Link individual do produto no site oficial:** https://lakma.com.br/products/peeling-rejuvenescedor-50ml?_pos=1&_sid=b70efd411&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
   "produto": "Peeling Rejuvenescedor - 50ml",
   "aliases": [],
+  "foto_aprovada_produto": null,
+  "campo_origem_foto": "image_url",
+  "image_source": null,
+  "image_is_generated": false,
+  "instrucao_envio_foto": "Sem foto cadastrada: não inventar, não buscar externa, não gerar. Indicar só com nome + link.",
   "link_individual_produto": "https://lakma.com.br/products/peeling-rejuvenescedor-50ml?_pos=1&_sid=b70efd411&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -6911,7 +7958,21 @@ Peeling químico profissional com Ácido Glicólico, indicado para renovação c
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
-  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "valor_sem_desconto": null,
+  "valor_com_cupom_lakma35": null,
+  "valor_sem_desconto_br": null,
+  "valor_com_cupom_lakma35_br": null,
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "pdf_aprovado_protocolo": null,
+  "pdf_source": null,
+  "pdf_is_generated": false,
+  "instrucao_envio_pdf": "Sem PDF cadastrado: NÃO inventar PDF, NÃO escrever 'te envio o protocolo em PDF'.",
+  "tipo_uso": null,
+  "categoria_intencao": [],
+  "quando_indicar_direto": [],
+  "indicacao_curta": null,
+  "regra_preco": "valor_sem_desconto ausente: PROIBIDO inventar preço. Resposta padrão: 'Você consegue consultar o valor atualizado diretamente no link oficial.'"
 }
 ```
 
@@ -7047,12 +8108,20 @@ Loção tônica facial para tonificação, controle de pH, frescor e remoção d
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Foto oficial aprovada (`image_url`):** _(não cadastrada — NÃO inventar imagem; seguir só com nome + link)_
+- **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
+- **Valor:** _(não cadastrado — NÃO inventar preço; responder "Você consegue consultar o valor atualizado diretamente no link oficial.")_
 - **Link individual do produto no site oficial:** https://lakma.com.br/products/locao-tonica-200ml?_pos=1&_sid=8de5c51f8&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
   "produto": "Loção Tônica - 200ml",
   "aliases": [],
+  "foto_aprovada_produto": null,
+  "campo_origem_foto": "image_url",
+  "image_source": null,
+  "image_is_generated": false,
+  "instrucao_envio_foto": "Sem foto cadastrada: não inventar, não buscar externa, não gerar. Indicar só com nome + link.",
   "link_individual_produto": "https://lakma.com.br/products/locao-tonica-200ml?_pos=1&_sid=8de5c51f8&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -7065,7 +8134,21 @@ Loção tônica facial para tonificação, controle de pH, frescor e remoção d
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
-  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "valor_sem_desconto": null,
+  "valor_com_cupom_lakma35": null,
+  "valor_sem_desconto_br": null,
+  "valor_com_cupom_lakma35_br": null,
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "pdf_aprovado_protocolo": null,
+  "pdf_source": null,
+  "pdf_is_generated": false,
+  "instrucao_envio_pdf": "Sem PDF cadastrado: NÃO inventar PDF, NÃO escrever 'te envio o protocolo em PDF'.",
+  "tipo_uso": null,
+  "categoria_intencao": [],
+  "quando_indicar_direto": [],
+  "indicacao_curta": null,
+  "regra_preco": "valor_sem_desconto ausente: PROIBIDO inventar preço. Resposta padrão: 'Você consegue consultar o valor atualizado diretamente no link oficial.'"
 }
 ```
 
@@ -7216,12 +8299,20 @@ Booster facial profissional com foco em colágeno, elastina, firmeza, hidrataç�
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Foto oficial aprovada (`image_url`):** _(não cadastrada — NÃO inventar imagem; seguir só com nome + link)_
+- **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
+- **Valor:** _(não cadastrado — NÃO inventar preço; responder "Você consegue consultar o valor atualizado diretamente no link oficial.")_
 - **Link individual do produto no site oficial:** https://lakma.com.br/products/booster-colageno-50ml?_pos=1&_sid=3164bec58&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
   "produto": "Booster Colágeno - 50ml",
   "aliases": [],
+  "foto_aprovada_produto": null,
+  "campo_origem_foto": "image_url",
+  "image_source": null,
+  "image_is_generated": false,
+  "instrucao_envio_foto": "Sem foto cadastrada: não inventar, não buscar externa, não gerar. Indicar só com nome + link.",
   "link_individual_produto": "https://lakma.com.br/products/booster-colageno-50ml?_pos=1&_sid=3164bec58&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -7234,7 +8325,21 @@ Booster facial profissional com foco em colágeno, elastina, firmeza, hidrataç�
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
-  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "valor_sem_desconto": null,
+  "valor_com_cupom_lakma35": null,
+  "valor_sem_desconto_br": null,
+  "valor_com_cupom_lakma35_br": null,
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "pdf_aprovado_protocolo": null,
+  "pdf_source": null,
+  "pdf_is_generated": false,
+  "instrucao_envio_pdf": "Sem PDF cadastrado: NÃO inventar PDF, NÃO escrever 'te envio o protocolo em PDF'.",
+  "tipo_uso": null,
+  "categoria_intencao": [],
+  "quando_indicar_direto": [],
+  "indicacao_curta": null,
+  "regra_preco": "valor_sem_desconto ausente: PROIBIDO inventar preço. Resposta padrão: 'Você consegue consultar o valor atualizado diretamente no link oficial.'"
 }
 ```
 
@@ -7381,12 +8486,20 @@ Creme corporal profissional neutro para massagem, indicado para alto deslizament
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Foto oficial aprovada (`image_url`):** _(não cadastrada — NÃO inventar imagem; seguir só com nome + link)_
+- **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
+- **Valor:** _(não cadastrado — NÃO inventar preço; responder "Você consegue consultar o valor atualizado diretamente no link oficial.")_
 - **Link individual do produto no site oficial:** https://lakma.com.br/products/creme-de-massagem-neutro-1kg?_pos=1&_sid=3277b35f1&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
   "produto": "Creme de Massagem Neutro - 1kg",
   "aliases": [],
+  "foto_aprovada_produto": null,
+  "campo_origem_foto": "image_url",
+  "image_source": null,
+  "image_is_generated": false,
+  "instrucao_envio_foto": "Sem foto cadastrada: não inventar, não buscar externa, não gerar. Indicar só com nome + link.",
   "link_individual_produto": "https://lakma.com.br/products/creme-de-massagem-neutro-1kg?_pos=1&_sid=3277b35f1&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -7399,7 +8512,21 @@ Creme corporal profissional neutro para massagem, indicado para alto deslizament
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
-  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "valor_sem_desconto": null,
+  "valor_com_cupom_lakma35": null,
+  "valor_sem_desconto_br": null,
+  "valor_com_cupom_lakma35_br": null,
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "pdf_aprovado_protocolo": null,
+  "pdf_source": null,
+  "pdf_is_generated": false,
+  "instrucao_envio_pdf": "Sem PDF cadastrado: NÃO inventar PDF, NÃO escrever 'te envio o protocolo em PDF'.",
+  "tipo_uso": null,
+  "categoria_intencao": [],
+  "quando_indicar_direto": [],
+  "indicacao_curta": null,
+  "regra_preco": "valor_sem_desconto ausente: PROIBIDO inventar preço. Resposta padrão: 'Você consegue consultar o valor atualizado diretamente no link oficial.'"
 }
 ```
 
@@ -7538,12 +8665,20 @@ Fluido/tônico home care para fios, indicado para auxiliar no crescimento, forta
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Foto oficial aprovada (`image_url`):** _(não cadastrada — NÃO inventar imagem; seguir só com nome + link)_
+- **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
+- **Valor:** _(não cadastrado — NÃO inventar preço; responder "Você consegue consultar o valor atualizado diretamente no link oficial.")_
 - **Link individual do produto no site oficial:** https://lakma.com.br/products/perfect-growth-crescimento-de-cabelo-braba-e-sobrancelha-50ml?_pos=1&_sid=848eab35d&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
   "produto": "Perfect Growth, crescimento de cabelo, barba e sobrancelha - 50ml",
   "aliases": [],
+  "foto_aprovada_produto": null,
+  "campo_origem_foto": "image_url",
+  "image_source": null,
+  "image_is_generated": false,
+  "instrucao_envio_foto": "Sem foto cadastrada: não inventar, não buscar externa, não gerar. Indicar só com nome + link.",
   "link_individual_produto": "https://lakma.com.br/products/perfect-growth-crescimento-de-cabelo-braba-e-sobrancelha-50ml?_pos=1&_sid=848eab35d&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -7556,7 +8691,21 @@ Fluido/tônico home care para fios, indicado para auxiliar no crescimento, forta
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
-  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "valor_sem_desconto": null,
+  "valor_com_cupom_lakma35": null,
+  "valor_sem_desconto_br": null,
+  "valor_com_cupom_lakma35_br": null,
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "pdf_aprovado_protocolo": null,
+  "pdf_source": null,
+  "pdf_is_generated": false,
+  "instrucao_envio_pdf": "Sem PDF cadastrado: NÃO inventar PDF, NÃO escrever 'te envio o protocolo em PDF'.",
+  "tipo_uso": null,
+  "categoria_intencao": [],
+  "quando_indicar_direto": [],
+  "indicacao_curta": null,
+  "regra_preco": "valor_sem_desconto ausente: PROIBIDO inventar preço. Resposta padrão: 'Você consegue consultar o valor atualizado diretamente no link oficial.'"
 }
 ```
 
@@ -7691,12 +8840,20 @@ Máscara facial calmante profissional, indicada para acalmar, hidratar, suavizar
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Foto oficial aprovada (`image_url`):** _(não cadastrada — NÃO inventar imagem; seguir só com nome + link)_
+- **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
+- **Valor:** _(não cadastrado — NÃO inventar preço; responder "Você consegue consultar o valor atualizado diretamente no link oficial.")_
 - **Link individual do produto no site oficial:** https://lakma.com.br/products/mascara-calmante-250gr?_pos=1&_sid=861decedf&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
   "produto": "Máscara Calmante - 250g",
   "aliases": [],
+  "foto_aprovada_produto": null,
+  "campo_origem_foto": "image_url",
+  "image_source": null,
+  "image_is_generated": false,
+  "instrucao_envio_foto": "Sem foto cadastrada: não inventar, não buscar externa, não gerar. Indicar só com nome + link.",
   "link_individual_produto": "https://lakma.com.br/products/mascara-calmante-250gr?_pos=1&_sid=861decedf&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -7709,7 +8866,21 @@ Máscara facial calmante profissional, indicada para acalmar, hidratar, suavizar
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
-  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "valor_sem_desconto": null,
+  "valor_com_cupom_lakma35": null,
+  "valor_sem_desconto_br": null,
+  "valor_com_cupom_lakma35_br": null,
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "pdf_aprovado_protocolo": null,
+  "pdf_source": null,
+  "pdf_is_generated": false,
+  "instrucao_envio_pdf": "Sem PDF cadastrado: NÃO inventar PDF, NÃO escrever 'te envio o protocolo em PDF'.",
+  "tipo_uso": null,
+  "categoria_intencao": [],
+  "quando_indicar_direto": [],
+  "indicacao_curta": null,
+  "regra_preco": "valor_sem_desconto ausente: PROIBIDO inventar preço. Resposta padrão: 'Você consegue consultar o valor atualizado diretamente no link oficial.'"
 }
 ```
 
@@ -7868,12 +9039,20 @@ Fluido revitalizante facial com Ureia, indicado para hidratação profunda, recu
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Foto oficial aprovada (`image_url`):** _(não cadastrada — NÃO inventar imagem; seguir só com nome + link)_
+- **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
+- **Valor:** _(não cadastrado — NÃO inventar preço; responder "Você consegue consultar o valor atualizado diretamente no link oficial.")_
 - **Link individual do produto no site oficial:** https://lakma.com.br/products/fluido-passo-1-ureia-50ml?_pos=1&_sid=12378b763&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
   "produto": "Fluido Passo 1 - Ureia 50ml",
   "aliases": [],
+  "foto_aprovada_produto": null,
+  "campo_origem_foto": "image_url",
+  "image_source": null,
+  "image_is_generated": false,
+  "instrucao_envio_foto": "Sem foto cadastrada: não inventar, não buscar externa, não gerar. Indicar só com nome + link.",
   "link_individual_produto": "https://lakma.com.br/products/fluido-passo-1-ureia-50ml?_pos=1&_sid=12378b763&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -7886,7 +9065,21 @@ Fluido revitalizante facial com Ureia, indicado para hidratação profunda, recu
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
-  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "valor_sem_desconto": null,
+  "valor_com_cupom_lakma35": null,
+  "valor_sem_desconto_br": null,
+  "valor_com_cupom_lakma35_br": null,
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "pdf_aprovado_protocolo": null,
+  "pdf_source": null,
+  "pdf_is_generated": false,
+  "instrucao_envio_pdf": "Sem PDF cadastrado: NÃO inventar PDF, NÃO escrever 'te envio o protocolo em PDF'.",
+  "tipo_uso": null,
+  "categoria_intencao": [],
+  "quando_indicar_direto": [],
+  "indicacao_curta": null,
+  "regra_preco": "valor_sem_desconto ausente: PROIBIDO inventar preço. Resposta padrão: 'Você consegue consultar o valor atualizado diretamente no link oficial.'"
 }
 ```
 
@@ -8027,12 +9220,20 @@ Kit corporal profissional ozonizado com 3 etapas para preparo, massagem e finali
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Foto oficial aprovada (`image_url`):** _(não cadastrada — NÃO inventar imagem; seguir só com nome + link)_
+- **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
+- **Valor:** _(não cadastrado — NÃO inventar preço; responder "Você consegue consultar o valor atualizado diretamente no link oficial.")_
 - **Link individual do produto no site oficial:** https://lakma.com.br/products/kit-ozonio-premium-corporal?_pos=1&_sid=ecdf2ef25&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
   "produto": "Kit Ozônio Premium - Corporal",
   "aliases": [],
+  "foto_aprovada_produto": null,
+  "campo_origem_foto": "image_url",
+  "image_source": null,
+  "image_is_generated": false,
+  "instrucao_envio_foto": "Sem foto cadastrada: não inventar, não buscar externa, não gerar. Indicar só com nome + link.",
   "link_individual_produto": "https://lakma.com.br/products/kit-ozonio-premium-corporal?_pos=1&_sid=ecdf2ef25&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -8045,7 +9246,21 @@ Kit corporal profissional ozonizado com 3 etapas para preparo, massagem e finali
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
-  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "valor_sem_desconto": null,
+  "valor_com_cupom_lakma35": null,
+  "valor_sem_desconto_br": null,
+  "valor_com_cupom_lakma35_br": null,
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "pdf_aprovado_protocolo": null,
+  "pdf_source": null,
+  "pdf_is_generated": false,
+  "instrucao_envio_pdf": "Sem PDF cadastrado: NÃO inventar PDF, NÃO escrever 'te envio o protocolo em PDF'.",
+  "tipo_uso": null,
+  "categoria_intencao": [],
+  "quando_indicar_direto": [],
+  "indicacao_curta": null,
+  "regra_preco": "valor_sem_desconto ausente: PROIBIDO inventar preço. Resposta padrão: 'Você consegue consultar o valor atualizado diretamente no link oficial.'"
 }
 ```
 
@@ -8206,12 +9421,20 @@ Creme corporal profissional para massagem estética, indicado para alto deslizam
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Foto oficial aprovada (`image_url`):** _(não cadastrada — NÃO inventar imagem; seguir só com nome + link)_
+- **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
+- **Valor:** _(não cadastrado — NÃO inventar preço; responder "Você consegue consultar o valor atualizado diretamente no link oficial.")_
 - **Link individual do produto no site oficial:** https://lakma.com.br/products/creme-de-massagem-7-ativos-1-kg?_pos=1&_sid=ec61753f2&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
   "produto": "Creme de Massagem 7 Ativos - 1kg",
   "aliases": [],
+  "foto_aprovada_produto": null,
+  "campo_origem_foto": "image_url",
+  "image_source": null,
+  "image_is_generated": false,
+  "instrucao_envio_foto": "Sem foto cadastrada: não inventar, não buscar externa, não gerar. Indicar só com nome + link.",
   "link_individual_produto": "https://lakma.com.br/products/creme-de-massagem-7-ativos-1-kg?_pos=1&_sid=ec61753f2&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -8224,7 +9447,21 @@ Creme corporal profissional para massagem estética, indicado para alto deslizam
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
-  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "valor_sem_desconto": null,
+  "valor_com_cupom_lakma35": null,
+  "valor_sem_desconto_br": null,
+  "valor_com_cupom_lakma35_br": null,
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "pdf_aprovado_protocolo": null,
+  "pdf_source": null,
+  "pdf_is_generated": false,
+  "instrucao_envio_pdf": "Sem PDF cadastrado: NÃO inventar PDF, NÃO escrever 'te envio o protocolo em PDF'.",
+  "tipo_uso": null,
+  "categoria_intencao": [],
+  "quando_indicar_direto": [],
+  "indicacao_curta": null,
+  "regra_preco": "valor_sem_desconto ausente: PROIBIDO inventar preço. Resposta padrão: 'Você consegue consultar o valor atualizado diretamente no link oficial.'"
 }
 ```
 
@@ -8381,12 +9618,20 @@ Esfoliante labial home care, indicado para lábios ressecados, ásperos, opacos 
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Foto oficial aprovada (`image_url`):** _(não cadastrada — NÃO inventar imagem; seguir só com nome + link)_
+- **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
+- **Valor:** _(não cadastrado — NÃO inventar preço; responder "Você consegue consultar o valor atualizado diretamente no link oficial.")_
 - **Link individual do produto no site oficial:** https://lakma.com.br/products/dolce-peel-10gr?_pos=1&_sid=557a2fe70&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
   "produto": "Dolce Peel - 10g",
   "aliases": [],
+  "foto_aprovada_produto": null,
+  "campo_origem_foto": "image_url",
+  "image_source": null,
+  "image_is_generated": false,
+  "instrucao_envio_foto": "Sem foto cadastrada: não inventar, não buscar externa, não gerar. Indicar só com nome + link.",
   "link_individual_produto": "https://lakma.com.br/products/dolce-peel-10gr?_pos=1&_sid=557a2fe70&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -8399,7 +9644,21 @@ Esfoliante labial home care, indicado para lábios ressecados, ásperos, opacos 
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
-  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "valor_sem_desconto": null,
+  "valor_com_cupom_lakma35": null,
+  "valor_sem_desconto_br": null,
+  "valor_com_cupom_lakma35_br": null,
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "pdf_aprovado_protocolo": null,
+  "pdf_source": null,
+  "pdf_is_generated": false,
+  "instrucao_envio_pdf": "Sem PDF cadastrado: NÃO inventar PDF, NÃO escrever 'te envio o protocolo em PDF'.",
+  "tipo_uso": null,
+  "categoria_intencao": [],
+  "quando_indicar_direto": [],
+  "indicacao_curta": null,
+  "regra_preco": "valor_sem_desconto ausente: PROIBIDO inventar preço. Resposta padrão: 'Você consegue consultar o valor atualizado diretamente no link oficial.'"
 }
 ```
 
@@ -8533,12 +9792,20 @@ Body splash corporal home care, indicado para finalização corporal, perfumaç�
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Foto oficial aprovada (`image_url`):** _(não cadastrada — NÃO inventar imagem; seguir só com nome + link)_
+- **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
+- **Valor:** _(não cadastrado — NÃO inventar preço; responder "Você consegue consultar o valor atualizado diretamente no link oficial.")_
 - **Link individual do produto no site oficial:** https://lakma.com.br/products/body-splash-firmador-corporal-300ml?_pos=1&_sid=7c2587a80&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
   "produto": "Body Splash Firmador Corporal - 300ml",
   "aliases": [],
+  "foto_aprovada_produto": null,
+  "campo_origem_foto": "image_url",
+  "image_source": null,
+  "image_is_generated": false,
+  "instrucao_envio_foto": "Sem foto cadastrada: não inventar, não buscar externa, não gerar. Indicar só com nome + link.",
   "link_individual_produto": "https://lakma.com.br/products/body-splash-firmador-corporal-300ml?_pos=1&_sid=7c2587a80&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -8551,7 +9818,21 @@ Body splash corporal home care, indicado para finalização corporal, perfumaç�
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
-  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "valor_sem_desconto": null,
+  "valor_com_cupom_lakma35": null,
+  "valor_sem_desconto_br": null,
+  "valor_com_cupom_lakma35_br": null,
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "pdf_aprovado_protocolo": null,
+  "pdf_source": null,
+  "pdf_is_generated": false,
+  "instrucao_envio_pdf": "Sem PDF cadastrado: NÃO inventar PDF, NÃO escrever 'te envio o protocolo em PDF'.",
+  "tipo_uso": null,
+  "categoria_intencao": [],
+  "quando_indicar_direto": [],
+  "indicacao_curta": null,
+  "regra_preco": "valor_sem_desconto ausente: PROIBIDO inventar preço. Resposta padrão: 'Você consegue consultar o valor atualizado diretamente no link oficial.'"
 }
 ```
 
@@ -8682,12 +9963,20 @@ Booster profissional em ampolas com Vitamina C 100% nanoencapsulada e ozonizada,
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Foto oficial aprovada (`image_url`):** _(não cadastrada — NÃO inventar imagem; seguir só com nome + link)_
+- **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
+- **Valor:** _(não cadastrado — NÃO inventar preço; responder "Você consegue consultar o valor atualizado diretamente no link oficial.")_
 - **Link individual do produto no site oficial:** https://lakma.com.br/products/booster-c100-vitamina-c-100-pura?_pos=1&_sid=40a87e8d0&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
   "produto": "Booster C100 Vitamina C 100% Pura",
   "aliases": [],
+  "foto_aprovada_produto": null,
+  "campo_origem_foto": "image_url",
+  "image_source": null,
+  "image_is_generated": false,
+  "instrucao_envio_foto": "Sem foto cadastrada: não inventar, não buscar externa, não gerar. Indicar só com nome + link.",
   "link_individual_produto": "https://lakma.com.br/products/booster-c100-vitamina-c-100-pura?_pos=1&_sid=40a87e8d0&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -8700,7 +9989,21 @@ Booster profissional em ampolas com Vitamina C 100% nanoencapsulada e ozonizada,
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
-  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "valor_sem_desconto": null,
+  "valor_com_cupom_lakma35": null,
+  "valor_sem_desconto_br": null,
+  "valor_com_cupom_lakma35_br": null,
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "pdf_aprovado_protocolo": null,
+  "pdf_source": null,
+  "pdf_is_generated": false,
+  "instrucao_envio_pdf": "Sem PDF cadastrado: NÃO inventar PDF, NÃO escrever 'te envio o protocolo em PDF'.",
+  "tipo_uso": null,
+  "categoria_intencao": [],
+  "quando_indicar_direto": [],
+  "indicacao_curta": null,
+  "regra_preco": "valor_sem_desconto ausente: PROIBIDO inventar preço. Resposta padrão: 'Você consegue consultar o valor atualizado diretamente no link oficial.'"
 }
 ```
 
@@ -8844,12 +10147,20 @@ Fluido revitalizante facial com foco em colágeno, elastina, firmeza, rejuvenesc
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Foto oficial aprovada (`image_url`):** _(não cadastrada — NÃO inventar imagem; seguir só com nome + link)_
+- **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
+- **Valor:** _(não cadastrado — NÃO inventar preço; responder "Você consegue consultar o valor atualizado diretamente no link oficial.")_
 - **Link individual do produto no site oficial:** https://lakma.com.br/products/fluido-passo-3-colageno-50ml?_pos=1&_sid=7ee7cabd2&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
   "produto": "Fluido Passo 3 - Colágeno 50ml",
   "aliases": [],
+  "foto_aprovada_produto": null,
+  "campo_origem_foto": "image_url",
+  "image_source": null,
+  "image_is_generated": false,
+  "instrucao_envio_foto": "Sem foto cadastrada: não inventar, não buscar externa, não gerar. Indicar só com nome + link.",
   "link_individual_produto": "https://lakma.com.br/products/fluido-passo-3-colageno-50ml?_pos=1&_sid=7ee7cabd2&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -8862,7 +10173,21 @@ Fluido revitalizante facial com foco em colágeno, elastina, firmeza, rejuvenesc
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
-  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "valor_sem_desconto": null,
+  "valor_com_cupom_lakma35": null,
+  "valor_sem_desconto_br": null,
+  "valor_com_cupom_lakma35_br": null,
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "pdf_aprovado_protocolo": null,
+  "pdf_source": null,
+  "pdf_is_generated": false,
+  "instrucao_envio_pdf": "Sem PDF cadastrado: NÃO inventar PDF, NÃO escrever 'te envio o protocolo em PDF'.",
+  "tipo_uso": null,
+  "categoria_intencao": [],
+  "quando_indicar_direto": [],
+  "indicacao_curta": null,
+  "regra_preco": "valor_sem_desconto ausente: PROIBIDO inventar preço. Resposta padrão: 'Você consegue consultar o valor atualizado diretamente no link oficial.'"
 }
 ```
 
@@ -9004,12 +10329,20 @@ Kit com 4 argilas prontas em creme, indicado para personalizar protocolos faciai
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Foto oficial aprovada (`image_url`):** _(não cadastrada — NÃO inventar imagem; seguir só com nome + link)_
+- **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
+- **Valor:** _(não cadastrado — NÃO inventar preço; responder "Você consegue consultar o valor atualizado diretamente no link oficial.")_
 - **Link individual do produto no site oficial:** https://lakma.com.br/products/kit-terras-do-brasil-argilas-facial-em-creme?_pos=1&_sid=5402f47c7&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
   "produto": "Kit Terras do Brasil, argilas facial e corporal em creme",
   "aliases": [],
+  "foto_aprovada_produto": null,
+  "campo_origem_foto": "image_url",
+  "image_source": null,
+  "image_is_generated": false,
+  "instrucao_envio_foto": "Sem foto cadastrada: não inventar, não buscar externa, não gerar. Indicar só com nome + link.",
   "link_individual_produto": "https://lakma.com.br/products/kit-terras-do-brasil-argilas-facial-em-creme?_pos=1&_sid=5402f47c7&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -9022,7 +10355,21 @@ Kit com 4 argilas prontas em creme, indicado para personalizar protocolos faciai
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
-  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "valor_sem_desconto": null,
+  "valor_com_cupom_lakma35": null,
+  "valor_sem_desconto_br": null,
+  "valor_com_cupom_lakma35_br": null,
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "pdf_aprovado_protocolo": null,
+  "pdf_source": null,
+  "pdf_is_generated": false,
+  "instrucao_envio_pdf": "Sem PDF cadastrado: NÃO inventar PDF, NÃO escrever 'te envio o protocolo em PDF'.",
+  "tipo_uso": null,
+  "categoria_intencao": [],
+  "quando_indicar_direto": [],
+  "indicacao_curta": null,
+  "regra_preco": "valor_sem_desconto ausente: PROIBIDO inventar preço. Resposta padrão: 'Você consegue consultar o valor atualizado diretamente no link oficial.'"
 }
 ```
 
@@ -9173,12 +10520,20 @@ Creme corporal profissional de massagem ozonizado, indicado para drenagem linfá
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Foto oficial aprovada (`image_url`):** _(não cadastrada — NÃO inventar imagem; seguir só com nome + link)_
+- **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
+- **Valor:** _(não cadastrado — NÃO inventar preço; responder "Você consegue consultar o valor atualizado diretamente no link oficial.")_
 - **Link individual do produto no site oficial:** https://lakma.com.br/products/creme-de-massagem-ozonizado-900g?_pos=1&_sid=50477e7eb&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
   "produto": "Creme de Massagem Ozonizado - 900g",
   "aliases": [],
+  "foto_aprovada_produto": null,
+  "campo_origem_foto": "image_url",
+  "image_source": null,
+  "image_is_generated": false,
+  "instrucao_envio_foto": "Sem foto cadastrada: não inventar, não buscar externa, não gerar. Indicar só com nome + link.",
   "link_individual_produto": "https://lakma.com.br/products/creme-de-massagem-ozonizado-900g?_pos=1&_sid=50477e7eb&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -9191,7 +10546,21 @@ Creme corporal profissional de massagem ozonizado, indicado para drenagem linfá
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
-  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "valor_sem_desconto": null,
+  "valor_com_cupom_lakma35": null,
+  "valor_sem_desconto_br": null,
+  "valor_com_cupom_lakma35_br": null,
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "pdf_aprovado_protocolo": null,
+  "pdf_source": null,
+  "pdf_is_generated": false,
+  "instrucao_envio_pdf": "Sem PDF cadastrado: NÃO inventar PDF, NÃO escrever 'te envio o protocolo em PDF'.",
+  "tipo_uso": null,
+  "categoria_intencao": [],
+  "quando_indicar_direto": [],
+  "indicacao_curta": null,
+  "regra_preco": "valor_sem_desconto ausente: PROIBIDO inventar preço. Resposta padrão: 'Você consegue consultar o valor atualizado diretamente no link oficial.'"
 }
 ```
 
@@ -9351,12 +10720,20 @@ Sabonete líquido facial para higienização, remoção de impurezas, controle d
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Foto oficial aprovada (`image_url`):** _(não cadastrada — NÃO inventar imagem; seguir só com nome + link)_
+- **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
+- **Valor:** _(não cadastrado — NÃO inventar preço; responder "Você consegue consultar o valor atualizado diretamente no link oficial.")_
 - **Link individual do produto no site oficial:** https://lakma.com.br/products/sabonete-liquido-facial-250ml?_pos=1&_sid=e71294b11&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
   "produto": "Sabonete Líquido Facial - 250ml",
   "aliases": [],
+  "foto_aprovada_produto": null,
+  "campo_origem_foto": "image_url",
+  "image_source": null,
+  "image_is_generated": false,
+  "instrucao_envio_foto": "Sem foto cadastrada: não inventar, não buscar externa, não gerar. Indicar só com nome + link.",
   "link_individual_produto": "https://lakma.com.br/products/sabonete-liquido-facial-250ml?_pos=1&_sid=e71294b11&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -9369,7 +10746,21 @@ Sabonete líquido facial para higienização, remoção de impurezas, controle d
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
-  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "valor_sem_desconto": null,
+  "valor_com_cupom_lakma35": null,
+  "valor_sem_desconto_br": null,
+  "valor_com_cupom_lakma35_br": null,
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "pdf_aprovado_protocolo": null,
+  "pdf_source": null,
+  "pdf_is_generated": false,
+  "instrucao_envio_pdf": "Sem PDF cadastrado: NÃO inventar PDF, NÃO escrever 'te envio o protocolo em PDF'.",
+  "tipo_uso": null,
+  "categoria_intencao": [],
+  "quando_indicar_direto": [],
+  "indicacao_curta": null,
+  "regra_preco": "valor_sem_desconto ausente: PROIBIDO inventar preço. Resposta padrão: 'Você consegue consultar o valor atualizado diretamente no link oficial.'"
 }
 ```
 
@@ -9520,12 +10911,20 @@ Sabonete facial com Ácido Glicólico, indicado para higienização com ação r
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Foto oficial aprovada (`image_url`):** _(não cadastrada — NÃO inventar imagem; seguir só com nome + link)_
+- **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
+- **Valor:** _(não cadastrado — NÃO inventar preço; responder "Você consegue consultar o valor atualizado diretamente no link oficial.")_
 - **Link individual do produto no site oficial:** https://lakma.com.br/products/sabonete-de-acido-glicolico-150ml?_pos=1&_sid=2f97aa27a&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
   "produto": "Sabonete de Ácido Glicólico - 150ml",
   "aliases": [],
+  "foto_aprovada_produto": null,
+  "campo_origem_foto": "image_url",
+  "image_source": null,
+  "image_is_generated": false,
+  "instrucao_envio_foto": "Sem foto cadastrada: não inventar, não buscar externa, não gerar. Indicar só com nome + link.",
   "link_individual_produto": "https://lakma.com.br/products/sabonete-de-acido-glicolico-150ml?_pos=1&_sid=2f97aa27a&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -9538,7 +10937,21 @@ Sabonete facial com Ácido Glicólico, indicado para higienização com ação r
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
-  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "valor_sem_desconto": null,
+  "valor_com_cupom_lakma35": null,
+  "valor_sem_desconto_br": null,
+  "valor_com_cupom_lakma35_br": null,
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "pdf_aprovado_protocolo": null,
+  "pdf_source": null,
+  "pdf_is_generated": false,
+  "instrucao_envio_pdf": "Sem PDF cadastrado: NÃO inventar PDF, NÃO escrever 'te envio o protocolo em PDF'.",
+  "tipo_uso": null,
+  "categoria_intencao": [],
+  "quando_indicar_direto": [],
+  "indicacao_curta": null,
+  "regra_preco": "valor_sem_desconto ausente: PROIBIDO inventar preço. Resposta padrão: 'Você consegue consultar o valor atualizado diretamente no link oficial.'"
 }
 ```
 
@@ -9693,12 +11106,20 @@ Máscara facial hidratante e nutritiva, indicada para hidratação profunda, nut
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Foto oficial aprovada (`image_url`):** _(não cadastrada — NÃO inventar imagem; seguir só com nome + link)_
+- **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
+- **Valor:** _(não cadastrado — NÃO inventar preço; responder "Você consegue consultar o valor atualizado diretamente no link oficial.")_
 - **Link individual do produto no site oficial:** https://lakma.com.br/products/mascara-brownie-de-chocolate-hidratacao-profunda-150gr?_pos=1&_sid=5a64b5ef8&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
   "produto": "Máscara Brownie de Chocolate, hidratação profunda - 150g",
   "aliases": [],
+  "foto_aprovada_produto": null,
+  "campo_origem_foto": "image_url",
+  "image_source": null,
+  "image_is_generated": false,
+  "instrucao_envio_foto": "Sem foto cadastrada: não inventar, não buscar externa, não gerar. Indicar só com nome + link.",
   "link_individual_produto": "https://lakma.com.br/products/mascara-brownie-de-chocolate-hidratacao-profunda-150gr?_pos=1&_sid=5a64b5ef8&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -9711,7 +11132,21 @@ Máscara facial hidratante e nutritiva, indicada para hidratação profunda, nut
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
-  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "valor_sem_desconto": null,
+  "valor_com_cupom_lakma35": null,
+  "valor_sem_desconto_br": null,
+  "valor_com_cupom_lakma35_br": null,
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "pdf_aprovado_protocolo": null,
+  "pdf_source": null,
+  "pdf_is_generated": false,
+  "instrucao_envio_pdf": "Sem PDF cadastrado: NÃO inventar PDF, NÃO escrever 'te envio o protocolo em PDF'.",
+  "tipo_uso": null,
+  "categoria_intencao": [],
+  "quando_indicar_direto": [],
+  "indicacao_curta": null,
+  "regra_preco": "valor_sem_desconto ausente: PROIBIDO inventar preço. Resposta padrão: 'Você consegue consultar o valor atualizado diretamente no link oficial.'"
 }
 ```
 
@@ -9853,12 +11288,20 @@ Gel roll-on para olheiras, indicado para contorno dos olhos, olheiras pigmentada
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Foto oficial aprovada (`image_url`):** _(não cadastrada — NÃO inventar imagem; seguir só com nome + link)_
+- **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
+- **Valor:** _(não cadastrado — NÃO inventar preço; responder "Você consegue consultar o valor atualizado diretamente no link oficial.")_
 - **Link individual do produto no site oficial:** https://lakma.com.br/products/nanohydrat-roll-para-olheiras-15ml?_pos=1&_sid=17dd3224b&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
   "produto": "Nanohydrat Roll para Olheiras - 15ml",
   "aliases": [],
+  "foto_aprovada_produto": null,
+  "campo_origem_foto": "image_url",
+  "image_source": null,
+  "image_is_generated": false,
+  "instrucao_envio_foto": "Sem foto cadastrada: não inventar, não buscar externa, não gerar. Indicar só com nome + link.",
   "link_individual_produto": "https://lakma.com.br/products/nanohydrat-roll-para-olheiras-15ml?_pos=1&_sid=17dd3224b&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -9871,7 +11314,21 @@ Gel roll-on para olheiras, indicado para contorno dos olhos, olheiras pigmentada
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
-  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "valor_sem_desconto": null,
+  "valor_com_cupom_lakma35": null,
+  "valor_sem_desconto_br": null,
+  "valor_com_cupom_lakma35_br": null,
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "pdf_aprovado_protocolo": null,
+  "pdf_source": null,
+  "pdf_is_generated": false,
+  "instrucao_envio_pdf": "Sem PDF cadastrado: NÃO inventar PDF, NÃO escrever 'te envio o protocolo em PDF'.",
+  "tipo_uso": null,
+  "categoria_intencao": [],
+  "quando_indicar_direto": [],
+  "indicacao_curta": null,
+  "regra_preco": "valor_sem_desconto ausente: PROIBIDO inventar preço. Resposta padrão: 'Você consegue consultar o valor atualizado diretamente no link oficial.'"
 }
 ```
 
@@ -10012,12 +11469,20 @@ Fluido secativo facial para peles oleosas e acneicas, indicado para ação secat
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Foto oficial aprovada (`image_url`):** _(não cadastrada — NÃO inventar imagem; seguir só com nome + link)_
+- **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
+- **Valor:** _(não cadastrado — NÃO inventar preço; responder "Você consegue consultar o valor atualizado diretamente no link oficial.")_
 - **Link individual do produto no site oficial:** https://lakma.com.br/products/fluido-secativo-melaleuca-para-acne-50ml?_pos=1&_sid=b08c5f760&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
   "produto": "Fluido Secativo - Melaleuca para acne 50ml",
   "aliases": [],
+  "foto_aprovada_produto": null,
+  "campo_origem_foto": "image_url",
+  "image_source": null,
+  "image_is_generated": false,
+  "instrucao_envio_foto": "Sem foto cadastrada: não inventar, não buscar externa, não gerar. Indicar só com nome + link.",
   "link_individual_produto": "https://lakma.com.br/products/fluido-secativo-melaleuca-para-acne-50ml?_pos=1&_sid=b08c5f760&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -10030,7 +11495,21 @@ Fluido secativo facial para peles oleosas e acneicas, indicado para ação secat
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
-  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "valor_sem_desconto": null,
+  "valor_com_cupom_lakma35": null,
+  "valor_sem_desconto_br": null,
+  "valor_com_cupom_lakma35_br": null,
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "pdf_aprovado_protocolo": null,
+  "pdf_source": null,
+  "pdf_is_generated": false,
+  "instrucao_envio_pdf": "Sem PDF cadastrado: NÃO inventar PDF, NÃO escrever 'te envio o protocolo em PDF'.",
+  "tipo_uso": null,
+  "categoria_intencao": [],
+  "quando_indicar_direto": [],
+  "indicacao_curta": null,
+  "regra_preco": "valor_sem_desconto ausente: PROIBIDO inventar preço. Resposta padrão: 'Você consegue consultar o valor atualizado diretamente no link oficial.'"
 }
 ```
 
@@ -10174,12 +11653,20 @@ Esfoliante facial para renovação, preparo da pele, remoção de células morta
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Foto oficial aprovada (`image_url`):** _(não cadastrada — NÃO inventar imagem; seguir só com nome + link)_
+- **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
+- **Valor:** _(não cadastrado — NÃO inventar preço; responder "Você consegue consultar o valor atualizado diretamente no link oficial.")_
 - **Link individual do produto no site oficial:** https://lakma.com.br/products/esfoliante-facial-250ml?_pos=1&_sid=6964d0934&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
   "produto": "Esfoliante Facial - 250ml",
   "aliases": [],
+  "foto_aprovada_produto": null,
+  "campo_origem_foto": "image_url",
+  "image_source": null,
+  "image_is_generated": false,
+  "instrucao_envio_foto": "Sem foto cadastrada: não inventar, não buscar externa, não gerar. Indicar só com nome + link.",
   "link_individual_produto": "https://lakma.com.br/products/esfoliante-facial-250ml?_pos=1&_sid=6964d0934&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -10192,7 +11679,21 @@ Esfoliante facial para renovação, preparo da pele, remoção de células morta
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
-  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "valor_sem_desconto": null,
+  "valor_com_cupom_lakma35": null,
+  "valor_sem_desconto_br": null,
+  "valor_com_cupom_lakma35_br": null,
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "pdf_aprovado_protocolo": null,
+  "pdf_source": null,
+  "pdf_is_generated": false,
+  "instrucao_envio_pdf": "Sem PDF cadastrado: NÃO inventar PDF, NÃO escrever 'te envio o protocolo em PDF'.",
+  "tipo_uso": null,
+  "categoria_intencao": [],
+  "quando_indicar_direto": [],
+  "indicacao_curta": null,
+  "regra_preco": "valor_sem_desconto ausente: PROIBIDO inventar preço. Resposta padrão: 'Você consegue consultar o valor atualizado diretamente no link oficial.'"
 }
 ```
 
@@ -10338,12 +11839,20 @@ Peeling químico profissional clareador, indicado para clareamento de manchas, h
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Foto oficial aprovada (`image_url`):** _(não cadastrada — NÃO inventar imagem; seguir só com nome + link)_
+- **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
+- **Valor:** _(não cadastrado — NÃO inventar preço; responder "Você consegue consultar o valor atualizado diretamente no link oficial.")_
 - **Link individual do produto no site oficial:** https://lakma.com.br/products/peeling-bio-complex-clareador-50ml?_pos=1&_sid=3b6d9d823&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
   "produto": "Peeling Bio Complex, Clareador - 50ml",
   "aliases": [],
+  "foto_aprovada_produto": null,
+  "campo_origem_foto": "image_url",
+  "image_source": null,
+  "image_is_generated": false,
+  "instrucao_envio_foto": "Sem foto cadastrada: não inventar, não buscar externa, não gerar. Indicar só com nome + link.",
   "link_individual_produto": "https://lakma.com.br/products/peeling-bio-complex-clareador-50ml?_pos=1&_sid=3b6d9d823&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -10356,7 +11865,21 @@ Peeling químico profissional clareador, indicado para clareamento de manchas, h
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
-  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "valor_sem_desconto": null,
+  "valor_com_cupom_lakma35": null,
+  "valor_sem_desconto_br": null,
+  "valor_com_cupom_lakma35_br": null,
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "pdf_aprovado_protocolo": null,
+  "pdf_source": null,
+  "pdf_is_generated": false,
+  "instrucao_envio_pdf": "Sem PDF cadastrado: NÃO inventar PDF, NÃO escrever 'te envio o protocolo em PDF'.",
+  "tipo_uso": null,
+  "categoria_intencao": [],
+  "quando_indicar_direto": [],
+  "indicacao_curta": null,
+  "regra_preco": "valor_sem_desconto ausente: PROIBIDO inventar preço. Resposta padrão: 'Você consegue consultar o valor atualizado diretamente no link oficial.'"
 }
 ```
 
@@ -10503,12 +12026,20 @@ Emoliente facial profissional para limpeza de pele, indicado para amolecer cravo
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Foto oficial aprovada (`image_url`):** _(não cadastrada — NÃO inventar imagem; seguir só com nome + link)_
+- **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
+- **Valor:** _(não cadastrado — NÃO inventar preço; responder "Você consegue consultar o valor atualizado diretamente no link oficial.")_
 - **Link individual do produto no site oficial:** https://lakma.com.br/products/emoliente-de-cravos-250gr?_pos=1&_sid=9b5e6289b&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
   "produto": "Emoliente de Cravos e Espinhas - 500g",
   "aliases": [],
+  "foto_aprovada_produto": null,
+  "campo_origem_foto": "image_url",
+  "image_source": null,
+  "image_is_generated": false,
+  "instrucao_envio_foto": "Sem foto cadastrada: não inventar, não buscar externa, não gerar. Indicar só com nome + link.",
   "link_individual_produto": "https://lakma.com.br/products/emoliente-de-cravos-250gr?_pos=1&_sid=9b5e6289b&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -10521,7 +12052,21 @@ Emoliente facial profissional para limpeza de pele, indicado para amolecer cravo
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
-  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "valor_sem_desconto": null,
+  "valor_com_cupom_lakma35": null,
+  "valor_sem_desconto_br": null,
+  "valor_com_cupom_lakma35_br": null,
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "pdf_aprovado_protocolo": null,
+  "pdf_source": null,
+  "pdf_is_generated": false,
+  "instrucao_envio_pdf": "Sem PDF cadastrado: NÃO inventar PDF, NÃO escrever 'te envio o protocolo em PDF'.",
+  "tipo_uso": null,
+  "categoria_intencao": [],
+  "quando_indicar_direto": [],
+  "indicacao_curta": null,
+  "regra_preco": "valor_sem_desconto ausente: PROIBIDO inventar preço. Resposta padrão: 'Você consegue consultar o valor atualizado diretamente no link oficial.'"
 }
 ```
 
@@ -10673,12 +12218,20 @@ Creme corporal redutor para massagem, indicado para protocolos profissionais de 
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Foto oficial aprovada (`image_url`):** _(não cadastrada — NÃO inventar imagem; seguir só com nome + link)_
+- **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
+- **Valor:** _(não cadastrado — NÃO inventar preço; responder "Você consegue consultar o valor atualizado diretamente no link oficial.")_
 - **Link individual do produto no site oficial:** https://lakma.com.br/products/creme-de-massagem-10-ativos-900g?_pos=1&_sid=96328ab85&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
   "produto": "Creme 10 Ativos para Celulite - 900g",
   "aliases": [],
+  "foto_aprovada_produto": null,
+  "campo_origem_foto": "image_url",
+  "image_source": null,
+  "image_is_generated": false,
+  "instrucao_envio_foto": "Sem foto cadastrada: não inventar, não buscar externa, não gerar. Indicar só com nome + link.",
   "link_individual_produto": "https://lakma.com.br/products/creme-de-massagem-10-ativos-900g?_pos=1&_sid=96328ab85&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -10691,7 +12244,21 @@ Creme corporal redutor para massagem, indicado para protocolos profissionais de 
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
-  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "valor_sem_desconto": null,
+  "valor_com_cupom_lakma35": null,
+  "valor_sem_desconto_br": null,
+  "valor_com_cupom_lakma35_br": null,
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "pdf_aprovado_protocolo": null,
+  "pdf_source": null,
+  "pdf_is_generated": false,
+  "instrucao_envio_pdf": "Sem PDF cadastrado: NÃO inventar PDF, NÃO escrever 'te envio o protocolo em PDF'.",
+  "tipo_uso": null,
+  "categoria_intencao": [],
+  "quando_indicar_direto": [],
+  "indicacao_curta": null,
+  "regra_preco": "valor_sem_desconto ausente: PROIBIDO inventar preço. Resposta padrão: 'Você consegue consultar o valor atualizado diretamente no link oficial.'"
 }
 ```
 
@@ -10840,12 +12407,20 @@ Loção profissional neutralizante, indicada para controlar ou interromper a aç
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Foto oficial aprovada (`image_url`):** _(não cadastrada — NÃO inventar imagem; seguir só com nome + link)_
+- **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
+- **Valor:** _(não cadastrado — NÃO inventar preço; responder "Você consegue consultar o valor atualizado diretamente no link oficial.")_
 - **Link individual do produto no site oficial:** https://lakma.com.br/products/solucao-neutralizante-50ml?_pos=1&_sid=11920c378&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
   "produto": "Solução Neutralizante de Ácidos - 50ml",
   "aliases": [],
+  "foto_aprovada_produto": null,
+  "campo_origem_foto": "image_url",
+  "image_source": null,
+  "image_is_generated": false,
+  "instrucao_envio_foto": "Sem foto cadastrada: não inventar, não buscar externa, não gerar. Indicar só com nome + link.",
   "link_individual_produto": "https://lakma.com.br/products/solucao-neutralizante-50ml?_pos=1&_sid=11920c378&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -10858,7 +12433,21 @@ Loção profissional neutralizante, indicada para controlar ou interromper a aç
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
-  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "valor_sem_desconto": null,
+  "valor_com_cupom_lakma35": null,
+  "valor_sem_desconto_br": null,
+  "valor_com_cupom_lakma35_br": null,
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "pdf_aprovado_protocolo": null,
+  "pdf_source": null,
+  "pdf_is_generated": false,
+  "instrucao_envio_pdf": "Sem PDF cadastrado: NÃO inventar PDF, NÃO escrever 'te envio o protocolo em PDF'.",
+  "tipo_uso": null,
+  "categoria_intencao": [],
+  "quando_indicar_direto": [],
+  "indicacao_curta": null,
+  "regra_preco": "valor_sem_desconto ausente: PROIBIDO inventar preço. Resposta padrão: 'Você consegue consultar o valor atualizado diretamente no link oficial.'"
 }
 ```
 
@@ -11002,12 +12591,20 @@ Máscara facial hidratante e revitalizante com efeito dourado, indicada para hid
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Foto oficial aprovada (`image_url`):** _(não cadastrada — NÃO inventar imagem; seguir só com nome + link)_
+- **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
+- **Valor:** _(não cadastrado — NÃO inventar preço; responder "Você consegue consultar o valor atualizado diretamente no link oficial.")_
 - **Link individual do produto no site oficial:** https://lakma.com.br/products/mascara-ouro-rejuvenescedora-150gr?_pos=1&_sid=7b0b04bfc&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
   "produto": "Máscara Facial de Ouro Golden Glitter - 150g",
   "aliases": [],
+  "foto_aprovada_produto": null,
+  "campo_origem_foto": "image_url",
+  "image_source": null,
+  "image_is_generated": false,
+  "instrucao_envio_foto": "Sem foto cadastrada: não inventar, não buscar externa, não gerar. Indicar só com nome + link.",
   "link_individual_produto": "https://lakma.com.br/products/mascara-ouro-rejuvenescedora-150gr?_pos=1&_sid=7b0b04bfc&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -11020,7 +12617,21 @@ Máscara facial hidratante e revitalizante com efeito dourado, indicada para hid
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
-  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "valor_sem_desconto": null,
+  "valor_com_cupom_lakma35": null,
+  "valor_sem_desconto_br": null,
+  "valor_com_cupom_lakma35_br": null,
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "pdf_aprovado_protocolo": null,
+  "pdf_source": null,
+  "pdf_is_generated": false,
+  "instrucao_envio_pdf": "Sem PDF cadastrado: NÃO inventar PDF, NÃO escrever 'te envio o protocolo em PDF'.",
+  "tipo_uso": null,
+  "categoria_intencao": [],
+  "quando_indicar_direto": [],
+  "indicacao_curta": null,
+  "regra_preco": "valor_sem_desconto ausente: PROIBIDO inventar preço. Resposta padrão: 'Você consegue consultar o valor atualizado diretamente no link oficial.'"
 }
 ```
 
@@ -11176,12 +12787,20 @@ Sérum facial com fator de crescimento e peptídeos, indicado para firmeza, revi
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Foto oficial aprovada (`image_url`):** _(não cadastrada — NÃO inventar imagem; seguir só com nome + link)_
+- **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
+- **Valor:** _(não cadastrado — NÃO inventar preço; responder "Você consegue consultar o valor atualizado diretamente no link oficial.")_
 - **Link individual do produto no site oficial:** https://lakma.com.br/products/melange-especial-fator-de-crescimento-para-microagulhamento-50ml?_pos=1&_sid=e3164b646&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
   "produto": "Fator de Crescimento Melange Especial - 50ml",
   "aliases": [],
+  "foto_aprovada_produto": null,
+  "campo_origem_foto": "image_url",
+  "image_source": null,
+  "image_is_generated": false,
+  "instrucao_envio_foto": "Sem foto cadastrada: não inventar, não buscar externa, não gerar. Indicar só com nome + link.",
   "link_individual_produto": "https://lakma.com.br/products/melange-especial-fator-de-crescimento-para-microagulhamento-50ml?_pos=1&_sid=e3164b646&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -11194,7 +12813,21 @@ Sérum facial com fator de crescimento e peptídeos, indicado para firmeza, revi
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
-  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "valor_sem_desconto": null,
+  "valor_com_cupom_lakma35": null,
+  "valor_sem_desconto_br": null,
+  "valor_com_cupom_lakma35_br": null,
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "pdf_aprovado_protocolo": null,
+  "pdf_source": null,
+  "pdf_is_generated": false,
+  "instrucao_envio_pdf": "Sem PDF cadastrado: NÃO inventar PDF, NÃO escrever 'te envio o protocolo em PDF'.",
+  "tipo_uso": null,
+  "categoria_intencao": [],
+  "quando_indicar_direto": [],
+  "indicacao_curta": null,
+  "regra_preco": "valor_sem_desconto ausente: PROIBIDO inventar preço. Resposta padrão: 'Você consegue consultar o valor atualizado diretamente no link oficial.'"
 }
 ```
 
@@ -11348,12 +12981,20 @@ Fluido dermocosmético regenerador facial e corporal, indicado para melhorar a a
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Foto oficial aprovada (`image_url`):** _(não cadastrada — NÃO inventar imagem; seguir só com nome + link)_
+- **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
+- **Valor:** _(não cadastrado — NÃO inventar preço; responder "Você consegue consultar o valor atualizado diretamente no link oficial.")_
 - **Link individual do produto no site oficial:** https://lakma.com.br/products/neuroplasma-nutri-complex-para-cicatriz-a-acne-e-estrias-50ml?_pos=2&_sid=06b71ae8f&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
   "produto": "Neuroplasma Nutri-Complex - 50ml",
   "aliases": [],
+  "foto_aprovada_produto": null,
+  "campo_origem_foto": "image_url",
+  "image_source": null,
+  "image_is_generated": false,
+  "instrucao_envio_foto": "Sem foto cadastrada: não inventar, não buscar externa, não gerar. Indicar só com nome + link.",
   "link_individual_produto": "https://lakma.com.br/products/neuroplasma-nutri-complex-para-cicatriz-a-acne-e-estrias-50ml?_pos=2&_sid=06b71ae8f&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -11366,7 +13007,21 @@ Fluido dermocosmético regenerador facial e corporal, indicado para melhorar a a
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
-  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "valor_sem_desconto": null,
+  "valor_com_cupom_lakma35": null,
+  "valor_sem_desconto_br": null,
+  "valor_com_cupom_lakma35_br": null,
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "pdf_aprovado_protocolo": null,
+  "pdf_source": null,
+  "pdf_is_generated": false,
+  "instrucao_envio_pdf": "Sem PDF cadastrado: NÃO inventar PDF, NÃO escrever 'te envio o protocolo em PDF'.",
+  "tipo_uso": null,
+  "categoria_intencao": [],
+  "quando_indicar_direto": [],
+  "indicacao_curta": null,
+  "regra_preco": "valor_sem_desconto ausente: PROIBIDO inventar preço. Resposta padrão: 'Você consegue consultar o valor atualizado diretamente no link oficial.'"
 }
 ```
 
@@ -11511,12 +13166,20 @@ Máscara facial em pó de Argila Verde 100%, indicada para peles normais, oleosa
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Foto oficial aprovada (`image_url`):** _(não cadastrada — NÃO inventar imagem; seguir só com nome + link)_
+- **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
+- **Valor:** _(não cadastrado — NÃO inventar preço; responder "Você consegue consultar o valor atualizado diretamente no link oficial.")_
 - **Link individual do produto no site oficial:** https://lakma.com.br/products/argila-verde-150gr?_pos=1&_sid=d2cd41c2a&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
   "produto": "Argila Verde - 150g",
   "aliases": [],
+  "foto_aprovada_produto": null,
+  "campo_origem_foto": "image_url",
+  "image_source": null,
+  "image_is_generated": false,
+  "instrucao_envio_foto": "Sem foto cadastrada: não inventar, não buscar externa, não gerar. Indicar só com nome + link.",
   "link_individual_produto": "https://lakma.com.br/products/argila-verde-150gr?_pos=1&_sid=d2cd41c2a&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -11529,7 +13192,21 @@ Máscara facial em pó de Argila Verde 100%, indicada para peles normais, oleosa
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
-  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "valor_sem_desconto": null,
+  "valor_com_cupom_lakma35": null,
+  "valor_sem_desconto_br": null,
+  "valor_com_cupom_lakma35_br": null,
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "pdf_aprovado_protocolo": null,
+  "pdf_source": null,
+  "pdf_is_generated": false,
+  "instrucao_envio_pdf": "Sem PDF cadastrado: NÃO inventar PDF, NÃO escrever 'te envio o protocolo em PDF'.",
+  "tipo_uso": null,
+  "categoria_intencao": [],
+  "quando_indicar_direto": [],
+  "indicacao_curta": null,
+  "regra_preco": "valor_sem_desconto ausente: PROIBIDO inventar preço. Resposta padrão: 'Você consegue consultar o valor atualizado diretamente no link oficial.'"
 }
 ```
 
@@ -11691,12 +13368,20 @@ Kit profissional de peelings clareadores para protocolos de clareamento, manchas
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Foto oficial aprovada (`image_url`):** _(não cadastrada — NÃO inventar imagem; seguir só com nome + link)_
+- **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
+- **Valor:** _(não cadastrado — NÃO inventar preço; responder "Você consegue consultar o valor atualizado diretamente no link oficial.")_
 - **Link individual do produto no site oficial:** https://lakma.com.br/products/kit-acidos-sem-misterios-clareamento-de-manchas?_pos=1&_sid=5200ce86c&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
   "produto": "Kit Ácidos Sem Mistérios - 5 Produtos",
   "aliases": [],
+  "foto_aprovada_produto": null,
+  "campo_origem_foto": "image_url",
+  "image_source": null,
+  "image_is_generated": false,
+  "instrucao_envio_foto": "Sem foto cadastrada: não inventar, não buscar externa, não gerar. Indicar só com nome + link.",
   "link_individual_produto": "https://lakma.com.br/products/kit-acidos-sem-misterios-clareamento-de-manchas?_pos=1&_sid=5200ce86c&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -11709,7 +13394,21 @@ Kit profissional de peelings clareadores para protocolos de clareamento, manchas
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
-  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "valor_sem_desconto": null,
+  "valor_com_cupom_lakma35": null,
+  "valor_sem_desconto_br": null,
+  "valor_com_cupom_lakma35_br": null,
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "pdf_aprovado_protocolo": null,
+  "pdf_source": null,
+  "pdf_is_generated": false,
+  "instrucao_envio_pdf": "Sem PDF cadastrado: NÃO inventar PDF, NÃO escrever 'te envio o protocolo em PDF'.",
+  "tipo_uso": null,
+  "categoria_intencao": [],
+  "quando_indicar_direto": [],
+  "indicacao_curta": null,
+  "regra_preco": "valor_sem_desconto ausente: PROIBIDO inventar preço. Resposta padrão: 'Você consegue consultar o valor atualizado diretamente no link oficial.'"
 }
 ```
 
@@ -11863,12 +13562,20 @@ Máscara facial em gel prebiótica e detox, indicada para equilíbrio da microbi
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Foto oficial aprovada (`image_url`):** _(não cadastrada — NÃO inventar imagem; seguir só com nome + link)_
+- **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
+- **Valor:** _(não cadastrado — NÃO inventar preço; responder "Você consegue consultar o valor atualizado diretamente no link oficial.")_
 - **Link individual do produto no site oficial:** https://lakma.com.br/products/zen-marine-detox-150gr?_pos=1&_sid=6ef45705f&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
   "produto": "Máscara Detox Zen Marine Prebiótica - 150g",
   "aliases": [],
+  "foto_aprovada_produto": null,
+  "campo_origem_foto": "image_url",
+  "image_source": null,
+  "image_is_generated": false,
+  "instrucao_envio_foto": "Sem foto cadastrada: não inventar, não buscar externa, não gerar. Indicar só com nome + link.",
   "link_individual_produto": "https://lakma.com.br/products/zen-marine-detox-150gr?_pos=1&_sid=6ef45705f&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -11881,7 +13588,21 @@ Máscara facial em gel prebiótica e detox, indicada para equilíbrio da microbi
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
-  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "valor_sem_desconto": null,
+  "valor_com_cupom_lakma35": null,
+  "valor_sem_desconto_br": null,
+  "valor_com_cupom_lakma35_br": null,
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "pdf_aprovado_protocolo": null,
+  "pdf_source": null,
+  "pdf_is_generated": false,
+  "instrucao_envio_pdf": "Sem PDF cadastrado: NÃO inventar PDF, NÃO escrever 'te envio o protocolo em PDF'.",
+  "tipo_uso": null,
+  "categoria_intencao": [],
+  "quando_indicar_direto": [],
+  "indicacao_curta": null,
+  "regra_preco": "valor_sem_desconto ausente: PROIBIDO inventar preço. Resposta padrão: 'Você consegue consultar o valor atualizado diretamente no link oficial.'"
 }
 ```
 
@@ -12033,12 +13754,20 @@ Sérum facial com ação de peeling enzimático clareador e renovador, indicado 
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Foto oficial aprovada (`image_url`):** _(não cadastrada — NÃO inventar imagem; seguir só com nome + link)_
+- **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
+- **Valor:** _(não cadastrado — NÃO inventar preço; responder "Você consegue consultar o valor atualizado diretamente no link oficial.")_
 - **Link individual do produto no site oficial:** https://lakma.com.br/products/peeling-enzimatico-de-roma-clareador-60ml?_pos=1&_sid=1bc092cdb&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
   "produto": "Peeling Enzimático de Romã Facial - 60ml",
   "aliases": [],
+  "foto_aprovada_produto": null,
+  "campo_origem_foto": "image_url",
+  "image_source": null,
+  "image_is_generated": false,
+  "instrucao_envio_foto": "Sem foto cadastrada: não inventar, não buscar externa, não gerar. Indicar só com nome + link.",
   "link_individual_produto": "https://lakma.com.br/products/peeling-enzimatico-de-roma-clareador-60ml?_pos=1&_sid=1bc092cdb&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -12051,7 +13780,21 @@ Sérum facial com ação de peeling enzimático clareador e renovador, indicado 
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
-  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "valor_sem_desconto": null,
+  "valor_com_cupom_lakma35": null,
+  "valor_sem_desconto_br": null,
+  "valor_com_cupom_lakma35_br": null,
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "pdf_aprovado_protocolo": null,
+  "pdf_source": null,
+  "pdf_is_generated": false,
+  "instrucao_envio_pdf": "Sem PDF cadastrado: NÃO inventar PDF, NÃO escrever 'te envio o protocolo em PDF'.",
+  "tipo_uso": null,
+  "categoria_intencao": [],
+  "quando_indicar_direto": [],
+  "indicacao_curta": null,
+  "regra_preco": "valor_sem_desconto ausente: PROIBIDO inventar preço. Resposta padrão: 'Você consegue consultar o valor atualizado diretamente no link oficial.'"
 }
 ```
 
@@ -12196,12 +13939,20 @@ Kit facial Eco Skin com 3 produtos, indicado para limpeza facial express, limpez
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Foto oficial aprovada (`image_url`):** _(não cadastrada — NÃO inventar imagem; seguir só com nome + link)_
+- **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
+- **Valor:** _(não cadastrado — NÃO inventar preço; responder "Você consegue consultar o valor atualizado diretamente no link oficial.")_
 - **Link individual do produto no site oficial:** https://lakma.com.br/products/kit-eco-skin-para-dermaplaning?_pos=1&_sid=b9365a88d&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
   "produto": "Kit Lakma Limpeza de Pele Profunda Skin Care - ECOSKIN",
   "aliases": [],
+  "foto_aprovada_produto": null,
+  "campo_origem_foto": "image_url",
+  "image_source": null,
+  "image_is_generated": false,
+  "instrucao_envio_foto": "Sem foto cadastrada: não inventar, não buscar externa, não gerar. Indicar só com nome + link.",
   "link_individual_produto": "https://lakma.com.br/products/kit-eco-skin-para-dermaplaning?_pos=1&_sid=b9365a88d&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -12214,7 +13965,21 @@ Kit facial Eco Skin com 3 produtos, indicado para limpeza facial express, limpez
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
-  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "valor_sem_desconto": null,
+  "valor_com_cupom_lakma35": null,
+  "valor_sem_desconto_br": null,
+  "valor_com_cupom_lakma35_br": null,
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "pdf_aprovado_protocolo": null,
+  "pdf_source": null,
+  "pdf_is_generated": false,
+  "instrucao_envio_pdf": "Sem PDF cadastrado: NÃO inventar PDF, NÃO escrever 'te envio o protocolo em PDF'.",
+  "tipo_uso": null,
+  "categoria_intencao": [],
+  "quando_indicar_direto": [],
+  "indicacao_curta": null,
+  "regra_preco": "valor_sem_desconto ausente: PROIBIDO inventar preço. Resposta padrão: 'Você consegue consultar o valor atualizado diretamente no link oficial.'"
 }
 ```
 
@@ -12369,12 +14134,20 @@ Kit profissional com 5 fluidos revitalizantes nanotecnológicos e biotecnológic
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Foto oficial aprovada (`image_url`):** _(não cadastrada — NÃO inventar imagem; seguir só com nome + link)_
+- **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
+- **Valor:** _(não cadastrado — NÃO inventar preço; responder "Você consegue consultar o valor atualizado diretamente no link oficial.")_
 - **Link individual do produto no site oficial:** https://lakma.com.br/products/kit-fluidos-revitalizantes-para-microagulhamento?_pos=1&_sid=e3adb7d8b&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
   "produto": "Kit Fluidos Revitalizantes para Microagulhamento - 5 Passos",
   "aliases": [],
+  "foto_aprovada_produto": null,
+  "campo_origem_foto": "image_url",
+  "image_source": null,
+  "image_is_generated": false,
+  "instrucao_envio_foto": "Sem foto cadastrada: não inventar, não buscar externa, não gerar. Indicar só com nome + link.",
   "link_individual_produto": "https://lakma.com.br/products/kit-fluidos-revitalizantes-para-microagulhamento?_pos=1&_sid=e3adb7d8b&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -12387,7 +14160,21 @@ Kit profissional com 5 fluidos revitalizantes nanotecnológicos e biotecnológic
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
-  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "valor_sem_desconto": null,
+  "valor_com_cupom_lakma35": null,
+  "valor_sem_desconto_br": null,
+  "valor_com_cupom_lakma35_br": null,
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "pdf_aprovado_protocolo": null,
+  "pdf_source": null,
+  "pdf_is_generated": false,
+  "instrucao_envio_pdf": "Sem PDF cadastrado: NÃO inventar PDF, NÃO escrever 'te envio o protocolo em PDF'.",
+  "tipo_uso": null,
+  "categoria_intencao": [],
+  "quando_indicar_direto": [],
+  "indicacao_curta": null,
+  "regra_preco": "valor_sem_desconto ausente: PROIBIDO inventar preço. Resposta padrão: 'Você consegue consultar o valor atualizado diretamente no link oficial.'"
 }
 ```
 
@@ -12562,12 +14349,20 @@ Peeling químico profissional secativo, indicado para peles acneicas, cravos, co
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Foto oficial aprovada (`image_url`):** _(não cadastrada — NÃO inventar imagem; seguir só com nome + link)_
+- **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
+- **Valor:** _(não cadastrado — NÃO inventar preço; responder "Você consegue consultar o valor atualizado diretamente no link oficial.")_
 - **Link individual do produto no site oficial:** https://lakma.com.br/products/peeling-quimico-secativo-50ml?_pos=1&_sid=60a60c291&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
   "produto": "Peeling Químico Secativo - 50ml",
   "aliases": [],
+  "foto_aprovada_produto": null,
+  "campo_origem_foto": "image_url",
+  "image_source": null,
+  "image_is_generated": false,
+  "instrucao_envio_foto": "Sem foto cadastrada: não inventar, não buscar externa, não gerar. Indicar só com nome + link.",
   "link_individual_produto": "https://lakma.com.br/products/peeling-quimico-secativo-50ml?_pos=1&_sid=60a60c291&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -12580,7 +14375,21 @@ Peeling químico profissional secativo, indicado para peles acneicas, cravos, co
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
-  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "valor_sem_desconto": null,
+  "valor_com_cupom_lakma35": null,
+  "valor_sem_desconto_br": null,
+  "valor_com_cupom_lakma35_br": null,
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "pdf_aprovado_protocolo": null,
+  "pdf_source": null,
+  "pdf_is_generated": false,
+  "instrucao_envio_pdf": "Sem PDF cadastrado: NÃO inventar PDF, NÃO escrever 'te envio o protocolo em PDF'.",
+  "tipo_uso": null,
+  "categoria_intencao": [],
+  "quando_indicar_direto": [],
+  "indicacao_curta": null,
+  "regra_preco": "valor_sem_desconto ausente: PROIBIDO inventar preço. Resposta padrão: 'Você consegue consultar o valor atualizado diretamente no link oficial.'"
 }
 ```
 
@@ -12728,12 +14537,20 @@ Fluido revitalizante facial com Ácido Hialurônico, indicado para hidratação 
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Foto oficial aprovada (`image_url`):** _(não cadastrada — NÃO inventar imagem; seguir só com nome + link)_
+- **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
+- **Valor:** _(não cadastrado — NÃO inventar preço; responder "Você consegue consultar o valor atualizado diretamente no link oficial.")_
 - **Link individual do produto no site oficial:** https://lakma.com.br/products/fluido-passo-2-hialuronico-50ml?_pos=1&_sid=4c1d3e80d&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
   "produto": "Fluido Revitalizante Passo 2 - Ácido Hialurônico - 50ml",
   "aliases": [],
+  "foto_aprovada_produto": null,
+  "campo_origem_foto": "image_url",
+  "image_source": null,
+  "image_is_generated": false,
+  "instrucao_envio_foto": "Sem foto cadastrada: não inventar, não buscar externa, não gerar. Indicar só com nome + link.",
   "link_individual_produto": "https://lakma.com.br/products/fluido-passo-2-hialuronico-50ml?_pos=1&_sid=4c1d3e80d&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -12746,7 +14563,21 @@ Fluido revitalizante facial com Ácido Hialurônico, indicado para hidratação 
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
-  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "valor_sem_desconto": null,
+  "valor_com_cupom_lakma35": null,
+  "valor_sem_desconto_br": null,
+  "valor_com_cupom_lakma35_br": null,
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "pdf_aprovado_protocolo": null,
+  "pdf_source": null,
+  "pdf_is_generated": false,
+  "instrucao_envio_pdf": "Sem PDF cadastrado: NÃO inventar PDF, NÃO escrever 'te envio o protocolo em PDF'.",
+  "tipo_uso": null,
+  "categoria_intencao": [],
+  "quando_indicar_direto": [],
+  "indicacao_curta": null,
+  "regra_preco": "valor_sem_desconto ausente: PROIBIDO inventar preço. Resposta padrão: 'Você consegue consultar o valor atualizado diretamente no link oficial.'"
 }
 ```
 
@@ -12892,12 +14723,20 @@ Fluido revitalizante facial com Vitamina C 40%, indicado para clareamento, hiper
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Foto oficial aprovada (`image_url`):** _(não cadastrada — NÃO inventar imagem; seguir só com nome + link)_
+- **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
+- **Valor:** _(não cadastrado — NÃO inventar preço; responder "Você consegue consultar o valor atualizado diretamente no link oficial.")_
 - **Link individual do produto no site oficial:** https://lakma.com.br/products/fluido-passo-4-vitamina-c-50ml?_pos=1&_sid=976b990d3&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
   "produto": "Fluido Revitalizante Passo 4 - Vitamina C 40% - 50ml",
   "aliases": [],
+  "foto_aprovada_produto": null,
+  "campo_origem_foto": "image_url",
+  "image_source": null,
+  "image_is_generated": false,
+  "instrucao_envio_foto": "Sem foto cadastrada: não inventar, não buscar externa, não gerar. Indicar só com nome + link.",
   "link_individual_produto": "https://lakma.com.br/products/fluido-passo-4-vitamina-c-50ml?_pos=1&_sid=976b990d3&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -12910,7 +14749,21 @@ Fluido revitalizante facial com Vitamina C 40%, indicado para clareamento, hiper
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
-  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "valor_sem_desconto": null,
+  "valor_com_cupom_lakma35": null,
+  "valor_sem_desconto_br": null,
+  "valor_com_cupom_lakma35_br": null,
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "pdf_aprovado_protocolo": null,
+  "pdf_source": null,
+  "pdf_is_generated": false,
+  "instrucao_envio_pdf": "Sem PDF cadastrado: NÃO inventar PDF, NÃO escrever 'te envio o protocolo em PDF'.",
+  "tipo_uso": null,
+  "categoria_intencao": [],
+  "quando_indicar_direto": [],
+  "indicacao_curta": null,
+  "regra_preco": "valor_sem_desconto ausente: PROIBIDO inventar preço. Resposta padrão: 'Você consegue consultar o valor atualizado diretamente no link oficial.'"
 }
 ```
 
@@ -13070,12 +14923,20 @@ Máscara clareadora facial e corporal, indicada para manchas, uniformização do
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Foto oficial aprovada (`image_url`):** _(não cadastrada — NÃO inventar imagem; seguir só com nome + link)_
+- **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
+- **Valor:** _(não cadastrado — NÃO inventar preço; responder "Você consegue consultar o valor atualizado diretamente no link oficial.")_
 - **Link individual do produto no site oficial:** https://lakma.com.br/products/mascara-clareadora-30g?_pos=2&_sid=1cf15edab&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
   "produto": "Máscara Clareadora - 30g",
   "aliases": [],
+  "foto_aprovada_produto": null,
+  "campo_origem_foto": "image_url",
+  "image_source": null,
+  "image_is_generated": false,
+  "instrucao_envio_foto": "Sem foto cadastrada: não inventar, não buscar externa, não gerar. Indicar só com nome + link.",
   "link_individual_produto": "https://lakma.com.br/products/mascara-clareadora-30g?_pos=2&_sid=1cf15edab&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -13088,7 +14949,21 @@ Máscara clareadora facial e corporal, indicada para manchas, uniformização do
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
-  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "valor_sem_desconto": null,
+  "valor_com_cupom_lakma35": null,
+  "valor_sem_desconto_br": null,
+  "valor_com_cupom_lakma35_br": null,
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "pdf_aprovado_protocolo": null,
+  "pdf_source": null,
+  "pdf_is_generated": false,
+  "instrucao_envio_pdf": "Sem PDF cadastrado: NÃO inventar PDF, NÃO escrever 'te envio o protocolo em PDF'.",
+  "tipo_uso": null,
+  "categoria_intencao": [],
+  "quando_indicar_direto": [],
+  "indicacao_curta": null,
+  "regra_preco": "valor_sem_desconto ausente: PROIBIDO inventar preço. Resposta padrão: 'Você consegue consultar o valor atualizado diretamente no link oficial.'"
 }
 ```
 
@@ -13243,12 +15118,20 @@ Máscara clareadora facial e corporal em apresentação menor, indicada para man
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Foto oficial aprovada (`image_url`):** _(não cadastrada — NÃO inventar imagem; seguir só com nome + link)_
+- **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
+- **Valor:** _(não cadastrado — NÃO inventar preço; responder "Você consegue consultar o valor atualizado diretamente no link oficial.")_
 - **Link individual do produto no site oficial:** https://lakma.com.br/products/mascara-clareadora-10g?_pos=1&_sid=1cf15edab&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
   "produto": "Máscara Clareadora Facial e Corporal - 10g",
   "aliases": [],
+  "foto_aprovada_produto": null,
+  "campo_origem_foto": "image_url",
+  "image_source": null,
+  "image_is_generated": false,
+  "instrucao_envio_foto": "Sem foto cadastrada: não inventar, não buscar externa, não gerar. Indicar só com nome + link.",
   "link_individual_produto": "https://lakma.com.br/products/mascara-clareadora-10g?_pos=1&_sid=1cf15edab&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -13261,7 +15144,21 @@ Máscara clareadora facial e corporal em apresentação menor, indicada para man
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
-  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "valor_sem_desconto": null,
+  "valor_com_cupom_lakma35": null,
+  "valor_sem_desconto_br": null,
+  "valor_com_cupom_lakma35_br": null,
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "pdf_aprovado_protocolo": null,
+  "pdf_source": null,
+  "pdf_is_generated": false,
+  "instrucao_envio_pdf": "Sem PDF cadastrado: NÃO inventar PDF, NÃO escrever 'te envio o protocolo em PDF'.",
+  "tipo_uso": null,
+  "categoria_intencao": [],
+  "quando_indicar_direto": [],
+  "indicacao_curta": null,
+  "regra_preco": "valor_sem_desconto ausente: PROIBIDO inventar preço. Resposta padrão: 'Você consegue consultar o valor atualizado diretamente no link oficial.'"
 }
 ```
 
@@ -13411,12 +15308,20 @@ Kit profissional facial para limpeza de pele, com 5 produtos para higienização
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
+- **Foto oficial aprovada (`image_url`):** _(não cadastrada — NÃO inventar imagem; seguir só com nome + link)_
+- **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
+- **Valor:** _(não cadastrado — NÃO inventar preço; responder "Você consegue consultar o valor atualizado diretamente no link oficial.")_
 - **Link individual do produto no site oficial:** https://lakma.com.br/products/kit-limpeza-de-pele?_pos=1&_sid=422b7e433&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
 
 ```json
 {
   "produto": "Kit Limpeza de Pele Profissional - 5 Produtos",
   "aliases": [],
+  "foto_aprovada_produto": null,
+  "campo_origem_foto": "image_url",
+  "image_source": null,
+  "image_is_generated": false,
+  "instrucao_envio_foto": "Sem foto cadastrada: não inventar, não buscar externa, não gerar. Indicar só com nome + link.",
   "link_individual_produto": "https://lakma.com.br/products/kit-limpeza-de-pele?_pos=1&_sid=422b7e433&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -13429,7 +15334,21 @@ Kit profissional facial para limpeza de pele, com 5 produtos para higienização
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
-  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false."
+  "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "valor_sem_desconto": null,
+  "valor_com_cupom_lakma35": null,
+  "valor_sem_desconto_br": null,
+  "valor_com_cupom_lakma35_br": null,
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "pdf_aprovado_protocolo": null,
+  "pdf_source": null,
+  "pdf_is_generated": false,
+  "instrucao_envio_pdf": "Sem PDF cadastrado: NÃO inventar PDF, NÃO escrever 'te envio o protocolo em PDF'.",
+  "tipo_uso": null,
+  "categoria_intencao": [],
+  "quando_indicar_direto": [],
+  "indicacao_curta": null,
+  "regra_preco": "valor_sem_desconto ausente: PROIBIDO inventar preço. Resposta padrão: 'Você consegue consultar o valor atualizado diretamente no link oficial.'"
 }
 ```
 

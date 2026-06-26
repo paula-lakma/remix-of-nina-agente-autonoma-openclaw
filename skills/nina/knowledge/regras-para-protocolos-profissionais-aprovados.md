@@ -13,6 +13,20 @@ Usar sempre que a pessoa pedir protocolo profissional, passo a passo de cabine, 
 
 Encaminhar quando houver contraindicação, gestante, lactante, alergia, reação, pele lesionada, pele sensibilizada, acne inflamada, pele ferida, uso de medicamentos controlados, tratamento dermatológico, uso recente de ácidos, retinoides, laser, LED, microagulhamento, dermaplaning ou outro procedimento, dúvidas sobre técnica, equipamentos, tempo de ação, frequência, associação de produtos, adaptação do protocolo ou ausência de informação aprovada.
 
+## Mídia aprovada do protocolo
+
+- **Imagem aprovada (`imagem_protocolo_url`):** _(não cadastrada — PROIBIDO inventar, gerar, buscar externamente ou substituir. Se o lead pedir a imagem, responder literalmente: "Não encontrei uma imagem aprovada cadastrada para esse protocolo, mas posso te enviar as informações aprovadas por escrito.")_
+- **PDF aprovado (`protocolo_pdf_url`):** _(não cadastrado — NÃO mencionar PDF, NÃO escrever "te envio o protocolo em PDF".)_
+
+**Formato da resposta quando houver mídia aprovada:**
+
+```
+Esse é um protocolo aprovado da Lakma:
+
+Regras para Protocolos Profissionais Aprovados
+
+```
+
 ## Conteúdo
 
 ```markdown

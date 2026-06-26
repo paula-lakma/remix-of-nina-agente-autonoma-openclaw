@@ -13,6 +13,20 @@ Usar quando a pessoa for profissional da estética ou pedir protocolo para uso e
 
 Encaminhar quando não existir protocolo cadastrado para a necessidade informada, quando houver pedido de adaptação, troca de produto, alteração de tempo, frequência, ordem, técnica ou associação, quando houver contraindicação, gestante, lactante, alergia, reação, pele lesionada, pele sensibilizada, uso de medicamentos, tratamento dermatológico, procedimento recente, dúvida com ácidos, peelings, microagulhamento, laser, LED, eletroterapia, varizes, alterações circulatórias ou qualquer insegurança técnica.
 
+## Mídia aprovada do protocolo
+
+- **Imagem aprovada (`imagem_protocolo_url`):** _(não cadastrada — PROIBIDO inventar, gerar, buscar externamente ou substituir. Se o lead pedir a imagem, responder literalmente: "Não encontrei uma imagem aprovada cadastrada para esse protocolo, mas posso te enviar as informações aprovadas por escrito.")_
+- **PDF aprovado (`protocolo_pdf_url`):** _(não cadastrado — NÃO mencionar PDF, NÃO escrever "te envio o protocolo em PDF".)_
+
+**Formato da resposta quando houver mídia aprovada:**
+
+```
+Esse é um protocolo aprovado da Lakma:
+
+Mapa Geral de Protocolos Profissionais Aprovados
+
+```
+
 ## Conteúdo
 
 ```markdown id="mapa-protocolos-aprovados"
