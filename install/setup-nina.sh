@@ -166,7 +166,9 @@ cat > "$_AP" <<'ANTEOF'
         "apiKey": { "source": "env", "provider": "anthropic", "id": "ANTHROPIC_API_KEY" },
         "maxTokens": 4096,
         "models": [
-          { "id": "claude-sonnet-4-6", "name": "Claude Sonnet 4.6", "api": "anthropic-messages", "input": ["text", "image"], "maxTokens": 4096 }
+          { "id": "claude-haiku-4-5",  "name": "Claude Haiku 4.5",  "api": "anthropic-messages", "input": ["text", "image"], "maxTokens": 4096 },
+          { "id": "claude-sonnet-4-6", "name": "Claude Sonnet 4.6", "api": "anthropic-messages", "input": ["text", "image"], "maxTokens": 4096 },
+          { "id": "claude-opus-4-1",   "name": "Claude Opus 4.1",   "api": "anthropic-messages", "input": ["text", "image"], "maxTokens": 4096 }
         ]
       }
     }
@@ -178,7 +180,7 @@ ANTEOF
 openclaw config patch --file "$_AP" 2>&1 | tail -3 || warn "config patch Anthropic falhou."
 rm -f "$_AP"
 openclaw models set anthropic/claude-sonnet-4-6 2>/dev/null || warn "models set falhou."
-ok "Anthropic configurado (claude-sonnet-4-6)."
+ok "Anthropic configurado (haiku/sonnet/opus registrados; default sonnet — o /cerebro troca via self-heal)."
 [[ -z "${ANTHROPIC_API_KEY:-}" ]] && warn "ANTHROPIC_API_KEY vazia agora — o agente só pensará quando a chave for configurada no /cerebro (propaga via heartbeat em ~5min)."
 
 # ═══════════════════════════════════════════════════════════════════════════════
