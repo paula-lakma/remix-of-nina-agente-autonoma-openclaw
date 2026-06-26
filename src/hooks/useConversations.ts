@@ -497,6 +497,22 @@ export function useConversations() {
     }
   }, [conversations]);
 
+  // Delete conversation
+  const deleteConversation = useCallback(async (conversationId: string) => {
+    const snapshot = conversations;
+    // Optimistic removal
+    setConversations(prev => prev.filter(c => c.id !== conversationId));
+    try {
+      await api.deleteConversation(conversationId);
+      toast.success('Conversa excluída');
+    } catch (err) {
+      console.error('[useConversations] Error deleting conversation:', err);
+      toast.error('Erro ao excluir conversa');
+      setConversations(snapshot);
+      throw err;
+    }
+  }, [conversations]);
+
   return {
     conversations,
     loading,
@@ -506,6 +522,8 @@ export function useConversations() {
     updateStatus,
     markAsRead,
     assignConversation,
+    deleteConversation,
     refetch: fetchConversations
   };
 }
+
