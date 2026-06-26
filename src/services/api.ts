@@ -1436,6 +1436,21 @@ export const api = {
   },
 
   /**
+   * Delete a conversation (cascades to messages, states and handoff events).
+   */
+  deleteConversation: async (conversationId: string): Promise<void> => {
+    const { error } = await supabase
+      .from('conversations')
+      .delete()
+      .eq('id', conversationId);
+    if (error) {
+      console.error('[API] Error deleting conversation:', error);
+      throw error;
+    }
+    console.log(`[API] Conversation ${conversationId} deleted`);
+  },
+
+  /**
    * Assume a conversation handed off to a dermoconsultora / human agent.
    * Keeps Nina paused; clears the takeover-pending flags.
    */
