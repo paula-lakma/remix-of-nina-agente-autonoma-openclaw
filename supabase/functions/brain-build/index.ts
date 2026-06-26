@@ -581,7 +581,7 @@ Deno.serve(async (req: Request) => {
 
   const { data: products } = await admin
     .from("brain_products")
-    .select("name, summary, details_md, site_url, mercadolivre_url, image_url, aliases, position, is_active, category, skin_types, main_goals, usage_short, in_protocols, related_protocols, protocol_role, combines_with, avoid_combinations, common_objections_md, internal_notes_md")
+    .select("name, summary, details_md, site_url, mercadolivre_url, image_url, aliases, position, is_active, category, skin_types, main_goals, usage_short, in_protocols, related_protocols, protocol_role, combines_with, avoid_combinations, common_objections_md, internal_notes_md, valor_sem_desconto, protocolo_pdf_url, indicacao_curta, quando_indicar_direto, tipo_uso, categoria_intencao")
     .eq("owner_user_id", user.id)
     .eq("is_active", true)
     .order("position", { ascending: true });
