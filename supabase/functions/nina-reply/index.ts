@@ -121,24 +121,86 @@ Deno.serve(async (req: Request) => {
     }
   }
 
-  const { data: queued, error: insErr } = await supabase
-    .from("send_queue")
-    .insert({
-      conversation_id: conversation.id,
-      contact_id: conversation.contact_id,
-      message_type: "text",
-      from_type: "nina",
-      content,
-      status: "pending",
-      metadata: { source: "openclaw", run_id: runId ?? null, agent_status: agentStatus },
-    })
-    .select("id")
-    .single();
+  // ── Parse de marcadores [[IMG:url]] embutidos pela Nina ────────────────────
+  // A Nina é instruída (em produtos.md) a colocar uma linha [[IMG:<url>]] no
+  // topo da resposta quando indicar um produto com foto cadastrada. Aqui a
+  // gente extrai cada marcador, valida que a URL é http(s) e enfileira uma
+  // mensagem WhatsApp do tipo `image` ANTES do texto. O texto restante (sem os
+  // marcadores) segue como mensagem `text` normal. Se não houver texto sobrando
+  // mas houver imagens, ainda enfileiramos só as imagens.
+  const IMG_RE = /\[\[IMG:(https?:\/\/[^\s\]]+)\]\]/gi;
+  const imageUrls: string[] = [];
+  let cleaned = content.replace(IMG_RE, (_m, url) => {
+    imageUrls.push(String(url).trim());
+    return "";
+  });
+  // colapsa linhas em branco que o marcador deixou para trás
+  cleaned = cleaned.replace(/^\s+/, "").replace(/\n{3,}/g, "\n\n").trim();
 
-  if (insErr || !queued) {
-    console.error("[nina-reply] send_queue insert error:", insErr);
-    return errorResponse("Erro ao enfileirar resposta", 500);
+  const queuedIds: string[] = [];
+  // Imagens primeiro (uma mensagem por imagem, com pequeno offset para ordenar)
+  for (let i = 0; i < imageUrls.length; i++) {
+    const url = imageUrls[i];
+    if (!/^https?:\/\//i.test(url)) continue;
+    const { data: imgRow, error: imgErr } = await supabase
+      .from("send_queue")
+      .insert({
+        conversation_id: conversation.id,
+        contact_id: conversation.contact_id,
+        message_type: "image",
+        from_type: "nina",
+        content: "",
+        media_url: url,
+        status: "pending",
+        scheduled_at: new Date(Date.now() + i * 400).toISOString(),
+        metadata: {
+          source: "openclaw",
+          run_id: runId ?? null,
+          agent_status: agentStatus,
+          image_marker: true,
+        },
+      })
+      .select("id")
+      .single();
+    if (imgErr) {
+      console.error("[nina-reply] send_queue image insert error:", imgErr);
+    } else if (imgRow) {
+      queuedIds.push(imgRow.id);
+    }
   }
+
+  // Texto (se sobrou) — agendado depois das imagens
+  let textQueueId: string | null = null;
+  if (cleaned) {
+    const textOffset = imageUrls.length * 400;
+    const { data: queued, error: insErr } = await supabase
+      .from("send_queue")
+      .insert({
+        conversation_id: conversation.id,
+        contact_id: conversation.contact_id,
+        message_type: "text",
+        from_type: "nina",
+        content: cleaned,
+        status: "pending",
+        scheduled_at: textOffset > 0 ? new Date(Date.now() + textOffset).toISOString() : null,
+        metadata: { source: "openclaw", run_id: runId ?? null, agent_status: agentStatus },
+      })
+      .select("id")
+      .single();
+    if (insErr || !queued) {
+      console.error("[nina-reply] send_queue insert error:", insErr);
+      if (queuedIds.length === 0) return errorResponse("Erro ao enfileirar resposta", 500);
+    } else {
+      textQueueId = queued.id;
+      queuedIds.push(queued.id);
+    }
+  }
+
+  if (queuedIds.length === 0) {
+    console.log(`[nina-reply] nada a enfileirar (run_id=${runId})`);
+    return new Response(null, { status: 204, headers: corsHeaders });
+  }
+  const queued = { id: textQueueId ?? queuedIds[0] };
 
   // Aciona o whatsapp-sender pra DRENAR a fila — mesmo padrão do nina-orchestrator
   // (mesma função alvo + header service-role). No caminho OpenClaw assíncrono
