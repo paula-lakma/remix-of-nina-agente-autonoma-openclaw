@@ -198,6 +198,9 @@ const ChatInterface: React.FC = () => {
     } catch (e: any) {
       toast.error(e?.message || 'Erro ao finalizar atendimento');
     }
+  };
+
+
 
 
   const handoffReasonLabel = (reason?: string | null) => {
