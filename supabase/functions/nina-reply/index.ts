@@ -193,7 +193,7 @@ Deno.serve(async (req: Request) => {
   // Texto (se sobrou) — agendado depois das imagens
   let textQueueId: string | null = null;
   if (cleaned) {
-    const textOffset = imageUrls.length * 400;
+    const textOffset = mediaItems.length * 400;
     const { data: queued, error: insErr } = await supabase
       .from("send_queue")
       .insert({
