@@ -12,6 +12,22 @@ const CATEGORY_OPTIONS = [
   'tônico', 'fluido', 'creme', 'gel', 'finalizador', 'outro',
 ];
 
+const INTENCAO_OPTIONS = [
+  'peeling', 'clareamento', 'manchas', 'acne', 'rejuvenescimento',
+  'hidratação', 'limpeza_de_pele', 'corporal', 'oleosidade', 'anti-idade',
+];
+
+const TIPO_USO_OPTIONS: Array<{ value: 'profissional' | 'home_care' | 'ambos'; label: string }> = [
+  { value: 'profissional', label: 'Profissional / cabine' },
+  { value: 'home_care', label: 'Home care' },
+  { value: 'ambos', label: 'Ambos' },
+];
+
+function formatBRL(value: number | null): string {
+  if (value == null || Number.isNaN(value)) return '';
+  return value.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
+
 interface ProductFormProps {
   draft: BrainProductInput;
   onChange: (next: BrainProductInput) => void;
