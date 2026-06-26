@@ -147,6 +147,7 @@ export type Database = {
           created_at: string
           details_md: string | null
           id: string
+          image_url: string | null
           in_protocols: boolean | null
           internal_notes_md: string | null
           is_active: boolean
@@ -172,6 +173,7 @@ export type Database = {
           created_at?: string
           details_md?: string | null
           id?: string
+          image_url?: string | null
           in_protocols?: boolean | null
           internal_notes_md?: string | null
           is_active?: boolean
@@ -197,6 +199,7 @@ export type Database = {
           created_at?: string
           details_md?: string | null
           id?: string
+          image_url?: string | null
           in_protocols?: boolean | null
           internal_notes_md?: string | null
           is_active?: boolean
