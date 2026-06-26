@@ -157,6 +157,129 @@ const ProductForm: React.FC<ProductFormProps> = ({ draft, onChange }) => {
         </p>
       </div>
 
+      {/* ── Bloco 2.3: Fluxo comercial (Paula) — preço, PDF, tipo de uso, intenção ── */}
+      <div className="rounded-lg border border-emerald-700/40 bg-emerald-500/5 p-3 space-y-3">
+        <div className="text-[11px] font-semibold uppercase tracking-wide text-emerald-300">
+          Fluxo comercial aprovado pela Paula
+        </div>
+
+        <div className="grid sm:grid-cols-2 gap-3">
+          <div>
+            <label className={labelClass}>Valor sem desconto (R$)</label>
+            <input
+              type="number"
+              step="0.01"
+              min="0"
+              value={draft.valor_sem_desconto ?? ''}
+              onChange={(e) => {
+                const raw = e.target.value;
+                set('valor_sem_desconto', raw === '' ? null : Number(raw));
+              }}
+              placeholder="Ex: 129.90"
+              className={inputClass}
+            />
+            <p className="text-[10px] text-slate-500 mt-1">
+              Preço cheio/oficial. O valor com cupom <strong>LAKMA35</strong> é calculado automaticamente
+              (35% off):{' '}
+              {draft.valor_sem_desconto && draft.valor_sem_desconto > 0 ? (
+                <span className="text-emerald-300">
+                  R$ {formatBRL(draft.valor_sem_desconto * 0.65)}
+                </span>
+              ) : (
+                <span className="text-slate-500">—</span>
+              )}
+              . Se vazio, a Nina não inventa preço.
+            </p>
+          </div>
+          <div>
+            <label className={labelClass}>Tipo de uso</label>
+            <select
+              value={draft.tipo_uso ?? ''}
+              onChange={(e) =>
+                set('tipo_uso', (e.target.value || null) as BrainProductInput['tipo_uso'])
+              }
+              className={inputClass}
+            >
+              <option value="">— Não definido —</option>
+              {TIPO_USO_OPTIONS.map((o) => (
+                <option key={o.value} value={o.value}>{o.label}</option>
+              ))}
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label className={labelClass}>PDF aprovado do protocolo (URL pública)</label>
+          <input
+            type="url"
+            value={draft.protocolo_pdf_url ?? ''}
+            onChange={(e) => set('protocolo_pdf_url', e.target.value)}
+            placeholder="https://...  (somente PDF oficial/aprovado — a Nina envia como documento no WhatsApp)"
+            className={inputClass}
+          />
+          <p className="text-[10px] text-slate-500 mt-1">
+            Se vazio, a Nina não menciona PDF e não inventa documento.
+          </p>
+        </div>
+
+        <div>
+          <label className={labelClass}>Indicação curta (frase pronta para a Nina)</label>
+          <input
+            type="text"
+            value={draft.indicacao_curta ?? ''}
+            onChange={(e) => set('indicacao_curta', e.target.value)}
+            placeholder='Ex: "Para uso profissional, eu indicaria o Kit Ácidos Sem Mistérios."'
+            className={inputClass}
+          />
+        </div>
+
+        <div>
+          <label className={labelClass}>Categoria de intenção</label>
+          <div className="flex flex-wrap gap-2 mt-1">
+            {INTENCAO_OPTIONS.map((opt) => {
+              const checked = draft.categoria_intencao.includes(opt);
+              return (
+                <label
+                  key={opt}
+                  className={`inline-flex items-center gap-1.5 text-xs px-2.5 py-1 rounded-md border cursor-pointer transition-colors ${
+                    checked
+                      ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-300'
+                      : 'bg-slate-950 border-slate-700 text-slate-400 hover:border-slate-600'
+                  }`}
+                >
+                  <input
+                    type="checkbox"
+                    className="accent-emerald-500 w-3.5 h-3.5"
+                    checked={checked}
+                    onChange={() =>
+                      set(
+                        'categoria_intencao',
+                        checked
+                          ? draft.categoria_intencao.filter((c) => c !== opt)
+                          : [...draft.categoria_intencao, opt]
+                      )
+                    }
+                  />
+                  {opt}
+                </label>
+              );
+            })}
+          </div>
+          <p className="text-[10px] text-slate-500 mt-1">
+            Usado pela Nina para cruzar a intenção do lead ("quero clarear", "tenho manchas") com o produto certo.
+          </p>
+        </div>
+
+        <div>
+          <label className={labelClass}>Quando indicar direto (palavras-chave / situações)</label>
+          <TagsInput
+            value={draft.quando_indicar_direto}
+            onChange={(next) => set('quando_indicar_direto', next)}
+            placeholder='Ex: "manchas no rosto", "quero peeling profissional", "vitamina c"…'
+          />
+        </div>
+      </div>
+
       {/* ── Bloco 2.5: Aliases / sinônimos ── */}
       <div>
         <label className={labelClass}>Aliases / sinônimos do produto</label>
