@@ -610,15 +610,38 @@ const ChatInterface: React.FC = () => {
                 >
                   <Info className="w-5 h-5" />
                 </Button>
-                <Button 
-                  variant="ghost" 
-                  size="icon" 
-                  disabled
-                  title="Em breve: Mais opções"
-                  className="text-slate-500 cursor-not-allowed opacity-50"
-                >
-                  <MoreVertical className="w-5 h-5" />
-                </Button>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="text-slate-400 hover:text-white"
+                      title="Mais opções"
+                    >
+                      <MoreVertical className="w-5 h-5" />
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent align="end" className="w-56 p-1 bg-slate-900 border-slate-800">
+                    <button
+                      onClick={async () => {
+                        if (!activeChat) return;
+                        const ok = window.confirm(
+                          `Excluir conversa com ${activeChat.contactName || 'este contato'}?\n\nTodas as mensagens serão removidas permanentemente.`
+                        );
+                        if (!ok) return;
+                        try {
+                          await deleteConversation(activeChat.id);
+                          setSelectedChatId(null);
+                        } catch {}
+                      }}
+                      className="w-full flex items-center gap-2 px-3 py-2 text-sm text-rose-300 hover:bg-rose-500/10 rounded-md transition-colors"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                      Excluir conversa
+                    </button>
+                  </PopoverContent>
+                </Popover>
+
               </div>
             </div>
 
