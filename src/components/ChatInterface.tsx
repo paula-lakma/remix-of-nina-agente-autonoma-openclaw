@@ -637,6 +637,15 @@ const ChatInterface: React.FC = () => {
                   </PopoverTrigger>
                   <PopoverContent align="end" className="w-56 p-1 bg-slate-900 border-slate-800">
                     <button
+                      onClick={handleFinishAttendance}
+                      className="w-full flex items-center gap-2 px-3 py-2 text-sm text-emerald-300 hover:bg-emerald-500/10 rounded-md transition-colors"
+                    >
+                      <CheckCircle2 className="w-4 h-4" />
+                      Atendimento finalizado
+                    </button>
+                    <div className="h-px bg-slate-800 my-1" />
+
+                    <button
                       onClick={async () => {
                         if (!activeChat) return;
                         const ok = window.confirm(
