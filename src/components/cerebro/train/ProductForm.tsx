@@ -114,6 +114,33 @@ const ProductForm: React.FC<ProductFormProps> = ({ draft, onChange }) => {
         </div>
       </div>
 
+      {/* ── Bloco 2.2: Imagem oficial/aprovada do produto ── */}
+      <div>
+        <label className={labelClass}>Foto oficial / aprovada do produto (URL pública)</label>
+        <div className="flex gap-3 items-start">
+          <input
+            type="url"
+            value={draft.image_url ?? ''}
+            onChange={(e) => set('image_url', e.target.value)}
+            placeholder="https://...  (URL pública direta da imagem aprovada — .jpg, .png ou .webp)"
+            className={inputClass}
+          />
+          {draft.image_url ? (
+            <img
+              src={draft.image_url}
+              alt={draft.name || 'preview'}
+              className="h-16 w-16 rounded-md border border-slate-700 object-cover bg-slate-950"
+              onError={(e) => ((e.currentTarget as HTMLImageElement).style.opacity = '0.3')}
+            />
+          ) : null}
+        </div>
+        <p className="text-[10px] text-slate-500 mt-1">
+          Use somente imagens oficiais/aprovadas. A Nina envia essa foto junto com o nome
+          e o link quando indicar o produto no WhatsApp. Se ficar em branco, ela envia só
+          nome + link, sem inventar imagem.
+        </p>
+      </div>
+
       {/* ── Bloco 2.5: Aliases / sinônimos ── */}
       <div>
         <label className={labelClass}>Aliases / sinônimos do produto</label>
