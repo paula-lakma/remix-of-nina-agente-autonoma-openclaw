@@ -349,11 +349,16 @@ function renderProtocolProductsBlock(k: any, products: any[]): string {
     const m = matchProductByName(name, products);
     const p = m?.product ?? null;
     const link = p ? v(p.site_url) : "";
+    const image = p ? v(p.image_url) : "";
     return {
       nome_no_protocolo: name,
       produto_encontrado: !!p,
       nome_produto_cadastrado: p ? v(p.name) : null,
       match_tipo: m?.match_tipo ?? null,
+      foto_aprovada_produto: image || null,
+      instrucao_envio_foto: image
+        ? `Inserir [[IMG:${image}]] no topo da resposta para anexar a foto deste produto.`
+        : null,
       link_individual_produto: link || null,
       campo_origem_link_individual_produto: "site_url",
       link_source: link ? "product_database" : null,
