@@ -137,15 +137,28 @@ function renderProducts(products: any[]): string {
     // ── Links aprovados (dado estruturado para a Nina) ──
     const siteUrl = v(p.site_url);
     const mlUrl = v(p.mercadolivre_url);
+    const imageUrl = v(p.image_url);
     md += `### Links aprovados deste produto\n\n`;
     md += `- **Campo real no cadastro:** \`site_url\`\n`;
     md += `- **Nome obrigatório para a Nina:** \`link_individual_produto\`\n`;
+    if (imageUrl) {
+      md += `- **Foto oficial aprovada (\`image_url\`):** ${imageUrl} ← enviar como primeira mensagem usando \`[[IMG:${imageUrl}]]\` no topo da resposta\n`;
+    } else {
+      md += `- **Foto oficial aprovada (\`image_url\`):** _(não cadastrada — NÃO inventar imagem; seguir só com nome + link)_\n`;
+    }
     if (siteUrl || mlUrl) {
       if (siteUrl) md += `- **Link individual do produto no site oficial:** ${siteUrl} ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site\n`;
       if (mlUrl) md += `- **Mercado Livre (link aprovado):** ${mlUrl}\n`;
       md += `\n\`\`\`json\n${JSON.stringify({
         produto: v(p.name),
         aliases: arr(p.aliases),
+        foto_aprovada_produto: imageUrl || null,
+        campo_origem_foto: "image_url",
+        image_source: imageUrl ? "product_database" : null,
+        image_is_generated: false,
+        instrucao_envio_foto: imageUrl
+          ? `Inserir uma linha [[IMG:${imageUrl}]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.`
+          : "Sem foto cadastrada: não inventar, não buscar externa, não gerar. Indicar só com nome + link.",
         link_individual_produto: siteUrl || null,
         campo_origem_link_individual_produto: "site_url",
         link_source: siteUrl ? "product_database" : null,
@@ -166,6 +179,13 @@ function renderProducts(products: any[]): string {
       md += `_(Nenhum link individual cadastrado para este produto. A Nina NÃO pode inventar uma URL — deve dizer que não encontrou o link individual no cadastro e oferecer o site geral ${LAKMA_SITE_FALLBACK} (apenas a raiz, sem path \`/products/...\`) ou encaminhar humano.)_\n\n`;
       md += `\`\`\`json\n${JSON.stringify({
         produto: v(p.name),
+        foto_aprovada_produto: imageUrl || null,
+        campo_origem_foto: "image_url",
+        image_source: imageUrl ? "product_database" : null,
+        image_is_generated: false,
+        instrucao_envio_foto: imageUrl
+          ? `Inserir uma linha [[IMG:${imageUrl}]] no TOPO da resposta quando indicar este produto.`
+          : "Sem foto cadastrada: não inventar imagem.",
         link_individual_produto: null,
         campo_origem_link_individual_produto: "site_url",
         link_source: null,
