@@ -171,6 +171,19 @@ function renderProducts(products: any[]): string {
     const siteUrl = v(p.site_url);
     const mlUrl = v(p.mercadolivre_url);
     const imageUrl = v(p.image_url);
+    const pdfUrl = v(p.protocolo_pdf_url);
+    const indicacaoCurta = v(p.indicacao_curta);
+    const tipoUso = v(p.tipo_uso) || null;
+    const categoriaIntencao = arr(p.categoria_intencao);
+    const quandoIndicarDireto = arr(p.quando_indicar_direto);
+    const valorSemDesconto =
+      p.valor_sem_desconto != null && Number(p.valor_sem_desconto) > 0
+        ? Number(p.valor_sem_desconto)
+        : null;
+    const valorComCupom = valorSemDesconto != null ? Number((valorSemDesconto * 0.65).toFixed(2)) : null;
+    const fmtBR = (n: number) =>
+      n.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
     md += `### Links aprovados deste produto\n\n`;
     md += `- **Campo real no cadastro:** \`site_url\`\n`;
     md += `- **Nome obrigatório para a Nina:** \`link_individual_produto\`\n`;
@@ -179,6 +192,43 @@ function renderProducts(products: any[]): string {
     } else {
       md += `- **Foto oficial aprovada (\`image_url\`):** _(não cadastrada — NÃO inventar imagem; seguir só com nome + link)_\n`;
     }
+    if (pdfUrl) {
+      md += `- **PDF aprovado do protocolo (\`protocolo_pdf_url\`):** ${pdfUrl} ← enviar usando \`[[PDF:${pdfUrl}]]\` no topo da resposta (vai como documento WhatsApp)\n`;
+    } else {
+      md += `- **PDF aprovado do protocolo (\`protocolo_pdf_url\`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_\n`;
+    }
+    if (valorSemDesconto != null) {
+      md += `- **Valor sem desconto:** R$ ${fmtBR(valorSemDesconto)}\n`;
+      md += `- **Valor com cupom LAKMA35:** R$ ${fmtBR(valorComCupom!)}  _(calculado automaticamente = valor_sem_desconto × 0,65)_\n`;
+    } else {
+      md += `- **Valor:** _(não cadastrado — NÃO inventar preço; responder "Você consegue consultar o valor atualizado diretamente no link oficial.")_\n`;
+    }
+    if (tipoUso) md += `- **Tipo de uso:** ${tipoUso}\n`;
+    if (categoriaIntencao.length) md += `- **Categoria de intenção:** ${categoriaIntencao.join(", ")}\n`;
+    if (quandoIndicarDireto.length) md += `- **Quando indicar direto:** ${quandoIndicarDireto.join(" | ")}\n`;
+    if (indicacaoCurta) md += `- **Frase de indicação curta:** "${indicacaoCurta}"\n`;
+
+    const commercialBlock = {
+      valor_sem_desconto: valorSemDesconto,
+      valor_com_cupom_lakma35: valorComCupom,
+      valor_sem_desconto_br: valorSemDesconto != null ? `R$ ${fmtBR(valorSemDesconto)}` : null,
+      valor_com_cupom_lakma35_br: valorComCupom != null ? `R$ ${fmtBR(valorComCupom)}` : null,
+      formula_cupom: "valor_com_cupom = valor_sem_desconto * 0.65",
+      pdf_aprovado_protocolo: pdfUrl || null,
+      pdf_source: pdfUrl ? "product_database" : null,
+      pdf_is_generated: false,
+      instrucao_envio_pdf: pdfUrl
+        ? `Inserir uma linha [[PDF:${pdfUrl}]] no TOPO da resposta. O backend converte em mensagem WhatsApp do tipo document.`
+        : "Sem PDF cadastrado: NÃO inventar PDF, NÃO escrever 'te envio o protocolo em PDF'.",
+      tipo_uso: tipoUso,
+      categoria_intencao: categoriaIntencao,
+      quando_indicar_direto: quandoIndicarDireto,
+      indicacao_curta: indicacaoCurta || null,
+      regra_preco: valorSemDesconto != null
+        ? "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_lakma35_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
+        : "valor_sem_desconto ausente: PROIBIDO inventar preço. Resposta padrão: 'Você consegue consultar o valor atualizado diretamente no link oficial.'",
+    };
+
     if (siteUrl || mlUrl) {
       if (siteUrl) md += `- **Link individual do produto no site oficial:** ${siteUrl} ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site\n`;
       if (mlUrl) md += `- **Mercado Livre (link aprovado):** ${mlUrl}\n`;
@@ -207,6 +257,7 @@ function renderProducts(products: any[]): string {
           ? "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL."
           : "Produto específico citado sem link_individual_produto: NÃO inventar URL; responder que não há link cadastrado e oferecer site geral (raiz) ou encaminhar humano.",
         proibicao_invencao_url: "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+        ...commercialBlock,
       }, null, 2)}\n\`\`\`\n\n`;
     } else {
       md += `_(Nenhum link individual cadastrado para este produto. A Nina NÃO pode inventar uma URL — deve dizer que não encontrou o link individual no cadastro e oferecer o site geral ${LAKMA_SITE_FALLBACK} (apenas a raiz, sem path \`/products/...\`) ou encaminhar humano.)_\n\n`;
@@ -232,8 +283,10 @@ function renderProducts(products: any[]): string {
         status_link: "indisponivel",
         regra_prioridade_link: "Sem link_individual_produto cadastrado: PROIBIDO fabricar URL. Responder ao lead que o link individual não está no cadastro e oferecer site geral (raiz) ou encaminhamento humano.",
         proibicao_invencao_url: "Nunca construir URL a partir do nome deste produto. Nada de site_geral_fallback + '/products/' + slug.",
+        ...commercialBlock,
       }, null, 2)}\n\`\`\`\n\n`;
     }
+
 
 
     // Protocolos
