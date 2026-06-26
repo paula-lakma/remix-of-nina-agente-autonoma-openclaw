@@ -249,7 +249,7 @@ Deno.serve(async (req: Request) => {
         contact_id: conversation.contact_id,
         conversation_id: conversation.id,
         user_message: userMessage,
-        ai_response: content,
+        ai_response: cleaned || content,
         current_memory: currentMemory,
       }),
     });
