@@ -121,51 +121,72 @@ Deno.serve(async (req: Request) => {
     }
   }
 
-  // ── Parse de marcadores [[IMG:url]] embutidos pela Nina ────────────────────
-  // A Nina é instruída (em produtos.md) a colocar uma linha [[IMG:<url>]] no
-  // topo da resposta quando indicar um produto com foto cadastrada. Aqui a
-  // gente extrai cada marcador, valida que a URL é http(s) e enfileira uma
-  // mensagem WhatsApp do tipo `image` ANTES do texto. O texto restante (sem os
-  // marcadores) segue como mensagem `text` normal. Se não houver texto sobrando
-  // mas houver imagens, ainda enfileiramos só as imagens.
+  // ── Parse de marcadores [[IMG:url]] e [[PDF:url]] embutidos pela Nina ──────
+  // A Nina é instruída (em produtos.md) a colocar uma linha [[IMG:<url>]] e/ou
+  // [[PDF:<url>]] no TOPO da resposta quando indicar um produto/kit com mídia
+  // cadastrada. Aqui extraímos cada marcador, validamos http(s) e enfileiramos
+  // mensagens WhatsApp (`image` / `document`) ANTES do texto. O texto sem os
+  // marcadores segue como `text` normal.
   const IMG_RE = /\[\[IMG:(https?:\/\/[^\s\]]+)\]\]/gi;
+  const PDF_RE = /\[\[PDF:(https?:\/\/[^\s\]]+)\]\]/gi;
   const imageUrls: string[] = [];
-  let cleaned = content.replace(IMG_RE, (_m, url) => {
-    imageUrls.push(String(url).trim());
-    return "";
-  });
-  // colapsa linhas em branco que o marcador deixou para trás
+  const pdfUrls: string[] = [];
+  let cleaned = content
+    .replace(IMG_RE, (_m, url) => {
+      imageUrls.push(String(url).trim());
+      return "";
+    })
+    .replace(PDF_RE, (_m, url) => {
+      pdfUrls.push(String(url).trim());
+      return "";
+    });
+  // colapsa linhas em branco que os marcadores deixaram para trás
   cleaned = cleaned.replace(/^\s+/, "").replace(/\n{3,}/g, "\n\n").trim();
 
   const queuedIds: string[] = [];
-  // Imagens primeiro (uma mensagem por imagem, com pequeno offset para ordenar)
-  for (let i = 0; i < imageUrls.length; i++) {
-    const url = imageUrls[i];
-    if (!/^https?:\/\//i.test(url)) continue;
-    const { data: imgRow, error: imgErr } = await supabase
+  const mediaItems: Array<{ type: "image" | "document"; url: string; filename?: string }> = [
+    ...imageUrls.map((url) => ({ type: "image" as const, url })),
+    ...pdfUrls.map((url) => {
+      // tenta extrair filename amigável do path; cai pra 'protocolo.pdf'
+      let filename = "protocolo.pdf";
+      try {
+        const u = new URL(url);
+        const tail = decodeURIComponent(u.pathname.split("/").pop() || "");
+        if (tail) filename = tail.toLowerCase().endsWith(".pdf") ? tail : `${tail}.pdf`;
+      } catch (_e) { /* keep default */ }
+      return { type: "document" as const, url, filename };
+    }),
+  ];
+
+  // Mídias primeiro (uma mensagem por arquivo, com pequeno offset para ordenar)
+  for (let i = 0; i < mediaItems.length; i++) {
+    const item = mediaItems[i];
+    if (!/^https?:\/\//i.test(item.url)) continue;
+    const { data: mediaRow, error: mediaErr } = await supabase
       .from("send_queue")
       .insert({
         conversation_id: conversation.id,
         contact_id: conversation.contact_id,
-        message_type: "image",
+        message_type: item.type,
         from_type: "nina",
-        content: "",
-        media_url: url,
+        // Para `document`, o whatsapp-sender usa `content` como filename — passamos o nome do arquivo.
+        content: item.type === "document" ? (item.filename ?? "protocolo.pdf") : "",
+        media_url: item.url,
         status: "pending",
         scheduled_at: new Date(Date.now() + i * 400).toISOString(),
         metadata: {
           source: "openclaw",
           run_id: runId ?? null,
           agent_status: agentStatus,
-          image_marker: true,
+          marker: item.type === "document" ? "pdf_marker" : "image_marker",
         },
       })
       .select("id")
       .single();
-    if (imgErr) {
-      console.error("[nina-reply] send_queue image insert error:", imgErr);
-    } else if (imgRow) {
-      queuedIds.push(imgRow.id);
+    if (mediaErr) {
+      console.error(`[nina-reply] send_queue ${item.type} insert error:`, mediaErr);
+    } else if (mediaRow) {
+      queuedIds.push(mediaRow.id);
     }
   }
 
