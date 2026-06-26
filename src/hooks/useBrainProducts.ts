@@ -24,6 +24,13 @@ export interface BrainProduct {
   internal_notes_md: string | null;
   position: number;
   is_active: boolean;
+  // Campos comerciais (fluxo Paula)
+  valor_sem_desconto: number | null;
+  protocolo_pdf_url: string | null;
+  indicacao_curta: string | null;
+  quando_indicar_direto: string[];
+  tipo_uso: 'profissional' | 'home_care' | 'ambos' | null;
+  categoria_intencao: string[];
 }
 
 export type BrainProductInput = Omit<BrainProduct, 'id' | 'position'>;
@@ -39,7 +46,7 @@ interface UseBrainProductsResult {
 }
 
 const PRODUCT_COLUMNS =
-  'id, name, summary, details_md, site_url, mercadolivre_url, image_url, aliases, category, skin_types, main_goals, usage_short, in_protocols, related_protocols, protocol_role, combines_with, avoid_combinations, common_objections_md, internal_notes_md, position, is_active';
+  'id, name, summary, details_md, site_url, mercadolivre_url, image_url, aliases, category, skin_types, main_goals, usage_short, in_protocols, related_protocols, protocol_role, combines_with, avoid_combinations, common_objections_md, internal_notes_md, position, is_active, valor_sem_desconto, protocolo_pdf_url, indicacao_curta, quando_indicar_direto, tipo_uso, categoria_intencao';
 
 /** CRUD de brain_products (RLS owner-scoped; owner_user_id default = auth.uid()). */
 export function useBrainProducts(): UseBrainProductsResult {
@@ -153,6 +160,12 @@ export const EMPTY_PRODUCT_DRAFT: BrainProductInput = {
   common_objections_md: '',
   internal_notes_md: '',
   is_active: true,
+  valor_sem_desconto: null,
+  protocolo_pdf_url: '',
+  indicacao_curta: '',
+  quando_indicar_direto: [],
+  tipo_uso: null,
+  categoria_intencao: [],
 };
 
 export function productToDraft(p: BrainProduct): BrainProductInput {
@@ -176,5 +189,11 @@ export function productToDraft(p: BrainProduct): BrainProductInput {
     common_objections_md: p.common_objections_md,
     internal_notes_md: p.internal_notes_md,
     is_active: p.is_active,
+    valor_sem_desconto: p.valor_sem_desconto ?? null,
+    protocolo_pdf_url: p.protocolo_pdf_url ?? '',
+    indicacao_curta: p.indicacao_curta ?? '',
+    quando_indicar_direto: p.quando_indicar_direto ?? [],
+    tipo_uso: p.tipo_uso ?? null,
+    categoria_intencao: p.categoria_intencao ?? [],
   };
 }

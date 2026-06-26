@@ -141,6 +141,7 @@ export type Database = {
         Row: {
           aliases: string[]
           avoid_combinations: string | null
+          categoria_intencao: string[]
           category: string[] | null
           combines_with: string[]
           common_objections_md: string | null
@@ -149,6 +150,7 @@ export type Database = {
           id: string
           image_url: string | null
           in_protocols: boolean | null
+          indicacao_curta: string | null
           internal_notes_md: string | null
           is_active: boolean
           main_goals: string[]
@@ -157,16 +159,21 @@ export type Database = {
           owner_user_id: string
           position: number
           protocol_role: string | null
+          protocolo_pdf_url: string | null
+          quando_indicar_direto: string[]
           related_protocols: string[]
           site_url: string | null
           skin_types: string[]
           summary: string | null
+          tipo_uso: string | null
           updated_at: string
           usage_short: string | null
+          valor_sem_desconto: number | null
         }
         Insert: {
           aliases?: string[]
           avoid_combinations?: string | null
+          categoria_intencao?: string[]
           category?: string[] | null
           combines_with?: string[]
           common_objections_md?: string | null
@@ -175,6 +182,7 @@ export type Database = {
           id?: string
           image_url?: string | null
           in_protocols?: boolean | null
+          indicacao_curta?: string | null
           internal_notes_md?: string | null
           is_active?: boolean
           main_goals?: string[]
@@ -183,16 +191,21 @@ export type Database = {
           owner_user_id?: string
           position?: number
           protocol_role?: string | null
+          protocolo_pdf_url?: string | null
+          quando_indicar_direto?: string[]
           related_protocols?: string[]
           site_url?: string | null
           skin_types?: string[]
           summary?: string | null
+          tipo_uso?: string | null
           updated_at?: string
           usage_short?: string | null
+          valor_sem_desconto?: number | null
         }
         Update: {
           aliases?: string[]
           avoid_combinations?: string | null
+          categoria_intencao?: string[]
           category?: string[] | null
           combines_with?: string[]
           common_objections_md?: string | null
@@ -201,6 +214,7 @@ export type Database = {
           id?: string
           image_url?: string | null
           in_protocols?: boolean | null
+          indicacao_curta?: string | null
           internal_notes_md?: string | null
           is_active?: boolean
           main_goals?: string[]
@@ -209,12 +223,16 @@ export type Database = {
           owner_user_id?: string
           position?: number
           protocol_role?: string | null
+          protocolo_pdf_url?: string | null
+          quando_indicar_direto?: string[]
           related_protocols?: string[]
           site_url?: string | null
           skin_types?: string[]
           summary?: string | null
+          tipo_uso?: string | null
           updated_at?: string
           usage_short?: string | null
+          valor_sem_desconto?: number | null
         }
         Relationships: []
       }
