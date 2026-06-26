@@ -599,12 +599,7 @@ async function processQueueItem(
       // fetch não rejeita em status de erro -> checamos response.ok.
       const tryDispatch = async (ingressUrl: string, hooksToken: string): Promise<boolean> => {
         const hookUrl = `${String(ingressUrl).replace(/\/+$/, '')}/hooks/agent`;
-        const chosenModelRaw = (settings?.openclaw_model as string | undefined)?.trim() || '';
-        const chosenModelFQ = chosenModelRaw
-          ? (chosenModelRaw.includes('/') ? chosenModelRaw : `anthropic/${chosenModelRaw}`)
-          : '';
         console.log(`[Nina] OpenClaw dispatch -> ${hookUrl} (run_id=${runId})`);
-        console.log(`[Nina] model preference (origem: /cerebro) -> openclaw_model=${chosenModelRaw || '<vazio>'} | model_id enviado=${chosenModelFQ || '<default da VPS>'}`);
         const controller = new AbortController();
         const timeoutId = setTimeout(() => controller.abort(), HOOKS_DISPATCH_TIMEOUT_MS);
         try {
@@ -621,14 +616,11 @@ async function processQueueItem(
               deliver: false,
               timeoutSeconds: 120,
               thinking: OPENCLAW_THINKING_LEVEL,
-              ...(chosenModelFQ ? { model: chosenModelFQ } : {}),
               metadata: {
                 conversation_id: conversation.id,
                 run_id: runId,
                 contact_id: conversation.contact_id,
                 user_id: settings?.user_id ?? null,
-                model: chosenModelFQ || null,
-                model_origin: '/cerebro',
               },
             }),
             signal: controller.signal,

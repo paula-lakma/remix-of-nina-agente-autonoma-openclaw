@@ -1507,40 +1507,6 @@ export const api = {
     });
   },
 
-  /**
-   * Mark a conversation as manually finished by the human team.
-   * Removes it from pending/handoff queues. If the lead messages again later,
-   * a DB trigger reopens the conversation and lets Nina take over from scratch.
-   */
-  finishAttendance: async (conversationId: string): Promise<void> => {
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) throw new Error('Not authenticated');
-    const nowIso = new Date().toISOString();
-    const { error } = await supabase
-      .from('conversations')
-      .update({
-        attendance_finished: true,
-        attendance_finished_at: nowIso,
-        attendance_finished_by: user.id,
-        ai_paused: false,
-        human_takeover_required: false,
-        requires_dermoconsultant: false,
-        handoff_type: null,
-        handoff_reason: null,
-        human_status: 'finalizado',
-        status: 'nina',
-      } as any)
-      .eq('id', conversationId);
-    if (error) throw error;
-    await supabase.from('conversation_handoff_events').insert({
-      conversation_id: conversationId,
-      event_type: 'attendance_finished',
-      actor_user_id: user.id,
-    });
-  },
-
-
-
 
   /**
    * Update contact notes

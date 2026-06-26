@@ -60,18 +60,5 @@ Deno.serve(async (req: Request) => {
   // Devolve a ANTHROPIC_API_KEY atual do Vault pra a VPS aplicar via self-heal.
   // Rota autenticada por X-Panel-Token (ver cabeçalho). Vazio se ainda não configurada.
   const anthropicKey = (await getSecret("ANTHROPIC_API_KEY")) ?? "";
-
-  // Também devolve o modelo Claude escolhido em /cerebro (nina_settings.openclaw_model).
-  // A VPS aplica via self-heal no heartbeat.sh (openclaw models set + restart gateway).
-  const { data: settingsRow } = await supabase
-    .from("nina_settings")
-    .select("openclaw_model")
-    .limit(1)
-    .maybeSingle();
-  const openclawModel = (settingsRow?.openclaw_model as string | undefined)?.trim() || "";
-
-  return jsonResponse({
-    anthropic_api_key: anthropicKey,
-    openclaw_model: openclawModel,
-  });
+  return jsonResponse({ anthropic_api_key: anthropicKey });
 });

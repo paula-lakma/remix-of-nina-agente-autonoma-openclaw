@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { 
   Search, MoreVertical, Phone, Paperclip, Send, Check, CheckCheck, 
   Smile, Play, Loader2, MessageSquare, Info, X, Mail, 
-  Tag, Bot, User, Pause, Brain, Plus, ShieldAlert, Stethoscope, RotateCcw, Trash2, CheckCircle2
+  Tag, Bot, User, Pause, Brain, Plus, ShieldAlert, Stethoscope, RotateCcw, Trash2
 } from 'lucide-react';
 import { MessageDirection, MessageType, UIConversation, UIMessage, ConversationStatus, TagDefinition } from '../types';
 import { Button } from './Button';
@@ -188,20 +188,6 @@ const ChatInterface: React.FC = () => {
       toast.error(e?.message || 'Erro ao reativar Nina');
     }
   };
-
-  const handleFinishAttendance = async () => {
-    if (!activeChat) return;
-    if (!confirm('Finalizar este atendimento? A conversa sai das filas de pendentes. Se o cliente enviar uma nova mensagem depois, a Nina reabre o atendimento automaticamente.')) return;
-    try {
-      await api.finishAttendance(activeChat.id);
-      toast.success('Atendimento finalizado.');
-    } catch (e: any) {
-      toast.error(e?.message || 'Erro ao finalizar atendimento');
-    }
-  };
-
-
-
 
   const handoffReasonLabel = (reason?: string | null) => {
     if (!reason) return null;
@@ -636,15 +622,6 @@ const ChatInterface: React.FC = () => {
                     </Button>
                   </PopoverTrigger>
                   <PopoverContent align="end" className="w-56 p-1 bg-slate-900 border-slate-800">
-                    <button
-                      onClick={handleFinishAttendance}
-                      className="w-full flex items-center gap-2 px-3 py-2 text-sm text-emerald-300 hover:bg-emerald-500/10 rounded-md transition-colors"
-                    >
-                      <CheckCircle2 className="w-4 h-4" />
-                      Atendimento finalizado
-                    </button>
-                    <div className="h-px bg-slate-800 my-1" />
-
                     <button
                       onClick={async () => {
                         if (!activeChat) return;

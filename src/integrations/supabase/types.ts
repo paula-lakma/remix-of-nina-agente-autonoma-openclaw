@@ -366,9 +366,6 @@ export type Database = {
           assigned_at: string | null
           assigned_team: Database["public"]["Enums"]["team_assignment"] | null
           assigned_user_id: string | null
-          attendance_finished: boolean
-          attendance_finished_at: string | null
-          attendance_finished_by: string | null
           contact_id: string
           created_at: string
           handoff_created_at: string | null
@@ -396,9 +393,6 @@ export type Database = {
           assigned_at?: string | null
           assigned_team?: Database["public"]["Enums"]["team_assignment"] | null
           assigned_user_id?: string | null
-          attendance_finished?: boolean
-          attendance_finished_at?: string | null
-          attendance_finished_by?: string | null
           contact_id: string
           created_at?: string
           handoff_created_at?: string | null
@@ -426,9 +420,6 @@ export type Database = {
           assigned_at?: string | null
           assigned_team?: Database["public"]["Enums"]["team_assignment"] | null
           assigned_user_id?: string | null
-          attendance_finished?: boolean
-          attendance_finished_at?: string | null
-          attendance_finished_by?: string | null
           contact_id?: string
           created_at?: string
           handoff_created_at?: string | null

@@ -24,7 +24,7 @@ const OPTIONS: ModelOption[] = [
   },
   {
     key: 'sonnet',
-    id: 'claude-sonnet-4-6',
+    id: 'claude-sonnet-4-5',
     label: 'Sonnet',
     description: 'Equilíbrio entre custo, velocidade e raciocínio. Recomendado.',
     icon: <Sparkles className="w-4 h-4" />,
