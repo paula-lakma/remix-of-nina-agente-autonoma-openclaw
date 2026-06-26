@@ -149,6 +149,72 @@ const KnowledgeForm: React.FC<KnowledgeFormProps> = ({
         />
       </div>
 
+      {/* ── Mídia aprovada do protocolo (apenas Nina envia se preenchido) ── */}
+      <div className="rounded-lg border border-emerald-900/50 bg-emerald-950/20 p-3 space-y-3">
+        <div className="text-[11px] uppercase tracking-wide text-emerald-300/80 font-semibold">
+          Mídia aprovada do protocolo
+        </div>
+        <p className="text-xs text-slate-400 leading-relaxed">
+          A Nina <strong>só envia</strong> imagem/PDF se a URL aprovada estiver cadastrada aqui. Ela nunca gera,
+          busca externamente ou substitui mídia.
+        </p>
+        <div className="grid sm:grid-cols-2 gap-3">
+          <div>
+            <label className={labelClass}>Imagem aprovada do protocolo (URL)</label>
+            <input
+              type="url"
+              value={draft.imagem_protocolo_url ?? ''}
+              onChange={(e) => set('imagem_protocolo_url', e.target.value)}
+              placeholder="https://…/protocolo-clareamento.jpg"
+              className={inputClass}
+            />
+            {draft.imagem_protocolo_url ? (
+              <div className="mt-2">
+                <img
+                  src={draft.imagem_protocolo_url}
+                  alt="Pré-visualização do protocolo"
+                  className="h-24 w-auto rounded border border-slate-800 object-cover"
+                  onError={(e) => ((e.currentTarget.style.display = 'none'))}
+                />
+              </div>
+            ) : null}
+          </div>
+          <div>
+            <label className={labelClass}>PDF aprovado do protocolo (URL)</label>
+            <input
+              type="url"
+              value={draft.protocolo_pdf_url ?? ''}
+              onChange={(e) => set('protocolo_pdf_url', e.target.value)}
+              placeholder="https://…/protocolo.pdf"
+              className={inputClass}
+            />
+          </div>
+        </div>
+        <div className="grid sm:grid-cols-2 gap-3">
+          <div>
+            <label className={labelClass}>Tipo de uso</label>
+            <select
+              value={draft.tipo_uso ?? ''}
+              onChange={(e) => set('tipo_uso', e.target.value)}
+              className={inputClass}
+            >
+              <option value="">Selecione…</option>
+              <option value="profissional">Profissional</option>
+              <option value="home_care">Home care</option>
+              <option value="ambos">Ambos</option>
+            </select>
+          </div>
+          <div>
+            <label className={labelClass}>Categoria de intenção</label>
+            <TagsInput
+              value={draft.categoria_intencao}
+              onChange={(next) => set('categoria_intencao', next)}
+              placeholder="peeling, clareamento, manchas, acne, rejuvenescimento…"
+            />
+          </div>
+        </div>
+      </div>
+
       {/* ── Roteamento da Nina ── */}
       <div className="rounded-lg border border-slate-800 bg-slate-900/40 p-3 space-y-3">
         <div>
