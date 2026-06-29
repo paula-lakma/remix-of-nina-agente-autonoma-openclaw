@@ -47,7 +47,7 @@ interface UseBrainKnowledgeResult {
 }
 
 const KNOWLEDGE_COLUMNS =
-  'id, title, slug, content_md, knowledge_type, category, tags, related_products, when_to_use_md, when_to_escalate_md, priority, position, imagem_protocolo_url, protocolo_pdf_url, tipo_uso, categoria_intencao';
+  'id, title, slug, content_md, knowledge_type, category, tags, related_products, when_to_use_md, when_to_escalate_md, priority, position, imagem_protocolo_url, imagem_protocolo_path, protocolo_pdf_url, protocolo_pdf_path, tipo_uso, categoria_intencao';
 
 /** Gera um slug a partir do título (minúsculo, sem acento, hifenizado). */
 export function slugify(value: string): string {
