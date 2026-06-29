@@ -1,5 +1,6 @@
 import React from 'react';
 import TagsInput from './TagsInput';
+import MediaUpload from './MediaUpload';
 import type { BrainProductInput } from '@/hooks/useBrainProducts';
 
 const inputClass =
