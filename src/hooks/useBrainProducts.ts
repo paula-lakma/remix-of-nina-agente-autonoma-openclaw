@@ -165,6 +165,7 @@ export const EMPTY_PRODUCT_DRAFT: BrainProductInput = {
   is_active: true,
   valor_sem_desconto: null,
   protocolo_pdf_url: '',
+  protocolo_pdf_path: null,
   indicacao_curta: '',
   quando_indicar_direto: [],
   tipo_uso: null,
