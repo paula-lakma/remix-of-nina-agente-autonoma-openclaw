@@ -213,19 +213,38 @@ const ProductForm: React.FC<ProductFormProps> = ({ draft, onChange }) => {
           </div>
         </div>
 
-        <div>
-          <label className={labelClass}>PDF aprovado do protocolo (URL pública)</label>
-          <input
-            type="url"
-            value={draft.protocolo_pdf_url ?? ''}
-            onChange={(e) => set('protocolo_pdf_url', e.target.value)}
-            placeholder="https://...  (somente PDF oficial/aprovado — a Nina envia como documento no WhatsApp)"
-            className={inputClass}
+        <div className="space-y-2">
+          <label className={labelClass}>PDF aprovado do protocolo</label>
+          <MediaUpload
+            kind="pdf"
+            path={draft.protocolo_pdf_path}
+            url={draft.protocolo_pdf_url}
+            folder="products/pdf"
+            fileKey={draft.name || 'produto'}
+            label="Upload do PDF aprovado"
+            onChange={({ path, url }) =>
+              onChange({
+                ...draft,
+                protocolo_pdf_path: path,
+                protocolo_pdf_url: url ?? draft.protocolo_pdf_url,
+              })
+            }
           />
-          <p className="text-[10px] text-slate-500 mt-1">
-            Se vazio, a Nina não menciona PDF e não inventa documento.
+          <div>
+            <label className={labelClass}>Ou cole uma URL pública (fallback)</label>
+            <input
+              type="url"
+              value={draft.protocolo_pdf_url ?? ''}
+              onChange={(e) => set('protocolo_pdf_url', e.target.value)}
+              placeholder="https://… .pdf"
+              className={inputClass}
+            />
+          </div>
+          <p className="text-[10px] text-slate-500">
+            Se ambos vazios, a Nina não menciona PDF.
           </p>
         </div>
+
 
         <div>
           <label className={labelClass}>Indicação curta (frase pronta para a Nina)</label>
