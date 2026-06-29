@@ -160,37 +160,58 @@ const KnowledgeForm: React.FC<KnowledgeFormProps> = ({
           busca externamente ou substitui mídia.
         </p>
         <div className="grid sm:grid-cols-2 gap-3">
-          <div>
-            <label className={labelClass}>Imagem aprovada do protocolo (URL)</label>
+          <div className="space-y-2">
+            <label className={labelClass}>Imagem aprovada do protocolo</label>
+            <MediaUpload
+              kind="image"
+              path={draft.imagem_protocolo_path}
+              url={draft.imagem_protocolo_url}
+              folder="knowledge/image"
+              fileKey={draft.slug || draft.title || 'protocolo'}
+              label="Upload (JPG, PNG, WEBP)"
+              onChange={({ path, url }) =>
+                onChange({
+                  ...draft,
+                  imagem_protocolo_path: path,
+                  imagem_protocolo_url: url ?? draft.imagem_protocolo_url,
+                })
+              }
+            />
             <input
               type="url"
               value={draft.imagem_protocolo_url ?? ''}
               onChange={(e) => set('imagem_protocolo_url', e.target.value)}
-              placeholder="https://…/protocolo-clareamento.jpg"
+              placeholder="Ou cole uma URL pública (fallback)"
               className={inputClass}
             />
-            {draft.imagem_protocolo_url ? (
-              <div className="mt-2">
-                <img
-                  src={draft.imagem_protocolo_url}
-                  alt="Pré-visualização do protocolo"
-                  className="h-24 w-auto rounded border border-slate-800 object-cover"
-                  onError={(e) => ((e.currentTarget.style.display = 'none'))}
-                />
-              </div>
-            ) : null}
           </div>
-          <div>
-            <label className={labelClass}>PDF aprovado do protocolo (URL)</label>
+          <div className="space-y-2">
+            <label className={labelClass}>PDF aprovado do protocolo</label>
+            <MediaUpload
+              kind="pdf"
+              path={draft.protocolo_pdf_path}
+              url={draft.protocolo_pdf_url}
+              folder="knowledge/pdf"
+              fileKey={draft.slug || draft.title || 'protocolo'}
+              label="Upload de PDF"
+              onChange={({ path, url }) =>
+                onChange({
+                  ...draft,
+                  protocolo_pdf_path: path,
+                  protocolo_pdf_url: url ?? draft.protocolo_pdf_url,
+                })
+              }
+            />
             <input
               type="url"
               value={draft.protocolo_pdf_url ?? ''}
               onChange={(e) => set('protocolo_pdf_url', e.target.value)}
-              placeholder="https://…/protocolo.pdf"
+              placeholder="Ou cole uma URL pública (fallback)"
               className={inputClass}
             />
           </div>
         </div>
+
         <div className="grid sm:grid-cols-2 gap-3">
           <div>
             <label className={labelClass}>Tipo de uso</label>
