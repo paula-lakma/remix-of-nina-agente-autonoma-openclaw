@@ -32,6 +32,7 @@ export interface BrainProduct {
   quando_indicar_direto: string[];
   tipo_uso: 'profissional' | 'home_care' | 'ambos' | null;
   categoria_intencao: string[];
+  protocolo_pdf_path: string | null;
 }
 
 export type BrainProductInput = Omit<BrainProduct, 'id' | 'position'>;
