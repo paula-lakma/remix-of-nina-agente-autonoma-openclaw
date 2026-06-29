@@ -188,7 +188,9 @@ export function knowledgeToDraft(k: BrainKnowledge): BrainKnowledgeInput {
     when_to_escalate_md: k.when_to_escalate_md ?? '',
     priority: k.priority ?? '',
     imagem_protocolo_url: k.imagem_protocolo_url ?? '',
+    imagem_protocolo_path: k.imagem_protocolo_path ?? null,
     protocolo_pdf_url: k.protocolo_pdf_url ?? '',
+    protocolo_pdf_path: k.protocolo_pdf_path ?? null,
     tipo_uso: k.tipo_uso ?? '',
     categoria_intencao: k.categoria_intencao ?? [],
   };
