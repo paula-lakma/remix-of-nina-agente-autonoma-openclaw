@@ -27,7 +27,9 @@ export interface BrainKnowledge {
   priority: KnowledgePriority | string | null;
   position: number;
   imagem_protocolo_url: string | null;
+  imagem_protocolo_path: string | null;
   protocolo_pdf_url: string | null;
+  protocolo_pdf_path: string | null;
   tipo_uso: string | null;
   categoria_intencao: string[];
 }
