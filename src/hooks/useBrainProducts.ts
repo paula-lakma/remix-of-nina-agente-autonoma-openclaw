@@ -48,7 +48,7 @@ interface UseBrainProductsResult {
 }
 
 const PRODUCT_COLUMNS =
-  'id, name, summary, details_md, site_url, mercadolivre_url, image_url, aliases, category, skin_types, main_goals, usage_short, in_protocols, related_protocols, protocol_role, combines_with, avoid_combinations, common_objections_md, internal_notes_md, position, is_active, valor_sem_desconto, protocolo_pdf_url, indicacao_curta, quando_indicar_direto, tipo_uso, categoria_intencao';
+  'id, name, summary, details_md, site_url, mercadolivre_url, image_url, image_path, aliases, category, skin_types, main_goals, usage_short, in_protocols, related_protocols, protocol_role, combines_with, avoid_combinations, common_objections_md, internal_notes_md, position, is_active, valor_sem_desconto, protocolo_pdf_url, protocolo_pdf_path, indicacao_curta, quando_indicar_direto, tipo_uso, categoria_intencao';
 
 /** CRUD de brain_products (RLS owner-scoped; owner_user_id default = auth.uid()). */
 export function useBrainProducts(): UseBrainProductsResult {
