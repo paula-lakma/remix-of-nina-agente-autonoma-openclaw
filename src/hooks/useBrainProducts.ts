@@ -10,6 +10,7 @@ export interface BrainProduct {
   site_url: string | null;
   mercadolivre_url: string | null;
   image_url: string | null;
+  image_path: string | null;
   aliases: string[];
   category: string[];
   skin_types: string[];
