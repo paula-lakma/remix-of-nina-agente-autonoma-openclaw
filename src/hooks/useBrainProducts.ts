@@ -180,6 +180,7 @@ export function productToDraft(p: BrainProduct): BrainProductInput {
     site_url: p.site_url,
     mercadolivre_url: p.mercadolivre_url,
     image_url: p.image_url,
+    image_path: p.image_path ?? null,
     aliases: p.aliases ?? [],
     category: p.category ?? [],
     skin_types: p.skin_types ?? [],
