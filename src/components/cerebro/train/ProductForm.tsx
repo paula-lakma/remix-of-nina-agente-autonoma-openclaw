@@ -132,31 +132,35 @@ const ProductForm: React.FC<ProductFormProps> = ({ draft, onChange }) => {
       </div>
 
       {/* ── Bloco 2.2: Imagem oficial/aprovada do produto ── */}
-      <div>
-        <label className={labelClass}>Foto oficial / aprovada do produto (URL pública)</label>
-        <div className="flex gap-3 items-start">
+      <div className="space-y-2">
+        <label className={labelClass}>Foto oficial / aprovada do produto</label>
+        <MediaUpload
+          kind="image"
+          path={draft.image_path}
+          url={draft.image_url}
+          folder="products/image"
+          fileKey={draft.name || 'produto'}
+          label="Upload da foto do produto (JPG, PNG, WEBP)"
+          onChange={({ path, url }) =>
+            onChange({ ...draft, image_path: path, image_url: url ?? draft.image_url })
+          }
+        />
+        <div>
+          <label className={labelClass}>Ou cole uma URL pública (fallback)</label>
           <input
             type="url"
             value={draft.image_url ?? ''}
             onChange={(e) => set('image_url', e.target.value)}
-            placeholder="https://...  (URL pública direta da imagem aprovada — .jpg, .png ou .webp)"
+            placeholder="https://...  (.jpg, .png ou .webp)"
             className={inputClass}
           />
-          {draft.image_url ? (
-            <img
-              src={draft.image_url}
-              alt={draft.name || 'preview'}
-              className="h-16 w-16 rounded-md border border-slate-700 object-cover bg-slate-950"
-              onError={(e) => ((e.currentTarget as HTMLImageElement).style.opacity = '0.3')}
-            />
-          ) : null}
         </div>
-        <p className="text-[10px] text-slate-500 mt-1">
-          Use somente imagens oficiais/aprovadas. A Nina envia essa foto junto com o nome
-          e o link quando indicar o produto no WhatsApp. Se ficar em branco, ela envia só
-          nome + link, sem inventar imagem.
+        <p className="text-[10px] text-slate-500">
+          Prioridade: arquivo no Storage &gt; URL manual. A Nina envia a foto como imagem no
+          WhatsApp quando indicar o produto. Se ambos vazios, segue só com nome + link.
         </p>
       </div>
+
 
       {/* ── Bloco 2.3: Fluxo comercial (Paula) — preço, PDF, tipo de uso, intenção ── */}
       <div className="rounded-lg border border-emerald-700/40 bg-emerald-500/5 p-3 space-y-3">
