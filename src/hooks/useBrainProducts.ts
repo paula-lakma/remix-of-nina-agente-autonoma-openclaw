@@ -10,6 +10,7 @@ export interface BrainProduct {
   site_url: string | null;
   mercadolivre_url: string | null;
   image_url: string | null;
+  image_path: string | null;
   aliases: string[];
   category: string[];
   skin_types: string[];
@@ -31,6 +32,7 @@ export interface BrainProduct {
   quando_indicar_direto: string[];
   tipo_uso: 'profissional' | 'home_care' | 'ambos' | null;
   categoria_intencao: string[];
+  protocolo_pdf_path: string | null;
 }
 
 export type BrainProductInput = Omit<BrainProduct, 'id' | 'position'>;
@@ -46,7 +48,7 @@ interface UseBrainProductsResult {
 }
 
 const PRODUCT_COLUMNS =
-  'id, name, summary, details_md, site_url, mercadolivre_url, image_url, aliases, category, skin_types, main_goals, usage_short, in_protocols, related_protocols, protocol_role, combines_with, avoid_combinations, common_objections_md, internal_notes_md, position, is_active, valor_sem_desconto, protocolo_pdf_url, indicacao_curta, quando_indicar_direto, tipo_uso, categoria_intencao';
+  'id, name, summary, details_md, site_url, mercadolivre_url, image_url, image_path, aliases, category, skin_types, main_goals, usage_short, in_protocols, related_protocols, protocol_role, combines_with, avoid_combinations, common_objections_md, internal_notes_md, position, is_active, valor_sem_desconto, protocolo_pdf_url, protocolo_pdf_path, indicacao_curta, quando_indicar_direto, tipo_uso, categoria_intencao';
 
 /** CRUD de brain_products (RLS owner-scoped; owner_user_id default = auth.uid()). */
 export function useBrainProducts(): UseBrainProductsResult {
@@ -147,6 +149,7 @@ export const EMPTY_PRODUCT_DRAFT: BrainProductInput = {
   site_url: '',
   mercadolivre_url: '',
   image_url: '',
+  image_path: null,
   aliases: [],
   category: [],
   skin_types: [],
@@ -162,6 +165,7 @@ export const EMPTY_PRODUCT_DRAFT: BrainProductInput = {
   is_active: true,
   valor_sem_desconto: null,
   protocolo_pdf_url: '',
+  protocolo_pdf_path: null,
   indicacao_curta: '',
   quando_indicar_direto: [],
   tipo_uso: null,
@@ -176,6 +180,7 @@ export function productToDraft(p: BrainProduct): BrainProductInput {
     site_url: p.site_url,
     mercadolivre_url: p.mercadolivre_url,
     image_url: p.image_url,
+    image_path: p.image_path ?? null,
     aliases: p.aliases ?? [],
     category: p.category ?? [],
     skin_types: p.skin_types ?? [],
@@ -191,6 +196,7 @@ export function productToDraft(p: BrainProduct): BrainProductInput {
     is_active: p.is_active,
     valor_sem_desconto: p.valor_sem_desconto ?? null,
     protocolo_pdf_url: p.protocolo_pdf_url ?? '',
+    protocolo_pdf_path: p.protocolo_pdf_path ?? null,
     indicacao_curta: p.indicacao_curta ?? '',
     quando_indicar_direto: p.quando_indicar_direto ?? [],
     tipo_uso: p.tipo_uso ?? null,

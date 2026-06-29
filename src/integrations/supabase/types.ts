@@ -90,11 +90,13 @@ export type Database = {
           content_md: string
           created_at: string
           id: string
+          imagem_protocolo_path: string | null
           imagem_protocolo_url: string | null
           knowledge_type: string | null
           owner_user_id: string
           position: number
           priority: string | null
+          protocolo_pdf_path: string | null
           protocolo_pdf_url: string | null
           related_products: string[]
           slug: string
@@ -111,11 +113,13 @@ export type Database = {
           content_md: string
           created_at?: string
           id?: string
+          imagem_protocolo_path?: string | null
           imagem_protocolo_url?: string | null
           knowledge_type?: string | null
           owner_user_id?: string
           position?: number
           priority?: string | null
+          protocolo_pdf_path?: string | null
           protocolo_pdf_url?: string | null
           related_products?: string[]
           slug: string
@@ -132,11 +136,13 @@ export type Database = {
           content_md?: string
           created_at?: string
           id?: string
+          imagem_protocolo_path?: string | null
           imagem_protocolo_url?: string | null
           knowledge_type?: string | null
           owner_user_id?: string
           position?: number
           priority?: string | null
+          protocolo_pdf_path?: string | null
           protocolo_pdf_url?: string | null
           related_products?: string[]
           slug?: string
@@ -160,6 +166,7 @@ export type Database = {
           created_at: string
           details_md: string | null
           id: string
+          image_path: string | null
           image_url: string | null
           in_protocols: boolean | null
           indicacao_curta: string | null
@@ -171,6 +178,7 @@ export type Database = {
           owner_user_id: string
           position: number
           protocol_role: string | null
+          protocolo_pdf_path: string | null
           protocolo_pdf_url: string | null
           quando_indicar_direto: string[]
           related_protocols: string[]
@@ -192,6 +200,7 @@ export type Database = {
           created_at?: string
           details_md?: string | null
           id?: string
+          image_path?: string | null
           image_url?: string | null
           in_protocols?: boolean | null
           indicacao_curta?: string | null
@@ -203,6 +212,7 @@ export type Database = {
           owner_user_id?: string
           position?: number
           protocol_role?: string | null
+          protocolo_pdf_path?: string | null
           protocolo_pdf_url?: string | null
           quando_indicar_direto?: string[]
           related_protocols?: string[]
@@ -224,6 +234,7 @@ export type Database = {
           created_at?: string
           details_md?: string | null
           id?: string
+          image_path?: string | null
           image_url?: string | null
           in_protocols?: boolean | null
           indicacao_curta?: string | null
@@ -235,6 +246,7 @@ export type Database = {
           owner_user_id?: string
           position?: number
           protocol_role?: string | null
+          protocolo_pdf_path?: string | null
           protocolo_pdf_url?: string | null
           quando_indicar_direto?: string[]
           related_protocols?: string[]

@@ -617,16 +617,53 @@ Deno.serve(async (req: Request) => {
 
   const { data: products } = await admin
     .from("brain_products")
-    .select("name, summary, details_md, site_url, mercadolivre_url, image_url, aliases, position, is_active, category, skin_types, main_goals, usage_short, in_protocols, related_protocols, protocol_role, combines_with, avoid_combinations, common_objections_md, internal_notes_md, valor_sem_desconto, protocolo_pdf_url, indicacao_curta, quando_indicar_direto, tipo_uso, categoria_intencao")
+    .select("name, summary, details_md, site_url, mercadolivre_url, image_url, image_path, aliases, position, is_active, category, skin_types, main_goals, usage_short, in_protocols, related_protocols, protocol_role, combines_with, avoid_combinations, common_objections_md, internal_notes_md, valor_sem_desconto, protocolo_pdf_url, protocolo_pdf_path, indicacao_curta, quando_indicar_direto, tipo_uso, categoria_intencao")
     .eq("owner_user_id", user.id)
     .eq("is_active", true)
     .order("position", { ascending: true });
 
   const { data: knowledge } = await admin
     .from("brain_knowledge")
-    .select("title, slug, content_md, position, knowledge_type, category, tags, related_products, when_to_use_md, when_to_escalate_md, priority, imagem_protocolo_url, protocolo_pdf_url, tipo_uso, categoria_intencao")
+    .select("title, slug, content_md, position, knowledge_type, category, tags, related_products, when_to_use_md, when_to_escalate_md, priority, imagem_protocolo_url, imagem_protocolo_path, protocolo_pdf_url, protocolo_pdf_path, tipo_uso, categoria_intencao")
     .eq("owner_user_id", user.id)
     .order("position", { ascending: true });
+
+  // Re-gera signed URLs de 7 dias para arquivos no Storage `brain-media`.
+  // `*_path` (Storage) tem precedência sobre `*_url` (manual) — sempre que
+  // existir um path, sobrescrevemos a URL com uma signed fresca para que o
+  // brain doc commitado contenha um link válido por mais 7 dias. WhatsApp
+  // só precisa baixar uma vez, então a TTL é suficiente entre builds.
+  const SIGN_TTL = 60 * 60 * 24 * 7;
+  async function signPath(path: string | null | undefined): Promise<string | null> {
+    if (!path) return null;
+    const { data, error } = await admin.storage.from("brain-media").createSignedUrl(path, SIGN_TTL);
+    if (error) {
+      console.error("[brain-build] sign error", path, error.message);
+      return null;
+    }
+    return data?.signedUrl ?? null;
+  }
+  for (const p of products ?? []) {
+    if (p.image_path) {
+      const s = await signPath(p.image_path);
+      if (s) (p as any).image_url = s;
+    }
+    if (p.protocolo_pdf_path) {
+      const s = await signPath(p.protocolo_pdf_path);
+      if (s) (p as any).protocolo_pdf_url = s;
+    }
+  }
+  for (const k of knowledge ?? []) {
+    if (k.imagem_protocolo_path) {
+      const s = await signPath(k.imagem_protocolo_path);
+      if (s) (k as any).imagem_protocolo_url = s;
+    }
+    if (k.protocolo_pdf_path) {
+      const s = await signPath(k.protocolo_pdf_path);
+      if (s) (k as any).protocolo_pdf_url = s;
+    }
+  }
+
 
   // 2) Renderiza os arquivos da skill (só identity/ e knowledge/).
   const files: { path: string; content: string }[] = [
