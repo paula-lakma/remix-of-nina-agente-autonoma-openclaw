@@ -196,6 +196,7 @@ export function productToDraft(p: BrainProduct): BrainProductInput {
     is_active: p.is_active,
     valor_sem_desconto: p.valor_sem_desconto ?? null,
     protocolo_pdf_url: p.protocolo_pdf_url ?? '',
+    protocolo_pdf_path: p.protocolo_pdf_path ?? null,
     indicacao_curta: p.indicacao_curta ?? '',
     quando_indicar_direto: p.quando_indicar_direto ?? [],
     tipo_uso: p.tipo_uso ?? null,
