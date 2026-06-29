@@ -168,7 +168,9 @@ export const EMPTY_KNOWLEDGE_DRAFT: BrainKnowledgeInput = {
   when_to_escalate_md: '',
   priority: '',
   imagem_protocolo_url: '',
+  imagem_protocolo_path: null,
   protocolo_pdf_url: '',
+  protocolo_pdf_path: null,
   tipo_uso: '',
   categoria_intencao: [],
 };
