@@ -1,5 +1,6 @@
 import React from 'react';
 import TagsInput from './TagsInput';
+import MediaUpload from './MediaUpload';
 import { slugify, type BrainKnowledgeInput } from '@/hooks/useBrainKnowledge';
 
 const inputClass =
