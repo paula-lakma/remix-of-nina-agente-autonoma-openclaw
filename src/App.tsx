@@ -11,6 +11,8 @@ import Kanban from './components/Kanban';
 import Cerebro from './components/Cerebro';
 import Auth from './pages/Auth';
 import ResetPassword from './pages/ResetPassword';
+import Campaigns from './pages/Campaigns';
+import Templates from './pages/Templates';
 import ProtectedRoute from './components/ProtectedRoute';
 import RoleGate from './components/RoleGate';
 
