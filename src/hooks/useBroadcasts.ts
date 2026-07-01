@@ -38,7 +38,7 @@ export function useBroadcasts() {
   const fetch = useCallback(async () => {
     setLoading(true);
     const { data, error } = await supabase.from("broadcast_campaigns").select("*").order("created_at", { ascending: false });
-    if (!error && data) setCampaigns(data as BroadcastCampaign[]);
+    if (!error && data) setCampaigns(data as unknown as BroadcastCampaign[]);
     setLoading(false);
   }, []);
 
