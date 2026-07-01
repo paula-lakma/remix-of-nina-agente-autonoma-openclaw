@@ -260,13 +260,234 @@ export type Database = {
         }
         Relationships: []
       }
+      broadcast_campaigns: {
+        Row: {
+          batch_size: number
+          column_mapping: Json | null
+          completed_at: string | null
+          created_at: string
+          custom_fields: string[] | null
+          delay_between_batches: number
+          delay_between_batches_max: number
+          delay_max_ms: number
+          delay_min_ms: number
+          failed_count: number
+          id: string
+          media_rotation_mode: string
+          media_url: string | null
+          media_urls: string[]
+          message_template: string
+          message_type: string
+          meta_template_id: string | null
+          name: string
+          next_batch_at: string | null
+          rotation_strategy: string
+          sent_count: number
+          started_at: string | null
+          status: string
+          template_header_media: Json | null
+          template_language: string | null
+          template_name: string | null
+          total_recipients: number
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          batch_size?: number
+          column_mapping?: Json | null
+          completed_at?: string | null
+          created_at?: string
+          custom_fields?: string[] | null
+          delay_between_batches?: number
+          delay_between_batches_max?: number
+          delay_max_ms?: number
+          delay_min_ms?: number
+          failed_count?: number
+          id?: string
+          media_rotation_mode?: string
+          media_url?: string | null
+          media_urls?: string[]
+          message_template: string
+          message_type?: string
+          meta_template_id?: string | null
+          name: string
+          next_batch_at?: string | null
+          rotation_strategy?: string
+          sent_count?: number
+          started_at?: string | null
+          status?: string
+          template_header_media?: Json | null
+          template_language?: string | null
+          template_name?: string | null
+          total_recipients?: number
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          batch_size?: number
+          column_mapping?: Json | null
+          completed_at?: string | null
+          created_at?: string
+          custom_fields?: string[] | null
+          delay_between_batches?: number
+          delay_between_batches_max?: number
+          delay_max_ms?: number
+          delay_min_ms?: number
+          failed_count?: number
+          id?: string
+          media_rotation_mode?: string
+          media_url?: string | null
+          media_urls?: string[]
+          message_template?: string
+          message_type?: string
+          meta_template_id?: string | null
+          name?: string
+          next_batch_at?: string | null
+          rotation_strategy?: string
+          sent_count?: number
+          started_at?: string | null
+          status?: string
+          template_header_media?: Json | null
+          template_language?: string | null
+          template_name?: string | null
+          total_recipients?: number
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "broadcast_campaigns_meta_template_id_fkey"
+            columns: ["meta_template_id"]
+            isOneToOne: false
+            referencedRelation: "meta_templates"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      broadcast_recipients: {
+        Row: {
+          campaign_id: string
+          created_at: string
+          error_message: string | null
+          id: string
+          phone_number: string
+          sent_at: string | null
+          sent_media_url: string | null
+          status: string
+          variables: Json | null
+          variation_indices: number[] | null
+        }
+        Insert: {
+          campaign_id: string
+          created_at?: string
+          error_message?: string | null
+          id?: string
+          phone_number: string
+          sent_at?: string | null
+          sent_media_url?: string | null
+          status?: string
+          variables?: Json | null
+          variation_indices?: number[] | null
+        }
+        Update: {
+          campaign_id?: string
+          created_at?: string
+          error_message?: string | null
+          id?: string
+          phone_number?: string
+          sent_at?: string | null
+          sent_media_url?: string | null
+          status?: string
+          variables?: Json | null
+          variation_indices?: number[] | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "broadcast_recipients_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "broadcast_campaigns"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      contact_list_members: {
+        Row: {
+          contact_id: string
+          created_at: string
+          id: string
+          list_id: string
+        }
+        Insert: {
+          contact_id: string
+          created_at?: string
+          id?: string
+          list_id: string
+        }
+        Update: {
+          contact_id?: string
+          created_at?: string
+          id?: string
+          list_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "contact_list_members_contact_id_fkey"
+            columns: ["contact_id"]
+            isOneToOne: false
+            referencedRelation: "contacts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "contact_list_members_contact_id_fkey"
+            columns: ["contact_id"]
+            isOneToOne: false
+            referencedRelation: "contacts_with_stats"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "contact_list_members_list_id_fkey"
+            columns: ["list_id"]
+            isOneToOne: false
+            referencedRelation: "contact_lists"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      contact_lists: {
+        Row: {
+          created_at: string
+          id: string
+          name: string
+          source: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          name: string
+          source?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name?: string
+          source?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       contacts: {
         Row: {
           blocked_at: string | null
           blocked_reason: string | null
           call_name: string | null
+          city: string | null
           client_memory: Json | null
+          company: string | null
           created_at: string
+          custom_fields: Json
           email: string | null
           first_contact_date: string
           id: string
@@ -277,17 +498,23 @@ export type Database = {
           notes: string | null
           phone_number: string
           profile_picture_url: string | null
+          score: number
+          status_lead: string
           tags: string[] | null
           updated_at: string
           user_id: string | null
           whatsapp_id: string | null
+          whatsapp_valid: boolean | null
         }
         Insert: {
           blocked_at?: string | null
           blocked_reason?: string | null
           call_name?: string | null
+          city?: string | null
           client_memory?: Json | null
+          company?: string | null
           created_at?: string
+          custom_fields?: Json
           email?: string | null
           first_contact_date?: string
           id?: string
@@ -298,17 +525,23 @@ export type Database = {
           notes?: string | null
           phone_number: string
           profile_picture_url?: string | null
+          score?: number
+          status_lead?: string
           tags?: string[] | null
           updated_at?: string
           user_id?: string | null
           whatsapp_id?: string | null
+          whatsapp_valid?: boolean | null
         }
         Update: {
           blocked_at?: string | null
           blocked_reason?: string | null
           call_name?: string | null
+          city?: string | null
           client_memory?: Json | null
+          company?: string | null
           created_at?: string
+          custom_fields?: Json
           email?: string | null
           first_contact_date?: string
           id?: string
@@ -319,10 +552,13 @@ export type Database = {
           notes?: string | null
           phone_number?: string
           profile_picture_url?: string | null
+          score?: number
+          status_lead?: string
           tags?: string[] | null
           updated_at?: string
           user_id?: string | null
           whatsapp_id?: string | null
+          whatsapp_valid?: boolean | null
         }
         Relationships: []
       }
@@ -900,6 +1136,54 @@ export type Database = {
         }
         Relationships: []
       }
+      message_templates: {
+        Row: {
+          category: string
+          content: string
+          created_at: string
+          id: string
+          is_ai_generated: boolean
+          media_rotation_enabled: boolean
+          media_rotation_mode: string
+          media_urls: string[]
+          message_type: string
+          name: string
+          tags: string[]
+          updated_at: string
+          usage_count: number
+        }
+        Insert: {
+          category?: string
+          content?: string
+          created_at?: string
+          id?: string
+          is_ai_generated?: boolean
+          media_rotation_enabled?: boolean
+          media_rotation_mode?: string
+          media_urls?: string[]
+          message_type?: string
+          name: string
+          tags?: string[]
+          updated_at?: string
+          usage_count?: number
+        }
+        Update: {
+          category?: string
+          content?: string
+          created_at?: string
+          id?: string
+          is_ai_generated?: boolean
+          media_rotation_enabled?: boolean
+          media_rotation_mode?: string
+          media_urls?: string[]
+          message_type?: string
+          name?: string
+          tags?: string[]
+          updated_at?: string
+          usage_count?: number
+        }
+        Relationships: []
+      }
       messages: {
         Row: {
           content: string | null
@@ -974,6 +1258,51 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      meta_templates: {
+        Row: {
+          category: string
+          components: Json
+          created_at: string
+          id: string
+          labels: string[] | null
+          language: string
+          meta_template_id: string | null
+          name: string
+          samples: Json | null
+          status: string
+          updated_at: string
+          validation_score: number | null
+        }
+        Insert: {
+          category?: string
+          components?: Json
+          created_at?: string
+          id?: string
+          labels?: string[] | null
+          language?: string
+          meta_template_id?: string | null
+          name: string
+          samples?: Json | null
+          status?: string
+          updated_at?: string
+          validation_score?: number | null
+        }
+        Update: {
+          category?: string
+          components?: Json
+          created_at?: string
+          id?: string
+          labels?: string[] | null
+          language?: string
+          meta_template_id?: string | null
+          name?: string
+          samples?: Json | null
+          status?: string
+          updated_at?: string
+          validation_score?: number | null
+        }
+        Relationships: []
       }
       nina_processing_queue: {
         Row: {
