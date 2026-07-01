@@ -56,15 +56,26 @@ const Contacts: React.FC = () => {
           <h2 className="text-3xl font-bold tracking-tight text-white">Contatos</h2>
           <p className="text-sm text-slate-400 mt-1">Gerencie sua base de leads e clientes com inteligência.</p>
         </div>
-        <Button 
-          className="shadow-lg shadow-cyan-500/20 opacity-50 cursor-not-allowed"
-          disabled
-          title="Em breve: Adicionar contato"
-        >
-          <UserPlus className="w-4 h-4 mr-2" />
-          Novo Contato
-        </Button>
+        <div className="flex gap-2">
+          <Button variant="outline" onClick={() => setShowImport(true)}>
+            <Upload className="w-4 h-4 mr-2" /> Importar CSV
+          </Button>
+          <Button
+            className="shadow-lg shadow-cyan-500/20 opacity-50 cursor-not-allowed"
+            disabled
+            title="Em breve: Adicionar contato"
+          >
+            <UserPlus className="w-4 h-4 mr-2" />
+            Novo Contato
+          </Button>
+        </div>
       </div>
+
+      <ImportContactsModal
+        isOpen={showImport}
+        onClose={() => setShowImport(false)}
+        onImported={async () => { const d = await api.fetchContacts(); setContacts(d); }}
+      />
 
       {/* Filters Bar */}
       <div className="flex flex-col sm:flex-row items-center gap-4 mb-8 bg-slate-900/50 p-2 rounded-xl border border-slate-800">
