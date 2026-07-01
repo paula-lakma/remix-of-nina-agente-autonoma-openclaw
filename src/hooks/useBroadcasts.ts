@@ -64,7 +64,7 @@ export function useBroadcasts() {
       }
     }
     await fetch();
-    return campaign as BroadcastCampaign;
+    return campaign as unknown as BroadcastCampaign;
   };
 
   const start = async (id: string) => {
