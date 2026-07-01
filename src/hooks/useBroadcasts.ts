@@ -17,8 +17,8 @@ export interface BroadcastCampaign {
   total_recipients: number;
   sent_count: number;
   failed_count: number;
-  delivered_count: number;
-  read_count: number;
+  delivered_count?: number;
+  read_count?: number;
   batch_size: number;
   delay_min_ms: number;
   delay_max_ms: number;
