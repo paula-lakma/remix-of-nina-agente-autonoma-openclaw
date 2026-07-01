@@ -11,6 +11,8 @@ import Kanban from './components/Kanban';
 import Cerebro from './components/Cerebro';
 import Auth from './pages/Auth';
 import ResetPassword from './pages/ResetPassword';
+import Campaigns from './pages/Campaigns';
+import Templates from './pages/Templates';
 import ProtectedRoute from './components/ProtectedRoute';
 import RoleGate from './components/RoleGate';
 
@@ -84,6 +86,8 @@ const App: React.FC = () => {
                 <Route path="/chat" element={<RoleGate area="chat"><ChatInterface /></RoleGate>} />
                 <Route path="/contacts" element={<RoleGate area="contacts"><Contacts /></RoleGate>} />
                 <Route path="/scheduling" element={<RoleGate area="scheduling"><Scheduling /></RoleGate>} />
+                <Route path="/campaigns" element={<RoleGate area="campaigns"><Campaigns /></RoleGate>} />
+                <Route path="/templates" element={<RoleGate area="templates"><Templates /></RoleGate>} />
                 <Route path="/team" element={<RoleGate area="team"><Team /></RoleGate>} />
                 <Route path="/cerebro" element={<RoleGate area="cerebro"><Cerebro /></RoleGate>} />
                 <Route path="/settings" element={<RoleGate area="settings"><Settings /></RoleGate>} />

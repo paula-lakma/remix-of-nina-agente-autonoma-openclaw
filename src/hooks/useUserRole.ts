@@ -6,8 +6,8 @@ export type AppRole = 'admin' | 'manager' | 'sdr' | 'user' | 'moderator';
 
 // Permissões por área (rota base)
 const ROLE_PERMISSIONS: Record<AppRole, string[]> = {
-  admin:     ['dashboard', 'pipeline', 'chat', 'contacts', 'scheduling', 'team', 'cerebro', 'settings'],
-  manager:   ['dashboard', 'pipeline', 'chat', 'contacts', 'scheduling'],
+  admin:     ['dashboard', 'pipeline', 'chat', 'contacts', 'scheduling', 'campaigns', 'templates', 'team', 'cerebro', 'settings'],
+  manager:   ['dashboard', 'pipeline', 'chat', 'contacts', 'scheduling', 'campaigns', 'templates'],
   sdr:       ['pipeline', 'chat', 'contacts', 'scheduling'],
   user:      ['pipeline', 'chat', 'contacts', 'scheduling'], // legado = SDR
   moderator: ['dashboard', 'pipeline', 'chat', 'contacts', 'scheduling'],
