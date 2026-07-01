@@ -86,6 +86,8 @@ const App: React.FC = () => {
                 <Route path="/chat" element={<RoleGate area="chat"><ChatInterface /></RoleGate>} />
                 <Route path="/contacts" element={<RoleGate area="contacts"><Contacts /></RoleGate>} />
                 <Route path="/scheduling" element={<RoleGate area="scheduling"><Scheduling /></RoleGate>} />
+                <Route path="/campaigns" element={<RoleGate area="campaigns"><Campaigns /></RoleGate>} />
+                <Route path="/templates" element={<RoleGate area="templates"><Templates /></RoleGate>} />
                 <Route path="/team" element={<RoleGate area="team"><Team /></RoleGate>} />
                 <Route path="/cerebro" element={<RoleGate area="cerebro"><Cerebro /></RoleGate>} />
                 <Route path="/settings" element={<RoleGate area="settings"><Settings /></RoleGate>} />
