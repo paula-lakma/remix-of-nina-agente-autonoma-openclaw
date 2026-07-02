@@ -1,62 +1,52 @@
-## Diagnóstico
+# Sincronizar templates cadastrados na Meta
 
-Hoje, quando o WhatsApp envia uma imagem:
-1. `whatsapp-webhook` grava a mensagem com `content = "[imagem recebida]"` e só guarda o `media_id` em `metadata` (`messages.media_url` fica `null`).
-2. `message-grouper` baixa só áudio (transcreve com Whisper). Imagem/documento/vídeo nunca são baixados nem descritos.
-3. Quando a `nina-orchestrator` monta o prompt, ela recebe literalmente `"[imagem recebida]"` — sem conteúdo visual, sem URL. Por isso a Nina "não identifica" a foto.
-4. No frontend, `ChatInterface` tenta exibir `<img src={mediaUrl || content}>`, mas `mediaUrl` é `null` e `content` é o placeholder, então a imagem nunca aparece. Mesmo que tivéssemos a URL bruta do Graph API, ela expira em ~5 min e exige `Bearer` token.
+## Problema identificado
 
-Conclusão: precisamos (a) persistir o anexo num bucket nosso, (b) usar GPT para descrever a imagem e injetar essa descrição no que vai pra Nina, (c) trocar o `<a>` por um modal real.
+A função `sync-template-status` **não busca templates da Meta** — ela só atualiza status de templates que já existem localmente e foram submetidos pelo próprio app (linhas com `status = 'PENDING'` e `meta_template_id` preenchido).
 
-## O que será feito
+Se você cadastrou templates direto no Meta Business Manager (fora da plataforma), eles nunca aparecem em `/templates` porque:
 
-### 1. Storage — novo bucket privado `whatsapp-media`
-- Criar bucket privado `whatsapp-media` (mantém `audio-messages` como está).
-- RLS em `storage.objects`:
-  - `service_role`: leitura/escrita (uso das edge functions).
-  - `authenticated`: `SELECT` no bucket (chat UI baixa via signed URL gerada pelo backend; mas signed URL já funciona sem policy — a policy de SELECT garante que o player do navegador logado consiga abrir). Sem policy para `anon`.
-- Estrutura de chave: `{conversation_id}/in/{message_id}.{ext}` para recebidos e `{conversation_id}/out/{ts}.{ext}` para enviados.
+1. Nunca foram inseridos em `public.meta_templates`.
+2. A sync atual pula qualquer coisa que não esteja `PENDING`.
+3. Não há chamada ao endpoint `GET /{waba_id}/message_templates` da Graph API, que é o único jeito de listar o que existe na Meta.
 
-### 2. Edge function `message-grouper` — baixar e analisar imagem/documento/vídeo
-Estender `combineAndTranscribeMessages` (e criar helpers em `_shared`) para tratar `image`, `document` e `video`:
+Além disso, faltam validações que ajudam a diagnosticar: se o `whatsapp_business_account_id` estiver vazio em `nina_settings`, a função hoje aceita string vazia e nem retorna erro claro.
 
-- `downloadWhatsAppMedia` já existe; reutilizar.
-- Novo helper `uploadMediaToStorage(supabase, buffer, conversationId, messageId, mimeType)` que joga em `whatsapp-media/{conversation_id}/in/{message_id}.{ext}` e retorna **signed URL de 7 dias** (renovável). Salvar essa URL em `messages.media_url` e o MIME em `messages.media_type`.
-- Para `image`: chamar Lovable AI Gateway com `openai/gpt-5-mini` (modelo de visão da GPT, conforme catálogo), enviando a imagem como `data:<mime>;base64,...` em bloco `image_url`. Prompt curto em PT pedindo descrição em até 3 linhas + leitura de texto visível (OCR leve). Atualizar `messages.content` para `"[imagem] " + descrição` (preservando legenda do usuário, se houver).
-- Para `document` (PDF): mesma rota, mas com bloco `file` (PDF base64). Gravar descrição em `content`.
-- Para `video`: por enquanto só persistir o arquivo + manter legenda; sem análise visual (modelo de vídeo fora do escopo).
-- O `combineAndTranscribeMessages` então passa a juntar o `content` já enriquecido — Nina recebe a descrição da imagem como texto e responde corretamente. (Não precisa mexer no `nina-orchestrator`.)
+## Solução
 
-Falhas de download/IA não bloqueiam: caem para `"[imagem recebida]"` e a mensagem segue.
+Reescrever `supabase/functions/sync-template-status/index.ts` para fazer sync bidirecional completa: puxar tudo que existe na WABA e refletir localmente, além de continuar atualizando status dos pendentes.
 
-### 3. Frontend — modal de imagem
-- Substituir o `<a target="_blank">` em `ChatInterface.renderMessageContent` (case `IMAGE`) por um `Dialog` do shadcn:
-  - Thumbnail clicável (mantém o estilo atual).
-  - Modal abre imagem em tamanho real (`max-h-[85vh] object-contain`), com botão "Abrir original" e fechar.
-  - Mostrar legenda/descrição abaixo (já vem em `msg.content`).
-- Suporte a `DOCUMENT`: manter card atual (download direto faz mais sentido para PDF).
+### Fluxo novo da função
 
-### 4. URL assinada — renovação no backend
-Como signed URL expira, criar pequena função utilitária `media-signed-url` (ou usar a própria orchestrator/grouper já gera no momento da gravação): basta gerar com 7 dias e regravar caso a UI peça refresh. Para o escopo atual, 7 dias é suficiente; renovação automática fica como follow-up.
+```text
+1. Ler credenciais (access_token, waba_id) de nina_settings
+   └─ Se waba_id vazio → 400 com mensagem clara
+2. GET graph.facebook.com/v21.0/{waba_id}/message_templates
+   ?fields=name,language,status,category,components,id
+   &limit=200  (paginar via data.paging.next se existir)
+3. Para cada template retornado:
+   - Upsert em meta_templates por (name, language)
+   - Preencher: meta_template_id, status, category, components, updated_at
+   - Se não existir localmente → INSERT
+   - Se existir → UPDATE (status/components/category)
+4. Retornar { fetched, inserted, updated, errors[] }
+```
 
-## Detalhes técnicos
+### Detalhes técnicos
 
-- **Bucket via tool** `supabase--storage_create_bucket` (`name=whatsapp-media`, `public=false`). Policies em migration depois.
-- **Modelo de visão**: `openai/gpt-5-mini` no endpoint `/v1/chat/completions` do Lovable Gateway (multimodal `image_url` data URL). Já temos `LOVABLE_API_KEY`.
-- **Tamanho**: WhatsApp limita imagem em ~5 MB; ok para base64 inline.
-- **Tipos atualizados**: `media_type` passa a aceitar string MIME real (ex.: `image/jpeg`). Hoje a coluna é texto livre, sem migração.
-- **Sem mudança de schema** — `messages.media_url`/`media_type`/`content` já existem.
+- **Endpoint Graph**: `GET /{waba-id}/message_templates` com `access_token` como query param, campos explícitos e paginação por cursor (`data.paging.next`).
+- **Chave de upsert**: `(name, language)` — combinação única na Meta. Como `meta_templates` hoje não tem UNIQUE nessas colunas, o upsert precisa ser feito em duas etapas (select → insert/update) OU adicionar constraint via migration. Prefiro a abordagem sem migration (select + branch) para não mexer em schema neste passo.
+- **Tratamento de erros da Graph**: se `data.error` vier no payload, capturar `error.message` / `error.code` e devolver junto no response para debug (ex: token expirado, WABA sem permissão `whatsapp_business_management`).
+- **Compatibilidade retroativa**: manter o comportamento antigo de refletir status de PENDING → APPROVED/REJECTED, já coberto naturalmente pelo upsert.
+- **Logs**: `console.log` com contagens para aparecer nos edge function logs.
+- **Sem mudanças no frontend**: `useMetaTemplates.syncStatuses()` já chama a função e recarrega a lista via realtime + `fetch()`, então basta o botão "Sincronizar" existente em `/templates`.
 
-## Arquivos afetados
+### Permissões Meta necessárias
 
-- `supabase/functions/message-grouper/index.ts` — novo fluxo image/document; reuso do download.
-- `supabase/functions/_shared/media.ts` *(novo)* — `uploadMediaToStorage`, `describeImageWithGpt`, `extractDocumentText`.
-- Migration nova — policies RLS em `storage.objects` para bucket `whatsapp-media`.
-- `src/components/ChatInterface.tsx` — modal de imagem (Dialog shadcn).
-- (Opcional) `supabase/functions/whatsapp-webhook/index.ts` — manter como está; o enriquecimento acontece no grouper.
+Para o endpoint funcionar, o `whatsapp_access_token` precisa ter o escopo **`whatsapp_business_management`** (além do `whatsapp_business_messaging` já usado para enviar). Se o token atual for só de envio, a Graph vai devolver erro de permissão — nesse caso, o response vai mostrar exatamente essa mensagem e você regera o token com o escopo faltando.
 
-## Fora do escopo (follow-up)
+### Arquivos alterados
 
-- Persistir também os anexos **enviados** pela Nina (TTS já vai pra `audio-messages`; imagens/docs enviados ainda não existem como feature).
-- Renovação automática de signed URL expirada.
-- Análise de vídeo.
+- `supabase/functions/sync-template-status/index.ts` — reescrita completa conforme acima.
+
+Nenhum outro arquivo precisa mudar.
