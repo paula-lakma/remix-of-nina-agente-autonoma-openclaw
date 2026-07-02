@@ -4,8 +4,9 @@ import { useAuth } from '@/hooks/useAuth';
 
 /**
  * Janela (ms) dentro da qual um heartbeat é considerado "fresco" => instância ONLINE.
+ * Cron da VPS roda a cada 5 min; 15 min tolera 2 ticks perdidos sem alarme falso.
  */
-export const HEARTBEAT_ONLINE_WINDOW_MS = 10 * 60 * 1000; // 10 min
+export const HEARTBEAT_ONLINE_WINDOW_MS = 15 * 60 * 1000; // 15 min
 
 /**
  * Intervalo de auto-refresh do status da instância.
@@ -34,8 +35,18 @@ export function computeInstanceStatus(instance: InstanceInfo | null): InstanceSt
   if (!instance) return 'unregistered';
   if (!instance.last_heartbeat) return 'registered';
   const ageMs = Date.now() - new Date(instance.last_heartbeat).getTime();
-  return ageMs <= HEARTBEAT_ONLINE_WINDOW_MS ? 'online' : 'offline';
+  const fresh = ageMs <= HEARTBEAT_ONLINE_WINDOW_MS;
+
+  // Fonte de verdade cruzada: o backend (reap-orphan-runs) é quem declara offline
+  // na coluna `status`. Se o banco diz online e o heartbeat está dentro da janela,
+  // consideramos online. Só marcamos offline quando AMBOS concordam — evita
+  // falso-alarme por 1 tick de heartbeat atrasado enquanto a Nina continua respondendo.
+  if (fresh) return 'online';
+  if (instance.status === 'offline') return 'offline';
+  // Heartbeat velho mas backend ainda considera online: mantemos online (backend manda).
+  return 'online';
 }
+
 
 interface UseInstanceResult {
   instance: InstanceInfo | null;
