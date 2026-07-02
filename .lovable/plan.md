@@ -1,52 +1,58 @@
-# Sincronizar templates cadastrados na Meta
+# Corrigir status "offline" no `/cerebro` com instância respondendo
 
-## Problema identificado
+## Diagnóstico
 
-A função `sync-template-status` **não busca templates da Meta** — ela só atualiza status de templates que já existem localmente e foram submetidos pelo próprio app (linhas com `status = 'PENDING'` e `meta_template_id` preenchido).
+O status é **derivado no frontend** a partir da idade do `last_heartbeat`:
 
-Se você cadastrou templates direto no Meta Business Manager (fora da plataforma), eles nunca aparecem em `/templates` porque:
+- `src/hooks/useInstance.ts` → `HEARTBEAT_ONLINE_WINDOW_MS = 10 * 60 * 1000` (10 min).
+- Se `now - last_heartbeat > 10min` ⇒ badge fica **offline**, mesmo com a coluna `status='online'` no banco.
 
-1. Nunca foram inseridos em `public.meta_templates`.
-2. A sync atual pula qualquer coisa que não esteja `PENDING`.
-3. Não há chamada ao endpoint `GET /{waba_id}/message_templates` da Graph API, que é o único jeito de listar o que existe na Meta.
-
-Além disso, faltam validações que ajudam a diagnosticar: se o `whatsapp_business_account_id` estiver vazio em `nina_settings`, a função hoje aceita string vazia e nem retorna erro claro.
-
-## Solução
-
-Reescrever `supabase/functions/sync-template-status/index.ts` para fazer sync bidirecional completa: puxar tudo que existe na WABA e refletir localmente, além de continuar atualizando status dos pendentes.
-
-### Fluxo novo da função
+Estado atual do banco (consulta agora):
 
 ```text
-1. Ler credenciais (access_token, waba_id) de nina_settings
-   └─ Se waba_id vazio → 400 com mensagem clara
-2. GET graph.facebook.com/v21.0/{waba_id}/message_templates
-   ?fields=name,language,status,category,components,id
-   &limit=200  (paginar via data.paging.next se existir)
-3. Para cada template retornado:
-   - Upsert em meta_templates por (name, language)
-   - Preencher: meta_template_id, status, category, components, updated_at
-   - Se não existir localmente → INSERT
-   - Se existir → UPDATE (status/components/category)
-4. Retornar { fetched, inserted, updated, errors[] }
+hostname:     srv1775861
+ingress_url:  https://rather-swing-mrs-while.trycloudflare.com
+status:       online     ← coluna do banco
+last_heartbeat: 14 min atrás   ← ultrapassa a janela de 10 min ⇒ UI mostra "offline"
 ```
 
-### Detalhes técnicos
+E o cron da VPS (`skills/nina/scripts/heartbeat.sh`) roda **a cada 5 min**. Ou seja: **basta 1 heartbeat perder o tick** (rede lenta, quick tunnel reconectando, systemd cronjob atrasado) para a idade passar de 10 min e o painel piscar "offline" — mesmo com a Nina respondendo, porque o `nina-orchestrator` dispara pro `ingress_url` diretamente e não olha a idade do heartbeat.
 
-- **Endpoint Graph**: `GET /{waba-id}/message_templates` com `access_token` como query param, campos explícitos e paginação por cursor (`data.paging.next`).
-- **Chave de upsert**: `(name, language)` — combinação única na Meta. Como `meta_templates` hoje não tem UNIQUE nessas colunas, o upsert precisa ser feito em duas etapas (select → insert/update) OU adicionar constraint via migration. Prefiro a abordagem sem migration (select + branch) para não mexer em schema neste passo.
-- **Tratamento de erros da Graph**: se `data.error` vier no payload, capturar `error.message` / `error.code` e devolver junto no response para debug (ex: token expirado, WABA sem permissão `whatsapp_business_management`).
-- **Compatibilidade retroativa**: manter o comportamento antigo de refletir status de PENDING → APPROVED/REJECTED, já coberto naturalmente pelo upsert.
-- **Logs**: `console.log` com contagens para aparecer nos edge function logs.
-- **Sem mudanças no frontend**: `useMetaTemplates.syncStatuses()` já chama a função e recarrega a lista via realtime + `fetch()`, então basta o botão "Sincronizar" existente em `/templates`.
+Nos logs recentes o `nina-orchestrator` inclusive registrou: *"OpenClaw instance resolvida por fallback single-tenant"* — a orquestração não valida frescor do heartbeat, então o envio funciona mesmo com a UI marcando offline.
 
-### Permissões Meta necessárias
+**Causa raiz**: janela de "online" apertada demais para a frequência do cron. Secundariamente, o heartbeat da VPS às vezes atrasa/pula (a última execução foi ~14 min atrás, sendo que deveria ter tido 2 execuções nesse intervalo).
 
-Para o endpoint funcionar, o `whatsapp_access_token` precisa ter o escopo **`whatsapp_business_management`** (além do `whatsapp_business_messaging` já usado para enviar). Se o token atual for só de envio, a Graph vai devolver erro de permissão — nesse caso, o response vai mostrar exatamente essa mensagem e você regera o token com o escopo faltando.
+## Plano de ação
 
-### Arquivos alterados
+### 1. Aumentar a janela de tolerância no frontend (correção principal, imediata)
 
-- `supabase/functions/sync-template-status/index.ts` — reescrita completa conforme acima.
+Passar `HEARTBEAT_ONLINE_WINDOW_MS` de **10 min → 15 min** em `src/hooks/useInstance.ts`. Isso dá margem de 3x o intervalo do cron (5 min), padrão comum pra monitoramento tolerar 1–2 ticks perdidos sem alarme falso.
 
-Nenhum outro arquivo precisa mudar.
+Racional:
+- Um tick perdido (5 min) continua dentro da janela.
+- Dois ticks perdidos disparam o offline — aí é sintoma real (cron/tunnel travados).
+- Não muda nada no backend; puramente cosmético/UX.
+
+### 2. Cruzar `status` da coluna + idade do heartbeat (correção fina)
+
+Ajustar `computeInstanceStatus()` para retornar **`offline` apenas quando `status='offline'` na coluna E o heartbeat estiver velho**. Se a coluna diz `online` e o heartbeat está velho mas ainda "recentíssimo" (< 20 min), mostrar um estado intermediário — mantemos como `online` para não gerar falso alarme. Se o reaper do banco marcar `status='offline'`, aí sim a UI segue.
+
+Isso alinha a UI com a verdade do banco: quem "declara" offline é o `reap-orphan-runs` (backend), não uma comparação isolada no cliente.
+
+### 3. (Opcional recomendado) Reduzir cron da VPS de 5 min → 2 min
+
+Documentar no `install/setup-nina.sh` / `install/docs/named-tunnel.md` a recomendação de cron `*/2 * * * *` para o `heartbeat.sh`. Não altera edge functions nem código do painel; é config de sistema no host da Nina.
+
+Nesta rodada **não altero o installer** — só deixo a recomendação registrada. Se quiser que eu já mexa no `setup-nina.sh`, me avise.
+
+### 4. Investigação follow-up (fora do scope deste patch)
+
+Depois de aplicar (1) e (2), se ainda cair para offline:
+- SSH na VPS: `tail -n 50 ~/.nina-sdr/logs/heartbeat.log` e `systemctl list-timers | grep nina` — ver se o cron está de fato rodando a cada 5 min.
+- Checar se o `cloudflared-nina` reiniciou (quick tunnels trocam URL; o `heartbeat.sh` re-detecta, mas se falhar o body vai sem `ingress_url`).
+
+### Arquivos alterados nesta rodada
+
+- `src/hooks/useInstance.ts` — janela para 15 min + lógica cruzada com `instance.status`.
+
+Nenhum outro arquivo do backend, edge function ou schema é tocado.
