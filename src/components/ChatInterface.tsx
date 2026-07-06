@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { 
   Search, MoreVertical, Phone, Paperclip, Send, Check, CheckCheck, 
   Smile, Play, Loader2, MessageSquare, Info, X, Mail, 
-  Tag, Bot, User, Pause, Brain, Plus, ShieldAlert, Stethoscope, RotateCcw, Trash2
+  Tag, Bot, User, Pause, Brain, Plus, ShieldAlert, Stethoscope, RotateCcw, Trash2, CheckCircle2
 } from 'lucide-react';
 import { MessageDirection, MessageType, UIConversation, UIMessage, ConversationStatus, TagDefinition } from '../types';
 import { Button } from './Button';
@@ -186,6 +186,17 @@ const ChatInterface: React.FC = () => {
       toast.success('Nina reativada nesta conversa.');
     } catch (e: any) {
       toast.error(e?.message || 'Erro ao reativar Nina');
+    }
+  };
+
+  const handleFinishAttendance = async () => {
+    if (!activeChat) return;
+    if (!confirm('Finalizar este atendimento? A conversa será encerrada, mas a Nina voltará automaticamente se o cliente enviar uma nova mensagem.')) return;
+    try {
+      await api.finishAttendance(activeChat.id);
+      toast.success('Atendimento finalizado. Nina retorna se o cliente responder.');
+    } catch (e: any) {
+      toast.error(e?.message || 'Erro ao finalizar atendimento');
     }
   };
 
@@ -500,6 +511,12 @@ const ChatInterface: React.FC = () => {
                         Dermo
                       </span>
                     )}
+                    {chat.attendanceFinished && (
+                      <span className="px-2 py-0.5 rounded-md text-[10px] font-medium border bg-emerald-500/15 text-emerald-300 border-emerald-500/30 flex items-center gap-1">
+                        <CheckCircle2 className="w-3 h-3" />
+                        Finalizado
+                      </span>
+                    )}
                     {chat.aiPaused && !chat.requiresDermoconsultant && (
                       <span className="px-2 py-0.5 rounded-md text-[10px] font-medium border bg-amber-500/15 text-amber-300 border-amber-500/30">
                         Nina pausada
@@ -600,6 +617,16 @@ const ChatInterface: React.FC = () => {
                     </Button>
                   </>
                 )}
+                <Button
+                  onClick={handleFinishAttendance}
+                  variant="ghost"
+                  size="icon"
+                  className={`text-slate-400 hover:text-white ${activeChat.attendanceFinished ? 'bg-emerald-500/20 text-emerald-400' : ''}`}
+                  title="Finalizar atendimento (a Nina volta se o cliente responder)"
+                  disabled={activeChat.attendanceFinished}
+                >
+                  <CheckCircle2 className="w-5 h-5" />
+                </Button>
                 <div className="h-6 w-px bg-slate-800 mx-1"></div>
                 <Button 
                   variant="ghost" 
@@ -676,6 +703,16 @@ const ChatInterface: React.FC = () => {
                     {activeChat.assignedUserId
                       ? 'Conversa em atendimento humano. Nina pausada.'
                       : "Nina pausada. Clique em 'Reativar Nina' para devolver o atendimento automático."}
+                  </p>
+                </div>
+              </div>
+            )}
+            {activeChat.attendanceFinished && (
+              <div className="px-6 py-3 bg-emerald-500/10 border-b border-emerald-500/30 flex items-start gap-3 z-10">
+                <CheckCircle2 className="w-5 h-5 text-emerald-400 flex-shrink-0 mt-0.5" />
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-semibold text-emerald-200">
+                    Atendimento finalizado. A Nina retorna automaticamente se o cliente enviar uma nova mensagem.
                   </p>
                 </div>
               </div>
