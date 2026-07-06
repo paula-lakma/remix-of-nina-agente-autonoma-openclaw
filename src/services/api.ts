@@ -1507,6 +1507,35 @@ export const api = {
     });
   },
 
+  /**
+   * Finaliza o atendimento manualmente. A conversa fica marcada como encerrada,
+   * mas o trigger `trg_reopen_finished_conversation` reabre automaticamente ao
+   * receber nova mensagem do cliente (from_type='user').
+   */
+  finishAttendance: async (conversationId: string): Promise<void> => {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) throw new Error('Not authenticated');
+    const nowIso = new Date().toISOString();
+    const { error } = await supabase
+      .from('conversations')
+      .update({
+        attendance_finished: true,
+        attendance_finished_at: nowIso,
+        attendance_finished_by: user.id,
+        human_status: 'finalizado',
+      })
+      .eq('id', conversationId);
+    if (error) throw error;
+    await supabase.from('conversation_handoff_events').insert({
+      conversation_id: conversationId,
+      event_type: 'attendance_finished',
+      actor_user_id: user.id,
+      reason: 'finalizado_por_humano',
+    });
+  },
+
+
+
 
   /**
    * Update contact notes
