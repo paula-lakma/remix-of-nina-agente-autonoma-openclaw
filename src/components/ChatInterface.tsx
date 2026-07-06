@@ -611,6 +611,16 @@ const ChatInterface: React.FC = () => {
                     </Button>
                   </>
                 )}
+                <Button
+                  onClick={handleFinishAttendance}
+                  variant="ghost"
+                  size="icon"
+                  className={`text-slate-400 hover:text-white ${activeChat.attendanceFinished ? 'bg-emerald-500/20 text-emerald-400' : ''}`}
+                  title="Finalizar atendimento (a Nina volta se o cliente responder)"
+                  disabled={activeChat.attendanceFinished}
+                >
+                  <CheckCircle2 className="w-5 h-5" />
+                </Button>
                 <div className="h-6 w-px bg-slate-800 mx-1"></div>
                 <Button 
                   variant="ghost" 
