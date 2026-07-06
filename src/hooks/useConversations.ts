@@ -201,15 +201,29 @@ export function useConversations() {
                 // Track this message as processed
                 processedMessageIds.current.add(uiMessage.id);
                 
+                // Defensive local reopen: if a user message lands on a
+                // finished conversation, the DB trigger will reopen it —
+                // mirror that locally so the UI updates immediately.
+                const isIncomingUser = newMessage.from_type === 'user';
+                const shouldReopen = isIncomingUser && conv.attendanceFinished;
+
                 return {
                   ...conv,
                   messages: [...conv.messages, uiMessage],
                   lastMessage: newMessage.content || '',
                   lastMessageTime: 'Agora',
                   // Increment unread if it's from user
-                  unreadCount: newMessage.from_type === 'user' 
+                  unreadCount: isIncomingUser
                     ? conv.unreadCount + 1 
-                    : conv.unreadCount
+                    : conv.unreadCount,
+                  ...(shouldReopen ? {
+                    attendanceFinished: false,
+                    attendanceFinishedAt: null,
+                    status: 'nina' as const,
+                    aiPaused: false,
+                    humanTakeoverRequired: false,
+                    humanStatus: null,
+                  } : {}),
                 };
               }
               return conv;
@@ -328,7 +342,18 @@ export function useConversations() {
                   ...conv,
                   status: updated.status,
                   isActive: updated.is_active,
-                  assignedTeam: updated.assigned_team
+                  assignedTeam: updated.assigned_team,
+                  assignedUserId: updated.assigned_user_id ?? null,
+                  attendanceFinished: !!updated.attendance_finished,
+                  attendanceFinishedAt: updated.attendance_finished_at ?? null,
+                  aiPaused: !!updated.ai_paused,
+                  humanTakeoverRequired: !!updated.human_takeover_required,
+                  requiresDermoconsultant: !!updated.requires_dermoconsultant,
+                  handoffType: updated.handoff_type ?? null,
+                  humanStatus: updated.human_status ?? null,
+                  handoffCreatedAt: updated.handoff_created_at ?? null,
+                  handoffReason: updated.handoff_reason ?? null,
+                  tags: Array.isArray(updated.tags) && updated.tags.length > 0 ? updated.tags : conv.tags,
                 };
               }
               return conv;
