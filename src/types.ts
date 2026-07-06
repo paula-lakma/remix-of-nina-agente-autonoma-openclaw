@@ -373,6 +373,8 @@ export function transformDBToUIConversation(
     handoffCreatedAt: conv.handoff_created_at ?? null,
     humanStatus: conv.human_status ?? null,
     lastMessageAtRaw: conv.last_message_at,
+    attendanceFinished: !!(conv as any).attendance_finished,
+    attendanceFinishedAt: (conv as any).attendance_finished_at ?? null,
   };
 }
 
