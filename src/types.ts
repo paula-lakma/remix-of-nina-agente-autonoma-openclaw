@@ -315,6 +315,8 @@ export interface UIConversation {
   handoffCreatedAt?: string | null;
   humanStatus?: string | null;
   lastMessageAtRaw?: string;
+  attendanceFinished?: boolean;
+  attendanceFinishedAt?: string | null;
 }
 
 export interface UIMessage {
