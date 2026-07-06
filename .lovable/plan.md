@@ -1,66 +1,79 @@
 
-## O que os dados mostram agora
+## Achei o bug — e é grave
 
-Você tem razão — Meta e webhook estão OK. A mensagem "Oi" do número final **1113** chegou às **14:25:28** de hoje:
+Nos logs do `whatsapp-webhook` a mensagem "oi" do **5514997835777** (final 5777) chegou às **14:31:24** de hoje, mas o insert falhou:
 
-- `message_grouping_queue`: 1 linha nova nas últimas 2h, de `553484161113`, `processed=true`.
-- `messages`: mensagem `user` "Oi" inserida, Nina respondeu 26s depois.
-- Rede do front: PATCH marcando essa conversa como lida — ou seja, **ela apareceu no /chat normalmente**.
-
-Sobre a conversa que **você finalizou**:
-- É a `a7b8eddb-…`, contato `+55 14 99783-5777` (final **5777**, não 1113).
-- `attendance_finished = true` desde `2026-06-26 13:49`.
-- Última mensagem do cliente nessa conversa: `2026-06-25 23:30`. **Desde a finalização, nenhuma mensagem nova desse número chegou no webhook** (`message_grouping_queue` não tem entrada para 5514997835777 depois de 25/jun).
-- Ou seja: no fluxo real "finalizou → cliente responde" ainda **não houve** uma mensagem de teste chegando; o que veio hoje foi de outro contato (1113), que não estava finalizado.
-
-Analisando o código do fluxo finalizar/reabrir, achei **um bug real** que explica a sensação de "não chega no front", mesmo com a mensagem entrando no banco:
-
-### Bug encontrado — UPDATE de conversa não sincroniza `attendanceFinished`
-
-`src/hooks/useConversations.ts` (handler do `UPDATE` em `conversations`, ~linha 321):
-
-```ts
-return {
-  ...conv,
-  status: updated.status,
-  isActive: updated.is_active,
-  assignedTeam: updated.assigned_team,
-};
+```
+ERROR [Webhook] Error creating message:
+  code: 42703
+  message: column "reason" of relation "conversation_handoff_events" does not exist
 ```
 
-Quando o trigger `trg_reopen_finished_conversation` reabre a conversa (seta `attendance_finished=false`, `status='nina'`, `human_status=null`, etc.), o realtime dispara esse UPDATE — mas o handler **ignora** `attendance_finished`, `attendance_finished_at`, `ai_paused`, `human_status`, `human_takeover_required`, `requires_dermoconsultant`, `handoff_type`, `nina_reactivated_at`, `assigned_user_id`, `assigned_at`, `tags`, `metadata`, etc.
+### Causa raiz
+A tabela `public.conversation_handoff_events` tem a coluna **`handoff_reason`**, não `reason`. Dois pontos estão gravando com o nome errado:
 
-Efeito visível:
-- A tag verde **"Finalizado"** continua na lista.
-- O banner verde **"Atendimento finalizado…"** continua dentro da conversa.
-- O botão "Finalizar" fica desabilitado.
-- Parece que "nada aconteceu" quando o cliente responde — a mensagem até é inserida no thread, mas a UI comunica o oposto.
+1. **Trigger `reopen_finished_conversation_on_message`** (dispara em `AFTER INSERT ON public.messages`) faz:
+   ```sql
+   INSERT INTO public.conversation_handoff_events
+     (conversation_id, event_type, actor_user_id, reason)
+   VALUES (..., 'reopened_by_message', NULL, 'new_incoming_message');
+   ```
+   Como o trigger é `AFTER INSERT` e faz `RAISE`/erro implícito, **a transação inteira da inserção da mensagem é revertida**. Ou seja: quando um cliente responde a uma conversa finalizada, a mensagem **não chega no `messages`**, não chega no realtime, não chega no front, e ainda por cima o webhook responde 200 (o `try/catch` do handler engole o erro por mensagem). Foi exatamente o que aconteceu com o 5777.
+
+2. **`src/services/api.ts` → `finishAttendance`** (linha ~1529) também insere `reason: 'finalizado_por_humano'`. Provavelmente falha silenciosa hoje (o UPDATE anterior já persiste `attendance_finished=true`, então parece que "funcionou").
 
 ## Plano de correção
 
-### 1. Sincronizar todos os campos relevantes no UPDATE realtime
-Em `src/hooks/useConversations.ts`, no `.on('postgres_changes', { event: 'UPDATE', table: 'conversations' })`, substituir o merge parcial por um merge que reflita o estado atual do registro — mesmos campos que `transformDBToUIConversation` produz:
+### 1. Migration: corrigir o trigger
+Recriar `public.reopen_finished_conversation_on_message()` trocando `reason` por `handoff_reason` — mantendo todo o resto do comportamento (reabre, reativa Nina, insere evento).
 
-- `status`, `isActive`, `assignedTeam`, `assignedUserId`, `assignedAt`
-- `attendanceFinished`, `attendanceFinishedAt`
-- `aiPaused`, `humanTakeoverRequired`, `requiresDermoconsultant`
-- `handoffType`, `humanStatus`, `handoffCreatedAt`, `handoffReason`
-- `tags`, `ninaReactivatedAt`
+```sql
+CREATE OR REPLACE FUNCTION public.reopen_finished_conversation_on_message()
+RETURNS trigger
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path TO 'public'
+AS $$
+BEGIN
+  IF NEW.from_type = 'user' THEN
+    UPDATE public.conversations
+       SET attendance_finished = false,
+           attendance_finished_at = NULL,
+           attendance_finished_by = NULL,
+           ai_paused = false,
+           human_takeover_required = false,
+           requires_dermoconsultant = false,
+           handoff_type = NULL,
+           handoff_reason = NULL,
+           human_status = NULL,
+           status = 'nina',
+           updated_at = now()
+     WHERE id = NEW.conversation_id
+       AND attendance_finished = true;
 
-Isso resolve o cenário "cliente responde → banner some, Nina volta, badge some" sem precisar de refetch.
+    IF FOUND THEN
+      INSERT INTO public.conversation_handoff_events
+        (conversation_id, event_type, actor_user_id, handoff_reason)
+      VALUES (NEW.conversation_id, 'reopened_by_message', NULL, 'new_incoming_message');
+    END IF;
+  END IF;
+  RETURN NEW;
+END;
+$$;
+```
 
-### 2. Ajuste de defesa no INSERT de mensagem
-Ainda em `useConversations.ts`, quando entrar mensagem `from_type='user'` para uma conversa com `attendanceFinished=true` em memória, forçar localmente `attendanceFinished=false, status='nina'` além de anexar a mensagem — assim a UI atualiza **na hora**, mesmo que o UPDATE do postgres_changes chegue com atraso.
+### 2. Corrigir `src/services/api.ts` → `finishAttendance`
+Trocar `reason` por `handoff_reason` no insert em `conversation_handoff_events`.
 
-### 3. Verificação da conversa 5777 (sem código, você faz o teste)
-Como não há evidência do webhook receber mensagem dessa conversa desde 25/jun, peça ao contato para enviar **um "oi" agora** e me avise. Vou checar em segundos:
-- `message_grouping_queue` (deve aparecer entrada para `5514997835777`);
-- `messages` (nova linha `from_type='user'`);
-- `conversations.attendance_finished` (deve virar `false` via trigger);
-- Se todos os 3 acontecerem e a UI ainda não atualizar, o problema não é o bug acima e vamos abrir uma segunda frente.
+### 3. Reprocessar a mensagem "perdida" do 5777
+Peço para o cliente reenviar "oi" — com o trigger corrigido a mensagem entra normal, o trigger reabre a conversa, e o realtime mostra tudo no front. (Não vamos forjar a inserção retroativa; o `wamid` original já foi consumido pelo webhook.)
 
-## Arquivos a editar
-- `src/hooks/useConversations.ts` — handler de UPDATE em `conversations` + defesa no INSERT de `messages`.
+### 4. (Opcional, defensivo) Fila de retentativa no webhook
+Como o `try/catch` por mensagem hoje engole erros e devolve 200, mensagens que quebram por qualquer motivo somem. Se quiser posso adicionar um `console.error` mais visível e, futuramente, uma tabela `webhook_dead_letters`. Fora do escopo dessa correção emergencial — só listo para você decidir depois.
 
-## O que **não** precisa mudar
-- Webhook (`whatsapp-webhook`), trigger `trg_reopen_finished_conversation`, botão "Finalizar atendimento", `api.finishAttendance`. Todos verificados e corretos.
+## Arquivos alterados
+- **Nova migration** — recria `reopen_finished_conversation_on_message()` com `handoff_reason`.
+- **`src/services/api.ts`** — `finishAttendance` usa `handoff_reason`.
+
+## Não muda
+- Webhook, `useConversations.ts` (já sincronizado no fix anterior), botão "Finalizar", trigger em si (só o corpo da função).
