@@ -1530,7 +1530,7 @@ export const api = {
       conversation_id: conversationId,
       event_type: 'attendance_finished',
       actor_user_id: user.id,
-      reason: 'finalizado_por_humano',
+      handoff_reason: 'finalizado_por_humano',
     });
   },
 
