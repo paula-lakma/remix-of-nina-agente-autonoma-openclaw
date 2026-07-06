@@ -344,7 +344,6 @@ export function useConversations() {
                   isActive: updated.is_active,
                   assignedTeam: updated.assigned_team,
                   assignedUserId: updated.assigned_user_id ?? null,
-                  assignedAt: updated.assigned_at ?? null,
                   attendanceFinished: !!updated.attendance_finished,
                   attendanceFinishedAt: updated.attendance_finished_at ?? null,
                   aiPaused: !!updated.ai_paused,
@@ -354,8 +353,7 @@ export function useConversations() {
                   humanStatus: updated.human_status ?? null,
                   handoffCreatedAt: updated.handoff_created_at ?? null,
                   handoffReason: updated.handoff_reason ?? null,
-                  ninaReactivatedAt: updated.nina_reactivated_at ?? null,
-                  tags: Array.isArray(updated.tags) ? updated.tags : conv.tags,
+                  tags: Array.isArray(updated.tags) && updated.tags.length > 0 ? updated.tags : conv.tags,
                 };
               }
               return conv;
