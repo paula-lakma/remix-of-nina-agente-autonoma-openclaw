@@ -707,6 +707,16 @@ const ChatInterface: React.FC = () => {
                 </div>
               </div>
             )}
+            {activeChat.attendanceFinished && (
+              <div className="px-6 py-3 bg-emerald-500/10 border-b border-emerald-500/30 flex items-start gap-3 z-10">
+                <CheckCircle2 className="w-5 h-5 text-emerald-400 flex-shrink-0 mt-0.5" />
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-semibold text-emerald-200">
+                    Atendimento finalizado. A Nina retorna automaticamente se o cliente enviar uma nova mensagem.
+                  </p>
+                </div>
+              </div>
+            )}
 
             {/* Messages Area */}
             <div className="flex-1 overflow-y-auto p-6 space-y-6 custom-scrollbar relative z-0">
