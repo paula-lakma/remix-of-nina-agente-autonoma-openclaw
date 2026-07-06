@@ -1,58 +1,66 @@
-# Corrigir status "offline" no `/cerebro` com instância respondendo
 
-## Diagnóstico
+## O que os dados mostram agora
 
-O status é **derivado no frontend** a partir da idade do `last_heartbeat`:
+Você tem razão — Meta e webhook estão OK. A mensagem "Oi" do número final **1113** chegou às **14:25:28** de hoje:
 
-- `src/hooks/useInstance.ts` → `HEARTBEAT_ONLINE_WINDOW_MS = 10 * 60 * 1000` (10 min).
-- Se `now - last_heartbeat > 10min` ⇒ badge fica **offline**, mesmo com a coluna `status='online'` no banco.
+- `message_grouping_queue`: 1 linha nova nas últimas 2h, de `553484161113`, `processed=true`.
+- `messages`: mensagem `user` "Oi" inserida, Nina respondeu 26s depois.
+- Rede do front: PATCH marcando essa conversa como lida — ou seja, **ela apareceu no /chat normalmente**.
 
-Estado atual do banco (consulta agora):
+Sobre a conversa que **você finalizou**:
+- É a `a7b8eddb-…`, contato `+55 14 99783-5777` (final **5777**, não 1113).
+- `attendance_finished = true` desde `2026-06-26 13:49`.
+- Última mensagem do cliente nessa conversa: `2026-06-25 23:30`. **Desde a finalização, nenhuma mensagem nova desse número chegou no webhook** (`message_grouping_queue` não tem entrada para 5514997835777 depois de 25/jun).
+- Ou seja: no fluxo real "finalizou → cliente responde" ainda **não houve** uma mensagem de teste chegando; o que veio hoje foi de outro contato (1113), que não estava finalizado.
 
-```text
-hostname:     srv1775861
-ingress_url:  https://rather-swing-mrs-while.trycloudflare.com
-status:       online     ← coluna do banco
-last_heartbeat: 14 min atrás   ← ultrapassa a janela de 10 min ⇒ UI mostra "offline"
+Analisando o código do fluxo finalizar/reabrir, achei **um bug real** que explica a sensação de "não chega no front", mesmo com a mensagem entrando no banco:
+
+### Bug encontrado — UPDATE de conversa não sincroniza `attendanceFinished`
+
+`src/hooks/useConversations.ts` (handler do `UPDATE` em `conversations`, ~linha 321):
+
+```ts
+return {
+  ...conv,
+  status: updated.status,
+  isActive: updated.is_active,
+  assignedTeam: updated.assigned_team,
+};
 ```
 
-E o cron da VPS (`skills/nina/scripts/heartbeat.sh`) roda **a cada 5 min**. Ou seja: **basta 1 heartbeat perder o tick** (rede lenta, quick tunnel reconectando, systemd cronjob atrasado) para a idade passar de 10 min e o painel piscar "offline" — mesmo com a Nina respondendo, porque o `nina-orchestrator` dispara pro `ingress_url` diretamente e não olha a idade do heartbeat.
+Quando o trigger `trg_reopen_finished_conversation` reabre a conversa (seta `attendance_finished=false`, `status='nina'`, `human_status=null`, etc.), o realtime dispara esse UPDATE — mas o handler **ignora** `attendance_finished`, `attendance_finished_at`, `ai_paused`, `human_status`, `human_takeover_required`, `requires_dermoconsultant`, `handoff_type`, `nina_reactivated_at`, `assigned_user_id`, `assigned_at`, `tags`, `metadata`, etc.
 
-Nos logs recentes o `nina-orchestrator` inclusive registrou: *"OpenClaw instance resolvida por fallback single-tenant"* — a orquestração não valida frescor do heartbeat, então o envio funciona mesmo com a UI marcando offline.
+Efeito visível:
+- A tag verde **"Finalizado"** continua na lista.
+- O banner verde **"Atendimento finalizado…"** continua dentro da conversa.
+- O botão "Finalizar" fica desabilitado.
+- Parece que "nada aconteceu" quando o cliente responde — a mensagem até é inserida no thread, mas a UI comunica o oposto.
 
-**Causa raiz**: janela de "online" apertada demais para a frequência do cron. Secundariamente, o heartbeat da VPS às vezes atrasa/pula (a última execução foi ~14 min atrás, sendo que deveria ter tido 2 execuções nesse intervalo).
+## Plano de correção
 
-## Plano de ação
+### 1. Sincronizar todos os campos relevantes no UPDATE realtime
+Em `src/hooks/useConversations.ts`, no `.on('postgres_changes', { event: 'UPDATE', table: 'conversations' })`, substituir o merge parcial por um merge que reflita o estado atual do registro — mesmos campos que `transformDBToUIConversation` produz:
 
-### 1. Aumentar a janela de tolerância no frontend (correção principal, imediata)
+- `status`, `isActive`, `assignedTeam`, `assignedUserId`, `assignedAt`
+- `attendanceFinished`, `attendanceFinishedAt`
+- `aiPaused`, `humanTakeoverRequired`, `requiresDermoconsultant`
+- `handoffType`, `humanStatus`, `handoffCreatedAt`, `handoffReason`
+- `tags`, `ninaReactivatedAt`
 
-Passar `HEARTBEAT_ONLINE_WINDOW_MS` de **10 min → 15 min** em `src/hooks/useInstance.ts`. Isso dá margem de 3x o intervalo do cron (5 min), padrão comum pra monitoramento tolerar 1–2 ticks perdidos sem alarme falso.
+Isso resolve o cenário "cliente responde → banner some, Nina volta, badge some" sem precisar de refetch.
 
-Racional:
-- Um tick perdido (5 min) continua dentro da janela.
-- Dois ticks perdidos disparam o offline — aí é sintoma real (cron/tunnel travados).
-- Não muda nada no backend; puramente cosmético/UX.
+### 2. Ajuste de defesa no INSERT de mensagem
+Ainda em `useConversations.ts`, quando entrar mensagem `from_type='user'` para uma conversa com `attendanceFinished=true` em memória, forçar localmente `attendanceFinished=false, status='nina'` além de anexar a mensagem — assim a UI atualiza **na hora**, mesmo que o UPDATE do postgres_changes chegue com atraso.
 
-### 2. Cruzar `status` da coluna + idade do heartbeat (correção fina)
+### 3. Verificação da conversa 5777 (sem código, você faz o teste)
+Como não há evidência do webhook receber mensagem dessa conversa desde 25/jun, peça ao contato para enviar **um "oi" agora** e me avise. Vou checar em segundos:
+- `message_grouping_queue` (deve aparecer entrada para `5514997835777`);
+- `messages` (nova linha `from_type='user'`);
+- `conversations.attendance_finished` (deve virar `false` via trigger);
+- Se todos os 3 acontecerem e a UI ainda não atualizar, o problema não é o bug acima e vamos abrir uma segunda frente.
 
-Ajustar `computeInstanceStatus()` para retornar **`offline` apenas quando `status='offline'` na coluna E o heartbeat estiver velho**. Se a coluna diz `online` e o heartbeat está velho mas ainda "recentíssimo" (< 20 min), mostrar um estado intermediário — mantemos como `online` para não gerar falso alarme. Se o reaper do banco marcar `status='offline'`, aí sim a UI segue.
+## Arquivos a editar
+- `src/hooks/useConversations.ts` — handler de UPDATE em `conversations` + defesa no INSERT de `messages`.
 
-Isso alinha a UI com a verdade do banco: quem "declara" offline é o `reap-orphan-runs` (backend), não uma comparação isolada no cliente.
-
-### 3. (Opcional recomendado) Reduzir cron da VPS de 5 min → 2 min
-
-Documentar no `install/setup-nina.sh` / `install/docs/named-tunnel.md` a recomendação de cron `*/2 * * * *` para o `heartbeat.sh`. Não altera edge functions nem código do painel; é config de sistema no host da Nina.
-
-Nesta rodada **não altero o installer** — só deixo a recomendação registrada. Se quiser que eu já mexa no `setup-nina.sh`, me avise.
-
-### 4. Investigação follow-up (fora do scope deste patch)
-
-Depois de aplicar (1) e (2), se ainda cair para offline:
-- SSH na VPS: `tail -n 50 ~/.nina-sdr/logs/heartbeat.log` e `systemctl list-timers | grep nina` — ver se o cron está de fato rodando a cada 5 min.
-- Checar se o `cloudflared-nina` reiniciou (quick tunnels trocam URL; o `heartbeat.sh` re-detecta, mas se falhar o body vai sem `ingress_url`).
-
-### Arquivos alterados nesta rodada
-
-- `src/hooks/useInstance.ts` — janela para 15 min + lógica cruzada com `instance.status`.
-
-Nenhum outro arquivo do backend, edge function ou schema é tocado.
+## O que **não** precisa mudar
+- Webhook (`whatsapp-webhook`), trigger `trg_reopen_finished_conversation`, botão "Finalizar atendimento", `api.finishAttendance`. Todos verificados e corretos.
