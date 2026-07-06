@@ -201,15 +201,29 @@ export function useConversations() {
                 // Track this message as processed
                 processedMessageIds.current.add(uiMessage.id);
                 
+                // Defensive local reopen: if a user message lands on a
+                // finished conversation, the DB trigger will reopen it —
+                // mirror that locally so the UI updates immediately.
+                const isIncomingUser = newMessage.from_type === 'user';
+                const shouldReopen = isIncomingUser && conv.attendanceFinished;
+
                 return {
                   ...conv,
                   messages: [...conv.messages, uiMessage],
                   lastMessage: newMessage.content || '',
                   lastMessageTime: 'Agora',
                   // Increment unread if it's from user
-                  unreadCount: newMessage.from_type === 'user' 
+                  unreadCount: isIncomingUser
                     ? conv.unreadCount + 1 
-                    : conv.unreadCount
+                    : conv.unreadCount,
+                  ...(shouldReopen ? {
+                    attendanceFinished: false,
+                    attendanceFinishedAt: null,
+                    status: 'nina' as const,
+                    aiPaused: false,
+                    humanTakeoverRequired: false,
+                    humanStatus: null,
+                  } : {}),
                 };
               }
               return conv;
