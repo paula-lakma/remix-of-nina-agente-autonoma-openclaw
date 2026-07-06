@@ -189,6 +189,17 @@ const ChatInterface: React.FC = () => {
     }
   };
 
+  const handleFinishAttendance = async () => {
+    if (!activeChat) return;
+    if (!confirm('Finalizar este atendimento? A conversa será encerrada, mas a Nina voltará automaticamente se o cliente enviar uma nova mensagem.')) return;
+    try {
+      await api.finishAttendance(activeChat.id);
+      toast.success('Atendimento finalizado. Nina retorna se o cliente responder.');
+    } catch (e: any) {
+      toast.error(e?.message || 'Erro ao finalizar atendimento');
+    }
+  };
+
   const handoffReasonLabel = (reason?: string | null) => {
     if (!reason) return null;
     const map: Record<string, string> = {
