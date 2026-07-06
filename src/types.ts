@@ -258,6 +258,9 @@ export interface DBConversation {
   assigned_at?: string | null;
   nina_reactivated_by?: string | null;
   nina_reactivated_at?: string | null;
+  attendance_finished?: boolean;
+  attendance_finished_at?: string | null;
+  attendance_finished_by?: string | null;
   // Joined data
   contact?: DBContact;
   messages?: DBMessage[];
