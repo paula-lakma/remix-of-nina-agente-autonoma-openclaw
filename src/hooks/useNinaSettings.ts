@@ -123,6 +123,10 @@ export function useNinaSettings(): UseNinaSettingsResult {
             system_prompt_override: next.system_prompt_override || null,
             brain_repo_url: next.brain_repo_url || null,
             brain_identity: next.brain_identity as unknown as Json,
+            coupon_enabled: next.coupon_enabled,
+            coupon_code: next.coupon_code || null,
+            coupon_discount_percent:
+              next.coupon_discount_percent === '' ? null : Number(next.coupon_discount_percent),
             updated_at: new Date().toISOString(),
           })
           .eq('id', settingsId);
