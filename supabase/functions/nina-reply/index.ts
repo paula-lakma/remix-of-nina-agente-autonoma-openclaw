@@ -43,6 +43,9 @@ Deno.serve(async (req: Request) => {
     run_id?: string;
     content?: string;
     status?: string;
+    /** Motivo estruturado do handoff (fonte da verdade do roteamento). */
+    handoff_reason?: string;
+    handoff?: { reason?: string };
   };
   try {
     body = await req.json();
