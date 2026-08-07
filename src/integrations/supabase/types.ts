@@ -260,6 +260,54 @@ export type Database = {
         }
         Relationships: []
       }
+      brain_protocols: {
+        Row: {
+          created_at: string
+          drive_url: string | null
+          id: string
+          image_path: string | null
+          image_url: string | null
+          knowledge_text: string | null
+          name: string
+          owner_user_id: string
+          pdf_path: string | null
+          pdf_url: string | null
+          slug: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          drive_url?: string | null
+          id?: string
+          image_path?: string | null
+          image_url?: string | null
+          knowledge_text?: string | null
+          name: string
+          owner_user_id: string
+          pdf_path?: string | null
+          pdf_url?: string | null
+          slug: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          drive_url?: string | null
+          id?: string
+          image_path?: string | null
+          image_url?: string | null
+          knowledge_text?: string | null
+          name?: string
+          owner_user_id?: string
+          pdf_path?: string | null
+          pdf_url?: string | null
+          slug?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       broadcast_campaigns: {
         Row: {
           batch_size: number
