@@ -16,7 +16,7 @@ import { getLastSync, setLastSync, type LastSync } from '@/services/cerebroServi
 const TEXT = {
   title: 'Treinar a Nina',
   subtitle: 'Configure a identidade, os produtos e o conhecimento — depois sincronize o cérebro com o repositório.',
-  tabs: { identity: 'Identidade', products: 'Produtos', knowledge: 'Conhecimento', skills: 'Habilidades' },
+  tabs: { identity: 'Identidade', products: 'Produtos', knowledge: 'Conhecimento', protocols: 'Protocolos', skills: 'Habilidades' },
   sync: 'Sincronizar cérebro',
   syncing: 'Sincronizando…',
   synced: 'Cérebro sincronizado',
