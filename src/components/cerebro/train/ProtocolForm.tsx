@@ -36,7 +36,7 @@ const ProtocolForm: React.FC<ProtocolFormProps> = ({
 }) => {
   const set = (patch: Partial<BrainProtocolInput>) => onChange({ ...draft, ...patch });
 
-  const folderKey = protocolId ?? draft.slug || slugifyProtocol(draft.name) || 'novo';
+  const folderKey = protocolId ?? (draft.slug || slugifyProtocol(draft.name) || 'novo');
 
   return (
     <div className="space-y-4">
