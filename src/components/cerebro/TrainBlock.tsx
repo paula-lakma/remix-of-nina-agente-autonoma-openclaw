@@ -91,11 +91,13 @@ const TrainBlock: React.FC = () => {
           <TabsTrigger value="identity">{TEXT.tabs.identity}</TabsTrigger>
           <TabsTrigger value="products">{TEXT.tabs.products}</TabsTrigger>
           <TabsTrigger value="knowledge">{TEXT.tabs.knowledge}</TabsTrigger>
+          <TabsTrigger value="protocols">{TEXT.tabs.protocols}</TabsTrigger>
           <TabsTrigger value="skills">{TEXT.tabs.skills}</TabsTrigger>
         </TabsList>
         <TabsContent value="identity" className="mt-5"><IdentityForm /></TabsContent>
         <TabsContent value="products" className="mt-5"><ProductsManager /></TabsContent>
         <TabsContent value="knowledge" className="mt-5"><KnowledgeManager /></TabsContent>
+        <TabsContent value="protocols" className="mt-5"><ProtocolsManager /></TabsContent>
         <TabsContent value="skills" className="mt-5"><SkillsStore /></TabsContent>
       </Tabs>
 
