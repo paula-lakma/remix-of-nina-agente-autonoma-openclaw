@@ -188,10 +188,15 @@ const REASON_MATRIX: Array<{ reason: string; destination: HandoffDestination; rx
   { reason: "link_nao_localizado", destination: "dermoconsultant", rx: /link n[ãa]o (encontrad|localizad)|n[ãa]o (consegui|localizei) (o )?link|n[ãa]o encontrei o link/i },
 ];
 
-/** Detecta motivo + destino a partir do texto. Retorna null se nada casar. */
-export function detectHandoffTarget(text: string): { reason: string; destination: HandoffDestination } | null {
+/**
+ * ⚠️ LEGADO — fallback. Detecta motivo a partir do texto natural e o converte
+ * para o motivo canônico estruturado. Retorna null se nada casar.
+ */
+export function detectHandoffTarget(
+  text: string,
+): { reason: HandoffReason; destination: HandoffDestination } | null {
   for (const entry of REASON_MATRIX) {
-    if (entry.rx.test(text)) return { reason: entry.reason, destination: entry.destination };
+    if (entry.rx.test(text)) return resolveHandoffReason(entry.reason);
   }
   return null;
 }
