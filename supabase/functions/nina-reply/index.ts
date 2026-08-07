@@ -20,7 +20,13 @@ import {
   jsonResponse,
   validatePanelToken,
 } from "../_shared/panel.ts";
-import { applyHandoff, detectHandoffTarget, isOutsideDermoHours } from "../_shared/handoff.ts";
+import {
+  applyHandoff,
+  detectHandoffTarget,
+  extractHandoffMarker,
+  isOutsideDermoHours,
+  resolveHandoffReason,
+} from "../_shared/handoff.ts";
 
 
 // EdgeRuntime é global no runtime de Edge Functions do Supabase (pode não existir
@@ -37,6 +43,9 @@ Deno.serve(async (req: Request) => {
     run_id?: string;
     content?: string;
     status?: string;
+    /** Motivo estruturado do handoff (fonte da verdade do roteamento). */
+    handoff_reason?: string;
+    handoff?: { reason?: string };
   };
   try {
     body = await req.json();
@@ -129,11 +138,18 @@ Deno.serve(async (req: Request) => {
   // cadastrada. Aqui extraímos cada marcador, validamos http(s) e enfileiramos
   // mensagens WhatsApp (`image` / `document`) ANTES do texto. O texto sem os
   // marcadores segue como `text` normal.
+  // Marcador estruturado de handoff [[HANDOFF:<reason>]] — determina o DESTINO
+  // do encaminhamento independentemente do texto escrito ao cliente. É removido
+  // do conteúdo antes do envio.
+  const markerParse = extractHandoffMarker(content);
+  const structuredTarget =
+    resolveHandoffReason(body.handoff_reason ?? body.handoff?.reason) ?? markerParse.target;
+
   const IMG_RE = /\[\[IMG:(https?:\/\/[^\s\]]+)\]\]/gi;
   const PDF_RE = /\[\[PDF:(https?:\/\/[^\s\]]+)\]\]/gi;
   const imageUrls: string[] = [];
   const pdfUrls: string[] = [];
-  let cleaned = content
+  let cleaned = markerParse.cleaned
     .replace(IMG_RE, (_m, url) => {
       imageUrls.push(String(url).trim());
       return "";
@@ -283,31 +299,39 @@ Deno.serve(async (req: Request) => {
   }
 
   // ── HANDOFF HUMANO (matriz de destinos em _shared/handoff.ts) ──────────────
-  // Só encaminha quando a NINA realmente CONFIRMA o encaminhamento (não quando
-  // apenas pergunta se a pessoa quer aguardar). Para dermoconsultora, as regras
-  // de horário comercial (America/Sao_Paulo) seguem preservadas.
+  // DETERMINÍSTICO: o destino vem do `handoff_reason` estruturado (body ou
+  // marcador [[HANDOFF:reason]]). O texto enviado ao cliente NÃO decide o
+  // destino. A regex antiga permanece apenas como fallback legado.
+  // Para dermoconsultora, as regras de horário comercial seguem preservadas.
   try {
-    const confirmedHandoffRegex = /\bvou\s+(deixar|encaminhar|passar)\b|deixar.{0,15}encaminhad[oa]|encaminhar (sua |seu )?(d[úu]vida|caso|atendimento|solicita[çc][ãa]o)|vou\s+chamar\s+(a|o)\s+respons[áa]vel/i;
-    const askingOnlyRegex = /(voc[êe] (quer|prefere)|deseja).{0,80}(encaminhar|deixar.{0,15}encaminhad|aguardar)/i;
+    let target: { reason: string; destination: "comercial" | "parcerias" | "financeiro" | "dermoconsultant" } | null =
+      structuredTarget;
+    let source: "structured" | "regex_fallback" = "structured";
 
-    const isConfirmedHandoff = confirmedHandoffRegex.test(content) && !askingOnlyRegex.test(content);
+    if (!target) {
+      // ⚠️ FALLBACK LEGADO — só quando não houve motivo estruturado.
+      const confirmedHandoffRegex = /\bvou\s+(deixar|encaminhar|passar)\b|deixar.{0,15}encaminhad[oa]|encaminhar (sua |seu )?(d[úu]vida|caso|atendimento|solicita[çc][ãa]o)|vou\s+chamar\s+(a|o)\s+respons[áa]vel/i;
+      const askingOnlyRegex = /(voc[êe] (quer|prefere)|deseja).{0,80}(encaminhar|deixar.{0,15}encaminhad|aguardar)/i;
 
-    if (isConfirmedHandoff) {
-      // Contexto: resposta da Nina + última mensagem do lead (ajuda a classificar).
-      let leadText = "";
-      try {
-        const { data: lastMsg } = await supabase
-          .from("messages").select("content")
-          .eq("conversation_id", conversation.id).eq("from_type", "user")
-          .order("sent_at", { ascending: false }).limit(1).maybeSingle();
-        leadText = lastMsg?.content ?? "";
-      } catch (_e) { /* ignore */ }
+      if (confirmedHandoffRegex.test(content) && !askingOnlyRegex.test(content)) {
+        let leadText = "";
+        try {
+          const { data: lastMsg } = await supabase
+            .from("messages").select("content")
+            .eq("conversation_id", conversation.id).eq("from_type", "user")
+            .order("sent_at", { ascending: false }).limit(1).maybeSingle();
+          leadText = lastMsg?.content ?? "";
+        } catch (_e) { /* ignore */ }
 
-      const target =
-        detectHandoffTarget(content) ??
-        detectHandoffTarget(leadText) ??
-        { reason: "dermoconsultora", destination: "dermoconsultant" as const };
+        target =
+          detectHandoffTarget(content) ??
+          detectHandoffTarget(leadText) ??
+          { reason: "sensitive_case", destination: "dermoconsultant" as const };
+        source = "regex_fallback";
+      }
+    }
 
+    if (target) {
       const { outsideHours, weekday, hour } =
         target.destination === "dermoconsultant"
           ? isOutsideDermoHours()
@@ -321,13 +345,16 @@ Deno.serve(async (req: Request) => {
         runId: runId ?? null,
         snippet: content,
         outsideHours,
-        extraMetadata: target.destination === "dermoconsultant"
-          ? { tz: "America/Sao_Paulo", weekday, hour }
-          : {},
+        extraMetadata: {
+          reason_source: source,
+          ...(target.destination === "dermoconsultant"
+            ? { tz: "America/Sao_Paulo", weekday, hour }
+            : {}),
+        },
       });
     }
   } catch (e) {
-    console.error("[nina-reply] handoff detection error:", e);
+    console.error("[nina-reply] handoff resolution error:", e);
   }
 
 

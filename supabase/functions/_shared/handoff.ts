@@ -27,7 +27,126 @@ export const DESTINATION_EMAILS: Record<Exclude<HandoffDestination, "dermoconsul
 /** Conta master — jamais pode ser destino operacional. */
 export const MASTER_EMAIL_BLOCKLIST = ["paula@lakma.com.br"];
 
-/** motivo -> destino + regex de detecção (aplicado ao texto da resposta/conversa). */
+/**
+ * ── MOTIVOS ESTRUTURADOS (fonte da verdade do roteamento) ───────────────────
+ * O destino é resolvido pelo `handoff_reason` interno, NUNCA pelo texto que a
+ * Nina escreve ao cliente. A mensagem pode mudar livremente sem afetar o roteio.
+ */
+export const REASON_DESTINATIONS = {
+  // Paula Rodrigues (comercial / SAC / logística)
+  stock: "comercial",
+  exchange: "comercial",
+  return: "comercial",
+  damaged_product: "comercial",
+  missing_item: "comercial",
+  complaint_sac: "comercial",
+  resale: "comercial",
+  wholesale: "comercial",
+  supplier: "comercial",
+  product_missing_price: "comercial",
+  site_error: "comercial",
+  cart_error: "comercial",
+  checkout_error: "comercial",
+  distribution_handoff: "comercial",
+
+  // Carla (cupom / parcerias)
+  coupon_issue: "parcerias",
+  partnership: "parcerias",
+  influencer: "parcerias",
+  collab: "parcerias",
+
+  // Leticia (financeiro)
+  payment: "financeiro",
+  invoice: "financeiro",
+
+  // Dermoconsultora (técnico / sensível)
+  technical_question: "dermoconsultant",
+  sensitive_case: "dermoconsultant",
+  contraindication: "dermoconsultant",
+  reaction: "dermoconsultant",
+  allergy: "dermoconsultant",
+  pregnancy_breastfeeding: "dermoconsultant",
+  sensitized_or_injured_skin: "dermoconsultant",
+  medication_or_dermatological_treatment: "dermoconsultant",
+  recent_procedure: "dermoconsultant",
+  protocol_adaptation: "dermoconsultant",
+  protocol_product_substitution: "dermoconsultant",
+  missing_technical_information: "dermoconsultant",
+  product_link_not_found_after_search: "dermoconsultant",
+} as const satisfies Record<string, HandoffDestination>;
+
+export type HandoffReason = keyof typeof REASON_DESTINATIONS;
+
+/** Motivos legados (pt-BR, vindos da regex antiga) -> motivo canônico. */
+const REASON_ALIASES: Record<string, HandoffReason> = {
+  estoque: "stock",
+  troca: "exchange",
+  devolucao: "return",
+  produto_avariado: "damaged_product",
+  produto_faltando: "missing_item",
+  reclamacao_sac: "complaint_sac",
+  revenda: "resale",
+  atacado: "wholesale",
+  fornecedor: "supplier",
+  produto_sem_preco: "product_missing_price",
+  erro_site: "site_error",
+  erro_carrinho: "cart_error",
+  erro_checkout: "checkout_error",
+  problema_cupom: "coupon_issue",
+  parceria: "partnership",
+  influenciadora: "influencer",
+  collab: "collab",
+  pagamento: "payment",
+  nota_fiscal: "invoice",
+  gestante: "pregnancy_breastfeeding",
+  lactante: "pregnancy_breastfeeding",
+  alergia: "allergy",
+  reacao: "reaction",
+  pele_sensibilizada: "sensitized_or_injured_skin",
+  contraindicacao: "contraindication",
+  medicamento_dermatologico: "medication_or_dermatological_treatment",
+  procedimento_recente: "recent_procedure",
+  adaptacao_protocolo: "protocol_adaptation",
+  duvida_tecnica: "technical_question",
+  protocolo_nao_aprovado: "missing_technical_information",
+  link_nao_localizado: "product_link_not_found_after_search",
+  dermoconsultora: "sensitive_case",
+};
+
+/** Normaliza qualquer motivo (canônico ou legado) -> { reason, destination }. */
+export function resolveHandoffReason(
+  raw: string | null | undefined,
+): { reason: HandoffReason; destination: HandoffDestination } | null {
+  if (!raw) return null;
+  const key = String(raw).trim().toLowerCase().replace(/[\s-]+/g, "_");
+  const canonical = (key in REASON_DESTINATIONS ? key : REASON_ALIASES[key]) as HandoffReason | undefined;
+  if (!canonical) return null;
+  return { reason: canonical, destination: REASON_DESTINATIONS[canonical] };
+}
+
+/**
+ * Extrai o marcador estruturado `[[HANDOFF:<reason>]]` do texto do agente.
+ * Retorna o motivo resolvido e o texto SEM o marcador (para envio ao cliente).
+ */
+export function extractHandoffMarker(text: string): {
+  target: { reason: HandoffReason; destination: HandoffDestination } | null;
+  cleaned: string;
+} {
+  const RE = /\[\[HANDOFF:\s*([a-z0-9_\-\s]+?)\s*\]\]/gi;
+  let found: string | null = null;
+  const cleaned = text.replace(RE, (_m, r) => {
+    if (!found) found = String(r);
+    return "";
+  });
+  return { target: resolveHandoffReason(found), cleaned };
+}
+
+
+/**
+ * ⚠️ LEGADO — fallback de último recurso.
+ * Regex sobre texto natural. NÃO é mais o mecanismo principal de roteamento:
+ * só é consultada quando nenhum `handoff_reason` estruturado foi informado.
+ */
 const REASON_MATRIX: Array<{ reason: string; destination: HandoffDestination; rx: RegExp }> = [
   // ── Paula Rodrigues (comercial / SAC / logística) ────────────────────────
   { reason: "estoque", destination: "comercial", rx: /\bestoque\b|sem estoque|indispon[íi]vel/i },
@@ -69,10 +188,15 @@ const REASON_MATRIX: Array<{ reason: string; destination: HandoffDestination; rx
   { reason: "link_nao_localizado", destination: "dermoconsultant", rx: /link n[ãa]o (encontrad|localizad)|n[ãa]o (consegui|localizei) (o )?link|n[ãa]o encontrei o link/i },
 ];
 
-/** Detecta motivo + destino a partir do texto. Retorna null se nada casar. */
-export function detectHandoffTarget(text: string): { reason: string; destination: HandoffDestination } | null {
+/**
+ * ⚠️ LEGADO — fallback. Detecta motivo a partir do texto natural e o converte
+ * para o motivo canônico estruturado. Retorna null se nada casar.
+ */
+export function detectHandoffTarget(
+  text: string,
+): { reason: HandoffReason; destination: HandoffDestination } | null {
   for (const entry of REASON_MATRIX) {
-    if (entry.rx.test(text)) return { reason: entry.reason, destination: entry.destination };
+    if (entry.rx.test(text)) return resolveHandoffReason(entry.reason);
   }
   return null;
 }
