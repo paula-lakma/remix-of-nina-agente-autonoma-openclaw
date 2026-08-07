@@ -1,3 +1,1 @@
 project_id = "bfuuucuzebtkregbycqd"
-[functions.admin-provision-team]
-verify_jwt = false
