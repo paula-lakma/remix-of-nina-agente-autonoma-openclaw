@@ -22,6 +22,9 @@ export interface NinaSettingsForm {
   system_prompt_override: string;
   brain_repo_url: string;
   brain_identity: BrainIdentity;
+  coupon_enabled: boolean;
+  coupon_code: string;
+  coupon_discount_percent: string;
 }
 
 const EMPTY: NinaSettingsForm = {
@@ -30,6 +33,9 @@ const EMPTY: NinaSettingsForm = {
   system_prompt_override: '',
   brain_repo_url: '',
   brain_identity: {},
+  coupon_enabled: false,
+  coupon_code: '',
+  coupon_discount_percent: '',
 };
 
 interface UseNinaSettingsResult {
