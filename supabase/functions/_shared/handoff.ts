@@ -142,7 +142,11 @@ export function extractHandoffMarker(text: string): {
 }
 
 
-/** motivo -> destino + regex de detecção (aplicado ao texto da resposta/conversa). */
+/**
+ * ⚠️ LEGADO — fallback de último recurso.
+ * Regex sobre texto natural. NÃO é mais o mecanismo principal de roteamento:
+ * só é consultada quando nenhum `handoff_reason` estruturado foi informado.
+ */
 const REASON_MATRIX: Array<{ reason: string; destination: HandoffDestination; rx: RegExp }> = [
   // ── Paula Rodrigues (comercial / SAC / logística) ────────────────────────
   { reason: "estoque", destination: "comercial", rx: /\bestoque\b|sem estoque|indispon[íi]vel/i },
