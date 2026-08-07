@@ -2167,6 +2167,7 @@ export type Database = {
         }
         Returns: boolean
       }
+      pick_next_dermoconsultora: { Args: never; Returns: string }
       set_secret: {
         Args: { secret_name: string; secret_value: string }
         Returns: undefined
