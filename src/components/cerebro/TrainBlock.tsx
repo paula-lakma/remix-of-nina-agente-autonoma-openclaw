@@ -9,6 +9,7 @@ import { supabase } from '@/integrations/supabase/client';
 import IdentityForm from './train/IdentityForm';
 import ProductsManager from './train/ProductsManager';
 import KnowledgeManager from './train/KnowledgeManager';
+import ProtocolsManager from './train/ProtocolsManager';
 import SkillsStore from './train/SkillsStore';
 import { getLastSync, setLastSync, type LastSync } from '@/services/cerebroService';
 
