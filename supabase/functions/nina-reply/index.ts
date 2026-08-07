@@ -20,7 +20,13 @@ import {
   jsonResponse,
   validatePanelToken,
 } from "../_shared/panel.ts";
-import { applyHandoff, detectHandoffTarget, isOutsideDermoHours } from "../_shared/handoff.ts";
+import {
+  applyHandoff,
+  detectHandoffTarget,
+  extractHandoffMarker,
+  isOutsideDermoHours,
+  resolveHandoffReason,
+} from "../_shared/handoff.ts";
 
 
 // EdgeRuntime é global no runtime de Edge Functions do Supabase (pode não existir
