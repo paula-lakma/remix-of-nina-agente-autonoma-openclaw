@@ -280,98 +280,54 @@ Deno.serve(async (req: Request) => {
     EdgeRuntime.waitUntil(triggerAnalyze);
   }
 
-  // ── DERMOCONSULTORA HANDOFF DETECTION ──────────────────────────────────────
-  // Só pausa quando NINA realmente CONFIRMA o encaminhamento (não quando só
-  // pergunta se a pessoa quer aguardar). Detecta horário comercial em
-  // America/Sao_Paulo: seg-qui 08-18, sex 08-17, sáb/dom/feriados fora.
+  // ── HANDOFF HUMANO (matriz de destinos em _shared/handoff.ts) ──────────────
+  // Só encaminha quando a NINA realmente CONFIRMA o encaminhamento (não quando
+  // apenas pergunta se a pessoa quer aguardar). Para dermoconsultora, as regras
+  // de horário comercial (America/Sao_Paulo) seguem preservadas.
   try {
-    // Frase de confirmação real ("vou encaminhar / vou deixar encaminhada / etc.")
-    const confirmedHandoffRegex = /\bvou\s+(deixar|encaminhar|passar)\b[^.?!]{0,60}(dermo|encaminhad|profissional)|deixar.{0,15}encaminhad[oa].{0,30}dermo|encaminhar (sua )?d[úu]vida.{0,15}dermo/i;
-    // Apenas menciona horários / pergunta — NÃO é confirmação.
+    const confirmedHandoffRegex = /\bvou\s+(deixar|encaminhar|passar)\b|deixar.{0,15}encaminhad[oa]|encaminhar (sua |seu )?(d[úu]vida|caso|atendimento|solicita[çc][ãa]o)|vou\s+chamar\s+(a|o)\s+respons[áa]vel/i;
     const askingOnlyRegex = /(voc[êe] (quer|prefere)|deseja).{0,80}(encaminhar|deixar.{0,15}encaminhad|aguardar)/i;
 
     const isConfirmedHandoff = confirmedHandoffRegex.test(content) && !askingOnlyRegex.test(content);
 
     if (isConfirmedHandoff) {
-      // Detecta motivo
-      const reasonKeywords: Record<string, RegExp> = {
-        gestante: /gestante|gr[áa]vida|gesta(ç|c)[ãa]o/i,
-        lactante: /lactante|amament/i,
-        alergia: /alergi/i,
-        reacao: /rea[çc][ãa]o|reagiu|ard[êe]ncia forte|incha[çc]o/i,
-        pele_sensibilizada: /sensibiliz|sensiv|lesionad/i,
-        contraindicacao: /contraindic|contra-indic/i,
-        duvida_tecnica: /d[úu]vida t[ée]cnica|t[ée]cnic/i,
-        adaptacao_protocolo: /adapta[çc][ãa]o.{0,15}protocolo|trocar.{0,10}produto.{0,10}protocolo/i,
-        protocolo_nao_aprovado: /protocolo n[ãa]o aprovado|protocolo n[ãa]o cadastr/i,
-      };
-      let detectedReason = "dermoconsultora";
-      for (const [k, rx] of Object.entries(reasonKeywords)) {
-        if (rx.test(content)) { detectedReason = k; break; }
-      }
+      // Contexto: resposta da Nina + última mensagem do lead (ajuda a classificar).
+      let leadText = "";
+      try {
+        const { data: lastMsg } = await supabase
+          .from("messages").select("content")
+          .eq("conversation_id", conversation.id).eq("from_type", "user")
+          .order("sent_at", { ascending: false }).limit(1).maybeSingle();
+        leadText = lastMsg?.content ?? "";
+      } catch (_e) { /* ignore */ }
 
-      // Calcula horário comercial em America/Sao_Paulo
-      const fmt = new Intl.DateTimeFormat("en-US", {
-        timeZone: "America/Sao_Paulo",
-        weekday: "short", hour: "2-digit", hour12: false,
+      const target =
+        detectHandoffTarget(content) ??
+        detectHandoffTarget(leadText) ??
+        { reason: "dermoconsultora", destination: "dermoconsultant" as const };
+
+      const { outsideHours, weekday, hour } =
+        target.destination === "dermoconsultant"
+          ? isOutsideDermoHours()
+          : { outsideHours: false, weekday: "", hour: 0 };
+
+      await applyHandoff(supabase, {
+        conversationId: conversation.id,
+        contactId: conversation.contact_id,
+        destination: target.destination,
+        reason: target.reason,
+        runId: runId ?? null,
+        snippet: content,
+        outsideHours,
+        extraMetadata: target.destination === "dermoconsultant"
+          ? { tz: "America/Sao_Paulo", weekday, hour }
+          : {},
       });
-      const parts = fmt.formatToParts(new Date());
-      const weekday = parts.find(p => p.type === "weekday")?.value ?? "";
-      const hour = Number(parts.find(p => p.type === "hour")?.value ?? "0");
-      const dayMap: Record<string, number> = { Sun:0, Mon:1, Tue:2, Wed:3, Thu:4, Fri:5, Sat:6 };
-      const dow = dayMap[weekday] ?? 0;
-      let withinHours = false;
-      if (dow >= 1 && dow <= 4) withinHours = hour >= 8 && hour < 18; // seg-qui
-      else if (dow === 5) withinHours = hour >= 8 && hour < 17;       // sex
-      const outsideHours = !withinHours;
-
-      const nowIso = new Date().toISOString();
-      await supabase
-        .from("conversations")
-        .update({
-          ai_paused: true,
-          requires_dermoconsultant: true,
-          human_takeover_required: true,
-          outside_dermoconsultant_hours: outsideHours,
-          handoff_type: "dermoconsultant",
-          handoff_reason: detectedReason,
-          handoff_created_at: nowIso,
-          human_status: outsideHours
-            ? "aguardando_dermoconsultora_proximo_horario"
-            : "aguardando_dermoconsultora",
-          status: "paused",
-        })
-        .eq("id", conversation.id);
-
-      await supabase.from("conversation_handoff_events").insert({
-        conversation_id: conversation.id,
-        event_type: "handoff_dermoconsultant",
-        handoff_reason: detectedReason,
-        metadata: {
-          run_id: runId ?? null,
-          snippet: content.slice(0, 200),
-          outside_hours: outsideHours,
-          tz: "America/Sao_Paulo",
-          weekday, hour,
-        },
-      });
-
-      const { data: stage } = await supabase
-        .from("pipeline_stages")
-        .select("id")
-        .eq("title", "Encaminhado para humano")
-        .maybeSingle();
-      if (stage?.id) {
-        await supabase
-          .from("deals")
-          .update({ stage_id: stage.id, stage: "human_handoff" })
-          .eq("contact_id", conversation.contact_id);
-      }
-      console.log(`[nina-reply] handoff dermo aplicado (conv=${conversation.id}, reason=${detectedReason}, outside_hours=${outsideHours})`);
     }
   } catch (e) {
     console.error("[nina-reply] handoff detection error:", e);
   }
+
 
   return jsonResponse({ queued: true, send_queue_id: queued.id });
 });
