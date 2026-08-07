@@ -129,11 +129,18 @@ Deno.serve(async (req: Request) => {
   // cadastrada. Aqui extraímos cada marcador, validamos http(s) e enfileiramos
   // mensagens WhatsApp (`image` / `document`) ANTES do texto. O texto sem os
   // marcadores segue como `text` normal.
+  // Marcador estruturado de handoff [[HANDOFF:<reason>]] — determina o DESTINO
+  // do encaminhamento independentemente do texto escrito ao cliente. É removido
+  // do conteúdo antes do envio.
+  const markerParse = extractHandoffMarker(content);
+  const structuredTarget =
+    resolveHandoffReason(body.handoff_reason ?? body.handoff?.reason) ?? markerParse.target;
+
   const IMG_RE = /\[\[IMG:(https?:\/\/[^\s\]]+)\]\]/gi;
   const PDF_RE = /\[\[PDF:(https?:\/\/[^\s\]]+)\]\]/gi;
   const imageUrls: string[] = [];
   const pdfUrls: string[] = [];
-  let cleaned = content
+  let cleaned = markerParse.cleaned
     .replace(IMG_RE, (_m, url) => {
       imageUrls.push(String(url).trim());
       return "";
