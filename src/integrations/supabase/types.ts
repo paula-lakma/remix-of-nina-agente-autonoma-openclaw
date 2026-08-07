@@ -1430,6 +1430,9 @@ export type Database = {
           business_hours_end: string
           business_hours_start: string
           company_name: string | null
+          coupon_code: string | null
+          coupon_discount_percent: number | null
+          coupon_enabled: boolean
           created_at: string
           elevenlabs_api_key: string | null
           elevenlabs_model: string | null
@@ -1474,6 +1477,9 @@ export type Database = {
           business_hours_end?: string
           business_hours_start?: string
           company_name?: string | null
+          coupon_code?: string | null
+          coupon_discount_percent?: number | null
+          coupon_enabled?: boolean
           created_at?: string
           elevenlabs_api_key?: string | null
           elevenlabs_model?: string | null
@@ -1518,6 +1524,9 @@ export type Database = {
           business_hours_end?: string
           business_hours_start?: string
           company_name?: string | null
+          coupon_code?: string | null
+          coupon_discount_percent?: number | null
+          coupon_enabled?: boolean
           created_at?: string
           elevenlabs_api_key?: string | null
           elevenlabs_model?: string | null

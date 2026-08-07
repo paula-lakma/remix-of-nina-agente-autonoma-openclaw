@@ -22,6 +22,9 @@ export interface NinaSettingsForm {
   system_prompt_override: string;
   brain_repo_url: string;
   brain_identity: BrainIdentity;
+  coupon_enabled: boolean;
+  coupon_code: string;
+  coupon_discount_percent: string;
 }
 
 const EMPTY: NinaSettingsForm = {
@@ -30,6 +33,9 @@ const EMPTY: NinaSettingsForm = {
   system_prompt_override: '',
   brain_repo_url: '',
   brain_identity: {},
+  coupon_enabled: false,
+  coupon_code: '',
+  coupon_discount_percent: '',
 };
 
 interface UseNinaSettingsResult {
@@ -65,7 +71,7 @@ export function useNinaSettings(): UseNinaSettingsResult {
 
       const { data, error: queryError } = await supabase
         .from('nina_settings')
-        .select('id, company_name, sdr_name, system_prompt_override, brain_repo_url, brain_identity')
+        .select('id, company_name, sdr_name, system_prompt_override, brain_repo_url, brain_identity, coupon_enabled, coupon_code, coupon_discount_percent')
         .limit(1)
         .maybeSingle();
 
@@ -80,6 +86,12 @@ export function useNinaSettings(): UseNinaSettingsResult {
           system_prompt_override: data.system_prompt_override ?? '',
           brain_repo_url: data.brain_repo_url ?? '',
           brain_identity: typeof identity === 'object' && identity !== null ? identity : {},
+          coupon_enabled: data.coupon_enabled ?? false,
+          coupon_code: data.coupon_code ?? '',
+          coupon_discount_percent:
+            data.coupon_discount_percent === null || data.coupon_discount_percent === undefined
+              ? ''
+              : String(data.coupon_discount_percent),
         });
       }
     } catch (err) {
@@ -111,6 +123,10 @@ export function useNinaSettings(): UseNinaSettingsResult {
             system_prompt_override: next.system_prompt_override || null,
             brain_repo_url: next.brain_repo_url || null,
             brain_identity: next.brain_identity as unknown as Json,
+            coupon_enabled: next.coupon_enabled,
+            coupon_code: next.coupon_code || null,
+            coupon_discount_percent:
+              next.coupon_discount_percent === '' ? null : Number(next.coupon_discount_percent),
             updated_at: new Date().toISOString(),
           })
           .eq('id', settingsId);

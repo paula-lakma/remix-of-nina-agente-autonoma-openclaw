@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Loader2, Save } from 'lucide-react';
 import { Button } from '../../Button';
+import { Switch } from '../../ui/switch';
 import { toast } from 'sonner';
 import { useNinaSettings, type BrainIdentity, type NinaSettingsForm } from '@/hooks/useNinaSettings';
 
@@ -9,10 +10,15 @@ const TEXT = {
   sdrName: 'Nome da agente (Nina)',
   systemPrompt: 'Instruções extras (system prompt)',
   systemPromptPlaceholder: 'Diretrizes adicionais que a Nina deve sempre seguir…',
+  commercial: 'Configuração comercial',
+  couponEnabled: 'Cupom ativo',
+  couponCode: 'Código do cupom',
+  couponDiscount: 'Desconto (%)',
   save: 'Salvar identidade',
   saved: 'Identidade salva',
   error: 'Erro ao salvar identidade',
 } as const;
+
 
 const IDENTITY_FIELDS: { key: keyof BrainIdentity; label: string; placeholder: string; rows: number }[] = [
   { key: 'empresa_missao', label: 'Missão da empresa', placeholder: 'O que a empresa faz e por quê', rows: 2 },
@@ -84,6 +90,41 @@ const IdentityForm: React.FC = () => {
         </Field>
       ))}
 
+      <div className="rounded-lg border border-slate-800 bg-slate-950/40 p-4 space-y-4">
+        <h4 className="text-sm font-semibold text-white">{TEXT.commercial}</h4>
+
+        <div className="flex items-center justify-between gap-4">
+          <label className="text-xs font-medium text-slate-400">{TEXT.couponEnabled}</label>
+          <Switch
+            checked={draft.coupon_enabled}
+            onCheckedChange={(v) => setDraft((d) => ({ ...d, coupon_enabled: v }))}
+          />
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <Field label={TEXT.couponCode}>
+            <input
+              type="text"
+              value={draft.coupon_code}
+              onChange={(e) => setField('coupon_code', e.target.value)}
+              placeholder="Ex: LAKMA35"
+              className={inputClass}
+            />
+          </Field>
+          <Field label={TEXT.couponDiscount}>
+            <input
+              type="number"
+              min={0}
+              max={100}
+              value={draft.coupon_discount_percent}
+              onChange={(e) => setField('coupon_discount_percent', e.target.value)}
+              placeholder="0"
+              className={inputClass}
+            />
+          </Field>
+        </div>
+      </div>
+
       <Field label={TEXT.systemPrompt}>
         <textarea
           value={draft.system_prompt_override}
@@ -93,6 +134,7 @@ const IdentityForm: React.FC = () => {
           className={`${inputClass} resize-none`}
         />
       </Field>
+
 
       <div className="flex justify-end">
         <Button onClick={handleSave} disabled={saving}>
