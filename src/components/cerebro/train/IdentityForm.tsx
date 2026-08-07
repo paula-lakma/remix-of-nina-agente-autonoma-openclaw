@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Loader2, Save } from 'lucide-react';
 import { Button } from '../../Button';
+import { Switch } from '../../ui/switch';
 import { toast } from 'sonner';
 import { useNinaSettings, type BrainIdentity, type NinaSettingsForm } from '@/hooks/useNinaSettings';
 
@@ -9,10 +10,15 @@ const TEXT = {
   sdrName: 'Nome da agente (Nina)',
   systemPrompt: 'Instruções extras (system prompt)',
   systemPromptPlaceholder: 'Diretrizes adicionais que a Nina deve sempre seguir…',
+  commercial: 'Configuração comercial',
+  couponEnabled: 'Cupom ativo',
+  couponCode: 'Código do cupom',
+  couponDiscount: 'Desconto (%)',
   save: 'Salvar identidade',
   saved: 'Identidade salva',
   error: 'Erro ao salvar identidade',
 } as const;
+
 
 const IDENTITY_FIELDS: { key: keyof BrainIdentity; label: string; placeholder: string; rows: number }[] = [
   { key: 'empresa_missao', label: 'Missão da empresa', placeholder: 'O que a empresa faz e por quê', rows: 2 },
