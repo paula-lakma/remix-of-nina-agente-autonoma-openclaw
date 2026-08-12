@@ -1,20 +1,23 @@
 {
   "enabled": [
     "custom-guardrail-de-protocolos-aprovados",
-    "custom-triagem-antes-da-indicacao",
-    "custom-separacao-home-care-x-cabine",
-    "custom-encaminhamento-seguro-para-dermoconsultor",
-    "custom-venda-consultiva-sem-pressao",
-    "custom-controle-de-promessas-e-linguagem-segura",
-    "custom-assuntos-comerciais-e-sac"
+    "custom-uso-de-protocolos-ativos",
+    "custom-materiais-oficiais-e-produtos-do-protocol"
   ],
   "managed": [
     "custom-guardrail-de-protocolos-aprovados",
-    "custom-triagem-antes-da-indicacao",
-    "custom-separacao-home-care-x-cabine",
-    "custom-encaminhamento-seguro-para-dermoconsultor",
-    "custom-venda-consultiva-sem-pressao",
-    "custom-controle-de-promessas-e-linguagem-segura",
-    "custom-assuntos-comerciais-e-sac"
+    "custom-uso-de-protocolos-ativos",
+    "custom-materiais-oficiais-e-produtos-do-protocol",
+    "custom-uso-de-contexto-e-perguntas-minimas",
+    "custom-interpretacao-de-contexto-e-pedidos-curto",
+    "custom-seguranca-e-decisao-de-encaminhamento-tec",
+    "custom-handoff-seguro-para-dermoconsultora",
+    "custom-separacao-home-care-x-uso-profissional",
+    "custom-venda-direta-e-intencao-de-compra",
+    "custom-controle-de-promessas-e-linguagem-segur-2",
+    "custom-links-precos-cupom-e-compra",
+    "custom-roteamento-comercial-pos-venda-e-sac",
+    "custom-execucao-de-handoff-e-pausa-da-nina",
+    "custom-resposta-completa-sem-frases-de-espera-2"
   ]
 }

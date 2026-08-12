@@ -1,6 +1,6 @@
 ---
 name: custom-guardrail-de-protocolos-aprovados
-description: "Impede a Nina de criar, adaptar, misturar ou enviar protocolos que não estejam cadastrados na aba Conhecimento."
+description: "Impede a NINA de criar, adaptar, misturar, substituir produtos ou alterar protocolos profissionais fora do conteúdo ativo e aprovado na aba Protocolos."
 allowed-tools: ["read"]
 user-invocable: true
 metadata:
