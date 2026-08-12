@@ -1,79 +1,80 @@
+# Diagnóstico — NINA pedindo "tipo de pele" antes de enviar o link
 
-## Achei o bug — e é grave
+Somente diagnóstico. Nenhum arquivo do projeto foi alterado.
 
-Nos logs do `whatsapp-webhook` a mensagem "oi" do **5514997835777** (final 5777) chegou às **14:31:24** de hoje, mas o insert falhou:
+## A) Origem exata do comportamento
 
-```
-ERROR [Webhook] Error creating message:
-  code: 42703
-  message: column "reason" of relation "conversation_handoff_events" does not exist
-```
+Não é o System Prompt novo. O prompt novo **entrou** no cérebro, mas ele **não é o único texto que a instância lê**. O OpenClaw lê o workspace inteiro da skill, e três fontes concorrentes ainda mandam qualificar antes de indicar:
 
-### Causa raiz
-A tabela `public.conversation_handoff_events` tem a coluna **`handoff_reason`**, não `reason`. Dois pontos estão gravando com o nome errado:
+1. **`knowledge/produtos.md` gerado pelo `brain-build`** — o cabeçalho é escrito em código (hardcoded), não vem do cérebro novo, e contém uma regra explícita de pergunta obrigatória antes da indicação.
+2. **Arquivos estáticos da skill que o Brain Build nunca reescreve** — `skills/nina/SKILL.md` e `skills/nina/prompts/conversa.md` continuam com o protocolo antigo "SDR consultiva / Descoberta é prioridade máxima / uma pergunta aberta por vez".
+3. **Dados do próprio produto** — o "Sabonete de Ácido Glicólico - 150ml" está com `tipo_uso = NULL` e `categoria_intencao = []`, e o campo "Tipo de pele / condição indicada" contém a ressalva *"evitando peles sensibilizadas, irritadas, descamando ou lesionadas"*. Com a regra do item 1 ativa, o modelo entende que precisa confirmar a pele antes de liberar o link.
 
-1. **Trigger `reopen_finished_conversation_on_message`** (dispara em `AFTER INSERT ON public.messages`) faz:
-   ```sql
-   INSERT INTO public.conversation_handoff_events
-     (conversation_id, event_type, actor_user_id, reason)
-   VALUES (..., 'reopened_by_message', NULL, 'new_incoming_message');
-   ```
-   Como o trigger é `AFTER INSERT` e faz `RAISE`/erro implícito, **a transação inteira da inserção da mensagem é revertida**. Ou seja: quando um cliente responde a uma conversa finalizada, a mensagem **não chega no `messages`**, não chega no realtime, não chega no front, e ainda por cima o webhook responde 200 (o `try/catch` do handler engole o erro por mensagem). Foi exatamente o que aconteceu com o 5777.
+## B) Arquivo / função / bloco responsável
 
-2. **`src/services/api.ts` → `finishAttendance`** (linha ~1529) também insere `reason: 'finalizado_por_humano'`. Provavelmente falha silenciosa hoje (o UPDATE anterior já persiste `attendance_finished=true`, então parece que "funcionou").
+| # | Arquivo | Bloco | Papel |
+|---|---------|-------|-------|
+| 1 | `supabase/functions/brain-build/index.ts` | `renderProducts()`, linhas 101 e 128 | Injeta a regra de qualificação obrigatória em `produtos.md` |
+| 2 | `supabase/functions/brain-build/index.ts` | `renderIdentity()`, linha 65 e 72 | Rotula a Nina como "SDR consultiva" e rebaixa o System Prompt novo para a seção `## Instruções adicionais`, abaixo da identidade hardcoded |
+| 3 | `skills/nina/prompts/conversa.md` linhas 7–16 e `skills/nina/SKILL.md` linha 42–43 | protocolo antigo | Ficam no workspace da VPS; o `brain_sync.sh` copia a pasta inteira do branch, mas o `brain-build` só grava `identity/*` e `knowledge/*` — esses dois nunca são regenerados |
+| 4 | `brain_products` (registro do glicólico) | `tipo_uso` nulo, `skin_types` com ressalva | Dispara a "necessidade de confirmar" |
+| — | `supabase/functions/nina-reply/index.ts` | — | **Inocente**: não monta prompt nenhum, só entrega texto e faz handoff/marcadores |
 
-## Plano de correção
+## C) Trechos que causaram o comportamento
 
-### 1. Migration: corrigir o trigger
-Recriar `public.reopen_finished_conversation_on_message()` trocando `reason` por `handoff_reason` — mantendo todo o resto do comportamento (reabre, reativa Nina, insere evento).
+`brain-build/index.ts:128`:
 
-```sql
-CREATE OR REPLACE FUNCTION public.reopen_finished_conversation_on_message()
-RETURNS trigger
-LANGUAGE plpgsql
-SECURITY DEFINER
-SET search_path TO 'public'
-AS $$
-BEGIN
-  IF NEW.from_type = 'user' THEN
-    UPDATE public.conversations
-       SET attendance_finished = false,
-           attendance_finished_at = NULL,
-           attendance_finished_by = NULL,
-           ai_paused = false,
-           human_takeover_required = false,
-           requires_dermoconsultant = false,
-           handoff_type = NULL,
-           handoff_reason = NULL,
-           human_status = NULL,
-           status = 'nina',
-           updated_at = now()
-     WHERE id = NEW.conversation_id
-       AND attendance_finished = true;
-
-    IF FOUND THEN
-      INSERT INTO public.conversation_handoff_events
-        (conversation_id, event_type, actor_user_id, handoff_reason)
-      VALUES (NEW.conversation_id, 'reopened_by_message', NULL, 'new_incoming_message');
-    END IF;
-  END IF;
-  RETURN NEW;
-END;
-$$;
+```text
+Quando o lead pedir peeling, clareamento, manchas..., faça PRIMEIRO esta única
+pergunta de qualificação: "Você procura para uso profissional ou para home care?"
 ```
 
-### 2. Corrigir `src/services/api.ts` → `finishAttendance`
-Trocar `reason` por `handoff_reason` no insert em `conversation_handoff_events`.
+`brain-build/index.ts:101`:
 
-### 3. Reprocessar a mensagem "perdida" do 5777
-Peço para o cliente reenviar "oi" — com o trigger corrigido a mensagem entra normal, o trigger reabre a conversa, e o realtime mostra tudo no front. (Não vamos forjar a inserção retroativa; o `wamid` original já foi consumido pelo webhook.)
+```text
+Só faça UMA pergunta antes de indicar quando: não souber se é uso pessoal/home care
+ou profissional/cabine; a necessidade estiver confusa; houver risco técnico...
+pele sensibilizada/lesionada... Nesses casos, uma pergunta de cada vez.
+```
 
-### 4. (Opcional, defensivo) Fila de retentativa no webhook
-Como o `try/catch` por mensagem hoje engole erros e devolve 200, mensagens que quebram por qualquer motivo somem. Se quiser posso adicionar um `console.error` mais visível e, futuramente, uma tabela `webhook_dead_letters`. Fora do escopo dessa correção emergencial — só listo para você decidir depois.
+`brain-build/index.ts:65` (identidade):
 
-## Arquivos alterados
-- **Nova migration** — recria `reopen_finished_conversation_on_message()` com `handoff_reason`.
-- **`src/services/api.ts`** — `finishAttendance` usa `handoff_reason`.
+```text
+- **Persona:** Nina (SDR consultiva)
+```
 
-## Não muda
-- Webhook, `useConversations.ts` (já sincronizado no fix anterior), botão "Finalizar", trigger em si (só o corpo da função).
+`skills/nina/prompts/conversa.md:16`:
+
+```text
+2. **Descoberta (prioridade máxima):** ... 3. Educação ...
+```
+
+`skills/nina/identity/identity.md` (estático no repo, ainda com conteúdo "Viver de IA"):
+
+```text
+2. Objetivo: fazer o lead falar 70% do tempo...
+3. Regra de ouro: nunca faço uma afirmação se puder fazer uma pergunta aberta.
+```
+
+## D) O teste usou cérebro novo ou cache?
+
+**Cérebro novo — mas misturado com o antigo.** Evidências:
+
+- `nina_settings.system_prompt_override` tem 19.588 caracteres, salvo em 12/08 19:19 UTC.
+- A instância `srv1775861` está **online**, último heartbeat 19:35 UTC, e o `system_prompt` reportado **contém o bloco `<identity>` do prompt novo** — ou seja, o build entrou e o sync chegou na VPS.
+- No mesmo texto ainda aparecem `Instruções adicionais` (posição 1503) e o rótulo "SDR consultiva" antes dele.
+- O `system_prompt` gravado tem **exatamente 22.000 caracteres**, valor redondo que indica **truncamento** no caminho heartbeat → banco. Isso afeta o que o painel exibe; o arquivo real na VPS não é truncado, mas impede auditoria confiável pelo painel.
+- Não há cache de prompt no backend: `nina-reply` não monta prompt, e o `nina-orchestrator` só usa `system_prompt_override` no caminho AI-Gateway (não usado quando a instância OpenClaw responde).
+
+Conclusão: **não é cache antigo** — é **coexistência** do prompt novo com regras antigas hardcoded e arquivos estáticos não regenerados.
+
+## E) Correção mínima recomendada (não executada)
+
+1. **`brain-build/index.ts` — remover/condicionar as regras hardcoded de qualificação** (linhas 101 e 128): quando o lead já informou produto específico + tipo de uso, indicar direto. Manter a pergunta apenas para caso sensível real (gestação, alergia, reação, pele lesionada).
+2. **Inverter a precedência em `renderIdentity()`**: o `system_prompt_override` deve abrir o `identity.md` como fonte primária de verdade, não como "Instruções adicionais" no rodapé; e trocar o rótulo "SDR consultiva" pelo posicionamento comercial novo.
+3. **Fazer o `brain-build` regravar também `skills/nina/SKILL.md`, `skills/nina/prompts/conversa.md` e `skills/nina/identity/soul.md`** no branch `nina-brain`, alinhados ao prompt novo — hoje esses arquivos ficam presos na versão "Viver de IA / descoberta primeiro".
+4. **Completar o cadastro do produto**: definir `tipo_uso` do Sabonete Glicólico (`home_care` ou `ambos`) e `categoria_intencao`, e mover a ressalva de pele sensibilizada de "tipo de pele indicada" para o campo de contraindicação/segurança, para ela não virar gatilho de pergunta.
+5. **Corrigir o truncamento de 22.000 caracteres** no heartbeat/coluna `instances.system_prompt`, para auditar o prompt real da VPS.
+6. **Observação fora de escopo, mas relevante:** `nina_settings` está com `coupon_code = LAKMA30` e `coupon_discount_percent = 30`, enquanto o `produtos.md` gerado escreve **LAKMA35 / 35%** — fonte dupla e divergente de cupom.
+
+Nenhuma dessas mudanças foi aplicada. Aprove para eu executar as que você escolher.
