@@ -998,9 +998,37 @@ Deno.serve(async (req: Request) => {
     const baseCommit = await gh("GET", `${base}/git/commits/${baseCommitSha}`, token);
     const baseTreeSha = baseCommit.tree.sha;
 
-    // Tree com base_tree (preserva o resto do repo — scripts, SKILL.md etc).
-    const tree = files.map((f) => ({ path: f.path, mode: "100644", type: "blob", content: f.content }));
+    // Tree com base_tree (preserva o resto do repo — scripts etc).
+    const tree: Array<Record<string, unknown>> = files.map((f) => ({
+      path: f.path,
+      mode: "100644",
+      type: "blob",
+      content: f.content,
+    }));
+
+    // ── Prune canônico de skills/nina/knowledge/ (inclui protocolos/) ──────
+    // Remove .md órfãos de Knowledges/Protocolos antigos, renomeados ou
+    // excluídos. NÃO toca em nada fora de skills/nina/knowledge/.
+    const KNOWLEDGE_DIR = `${SKILL_BASE}/knowledge/`;
+    const canonical = new Set(files.filter((f) => f.path.startsWith(KNOWLEDGE_DIR)).map((f) => f.path));
+    const prunedFiles: string[] = [];
+    try {
+      const baseTree = await gh("GET", `${base}/git/trees/${baseTreeSha}?recursive=1`, token);
+      for (const entry of (baseTree?.tree ?? []) as any[]) {
+        if (entry.type !== "blob") continue;
+        const p = String(entry.path ?? "");
+        if (!p.startsWith(KNOWLEDGE_DIR)) continue;
+        if (!p.toLowerCase().endsWith(".md")) continue;
+        if (canonical.has(p)) continue;
+        tree.push({ path: p, mode: "100644", type: "blob", sha: null });
+        prunedFiles.push(p);
+      }
+    } catch (e) {
+      console.error("[brain-build] prune skip:", (e as Error)?.message ?? e);
+    }
+
     const newTree = await gh("POST", `${base}/git/trees`, token, { base_tree: baseTreeSha, tree });
+
 
     const commit = await gh("POST", `${base}/git/commits`, token, {
       message: "chore(brain): atualiza identidade/conhecimento da Nina (Brain Build)",
