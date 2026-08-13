@@ -872,8 +872,13 @@ Deno.serve(async (req: Request) => {
   }
 
 
-  // 2) Renderiza os arquivos da skill (só identity/ e knowledge/).
+  // 2) Renderiza os arquivos da skill (identity/, knowledge/, SKILL.md e prompts/).
+  // SKILL.md e prompts/conversa.md também são gerados: antes eram estáticos na VPS
+  // e carregavam um protocolo antigo de "descoberta primeiro" conflitante.
+  const coupon = couponFrom(settings);
   const files: { path: string; content: string }[] = [
+    { path: `${SKILL_BASE}/SKILL.md`, content: renderSkillMd(settings) },
+    { path: `${SKILL_BASE}/prompts/conversa.md`, content: renderConversaMd(settings, coupon) },
     { path: `${SKILL_BASE}/identity/identity.md`, content: renderIdentity(settings) },
     { path: `${SKILL_BASE}/identity/soul.md`, content: renderSoul(settings) },
     { path: `${SKILL_BASE}/knowledge/produtos.md`, content: renderProducts(products ?? [], coupon) },
