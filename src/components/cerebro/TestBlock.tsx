@@ -12,7 +12,7 @@ const TEXT = {
   inputLabel: 'Mensagem de teste',
   placeholder: 'Ex: Olá, quais serviços vocês oferecem?',
   cta: 'Testar',
-  thinking: 'Pensando… (pode levar até ~35s)',
+  thinking: 'Pensando… (pode levar até ~2 min)',
   responseLabel: 'Resposta da Nina',
   latencyPrefix: 'Respondeu em',
   emptyResponse: '(a Nina respondeu vazio)',
