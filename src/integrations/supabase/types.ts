@@ -1754,6 +1754,76 @@ export type Database = {
           },
         ]
       }
+      shopify_events: {
+        Row: {
+          contact_id: string | null
+          conversation_id: string | null
+          created_at: string
+          error_message: string | null
+          id: string
+          normalized: Json
+          order_number: string | null
+          phone_number: string | null
+          raw_payload: Json
+          send_status: string
+          shopify_event_id: string | null
+          topic: string
+          updated_at: string
+        }
+        Insert: {
+          contact_id?: string | null
+          conversation_id?: string | null
+          created_at?: string
+          error_message?: string | null
+          id?: string
+          normalized?: Json
+          order_number?: string | null
+          phone_number?: string | null
+          raw_payload?: Json
+          send_status?: string
+          shopify_event_id?: string | null
+          topic?: string
+          updated_at?: string
+        }
+        Update: {
+          contact_id?: string | null
+          conversation_id?: string | null
+          created_at?: string
+          error_message?: string | null
+          id?: string
+          normalized?: Json
+          order_number?: string | null
+          phone_number?: string | null
+          raw_payload?: Json
+          send_status?: string
+          shopify_event_id?: string | null
+          topic?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "shopify_events_contact_id_fkey"
+            columns: ["contact_id"]
+            isOneToOne: false
+            referencedRelation: "contacts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "shopify_events_contact_id_fkey"
+            columns: ["contact_id"]
+            isOneToOne: false
+            referencedRelation: "contacts_with_stats"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "shopify_events_conversation_id_fkey"
+            columns: ["conversation_id"]
+            isOneToOne: false
+            referencedRelation: "conversations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       skill_packs: {
         Row: {
           active_by_default: boolean
