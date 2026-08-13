@@ -184,17 +184,29 @@ const ProductForm: React.FC<ProductFormProps> = ({ draft, onChange }) => {
               className={inputClass}
             />
             <p className="text-[10px] text-slate-500 mt-1">
-              Preço cheio/oficial. O valor com cupom <strong>LAKMA35</strong> é calculado automaticamente
-              (35% off):{' '}
-              {draft.valor_sem_desconto && draft.valor_sem_desconto > 0 ? (
-                <span className="text-emerald-300">
-                  R$ {formatBRL(draft.valor_sem_desconto * 0.65)}
-                </span>
+              Preço cheio/oficial.{' '}
+              {couponEnabled ? (
+                <>
+                  O valor com o cupom <strong>{couponCode}</strong> configurado em Identidade &gt;
+                  Configuração comercial ({couponPercent}% off) é calculado automaticamente:{' '}
+                  {draft.valor_sem_desconto && draft.valor_sem_desconto > 0 ? (
+                    <span className="text-emerald-300">
+                      R$ {formatBRL(draft.valor_sem_desconto * (1 - couponPercent / 100))}
+                    </span>
+                  ) : (
+                    <span className="text-slate-500">—</span>
+                  )}
+                  .{' '}
+                </>
               ) : (
-                <span className="text-slate-500">—</span>
+                <>
+                  Nenhum cupom ativo — configure em Identidade &gt; Configuração comercial para que a
+                  Nina informe desconto.{' '}
+                </>
               )}
-              . Se vazio, a Nina não inventa preço.
+              Se vazio, a Nina não inventa preço.
             </p>
+
           </div>
           <div>
             <label className={labelClass}>Tipo de uso</label>
