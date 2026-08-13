@@ -875,6 +875,13 @@ Deno.serve(async (req: Request) => {
     .eq("owner_user_id", user.id)
     .order("position", { ascending: true });
 
+  const { data: protocols } = await admin
+    .from("brain_protocols")
+    .select("name, slug, status, knowledge_text, image_url, image_path, pdf_url, pdf_path, drive_url")
+    .eq("owner_user_id", user.id)
+    .order("name", { ascending: true });
+
+
   // Re-gera signed URLs de 7 dias para arquivos no Storage `brain-media`.
   // `*_path` (Storage) tem precedência sobre `*_url` (manual) — sempre que
   // existir um path, sobrescrevemos a URL com uma signed fresca para que o
