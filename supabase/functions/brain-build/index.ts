@@ -391,11 +391,16 @@ function renderProducts(products: any[]): string {
     if (indicacaoCurta) md += `- **Frase de indicação curta:** "${indicacaoCurta}"\n`;
 
     const commercialBlock = {
+      cupom_ativo: coupon.enabled,
+      cupom_codigo: coupon.enabled ? coupon.code : null,
+      cupom_desconto_percent: coupon.enabled ? coupon.percent : null,
       valor_sem_desconto: valorSemDesconto,
-      valor_com_cupom_lakma35: valorComCupom,
+      valor_com_cupom: valorComCupom,
       valor_sem_desconto_br: valorSemDesconto != null ? `R$ ${fmtBR(valorSemDesconto)}` : null,
-      valor_com_cupom_lakma35_br: valorComCupom != null ? `R$ ${fmtBR(valorComCupom)}` : null,
-      formula_cupom: "valor_com_cupom = valor_sem_desconto * 0.65",
+      valor_com_cupom_br: valorComCupom != null ? `R$ ${fmtBR(valorComCupom)}` : null,
+      formula_cupom: coupon.enabled
+        ? `valor_com_cupom = valor_sem_desconto * ${coupon.factor}`
+        : null,
       pdf_aprovado_protocolo: pdfUrl || null,
       pdf_source: pdfUrl ? "product_database" : null,
       pdf_is_generated: false,
