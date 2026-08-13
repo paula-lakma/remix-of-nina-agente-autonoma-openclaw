@@ -362,7 +362,10 @@ function renderProducts(products: any[]): string {
       p.valor_sem_desconto != null && Number(p.valor_sem_desconto) > 0
         ? Number(p.valor_sem_desconto)
         : null;
-    const valorComCupom = valorSemDesconto != null ? Number((valorSemDesconto * 0.65).toFixed(2)) : null;
+    const valorComCupom =
+      valorSemDesconto != null && coupon.enabled
+        ? Number((valorSemDesconto * coupon.factor).toFixed(2))
+        : null;
     const fmtBR = (n: number) =>
       n.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
