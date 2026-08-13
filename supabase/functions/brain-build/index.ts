@@ -633,7 +633,7 @@ function matchProductByName(refName: string, products: any[]): MatchResult {
   return null;
 }
 
-function renderProtocolProductsBlock(k: any, products: any[]): string {
+function renderProtocolProductsBlock(k: any, products: any[], coupon: Coupon): string {
   const refs = arr(k.related_products);
   if (refs.length === 0) return "";
   const items = refs.map((name) => {
@@ -671,15 +671,17 @@ function renderProtocolProductsBlock(k: any, products: any[]): string {
       md += `- **${it.nome_no_protocolo}** → _produto não localizado na base mesmo após match exato, normalizado, compacto, alias, token e fuzzy; pedir confirmação ao lead ou encaminhar humano._\n`;
     }
   }
-  md += `\nNo site oficial use o cupom **LAKMA35** = 35% de desconto.\n\n`;
+  md += coupon.enabled
+    ? `\nNo site oficial use o cupom **${coupon.code}** = ${coupon.percent}% de desconto.\n\n`
+    : `\nNão há cupom ativo: não mencionar cupom.\n\n`;
   md += `\`\`\`json\n${JSON.stringify({
     nome_protocolo: v(k.title),
     tipo: "protocolo_profissional",
     aprovado: true,
     link_kit_unico: null,
     produtos_utilizados: items,
-    cupom_site: "LAKMA35",
-    desconto_site: "35%",
+    cupom_site: coupon.enabled ? coupon.code : null,
+    desconto_site: coupon.enabled ? `${coupon.percent}%` : null,
     site_geral_fallback: LAKMA_SITE_FALLBACK,
     regra_envio:
       "Se houver link_kit_unico, enviar esse link. Caso contrário, enviar a lista produtos_utilizados com link_individual_produto de cada item encontrado (independente do match_tipo: exato, normalizado, compacto, alias, token ou fuzzy). Sinalizar individualmente apenas os itens sem link. Mover lead para 'Link do site enviado' ao enviar qualquer link.",
@@ -696,7 +698,7 @@ function renderProtocolProductsBlock(k: any, products: any[]): string {
   return md;
 }
 
-function renderKnowledgeEntry(k: any, products: any[] = []): string {
+function renderKnowledgeEntry(k: any, products: any[] = [], coupon: Coupon): string {
   const typeKey = v(k.knowledge_type).toLowerCase();
   const typeLabel = KNOWLEDGE_TYPE_LABEL[typeKey] || v(k.knowledge_type);
   let md = `# ${v(k.title)}\n\n`;
@@ -757,7 +759,7 @@ function renderKnowledgeEntry(k: any, products: any[] = []): string {
 
   // Para protocolos: anexa cross-reference automática com links individuais dos produtos participantes.
   if (typeKey === "protocolo") {
-    md += `\n` + renderProtocolProductsBlock(k, products);
+    md += `\n` + renderProtocolProductsBlock(k, products, coupon);
   }
   return md;
 }
@@ -796,7 +798,7 @@ Deno.serve(async (req: Request) => {
   //    frequentemente tem user_id=NULL (global). Espelha o FALLBACK TRIPLO do
   //    orchestrator: (1) user_id=user.id -> (2) global (user_id IS NULL) ->
   //    (3) qualquer linha existente.
-  const SETTINGS_COLS = "sdr_name, company_name, system_prompt_override, brain_identity, brain_repo_url";
+  const SETTINGS_COLS = "sdr_name, company_name, system_prompt_override, brain_identity, brain_repo_url, coupon_enabled, coupon_code, coupon_discount_percent";
   let settings: any = null;
 
   const byUser = await admin.from("nina_settings").select(SETTINGS_COLS).eq("user_id", user.id).maybeSingle();
@@ -874,12 +876,12 @@ Deno.serve(async (req: Request) => {
   const files: { path: string; content: string }[] = [
     { path: `${SKILL_BASE}/identity/identity.md`, content: renderIdentity(settings) },
     { path: `${SKILL_BASE}/identity/soul.md`, content: renderSoul(settings) },
-    { path: `${SKILL_BASE}/knowledge/produtos.md`, content: renderProducts(products ?? []) },
+    { path: `${SKILL_BASE}/knowledge/produtos.md`, content: renderProducts(products ?? [], coupon) },
   ];
   for (const k of knowledge ?? []) {
     files.push({
       path: `${SKILL_BASE}/knowledge/${safeSlug(k.slug)}.md`,
-      content: renderKnowledgeEntry(k, products ?? []),
+      content: renderKnowledgeEntry(k, products ?? [], coupon),
     });
   }
 
