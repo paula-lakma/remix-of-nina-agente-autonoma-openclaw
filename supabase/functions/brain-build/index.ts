@@ -412,7 +412,7 @@ function renderProducts(products: any[]): string {
     };
 
     if (siteUrl || mlUrl) {
-      if (siteUrl) md += `- **Link individual do produto no site oficial:** ${siteUrl} ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site\n`;
+      if (siteUrl) md += `- **Link individual do produto no site oficial:** ${siteUrl} ← enviar este link quando o lead pedir este produto${coupon.enabled ? `; cupom **${coupon.code}** = ${coupon.percent}% de desconto no site` : " (sem cupom ativo — não mencionar cupom)"}\n`;
       if (mlUrl) md += `- **Mercado Livre (link aprovado):** ${mlUrl}\n`;
       md += `\n\`\`\`json\n${JSON.stringify({
         produto: v(p.name),
