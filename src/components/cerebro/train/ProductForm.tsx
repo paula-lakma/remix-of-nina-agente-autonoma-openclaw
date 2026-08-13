@@ -2,6 +2,8 @@ import React from 'react';
 import TagsInput from './TagsInput';
 import MediaUpload from './MediaUpload';
 import type { BrainProductInput } from '@/hooks/useBrainProducts';
+import { useNinaSettings } from '@/hooks/useNinaSettings';
+
 
 const inputClass =
   'w-full rounded-lg border border-slate-700 bg-slate-950 px-3 py-2 text-sm text-slate-100 placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-cyan-500/50';
