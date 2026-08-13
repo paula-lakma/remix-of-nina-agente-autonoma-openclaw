@@ -31,7 +31,7 @@ const ShopifyWebhookSettings: React.FC = () => {
   const [copied, setCopied] = useState(false);
 
   const projectId = import.meta.env.VITE_SUPABASE_PROJECT_ID;
-  const webhookUrl = `https://${projectId}.supabase.co/functions/v1/shopify-webhook?token=SEU_TOKEN`;
+  const webhookUrl = `https://${projectId}.supabase.co/functions/v1/shopify-webhook`;
 
   const load = async () => {
     setLoading(true);
