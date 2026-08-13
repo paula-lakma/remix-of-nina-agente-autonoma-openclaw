@@ -7,9 +7,10 @@
 ## Indicação curta, direta e comercial (LEITURA OBRIGATÓRIA)
 
 - Quando a intenção do lead estiver clara ("quero peeling", "tem algo para manchas?", "quero clareador", "quero algo para acne/oleosidade", "quero rejuvenescimento", "quero hidratação", "me indica um produto", "me vende algo", "quero algo para pele madura", "quero limpeza de pele"), **NÃO** fique perguntando. Indique direto.
-- Formato: **indicação curta + foto (se houver) + nome + link individual oficial + cupom LAKMA35**. Nada de texto longo, nada de várias perguntas.
+- Formato: **indicação curta + foto (se houver) + nome + link individual oficial + cupom **LAKMA30** (30%)**. Nada de texto longo, nada de várias perguntas.
 - Use no MÁXIMO 2 ou 3 produtos por indicação simples. Nada de listas longas.
-- Só faça UMA pergunta antes de indicar quando: não souber se é uso pessoal/home care ou profissional/cabine; a necessidade estiver confusa; houver risco técnico, gestante, lactante, alergia, reação adversa, pele sensibilizada/lesionada, procedimento recente, uso de medicamento, contraindicação ou qualquer caso sensível. Nesses casos, uma pergunta de cada vez. Em risco real → encaminhar para dermoconsultora.
+- **Não existe etapa obrigatória de descoberta.** É PROIBIDO condicionar o link a uma pergunta ("para eu confirmar se é ideal", "antes de te passar o link", "sua pele é sensível ou oleosa?"). Se dá para indicar com segurança, indique e mande o link na mesma resposta.
+- Só faça UMA pergunta antes de indicar quando: (a) faltar o tipo de uso (profissional/cabine vs home care) e o produto candidato atender aos dois; ou (b) houver caso sensível — gestante, lactante, alergia, reação adversa, pele sensibilizada/lesionada, procedimento recente, uso de medicamento, contraindicação. Em risco real → encaminhar para dermoconsultora, sem indicar produto.
 - Profissionais pedindo protocolo: também responder de forma curta (nome do protocolo + produtos principais com link + fotos). Não despejar o passo a passo de cara — pergunte se a pessoa quer o passo a passo aprovado também.
 
 ## Envio de FOTO oficial/aprovada do produto
@@ -32,7 +33,7 @@
 - Se o produto existe no cadastro mas `link_individual_produto` está vazio/nulo, a Nina responde: "Não encontrei o link individual desse produto no cadastro. Você pode consultar no site oficial da Lakma (https://www.lakma.com.br) ou falar com a equipe de atendimento." — sem inventar URL específica.
 - Se o produto NÃO existe no cadastro, a Nina pede confirmação do nome ou encaminha para humano. Nunca chuta link.
 - O site geral `https://www.lakma.com.br` (raiz) é o único fallback aprovado e só pode ser enviado como página inicial — nunca com path `/products/...` fabricado.
-- Quando enviar um link individual aprovado do site, sempre informar o cupom **LAKMA35** = 35% de desconto no site.
+- Quando enviar um link individual aprovado do site, sempre informar o cupom **LAKMA30** = 30% de desconto no site.
 
 ## Envio de PDF de protocolo (aprovado pela Paula)
 
@@ -44,7 +45,13 @@
 
 ## Fluxo comercial (Paula): uso profissional vs home care
 
-- Quando o lead pedir peeling, clareamento, manchas/carreamento de manchas, acne, rejuvenescimento, hidratação ou limpeza de pele, faça PRIMEIRO esta única pergunta de qualificação: **"Você procura para uso profissional ou para home care?"**. Sem outras perguntas (não pedir idade, tipo de pele, foto, etc.) — exceto em casos sensíveis (gestante, lactante, alergia, reação, pele sensibilizada/lesionada, procedimento recente, medicamentos, contraindicação) → encaminhar dermoconsultora.
+- O tipo de uso (profissional/cabine vs home care) só precisa ser perguntado quando **não for possível inferir** e o produto candidato servir aos dois. Infira sempre que puder:
+  - O lead disse que é esteticista/profissional, citou cabine, clínica, atendimento, cliente/paciente, ou pediu protocolo → **profissional**.
+  - O lead falou "para mim", "para o meu rosto", "em casa", rotina diária/skincare → **home care**.
+  - O produto candidato tem `tipo_uso` definido como `profissional` ou `home_care` → use esse valor, não pergunte.
+- Se o tipo de uso já estiver claro (informado ou inferível), **indique direto** — nada de perguntar de novo.
+- Só quando realmente não der para inferir: faça UMA pergunta — **"Você procura para uso profissional ou para home care?"** — e nada além disso (não pedir idade, tipo de pele, foto).
+- Caso sensível (gestante, lactante, alergia, reação, pele sensibilizada/lesionada, procedimento recente, medicamentos, contraindicação) → encaminhar dermoconsultora, sem indicar produto.
 - Resposta para **uso profissional** em peeling/clareamento/carreamento de manchas/ácidos: priorize o **Kit Ácidos Sem Mistérios** se cadastrado e ativo. Caso contrário, escolha o produto profissional aderente (`tipo_uso = 'profissional'` ou `'ambos'`, `categoria_intencao` cruzando com a necessidade). Formato exato (copie):
 
 ```
@@ -53,7 +60,7 @@
 Para uso profissional, eu indicaria o {{nome}}.
 
 Valor sem desconto: R$ {{valor_sem_desconto}}
-Valor com cupom LAKMA35: R$ {{valor_com_cupom}}
+Valor com cupom LAKMA30: R$ {{valor_com_cupom}}
 
 Link oficial: {{link_individual_produto}}
 
@@ -69,12 +76,12 @@ Para home care de {{necessidade}}, temos essas opções:
 
 {{Produto 1}}
 Valor sem desconto: R$ ...
-Valor com cupom LAKMA35: R$ ...
+Valor com cupom LAKMA30: R$ ...
 Link: ...
 
 {{Produto 2}}
 Valor sem desconto: R$ ...
-Valor com cupom LAKMA35: R$ ...
+Valor com cupom LAKMA30: R$ ...
 Link: ...
 
 Quer que eu te explique como usar e quais cuidados precisa ter?
@@ -83,9 +90,9 @@ Quer que eu te explique como usar e quais cuidados precisa ter?
 ## Regra de preço (CRÍTICA)
 
 - Use o campo `valor_sem_desconto` (number) do bloco JSON do produto.
-- O valor com cupom **LAKMA35** já vem pré-calculado em `valor_com_cupom_lakma35` (= `valor_sem_desconto * 0,65`, 2 casas, formato BR). Use esse valor diretamente — NUNCA calcule manualmente.
-- Se `valor_sem_desconto` for null/ausente, **PROIBIDO inventar preço**. Substituir as duas linhas de preço por uma única frase: "Você consegue consultar o valor atualizado diretamente no link oficial."
-- Sempre exibir os preços no formato brasileiro com duas casas (ex.: R$ 129,90 → R$ 84,44).
+- O valor com cupom **LAKMA30** já vem pré-calculado em `valor_com_cupom` (= `valor_sem_desconto × 0.7`, 2 casas, formato BR). Use esse valor diretamente — NUNCA calcule manualmente.
+- Se `valor_sem_desconto` for null/ausente, **PROIBIDO inventar preço**. Substituir as linhas de preço por uma única frase: "Você consegue consultar o valor atualizado diretamente no link oficial."
+- Sempre exibir os preços no formato brasileiro com duas casas (ex.: R$ 129,90).
 
 ## Kit Ácidos Sem Mistérios + Peeling de Cristal Líquido
 
@@ -100,21 +107,21 @@ Kit profissional de peelings clareadores para protocolos faciais e corporais de 
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-cidos-sem-mist-rios-peeling-de-cristal-l-quido-1782737882770.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LWNpZG9zLXNlbS1taXN0LXJpb3MtcGVlbGluZy1kZS1jcmlzdGFsLWwtcXVpZG8tMTc4MjczNzg4Mjc3MC5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODUwLCJleHAiOjE3ODcxNjc2NTB9.MgZ5XyhyzJocU_HpvNksi_yQEY1WWCR_imCVySfvp_o ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-cidos-sem-mist-rios-peeling-de-cristal-l-quido-1782737882770.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LWNpZG9zLXNlbS1taXN0LXJpb3MtcGVlbGluZy1kZS1jcmlzdGFsLWwtcXVpZG8tMTc4MjczNzg4Mjc3MC5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODUwLCJleHAiOjE3ODcxNjc2NTB9.MgZ5XyhyzJocU_HpvNksi_yQEY1WWCR_imCVySfvp_o]]` no topo da resposta
+- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-cidos-sem-mist-rios-peeling-de-cristal-l-quido-1782737882770.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LWNpZG9zLXNlbS1taXN0LXJpb3MtcGVlbGluZy1kZS1jcmlzdGFsLWwtcXVpZG8tMTc4MjczNzg4Mjc3MC5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDIwLCJleHAiOjE3ODcyMjgyMjB9.C8qqLFqtFkZMs-B9xoPEjBNwt-rrKKlal2IShbTOC8Q ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-cidos-sem-mist-rios-peeling-de-cristal-l-quido-1782737882770.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LWNpZG9zLXNlbS1taXN0LXJpb3MtcGVlbGluZy1kZS1jcmlzdGFsLWwtcXVpZG8tMTc4MjczNzg4Mjc3MC5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDIwLCJleHAiOjE3ODcyMjgyMjB9.C8qqLFqtFkZMs-B9xoPEjBNwt-rrKKlal2IShbTOC8Q]]` no topo da resposta
 - **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
 - **Valor sem desconto:** R$ 923,03
-- **Valor com cupom LAKMA35:** R$ 599,97  _(calculado automaticamente = valor_sem_desconto × 0,65)_
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/kit-acidos-sem-misterios-peeling-de-cristal-liquido-guia-pratico-de-peeling?_pos=2&_sid=092c25f53&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+- **Valor com cupom LAKMA30:** R$ 646,12  _(calculado automaticamente = valor_sem_desconto × 0.7)_
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/kit-acidos-sem-misterios-peeling-de-cristal-liquido-guia-pratico-de-peeling?_pos=2&_sid=092c25f53&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
 
 ```json
 {
   "produto": "Kit Ácidos Sem Mistérios + Peeling de Cristal Líquido",
   "aliases": [],
-  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-cidos-sem-mist-rios-peeling-de-cristal-l-quido-1782737882770.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LWNpZG9zLXNlbS1taXN0LXJpb3MtcGVlbGluZy1kZS1jcmlzdGFsLWwtcXVpZG8tMTc4MjczNzg4Mjc3MC5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODUwLCJleHAiOjE3ODcxNjc2NTB9.MgZ5XyhyzJocU_HpvNksi_yQEY1WWCR_imCVySfvp_o",
+  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-cidos-sem-mist-rios-peeling-de-cristal-l-quido-1782737882770.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LWNpZG9zLXNlbS1taXN0LXJpb3MtcGVlbGluZy1kZS1jcmlzdGFsLWwtcXVpZG8tMTc4MjczNzg4Mjc3MC5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDIwLCJleHAiOjE3ODcyMjgyMjB9.C8qqLFqtFkZMs-B9xoPEjBNwt-rrKKlal2IShbTOC8Q",
   "campo_origem_foto": "image_url",
   "image_source": "product_database",
   "image_is_generated": false,
-  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-cidos-sem-mist-rios-peeling-de-cristal-l-quido-1782737882770.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LWNpZG9zLXNlbS1taXN0LXJpb3MtcGVlbGluZy1kZS1jcmlzdGFsLWwtcXVpZG8tMTc4MjczNzg4Mjc3MC5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODUwLCJleHAiOjE3ODcxNjc2NTB9.MgZ5XyhyzJocU_HpvNksi_yQEY1WWCR_imCVySfvp_o]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
+  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-cidos-sem-mist-rios-peeling-de-cristal-l-quido-1782737882770.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LWNpZG9zLXNlbS1taXN0LXJpb3MtcGVlbGluZy1kZS1jcmlzdGFsLWwtcXVpZG8tMTc4MjczNzg4Mjc3MC5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDIwLCJleHAiOjE3ODcyMjgyMjB9.C8qqLFqtFkZMs-B9xoPEjBNwt-rrKKlal2IShbTOC8Q]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
   "link_individual_produto": "https://lakma.com.br/products/kit-acidos-sem-misterios-peeling-de-cristal-liquido-guia-pratico-de-peeling?_pos=2&_sid=092c25f53&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -122,17 +129,20 @@ Kit profissional de peelings clareadores para protocolos faciais e corporais de 
   "link_site": "https://lakma.com.br/products/kit-acidos-sem-misterios-peeling-de-cristal-liquido-guia-pratico-de-peeling?_pos=2&_sid=092c25f53&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA35",
-  "desconto_site": "35%",
+  "cupom_site": "LAKMA30",
+  "desconto_site": "30%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
   "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "cupom_ativo": true,
+  "cupom_codigo": "LAKMA30",
+  "cupom_desconto_percent": 30,
   "valor_sem_desconto": 923.03,
-  "valor_com_cupom_lakma35": 599.97,
+  "valor_com_cupom": 646.12,
   "valor_sem_desconto_br": "R$ 923,03",
-  "valor_com_cupom_lakma35_br": "R$ 599,97",
-  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "valor_com_cupom_br": "R$ 646,12",
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.7",
   "pdf_aprovado_protocolo": null,
   "pdf_source": null,
   "pdf_is_generated": false,
@@ -141,7 +151,7 @@ Kit profissional de peelings clareadores para protocolos faciais e corporais de 
   "categoria_intencao": [],
   "quando_indicar_direto": [],
   "indicacao_curta": null,
-  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_lakma35_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
+  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
 }
 ```
 
@@ -331,21 +341,21 @@ Sérum facial revitalizante com foco em firmeza, efeito lifting, elasticidade e 
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/fluido-revitalizante-passo-5-nano-fill-up---50ml-1782737934812.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZmx1aWRvLXJldml0YWxpemFudGUtcGFzc28tNS1uYW5vLWZpbGwtdXAtLS01MG1sLTE3ODI3Mzc5MzQ4MTIucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg1MCwiZXhwIjoxNzg3MTY3NjUwfQ.-4tfBKMDG2RnXvAo4gBdbi-lXKlnOZBTe7wHCfyIhJY ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/fluido-revitalizante-passo-5-nano-fill-up---50ml-1782737934812.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZmx1aWRvLXJldml0YWxpemFudGUtcGFzc28tNS1uYW5vLWZpbGwtdXAtLS01MG1sLTE3ODI3Mzc5MzQ4MTIucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg1MCwiZXhwIjoxNzg3MTY3NjUwfQ.-4tfBKMDG2RnXvAo4gBdbi-lXKlnOZBTe7wHCfyIhJY]]` no topo da resposta
+- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/fluido-revitalizante-passo-5-nano-fill-up---50ml-1782737934812.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZmx1aWRvLXJldml0YWxpemFudGUtcGFzc28tNS1uYW5vLWZpbGwtdXAtLS01MG1sLTE3ODI3Mzc5MzQ4MTIucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQyMCwiZXhwIjoxNzg3MjI4MjIwfQ.IL_ZRpiPjw-WU5iKS3RwAbxc010FUgRW0VamRyc2Hss ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/fluido-revitalizante-passo-5-nano-fill-up---50ml-1782737934812.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZmx1aWRvLXJldml0YWxpemFudGUtcGFzc28tNS1uYW5vLWZpbGwtdXAtLS01MG1sLTE3ODI3Mzc5MzQ4MTIucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQyMCwiZXhwIjoxNzg3MjI4MjIwfQ.IL_ZRpiPjw-WU5iKS3RwAbxc010FUgRW0VamRyc2Hss]]` no topo da resposta
 - **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
 - **Valor sem desconto:** R$ 200,10
-- **Valor com cupom LAKMA35:** R$ 130,06  _(calculado automaticamente = valor_sem_desconto × 0,65)_
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/fluido-passo-5-rejuvenescedor-50ml?_pos=1&_sid=bcf3c4f48&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+- **Valor com cupom LAKMA30:** R$ 140,07  _(calculado automaticamente = valor_sem_desconto × 0.7)_
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/fluido-passo-5-rejuvenescedor-50ml?_pos=1&_sid=bcf3c4f48&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
 
 ```json
 {
   "produto": "Fluido Revitalizante Passo 5 Nano Fill Up - 50ml",
   "aliases": [],
-  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/fluido-revitalizante-passo-5-nano-fill-up---50ml-1782737934812.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZmx1aWRvLXJldml0YWxpemFudGUtcGFzc28tNS1uYW5vLWZpbGwtdXAtLS01MG1sLTE3ODI3Mzc5MzQ4MTIucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg1MCwiZXhwIjoxNzg3MTY3NjUwfQ.-4tfBKMDG2RnXvAo4gBdbi-lXKlnOZBTe7wHCfyIhJY",
+  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/fluido-revitalizante-passo-5-nano-fill-up---50ml-1782737934812.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZmx1aWRvLXJldml0YWxpemFudGUtcGFzc28tNS1uYW5vLWZpbGwtdXAtLS01MG1sLTE3ODI3Mzc5MzQ4MTIucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQyMCwiZXhwIjoxNzg3MjI4MjIwfQ.IL_ZRpiPjw-WU5iKS3RwAbxc010FUgRW0VamRyc2Hss",
   "campo_origem_foto": "image_url",
   "image_source": "product_database",
   "image_is_generated": false,
-  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/fluido-revitalizante-passo-5-nano-fill-up---50ml-1782737934812.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZmx1aWRvLXJldml0YWxpemFudGUtcGFzc28tNS1uYW5vLWZpbGwtdXAtLS01MG1sLTE3ODI3Mzc5MzQ4MTIucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg1MCwiZXhwIjoxNzg3MTY3NjUwfQ.-4tfBKMDG2RnXvAo4gBdbi-lXKlnOZBTe7wHCfyIhJY]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
+  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/fluido-revitalizante-passo-5-nano-fill-up---50ml-1782737934812.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZmx1aWRvLXJldml0YWxpemFudGUtcGFzc28tNS1uYW5vLWZpbGwtdXAtLS01MG1sLTE3ODI3Mzc5MzQ4MTIucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQyMCwiZXhwIjoxNzg3MjI4MjIwfQ.IL_ZRpiPjw-WU5iKS3RwAbxc010FUgRW0VamRyc2Hss]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
   "link_individual_produto": "https://lakma.com.br/products/fluido-passo-5-rejuvenescedor-50ml?_pos=1&_sid=bcf3c4f48&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -353,17 +363,20 @@ Sérum facial revitalizante com foco em firmeza, efeito lifting, elasticidade e 
   "link_site": "https://lakma.com.br/products/fluido-passo-5-rejuvenescedor-50ml?_pos=1&_sid=bcf3c4f48&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA35",
-  "desconto_site": "35%",
+  "cupom_site": "LAKMA30",
+  "desconto_site": "30%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
   "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "cupom_ativo": true,
+  "cupom_codigo": "LAKMA30",
+  "cupom_desconto_percent": 30,
   "valor_sem_desconto": 200.1,
-  "valor_com_cupom_lakma35": 130.06,
+  "valor_com_cupom": 140.07,
   "valor_sem_desconto_br": "R$ 200,10",
-  "valor_com_cupom_lakma35_br": "R$ 130,06",
-  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "valor_com_cupom_br": "R$ 140,07",
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.7",
   "pdf_aprovado_protocolo": null,
   "pdf_source": null,
   "pdf_is_generated": false,
@@ -372,7 +385,7 @@ Sérum facial revitalizante com foco em firmeza, efeito lifting, elasticidade e 
   "categoria_intencao": [],
   "quando_indicar_direto": [],
   "indicacao_curta": null,
-  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_lakma35_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
+  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
 }
 ```
 
@@ -498,21 +511,21 @@ Creme emoliente facial profissional, livre de trietanolamina, indicado para amol
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/emoliente-zero-trieta---250g-1782741307769.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZW1vbGllbnRlLXplcm8tdHJpZXRhLS0tMjUwZy0xNzgyNzQxMzA3NzY5LnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY1NjI4NTEsImV4cCI6MTc4NzE2NzY1MX0.HqLJ1JeHYoEbWsqWPotLhb3spZ7k1BG8KvQue8xLp-Q ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/emoliente-zero-trieta---250g-1782741307769.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZW1vbGllbnRlLXplcm8tdHJpZXRhLS0tMjUwZy0xNzgyNzQxMzA3NzY5LnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY1NjI4NTEsImV4cCI6MTc4NzE2NzY1MX0.HqLJ1JeHYoEbWsqWPotLhb3spZ7k1BG8KvQue8xLp-Q]]` no topo da resposta
+- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/emoliente-zero-trieta---250g-1782741307769.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZW1vbGllbnRlLXplcm8tdHJpZXRhLS0tMjUwZy0xNzgyNzQxMzA3NzY5LnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY2MjM0MjEsImV4cCI6MTc4NzIyODIyMX0.uVTsqL5SCGal_8N0xOfpQWL0LgpIBirMF6l6t4pvMeg ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/emoliente-zero-trieta---250g-1782741307769.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZW1vbGllbnRlLXplcm8tdHJpZXRhLS0tMjUwZy0xNzgyNzQxMzA3NzY5LnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY2MjM0MjEsImV4cCI6MTc4NzIyODIyMX0.uVTsqL5SCGal_8N0xOfpQWL0LgpIBirMF6l6t4pvMeg]]` no topo da resposta
 - **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
 - **Valor sem desconto:** R$ 139,90
-- **Valor com cupom LAKMA35:** R$ 90,94  _(calculado automaticamente = valor_sem_desconto × 0,65)_
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/emoliente-zero?_pos=1&_sid=1345a38d7&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+- **Valor com cupom LAKMA30:** R$ 97,93  _(calculado automaticamente = valor_sem_desconto × 0.7)_
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/emoliente-zero?_pos=1&_sid=1345a38d7&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
 
 ```json
 {
   "produto": "Emoliente Zero Trieta - 250g",
   "aliases": [],
-  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/emoliente-zero-trieta---250g-1782741307769.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZW1vbGllbnRlLXplcm8tdHJpZXRhLS0tMjUwZy0xNzgyNzQxMzA3NzY5LnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY1NjI4NTEsImV4cCI6MTc4NzE2NzY1MX0.HqLJ1JeHYoEbWsqWPotLhb3spZ7k1BG8KvQue8xLp-Q",
+  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/emoliente-zero-trieta---250g-1782741307769.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZW1vbGllbnRlLXplcm8tdHJpZXRhLS0tMjUwZy0xNzgyNzQxMzA3NzY5LnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY2MjM0MjEsImV4cCI6MTc4NzIyODIyMX0.uVTsqL5SCGal_8N0xOfpQWL0LgpIBirMF6l6t4pvMeg",
   "campo_origem_foto": "image_url",
   "image_source": "product_database",
   "image_is_generated": false,
-  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/emoliente-zero-trieta---250g-1782741307769.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZW1vbGllbnRlLXplcm8tdHJpZXRhLS0tMjUwZy0xNzgyNzQxMzA3NzY5LnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY1NjI4NTEsImV4cCI6MTc4NzE2NzY1MX0.HqLJ1JeHYoEbWsqWPotLhb3spZ7k1BG8KvQue8xLp-Q]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
+  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/emoliente-zero-trieta---250g-1782741307769.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZW1vbGllbnRlLXplcm8tdHJpZXRhLS0tMjUwZy0xNzgyNzQxMzA3NzY5LnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY2MjM0MjEsImV4cCI6MTc4NzIyODIyMX0.uVTsqL5SCGal_8N0xOfpQWL0LgpIBirMF6l6t4pvMeg]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
   "link_individual_produto": "https://lakma.com.br/products/emoliente-zero?_pos=1&_sid=1345a38d7&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -520,17 +533,20 @@ Creme emoliente facial profissional, livre de trietanolamina, indicado para amol
   "link_site": "https://lakma.com.br/products/emoliente-zero?_pos=1&_sid=1345a38d7&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA35",
-  "desconto_site": "35%",
+  "cupom_site": "LAKMA30",
+  "desconto_site": "30%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
   "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "cupom_ativo": true,
+  "cupom_codigo": "LAKMA30",
+  "cupom_desconto_percent": 30,
   "valor_sem_desconto": 139.9,
-  "valor_com_cupom_lakma35": 90.94,
+  "valor_com_cupom": 97.93,
   "valor_sem_desconto_br": "R$ 139,90",
-  "valor_com_cupom_lakma35_br": "R$ 90,94",
-  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "valor_com_cupom_br": "R$ 97,93",
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.7",
   "pdf_aprovado_protocolo": null,
   "pdf_source": null,
   "pdf_is_generated": false,
@@ -539,7 +555,7 @@ Creme emoliente facial profissional, livre de trietanolamina, indicado para amol
   "categoria_intencao": [],
   "quando_indicar_direto": [],
   "indicacao_curta": null,
-  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_lakma35_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
+  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
 }
 ```
 
@@ -666,21 +682,21 @@ Booster facial profissional indicado para protocolos de rejuvenescimento, firmez
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/booster-fibras-el-sticas-1782741559911.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvYm9vc3Rlci1maWJyYXMtZWwtc3RpY2FzLTE3ODI3NDE1NTk5MTEuanBnIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg1MSwiZXhwIjoxNzg3MTY3NjUxfQ.pBrBzie-8BNusyMSqJHTeyGyxWvbe5s1ahx78_fxP7I ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/booster-fibras-el-sticas-1782741559911.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvYm9vc3Rlci1maWJyYXMtZWwtc3RpY2FzLTE3ODI3NDE1NTk5MTEuanBnIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg1MSwiZXhwIjoxNzg3MTY3NjUxfQ.pBrBzie-8BNusyMSqJHTeyGyxWvbe5s1ahx78_fxP7I]]` no topo da resposta
+- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/booster-fibras-el-sticas-1782741559911.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvYm9vc3Rlci1maWJyYXMtZWwtc3RpY2FzLTE3ODI3NDE1NTk5MTEuanBnIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQyMSwiZXhwIjoxNzg3MjI4MjIxfQ.1QS26JU2we-pP42XFzc1jyTXUcKyyX_aZAuiv68cd3M ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/booster-fibras-el-sticas-1782741559911.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvYm9vc3Rlci1maWJyYXMtZWwtc3RpY2FzLTE3ODI3NDE1NTk5MTEuanBnIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQyMSwiZXhwIjoxNzg3MjI4MjIxfQ.1QS26JU2we-pP42XFzc1jyTXUcKyyX_aZAuiv68cd3M]]` no topo da resposta
 - **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
 - **Valor sem desconto:** R$ 241,99
-- **Valor com cupom LAKMA35:** R$ 157,29  _(calculado automaticamente = valor_sem_desconto × 0,65)_
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/booster-fibras-elasticas?_pos=1&_psq=fibras+elas&_ss=e&_v=1.0 ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+- **Valor com cupom LAKMA30:** R$ 169,39  _(calculado automaticamente = valor_sem_desconto × 0.7)_
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/booster-fibras-elasticas?_pos=1&_psq=fibras+elas&_ss=e&_v=1.0 ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
 
 ```json
 {
   "produto": "Booster Fibras Elásticas",
   "aliases": [],
-  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/booster-fibras-el-sticas-1782741559911.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvYm9vc3Rlci1maWJyYXMtZWwtc3RpY2FzLTE3ODI3NDE1NTk5MTEuanBnIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg1MSwiZXhwIjoxNzg3MTY3NjUxfQ.pBrBzie-8BNusyMSqJHTeyGyxWvbe5s1ahx78_fxP7I",
+  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/booster-fibras-el-sticas-1782741559911.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvYm9vc3Rlci1maWJyYXMtZWwtc3RpY2FzLTE3ODI3NDE1NTk5MTEuanBnIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQyMSwiZXhwIjoxNzg3MjI4MjIxfQ.1QS26JU2we-pP42XFzc1jyTXUcKyyX_aZAuiv68cd3M",
   "campo_origem_foto": "image_url",
   "image_source": "product_database",
   "image_is_generated": false,
-  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/booster-fibras-el-sticas-1782741559911.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvYm9vc3Rlci1maWJyYXMtZWwtc3RpY2FzLTE3ODI3NDE1NTk5MTEuanBnIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg1MSwiZXhwIjoxNzg3MTY3NjUxfQ.pBrBzie-8BNusyMSqJHTeyGyxWvbe5s1ahx78_fxP7I]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
+  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/booster-fibras-el-sticas-1782741559911.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvYm9vc3Rlci1maWJyYXMtZWwtc3RpY2FzLTE3ODI3NDE1NTk5MTEuanBnIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQyMSwiZXhwIjoxNzg3MjI4MjIxfQ.1QS26JU2we-pP42XFzc1jyTXUcKyyX_aZAuiv68cd3M]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
   "link_individual_produto": "https://lakma.com.br/products/booster-fibras-elasticas?_pos=1&_psq=fibras+elas&_ss=e&_v=1.0",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -688,17 +704,20 @@ Booster facial profissional indicado para protocolos de rejuvenescimento, firmez
   "link_site": "https://lakma.com.br/products/booster-fibras-elasticas?_pos=1&_psq=fibras+elas&_ss=e&_v=1.0",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA35",
-  "desconto_site": "35%",
+  "cupom_site": "LAKMA30",
+  "desconto_site": "30%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
   "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "cupom_ativo": true,
+  "cupom_codigo": "LAKMA30",
+  "cupom_desconto_percent": 30,
   "valor_sem_desconto": 241.99,
-  "valor_com_cupom_lakma35": 157.29,
+  "valor_com_cupom": 169.39,
   "valor_sem_desconto_br": "R$ 241,99",
-  "valor_com_cupom_lakma35_br": "R$ 157,29",
-  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "valor_com_cupom_br": "R$ 169,39",
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.7",
   "pdf_aprovado_protocolo": null,
   "pdf_source": null,
   "pdf_is_generated": false,
@@ -707,7 +726,7 @@ Booster facial profissional indicado para protocolos de rejuvenescimento, firmez
   "categoria_intencao": [],
   "quando_indicar_direto": [],
   "indicacao_curta": null,
-  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_lakma35_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
+  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
 }
 ```
 
@@ -830,21 +849,21 @@ Máscara facial hidroplástica profissional com ação tensora, refrescante, det
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/m-scara-hidropl-stica-zen-marine---150g-1782741621058.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbS1zY2FyYS1oaWRyb3BsLXN0aWNhLXplbi1tYXJpbmUtLS0xNTBnLTE3ODI3NDE2MjEwNTgucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg1MSwiZXhwIjoxNzg3MTY3NjUxfQ.H8-6F1ELSSAKayHgMY1kp_BjhBgnWCtg_zLZaxWmm-Q ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/m-scara-hidropl-stica-zen-marine---150g-1782741621058.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbS1zY2FyYS1oaWRyb3BsLXN0aWNhLXplbi1tYXJpbmUtLS0xNTBnLTE3ODI3NDE2MjEwNTgucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg1MSwiZXhwIjoxNzg3MTY3NjUxfQ.H8-6F1ELSSAKayHgMY1kp_BjhBgnWCtg_zLZaxWmm-Q]]` no topo da resposta
+- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/m-scara-hidropl-stica-zen-marine---150g-1782741621058.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbS1zY2FyYS1oaWRyb3BsLXN0aWNhLXplbi1tYXJpbmUtLS0xNTBnLTE3ODI3NDE2MjEwNTgucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQyMSwiZXhwIjoxNzg3MjI4MjIxfQ.yCl4pn8xlPWS8GNT56MG9OX_YEO3QJt_wGY0w8YfRt4 ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/m-scara-hidropl-stica-zen-marine---150g-1782741621058.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbS1zY2FyYS1oaWRyb3BsLXN0aWNhLXplbi1tYXJpbmUtLS0xNTBnLTE3ODI3NDE2MjEwNTgucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQyMSwiZXhwIjoxNzg3MjI4MjIxfQ.yCl4pn8xlPWS8GNT56MG9OX_YEO3QJt_wGY0w8YfRt4]]` no topo da resposta
 - **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
 - **Valor sem desconto:** R$ 161,48
-- **Valor com cupom LAKMA35:** R$ 104,96  _(calculado automaticamente = valor_sem_desconto × 0,65)_
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/mascara-zen-marine-hidroplastica-150g?_pos=1&_sid=70f050ddf&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+- **Valor com cupom LAKMA30:** R$ 113,04  _(calculado automaticamente = valor_sem_desconto × 0.7)_
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/mascara-zen-marine-hidroplastica-150g?_pos=1&_sid=70f050ddf&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
 
 ```json
 {
   "produto": "Máscara Hidroplástica Zen Marine - 150g",
   "aliases": [],
-  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/m-scara-hidropl-stica-zen-marine---150g-1782741621058.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbS1zY2FyYS1oaWRyb3BsLXN0aWNhLXplbi1tYXJpbmUtLS0xNTBnLTE3ODI3NDE2MjEwNTgucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg1MSwiZXhwIjoxNzg3MTY3NjUxfQ.H8-6F1ELSSAKayHgMY1kp_BjhBgnWCtg_zLZaxWmm-Q",
+  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/m-scara-hidropl-stica-zen-marine---150g-1782741621058.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbS1zY2FyYS1oaWRyb3BsLXN0aWNhLXplbi1tYXJpbmUtLS0xNTBnLTE3ODI3NDE2MjEwNTgucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQyMSwiZXhwIjoxNzg3MjI4MjIxfQ.yCl4pn8xlPWS8GNT56MG9OX_YEO3QJt_wGY0w8YfRt4",
   "campo_origem_foto": "image_url",
   "image_source": "product_database",
   "image_is_generated": false,
-  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/m-scara-hidropl-stica-zen-marine---150g-1782741621058.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbS1zY2FyYS1oaWRyb3BsLXN0aWNhLXplbi1tYXJpbmUtLS0xNTBnLTE3ODI3NDE2MjEwNTgucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg1MSwiZXhwIjoxNzg3MTY3NjUxfQ.H8-6F1ELSSAKayHgMY1kp_BjhBgnWCtg_zLZaxWmm-Q]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
+  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/m-scara-hidropl-stica-zen-marine---150g-1782741621058.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbS1zY2FyYS1oaWRyb3BsLXN0aWNhLXplbi1tYXJpbmUtLS0xNTBnLTE3ODI3NDE2MjEwNTgucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQyMSwiZXhwIjoxNzg3MjI4MjIxfQ.yCl4pn8xlPWS8GNT56MG9OX_YEO3QJt_wGY0w8YfRt4]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
   "link_individual_produto": "https://lakma.com.br/products/mascara-zen-marine-hidroplastica-150g?_pos=1&_sid=70f050ddf&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -852,17 +871,20 @@ Máscara facial hidroplástica profissional com ação tensora, refrescante, det
   "link_site": "https://lakma.com.br/products/mascara-zen-marine-hidroplastica-150g?_pos=1&_sid=70f050ddf&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA35",
-  "desconto_site": "35%",
+  "cupom_site": "LAKMA30",
+  "desconto_site": "30%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
   "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "cupom_ativo": true,
+  "cupom_codigo": "LAKMA30",
+  "cupom_desconto_percent": 30,
   "valor_sem_desconto": 161.48,
-  "valor_com_cupom_lakma35": 104.96,
+  "valor_com_cupom": 113.04,
   "valor_sem_desconto_br": "R$ 161,48",
-  "valor_com_cupom_lakma35_br": "R$ 104,96",
-  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "valor_com_cupom_br": "R$ 113,04",
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.7",
   "pdf_aprovado_protocolo": null,
   "pdf_source": null,
   "pdf_is_generated": false,
@@ -871,7 +893,7 @@ Máscara facial hidroplástica profissional com ação tensora, refrescante, det
   "categoria_intencao": [],
   "quando_indicar_direto": [],
   "indicacao_curta": null,
-  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_lakma35_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
+  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
 }
 ```
 
@@ -1003,21 +1025,21 @@ Kit profissional com 4 peelings faciais de 50ml para protocolos de renovação c
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-peelings-profissionais---4-produtos-50ml-1782741681961.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LXBlZWxpbmdzLXByb2Zpc3Npb25haXMtLS00LXByb2R1dG9zLTUwbWwtMTc4Mjc0MTY4MTk2MS5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODUxLCJleHAiOjE3ODcxNjc2NTF9.mKFJXnhE9H-TF4bjfdCzVKjlyeMeu7IQHGW08looMcI ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-peelings-profissionais---4-produtos-50ml-1782741681961.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LXBlZWxpbmdzLXByb2Zpc3Npb25haXMtLS00LXByb2R1dG9zLTUwbWwtMTc4Mjc0MTY4MTk2MS5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODUxLCJleHAiOjE3ODcxNjc2NTF9.mKFJXnhE9H-TF4bjfdCzVKjlyeMeu7IQHGW08looMcI]]` no topo da resposta
+- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-peelings-profissionais---4-produtos-50ml-1782741681961.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LXBlZWxpbmdzLXByb2Zpc3Npb25haXMtLS00LXByb2R1dG9zLTUwbWwtMTc4Mjc0MTY4MTk2MS5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDIxLCJleHAiOjE3ODcyMjgyMjF9.k-rjqAK89KKmiygXm-FNRvrPNzw0pWJLSNgGiuN3Cnk ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-peelings-profissionais---4-produtos-50ml-1782741681961.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LXBlZWxpbmdzLXByb2Zpc3Npb25haXMtLS00LXByb2R1dG9zLTUwbWwtMTc4Mjc0MTY4MTk2MS5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDIxLCJleHAiOjE3ODcyMjgyMjF9.k-rjqAK89KKmiygXm-FNRvrPNzw0pWJLSNgGiuN3Cnk]]` no topo da resposta
 - **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
 - **Valor sem desconto:** R$ 591,74
-- **Valor com cupom LAKMA35:** R$ 384,63  _(calculado automaticamente = valor_sem_desconto × 0,65)_
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/kit-peelings?_pos=2&_sid=e517bc874&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+- **Valor com cupom LAKMA30:** R$ 414,22  _(calculado automaticamente = valor_sem_desconto × 0.7)_
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/kit-peelings?_pos=2&_sid=e517bc874&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
 
 ```json
 {
   "produto": "Kit Peelings Profissionais - 4 Produtos 50ml",
   "aliases": [],
-  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-peelings-profissionais---4-produtos-50ml-1782741681961.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LXBlZWxpbmdzLXByb2Zpc3Npb25haXMtLS00LXByb2R1dG9zLTUwbWwtMTc4Mjc0MTY4MTk2MS5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODUxLCJleHAiOjE3ODcxNjc2NTF9.mKFJXnhE9H-TF4bjfdCzVKjlyeMeu7IQHGW08looMcI",
+  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-peelings-profissionais---4-produtos-50ml-1782741681961.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LXBlZWxpbmdzLXByb2Zpc3Npb25haXMtLS00LXByb2R1dG9zLTUwbWwtMTc4Mjc0MTY4MTk2MS5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDIxLCJleHAiOjE3ODcyMjgyMjF9.k-rjqAK89KKmiygXm-FNRvrPNzw0pWJLSNgGiuN3Cnk",
   "campo_origem_foto": "image_url",
   "image_source": "product_database",
   "image_is_generated": false,
-  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-peelings-profissionais---4-produtos-50ml-1782741681961.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LXBlZWxpbmdzLXByb2Zpc3Npb25haXMtLS00LXByb2R1dG9zLTUwbWwtMTc4Mjc0MTY4MTk2MS5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODUxLCJleHAiOjE3ODcxNjc2NTF9.mKFJXnhE9H-TF4bjfdCzVKjlyeMeu7IQHGW08looMcI]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
+  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-peelings-profissionais---4-produtos-50ml-1782741681961.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LXBlZWxpbmdzLXByb2Zpc3Npb25haXMtLS00LXByb2R1dG9zLTUwbWwtMTc4Mjc0MTY4MTk2MS5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDIxLCJleHAiOjE3ODcyMjgyMjF9.k-rjqAK89KKmiygXm-FNRvrPNzw0pWJLSNgGiuN3Cnk]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
   "link_individual_produto": "https://lakma.com.br/products/kit-peelings?_pos=2&_sid=e517bc874&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -1025,17 +1047,20 @@ Kit profissional com 4 peelings faciais de 50ml para protocolos de renovação c
   "link_site": "https://lakma.com.br/products/kit-peelings?_pos=2&_sid=e517bc874&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA35",
-  "desconto_site": "35%",
+  "cupom_site": "LAKMA30",
+  "desconto_site": "30%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
   "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "cupom_ativo": true,
+  "cupom_codigo": "LAKMA30",
+  "cupom_desconto_percent": 30,
   "valor_sem_desconto": 591.74,
-  "valor_com_cupom_lakma35": 384.63,
+  "valor_com_cupom": 414.22,
   "valor_sem_desconto_br": "R$ 591,74",
-  "valor_com_cupom_lakma35_br": "R$ 384,63",
-  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "valor_com_cupom_br": "R$ 414,22",
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.7",
   "pdf_aprovado_protocolo": null,
   "pdf_source": null,
   "pdf_is_generated": false,
@@ -1044,7 +1069,7 @@ Kit profissional com 4 peelings faciais de 50ml para protocolos de renovação c
   "categoria_intencao": [],
   "quando_indicar_direto": [],
   "indicacao_curta": null,
-  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_lakma35_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
+  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
 }
 ```
 
@@ -1182,21 +1207,21 @@ Kit corporal profissional com produtos para protocolos de esfoliação, massagem
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-bodypro-corporal-profissional-1782741723976.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LWJvZHlwcm8tY29ycG9yYWwtcHJvZmlzc2lvbmFsLTE3ODI3NDE3MjM5NzYucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg1MiwiZXhwIjoxNzg3MTY3NjUyfQ.m7chLD5SvmwmKWjVBAdUoMMlpEjwbUgD9LuWIet4tL0 ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-bodypro-corporal-profissional-1782741723976.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LWJvZHlwcm8tY29ycG9yYWwtcHJvZmlzc2lvbmFsLTE3ODI3NDE3MjM5NzYucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg1MiwiZXhwIjoxNzg3MTY3NjUyfQ.m7chLD5SvmwmKWjVBAdUoMMlpEjwbUgD9LuWIet4tL0]]` no topo da resposta
+- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-bodypro-corporal-profissional-1782741723976.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LWJvZHlwcm8tY29ycG9yYWwtcHJvZmlzc2lvbmFsLTE3ODI3NDE3MjM5NzYucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQyMSwiZXhwIjoxNzg3MjI4MjIxfQ.2_JS7YSzkmNNWkZyyLveQ06uY4iczgVcJ9JnuiHaMP4 ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-bodypro-corporal-profissional-1782741723976.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LWJvZHlwcm8tY29ycG9yYWwtcHJvZmlzc2lvbmFsLTE3ODI3NDE3MjM5NzYucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQyMSwiZXhwIjoxNzg3MjI4MjIxfQ.2_JS7YSzkmNNWkZyyLveQ06uY4iczgVcJ9JnuiHaMP4]]` no topo da resposta
 - **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
 - **Valor sem desconto:** R$ 460,00
-- **Valor com cupom LAKMA35:** R$ 299,00  _(calculado automaticamente = valor_sem_desconto × 0,65)_
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/kit-bodypro?_pos=1&_sid=5464b8b38&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+- **Valor com cupom LAKMA30:** R$ 322,00  _(calculado automaticamente = valor_sem_desconto × 0.7)_
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/kit-bodypro?_pos=1&_sid=5464b8b38&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
 
 ```json
 {
   "produto": "Kit BodyPro Corporal Profissional",
   "aliases": [],
-  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-bodypro-corporal-profissional-1782741723976.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LWJvZHlwcm8tY29ycG9yYWwtcHJvZmlzc2lvbmFsLTE3ODI3NDE3MjM5NzYucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg1MiwiZXhwIjoxNzg3MTY3NjUyfQ.m7chLD5SvmwmKWjVBAdUoMMlpEjwbUgD9LuWIet4tL0",
+  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-bodypro-corporal-profissional-1782741723976.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LWJvZHlwcm8tY29ycG9yYWwtcHJvZmlzc2lvbmFsLTE3ODI3NDE3MjM5NzYucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQyMSwiZXhwIjoxNzg3MjI4MjIxfQ.2_JS7YSzkmNNWkZyyLveQ06uY4iczgVcJ9JnuiHaMP4",
   "campo_origem_foto": "image_url",
   "image_source": "product_database",
   "image_is_generated": false,
-  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-bodypro-corporal-profissional-1782741723976.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LWJvZHlwcm8tY29ycG9yYWwtcHJvZmlzc2lvbmFsLTE3ODI3NDE3MjM5NzYucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg1MiwiZXhwIjoxNzg3MTY3NjUyfQ.m7chLD5SvmwmKWjVBAdUoMMlpEjwbUgD9LuWIet4tL0]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
+  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-bodypro-corporal-profissional-1782741723976.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LWJvZHlwcm8tY29ycG9yYWwtcHJvZmlzc2lvbmFsLTE3ODI3NDE3MjM5NzYucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQyMSwiZXhwIjoxNzg3MjI4MjIxfQ.2_JS7YSzkmNNWkZyyLveQ06uY4iczgVcJ9JnuiHaMP4]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
   "link_individual_produto": "https://lakma.com.br/products/kit-bodypro?_pos=1&_sid=5464b8b38&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -1204,17 +1229,20 @@ Kit corporal profissional com produtos para protocolos de esfoliação, massagem
   "link_site": "https://lakma.com.br/products/kit-bodypro?_pos=1&_sid=5464b8b38&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA35",
-  "desconto_site": "35%",
+  "cupom_site": "LAKMA30",
+  "desconto_site": "30%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
   "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "cupom_ativo": true,
+  "cupom_codigo": "LAKMA30",
+  "cupom_desconto_percent": 30,
   "valor_sem_desconto": 460,
-  "valor_com_cupom_lakma35": 299,
+  "valor_com_cupom": 322,
   "valor_sem_desconto_br": "R$ 460,00",
-  "valor_com_cupom_lakma35_br": "R$ 299,00",
-  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "valor_com_cupom_br": "R$ 322,00",
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.7",
   "pdf_aprovado_protocolo": null,
   "pdf_source": null,
   "pdf_is_generated": false,
@@ -1223,7 +1251,7 @@ Kit corporal profissional com produtos para protocolos de esfoliação, massagem
   "categoria_intencao": [],
   "quando_indicar_direto": [],
   "indicacao_curta": null,
-  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_lakma35_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
+  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
 }
 ```
 
@@ -1358,21 +1386,21 @@ Kit home care de cuidados labiais com esfoliação, tratamento e finalização p
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-labial-home-care-1782741761243.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LWxhYmlhbC1ob21lLWNhcmUtMTc4Mjc0MTc2MTI0My5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODUyLCJleHAiOjE3ODcxNjc2NTJ9.7Sb1ozX_BRcVYafTX3VT2KTOZkzLe0Zypd9IKGVOUvc ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-labial-home-care-1782741761243.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LWxhYmlhbC1ob21lLWNhcmUtMTc4Mjc0MTc2MTI0My5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODUyLCJleHAiOjE3ODcxNjc2NTJ9.7Sb1ozX_BRcVYafTX3VT2KTOZkzLe0Zypd9IKGVOUvc]]` no topo da resposta
+- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-labial-home-care-1782741761243.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LWxhYmlhbC1ob21lLWNhcmUtMTc4Mjc0MTc2MTI0My5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDIyLCJleHAiOjE3ODcyMjgyMjJ9.aFhqkxigCqhAHe0QeySV18G_beHt_7557OC-rG_1CVg ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-labial-home-care-1782741761243.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LWxhYmlhbC1ob21lLWNhcmUtMTc4Mjc0MTc2MTI0My5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDIyLCJleHAiOjE3ODcyMjgyMjJ9.aFhqkxigCqhAHe0QeySV18G_beHt_7557OC-rG_1CVg]]` no topo da resposta
 - **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
 - **Valor sem desconto:** R$ 246,00
-- **Valor com cupom LAKMA35:** R$ 159,90  _(calculado automaticamente = valor_sem_desconto × 0,65)_
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/kit-labial-home-care?_pos=1&_sid=1789b10ca&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+- **Valor com cupom LAKMA30:** R$ 172,20  _(calculado automaticamente = valor_sem_desconto × 0.7)_
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/kit-labial-home-care?_pos=1&_sid=1789b10ca&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
 
 ```json
 {
   "produto": "Kit Labial Home Care",
   "aliases": [],
-  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-labial-home-care-1782741761243.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LWxhYmlhbC1ob21lLWNhcmUtMTc4Mjc0MTc2MTI0My5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODUyLCJleHAiOjE3ODcxNjc2NTJ9.7Sb1ozX_BRcVYafTX3VT2KTOZkzLe0Zypd9IKGVOUvc",
+  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-labial-home-care-1782741761243.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LWxhYmlhbC1ob21lLWNhcmUtMTc4Mjc0MTc2MTI0My5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDIyLCJleHAiOjE3ODcyMjgyMjJ9.aFhqkxigCqhAHe0QeySV18G_beHt_7557OC-rG_1CVg",
   "campo_origem_foto": "image_url",
   "image_source": "product_database",
   "image_is_generated": false,
-  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-labial-home-care-1782741761243.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LWxhYmlhbC1ob21lLWNhcmUtMTc4Mjc0MTc2MTI0My5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODUyLCJleHAiOjE3ODcxNjc2NTJ9.7Sb1ozX_BRcVYafTX3VT2KTOZkzLe0Zypd9IKGVOUvc]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
+  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-labial-home-care-1782741761243.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LWxhYmlhbC1ob21lLWNhcmUtMTc4Mjc0MTc2MTI0My5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDIyLCJleHAiOjE3ODcyMjgyMjJ9.aFhqkxigCqhAHe0QeySV18G_beHt_7557OC-rG_1CVg]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
   "link_individual_produto": "https://lakma.com.br/products/kit-labial-home-care?_pos=1&_sid=1789b10ca&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -1380,17 +1408,20 @@ Kit home care de cuidados labiais com esfoliação, tratamento e finalização p
   "link_site": "https://lakma.com.br/products/kit-labial-home-care?_pos=1&_sid=1789b10ca&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA35",
-  "desconto_site": "35%",
+  "cupom_site": "LAKMA30",
+  "desconto_site": "30%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
   "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "cupom_ativo": true,
+  "cupom_codigo": "LAKMA30",
+  "cupom_desconto_percent": 30,
   "valor_sem_desconto": 246,
-  "valor_com_cupom_lakma35": 159.9,
+  "valor_com_cupom": 172.2,
   "valor_sem_desconto_br": "R$ 246,00",
-  "valor_com_cupom_lakma35_br": "R$ 159,90",
-  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "valor_com_cupom_br": "R$ 172,20",
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.7",
   "pdf_aprovado_protocolo": null,
   "pdf_source": null,
   "pdf_is_generated": false,
@@ -1399,7 +1430,7 @@ Kit home care de cuidados labiais com esfoliação, tratamento e finalização p
   "categoria_intencao": [],
   "quando_indicar_direto": [],
   "indicacao_curta": null,
-  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_lakma35_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
+  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
 }
 ```
 
@@ -1521,21 +1552,21 @@ Kit profissional para limpeza de pele facial com etapas de higienização, esfol
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-limpeza-de-pele-facial-ativos-sem-trieta-1782741819707.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LWxpbXBlemEtZGUtcGVsZS1mYWNpYWwtYXRpdm9zLXNlbS10cmlldGEtMTc4Mjc0MTgxOTcwNy5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODUyLCJleHAiOjE3ODcxNjc2NTJ9.bWzr4-DE4ktdYxlYAib8PWVU0wjwx31OwTvE5izqaeA ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-limpeza-de-pele-facial-ativos-sem-trieta-1782741819707.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LWxpbXBlemEtZGUtcGVsZS1mYWNpYWwtYXRpdm9zLXNlbS10cmlldGEtMTc4Mjc0MTgxOTcwNy5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODUyLCJleHAiOjE3ODcxNjc2NTJ9.bWzr4-DE4ktdYxlYAib8PWVU0wjwx31OwTvE5izqaeA]]` no topo da resposta
+- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-limpeza-de-pele-facial-ativos-sem-trieta-1782741819707.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LWxpbXBlemEtZGUtcGVsZS1mYWNpYWwtYXRpdm9zLXNlbS10cmlldGEtMTc4Mjc0MTgxOTcwNy5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDIyLCJleHAiOjE3ODcyMjgyMjJ9.W4VnwnZMPmn_G_3RALtNWgktNZn0OMec8ytyocjwVOE ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-limpeza-de-pele-facial-ativos-sem-trieta-1782741819707.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LWxpbXBlemEtZGUtcGVsZS1mYWNpYWwtYXRpdm9zLXNlbS10cmlldGEtMTc4Mjc0MTgxOTcwNy5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDIyLCJleHAiOjE3ODcyMjgyMjJ9.W4VnwnZMPmn_G_3RALtNWgktNZn0OMec8ytyocjwVOE]]` no topo da resposta
 - **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
 - **Valor sem desconto:** R$ 336,60
-- **Valor com cupom LAKMA35:** R$ 218,79  _(calculado automaticamente = valor_sem_desconto × 0,65)_
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/kit-limpeza-de-pele-creme-emoliente-sem-trieta?_pos=3&_sid=376784632&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+- **Valor com cupom LAKMA30:** R$ 235,62  _(calculado automaticamente = valor_sem_desconto × 0.7)_
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/kit-limpeza-de-pele-creme-emoliente-sem-trieta?_pos=3&_sid=376784632&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
 
 ```json
 {
   "produto": "Kit Limpeza de Pele Facial + Ativos Sem Trieta",
   "aliases": [],
-  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-limpeza-de-pele-facial-ativos-sem-trieta-1782741819707.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LWxpbXBlemEtZGUtcGVsZS1mYWNpYWwtYXRpdm9zLXNlbS10cmlldGEtMTc4Mjc0MTgxOTcwNy5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODUyLCJleHAiOjE3ODcxNjc2NTJ9.bWzr4-DE4ktdYxlYAib8PWVU0wjwx31OwTvE5izqaeA",
+  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-limpeza-de-pele-facial-ativos-sem-trieta-1782741819707.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LWxpbXBlemEtZGUtcGVsZS1mYWNpYWwtYXRpdm9zLXNlbS10cmlldGEtMTc4Mjc0MTgxOTcwNy5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDIyLCJleHAiOjE3ODcyMjgyMjJ9.W4VnwnZMPmn_G_3RALtNWgktNZn0OMec8ytyocjwVOE",
   "campo_origem_foto": "image_url",
   "image_source": "product_database",
   "image_is_generated": false,
-  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-limpeza-de-pele-facial-ativos-sem-trieta-1782741819707.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LWxpbXBlemEtZGUtcGVsZS1mYWNpYWwtYXRpdm9zLXNlbS10cmlldGEtMTc4Mjc0MTgxOTcwNy5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODUyLCJleHAiOjE3ODcxNjc2NTJ9.bWzr4-DE4ktdYxlYAib8PWVU0wjwx31OwTvE5izqaeA]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
+  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-limpeza-de-pele-facial-ativos-sem-trieta-1782741819707.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LWxpbXBlemEtZGUtcGVsZS1mYWNpYWwtYXRpdm9zLXNlbS10cmlldGEtMTc4Mjc0MTgxOTcwNy5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDIyLCJleHAiOjE3ODcyMjgyMjJ9.W4VnwnZMPmn_G_3RALtNWgktNZn0OMec8ytyocjwVOE]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
   "link_individual_produto": "https://lakma.com.br/products/kit-limpeza-de-pele-creme-emoliente-sem-trieta?_pos=3&_sid=376784632&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -1543,17 +1574,20 @@ Kit profissional para limpeza de pele facial com etapas de higienização, esfol
   "link_site": "https://lakma.com.br/products/kit-limpeza-de-pele-creme-emoliente-sem-trieta?_pos=3&_sid=376784632&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA35",
-  "desconto_site": "35%",
+  "cupom_site": "LAKMA30",
+  "desconto_site": "30%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
   "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "cupom_ativo": true,
+  "cupom_codigo": "LAKMA30",
+  "cupom_desconto_percent": 30,
   "valor_sem_desconto": 336.6,
-  "valor_com_cupom_lakma35": 218.79,
+  "valor_com_cupom": 235.62,
   "valor_sem_desconto_br": "R$ 336,60",
-  "valor_com_cupom_lakma35_br": "R$ 218,79",
-  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "valor_com_cupom_br": "R$ 235,62",
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.7",
   "pdf_aprovado_protocolo": null,
   "pdf_source": null,
   "pdf_is_generated": false,
@@ -1562,7 +1596,7 @@ Kit profissional para limpeza de pele facial com etapas de higienização, esfol
   "categoria_intencao": [],
   "quando_indicar_direto": [],
   "indicacao_curta": null,
-  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_lakma35_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
+  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
 }
 ```
 
@@ -1704,21 +1738,21 @@ Sérum facial home care com Niacinamida 10% e Zinco PCA 1%, indicado para oleosi
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/s-rum-lakma-nc-10---niacinamida-10-zinco-pca-1--1782741985753.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uvcy1ydW0tbGFrbWEtbmMtMTAtLS1uaWFjaW5hbWlkYS0xMC16aW5jby1wY2EtMS0tMTc4Mjc0MTk4NTc1My5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODUyLCJleHAiOjE3ODcxNjc2NTJ9.luxry--DXE4I3ACWDxml0--TiBX4nMSy0VcGq3xXEc4 ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/s-rum-lakma-nc-10---niacinamida-10-zinco-pca-1--1782741985753.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uvcy1ydW0tbGFrbWEtbmMtMTAtLS1uaWFjaW5hbWlkYS0xMC16aW5jby1wY2EtMS0tMTc4Mjc0MTk4NTc1My5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODUyLCJleHAiOjE3ODcxNjc2NTJ9.luxry--DXE4I3ACWDxml0--TiBX4nMSy0VcGq3xXEc4]]` no topo da resposta
+- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/s-rum-lakma-nc-10---niacinamida-10-zinco-pca-1--1782741985753.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uvcy1ydW0tbGFrbWEtbmMtMTAtLS1uaWFjaW5hbWlkYS0xMC16aW5jby1wY2EtMS0tMTc4Mjc0MTk4NTc1My5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDIyLCJleHAiOjE3ODcyMjgyMjJ9.ZXD58QcQIeHjTZ13oZwmijbGxcvVh-crAXUXDMFw6PU ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/s-rum-lakma-nc-10---niacinamida-10-zinco-pca-1--1782741985753.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uvcy1ydW0tbGFrbWEtbmMtMTAtLS1uaWFjaW5hbWlkYS0xMC16aW5jby1wY2EtMS0tMTc4Mjc0MTk4NTc1My5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDIyLCJleHAiOjE3ODcyMjgyMjJ9.ZXD58QcQIeHjTZ13oZwmijbGxcvVh-crAXUXDMFw6PU]]` no topo da resposta
 - **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
 - **Valor sem desconto:** R$ 139,90
-- **Valor com cupom LAKMA35:** R$ 90,94  _(calculado automaticamente = valor_sem_desconto × 0,65)_
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/serum-10-niacinamida-1-zinco-pca?_pos=1&_sid=5b47fa0fb&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+- **Valor com cupom LAKMA30:** R$ 97,93  _(calculado automaticamente = valor_sem_desconto × 0.7)_
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/serum-10-niacinamida-1-zinco-pca?_pos=1&_sid=5b47fa0fb&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
 
 ```json
 {
   "produto": "Sérum Lakma NC-10 - Niacinamida 10% + Zinco PCA 1%",
   "aliases": [],
-  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/s-rum-lakma-nc-10---niacinamida-10-zinco-pca-1--1782741985753.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uvcy1ydW0tbGFrbWEtbmMtMTAtLS1uaWFjaW5hbWlkYS0xMC16aW5jby1wY2EtMS0tMTc4Mjc0MTk4NTc1My5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODUyLCJleHAiOjE3ODcxNjc2NTJ9.luxry--DXE4I3ACWDxml0--TiBX4nMSy0VcGq3xXEc4",
+  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/s-rum-lakma-nc-10---niacinamida-10-zinco-pca-1--1782741985753.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uvcy1ydW0tbGFrbWEtbmMtMTAtLS1uaWFjaW5hbWlkYS0xMC16aW5jby1wY2EtMS0tMTc4Mjc0MTk4NTc1My5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDIyLCJleHAiOjE3ODcyMjgyMjJ9.ZXD58QcQIeHjTZ13oZwmijbGxcvVh-crAXUXDMFw6PU",
   "campo_origem_foto": "image_url",
   "image_source": "product_database",
   "image_is_generated": false,
-  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/s-rum-lakma-nc-10---niacinamida-10-zinco-pca-1--1782741985753.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uvcy1ydW0tbGFrbWEtbmMtMTAtLS1uaWFjaW5hbWlkYS0xMC16aW5jby1wY2EtMS0tMTc4Mjc0MTk4NTc1My5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODUyLCJleHAiOjE3ODcxNjc2NTJ9.luxry--DXE4I3ACWDxml0--TiBX4nMSy0VcGq3xXEc4]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
+  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/s-rum-lakma-nc-10---niacinamida-10-zinco-pca-1--1782741985753.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uvcy1ydW0tbGFrbWEtbmMtMTAtLS1uaWFjaW5hbWlkYS0xMC16aW5jby1wY2EtMS0tMTc4Mjc0MTk4NTc1My5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDIyLCJleHAiOjE3ODcyMjgyMjJ9.ZXD58QcQIeHjTZ13oZwmijbGxcvVh-crAXUXDMFw6PU]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
   "link_individual_produto": "https://lakma.com.br/products/serum-10-niacinamida-1-zinco-pca?_pos=1&_sid=5b47fa0fb&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -1726,17 +1760,20 @@ Sérum facial home care com Niacinamida 10% e Zinco PCA 1%, indicado para oleosi
   "link_site": "https://lakma.com.br/products/serum-10-niacinamida-1-zinco-pca?_pos=1&_sid=5b47fa0fb&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA35",
-  "desconto_site": "35%",
+  "cupom_site": "LAKMA30",
+  "desconto_site": "30%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
   "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "cupom_ativo": true,
+  "cupom_codigo": "LAKMA30",
+  "cupom_desconto_percent": 30,
   "valor_sem_desconto": 139.9,
-  "valor_com_cupom_lakma35": 90.94,
+  "valor_com_cupom": 97.93,
   "valor_sem_desconto_br": "R$ 139,90",
-  "valor_com_cupom_lakma35_br": "R$ 90,94",
-  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "valor_com_cupom_br": "R$ 97,93",
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.7",
   "pdf_aprovado_protocolo": null,
   "pdf_source": null,
   "pdf_is_generated": false,
@@ -1745,7 +1782,7 @@ Sérum facial home care com Niacinamida 10% e Zinco PCA 1%, indicado para oleosi
   "categoria_intencao": [],
   "quando_indicar_direto": [],
   "indicacao_curta": null,
-  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_lakma35_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
+  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
 }
 ```
 
@@ -1881,21 +1918,21 @@ Sérum facial noturno com Retinol 0,5% e Vitamina E 1%, indicado para renovaçã
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/s-rum-lakma-rn-0-3---retinol-0-5-vitamina-e-1--1782744322946.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uvcy1ydW0tbGFrbWEtcm4tMC0zLS0tcmV0aW5vbC0wLTUtdml0YW1pbmEtZS0xLS0xNzgyNzQ0MzIyOTQ2LnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY1NjI4NTIsImV4cCI6MTc4NzE2NzY1Mn0.Fjx80NUiPy_Ad_aY2b0-hjOrXvnA8nGbiQbk6ollfR4 ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/s-rum-lakma-rn-0-3---retinol-0-5-vitamina-e-1--1782744322946.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uvcy1ydW0tbGFrbWEtcm4tMC0zLS0tcmV0aW5vbC0wLTUtdml0YW1pbmEtZS0xLS0xNzgyNzQ0MzIyOTQ2LnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY1NjI4NTIsImV4cCI6MTc4NzE2NzY1Mn0.Fjx80NUiPy_Ad_aY2b0-hjOrXvnA8nGbiQbk6ollfR4]]` no topo da resposta
+- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/s-rum-lakma-rn-0-3---retinol-0-5-vitamina-e-1--1782744322946.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uvcy1ydW0tbGFrbWEtcm4tMC0zLS0tcmV0aW5vbC0wLTUtdml0YW1pbmEtZS0xLS0xNzgyNzQ0MzIyOTQ2LnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY2MjM0MjIsImV4cCI6MTc4NzIyODIyMn0.IZ8_cMa5Wow_Rt2r37O_z3HCoquvYGAxhuu37Z03_us ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/s-rum-lakma-rn-0-3---retinol-0-5-vitamina-e-1--1782744322946.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uvcy1ydW0tbGFrbWEtcm4tMC0zLS0tcmV0aW5vbC0wLTUtdml0YW1pbmEtZS0xLS0xNzgyNzQ0MzIyOTQ2LnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY2MjM0MjIsImV4cCI6MTc4NzIyODIyMn0.IZ8_cMa5Wow_Rt2r37O_z3HCoquvYGAxhuu37Z03_us]]` no topo da resposta
 - **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
 - **Valor sem desconto:** R$ 139,90
-- **Valor com cupom LAKMA35:** R$ 90,94  _(calculado automaticamente = valor_sem_desconto × 0,65)_
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/serum-retinol-0-5-vitamina-e-1?_pos=1&_psq=serum+re&_ss=e&_v=1.0 ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+- **Valor com cupom LAKMA30:** R$ 97,93  _(calculado automaticamente = valor_sem_desconto × 0.7)_
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/serum-retinol-0-5-vitamina-e-1?_pos=1&_psq=serum+re&_ss=e&_v=1.0 ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
 
 ```json
 {
   "produto": "Sérum Lakma RN-0,3 - Retinol 0,5% + Vitamina E 1%",
   "aliases": [],
-  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/s-rum-lakma-rn-0-3---retinol-0-5-vitamina-e-1--1782744322946.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uvcy1ydW0tbGFrbWEtcm4tMC0zLS0tcmV0aW5vbC0wLTUtdml0YW1pbmEtZS0xLS0xNzgyNzQ0MzIyOTQ2LnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY1NjI4NTIsImV4cCI6MTc4NzE2NzY1Mn0.Fjx80NUiPy_Ad_aY2b0-hjOrXvnA8nGbiQbk6ollfR4",
+  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/s-rum-lakma-rn-0-3---retinol-0-5-vitamina-e-1--1782744322946.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uvcy1ydW0tbGFrbWEtcm4tMC0zLS0tcmV0aW5vbC0wLTUtdml0YW1pbmEtZS0xLS0xNzgyNzQ0MzIyOTQ2LnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY2MjM0MjIsImV4cCI6MTc4NzIyODIyMn0.IZ8_cMa5Wow_Rt2r37O_z3HCoquvYGAxhuu37Z03_us",
   "campo_origem_foto": "image_url",
   "image_source": "product_database",
   "image_is_generated": false,
-  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/s-rum-lakma-rn-0-3---retinol-0-5-vitamina-e-1--1782744322946.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uvcy1ydW0tbGFrbWEtcm4tMC0zLS0tcmV0aW5vbC0wLTUtdml0YW1pbmEtZS0xLS0xNzgyNzQ0MzIyOTQ2LnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY1NjI4NTIsImV4cCI6MTc4NzE2NzY1Mn0.Fjx80NUiPy_Ad_aY2b0-hjOrXvnA8nGbiQbk6ollfR4]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
+  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/s-rum-lakma-rn-0-3---retinol-0-5-vitamina-e-1--1782744322946.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uvcy1ydW0tbGFrbWEtcm4tMC0zLS0tcmV0aW5vbC0wLTUtdml0YW1pbmEtZS0xLS0xNzgyNzQ0MzIyOTQ2LnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY2MjM0MjIsImV4cCI6MTc4NzIyODIyMn0.IZ8_cMa5Wow_Rt2r37O_z3HCoquvYGAxhuu37Z03_us]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
   "link_individual_produto": "https://lakma.com.br/products/serum-retinol-0-5-vitamina-e-1?_pos=1&_psq=serum+re&_ss=e&_v=1.0",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -1903,17 +1940,20 @@ Sérum facial noturno com Retinol 0,5% e Vitamina E 1%, indicado para renovaçã
   "link_site": "https://lakma.com.br/products/serum-retinol-0-5-vitamina-e-1?_pos=1&_psq=serum+re&_ss=e&_v=1.0",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA35",
-  "desconto_site": "35%",
+  "cupom_site": "LAKMA30",
+  "desconto_site": "30%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
   "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "cupom_ativo": true,
+  "cupom_codigo": "LAKMA30",
+  "cupom_desconto_percent": 30,
   "valor_sem_desconto": 139.9,
-  "valor_com_cupom_lakma35": 90.94,
+  "valor_com_cupom": 97.93,
   "valor_sem_desconto_br": "R$ 139,90",
-  "valor_com_cupom_lakma35_br": "R$ 90,94",
-  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "valor_com_cupom_br": "R$ 97,93",
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.7",
   "pdf_aprovado_protocolo": null,
   "pdf_source": null,
   "pdf_is_generated": false,
@@ -1922,7 +1962,7 @@ Sérum facial noturno com Retinol 0,5% e Vitamina E 1%, indicado para renovaçã
   "categoria_intencao": [],
   "quando_indicar_direto": [],
   "indicacao_curta": null,
-  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_lakma35_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
+  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
 }
 ```
 
@@ -2053,21 +2093,21 @@ Sérum facial home care com Vitamina C 10% e Ácido Ferúlico 1%, indicado para 
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/s-rum-lakma-vc-10---vitamina-c-10-cido-fer-lico-1--1782744383399.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uvcy1ydW0tbGFrbWEtdmMtMTAtLS12aXRhbWluYS1jLTEwLWNpZG8tZmVyLWxpY28tMS0tMTc4Mjc0NDM4MzM5OS5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODUzLCJleHAiOjE3ODcxNjc2NTN9.U_rXhRFDD3nQbMCxb3j-Cdwmtl0M-7wAXHAYaGTO6sk ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/s-rum-lakma-vc-10---vitamina-c-10-cido-fer-lico-1--1782744383399.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uvcy1ydW0tbGFrbWEtdmMtMTAtLS12aXRhbWluYS1jLTEwLWNpZG8tZmVyLWxpY28tMS0tMTc4Mjc0NDM4MzM5OS5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODUzLCJleHAiOjE3ODcxNjc2NTN9.U_rXhRFDD3nQbMCxb3j-Cdwmtl0M-7wAXHAYaGTO6sk]]` no topo da resposta
+- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/s-rum-lakma-vc-10---vitamina-c-10-cido-fer-lico-1--1782744383399.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uvcy1ydW0tbGFrbWEtdmMtMTAtLS12aXRhbWluYS1jLTEwLWNpZG8tZmVyLWxpY28tMS0tMTc4Mjc0NDM4MzM5OS5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDIzLCJleHAiOjE3ODcyMjgyMjN9.2uQdY2c699TzipM4nllTiNbFQt2A9y3XzG-0_ksEwvI ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/s-rum-lakma-vc-10---vitamina-c-10-cido-fer-lico-1--1782744383399.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uvcy1ydW0tbGFrbWEtdmMtMTAtLS12aXRhbWluYS1jLTEwLWNpZG8tZmVyLWxpY28tMS0tMTc4Mjc0NDM4MzM5OS5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDIzLCJleHAiOjE3ODcyMjgyMjN9.2uQdY2c699TzipM4nllTiNbFQt2A9y3XzG-0_ksEwvI]]` no topo da resposta
 - **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
 - **Valor sem desconto:** R$ 139,90
-- **Valor com cupom LAKMA35:** R$ 90,94  _(calculado automaticamente = valor_sem_desconto × 0,65)_
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/vitamina-c-10?_pos=1&_psq=s%C3%A9rum&_ss=e&_v=1.0 ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+- **Valor com cupom LAKMA30:** R$ 97,93  _(calculado automaticamente = valor_sem_desconto × 0.7)_
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/vitamina-c-10?_pos=1&_psq=s%C3%A9rum&_ss=e&_v=1.0 ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
 
 ```json
 {
   "produto": "Sérum Lakma VC-10 - Vitamina C 10% + Ácido Ferúlico 1%",
   "aliases": [],
-  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/s-rum-lakma-vc-10---vitamina-c-10-cido-fer-lico-1--1782744383399.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uvcy1ydW0tbGFrbWEtdmMtMTAtLS12aXRhbWluYS1jLTEwLWNpZG8tZmVyLWxpY28tMS0tMTc4Mjc0NDM4MzM5OS5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODUzLCJleHAiOjE3ODcxNjc2NTN9.U_rXhRFDD3nQbMCxb3j-Cdwmtl0M-7wAXHAYaGTO6sk",
+  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/s-rum-lakma-vc-10---vitamina-c-10-cido-fer-lico-1--1782744383399.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uvcy1ydW0tbGFrbWEtdmMtMTAtLS12aXRhbWluYS1jLTEwLWNpZG8tZmVyLWxpY28tMS0tMTc4Mjc0NDM4MzM5OS5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDIzLCJleHAiOjE3ODcyMjgyMjN9.2uQdY2c699TzipM4nllTiNbFQt2A9y3XzG-0_ksEwvI",
   "campo_origem_foto": "image_url",
   "image_source": "product_database",
   "image_is_generated": false,
-  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/s-rum-lakma-vc-10---vitamina-c-10-cido-fer-lico-1--1782744383399.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uvcy1ydW0tbGFrbWEtdmMtMTAtLS12aXRhbWluYS1jLTEwLWNpZG8tZmVyLWxpY28tMS0tMTc4Mjc0NDM4MzM5OS5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODUzLCJleHAiOjE3ODcxNjc2NTN9.U_rXhRFDD3nQbMCxb3j-Cdwmtl0M-7wAXHAYaGTO6sk]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
+  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/s-rum-lakma-vc-10---vitamina-c-10-cido-fer-lico-1--1782744383399.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uvcy1ydW0tbGFrbWEtdmMtMTAtLS12aXRhbWluYS1jLTEwLWNpZG8tZmVyLWxpY28tMS0tMTc4Mjc0NDM4MzM5OS5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDIzLCJleHAiOjE3ODcyMjgyMjN9.2uQdY2c699TzipM4nllTiNbFQt2A9y3XzG-0_ksEwvI]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
   "link_individual_produto": "https://lakma.com.br/products/vitamina-c-10?_pos=1&_psq=s%C3%A9rum&_ss=e&_v=1.0",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -2075,17 +2115,20 @@ Sérum facial home care com Vitamina C 10% e Ácido Ferúlico 1%, indicado para 
   "link_site": "https://lakma.com.br/products/vitamina-c-10?_pos=1&_psq=s%C3%A9rum&_ss=e&_v=1.0",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA35",
-  "desconto_site": "35%",
+  "cupom_site": "LAKMA30",
+  "desconto_site": "30%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
   "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "cupom_ativo": true,
+  "cupom_codigo": "LAKMA30",
+  "cupom_desconto_percent": 30,
   "valor_sem_desconto": 139.9,
-  "valor_com_cupom_lakma35": 90.94,
+  "valor_com_cupom": 97.93,
   "valor_sem_desconto_br": "R$ 139,90",
-  "valor_com_cupom_lakma35_br": "R$ 90,94",
-  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "valor_com_cupom_br": "R$ 97,93",
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.7",
   "pdf_aprovado_protocolo": null,
   "pdf_source": null,
   "pdf_is_generated": false,
@@ -2094,7 +2137,7 @@ Sérum facial home care com Vitamina C 10% e Ácido Ferúlico 1%, indicado para 
   "categoria_intencao": [],
   "quando_indicar_direto": [],
   "indicacao_curta": null,
-  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_lakma35_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
+  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
 }
 ```
 
@@ -2228,21 +2271,21 @@ Creme facial profissional com espículas de esponja hidrolisada, indicado para r
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/microagulhamento-em-creme---8g-1782744456382.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbWljcm9hZ3VsaGFtZW50by1lbS1jcmVtZS0tLThnLTE3ODI3NDQ0NTYzODIucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg1MywiZXhwIjoxNzg3MTY3NjUzfQ.G8XMBEYnuCqyBRhsA3Akt_YUpXdETYqNsdxE_iYBMGw ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/microagulhamento-em-creme---8g-1782744456382.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbWljcm9hZ3VsaGFtZW50by1lbS1jcmVtZS0tLThnLTE3ODI3NDQ0NTYzODIucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg1MywiZXhwIjoxNzg3MTY3NjUzfQ.G8XMBEYnuCqyBRhsA3Akt_YUpXdETYqNsdxE_iYBMGw]]` no topo da resposta
+- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/microagulhamento-em-creme---8g-1782744456382.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbWljcm9hZ3VsaGFtZW50by1lbS1jcmVtZS0tLThnLTE3ODI3NDQ0NTYzODIucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQyMywiZXhwIjoxNzg3MjI4MjIzfQ.XDUzt5fiYTi4QkEQpZ-YNkUc8dtTRrhiLaNXL4GUZIg ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/microagulhamento-em-creme---8g-1782744456382.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbWljcm9hZ3VsaGFtZW50by1lbS1jcmVtZS0tLThnLTE3ODI3NDQ0NTYzODIucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQyMywiZXhwIjoxNzg3MjI4MjIzfQ.XDUzt5fiYTi4QkEQpZ-YNkUc8dtTRrhiLaNXL4GUZIg]]` no topo da resposta
 - **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
 - **Valor sem desconto:** R$ 103,75
-- **Valor com cupom LAKMA35:** R$ 67,44  _(calculado automaticamente = valor_sem_desconto × 0,65)_
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/microagulhamento-em-creme-8g?_pos=1&_psq=microagul&_ss=e&_v=1.0 ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+- **Valor com cupom LAKMA30:** R$ 72,63  _(calculado automaticamente = valor_sem_desconto × 0.7)_
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/microagulhamento-em-creme-8g?_pos=1&_psq=microagul&_ss=e&_v=1.0 ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
 
 ```json
 {
   "produto": "Microagulhamento em Creme - 8g",
   "aliases": [],
-  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/microagulhamento-em-creme---8g-1782744456382.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbWljcm9hZ3VsaGFtZW50by1lbS1jcmVtZS0tLThnLTE3ODI3NDQ0NTYzODIucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg1MywiZXhwIjoxNzg3MTY3NjUzfQ.G8XMBEYnuCqyBRhsA3Akt_YUpXdETYqNsdxE_iYBMGw",
+  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/microagulhamento-em-creme---8g-1782744456382.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbWljcm9hZ3VsaGFtZW50by1lbS1jcmVtZS0tLThnLTE3ODI3NDQ0NTYzODIucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQyMywiZXhwIjoxNzg3MjI4MjIzfQ.XDUzt5fiYTi4QkEQpZ-YNkUc8dtTRrhiLaNXL4GUZIg",
   "campo_origem_foto": "image_url",
   "image_source": "product_database",
   "image_is_generated": false,
-  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/microagulhamento-em-creme---8g-1782744456382.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbWljcm9hZ3VsaGFtZW50by1lbS1jcmVtZS0tLThnLTE3ODI3NDQ0NTYzODIucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg1MywiZXhwIjoxNzg3MTY3NjUzfQ.G8XMBEYnuCqyBRhsA3Akt_YUpXdETYqNsdxE_iYBMGw]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
+  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/microagulhamento-em-creme---8g-1782744456382.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbWljcm9hZ3VsaGFtZW50by1lbS1jcmVtZS0tLThnLTE3ODI3NDQ0NTYzODIucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQyMywiZXhwIjoxNzg3MjI4MjIzfQ.XDUzt5fiYTi4QkEQpZ-YNkUc8dtTRrhiLaNXL4GUZIg]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
   "link_individual_produto": "https://lakma.com.br/products/microagulhamento-em-creme-8g?_pos=1&_psq=microagul&_ss=e&_v=1.0",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -2250,17 +2293,20 @@ Creme facial profissional com espículas de esponja hidrolisada, indicado para r
   "link_site": "https://lakma.com.br/products/microagulhamento-em-creme-8g?_pos=1&_psq=microagul&_ss=e&_v=1.0",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA35",
-  "desconto_site": "35%",
+  "cupom_site": "LAKMA30",
+  "desconto_site": "30%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
   "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "cupom_ativo": true,
+  "cupom_codigo": "LAKMA30",
+  "cupom_desconto_percent": 30,
   "valor_sem_desconto": 103.75,
-  "valor_com_cupom_lakma35": 67.44,
+  "valor_com_cupom": 72.63,
   "valor_sem_desconto_br": "R$ 103,75",
-  "valor_com_cupom_lakma35_br": "R$ 67,44",
-  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "valor_com_cupom_br": "R$ 72,63",
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.7",
   "pdf_aprovado_protocolo": null,
   "pdf_source": null,
   "pdf_is_generated": false,
@@ -2269,7 +2315,7 @@ Creme facial profissional com espículas de esponja hidrolisada, indicado para r
   "categoria_intencao": [],
   "quando_indicar_direto": [],
   "indicacao_curta": null,
-  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_lakma35_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
+  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
 }
 ```
 
@@ -2407,21 +2453,21 @@ Gloss labial bioativo home care com ação booster, indicado para hidratação, 
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/gloss-biolips-bioativo---booster-labial---8g-1782744494151.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZ2xvc3MtYmlvbGlwcy1iaW9hdGl2by0tLWJvb3N0ZXItbGFiaWFsLS0tOGctMTc4Mjc0NDQ5NDE1MS5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODUzLCJleHAiOjE3ODcxNjc2NTN9.MgfYBugTyoiQXSfYiLHr1lzciz9wV6maCZsnpxqJ4WU ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/gloss-biolips-bioativo---booster-labial---8g-1782744494151.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZ2xvc3MtYmlvbGlwcy1iaW9hdGl2by0tLWJvb3N0ZXItbGFiaWFsLS0tOGctMTc4Mjc0NDQ5NDE1MS5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODUzLCJleHAiOjE3ODcxNjc2NTN9.MgfYBugTyoiQXSfYiLHr1lzciz9wV6maCZsnpxqJ4WU]]` no topo da resposta
+- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/gloss-biolips-bioativo---booster-labial---8g-1782744494151.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZ2xvc3MtYmlvbGlwcy1iaW9hdGl2by0tLWJvb3N0ZXItbGFiaWFsLS0tOGctMTc4Mjc0NDQ5NDE1MS5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDIzLCJleHAiOjE3ODcyMjgyMjN9.pkhBgJxzRQrMB4MwWBu1sPE436X4iq0j-j00mDE9BME ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/gloss-biolips-bioativo---booster-labial---8g-1782744494151.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZ2xvc3MtYmlvbGlwcy1iaW9hdGl2by0tLWJvb3N0ZXItbGFiaWFsLS0tOGctMTc4Mjc0NDQ5NDE1MS5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDIzLCJleHAiOjE3ODcyMjgyMjN9.pkhBgJxzRQrMB4MwWBu1sPE436X4iq0j-j00mDE9BME]]` no topo da resposta
 - **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
 - **Valor sem desconto:** R$ 77,75
-- **Valor com cupom LAKMA35:** R$ 50,54  _(calculado automaticamente = valor_sem_desconto × 0,65)_
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/gloss-bioativo-8g?_pos=1&_psq=gloss&_ss=e&_v=1.0 ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+- **Valor com cupom LAKMA30:** R$ 54,42  _(calculado automaticamente = valor_sem_desconto × 0.7)_
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/gloss-bioativo-8g?_pos=1&_psq=gloss&_ss=e&_v=1.0 ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
 
 ```json
 {
   "produto": "Gloss Biolips Bioativo - Booster Labial - 8g",
   "aliases": [],
-  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/gloss-biolips-bioativo---booster-labial---8g-1782744494151.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZ2xvc3MtYmlvbGlwcy1iaW9hdGl2by0tLWJvb3N0ZXItbGFiaWFsLS0tOGctMTc4Mjc0NDQ5NDE1MS5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODUzLCJleHAiOjE3ODcxNjc2NTN9.MgfYBugTyoiQXSfYiLHr1lzciz9wV6maCZsnpxqJ4WU",
+  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/gloss-biolips-bioativo---booster-labial---8g-1782744494151.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZ2xvc3MtYmlvbGlwcy1iaW9hdGl2by0tLWJvb3N0ZXItbGFiaWFsLS0tOGctMTc4Mjc0NDQ5NDE1MS5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDIzLCJleHAiOjE3ODcyMjgyMjN9.pkhBgJxzRQrMB4MwWBu1sPE436X4iq0j-j00mDE9BME",
   "campo_origem_foto": "image_url",
   "image_source": "product_database",
   "image_is_generated": false,
-  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/gloss-biolips-bioativo---booster-labial---8g-1782744494151.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZ2xvc3MtYmlvbGlwcy1iaW9hdGl2by0tLWJvb3N0ZXItbGFiaWFsLS0tOGctMTc4Mjc0NDQ5NDE1MS5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODUzLCJleHAiOjE3ODcxNjc2NTN9.MgfYBugTyoiQXSfYiLHr1lzciz9wV6maCZsnpxqJ4WU]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
+  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/gloss-biolips-bioativo---booster-labial---8g-1782744494151.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZ2xvc3MtYmlvbGlwcy1iaW9hdGl2by0tLWJvb3N0ZXItbGFiaWFsLS0tOGctMTc4Mjc0NDQ5NDE1MS5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDIzLCJleHAiOjE3ODcyMjgyMjN9.pkhBgJxzRQrMB4MwWBu1sPE436X4iq0j-j00mDE9BME]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
   "link_individual_produto": "https://lakma.com.br/products/gloss-bioativo-8g?_pos=1&_psq=gloss&_ss=e&_v=1.0",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -2429,17 +2475,20 @@ Gloss labial bioativo home care com ação booster, indicado para hidratação, 
   "link_site": "https://lakma.com.br/products/gloss-bioativo-8g?_pos=1&_psq=gloss&_ss=e&_v=1.0",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA35",
-  "desconto_site": "35%",
+  "cupom_site": "LAKMA30",
+  "desconto_site": "30%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
   "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "cupom_ativo": true,
+  "cupom_codigo": "LAKMA30",
+  "cupom_desconto_percent": 30,
   "valor_sem_desconto": 77.75,
-  "valor_com_cupom_lakma35": 50.54,
+  "valor_com_cupom": 54.42,
   "valor_sem_desconto_br": "R$ 77,75",
-  "valor_com_cupom_lakma35_br": "R$ 50,54",
-  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "valor_com_cupom_br": "R$ 54,42",
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.7",
   "pdf_aprovado_protocolo": null,
   "pdf_source": null,
   "pdf_is_generated": false,
@@ -2448,7 +2497,7 @@ Gloss labial bioativo home care com ação booster, indicado para hidratação, 
   "categoria_intencao": [],
   "quando_indicar_direto": [],
   "indicacao_curta": null,
-  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_lakma35_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
+  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
 }
 ```
 
@@ -2569,21 +2618,21 @@ Tratamento home care para cílios em formato de rímel, indicado para fortalecim
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/r-mel-fioativo---8ml-1782744536471.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uvci1tZWwtZmlvYXRpdm8tLS04bWwtMTc4Mjc0NDUzNjQ3MS5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODUzLCJleHAiOjE3ODcxNjc2NTN9.N2LkjASJnmxBgL9sS8x62qnF1V848IqBZ7MwwZYzFDk ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/r-mel-fioativo---8ml-1782744536471.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uvci1tZWwtZmlvYXRpdm8tLS04bWwtMTc4Mjc0NDUzNjQ3MS5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODUzLCJleHAiOjE3ODcxNjc2NTN9.N2LkjASJnmxBgL9sS8x62qnF1V848IqBZ7MwwZYzFDk]]` no topo da resposta
+- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/r-mel-fioativo---8ml-1782744536471.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uvci1tZWwtZmlvYXRpdm8tLS04bWwtMTc4Mjc0NDUzNjQ3MS5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDIzLCJleHAiOjE3ODcyMjgyMjN9.QFkKeOC5Xgt2XszcSYT5S9nxTU15LB8vowGAQlv3I7c ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/r-mel-fioativo---8ml-1782744536471.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uvci1tZWwtZmlvYXRpdm8tLS04bWwtMTc4Mjc0NDUzNjQ3MS5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDIzLCJleHAiOjE3ODcyMjgyMjN9.QFkKeOC5Xgt2XszcSYT5S9nxTU15LB8vowGAQlv3I7c]]` no topo da resposta
 - **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
 - **Valor sem desconto:** R$ 77,75
-- **Valor com cupom LAKMA35:** R$ 50,54  _(calculado automaticamente = valor_sem_desconto × 0,65)_
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/rimel-bioativo-8ml?_pos=1&_psq=r%C3%ADmel&_ss=e&_v=1.0 ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+- **Valor com cupom LAKMA30:** R$ 54,42  _(calculado automaticamente = valor_sem_desconto × 0.7)_
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/rimel-bioativo-8ml?_pos=1&_psq=r%C3%ADmel&_ss=e&_v=1.0 ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
 
 ```json
 {
   "produto": "Rímel Fioativo - 8ml",
   "aliases": [],
-  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/r-mel-fioativo---8ml-1782744536471.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uvci1tZWwtZmlvYXRpdm8tLS04bWwtMTc4Mjc0NDUzNjQ3MS5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODUzLCJleHAiOjE3ODcxNjc2NTN9.N2LkjASJnmxBgL9sS8x62qnF1V848IqBZ7MwwZYzFDk",
+  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/r-mel-fioativo---8ml-1782744536471.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uvci1tZWwtZmlvYXRpdm8tLS04bWwtMTc4Mjc0NDUzNjQ3MS5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDIzLCJleHAiOjE3ODcyMjgyMjN9.QFkKeOC5Xgt2XszcSYT5S9nxTU15LB8vowGAQlv3I7c",
   "campo_origem_foto": "image_url",
   "image_source": "product_database",
   "image_is_generated": false,
-  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/r-mel-fioativo---8ml-1782744536471.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uvci1tZWwtZmlvYXRpdm8tLS04bWwtMTc4Mjc0NDUzNjQ3MS5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODUzLCJleHAiOjE3ODcxNjc2NTN9.N2LkjASJnmxBgL9sS8x62qnF1V848IqBZ7MwwZYzFDk]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
+  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/r-mel-fioativo---8ml-1782744536471.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uvci1tZWwtZmlvYXRpdm8tLS04bWwtMTc4Mjc0NDUzNjQ3MS5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDIzLCJleHAiOjE3ODcyMjgyMjN9.QFkKeOC5Xgt2XszcSYT5S9nxTU15LB8vowGAQlv3I7c]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
   "link_individual_produto": "https://lakma.com.br/products/rimel-bioativo-8ml?_pos=1&_psq=r%C3%ADmel&_ss=e&_v=1.0",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -2591,17 +2640,20 @@ Tratamento home care para cílios em formato de rímel, indicado para fortalecim
   "link_site": "https://lakma.com.br/products/rimel-bioativo-8ml?_pos=1&_psq=r%C3%ADmel&_ss=e&_v=1.0",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA35",
-  "desconto_site": "35%",
+  "cupom_site": "LAKMA30",
+  "desconto_site": "30%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
   "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "cupom_ativo": true,
+  "cupom_codigo": "LAKMA30",
+  "cupom_desconto_percent": 30,
   "valor_sem_desconto": 77.75,
-  "valor_com_cupom_lakma35": 50.54,
+  "valor_com_cupom": 54.42,
   "valor_sem_desconto_br": "R$ 77,75",
-  "valor_com_cupom_lakma35_br": "R$ 50,54",
-  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "valor_com_cupom_br": "R$ 54,42",
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.7",
   "pdf_aprovado_protocolo": null,
   "pdf_source": null,
   "pdf_is_generated": false,
@@ -2610,7 +2662,7 @@ Tratamento home care para cílios em formato de rímel, indicado para fortalecim
   "categoria_intencao": [],
   "quando_indicar_direto": [],
   "indicacao_curta": null,
-  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_lakma35_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
+  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
 }
 ```
 
@@ -2728,21 +2780,21 @@ Esfoliante home care para rosto e lábios, indicado para renovação suave, remo
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/esfoliante-facial-e-labial-bioativo---30g-1782744583301.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZXNmb2xpYW50ZS1mYWNpYWwtZS1sYWJpYWwtYmlvYXRpdm8tLS0zMGctMTc4Mjc0NDU4MzMwMS5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODU0LCJleHAiOjE3ODcxNjc2NTR9.vH7KHnFRzccw4W--1zzPwViuerQmS9u2UA5YKuQE49c ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/esfoliante-facial-e-labial-bioativo---30g-1782744583301.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZXNmb2xpYW50ZS1mYWNpYWwtZS1sYWJpYWwtYmlvYXRpdm8tLS0zMGctMTc4Mjc0NDU4MzMwMS5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODU0LCJleHAiOjE3ODcxNjc2NTR9.vH7KHnFRzccw4W--1zzPwViuerQmS9u2UA5YKuQE49c]]` no topo da resposta
+- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/esfoliante-facial-e-labial-bioativo---30g-1782744583301.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZXNmb2xpYW50ZS1mYWNpYWwtZS1sYWJpYWwtYmlvYXRpdm8tLS0zMGctMTc4Mjc0NDU4MzMwMS5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDI0LCJleHAiOjE3ODcyMjgyMjR9.NUetRKCvpF7zUcx29r-ZSEY5vCRPeA8jsDIf7yMewwk ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/esfoliante-facial-e-labial-bioativo---30g-1782744583301.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZXNmb2xpYW50ZS1mYWNpYWwtZS1sYWJpYWwtYmlvYXRpdm8tLS0zMGctMTc4Mjc0NDU4MzMwMS5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDI0LCJleHAiOjE3ODcyMjgyMjR9.NUetRKCvpF7zUcx29r-ZSEY5vCRPeA8jsDIf7yMewwk]]` no topo da resposta
 - **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
 - **Valor sem desconto:** R$ 77,75
-- **Valor com cupom LAKMA35:** R$ 50,54  _(calculado automaticamente = valor_sem_desconto × 0,65)_
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/esfoliante-facial-e-labial-30g?_pos=1&_psq=esfoliante&_ss=e&_v=1.0 ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+- **Valor com cupom LAKMA30:** R$ 54,42  _(calculado automaticamente = valor_sem_desconto × 0.7)_
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/esfoliante-facial-e-labial-30g?_pos=1&_psq=esfoliante&_ss=e&_v=1.0 ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
 
 ```json
 {
   "produto": "Esfoliante Facial e Labial Bioativo - 30g",
   "aliases": [],
-  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/esfoliante-facial-e-labial-bioativo---30g-1782744583301.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZXNmb2xpYW50ZS1mYWNpYWwtZS1sYWJpYWwtYmlvYXRpdm8tLS0zMGctMTc4Mjc0NDU4MzMwMS5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODU0LCJleHAiOjE3ODcxNjc2NTR9.vH7KHnFRzccw4W--1zzPwViuerQmS9u2UA5YKuQE49c",
+  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/esfoliante-facial-e-labial-bioativo---30g-1782744583301.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZXNmb2xpYW50ZS1mYWNpYWwtZS1sYWJpYWwtYmlvYXRpdm8tLS0zMGctMTc4Mjc0NDU4MzMwMS5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDI0LCJleHAiOjE3ODcyMjgyMjR9.NUetRKCvpF7zUcx29r-ZSEY5vCRPeA8jsDIf7yMewwk",
   "campo_origem_foto": "image_url",
   "image_source": "product_database",
   "image_is_generated": false,
-  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/esfoliante-facial-e-labial-bioativo---30g-1782744583301.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZXNmb2xpYW50ZS1mYWNpYWwtZS1sYWJpYWwtYmlvYXRpdm8tLS0zMGctMTc4Mjc0NDU4MzMwMS5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODU0LCJleHAiOjE3ODcxNjc2NTR9.vH7KHnFRzccw4W--1zzPwViuerQmS9u2UA5YKuQE49c]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
+  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/esfoliante-facial-e-labial-bioativo---30g-1782744583301.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZXNmb2xpYW50ZS1mYWNpYWwtZS1sYWJpYWwtYmlvYXRpdm8tLS0zMGctMTc4Mjc0NDU4MzMwMS5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDI0LCJleHAiOjE3ODcyMjgyMjR9.NUetRKCvpF7zUcx29r-ZSEY5vCRPeA8jsDIf7yMewwk]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
   "link_individual_produto": "https://lakma.com.br/products/esfoliante-facial-e-labial-30g?_pos=1&_psq=esfoliante&_ss=e&_v=1.0",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -2750,17 +2802,20 @@ Esfoliante home care para rosto e lábios, indicado para renovação suave, remo
   "link_site": "https://lakma.com.br/products/esfoliante-facial-e-labial-30g?_pos=1&_psq=esfoliante&_ss=e&_v=1.0",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA35",
-  "desconto_site": "35%",
+  "cupom_site": "LAKMA30",
+  "desconto_site": "30%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
   "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "cupom_ativo": true,
+  "cupom_codigo": "LAKMA30",
+  "cupom_desconto_percent": 30,
   "valor_sem_desconto": 77.75,
-  "valor_com_cupom_lakma35": 50.54,
+  "valor_com_cupom": 54.42,
   "valor_sem_desconto_br": "R$ 77,75",
-  "valor_com_cupom_lakma35_br": "R$ 50,54",
-  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "valor_com_cupom_br": "R$ 54,42",
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.7",
   "pdf_aprovado_protocolo": null,
   "pdf_source": null,
   "pdf_is_generated": false,
@@ -2769,7 +2824,7 @@ Esfoliante home care para rosto e lábios, indicado para renovação suave, remo
   "categoria_intencao": [],
   "quando_indicar_direto": [],
   "indicacao_curta": null,
-  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_lakma35_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
+  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
 }
 ```
 
@@ -2901,21 +2956,21 @@ Espuma de limpeza facial home care para uso diário, indicada para remover impur
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/espuma-de-limpeza-facial---camomila-pr-polis-e-vitamina-e---140ml-1782744622238.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZXNwdW1hLWRlLWxpbXBlemEtZmFjaWFsLS0tY2Ftb21pbGEtcHItcG9saXMtZS12aXRhbWluYS1lLS0tMTQwbWwtMTc4Mjc0NDYyMjIzOC5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODU0LCJleHAiOjE3ODcxNjc2NTR9.qLo30eku7JvTTc2ibhqBcCS429O7pAD4_zRZhh8quf4 ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/espuma-de-limpeza-facial---camomila-pr-polis-e-vitamina-e---140ml-1782744622238.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZXNwdW1hLWRlLWxpbXBlemEtZmFjaWFsLS0tY2Ftb21pbGEtcHItcG9saXMtZS12aXRhbWluYS1lLS0tMTQwbWwtMTc4Mjc0NDYyMjIzOC5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODU0LCJleHAiOjE3ODcxNjc2NTR9.qLo30eku7JvTTc2ibhqBcCS429O7pAD4_zRZhh8quf4]]` no topo da resposta
+- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/espuma-de-limpeza-facial---camomila-pr-polis-e-vitamina-e---140ml-1782744622238.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZXNwdW1hLWRlLWxpbXBlemEtZmFjaWFsLS0tY2Ftb21pbGEtcHItcG9saXMtZS12aXRhbWluYS1lLS0tMTQwbWwtMTc4Mjc0NDYyMjIzOC5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDI0LCJleHAiOjE3ODcyMjgyMjR9.dbUsewz4rpcwvZhjstcg_5iESwrOfNVrJRkaJO2no8I ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/espuma-de-limpeza-facial---camomila-pr-polis-e-vitamina-e---140ml-1782744622238.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZXNwdW1hLWRlLWxpbXBlemEtZmFjaWFsLS0tY2Ftb21pbGEtcHItcG9saXMtZS12aXRhbWluYS1lLS0tMTQwbWwtMTc4Mjc0NDYyMjIzOC5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDI0LCJleHAiOjE3ODcyMjgyMjR9.dbUsewz4rpcwvZhjstcg_5iESwrOfNVrJRkaJO2no8I]]` no topo da resposta
 - **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
 - **Valor sem desconto:** R$ 103,75
-- **Valor com cupom LAKMA35:** R$ 67,44  _(calculado automaticamente = valor_sem_desconto × 0,65)_
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/espuma-de-limpeza?_pos=1&_psq=espuma+de+limpeza&_ss=e&_v=1.0 ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+- **Valor com cupom LAKMA30:** R$ 72,63  _(calculado automaticamente = valor_sem_desconto × 0.7)_
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/espuma-de-limpeza?_pos=1&_psq=espuma+de+limpeza&_ss=e&_v=1.0 ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
 
 ```json
 {
   "produto": "Espuma de Limpeza Facial - Camomila, Própolis e Vitamina E - 140ml",
   "aliases": [],
-  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/espuma-de-limpeza-facial---camomila-pr-polis-e-vitamina-e---140ml-1782744622238.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZXNwdW1hLWRlLWxpbXBlemEtZmFjaWFsLS0tY2Ftb21pbGEtcHItcG9saXMtZS12aXRhbWluYS1lLS0tMTQwbWwtMTc4Mjc0NDYyMjIzOC5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODU0LCJleHAiOjE3ODcxNjc2NTR9.qLo30eku7JvTTc2ibhqBcCS429O7pAD4_zRZhh8quf4",
+  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/espuma-de-limpeza-facial---camomila-pr-polis-e-vitamina-e---140ml-1782744622238.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZXNwdW1hLWRlLWxpbXBlemEtZmFjaWFsLS0tY2Ftb21pbGEtcHItcG9saXMtZS12aXRhbWluYS1lLS0tMTQwbWwtMTc4Mjc0NDYyMjIzOC5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDI0LCJleHAiOjE3ODcyMjgyMjR9.dbUsewz4rpcwvZhjstcg_5iESwrOfNVrJRkaJO2no8I",
   "campo_origem_foto": "image_url",
   "image_source": "product_database",
   "image_is_generated": false,
-  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/espuma-de-limpeza-facial---camomila-pr-polis-e-vitamina-e---140ml-1782744622238.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZXNwdW1hLWRlLWxpbXBlemEtZmFjaWFsLS0tY2Ftb21pbGEtcHItcG9saXMtZS12aXRhbWluYS1lLS0tMTQwbWwtMTc4Mjc0NDYyMjIzOC5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODU0LCJleHAiOjE3ODcxNjc2NTR9.qLo30eku7JvTTc2ibhqBcCS429O7pAD4_zRZhh8quf4]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
+  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/espuma-de-limpeza-facial---camomila-pr-polis-e-vitamina-e---140ml-1782744622238.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZXNwdW1hLWRlLWxpbXBlemEtZmFjaWFsLS0tY2Ftb21pbGEtcHItcG9saXMtZS12aXRhbWluYS1lLS0tMTQwbWwtMTc4Mjc0NDYyMjIzOC5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDI0LCJleHAiOjE3ODcyMjgyMjR9.dbUsewz4rpcwvZhjstcg_5iESwrOfNVrJRkaJO2no8I]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
   "link_individual_produto": "https://lakma.com.br/products/espuma-de-limpeza?_pos=1&_psq=espuma+de+limpeza&_ss=e&_v=1.0",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -2923,17 +2978,20 @@ Espuma de limpeza facial home care para uso diário, indicada para remover impur
   "link_site": "https://lakma.com.br/products/espuma-de-limpeza?_pos=1&_psq=espuma+de+limpeza&_ss=e&_v=1.0",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA35",
-  "desconto_site": "35%",
+  "cupom_site": "LAKMA30",
+  "desconto_site": "30%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
   "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "cupom_ativo": true,
+  "cupom_codigo": "LAKMA30",
+  "cupom_desconto_percent": 30,
   "valor_sem_desconto": 103.75,
-  "valor_com_cupom_lakma35": 67.44,
+  "valor_com_cupom": 72.63,
   "valor_sem_desconto_br": "R$ 103,75",
-  "valor_com_cupom_lakma35_br": "R$ 67,44",
-  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "valor_com_cupom_br": "R$ 72,63",
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.7",
   "pdf_aprovado_protocolo": null,
   "pdf_source": null,
   "pdf_is_generated": false,
@@ -2942,7 +3000,7 @@ Espuma de limpeza facial home care para uso diário, indicada para remover impur
   "categoria_intencao": [],
   "quando_indicar_direto": [],
   "indicacao_curta": null,
-  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_lakma35_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
+  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
 }
 ```
 
@@ -3079,21 +3137,21 @@ Máscara facial hidratante com ação refrescante, indicada para hidratar, suavi
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/m-scara-hidratante-de-pepino---100g-1782744658841.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbS1zY2FyYS1oaWRyYXRhbnRlLWRlLXBlcGluby0tLTEwMGctMTc4Mjc0NDY1ODg0MS5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODU0LCJleHAiOjE3ODcxNjc2NTR9.yJnk23phe8vYKnYSluGbEQFr51qP8PojlJvXEBSyRDE ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/m-scara-hidratante-de-pepino---100g-1782744658841.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbS1zY2FyYS1oaWRyYXRhbnRlLWRlLXBlcGluby0tLTEwMGctMTc4Mjc0NDY1ODg0MS5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODU0LCJleHAiOjE3ODcxNjc2NTR9.yJnk23phe8vYKnYSluGbEQFr51qP8PojlJvXEBSyRDE]]` no topo da resposta
+- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/m-scara-hidratante-de-pepino---100g-1782744658841.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbS1zY2FyYS1oaWRyYXRhbnRlLWRlLXBlcGluby0tLTEwMGctMTc4Mjc0NDY1ODg0MS5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDI0LCJleHAiOjE3ODcyMjgyMjR9.Ey29W7JLOTts3arBHgssPN6CGrLpJIpm5ds8BSNczm8 ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/m-scara-hidratante-de-pepino---100g-1782744658841.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbS1zY2FyYS1oaWRyYXRhbnRlLWRlLXBlcGluby0tLTEwMGctMTc4Mjc0NDY1ODg0MS5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDI0LCJleHAiOjE3ODcyMjgyMjR9.Ey29W7JLOTts3arBHgssPN6CGrLpJIpm5ds8BSNczm8]]` no topo da resposta
 - **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
 - **Valor sem desconto:** R$ 129,90
-- **Valor com cupom LAKMA35:** R$ 84,44  _(calculado automaticamente = valor_sem_desconto × 0,65)_
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/mascara-hidratante-de-pepino-pele-oleosa?_pos=1&_sid=e309c92f3&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+- **Valor com cupom LAKMA30:** R$ 90,93  _(calculado automaticamente = valor_sem_desconto × 0.7)_
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/mascara-hidratante-de-pepino-pele-oleosa?_pos=1&_sid=e309c92f3&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
 
 ```json
 {
   "produto": "Máscara Hidratante de Pepino - 100g",
   "aliases": [],
-  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/m-scara-hidratante-de-pepino---100g-1782744658841.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbS1zY2FyYS1oaWRyYXRhbnRlLWRlLXBlcGluby0tLTEwMGctMTc4Mjc0NDY1ODg0MS5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODU0LCJleHAiOjE3ODcxNjc2NTR9.yJnk23phe8vYKnYSluGbEQFr51qP8PojlJvXEBSyRDE",
+  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/m-scara-hidratante-de-pepino---100g-1782744658841.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbS1zY2FyYS1oaWRyYXRhbnRlLWRlLXBlcGluby0tLTEwMGctMTc4Mjc0NDY1ODg0MS5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDI0LCJleHAiOjE3ODcyMjgyMjR9.Ey29W7JLOTts3arBHgssPN6CGrLpJIpm5ds8BSNczm8",
   "campo_origem_foto": "image_url",
   "image_source": "product_database",
   "image_is_generated": false,
-  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/m-scara-hidratante-de-pepino---100g-1782744658841.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbS1zY2FyYS1oaWRyYXRhbnRlLWRlLXBlcGluby0tLTEwMGctMTc4Mjc0NDY1ODg0MS5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODU0LCJleHAiOjE3ODcxNjc2NTR9.yJnk23phe8vYKnYSluGbEQFr51qP8PojlJvXEBSyRDE]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
+  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/m-scara-hidratante-de-pepino---100g-1782744658841.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbS1zY2FyYS1oaWRyYXRhbnRlLWRlLXBlcGluby0tLTEwMGctMTc4Mjc0NDY1ODg0MS5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDI0LCJleHAiOjE3ODcyMjgyMjR9.Ey29W7JLOTts3arBHgssPN6CGrLpJIpm5ds8BSNczm8]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
   "link_individual_produto": "https://lakma.com.br/products/mascara-hidratante-de-pepino-pele-oleosa?_pos=1&_sid=e309c92f3&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -3101,17 +3159,20 @@ Máscara facial hidratante com ação refrescante, indicada para hidratar, suavi
   "link_site": "https://lakma.com.br/products/mascara-hidratante-de-pepino-pele-oleosa?_pos=1&_sid=e309c92f3&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA35",
-  "desconto_site": "35%",
+  "cupom_site": "LAKMA30",
+  "desconto_site": "30%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
   "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "cupom_ativo": true,
+  "cupom_codigo": "LAKMA30",
+  "cupom_desconto_percent": 30,
   "valor_sem_desconto": 129.9,
-  "valor_com_cupom_lakma35": 84.44,
+  "valor_com_cupom": 90.93,
   "valor_sem_desconto_br": "R$ 129,90",
-  "valor_com_cupom_lakma35_br": "R$ 84,44",
-  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "valor_com_cupom_br": "R$ 90,93",
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.7",
   "pdf_aprovado_protocolo": null,
   "pdf_source": null,
   "pdf_is_generated": false,
@@ -3120,7 +3181,7 @@ Máscara facial hidratante com ação refrescante, indicada para hidratar, suavi
   "categoria_intencao": [],
   "quando_indicar_direto": [],
   "indicacao_curta": null,
-  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_lakma35_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
+  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
 }
 ```
 
@@ -3252,21 +3313,21 @@ Creme facial antissinais home care com Nano Coenzima Q10 e Nano Vitamina E, indi
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/creme-antissinais-q-10---100g-1782744698940.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvY3JlbWUtYW50aXNzaW5haXMtcS0xMC0tLTEwMGctMTc4Mjc0NDY5ODk0MC5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODU0LCJleHAiOjE3ODcxNjc2NTR9.crwQbRoMjhshMHTogVe_d3X-vasYvKJInRfYTDOhjEk ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/creme-antissinais-q-10---100g-1782744698940.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvY3JlbWUtYW50aXNzaW5haXMtcS0xMC0tLTEwMGctMTc4Mjc0NDY5ODk0MC5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODU0LCJleHAiOjE3ODcxNjc2NTR9.crwQbRoMjhshMHTogVe_d3X-vasYvKJInRfYTDOhjEk]]` no topo da resposta
+- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/creme-antissinais-q-10---100g-1782744698940.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvY3JlbWUtYW50aXNzaW5haXMtcS0xMC0tLTEwMGctMTc4Mjc0NDY5ODk0MC5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDI0LCJleHAiOjE3ODcyMjgyMjR9.BIVIcR-rfvqyBH_kr5oPirrw7U7-gQzQSvXkOY7pRsA ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/creme-antissinais-q-10---100g-1782744698940.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvY3JlbWUtYW50aXNzaW5haXMtcS0xMC0tLTEwMGctMTc4Mjc0NDY5ODk0MC5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDI0LCJleHAiOjE3ODcyMjgyMjR9.BIVIcR-rfvqyBH_kr5oPirrw7U7-gQzQSvXkOY7pRsA]]` no topo da resposta
 - **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
 - **Valor sem desconto:** R$ 129,90
-- **Valor com cupom LAKMA35:** R$ 84,44  _(calculado automaticamente = valor_sem_desconto × 0,65)_
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/creme-antissinais-q10-facial-rejuvenescedor?_pos=1&_sid=0b9a15e5b&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+- **Valor com cupom LAKMA30:** R$ 90,93  _(calculado automaticamente = valor_sem_desconto × 0.7)_
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/creme-antissinais-q10-facial-rejuvenescedor?_pos=1&_sid=0b9a15e5b&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
 
 ```json
 {
   "produto": "Creme Antissinais Q-10 - 100g",
   "aliases": [],
-  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/creme-antissinais-q-10---100g-1782744698940.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvY3JlbWUtYW50aXNzaW5haXMtcS0xMC0tLTEwMGctMTc4Mjc0NDY5ODk0MC5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODU0LCJleHAiOjE3ODcxNjc2NTR9.crwQbRoMjhshMHTogVe_d3X-vasYvKJInRfYTDOhjEk",
+  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/creme-antissinais-q-10---100g-1782744698940.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvY3JlbWUtYW50aXNzaW5haXMtcS0xMC0tLTEwMGctMTc4Mjc0NDY5ODk0MC5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDI0LCJleHAiOjE3ODcyMjgyMjR9.BIVIcR-rfvqyBH_kr5oPirrw7U7-gQzQSvXkOY7pRsA",
   "campo_origem_foto": "image_url",
   "image_source": "product_database",
   "image_is_generated": false,
-  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/creme-antissinais-q-10---100g-1782744698940.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvY3JlbWUtYW50aXNzaW5haXMtcS0xMC0tLTEwMGctMTc4Mjc0NDY5ODk0MC5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODU0LCJleHAiOjE3ODcxNjc2NTR9.crwQbRoMjhshMHTogVe_d3X-vasYvKJInRfYTDOhjEk]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
+  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/creme-antissinais-q-10---100g-1782744698940.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvY3JlbWUtYW50aXNzaW5haXMtcS0xMC0tLTEwMGctMTc4Mjc0NDY5ODk0MC5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDI0LCJleHAiOjE3ODcyMjgyMjR9.BIVIcR-rfvqyBH_kr5oPirrw7U7-gQzQSvXkOY7pRsA]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
   "link_individual_produto": "https://lakma.com.br/products/creme-antissinais-q10-facial-rejuvenescedor?_pos=1&_sid=0b9a15e5b&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -3274,17 +3335,20 @@ Creme facial antissinais home care com Nano Coenzima Q10 e Nano Vitamina E, indi
   "link_site": "https://lakma.com.br/products/creme-antissinais-q10-facial-rejuvenescedor?_pos=1&_sid=0b9a15e5b&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA35",
-  "desconto_site": "35%",
+  "cupom_site": "LAKMA30",
+  "desconto_site": "30%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
   "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "cupom_ativo": true,
+  "cupom_codigo": "LAKMA30",
+  "cupom_desconto_percent": 30,
   "valor_sem_desconto": 129.9,
-  "valor_com_cupom_lakma35": 84.44,
+  "valor_com_cupom": 90.93,
   "valor_sem_desconto_br": "R$ 129,90",
-  "valor_com_cupom_lakma35_br": "R$ 84,44",
-  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "valor_com_cupom_br": "R$ 90,93",
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.7",
   "pdf_aprovado_protocolo": null,
   "pdf_source": null,
   "pdf_is_generated": false,
@@ -3293,7 +3357,7 @@ Creme facial antissinais home care com Nano Coenzima Q10 e Nano Vitamina E, indi
   "categoria_intencao": [],
   "quando_indicar_direto": [],
   "indicacao_curta": null,
-  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_lakma35_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
+  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
 }
 ```
 
@@ -3425,21 +3489,21 @@ Creme facial hidratante home care com Nano Ácido Hialurônico e Nano Vitamina E
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/creme-facial-cido-hialur-nico---100g-1782744748225.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvY3JlbWUtZmFjaWFsLWNpZG8taGlhbHVyLW5pY28tLS0xMDBnLTE3ODI3NDQ3NDgyMjUucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg1NSwiZXhwIjoxNzg3MTY3NjU1fQ.n4ZscZxtsE2xZLum9DBSKEaEiQptNyuS2GkS_-HRrIM ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/creme-facial-cido-hialur-nico---100g-1782744748225.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvY3JlbWUtZmFjaWFsLWNpZG8taGlhbHVyLW5pY28tLS0xMDBnLTE3ODI3NDQ3NDgyMjUucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg1NSwiZXhwIjoxNzg3MTY3NjU1fQ.n4ZscZxtsE2xZLum9DBSKEaEiQptNyuS2GkS_-HRrIM]]` no topo da resposta
+- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/creme-facial-cido-hialur-nico---100g-1782744748225.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvY3JlbWUtZmFjaWFsLWNpZG8taGlhbHVyLW5pY28tLS0xMDBnLTE3ODI3NDQ3NDgyMjUucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQyNSwiZXhwIjoxNzg3MjI4MjI1fQ.28Bw8ZhScZeTLrCGV-VfjRSK_qikEiX0_mScJX3A-5w ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/creme-facial-cido-hialur-nico---100g-1782744748225.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvY3JlbWUtZmFjaWFsLWNpZG8taGlhbHVyLW5pY28tLS0xMDBnLTE3ODI3NDQ3NDgyMjUucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQyNSwiZXhwIjoxNzg3MjI4MjI1fQ.28Bw8ZhScZeTLrCGV-VfjRSK_qikEiX0_mScJX3A-5w]]` no topo da resposta
 - **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
 - **Valor sem desconto:** R$ 129,90
-- **Valor com cupom LAKMA35:** R$ 84,44  _(calculado automaticamente = valor_sem_desconto × 0,65)_
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/creme-de-acido-hialuronico-facial-hidratante?_pos=1&_psq=hialuro&_ss=e&_v=1.0 ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+- **Valor com cupom LAKMA30:** R$ 90,93  _(calculado automaticamente = valor_sem_desconto × 0.7)_
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/creme-de-acido-hialuronico-facial-hidratante?_pos=1&_psq=hialuro&_ss=e&_v=1.0 ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
 
 ```json
 {
   "produto": "Creme Facial Ácido Hialurônico - 100g",
   "aliases": [],
-  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/creme-facial-cido-hialur-nico---100g-1782744748225.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvY3JlbWUtZmFjaWFsLWNpZG8taGlhbHVyLW5pY28tLS0xMDBnLTE3ODI3NDQ3NDgyMjUucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg1NSwiZXhwIjoxNzg3MTY3NjU1fQ.n4ZscZxtsE2xZLum9DBSKEaEiQptNyuS2GkS_-HRrIM",
+  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/creme-facial-cido-hialur-nico---100g-1782744748225.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvY3JlbWUtZmFjaWFsLWNpZG8taGlhbHVyLW5pY28tLS0xMDBnLTE3ODI3NDQ3NDgyMjUucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQyNSwiZXhwIjoxNzg3MjI4MjI1fQ.28Bw8ZhScZeTLrCGV-VfjRSK_qikEiX0_mScJX3A-5w",
   "campo_origem_foto": "image_url",
   "image_source": "product_database",
   "image_is_generated": false,
-  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/creme-facial-cido-hialur-nico---100g-1782744748225.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvY3JlbWUtZmFjaWFsLWNpZG8taGlhbHVyLW5pY28tLS0xMDBnLTE3ODI3NDQ3NDgyMjUucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg1NSwiZXhwIjoxNzg3MTY3NjU1fQ.n4ZscZxtsE2xZLum9DBSKEaEiQptNyuS2GkS_-HRrIM]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
+  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/creme-facial-cido-hialur-nico---100g-1782744748225.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvY3JlbWUtZmFjaWFsLWNpZG8taGlhbHVyLW5pY28tLS0xMDBnLTE3ODI3NDQ3NDgyMjUucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQyNSwiZXhwIjoxNzg3MjI4MjI1fQ.28Bw8ZhScZeTLrCGV-VfjRSK_qikEiX0_mScJX3A-5w]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
   "link_individual_produto": "https://lakma.com.br/products/creme-de-acido-hialuronico-facial-hidratante?_pos=1&_psq=hialuro&_ss=e&_v=1.0",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -3447,17 +3511,20 @@ Creme facial hidratante home care com Nano Ácido Hialurônico e Nano Vitamina E
   "link_site": "https://lakma.com.br/products/creme-de-acido-hialuronico-facial-hidratante?_pos=1&_psq=hialuro&_ss=e&_v=1.0",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA35",
-  "desconto_site": "35%",
+  "cupom_site": "LAKMA30",
+  "desconto_site": "30%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
   "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "cupom_ativo": true,
+  "cupom_codigo": "LAKMA30",
+  "cupom_desconto_percent": 30,
   "valor_sem_desconto": 129.9,
-  "valor_com_cupom_lakma35": 84.44,
+  "valor_com_cupom": 90.93,
   "valor_sem_desconto_br": "R$ 129,90",
-  "valor_com_cupom_lakma35_br": "R$ 84,44",
-  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "valor_com_cupom_br": "R$ 90,93",
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.7",
   "pdf_aprovado_protocolo": null,
   "pdf_source": null,
   "pdf_is_generated": false,
@@ -3466,7 +3533,7 @@ Creme facial hidratante home care com Nano Ácido Hialurônico e Nano Vitamina E
   "categoria_intencao": [],
   "quando_indicar_direto": [],
   "indicacao_curta": null,
-  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_lakma35_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
+  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
 }
 ```
 
@@ -3599,22 +3666,22 @@ Chá solúvel sabor limão para rotina de bem-estar, com proposta detox, leveza,
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/esbeltea-sol-vel-sabor-lim-o---210g-1782744855743.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZXNiZWx0ZWEtc29sLXZlbC1zYWJvci1saW0tby0tLTIxMGctMTc4Mjc0NDg1NTc0My5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODU1LCJleHAiOjE3ODcxNjc2NTV9.LWV2xAEjG7XObov13xfSFGAOr3g5TzXV7pP6mYI8bHc ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/esbeltea-sol-vel-sabor-lim-o---210g-1782744855743.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZXNiZWx0ZWEtc29sLXZlbC1zYWJvci1saW0tby0tLTIxMGctMTc4Mjc0NDg1NTc0My5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODU1LCJleHAiOjE3ODcxNjc2NTV9.LWV2xAEjG7XObov13xfSFGAOr3g5TzXV7pP6mYI8bHc]]` no topo da resposta
+- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/esbeltea-sol-vel-sabor-lim-o---210g-1782744855743.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZXNiZWx0ZWEtc29sLXZlbC1zYWJvci1saW0tby0tLTIxMGctMTc4Mjc0NDg1NTc0My5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDI1LCJleHAiOjE3ODcyMjgyMjV9.4M80xKzRuPn8wWKioSyv8udi_3Z_7nO-Kop0gxabmqg ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/esbeltea-sol-vel-sabor-lim-o---210g-1782744855743.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZXNiZWx0ZWEtc29sLXZlbC1zYWJvci1saW0tby0tLTIxMGctMTc4Mjc0NDg1NTc0My5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDI1LCJleHAiOjE3ODcyMjgyMjV9.4M80xKzRuPn8wWKioSyv8udi_3Z_7nO-Kop0gxabmqg]]` no topo da resposta
 - **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
 - **Valor sem desconto:** R$ 96,55
-- **Valor com cupom LAKMA35:** R$ 62,76  _(calculado automaticamente = valor_sem_desconto × 0,65)_
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/esbeltea-cha-soluvel?_pos=1&_sid=7d5b0a2d1&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+- **Valor com cupom LAKMA30:** R$ 67,58  _(calculado automaticamente = valor_sem_desconto × 0.7)_
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/esbeltea-cha-soluvel?_pos=1&_sid=7d5b0a2d1&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
 - **Mercado Livre (link aprovado):** https://www.mercadolivre.com.br/esbeltea-soluvel--cha-detox-natural--lakma-300g/up/MLBU3994808868?pdp_filters=item_id:MLB4701676461
 
 ```json
 {
   "produto": "EsbelTEA Solúvel Sabor Limão - 210g",
   "aliases": [],
-  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/esbeltea-sol-vel-sabor-lim-o---210g-1782744855743.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZXNiZWx0ZWEtc29sLXZlbC1zYWJvci1saW0tby0tLTIxMGctMTc4Mjc0NDg1NTc0My5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODU1LCJleHAiOjE3ODcxNjc2NTV9.LWV2xAEjG7XObov13xfSFGAOr3g5TzXV7pP6mYI8bHc",
+  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/esbeltea-sol-vel-sabor-lim-o---210g-1782744855743.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZXNiZWx0ZWEtc29sLXZlbC1zYWJvci1saW0tby0tLTIxMGctMTc4Mjc0NDg1NTc0My5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDI1LCJleHAiOjE3ODcyMjgyMjV9.4M80xKzRuPn8wWKioSyv8udi_3Z_7nO-Kop0gxabmqg",
   "campo_origem_foto": "image_url",
   "image_source": "product_database",
   "image_is_generated": false,
-  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/esbeltea-sol-vel-sabor-lim-o---210g-1782744855743.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZXNiZWx0ZWEtc29sLXZlbC1zYWJvci1saW0tby0tLTIxMGctMTc4Mjc0NDg1NTc0My5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODU1LCJleHAiOjE3ODcxNjc2NTV9.LWV2xAEjG7XObov13xfSFGAOr3g5TzXV7pP6mYI8bHc]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
+  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/esbeltea-sol-vel-sabor-lim-o---210g-1782744855743.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZXNiZWx0ZWEtc29sLXZlbC1zYWJvci1saW0tby0tLTIxMGctMTc4Mjc0NDg1NTc0My5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDI1LCJleHAiOjE3ODcyMjgyMjV9.4M80xKzRuPn8wWKioSyv8udi_3Z_7nO-Kop0gxabmqg]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
   "link_individual_produto": "https://lakma.com.br/products/esbeltea-cha-soluvel?_pos=1&_sid=7d5b0a2d1&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -3622,17 +3689,20 @@ Chá solúvel sabor limão para rotina de bem-estar, com proposta detox, leveza,
   "link_site": "https://lakma.com.br/products/esbeltea-cha-soluvel?_pos=1&_sid=7d5b0a2d1&_ss=r",
   "link_mercadolivre": "https://www.mercadolivre.com.br/esbeltea-soluvel--cha-detox-natural--lakma-300g/up/MLBU3994808868?pdp_filters=item_id:MLB4701676461",
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA35",
-  "desconto_site": "35%",
+  "cupom_site": "LAKMA30",
+  "desconto_site": "30%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
   "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "cupom_ativo": true,
+  "cupom_codigo": "LAKMA30",
+  "cupom_desconto_percent": 30,
   "valor_sem_desconto": 96.55,
-  "valor_com_cupom_lakma35": 62.76,
+  "valor_com_cupom": 67.58,
   "valor_sem_desconto_br": "R$ 96,55",
-  "valor_com_cupom_lakma35_br": "R$ 62,76",
-  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "valor_com_cupom_br": "R$ 67,58",
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.7",
   "pdf_aprovado_protocolo": null,
   "pdf_source": null,
   "pdf_is_generated": false,
@@ -3641,7 +3711,7 @@ Chá solúvel sabor limão para rotina de bem-estar, com proposta detox, leveza,
   "categoria_intencao": [],
   "quando_indicar_direto": [],
   "indicacao_curta": null,
-  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_lakma35_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
+  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
 }
 ```
 
@@ -3775,21 +3845,21 @@ Suplemento em cápsulas com blend de chás, fibras e extratos vegetais, indicado
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/esbeltea-ch-seca-barriga-ch-detox-em-c-psulas---60-c-psulas-1782744820242.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZXNiZWx0ZWEtY2gtc2VjYS1iYXJyaWdhLWNoLWRldG94LWVtLWMtcHN1bGFzLS0tNjAtYy1wc3VsYXMtMTc4Mjc0NDgyMDI0Mi5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODU1LCJleHAiOjE3ODcxNjc2NTV9.sVFCZ_eJ8QrECC2DvViqhIdgNfDPX_udSruEMn1eeXU ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/esbeltea-ch-seca-barriga-ch-detox-em-c-psulas---60-c-psulas-1782744820242.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZXNiZWx0ZWEtY2gtc2VjYS1iYXJyaWdhLWNoLWRldG94LWVtLWMtcHN1bGFzLS0tNjAtYy1wc3VsYXMtMTc4Mjc0NDgyMDI0Mi5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODU1LCJleHAiOjE3ODcxNjc2NTV9.sVFCZ_eJ8QrECC2DvViqhIdgNfDPX_udSruEMn1eeXU]]` no topo da resposta
+- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/esbeltea-ch-seca-barriga-ch-detox-em-c-psulas---60-c-psulas-1782744820242.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZXNiZWx0ZWEtY2gtc2VjYS1iYXJyaWdhLWNoLWRldG94LWVtLWMtcHN1bGFzLS0tNjAtYy1wc3VsYXMtMTc4Mjc0NDgyMDI0Mi5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDI1LCJleHAiOjE3ODcyMjgyMjV9.t9LvwxOlXpsEMHQ-IJloMHriW5bSBCsxfQ2jM5i7Kus ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/esbeltea-ch-seca-barriga-ch-detox-em-c-psulas---60-c-psulas-1782744820242.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZXNiZWx0ZWEtY2gtc2VjYS1iYXJyaWdhLWNoLWRldG94LWVtLWMtcHN1bGFzLS0tNjAtYy1wc3VsYXMtMTc4Mjc0NDgyMDI0Mi5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDI1LCJleHAiOjE3ODcyMjgyMjV9.t9LvwxOlXpsEMHQ-IJloMHriW5bSBCsxfQ2jM5i7Kus]]` no topo da resposta
 - **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
 - **Valor sem desconto:** R$ 160,45
-- **Valor com cupom LAKMA35:** R$ 104,29  _(calculado automaticamente = valor_sem_desconto × 0,65)_
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/esbeltea-cha-seca-barriga-cha-detox-em-capsulas-60un?_pos=2&_sid=7d5b0a2d1&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+- **Valor com cupom LAKMA30:** R$ 112,31  _(calculado automaticamente = valor_sem_desconto × 0.7)_
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/esbeltea-cha-seca-barriga-cha-detox-em-capsulas-60un?_pos=2&_sid=7d5b0a2d1&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
 
 ```json
 {
   "produto": "Esbeltea Chá Seca Barriga + Chá Detox em Cápsulas - 60 cápsulas",
   "aliases": [],
-  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/esbeltea-ch-seca-barriga-ch-detox-em-c-psulas---60-c-psulas-1782744820242.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZXNiZWx0ZWEtY2gtc2VjYS1iYXJyaWdhLWNoLWRldG94LWVtLWMtcHN1bGFzLS0tNjAtYy1wc3VsYXMtMTc4Mjc0NDgyMDI0Mi5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODU1LCJleHAiOjE3ODcxNjc2NTV9.sVFCZ_eJ8QrECC2DvViqhIdgNfDPX_udSruEMn1eeXU",
+  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/esbeltea-ch-seca-barriga-ch-detox-em-c-psulas---60-c-psulas-1782744820242.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZXNiZWx0ZWEtY2gtc2VjYS1iYXJyaWdhLWNoLWRldG94LWVtLWMtcHN1bGFzLS0tNjAtYy1wc3VsYXMtMTc4Mjc0NDgyMDI0Mi5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDI1LCJleHAiOjE3ODcyMjgyMjV9.t9LvwxOlXpsEMHQ-IJloMHriW5bSBCsxfQ2jM5i7Kus",
   "campo_origem_foto": "image_url",
   "image_source": "product_database",
   "image_is_generated": false,
-  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/esbeltea-ch-seca-barriga-ch-detox-em-c-psulas---60-c-psulas-1782744820242.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZXNiZWx0ZWEtY2gtc2VjYS1iYXJyaWdhLWNoLWRldG94LWVtLWMtcHN1bGFzLS0tNjAtYy1wc3VsYXMtMTc4Mjc0NDgyMDI0Mi5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODU1LCJleHAiOjE3ODcxNjc2NTV9.sVFCZ_eJ8QrECC2DvViqhIdgNfDPX_udSruEMn1eeXU]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
+  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/esbeltea-ch-seca-barriga-ch-detox-em-c-psulas---60-c-psulas-1782744820242.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZXNiZWx0ZWEtY2gtc2VjYS1iYXJyaWdhLWNoLWRldG94LWVtLWMtcHN1bGFzLS0tNjAtYy1wc3VsYXMtMTc4Mjc0NDgyMDI0Mi5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDI1LCJleHAiOjE3ODcyMjgyMjV9.t9LvwxOlXpsEMHQ-IJloMHriW5bSBCsxfQ2jM5i7Kus]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
   "link_individual_produto": "https://lakma.com.br/products/esbeltea-cha-seca-barriga-cha-detox-em-capsulas-60un?_pos=2&_sid=7d5b0a2d1&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -3797,17 +3867,20 @@ Suplemento em cápsulas com blend de chás, fibras e extratos vegetais, indicado
   "link_site": "https://lakma.com.br/products/esbeltea-cha-seca-barriga-cha-detox-em-capsulas-60un?_pos=2&_sid=7d5b0a2d1&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA35",
-  "desconto_site": "35%",
+  "cupom_site": "LAKMA30",
+  "desconto_site": "30%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
   "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "cupom_ativo": true,
+  "cupom_codigo": "LAKMA30",
+  "cupom_desconto_percent": 30,
   "valor_sem_desconto": 160.45,
-  "valor_com_cupom_lakma35": 104.29,
+  "valor_com_cupom": 112.31,
   "valor_sem_desconto_br": "R$ 160,45",
-  "valor_com_cupom_lakma35_br": "R$ 104,29",
-  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "valor_com_cupom_br": "R$ 112,31",
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.7",
   "pdf_aprovado_protocolo": null,
   "pdf_source": null,
   "pdf_is_generated": false,
@@ -3816,7 +3889,7 @@ Suplemento em cápsulas com blend de chás, fibras e extratos vegetais, indicado
   "categoria_intencao": [],
   "quando_indicar_direto": [],
   "indicacao_curta": null,
-  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_lakma35_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
+  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
 }
 ```
 
@@ -3961,21 +4034,21 @@ Produto corporal profissional com ação térmica e lipolítica, indicado para p
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/sal-t-rmico-lipol-tico---500g-1782744895835.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uvc2FsLXQtcm1pY28tbGlwb2wtdGljby0tLTUwMGctMTc4Mjc0NDg5NTgzNS5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODU1LCJleHAiOjE3ODcxNjc2NTV9.3dan1P7Lqg5n8McDJCU2QVztX4w1U8ouKMtWMAA2VQc ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/sal-t-rmico-lipol-tico---500g-1782744895835.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uvc2FsLXQtcm1pY28tbGlwb2wtdGljby0tLTUwMGctMTc4Mjc0NDg5NTgzNS5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODU1LCJleHAiOjE3ODcxNjc2NTV9.3dan1P7Lqg5n8McDJCU2QVztX4w1U8ouKMtWMAA2VQc]]` no topo da resposta
+- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/sal-t-rmico-lipol-tico---500g-1782744895835.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uvc2FsLXQtcm1pY28tbGlwb2wtdGljby0tLTUwMGctMTc4Mjc0NDg5NTgzNS5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDI1LCJleHAiOjE3ODcyMjgyMjV9.Pr_3-TKbDl9vvC7IiQ54hxvXQzjZmKI0LyWggIAubbg ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/sal-t-rmico-lipol-tico---500g-1782744895835.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uvc2FsLXQtcm1pY28tbGlwb2wtdGljby0tLTUwMGctMTc4Mjc0NDg5NTgzNS5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDI1LCJleHAiOjE3ODcyMjgyMjV9.Pr_3-TKbDl9vvC7IiQ54hxvXQzjZmKI0LyWggIAubbg]]` no topo da resposta
 - **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
 - **Valor sem desconto:** R$ 119,14
-- **Valor com cupom LAKMA35:** R$ 77,44  _(calculado automaticamente = valor_sem_desconto × 0,65)_
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/sal-termico-lipolitico-500g?_pos=1&_sid=927df9fcc&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+- **Valor com cupom LAKMA30:** R$ 83,40  _(calculado automaticamente = valor_sem_desconto × 0.7)_
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/sal-termico-lipolitico-500g?_pos=1&_sid=927df9fcc&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
 
 ```json
 {
   "produto": "Sal Térmico Lipolítico - 500g",
   "aliases": [],
-  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/sal-t-rmico-lipol-tico---500g-1782744895835.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uvc2FsLXQtcm1pY28tbGlwb2wtdGljby0tLTUwMGctMTc4Mjc0NDg5NTgzNS5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODU1LCJleHAiOjE3ODcxNjc2NTV9.3dan1P7Lqg5n8McDJCU2QVztX4w1U8ouKMtWMAA2VQc",
+  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/sal-t-rmico-lipol-tico---500g-1782744895835.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uvc2FsLXQtcm1pY28tbGlwb2wtdGljby0tLTUwMGctMTc4Mjc0NDg5NTgzNS5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDI1LCJleHAiOjE3ODcyMjgyMjV9.Pr_3-TKbDl9vvC7IiQ54hxvXQzjZmKI0LyWggIAubbg",
   "campo_origem_foto": "image_url",
   "image_source": "product_database",
   "image_is_generated": false,
-  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/sal-t-rmico-lipol-tico---500g-1782744895835.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uvc2FsLXQtcm1pY28tbGlwb2wtdGljby0tLTUwMGctMTc4Mjc0NDg5NTgzNS5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODU1LCJleHAiOjE3ODcxNjc2NTV9.3dan1P7Lqg5n8McDJCU2QVztX4w1U8ouKMtWMAA2VQc]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
+  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/sal-t-rmico-lipol-tico---500g-1782744895835.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uvc2FsLXQtcm1pY28tbGlwb2wtdGljby0tLTUwMGctMTc4Mjc0NDg5NTgzNS5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDI1LCJleHAiOjE3ODcyMjgyMjV9.Pr_3-TKbDl9vvC7IiQ54hxvXQzjZmKI0LyWggIAubbg]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
   "link_individual_produto": "https://lakma.com.br/products/sal-termico-lipolitico-500g?_pos=1&_sid=927df9fcc&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -3983,17 +4056,20 @@ Produto corporal profissional com ação térmica e lipolítica, indicado para p
   "link_site": "https://lakma.com.br/products/sal-termico-lipolitico-500g?_pos=1&_sid=927df9fcc&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA35",
-  "desconto_site": "35%",
+  "cupom_site": "LAKMA30",
+  "desconto_site": "30%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
   "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "cupom_ativo": true,
+  "cupom_codigo": "LAKMA30",
+  "cupom_desconto_percent": 30,
   "valor_sem_desconto": 119.14,
-  "valor_com_cupom_lakma35": 77.44,
+  "valor_com_cupom": 83.4,
   "valor_sem_desconto_br": "R$ 119,14",
-  "valor_com_cupom_lakma35_br": "R$ 77,44",
-  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "valor_com_cupom_br": "R$ 83,40",
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.7",
   "pdf_aprovado_protocolo": null,
   "pdf_source": null,
   "pdf_is_generated": false,
@@ -4002,7 +4078,7 @@ Produto corporal profissional com ação térmica e lipolítica, indicado para p
   "categoria_intencao": [],
   "quando_indicar_direto": [],
   "indicacao_curta": null,
-  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_lakma35_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
+  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
 }
 ```
 
@@ -4137,21 +4213,21 @@ Kit com 3 máscaras faciais finalizadoras para hidratação, viço, luminosidade
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-m-scaras-faciais-tropicalia---3-unidades-de-150g-1782744950781.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LW0tc2NhcmFzLWZhY2lhaXMtdHJvcGljYWxpYS0tLTMtdW5pZGFkZXMtZGUtMTUwZy0xNzgyNzQ0OTUwNzgxLnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY1NjI4NTYsImV4cCI6MTc4NzE2NzY1Nn0.VO7yGq8OYedt9iEjAipzPukD0PGXcHFjGgzMeA4EfLc ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-m-scaras-faciais-tropicalia---3-unidades-de-150g-1782744950781.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LW0tc2NhcmFzLWZhY2lhaXMtdHJvcGljYWxpYS0tLTMtdW5pZGFkZXMtZGUtMTUwZy0xNzgyNzQ0OTUwNzgxLnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY1NjI4NTYsImV4cCI6MTc4NzE2NzY1Nn0.VO7yGq8OYedt9iEjAipzPukD0PGXcHFjGgzMeA4EfLc]]` no topo da resposta
+- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-m-scaras-faciais-tropicalia---3-unidades-de-150g-1782744950781.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LW0tc2NhcmFzLWZhY2lhaXMtdHJvcGljYWxpYS0tLTMtdW5pZGFkZXMtZGUtMTUwZy0xNzgyNzQ0OTUwNzgxLnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY2MjM0MjUsImV4cCI6MTc4NzIyODIyNX0.nugkYE3qVfiHiFPqS91kq6iO5W6e-CLXlmjYAAZASp0 ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-m-scaras-faciais-tropicalia---3-unidades-de-150g-1782744950781.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LW0tc2NhcmFzLWZhY2lhaXMtdHJvcGljYWxpYS0tLTMtdW5pZGFkZXMtZGUtMTUwZy0xNzgyNzQ0OTUwNzgxLnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY2MjM0MjUsImV4cCI6MTc4NzIyODIyNX0.nugkYE3qVfiHiFPqS91kq6iO5W6e-CLXlmjYAAZASp0]]` no topo da resposta
 - **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
 - **Valor sem desconto:** R$ 541,95
-- **Valor com cupom LAKMA35:** R$ 352,27  _(calculado automaticamente = valor_sem_desconto × 0,65)_
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/kit-3-mascaras-tropicalia-frutas-colageno-vitamina-c-e-acido-hialuronico?_pos=1&_sid=56edf1a9d&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+- **Valor com cupom LAKMA30:** R$ 379,37  _(calculado automaticamente = valor_sem_desconto × 0.7)_
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/kit-3-mascaras-tropicalia-frutas-colageno-vitamina-c-e-acido-hialuronico?_pos=1&_sid=56edf1a9d&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
 
 ```json
 {
   "produto": "Kit Máscaras Faciais Tropicalia - 3 Unidades de 150g",
   "aliases": [],
-  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-m-scaras-faciais-tropicalia---3-unidades-de-150g-1782744950781.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LW0tc2NhcmFzLWZhY2lhaXMtdHJvcGljYWxpYS0tLTMtdW5pZGFkZXMtZGUtMTUwZy0xNzgyNzQ0OTUwNzgxLnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY1NjI4NTYsImV4cCI6MTc4NzE2NzY1Nn0.VO7yGq8OYedt9iEjAipzPukD0PGXcHFjGgzMeA4EfLc",
+  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-m-scaras-faciais-tropicalia---3-unidades-de-150g-1782744950781.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LW0tc2NhcmFzLWZhY2lhaXMtdHJvcGljYWxpYS0tLTMtdW5pZGFkZXMtZGUtMTUwZy0xNzgyNzQ0OTUwNzgxLnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY2MjM0MjUsImV4cCI6MTc4NzIyODIyNX0.nugkYE3qVfiHiFPqS91kq6iO5W6e-CLXlmjYAAZASp0",
   "campo_origem_foto": "image_url",
   "image_source": "product_database",
   "image_is_generated": false,
-  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-m-scaras-faciais-tropicalia---3-unidades-de-150g-1782744950781.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LW0tc2NhcmFzLWZhY2lhaXMtdHJvcGljYWxpYS0tLTMtdW5pZGFkZXMtZGUtMTUwZy0xNzgyNzQ0OTUwNzgxLnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY1NjI4NTYsImV4cCI6MTc4NzE2NzY1Nn0.VO7yGq8OYedt9iEjAipzPukD0PGXcHFjGgzMeA4EfLc]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
+  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-m-scaras-faciais-tropicalia---3-unidades-de-150g-1782744950781.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LW0tc2NhcmFzLWZhY2lhaXMtdHJvcGljYWxpYS0tLTMtdW5pZGFkZXMtZGUtMTUwZy0xNzgyNzQ0OTUwNzgxLnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY2MjM0MjUsImV4cCI6MTc4NzIyODIyNX0.nugkYE3qVfiHiFPqS91kq6iO5W6e-CLXlmjYAAZASp0]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
   "link_individual_produto": "https://lakma.com.br/products/kit-3-mascaras-tropicalia-frutas-colageno-vitamina-c-e-acido-hialuronico?_pos=1&_sid=56edf1a9d&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -4159,17 +4235,20 @@ Kit com 3 máscaras faciais finalizadoras para hidratação, viço, luminosidade
   "link_site": "https://lakma.com.br/products/kit-3-mascaras-tropicalia-frutas-colageno-vitamina-c-e-acido-hialuronico?_pos=1&_sid=56edf1a9d&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA35",
-  "desconto_site": "35%",
+  "cupom_site": "LAKMA30",
+  "desconto_site": "30%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
   "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "cupom_ativo": true,
+  "cupom_codigo": "LAKMA30",
+  "cupom_desconto_percent": 30,
   "valor_sem_desconto": 541.95,
-  "valor_com_cupom_lakma35": 352.27,
+  "valor_com_cupom": 379.37,
   "valor_sem_desconto_br": "R$ 541,95",
-  "valor_com_cupom_lakma35_br": "R$ 352,27",
-  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "valor_com_cupom_br": "R$ 379,37",
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.7",
   "pdf_aprovado_protocolo": null,
   "pdf_source": null,
   "pdf_is_generated": false,
@@ -4178,7 +4257,7 @@ Kit com 3 máscaras faciais finalizadoras para hidratação, viço, luminosidade
   "categoria_intencao": [],
   "quando_indicar_direto": [],
   "indicacao_curta": null,
-  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_lakma35_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
+  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
 }
 ```
 
@@ -4313,21 +4392,21 @@ Kit labial home care com esfoliante e tratamento hidratante/nutritivo, indicado 
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-dolce-lips-dolce-peel-labial---2-produtos-1782745022094.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LWRvbGNlLWxpcHMtZG9sY2UtcGVlbC1sYWJpYWwtLS0yLXByb2R1dG9zLTE3ODI3NDUwMjIwOTQucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg1NiwiZXhwIjoxNzg3MTY3NjU2fQ.RZu7s0cGlc0SzzpuRqxl_03y7H1NDQvUqejf2oLjcAs ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-dolce-lips-dolce-peel-labial---2-produtos-1782745022094.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LWRvbGNlLWxpcHMtZG9sY2UtcGVlbC1sYWJpYWwtLS0yLXByb2R1dG9zLTE3ODI3NDUwMjIwOTQucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg1NiwiZXhwIjoxNzg3MTY3NjU2fQ.RZu7s0cGlc0SzzpuRqxl_03y7H1NDQvUqejf2oLjcAs]]` no topo da resposta
+- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-dolce-lips-dolce-peel-labial---2-produtos-1782745022094.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LWRvbGNlLWxpcHMtZG9sY2UtcGVlbC1sYWJpYWwtLS0yLXByb2R1dG9zLTE3ODI3NDUwMjIwOTQucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQyNiwiZXhwIjoxNzg3MjI4MjI2fQ.xs1lso_Jt4rTm93au4WcYnRRcfsq-JkhugR5ohOmLAw ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-dolce-lips-dolce-peel-labial---2-produtos-1782745022094.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LWRvbGNlLWxpcHMtZG9sY2UtcGVlbC1sYWJpYWwtLS0yLXByb2R1dG9zLTE3ODI3NDUwMjIwOTQucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQyNiwiZXhwIjoxNzg3MjI4MjI2fQ.xs1lso_Jt4rTm93au4WcYnRRcfsq-JkhugR5ohOmLAw]]` no topo da resposta
 - **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
 - **Valor sem desconto:** R$ 140,98
-- **Valor com cupom LAKMA35:** R$ 91,64  _(calculado automaticamente = valor_sem_desconto × 0,65)_
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/dolce-lips-dolce-peel-labial?_pos=2&_sid=49466bc8e&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+- **Valor com cupom LAKMA30:** R$ 98,69  _(calculado automaticamente = valor_sem_desconto × 0.7)_
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/dolce-lips-dolce-peel-labial?_pos=2&_sid=49466bc8e&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
 
 ```json
 {
   "produto": "Kit Dolce Lips + Dolce Peel Labial - 2 Produtos",
   "aliases": [],
-  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-dolce-lips-dolce-peel-labial---2-produtos-1782745022094.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LWRvbGNlLWxpcHMtZG9sY2UtcGVlbC1sYWJpYWwtLS0yLXByb2R1dG9zLTE3ODI3NDUwMjIwOTQucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg1NiwiZXhwIjoxNzg3MTY3NjU2fQ.RZu7s0cGlc0SzzpuRqxl_03y7H1NDQvUqejf2oLjcAs",
+  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-dolce-lips-dolce-peel-labial---2-produtos-1782745022094.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LWRvbGNlLWxpcHMtZG9sY2UtcGVlbC1sYWJpYWwtLS0yLXByb2R1dG9zLTE3ODI3NDUwMjIwOTQucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQyNiwiZXhwIjoxNzg3MjI4MjI2fQ.xs1lso_Jt4rTm93au4WcYnRRcfsq-JkhugR5ohOmLAw",
   "campo_origem_foto": "image_url",
   "image_source": "product_database",
   "image_is_generated": false,
-  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-dolce-lips-dolce-peel-labial---2-produtos-1782745022094.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LWRvbGNlLWxpcHMtZG9sY2UtcGVlbC1sYWJpYWwtLS0yLXByb2R1dG9zLTE3ODI3NDUwMjIwOTQucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg1NiwiZXhwIjoxNzg3MTY3NjU2fQ.RZu7s0cGlc0SzzpuRqxl_03y7H1NDQvUqejf2oLjcAs]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
+  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-dolce-lips-dolce-peel-labial---2-produtos-1782745022094.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LWRvbGNlLWxpcHMtZG9sY2UtcGVlbC1sYWJpYWwtLS0yLXByb2R1dG9zLTE3ODI3NDUwMjIwOTQucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQyNiwiZXhwIjoxNzg3MjI4MjI2fQ.xs1lso_Jt4rTm93au4WcYnRRcfsq-JkhugR5ohOmLAw]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
   "link_individual_produto": "https://lakma.com.br/products/dolce-lips-dolce-peel-labial?_pos=2&_sid=49466bc8e&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -4335,17 +4414,20 @@ Kit labial home care com esfoliante e tratamento hidratante/nutritivo, indicado 
   "link_site": "https://lakma.com.br/products/dolce-lips-dolce-peel-labial?_pos=2&_sid=49466bc8e&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA35",
-  "desconto_site": "35%",
+  "cupom_site": "LAKMA30",
+  "desconto_site": "30%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
   "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "cupom_ativo": true,
+  "cupom_codigo": "LAKMA30",
+  "cupom_desconto_percent": 30,
   "valor_sem_desconto": 140.98,
-  "valor_com_cupom_lakma35": 91.64,
+  "valor_com_cupom": 98.69,
   "valor_sem_desconto_br": "R$ 140,98",
-  "valor_com_cupom_lakma35_br": "R$ 91,64",
-  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "valor_com_cupom_br": "R$ 98,69",
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.7",
   "pdf_aprovado_protocolo": null,
   "pdf_source": null,
   "pdf_is_generated": false,
@@ -4354,7 +4436,7 @@ Kit labial home care com esfoliante e tratamento hidratante/nutritivo, indicado 
   "categoria_intencao": [],
   "quando_indicar_direto": [],
   "indicacao_curta": null,
-  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_lakma35_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
+  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
 }
 ```
 
@@ -4487,21 +4569,21 @@ Indicar para clientes que buscam uma rotina labial simples com esfoliação e hi
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/-leo-para-massagem-corporal---500ml-1782745058970.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvLWxlby1wYXJhLW1hc3NhZ2VtLWNvcnBvcmFsLS0tNTAwbWwtMTc4Mjc0NTA1ODk3MC5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODU2LCJleHAiOjE3ODcxNjc2NTZ9.CDHytWkwZwtgU-ck-8xGvQa1s9Hu67O6ZpwpEuC1NJI ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/-leo-para-massagem-corporal---500ml-1782745058970.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvLWxlby1wYXJhLW1hc3NhZ2VtLWNvcnBvcmFsLS0tNTAwbWwtMTc4Mjc0NTA1ODk3MC5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODU2LCJleHAiOjE3ODcxNjc2NTZ9.CDHytWkwZwtgU-ck-8xGvQa1s9Hu67O6ZpwpEuC1NJI]]` no topo da resposta
+- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/-leo-para-massagem-corporal---500ml-1782745058970.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvLWxlby1wYXJhLW1hc3NhZ2VtLWNvcnBvcmFsLS0tNTAwbWwtMTc4Mjc0NTA1ODk3MC5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDI2LCJleHAiOjE3ODcyMjgyMjZ9.A3eZCSxGa5NE55T3iFFLs-wJE3Bd3GPPq_0fllmoQps ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/-leo-para-massagem-corporal---500ml-1782745058970.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvLWxlby1wYXJhLW1hc3NhZ2VtLWNvcnBvcmFsLS0tNTAwbWwtMTc4Mjc0NTA1ODk3MC5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDI2LCJleHAiOjE3ODcyMjgyMjZ9.A3eZCSxGa5NE55T3iFFLs-wJE3Bd3GPPq_0fllmoQps]]` no topo da resposta
 - **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
 - **Valor sem desconto:** R$ 142,96
-- **Valor com cupom LAKMA35:** R$ 92,92  _(calculado automaticamente = valor_sem_desconto × 0,65)_
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/oleo-de-massagem?_pos=1&_sid=1b7efcfc1&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+- **Valor com cupom LAKMA30:** R$ 100,07  _(calculado automaticamente = valor_sem_desconto × 0.7)_
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/oleo-de-massagem?_pos=1&_sid=1b7efcfc1&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
 
 ```json
 {
   "produto": "Óleo para Massagem Corporal - 500ml",
   "aliases": [],
-  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/-leo-para-massagem-corporal---500ml-1782745058970.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvLWxlby1wYXJhLW1hc3NhZ2VtLWNvcnBvcmFsLS0tNTAwbWwtMTc4Mjc0NTA1ODk3MC5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODU2LCJleHAiOjE3ODcxNjc2NTZ9.CDHytWkwZwtgU-ck-8xGvQa1s9Hu67O6ZpwpEuC1NJI",
+  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/-leo-para-massagem-corporal---500ml-1782745058970.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvLWxlby1wYXJhLW1hc3NhZ2VtLWNvcnBvcmFsLS0tNTAwbWwtMTc4Mjc0NTA1ODk3MC5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDI2LCJleHAiOjE3ODcyMjgyMjZ9.A3eZCSxGa5NE55T3iFFLs-wJE3Bd3GPPq_0fllmoQps",
   "campo_origem_foto": "image_url",
   "image_source": "product_database",
   "image_is_generated": false,
-  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/-leo-para-massagem-corporal---500ml-1782745058970.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvLWxlby1wYXJhLW1hc3NhZ2VtLWNvcnBvcmFsLS0tNTAwbWwtMTc4Mjc0NTA1ODk3MC5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODU2LCJleHAiOjE3ODcxNjc2NTZ9.CDHytWkwZwtgU-ck-8xGvQa1s9Hu67O6ZpwpEuC1NJI]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
+  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/-leo-para-massagem-corporal---500ml-1782745058970.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvLWxlby1wYXJhLW1hc3NhZ2VtLWNvcnBvcmFsLS0tNTAwbWwtMTc4Mjc0NTA1ODk3MC5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDI2LCJleHAiOjE3ODcyMjgyMjZ9.A3eZCSxGa5NE55T3iFFLs-wJE3Bd3GPPq_0fllmoQps]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
   "link_individual_produto": "https://lakma.com.br/products/oleo-de-massagem?_pos=1&_sid=1b7efcfc1&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -4509,17 +4591,20 @@ Indicar para clientes que buscam uma rotina labial simples com esfoliação e hi
   "link_site": "https://lakma.com.br/products/oleo-de-massagem?_pos=1&_sid=1b7efcfc1&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA35",
-  "desconto_site": "35%",
+  "cupom_site": "LAKMA30",
+  "desconto_site": "30%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
   "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "cupom_ativo": true,
+  "cupom_codigo": "LAKMA30",
+  "cupom_desconto_percent": 30,
   "valor_sem_desconto": 142.96,
-  "valor_com_cupom_lakma35": 92.92,
+  "valor_com_cupom": 100.07,
   "valor_sem_desconto_br": "R$ 142,96",
-  "valor_com_cupom_lakma35_br": "R$ 92,92",
-  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "valor_com_cupom_br": "R$ 100,07",
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.7",
   "pdf_aprovado_protocolo": null,
   "pdf_source": null,
   "pdf_is_generated": false,
@@ -4528,7 +4613,7 @@ Indicar para clientes que buscam uma rotina labial simples com esfoliação e hi
   "categoria_intencao": [],
   "quando_indicar_direto": [],
   "indicacao_curta": null,
-  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_lakma35_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
+  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
 }
 ```
 
@@ -4659,22 +4744,22 @@ Kit corporal profissional de lipoplastia não invasiva em 3 etapas, indicado par
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-profissional-venus-de-lipoplastia---3-produtos-1782745110622.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LXByb2Zpc3Npb25hbC12ZW51cy1kZS1saXBvcGxhc3RpYS0tLTMtcHJvZHV0b3MtMTc4Mjc0NTExMDYyMi5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODU2LCJleHAiOjE3ODcxNjc2NTZ9.JVCJ3lRl-4jql4oBTfb9LaXr1pEeppJH6lMiqanG6RE ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-profissional-venus-de-lipoplastia---3-produtos-1782745110622.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LXByb2Zpc3Npb25hbC12ZW51cy1kZS1saXBvcGxhc3RpYS0tLTMtcHJvZHV0b3MtMTc4Mjc0NTExMDYyMi5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODU2LCJleHAiOjE3ODcxNjc2NTZ9.JVCJ3lRl-4jql4oBTfb9LaXr1pEeppJH6lMiqanG6RE]]` no topo da resposta
+- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-profissional-venus-de-lipoplastia---3-produtos-1782745110622.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LXByb2Zpc3Npb25hbC12ZW51cy1kZS1saXBvcGxhc3RpYS0tLTMtcHJvZHV0b3MtMTc4Mjc0NTExMDYyMi5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDI2LCJleHAiOjE3ODcyMjgyMjZ9.o43hIMid8bzv6s48XOlk9mGU3Iq1-KzAh2L4mfcwg-A ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-profissional-venus-de-lipoplastia---3-produtos-1782745110622.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LXByb2Zpc3Npb25hbC12ZW51cy1kZS1saXBvcGxhc3RpYS0tLTMtcHJvZHV0b3MtMTc4Mjc0NTExMDYyMi5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDI2LCJleHAiOjE3ODcyMjgyMjZ9.o43hIMid8bzv6s48XOlk9mGU3Iq1-KzAh2L4mfcwg-A]]` no topo da resposta
 - **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
 - **Valor sem desconto:** R$ 408,07
-- **Valor com cupom LAKMA35:** R$ 265,25  _(calculado automaticamente = valor_sem_desconto × 0,65)_
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/kit-venus-de-lipoplastia?_pos=1&_sid=7a228ca1f&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+- **Valor com cupom LAKMA30:** R$ 285,65  _(calculado automaticamente = valor_sem_desconto × 0.7)_
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/kit-venus-de-lipoplastia?_pos=1&_sid=7a228ca1f&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
 - **Mercado Livre (link aprovado):** https://www.mercadolivre.com.br/kit-profissional-venus-de-lipoplastia-creme-redutor-lakma/up/MLBU3880482506?pdp_filters=item_id%3AMLB4574437531
 
 ```json
 {
   "produto": "Kit Profissional Venus de Lipoplastia - 3 Produtos",
   "aliases": [],
-  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-profissional-venus-de-lipoplastia---3-produtos-1782745110622.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LXByb2Zpc3Npb25hbC12ZW51cy1kZS1saXBvcGxhc3RpYS0tLTMtcHJvZHV0b3MtMTc4Mjc0NTExMDYyMi5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODU2LCJleHAiOjE3ODcxNjc2NTZ9.JVCJ3lRl-4jql4oBTfb9LaXr1pEeppJH6lMiqanG6RE",
+  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-profissional-venus-de-lipoplastia---3-produtos-1782745110622.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LXByb2Zpc3Npb25hbC12ZW51cy1kZS1saXBvcGxhc3RpYS0tLTMtcHJvZHV0b3MtMTc4Mjc0NTExMDYyMi5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDI2LCJleHAiOjE3ODcyMjgyMjZ9.o43hIMid8bzv6s48XOlk9mGU3Iq1-KzAh2L4mfcwg-A",
   "campo_origem_foto": "image_url",
   "image_source": "product_database",
   "image_is_generated": false,
-  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-profissional-venus-de-lipoplastia---3-produtos-1782745110622.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LXByb2Zpc3Npb25hbC12ZW51cy1kZS1saXBvcGxhc3RpYS0tLTMtcHJvZHV0b3MtMTc4Mjc0NTExMDYyMi5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODU2LCJleHAiOjE3ODcxNjc2NTZ9.JVCJ3lRl-4jql4oBTfb9LaXr1pEeppJH6lMiqanG6RE]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
+  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-profissional-venus-de-lipoplastia---3-produtos-1782745110622.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LXByb2Zpc3Npb25hbC12ZW51cy1kZS1saXBvcGxhc3RpYS0tLTMtcHJvZHV0b3MtMTc4Mjc0NTExMDYyMi5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDI2LCJleHAiOjE3ODcyMjgyMjZ9.o43hIMid8bzv6s48XOlk9mGU3Iq1-KzAh2L4mfcwg-A]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
   "link_individual_produto": "https://lakma.com.br/products/kit-venus-de-lipoplastia?_pos=1&_sid=7a228ca1f&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -4682,17 +4767,20 @@ Kit corporal profissional de lipoplastia não invasiva em 3 etapas, indicado par
   "link_site": "https://lakma.com.br/products/kit-venus-de-lipoplastia?_pos=1&_sid=7a228ca1f&_ss=r",
   "link_mercadolivre": "https://www.mercadolivre.com.br/kit-profissional-venus-de-lipoplastia-creme-redutor-lakma/up/MLBU3880482506?pdp_filters=item_id%3AMLB4574437531",
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA35",
-  "desconto_site": "35%",
+  "cupom_site": "LAKMA30",
+  "desconto_site": "30%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
   "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "cupom_ativo": true,
+  "cupom_codigo": "LAKMA30",
+  "cupom_desconto_percent": 30,
   "valor_sem_desconto": 408.07,
-  "valor_com_cupom_lakma35": 265.25,
+  "valor_com_cupom": 285.65,
   "valor_sem_desconto_br": "R$ 408,07",
-  "valor_com_cupom_lakma35_br": "R$ 265,25",
-  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "valor_com_cupom_br": "R$ 285,65",
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.7",
   "pdf_aprovado_protocolo": null,
   "pdf_source": null,
   "pdf_is_generated": false,
@@ -4701,7 +4789,7 @@ Kit corporal profissional de lipoplastia não invasiva em 3 etapas, indicado par
   "categoria_intencao": [],
   "quando_indicar_direto": [],
   "indicacao_curta": null,
-  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_lakma35_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
+  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
 }
 ```
 
@@ -4843,21 +4931,21 @@ Peeling profissional facial para renovação celular, clareamento, uniformizaç�
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/peeling-de-cristal-l-quido---30g-1782745151817.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvcGVlbGluZy1kZS1jcmlzdGFsLWwtcXVpZG8tLS0zMGctMTc4Mjc0NTE1MTgxNy5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODU3LCJleHAiOjE3ODcxNjc2NTd9.0QEDZaVM5WGiyrYER2QcUPtJCP50z8XGgk3XeWCobOw ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/peeling-de-cristal-l-quido---30g-1782745151817.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvcGVlbGluZy1kZS1jcmlzdGFsLWwtcXVpZG8tLS0zMGctMTc4Mjc0NTE1MTgxNy5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODU3LCJleHAiOjE3ODcxNjc2NTd9.0QEDZaVM5WGiyrYER2QcUPtJCP50z8XGgk3XeWCobOw]]` no topo da resposta
+- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/peeling-de-cristal-l-quido---30g-1782745151817.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvcGVlbGluZy1kZS1jcmlzdGFsLWwtcXVpZG8tLS0zMGctMTc4Mjc0NTE1MTgxNy5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDI2LCJleHAiOjE3ODcyMjgyMjZ9.hC3Z2xzqeHBLEAfTVyxwcYWAN-RZSZWzU6nJDqXz9Xw ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/peeling-de-cristal-l-quido---30g-1782745151817.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvcGVlbGluZy1kZS1jcmlzdGFsLWwtcXVpZG8tLS0zMGctMTc4Mjc0NTE1MTgxNy5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDI2LCJleHAiOjE3ODcyMjgyMjZ9.hC3Z2xzqeHBLEAfTVyxwcYWAN-RZSZWzU6nJDqXz9Xw]]` no topo da resposta
 - **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
 - **Valor sem desconto:** R$ 310,77
-- **Valor com cupom LAKMA35:** R$ 202,00  _(calculado automaticamente = valor_sem_desconto × 0,65)_
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/peeling-de-cristal-liquido-retinol-30ml?_pos=1&_sid=0edd2d86f&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+- **Valor com cupom LAKMA30:** R$ 217,54  _(calculado automaticamente = valor_sem_desconto × 0.7)_
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/peeling-de-cristal-liquido-retinol-30ml?_pos=1&_sid=0edd2d86f&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
 
 ```json
 {
   "produto": "Peeling de Cristal Líquido - 30g",
   "aliases": [],
-  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/peeling-de-cristal-l-quido---30g-1782745151817.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvcGVlbGluZy1kZS1jcmlzdGFsLWwtcXVpZG8tLS0zMGctMTc4Mjc0NTE1MTgxNy5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODU3LCJleHAiOjE3ODcxNjc2NTd9.0QEDZaVM5WGiyrYER2QcUPtJCP50z8XGgk3XeWCobOw",
+  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/peeling-de-cristal-l-quido---30g-1782745151817.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvcGVlbGluZy1kZS1jcmlzdGFsLWwtcXVpZG8tLS0zMGctMTc4Mjc0NTE1MTgxNy5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDI2LCJleHAiOjE3ODcyMjgyMjZ9.hC3Z2xzqeHBLEAfTVyxwcYWAN-RZSZWzU6nJDqXz9Xw",
   "campo_origem_foto": "image_url",
   "image_source": "product_database",
   "image_is_generated": false,
-  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/peeling-de-cristal-l-quido---30g-1782745151817.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvcGVlbGluZy1kZS1jcmlzdGFsLWwtcXVpZG8tLS0zMGctMTc4Mjc0NTE1MTgxNy5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODU3LCJleHAiOjE3ODcxNjc2NTd9.0QEDZaVM5WGiyrYER2QcUPtJCP50z8XGgk3XeWCobOw]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
+  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/peeling-de-cristal-l-quido---30g-1782745151817.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvcGVlbGluZy1kZS1jcmlzdGFsLWwtcXVpZG8tLS0zMGctMTc4Mjc0NTE1MTgxNy5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDI2LCJleHAiOjE3ODcyMjgyMjZ9.hC3Z2xzqeHBLEAfTVyxwcYWAN-RZSZWzU6nJDqXz9Xw]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
   "link_individual_produto": "https://lakma.com.br/products/peeling-de-cristal-liquido-retinol-30ml?_pos=1&_sid=0edd2d86f&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -4865,17 +4953,20 @@ Peeling profissional facial para renovação celular, clareamento, uniformizaç�
   "link_site": "https://lakma.com.br/products/peeling-de-cristal-liquido-retinol-30ml?_pos=1&_sid=0edd2d86f&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA35",
-  "desconto_site": "35%",
+  "cupom_site": "LAKMA30",
+  "desconto_site": "30%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
   "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "cupom_ativo": true,
+  "cupom_codigo": "LAKMA30",
+  "cupom_desconto_percent": 30,
   "valor_sem_desconto": 310.77,
-  "valor_com_cupom_lakma35": 202,
+  "valor_com_cupom": 217.54,
   "valor_sem_desconto_br": "R$ 310,77",
-  "valor_com_cupom_lakma35_br": "R$ 202,00",
-  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "valor_com_cupom_br": "R$ 217,54",
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.7",
   "pdf_aprovado_protocolo": null,
   "pdf_source": null,
   "pdf_is_generated": false,
@@ -4884,7 +4975,7 @@ Peeling profissional facial para renovação celular, clareamento, uniformizaç�
   "categoria_intencao": [],
   "quando_indicar_direto": [],
   "indicacao_curta": null,
-  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_lakma35_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
+  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
 }
 ```
 
@@ -5022,21 +5113,21 @@ Máscara facial calmante profissional, indicada para acalmar, hidratar, suavizar
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/m-scara-calmante-limpeza-de-pele---500g-1782745197508.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbS1zY2FyYS1jYWxtYW50ZS1saW1wZXphLWRlLXBlbGUtLS01MDBnLTE3ODI3NDUxOTc1MDgucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg1NywiZXhwIjoxNzg3MTY3NjU3fQ.jomsLeI2bZT9EbQSDTadn9IdTkl2iXavyW6WcMunAxw ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/m-scara-calmante-limpeza-de-pele---500g-1782745197508.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbS1zY2FyYS1jYWxtYW50ZS1saW1wZXphLWRlLXBlbGUtLS01MDBnLTE3ODI3NDUxOTc1MDgucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg1NywiZXhwIjoxNzg3MTY3NjU3fQ.jomsLeI2bZT9EbQSDTadn9IdTkl2iXavyW6WcMunAxw]]` no topo da resposta
+- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/m-scara-calmante-limpeza-de-pele---500g-1782745197508.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbS1zY2FyYS1jYWxtYW50ZS1saW1wZXphLWRlLXBlbGUtLS01MDBnLTE3ODI3NDUxOTc1MDgucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQyNywiZXhwIjoxNzg3MjI4MjI3fQ.Rd1qUaEUY8IrQAUSZpZjtCFj7sLVN3FwstyZqRaWqck ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/m-scara-calmante-limpeza-de-pele---500g-1782745197508.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbS1zY2FyYS1jYWxtYW50ZS1saW1wZXphLWRlLXBlbGUtLS01MDBnLTE3ODI3NDUxOTc1MDgucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQyNywiZXhwIjoxNzg3MjI4MjI3fQ.Rd1qUaEUY8IrQAUSZpZjtCFj7sLVN3FwstyZqRaWqck]]` no topo da resposta
 - **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
 - **Valor sem desconto:** R$ 206,22
-- **Valor com cupom LAKMA35:** R$ 134,04  _(calculado automaticamente = valor_sem_desconto × 0,65)_
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/mascara-calmante-500gr?_pos=2&_sid=06389087d&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+- **Valor com cupom LAKMA30:** R$ 144,35  _(calculado automaticamente = valor_sem_desconto × 0.7)_
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/mascara-calmante-500gr?_pos=2&_sid=06389087d&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
 
 ```json
 {
   "produto": "Máscara Calmante Limpeza de Pele - 500g",
   "aliases": [],
-  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/m-scara-calmante-limpeza-de-pele---500g-1782745197508.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbS1zY2FyYS1jYWxtYW50ZS1saW1wZXphLWRlLXBlbGUtLS01MDBnLTE3ODI3NDUxOTc1MDgucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg1NywiZXhwIjoxNzg3MTY3NjU3fQ.jomsLeI2bZT9EbQSDTadn9IdTkl2iXavyW6WcMunAxw",
+  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/m-scara-calmante-limpeza-de-pele---500g-1782745197508.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbS1zY2FyYS1jYWxtYW50ZS1saW1wZXphLWRlLXBlbGUtLS01MDBnLTE3ODI3NDUxOTc1MDgucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQyNywiZXhwIjoxNzg3MjI4MjI3fQ.Rd1qUaEUY8IrQAUSZpZjtCFj7sLVN3FwstyZqRaWqck",
   "campo_origem_foto": "image_url",
   "image_source": "product_database",
   "image_is_generated": false,
-  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/m-scara-calmante-limpeza-de-pele---500g-1782745197508.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbS1zY2FyYS1jYWxtYW50ZS1saW1wZXphLWRlLXBlbGUtLS01MDBnLTE3ODI3NDUxOTc1MDgucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg1NywiZXhwIjoxNzg3MTY3NjU3fQ.jomsLeI2bZT9EbQSDTadn9IdTkl2iXavyW6WcMunAxw]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
+  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/m-scara-calmante-limpeza-de-pele---500g-1782745197508.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbS1zY2FyYS1jYWxtYW50ZS1saW1wZXphLWRlLXBlbGUtLS01MDBnLTE3ODI3NDUxOTc1MDgucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQyNywiZXhwIjoxNzg3MjI4MjI3fQ.Rd1qUaEUY8IrQAUSZpZjtCFj7sLVN3FwstyZqRaWqck]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
   "link_individual_produto": "https://lakma.com.br/products/mascara-calmante-500gr?_pos=2&_sid=06389087d&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -5044,17 +5135,20 @@ Máscara facial calmante profissional, indicada para acalmar, hidratar, suavizar
   "link_site": "https://lakma.com.br/products/mascara-calmante-500gr?_pos=2&_sid=06389087d&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA35",
-  "desconto_site": "35%",
+  "cupom_site": "LAKMA30",
+  "desconto_site": "30%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
   "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "cupom_ativo": true,
+  "cupom_codigo": "LAKMA30",
+  "cupom_desconto_percent": 30,
   "valor_sem_desconto": 206.22,
-  "valor_com_cupom_lakma35": 134.04,
+  "valor_com_cupom": 144.35,
   "valor_sem_desconto_br": "R$ 206,22",
-  "valor_com_cupom_lakma35_br": "R$ 134,04",
-  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "valor_com_cupom_br": "R$ 144,35",
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.7",
   "pdf_aprovado_protocolo": null,
   "pdf_source": null,
   "pdf_is_generated": false,
@@ -5063,7 +5157,7 @@ Máscara facial calmante profissional, indicada para acalmar, hidratar, suavizar
   "categoria_intencao": [],
   "quando_indicar_direto": [],
   "indicacao_curta": null,
-  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_lakma35_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
+  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
 }
 ```
 
@@ -5215,21 +5309,21 @@ Sérum facial calmante para peles sensíveis, irritáveis, reativas, com vermelh
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/neuroplasma-calmante---50ml-1782745242316.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbmV1cm9wbGFzbWEtY2FsbWFudGUtLS01MG1sLTE3ODI3NDUyNDIzMTYucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg1NywiZXhwIjoxNzg3MTY3NjU3fQ.ZOK_pIJhw-aguW6C3S_B_bObNm0RQvM-v8Z4vi2_WyY ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/neuroplasma-calmante---50ml-1782745242316.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbmV1cm9wbGFzbWEtY2FsbWFudGUtLS01MG1sLTE3ODI3NDUyNDIzMTYucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg1NywiZXhwIjoxNzg3MTY3NjU3fQ.ZOK_pIJhw-aguW6C3S_B_bObNm0RQvM-v8Z4vi2_WyY]]` no topo da resposta
+- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/neuroplasma-calmante---50ml-1782745242316.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbmV1cm9wbGFzbWEtY2FsbWFudGUtLS01MG1sLTE3ODI3NDUyNDIzMTYucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQyNywiZXhwIjoxNzg3MjI4MjI3fQ.QHYo4vSQP3lODQFmpghH6wPMQ2mj9R3GeEp4JqC5IFw ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/neuroplasma-calmante---50ml-1782745242316.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbmV1cm9wbGFzbWEtY2FsbWFudGUtLS01MG1sLTE3ODI3NDUyNDIzMTYucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQyNywiZXhwIjoxNzg3MjI4MjI3fQ.QHYo4vSQP3lODQFmpghH6wPMQ2mj9R3GeEp4JqC5IFw]]` no topo da resposta
 - **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
 - **Valor sem desconto:** R$ 123,27
-- **Valor com cupom LAKMA35:** R$ 80,13  _(calculado automaticamente = valor_sem_desconto × 0,65)_
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/neuroplasma-ultra-calmante-pos-laser-e-procedimentos-50ml?_pos=3&_psq=calman&_ss=e&_v=1.0 ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+- **Valor com cupom LAKMA30:** R$ 86,29  _(calculado automaticamente = valor_sem_desconto × 0.7)_
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/neuroplasma-ultra-calmante-pos-laser-e-procedimentos-50ml?_pos=3&_psq=calman&_ss=e&_v=1.0 ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
 
 ```json
 {
   "produto": "Neuroplasma Calmante - 50ml",
   "aliases": [],
-  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/neuroplasma-calmante---50ml-1782745242316.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbmV1cm9wbGFzbWEtY2FsbWFudGUtLS01MG1sLTE3ODI3NDUyNDIzMTYucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg1NywiZXhwIjoxNzg3MTY3NjU3fQ.ZOK_pIJhw-aguW6C3S_B_bObNm0RQvM-v8Z4vi2_WyY",
+  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/neuroplasma-calmante---50ml-1782745242316.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbmV1cm9wbGFzbWEtY2FsbWFudGUtLS01MG1sLTE3ODI3NDUyNDIzMTYucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQyNywiZXhwIjoxNzg3MjI4MjI3fQ.QHYo4vSQP3lODQFmpghH6wPMQ2mj9R3GeEp4JqC5IFw",
   "campo_origem_foto": "image_url",
   "image_source": "product_database",
   "image_is_generated": false,
-  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/neuroplasma-calmante---50ml-1782745242316.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbmV1cm9wbGFzbWEtY2FsbWFudGUtLS01MG1sLTE3ODI3NDUyNDIzMTYucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg1NywiZXhwIjoxNzg3MTY3NjU3fQ.ZOK_pIJhw-aguW6C3S_B_bObNm0RQvM-v8Z4vi2_WyY]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
+  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/neuroplasma-calmante---50ml-1782745242316.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbmV1cm9wbGFzbWEtY2FsbWFudGUtLS01MG1sLTE3ODI3NDUyNDIzMTYucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQyNywiZXhwIjoxNzg3MjI4MjI3fQ.QHYo4vSQP3lODQFmpghH6wPMQ2mj9R3GeEp4JqC5IFw]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
   "link_individual_produto": "https://lakma.com.br/products/neuroplasma-ultra-calmante-pos-laser-e-procedimentos-50ml?_pos=3&_psq=calman&_ss=e&_v=1.0",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -5237,17 +5331,20 @@ Sérum facial calmante para peles sensíveis, irritáveis, reativas, com vermelh
   "link_site": "https://lakma.com.br/products/neuroplasma-ultra-calmante-pos-laser-e-procedimentos-50ml?_pos=3&_psq=calman&_ss=e&_v=1.0",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA35",
-  "desconto_site": "35%",
+  "cupom_site": "LAKMA30",
+  "desconto_site": "30%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
   "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "cupom_ativo": true,
+  "cupom_codigo": "LAKMA30",
+  "cupom_desconto_percent": 30,
   "valor_sem_desconto": 123.27,
-  "valor_com_cupom_lakma35": 80.13,
+  "valor_com_cupom": 86.29,
   "valor_sem_desconto_br": "R$ 123,27",
-  "valor_com_cupom_lakma35_br": "R$ 80,13",
-  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "valor_com_cupom_br": "R$ 86,29",
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.7",
   "pdf_aprovado_protocolo": null,
   "pdf_source": null,
   "pdf_is_generated": false,
@@ -5256,7 +5353,7 @@ Sérum facial calmante para peles sensíveis, irritáveis, reativas, com vermelh
   "categoria_intencao": [],
   "quando_indicar_direto": [],
   "indicacao_curta": null,
-  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_lakma35_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
+  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
 }
 ```
 
@@ -5395,21 +5492,21 @@ Loção facial profissional de limpeza desengordurante com Ácido Glicólico e N
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/lo-o-de-limpeza-ozonizada---200ml-1782745280971.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbG8tby1kZS1saW1wZXphLW96b25pemFkYS0tLTIwMG1sLTE3ODI3NDUyODA5NzEucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg1OCwiZXhwIjoxNzg3MTY3NjU4fQ.vImIjclSdGC_ejpLDQ61MljbTLA2t_BMskaJOuwU3mg ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/lo-o-de-limpeza-ozonizada---200ml-1782745280971.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbG8tby1kZS1saW1wZXphLW96b25pemFkYS0tLTIwMG1sLTE3ODI3NDUyODA5NzEucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg1OCwiZXhwIjoxNzg3MTY3NjU4fQ.vImIjclSdGC_ejpLDQ61MljbTLA2t_BMskaJOuwU3mg]]` no topo da resposta
+- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/lo-o-de-limpeza-ozonizada---200ml-1782745280971.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbG8tby1kZS1saW1wZXphLW96b25pemFkYS0tLTIwMG1sLTE3ODI3NDUyODA5NzEucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQyNywiZXhwIjoxNzg3MjI4MjI3fQ.ka7mgAt8YImgZp5KV8IoYNTZ2wCSnD2oHTsc77ulVpc ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/lo-o-de-limpeza-ozonizada---200ml-1782745280971.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbG8tby1kZS1saW1wZXphLW96b25pemFkYS0tLTIwMG1sLTE3ODI3NDUyODA5NzEucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQyNywiZXhwIjoxNzg3MjI4MjI3fQ.ka7mgAt8YImgZp5KV8IoYNTZ2wCSnD2oHTsc77ulVpc]]` no topo da resposta
 - **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
 - **Valor sem desconto:** R$ 179,45
-- **Valor com cupom LAKMA35:** R$ 116,64  _(calculado automaticamente = valor_sem_desconto × 0,65)_
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/locao-ozonizada-200ml?_pos=1&_sid=c585f5ad1&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+- **Valor com cupom LAKMA30:** R$ 125,61  _(calculado automaticamente = valor_sem_desconto × 0.7)_
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/locao-ozonizada-200ml?_pos=1&_sid=c585f5ad1&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
 
 ```json
 {
   "produto": "Loção de Limpeza Ozonizada - 200ml",
   "aliases": [],
-  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/lo-o-de-limpeza-ozonizada---200ml-1782745280971.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbG8tby1kZS1saW1wZXphLW96b25pemFkYS0tLTIwMG1sLTE3ODI3NDUyODA5NzEucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg1OCwiZXhwIjoxNzg3MTY3NjU4fQ.vImIjclSdGC_ejpLDQ61MljbTLA2t_BMskaJOuwU3mg",
+  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/lo-o-de-limpeza-ozonizada---200ml-1782745280971.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbG8tby1kZS1saW1wZXphLW96b25pemFkYS0tLTIwMG1sLTE3ODI3NDUyODA5NzEucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQyNywiZXhwIjoxNzg3MjI4MjI3fQ.ka7mgAt8YImgZp5KV8IoYNTZ2wCSnD2oHTsc77ulVpc",
   "campo_origem_foto": "image_url",
   "image_source": "product_database",
   "image_is_generated": false,
-  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/lo-o-de-limpeza-ozonizada---200ml-1782745280971.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbG8tby1kZS1saW1wZXphLW96b25pemFkYS0tLTIwMG1sLTE3ODI3NDUyODA5NzEucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg1OCwiZXhwIjoxNzg3MTY3NjU4fQ.vImIjclSdGC_ejpLDQ61MljbTLA2t_BMskaJOuwU3mg]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
+  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/lo-o-de-limpeza-ozonizada---200ml-1782745280971.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbG8tby1kZS1saW1wZXphLW96b25pemFkYS0tLTIwMG1sLTE3ODI3NDUyODA5NzEucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQyNywiZXhwIjoxNzg3MjI4MjI3fQ.ka7mgAt8YImgZp5KV8IoYNTZ2wCSnD2oHTsc77ulVpc]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
   "link_individual_produto": "https://lakma.com.br/products/locao-ozonizada-200ml?_pos=1&_sid=c585f5ad1&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -5417,17 +5514,20 @@ Loção facial profissional de limpeza desengordurante com Ácido Glicólico e N
   "link_site": "https://lakma.com.br/products/locao-ozonizada-200ml?_pos=1&_sid=c585f5ad1&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA35",
-  "desconto_site": "35%",
+  "cupom_site": "LAKMA30",
+  "desconto_site": "30%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
   "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "cupom_ativo": true,
+  "cupom_codigo": "LAKMA30",
+  "cupom_desconto_percent": 30,
   "valor_sem_desconto": 179.45,
-  "valor_com_cupom_lakma35": 116.64,
+  "valor_com_cupom": 125.61,
   "valor_sem_desconto_br": "R$ 179,45",
-  "valor_com_cupom_lakma35_br": "R$ 116,64",
-  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "valor_com_cupom_br": "R$ 125,61",
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.7",
   "pdf_aprovado_protocolo": null,
   "pdf_source": null,
   "pdf_is_generated": false,
@@ -5436,7 +5536,7 @@ Loção facial profissional de limpeza desengordurante com Ácido Glicólico e N
   "categoria_intencao": [],
   "quando_indicar_direto": [],
   "indicacao_curta": null,
-  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_lakma35_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
+  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
 }
 ```
 
@@ -5569,20 +5669,20 @@ Gel esfoliante corporal profissional para pré-tratamento, indicado para remover
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/gel-esfoliante-corporal-ozonizado---1kg-1782745345284.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZ2VsLWVzZm9saWFudGUtY29ycG9yYWwtb3pvbml6YWRvLS0tMWtnLTE3ODI3NDUzNDUyODQucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg1OCwiZXhwIjoxNzg3MTY3NjU4fQ.Sx5NzeN1mJ5Izoq3F_St-i3pZ-Y2mSpWEGUYFv0PQ14 ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/gel-esfoliante-corporal-ozonizado---1kg-1782745345284.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZ2VsLWVzZm9saWFudGUtY29ycG9yYWwtb3pvbml6YWRvLS0tMWtnLTE3ODI3NDUzNDUyODQucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg1OCwiZXhwIjoxNzg3MTY3NjU4fQ.Sx5NzeN1mJ5Izoq3F_St-i3pZ-Y2mSpWEGUYFv0PQ14]]` no topo da resposta
+- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/gel-esfoliante-corporal-ozonizado---1kg-1782745345284.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZ2VsLWVzZm9saWFudGUtY29ycG9yYWwtb3pvbml6YWRvLS0tMWtnLTE3ODI3NDUzNDUyODQucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQyOCwiZXhwIjoxNzg3MjI4MjI4fQ.jvY2JhcT7KFLzTWMC6iFhNfDk999phDPx_COfMkd5lU ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/gel-esfoliante-corporal-ozonizado---1kg-1782745345284.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZ2VsLWVzZm9saWFudGUtY29ycG9yYWwtb3pvbml6YWRvLS0tMWtnLTE3ODI3NDUzNDUyODQucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQyOCwiZXhwIjoxNzg3MjI4MjI4fQ.jvY2JhcT7KFLzTWMC6iFhNfDk999phDPx_COfMkd5lU]]` no topo da resposta
 - **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
 - **Valor:** _(não cadastrado — NÃO inventar preço; responder "Você consegue consultar o valor atualizado diretamente no link oficial.")_
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/gel-esfoliante-corporal-ozonizado-1kg?_pos=1&_sid=633454ffc&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/gel-esfoliante-corporal-ozonizado-1kg?_pos=1&_sid=633454ffc&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
 
 ```json
 {
   "produto": "Gel Esfoliante Corporal Ozonizado - 1kg",
   "aliases": [],
-  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/gel-esfoliante-corporal-ozonizado---1kg-1782745345284.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZ2VsLWVzZm9saWFudGUtY29ycG9yYWwtb3pvbml6YWRvLS0tMWtnLTE3ODI3NDUzNDUyODQucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg1OCwiZXhwIjoxNzg3MTY3NjU4fQ.Sx5NzeN1mJ5Izoq3F_St-i3pZ-Y2mSpWEGUYFv0PQ14",
+  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/gel-esfoliante-corporal-ozonizado---1kg-1782745345284.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZ2VsLWVzZm9saWFudGUtY29ycG9yYWwtb3pvbml6YWRvLS0tMWtnLTE3ODI3NDUzNDUyODQucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQyOCwiZXhwIjoxNzg3MjI4MjI4fQ.jvY2JhcT7KFLzTWMC6iFhNfDk999phDPx_COfMkd5lU",
   "campo_origem_foto": "image_url",
   "image_source": "product_database",
   "image_is_generated": false,
-  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/gel-esfoliante-corporal-ozonizado---1kg-1782745345284.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZ2VsLWVzZm9saWFudGUtY29ycG9yYWwtb3pvbml6YWRvLS0tMWtnLTE3ODI3NDUzNDUyODQucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg1OCwiZXhwIjoxNzg3MTY3NjU4fQ.Sx5NzeN1mJ5Izoq3F_St-i3pZ-Y2mSpWEGUYFv0PQ14]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
+  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/gel-esfoliante-corporal-ozonizado---1kg-1782745345284.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZ2VsLWVzZm9saWFudGUtY29ycG9yYWwtb3pvbml6YWRvLS0tMWtnLTE3ODI3NDUzNDUyODQucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQyOCwiZXhwIjoxNzg3MjI4MjI4fQ.jvY2JhcT7KFLzTWMC6iFhNfDk999phDPx_COfMkd5lU]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
   "link_individual_produto": "https://lakma.com.br/products/gel-esfoliante-corporal-ozonizado-1kg?_pos=1&_sid=633454ffc&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -5590,17 +5690,20 @@ Gel esfoliante corporal profissional para pré-tratamento, indicado para remover
   "link_site": "https://lakma.com.br/products/gel-esfoliante-corporal-ozonizado-1kg?_pos=1&_sid=633454ffc&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA35",
-  "desconto_site": "35%",
+  "cupom_site": "LAKMA30",
+  "desconto_site": "30%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
   "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "cupom_ativo": true,
+  "cupom_codigo": "LAKMA30",
+  "cupom_desconto_percent": 30,
   "valor_sem_desconto": null,
-  "valor_com_cupom_lakma35": null,
+  "valor_com_cupom": null,
   "valor_sem_desconto_br": null,
-  "valor_com_cupom_lakma35_br": null,
-  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "valor_com_cupom_br": null,
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.7",
   "pdf_aprovado_protocolo": null,
   "pdf_source": null,
   "pdf_is_generated": false,
@@ -5756,21 +5859,21 @@ Kit profissional com mesclas estéreis de uso único para protocolos noturnos de
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-booster-fibras-reticulares-1782745397090.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LWJvb3N0ZXItZmlicmFzLXJldGljdWxhcmVzLTE3ODI3NDUzOTcwOTAuanBnIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg1OCwiZXhwIjoxNzg3MTY3NjU4fQ.eNcQS2pGyho34Iel1fbu_a5PAfmBx1Q17ZqScbb5sK4 ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-booster-fibras-reticulares-1782745397090.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LWJvb3N0ZXItZmlicmFzLXJldGljdWxhcmVzLTE3ODI3NDUzOTcwOTAuanBnIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg1OCwiZXhwIjoxNzg3MTY3NjU4fQ.eNcQS2pGyho34Iel1fbu_a5PAfmBx1Q17ZqScbb5sK4]]` no topo da resposta
+- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-booster-fibras-reticulares-1782745397090.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LWJvb3N0ZXItZmlicmFzLXJldGljdWxhcmVzLTE3ODI3NDUzOTcwOTAuanBnIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQyOCwiZXhwIjoxNzg3MjI4MjI4fQ.g3tX6c0SGkT9jalCgjRmt0kmCDyH6UsMFaIVJsv3UYA ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-booster-fibras-reticulares-1782745397090.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LWJvb3N0ZXItZmlicmFzLXJldGljdWxhcmVzLTE3ODI3NDUzOTcwOTAuanBnIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQyOCwiZXhwIjoxNzg3MjI4MjI4fQ.g3tX6c0SGkT9jalCgjRmt0kmCDyH6UsMFaIVJsv3UYA]]` no topo da resposta
 - **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
 - **Valor sem desconto:** R$ 243,56
-- **Valor com cupom LAKMA35:** R$ 158,31  _(calculado automaticamente = valor_sem_desconto × 0,65)_
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/kit-booster-fibras-reticulares?_pos=1&_sid=266082018&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+- **Valor com cupom LAKMA30:** R$ 170,49  _(calculado automaticamente = valor_sem_desconto × 0.7)_
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/kit-booster-fibras-reticulares?_pos=1&_sid=266082018&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
 
 ```json
 {
   "produto": "Kit Booster Fibras Reticulares",
   "aliases": [],
-  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-booster-fibras-reticulares-1782745397090.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LWJvb3N0ZXItZmlicmFzLXJldGljdWxhcmVzLTE3ODI3NDUzOTcwOTAuanBnIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg1OCwiZXhwIjoxNzg3MTY3NjU4fQ.eNcQS2pGyho34Iel1fbu_a5PAfmBx1Q17ZqScbb5sK4",
+  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-booster-fibras-reticulares-1782745397090.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LWJvb3N0ZXItZmlicmFzLXJldGljdWxhcmVzLTE3ODI3NDUzOTcwOTAuanBnIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQyOCwiZXhwIjoxNzg3MjI4MjI4fQ.g3tX6c0SGkT9jalCgjRmt0kmCDyH6UsMFaIVJsv3UYA",
   "campo_origem_foto": "image_url",
   "image_source": "product_database",
   "image_is_generated": false,
-  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-booster-fibras-reticulares-1782745397090.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LWJvb3N0ZXItZmlicmFzLXJldGljdWxhcmVzLTE3ODI3NDUzOTcwOTAuanBnIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg1OCwiZXhwIjoxNzg3MTY3NjU4fQ.eNcQS2pGyho34Iel1fbu_a5PAfmBx1Q17ZqScbb5sK4]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
+  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-booster-fibras-reticulares-1782745397090.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LWJvb3N0ZXItZmlicmFzLXJldGljdWxhcmVzLTE3ODI3NDUzOTcwOTAuanBnIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQyOCwiZXhwIjoxNzg3MjI4MjI4fQ.g3tX6c0SGkT9jalCgjRmt0kmCDyH6UsMFaIVJsv3UYA]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
   "link_individual_produto": "https://lakma.com.br/products/kit-booster-fibras-reticulares?_pos=1&_sid=266082018&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -5778,17 +5881,20 @@ Kit profissional com mesclas estéreis de uso único para protocolos noturnos de
   "link_site": "https://lakma.com.br/products/kit-booster-fibras-reticulares?_pos=1&_sid=266082018&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA35",
-  "desconto_site": "35%",
+  "cupom_site": "LAKMA30",
+  "desconto_site": "30%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
   "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "cupom_ativo": true,
+  "cupom_codigo": "LAKMA30",
+  "cupom_desconto_percent": 30,
   "valor_sem_desconto": 243.56,
-  "valor_com_cupom_lakma35": 158.31,
+  "valor_com_cupom": 170.49,
   "valor_sem_desconto_br": "R$ 243,56",
-  "valor_com_cupom_lakma35_br": "R$ 158,31",
-  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "valor_com_cupom_br": "R$ 170,49",
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.7",
   "pdf_aprovado_protocolo": null,
   "pdf_source": null,
   "pdf_is_generated": false,
@@ -5797,7 +5903,7 @@ Kit profissional com mesclas estéreis de uso único para protocolos noturnos de
   "categoria_intencao": [],
   "quando_indicar_direto": [],
   "indicacao_curta": null,
-  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_lakma35_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
+  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
 }
 ```
 
@@ -5944,21 +6050,21 @@ Kit corporal profissional detox para cabine, indicado para protocolos de drenage
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/esbeltea-detox-1782745447655.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZXNiZWx0ZWEtZGV0b3gtMTc4Mjc0NTQ0NzY1NS5qcGciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODU5LCJleHAiOjE3ODcxNjc2NTl9.fRLJVkOAbed31VkLFBM7EeLBlasSb6Nmc0FczZ-B1wg ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/esbeltea-detox-1782745447655.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZXNiZWx0ZWEtZGV0b3gtMTc4Mjc0NTQ0NzY1NS5qcGciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODU5LCJleHAiOjE3ODcxNjc2NTl9.fRLJVkOAbed31VkLFBM7EeLBlasSb6Nmc0FczZ-B1wg]]` no topo da resposta
+- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/esbeltea-detox-1782745447655.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZXNiZWx0ZWEtZGV0b3gtMTc4Mjc0NTQ0NzY1NS5qcGciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDI4LCJleHAiOjE3ODcyMjgyMjh9.JpV5qTS3uRrSSGz0lG2IVYzPS0Wdfsb1DGZT7AgStqw ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/esbeltea-detox-1782745447655.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZXNiZWx0ZWEtZGV0b3gtMTc4Mjc0NTQ0NzY1NS5qcGciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDI4LCJleHAiOjE3ODcyMjgyMjh9.JpV5qTS3uRrSSGz0lG2IVYzPS0Wdfsb1DGZT7AgStqw]]` no topo da resposta
 - **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
 - **Valor sem desconto:** R$ 472,73
-- **Valor com cupom LAKMA35:** R$ 307,27  _(calculado automaticamente = valor_sem_desconto × 0,65)_
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/esbeltea-detox?_pos=1&_sid=3f9884a06&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+- **Valor com cupom LAKMA30:** R$ 330,91  _(calculado automaticamente = valor_sem_desconto × 0.7)_
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/esbeltea-detox?_pos=1&_sid=3f9884a06&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
 
 ```json
 {
   "produto": "Esbeltea Detox",
   "aliases": [],
-  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/esbeltea-detox-1782745447655.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZXNiZWx0ZWEtZGV0b3gtMTc4Mjc0NTQ0NzY1NS5qcGciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODU5LCJleHAiOjE3ODcxNjc2NTl9.fRLJVkOAbed31VkLFBM7EeLBlasSb6Nmc0FczZ-B1wg",
+  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/esbeltea-detox-1782745447655.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZXNiZWx0ZWEtZGV0b3gtMTc4Mjc0NTQ0NzY1NS5qcGciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDI4LCJleHAiOjE3ODcyMjgyMjh9.JpV5qTS3uRrSSGz0lG2IVYzPS0Wdfsb1DGZT7AgStqw",
   "campo_origem_foto": "image_url",
   "image_source": "product_database",
   "image_is_generated": false,
-  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/esbeltea-detox-1782745447655.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZXNiZWx0ZWEtZGV0b3gtMTc4Mjc0NTQ0NzY1NS5qcGciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODU5LCJleHAiOjE3ODcxNjc2NTl9.fRLJVkOAbed31VkLFBM7EeLBlasSb6Nmc0FczZ-B1wg]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
+  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/esbeltea-detox-1782745447655.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZXNiZWx0ZWEtZGV0b3gtMTc4Mjc0NTQ0NzY1NS5qcGciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDI4LCJleHAiOjE3ODcyMjgyMjh9.JpV5qTS3uRrSSGz0lG2IVYzPS0Wdfsb1DGZT7AgStqw]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
   "link_individual_produto": "https://lakma.com.br/products/esbeltea-detox?_pos=1&_sid=3f9884a06&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -5966,17 +6072,20 @@ Kit corporal profissional detox para cabine, indicado para protocolos de drenage
   "link_site": "https://lakma.com.br/products/esbeltea-detox?_pos=1&_sid=3f9884a06&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA35",
-  "desconto_site": "35%",
+  "cupom_site": "LAKMA30",
+  "desconto_site": "30%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
   "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "cupom_ativo": true,
+  "cupom_codigo": "LAKMA30",
+  "cupom_desconto_percent": 30,
   "valor_sem_desconto": 472.73,
-  "valor_com_cupom_lakma35": 307.27,
+  "valor_com_cupom": 330.91,
   "valor_sem_desconto_br": "R$ 472,73",
-  "valor_com_cupom_lakma35_br": "R$ 307,27",
-  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "valor_com_cupom_br": "R$ 330,91",
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.7",
   "pdf_aprovado_protocolo": null,
   "pdf_source": null,
   "pdf_is_generated": false,
@@ -5985,7 +6094,7 @@ Kit corporal profissional detox para cabine, indicado para protocolos de drenage
   "categoria_intencao": [],
   "quando_indicar_direto": [],
   "indicacao_curta": null,
-  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_lakma35_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
+  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
 }
 ```
 
@@ -6135,21 +6244,21 @@ Gel corporal crioterápico profissional com efeito frio e ação refrescante, in
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/criogel---1kg-1782745487809.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvY3Jpb2dlbC0tLTFrZy0xNzgyNzQ1NDg3ODA5LnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY1NjI4NTksImV4cCI6MTc4NzE2NzY1OX0.D6kVRZ1WixeMzieycakaGnNa93J2zpIo0NiY8ji4yPo ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/criogel---1kg-1782745487809.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvY3Jpb2dlbC0tLTFrZy0xNzgyNzQ1NDg3ODA5LnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY1NjI4NTksImV4cCI6MTc4NzE2NzY1OX0.D6kVRZ1WixeMzieycakaGnNa93J2zpIo0NiY8ji4yPo]]` no topo da resposta
+- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/criogel---1kg-1782745487809.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvY3Jpb2dlbC0tLTFrZy0xNzgyNzQ1NDg3ODA5LnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY2MjM0MjgsImV4cCI6MTc4NzIyODIyOH0.g0MWsIK3dVyZWO-zI1VjBKH9c3T-k_WP5LdBuOC0GAg ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/criogel---1kg-1782745487809.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvY3Jpb2dlbC0tLTFrZy0xNzgyNzQ1NDg3ODA5LnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY2MjM0MjgsImV4cCI6MTc4NzIyODIyOH0.g0MWsIK3dVyZWO-zI1VjBKH9c3T-k_WP5LdBuOC0GAg]]` no topo da resposta
 - **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
 - **Valor sem desconto:** R$ 263,87
-- **Valor com cupom LAKMA35:** R$ 171,52  _(calculado automaticamente = valor_sem_desconto × 0,65)_
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/criogel-1kg?_pos=1&_sid=82ecdae3f&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+- **Valor com cupom LAKMA30:** R$ 184,71  _(calculado automaticamente = valor_sem_desconto × 0.7)_
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/criogel-1kg?_pos=1&_sid=82ecdae3f&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
 
 ```json
 {
   "produto": "CRIOGEL - 1kg",
   "aliases": [],
-  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/criogel---1kg-1782745487809.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvY3Jpb2dlbC0tLTFrZy0xNzgyNzQ1NDg3ODA5LnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY1NjI4NTksImV4cCI6MTc4NzE2NzY1OX0.D6kVRZ1WixeMzieycakaGnNa93J2zpIo0NiY8ji4yPo",
+  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/criogel---1kg-1782745487809.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvY3Jpb2dlbC0tLTFrZy0xNzgyNzQ1NDg3ODA5LnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY2MjM0MjgsImV4cCI6MTc4NzIyODIyOH0.g0MWsIK3dVyZWO-zI1VjBKH9c3T-k_WP5LdBuOC0GAg",
   "campo_origem_foto": "image_url",
   "image_source": "product_database",
   "image_is_generated": false,
-  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/criogel---1kg-1782745487809.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvY3Jpb2dlbC0tLTFrZy0xNzgyNzQ1NDg3ODA5LnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY1NjI4NTksImV4cCI6MTc4NzE2NzY1OX0.D6kVRZ1WixeMzieycakaGnNa93J2zpIo0NiY8ji4yPo]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
+  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/criogel---1kg-1782745487809.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvY3Jpb2dlbC0tLTFrZy0xNzgyNzQ1NDg3ODA5LnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY2MjM0MjgsImV4cCI6MTc4NzIyODIyOH0.g0MWsIK3dVyZWO-zI1VjBKH9c3T-k_WP5LdBuOC0GAg]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
   "link_individual_produto": "https://lakma.com.br/products/criogel-1kg?_pos=1&_sid=82ecdae3f&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -6157,17 +6266,20 @@ Gel corporal crioterápico profissional com efeito frio e ação refrescante, in
   "link_site": "https://lakma.com.br/products/criogel-1kg?_pos=1&_sid=82ecdae3f&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA35",
-  "desconto_site": "35%",
+  "cupom_site": "LAKMA30",
+  "desconto_site": "30%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
   "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "cupom_ativo": true,
+  "cupom_codigo": "LAKMA30",
+  "cupom_desconto_percent": 30,
   "valor_sem_desconto": 263.87,
-  "valor_com_cupom_lakma35": 171.52,
+  "valor_com_cupom": 184.71,
   "valor_sem_desconto_br": "R$ 263,87",
-  "valor_com_cupom_lakma35_br": "R$ 171,52",
-  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "valor_com_cupom_br": "R$ 184,71",
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.7",
   "pdf_aprovado_protocolo": null,
   "pdf_source": null,
   "pdf_is_generated": false,
@@ -6176,7 +6288,7 @@ Gel corporal crioterápico profissional com efeito frio e ação refrescante, in
   "categoria_intencao": [],
   "quando_indicar_direto": [],
   "indicacao_curta": null,
-  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_lakma35_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
+  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
 }
 ```
 
@@ -6325,21 +6437,21 @@ Gel corporal profissional bioestimulante e condutor, indicado para protocolos dr
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/gel-bioestimulante---1kg-1782745525757.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZ2VsLWJpb2VzdGltdWxhbnRlLS0tMWtnLTE3ODI3NDU1MjU3NTcucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg1OSwiZXhwIjoxNzg3MTY3NjU5fQ.qCiWv-u1NCzj-3rouqrf5om31UHQ-p17anQzNGnvuIc ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/gel-bioestimulante---1kg-1782745525757.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZ2VsLWJpb2VzdGltdWxhbnRlLS0tMWtnLTE3ODI3NDU1MjU3NTcucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg1OSwiZXhwIjoxNzg3MTY3NjU5fQ.qCiWv-u1NCzj-3rouqrf5om31UHQ-p17anQzNGnvuIc]]` no topo da resposta
+- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/gel-bioestimulante---1kg-1782745525757.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZ2VsLWJpb2VzdGltdWxhbnRlLS0tMWtnLTE3ODI3NDU1MjU3NTcucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQyOSwiZXhwIjoxNzg3MjI4MjI5fQ.N4q-Zstg0toc_Kzqrtrsf7K0UdxWNHs6NAyQ8raHdA0 ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/gel-bioestimulante---1kg-1782745525757.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZ2VsLWJpb2VzdGltdWxhbnRlLS0tMWtnLTE3ODI3NDU1MjU3NTcucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQyOSwiZXhwIjoxNzg3MjI4MjI5fQ.N4q-Zstg0toc_Kzqrtrsf7K0UdxWNHs6NAyQ8raHdA0]]` no topo da resposta
 - **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
 - **Valor sem desconto:** R$ 209,90
-- **Valor com cupom LAKMA35:** R$ 136,44  _(calculado automaticamente = valor_sem_desconto × 0,65)_
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/gel-bioestimulante-1kg?_pos=1&_sid=0114635cb&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+- **Valor com cupom LAKMA30:** R$ 146,93  _(calculado automaticamente = valor_sem_desconto × 0.7)_
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/gel-bioestimulante-1kg?_pos=1&_sid=0114635cb&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
 
 ```json
 {
   "produto": "Gel Bioestimulante - 1kg",
   "aliases": [],
-  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/gel-bioestimulante---1kg-1782745525757.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZ2VsLWJpb2VzdGltdWxhbnRlLS0tMWtnLTE3ODI3NDU1MjU3NTcucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg1OSwiZXhwIjoxNzg3MTY3NjU5fQ.qCiWv-u1NCzj-3rouqrf5om31UHQ-p17anQzNGnvuIc",
+  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/gel-bioestimulante---1kg-1782745525757.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZ2VsLWJpb2VzdGltdWxhbnRlLS0tMWtnLTE3ODI3NDU1MjU3NTcucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQyOSwiZXhwIjoxNzg3MjI4MjI5fQ.N4q-Zstg0toc_Kzqrtrsf7K0UdxWNHs6NAyQ8raHdA0",
   "campo_origem_foto": "image_url",
   "image_source": "product_database",
   "image_is_generated": false,
-  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/gel-bioestimulante---1kg-1782745525757.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZ2VsLWJpb2VzdGltdWxhbnRlLS0tMWtnLTE3ODI3NDU1MjU3NTcucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg1OSwiZXhwIjoxNzg3MTY3NjU5fQ.qCiWv-u1NCzj-3rouqrf5om31UHQ-p17anQzNGnvuIc]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
+  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/gel-bioestimulante---1kg-1782745525757.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZ2VsLWJpb2VzdGltdWxhbnRlLS0tMWtnLTE3ODI3NDU1MjU3NTcucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQyOSwiZXhwIjoxNzg3MjI4MjI5fQ.N4q-Zstg0toc_Kzqrtrsf7K0UdxWNHs6NAyQ8raHdA0]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
   "link_individual_produto": "https://lakma.com.br/products/gel-bioestimulante-1kg?_pos=1&_sid=0114635cb&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -6347,17 +6459,20 @@ Gel corporal profissional bioestimulante e condutor, indicado para protocolos dr
   "link_site": "https://lakma.com.br/products/gel-bioestimulante-1kg?_pos=1&_sid=0114635cb&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA35",
-  "desconto_site": "35%",
+  "cupom_site": "LAKMA30",
+  "desconto_site": "30%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
   "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "cupom_ativo": true,
+  "cupom_codigo": "LAKMA30",
+  "cupom_desconto_percent": 30,
   "valor_sem_desconto": 209.9,
-  "valor_com_cupom_lakma35": 136.44,
+  "valor_com_cupom": 146.93,
   "valor_sem_desconto_br": "R$ 209,90",
-  "valor_com_cupom_lakma35_br": "R$ 136,44",
-  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "valor_com_cupom_br": "R$ 146,93",
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.7",
   "pdf_aprovado_protocolo": null,
   "pdf_source": null,
   "pdf_is_generated": false,
@@ -6366,7 +6481,7 @@ Gel corporal profissional bioestimulante e condutor, indicado para protocolos dr
   "categoria_intencao": [],
   "quando_indicar_direto": [],
   "indicacao_curta": null,
-  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_lakma35_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
+  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
 }
 ```
 
@@ -6503,21 +6618,21 @@ Gel corporal termoativado profissional com efeito de aquecimento, indicado para 
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/gel-termoativado---1kg-1782745583043.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZ2VsLXRlcm1vYXRpdmFkby0tLTFrZy0xNzgyNzQ1NTgzMDQzLnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY1NjI4NTksImV4cCI6MTc4NzE2NzY1OX0.0UsBbXEGsGAD5Fkaql68QLaPK4szr1eHx-F3UNNDhVA ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/gel-termoativado---1kg-1782745583043.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZ2VsLXRlcm1vYXRpdmFkby0tLTFrZy0xNzgyNzQ1NTgzMDQzLnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY1NjI4NTksImV4cCI6MTc4NzE2NzY1OX0.0UsBbXEGsGAD5Fkaql68QLaPK4szr1eHx-F3UNNDhVA]]` no topo da resposta
+- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/gel-termoativado---1kg-1782745583043.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZ2VsLXRlcm1vYXRpdmFkby0tLTFrZy0xNzgyNzQ1NTgzMDQzLnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY2MjM0MzAsImV4cCI6MTc4NzIyODIzMH0.mqvD13oPKxNgycKVbna44r-2dIuJrRXhHHiztdwpn2k ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/gel-termoativado---1kg-1782745583043.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZ2VsLXRlcm1vYXRpdmFkby0tLTFrZy0xNzgyNzQ1NTgzMDQzLnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY2MjM0MzAsImV4cCI6MTc4NzIyODIzMH0.mqvD13oPKxNgycKVbna44r-2dIuJrRXhHHiztdwpn2k]]` no topo da resposta
 - **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
 - **Valor sem desconto:** R$ 240,71
-- **Valor com cupom LAKMA35:** R$ 156,46  _(calculado automaticamente = valor_sem_desconto × 0,65)_
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/gel-termoativado-1kg?_pos=1&_sid=143e44dd4&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+- **Valor com cupom LAKMA30:** R$ 168,50  _(calculado automaticamente = valor_sem_desconto × 0.7)_
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/gel-termoativado-1kg?_pos=1&_sid=143e44dd4&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
 
 ```json
 {
   "produto": "Gel Termoativado - 1kg",
   "aliases": [],
-  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/gel-termoativado---1kg-1782745583043.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZ2VsLXRlcm1vYXRpdmFkby0tLTFrZy0xNzgyNzQ1NTgzMDQzLnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY1NjI4NTksImV4cCI6MTc4NzE2NzY1OX0.0UsBbXEGsGAD5Fkaql68QLaPK4szr1eHx-F3UNNDhVA",
+  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/gel-termoativado---1kg-1782745583043.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZ2VsLXRlcm1vYXRpdmFkby0tLTFrZy0xNzgyNzQ1NTgzMDQzLnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY2MjM0MzAsImV4cCI6MTc4NzIyODIzMH0.mqvD13oPKxNgycKVbna44r-2dIuJrRXhHHiztdwpn2k",
   "campo_origem_foto": "image_url",
   "image_source": "product_database",
   "image_is_generated": false,
-  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/gel-termoativado---1kg-1782745583043.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZ2VsLXRlcm1vYXRpdmFkby0tLTFrZy0xNzgyNzQ1NTgzMDQzLnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY1NjI4NTksImV4cCI6MTc4NzE2NzY1OX0.0UsBbXEGsGAD5Fkaql68QLaPK4szr1eHx-F3UNNDhVA]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
+  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/gel-termoativado---1kg-1782745583043.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZ2VsLXRlcm1vYXRpdmFkby0tLTFrZy0xNzgyNzQ1NTgzMDQzLnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY2MjM0MzAsImV4cCI6MTc4NzIyODIzMH0.mqvD13oPKxNgycKVbna44r-2dIuJrRXhHHiztdwpn2k]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
   "link_individual_produto": "https://lakma.com.br/products/gel-termoativado-1kg?_pos=1&_sid=143e44dd4&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -6525,17 +6640,20 @@ Gel corporal termoativado profissional com efeito de aquecimento, indicado para 
   "link_site": "https://lakma.com.br/products/gel-termoativado-1kg?_pos=1&_sid=143e44dd4&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA35",
-  "desconto_site": "35%",
+  "cupom_site": "LAKMA30",
+  "desconto_site": "30%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
   "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "cupom_ativo": true,
+  "cupom_codigo": "LAKMA30",
+  "cupom_desconto_percent": 30,
   "valor_sem_desconto": 240.71,
-  "valor_com_cupom_lakma35": 156.46,
+  "valor_com_cupom": 168.5,
   "valor_sem_desconto_br": "R$ 240,71",
-  "valor_com_cupom_lakma35_br": "R$ 156,46",
-  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "valor_com_cupom_br": "R$ 168,50",
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.7",
   "pdf_aprovado_protocolo": null,
   "pdf_source": null,
   "pdf_is_generated": false,
@@ -6544,7 +6662,7 @@ Gel corporal termoativado profissional com efeito de aquecimento, indicado para 
   "categoria_intencao": [],
   "quando_indicar_direto": [],
   "indicacao_curta": null,
-  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_lakma35_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
+  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
 }
 ```
 
@@ -6700,21 +6818,21 @@ Kit corporal com fluido/spray e creme, indicado para cuidados corporais com foco
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-booster-mitocondrial-esbeltea---creme-900g-fluido-300ml-para-detox-1782745631207.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LWJvb3N0ZXItbWl0b2NvbmRyaWFsLWVzYmVsdGVhLS0tY3JlbWUtOTAwZy1mbHVpZG8tMzAwbWwtcGFyYS1kZXRveC0xNzgyNzQ1NjMxMjA3LnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY1NjI4NTksImV4cCI6MTc4NzE2NzY1OX0.YfYGkV2DUoTLKR6h6_GMCsZvDwCw8LYc1gKfuVAFKWg ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-booster-mitocondrial-esbeltea---creme-900g-fluido-300ml-para-detox-1782745631207.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LWJvb3N0ZXItbWl0b2NvbmRyaWFsLWVzYmVsdGVhLS0tY3JlbWUtOTAwZy1mbHVpZG8tMzAwbWwtcGFyYS1kZXRveC0xNzgyNzQ1NjMxMjA3LnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY1NjI4NTksImV4cCI6MTc4NzE2NzY1OX0.YfYGkV2DUoTLKR6h6_GMCsZvDwCw8LYc1gKfuVAFKWg]]` no topo da resposta
+- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-booster-mitocondrial-esbeltea---creme-900g-fluido-300ml-para-detox-1782745631207.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LWJvb3N0ZXItbWl0b2NvbmRyaWFsLWVzYmVsdGVhLS0tY3JlbWUtOTAwZy1mbHVpZG8tMzAwbWwtcGFyYS1kZXRveC0xNzgyNzQ1NjMxMjA3LnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY2MjM0MzAsImV4cCI6MTc4NzIyODIzMH0.K7abcBRRLV3ctlngRtpnxpAnarQJtS8y5COpWoFKpN8 ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-booster-mitocondrial-esbeltea---creme-900g-fluido-300ml-para-detox-1782745631207.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LWJvb3N0ZXItbWl0b2NvbmRyaWFsLWVzYmVsdGVhLS0tY3JlbWUtOTAwZy1mbHVpZG8tMzAwbWwtcGFyYS1kZXRveC0xNzgyNzQ1NjMxMjA3LnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY2MjM0MzAsImV4cCI6MTc4NzIyODIzMH0.K7abcBRRLV3ctlngRtpnxpAnarQJtS8y5COpWoFKpN8]]` no topo da resposta
 - **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
 - **Valor sem desconto:** R$ 393,58
-- **Valor com cupom LAKMA35:** R$ 255,83  _(calculado automaticamente = valor_sem_desconto × 0,65)_
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/kit-booster-mitocondrial-esbeltea-creme-900g-fluido-300ml-para-detox?_pos=1&_sid=76c4d2dc4&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+- **Valor com cupom LAKMA30:** R$ 275,51  _(calculado automaticamente = valor_sem_desconto × 0.7)_
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/kit-booster-mitocondrial-esbeltea-creme-900g-fluido-300ml-para-detox?_pos=1&_sid=76c4d2dc4&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
 
 ```json
 {
   "produto": "KIT BOOSTER MITOCONDRIAL ESBELTEA - Creme 900g + Fluido 300ml para Detox",
   "aliases": [],
-  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-booster-mitocondrial-esbeltea---creme-900g-fluido-300ml-para-detox-1782745631207.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LWJvb3N0ZXItbWl0b2NvbmRyaWFsLWVzYmVsdGVhLS0tY3JlbWUtOTAwZy1mbHVpZG8tMzAwbWwtcGFyYS1kZXRveC0xNzgyNzQ1NjMxMjA3LnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY1NjI4NTksImV4cCI6MTc4NzE2NzY1OX0.YfYGkV2DUoTLKR6h6_GMCsZvDwCw8LYc1gKfuVAFKWg",
+  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-booster-mitocondrial-esbeltea---creme-900g-fluido-300ml-para-detox-1782745631207.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LWJvb3N0ZXItbWl0b2NvbmRyaWFsLWVzYmVsdGVhLS0tY3JlbWUtOTAwZy1mbHVpZG8tMzAwbWwtcGFyYS1kZXRveC0xNzgyNzQ1NjMxMjA3LnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY2MjM0MzAsImV4cCI6MTc4NzIyODIzMH0.K7abcBRRLV3ctlngRtpnxpAnarQJtS8y5COpWoFKpN8",
   "campo_origem_foto": "image_url",
   "image_source": "product_database",
   "image_is_generated": false,
-  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-booster-mitocondrial-esbeltea---creme-900g-fluido-300ml-para-detox-1782745631207.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LWJvb3N0ZXItbWl0b2NvbmRyaWFsLWVzYmVsdGVhLS0tY3JlbWUtOTAwZy1mbHVpZG8tMzAwbWwtcGFyYS1kZXRveC0xNzgyNzQ1NjMxMjA3LnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY1NjI4NTksImV4cCI6MTc4NzE2NzY1OX0.YfYGkV2DUoTLKR6h6_GMCsZvDwCw8LYc1gKfuVAFKWg]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
+  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-booster-mitocondrial-esbeltea---creme-900g-fluido-300ml-para-detox-1782745631207.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LWJvb3N0ZXItbWl0b2NvbmRyaWFsLWVzYmVsdGVhLS0tY3JlbWUtOTAwZy1mbHVpZG8tMzAwbWwtcGFyYS1kZXRveC0xNzgyNzQ1NjMxMjA3LnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY2MjM0MzAsImV4cCI6MTc4NzIyODIzMH0.K7abcBRRLV3ctlngRtpnxpAnarQJtS8y5COpWoFKpN8]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
   "link_individual_produto": "https://lakma.com.br/products/kit-booster-mitocondrial-esbeltea-creme-900g-fluido-300ml-para-detox?_pos=1&_sid=76c4d2dc4&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -6722,17 +6840,20 @@ Kit corporal com fluido/spray e creme, indicado para cuidados corporais com foco
   "link_site": "https://lakma.com.br/products/kit-booster-mitocondrial-esbeltea-creme-900g-fluido-300ml-para-detox?_pos=1&_sid=76c4d2dc4&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA35",
-  "desconto_site": "35%",
+  "cupom_site": "LAKMA30",
+  "desconto_site": "30%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
   "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "cupom_ativo": true,
+  "cupom_codigo": "LAKMA30",
+  "cupom_desconto_percent": 30,
   "valor_sem_desconto": 393.58,
-  "valor_com_cupom_lakma35": 255.83,
+  "valor_com_cupom": 275.51,
   "valor_sem_desconto_br": "R$ 393,58",
-  "valor_com_cupom_lakma35_br": "R$ 255,83",
-  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "valor_com_cupom_br": "R$ 275,51",
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.7",
   "pdf_aprovado_protocolo": null,
   "pdf_source": null,
   "pdf_is_generated": false,
@@ -6741,7 +6862,7 @@ Kit corporal com fluido/spray e creme, indicado para cuidados corporais com foco
   "categoria_intencao": [],
   "quando_indicar_direto": [],
   "indicacao_curta": null,
-  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_lakma35_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
+  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
 }
 ```
 
@@ -6876,21 +6997,21 @@ Tratamento labial hidratante e nutritivo, indicado para lábios ressecados, ásp
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/dolce-lips---10g-1782745684112.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZG9sY2UtbGlwcy0tLTEwZy0xNzgyNzQ1Njg0MTEyLnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY1NjI4NjAsImV4cCI6MTc4NzE2NzY2MH0.yhZ3TEKOWnO2mYGkc_ovNnYNv-Lwrmm08h_-XESJ_RM ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/dolce-lips---10g-1782745684112.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZG9sY2UtbGlwcy0tLTEwZy0xNzgyNzQ1Njg0MTEyLnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY1NjI4NjAsImV4cCI6MTc4NzE2NzY2MH0.yhZ3TEKOWnO2mYGkc_ovNnYNv-Lwrmm08h_-XESJ_RM]]` no topo da resposta
+- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/dolce-lips---10g-1782745684112.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZG9sY2UtbGlwcy0tLTEwZy0xNzgyNzQ1Njg0MTEyLnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY2MjM0MzAsImV4cCI6MTc4NzIyODIzMH0.x2wJTMvMlS8TQZ00Pl2fqLRxh0GEDeHUWeQJ6p0O_1w ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/dolce-lips---10g-1782745684112.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZG9sY2UtbGlwcy0tLTEwZy0xNzgyNzQ1Njg0MTEyLnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY2MjM0MzAsImV4cCI6MTc4NzIyODIzMH0.x2wJTMvMlS8TQZ00Pl2fqLRxh0GEDeHUWeQJ6p0O_1w]]` no topo da resposta
 - **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
 - **Valor sem desconto:** R$ 83,25
-- **Valor com cupom LAKMA35:** R$ 54,11  _(calculado automaticamente = valor_sem_desconto × 0,65)_
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/dolce-lips-10gr?_pos=3&_sid=5437e421c&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+- **Valor com cupom LAKMA30:** R$ 58,27  _(calculado automaticamente = valor_sem_desconto × 0.7)_
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/dolce-lips-10gr?_pos=3&_sid=5437e421c&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
 
 ```json
 {
   "produto": "Dolce Lips - 10g",
   "aliases": [],
-  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/dolce-lips---10g-1782745684112.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZG9sY2UtbGlwcy0tLTEwZy0xNzgyNzQ1Njg0MTEyLnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY1NjI4NjAsImV4cCI6MTc4NzE2NzY2MH0.yhZ3TEKOWnO2mYGkc_ovNnYNv-Lwrmm08h_-XESJ_RM",
+  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/dolce-lips---10g-1782745684112.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZG9sY2UtbGlwcy0tLTEwZy0xNzgyNzQ1Njg0MTEyLnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY2MjM0MzAsImV4cCI6MTc4NzIyODIzMH0.x2wJTMvMlS8TQZ00Pl2fqLRxh0GEDeHUWeQJ6p0O_1w",
   "campo_origem_foto": "image_url",
   "image_source": "product_database",
   "image_is_generated": false,
-  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/dolce-lips---10g-1782745684112.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZG9sY2UtbGlwcy0tLTEwZy0xNzgyNzQ1Njg0MTEyLnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY1NjI4NjAsImV4cCI6MTc4NzE2NzY2MH0.yhZ3TEKOWnO2mYGkc_ovNnYNv-Lwrmm08h_-XESJ_RM]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
+  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/dolce-lips---10g-1782745684112.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZG9sY2UtbGlwcy0tLTEwZy0xNzgyNzQ1Njg0MTEyLnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY2MjM0MzAsImV4cCI6MTc4NzIyODIzMH0.x2wJTMvMlS8TQZ00Pl2fqLRxh0GEDeHUWeQJ6p0O_1w]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
   "link_individual_produto": "https://lakma.com.br/products/dolce-lips-10gr?_pos=3&_sid=5437e421c&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -6898,17 +7019,20 @@ Tratamento labial hidratante e nutritivo, indicado para lábios ressecados, ásp
   "link_site": "https://lakma.com.br/products/dolce-lips-10gr?_pos=3&_sid=5437e421c&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA35",
-  "desconto_site": "35%",
+  "cupom_site": "LAKMA30",
+  "desconto_site": "30%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
   "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "cupom_ativo": true,
+  "cupom_codigo": "LAKMA30",
+  "cupom_desconto_percent": 30,
   "valor_sem_desconto": 83.25,
-  "valor_com_cupom_lakma35": 54.11,
+  "valor_com_cupom": 58.27,
   "valor_sem_desconto_br": "R$ 83,25",
-  "valor_com_cupom_lakma35_br": "R$ 54,11",
-  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "valor_com_cupom_br": "R$ 58,27",
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.7",
   "pdf_aprovado_protocolo": null,
   "pdf_source": null,
   "pdf_is_generated": false,
@@ -6917,7 +7041,7 @@ Tratamento labial hidratante e nutritivo, indicado para lábios ressecados, ásp
   "categoria_intencao": [],
   "quando_indicar_direto": [],
   "indicacao_curta": null,
-  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_lakma35_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
+  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
 }
 ```
 
@@ -7043,21 +7167,21 @@ Produto profissional para massagem facial, indicado para protocolos de deslizame
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/masso-divine-massagem-facial---250g-1782745725011.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbWFzc28tZGl2aW5lLW1hc3NhZ2VtLWZhY2lhbC0tLTI1MGctMTc4Mjc0NTcyNTAxMS5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODYwLCJleHAiOjE3ODcxNjc2NjB9.byy23KeNVRjiEr40Ua7jupfbkYcvHYqrczL-szcZoOw ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/masso-divine-massagem-facial---250g-1782745725011.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbWFzc28tZGl2aW5lLW1hc3NhZ2VtLWZhY2lhbC0tLTI1MGctMTc4Mjc0NTcyNTAxMS5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODYwLCJleHAiOjE3ODcxNjc2NjB9.byy23KeNVRjiEr40Ua7jupfbkYcvHYqrczL-szcZoOw]]` no topo da resposta
+- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/masso-divine-massagem-facial---250g-1782745725011.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbWFzc28tZGl2aW5lLW1hc3NhZ2VtLWZhY2lhbC0tLTI1MGctMTc4Mjc0NTcyNTAxMS5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDMwLCJleHAiOjE3ODcyMjgyMzB9.FxcP23OJx8qqS2fAtNXiFHC9V_GijenF0mS41ymPkJE ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/masso-divine-massagem-facial---250g-1782745725011.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbWFzc28tZGl2aW5lLW1hc3NhZ2VtLWZhY2lhbC0tLTI1MGctMTc4Mjc0NTcyNTAxMS5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDMwLCJleHAiOjE3ODcyMjgyMzB9.FxcP23OJx8qqS2fAtNXiFHC9V_GijenF0mS41ymPkJE]]` no topo da resposta
 - **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
 - **Valor sem desconto:** R$ 157,54
-- **Valor com cupom LAKMA35:** R$ 102,40  _(calculado automaticamente = valor_sem_desconto × 0,65)_
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/masso-divine-massagem-facial-250g?_pos=1&_sid=8c2d863a0&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+- **Valor com cupom LAKMA30:** R$ 110,28  _(calculado automaticamente = valor_sem_desconto × 0.7)_
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/masso-divine-massagem-facial-250g?_pos=1&_sid=8c2d863a0&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
 
 ```json
 {
   "produto": "MASSO DIVINE, massagem facial - 250g",
   "aliases": [],
-  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/masso-divine-massagem-facial---250g-1782745725011.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbWFzc28tZGl2aW5lLW1hc3NhZ2VtLWZhY2lhbC0tLTI1MGctMTc4Mjc0NTcyNTAxMS5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODYwLCJleHAiOjE3ODcxNjc2NjB9.byy23KeNVRjiEr40Ua7jupfbkYcvHYqrczL-szcZoOw",
+  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/masso-divine-massagem-facial---250g-1782745725011.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbWFzc28tZGl2aW5lLW1hc3NhZ2VtLWZhY2lhbC0tLTI1MGctMTc4Mjc0NTcyNTAxMS5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDMwLCJleHAiOjE3ODcyMjgyMzB9.FxcP23OJx8qqS2fAtNXiFHC9V_GijenF0mS41ymPkJE",
   "campo_origem_foto": "image_url",
   "image_source": "product_database",
   "image_is_generated": false,
-  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/masso-divine-massagem-facial---250g-1782745725011.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbWFzc28tZGl2aW5lLW1hc3NhZ2VtLWZhY2lhbC0tLTI1MGctMTc4Mjc0NTcyNTAxMS5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODYwLCJleHAiOjE3ODcxNjc2NjB9.byy23KeNVRjiEr40Ua7jupfbkYcvHYqrczL-szcZoOw]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
+  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/masso-divine-massagem-facial---250g-1782745725011.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbWFzc28tZGl2aW5lLW1hc3NhZ2VtLWZhY2lhbC0tLTI1MGctMTc4Mjc0NTcyNTAxMS5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDMwLCJleHAiOjE3ODcyMjgyMzB9.FxcP23OJx8qqS2fAtNXiFHC9V_GijenF0mS41ymPkJE]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
   "link_individual_produto": "https://lakma.com.br/products/masso-divine-massagem-facial-250g?_pos=1&_sid=8c2d863a0&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -7065,17 +7189,20 @@ Produto profissional para massagem facial, indicado para protocolos de deslizame
   "link_site": "https://lakma.com.br/products/masso-divine-massagem-facial-250g?_pos=1&_sid=8c2d863a0&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA35",
-  "desconto_site": "35%",
+  "cupom_site": "LAKMA30",
+  "desconto_site": "30%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
   "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "cupom_ativo": true,
+  "cupom_codigo": "LAKMA30",
+  "cupom_desconto_percent": 30,
   "valor_sem_desconto": 157.54,
-  "valor_com_cupom_lakma35": 102.4,
+  "valor_com_cupom": 110.28,
   "valor_sem_desconto_br": "R$ 157,54",
-  "valor_com_cupom_lakma35_br": "R$ 102,40",
-  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "valor_com_cupom_br": "R$ 110,28",
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.7",
   "pdf_aprovado_protocolo": null,
   "pdf_source": null,
   "pdf_is_generated": false,
@@ -7084,7 +7211,7 @@ Produto profissional para massagem facial, indicado para protocolos de deslizame
   "categoria_intencao": [],
   "quando_indicar_direto": [],
   "indicacao_curta": null,
-  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_lakma35_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
+  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
 }
 ```
 
@@ -7224,21 +7351,21 @@ Kit profissional com 3 máscaras faciais finalizadoras premium, indicado para hi
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-j-ias-raras-1782745766680.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LWotaWFzLXJhcmFzLTE3ODI3NDU3NjY2ODAucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg2MCwiZXhwIjoxNzg3MTY3NjYwfQ.69SOaEMD6EZ6yHfq8ymQTLJP-itNeyHKEabRvf3ehEk ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-j-ias-raras-1782745766680.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LWotaWFzLXJhcmFzLTE3ODI3NDU3NjY2ODAucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg2MCwiZXhwIjoxNzg3MTY3NjYwfQ.69SOaEMD6EZ6yHfq8ymQTLJP-itNeyHKEabRvf3ehEk]]` no topo da resposta
+- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-j-ias-raras-1782745766680.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LWotaWFzLXJhcmFzLTE3ODI3NDU3NjY2ODAucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQzMSwiZXhwIjoxNzg3MjI4MjMxfQ.cekYntc6OvJwNC96WsMOvdFm20JesgpU29ZSvzCsWlE ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-j-ias-raras-1782745766680.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LWotaWFzLXJhcmFzLTE3ODI3NDU3NjY2ODAucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQzMSwiZXhwIjoxNzg3MjI4MjMxfQ.cekYntc6OvJwNC96WsMOvdFm20JesgpU29ZSvzCsWlE]]` no topo da resposta
 - **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
 - **Valor sem desconto:** R$ 493,61
-- **Valor com cupom LAKMA35:** R$ 320,85  _(calculado automaticamente = valor_sem_desconto × 0,65)_
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/kit-joias-raras?_pos=1&_sid=cc2e24439&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+- **Valor com cupom LAKMA30:** R$ 345,53  _(calculado automaticamente = valor_sem_desconto × 0.7)_
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/kit-joias-raras?_pos=1&_sid=cc2e24439&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
 
 ```json
 {
   "produto": "Kit Jóias Raras",
   "aliases": [],
-  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-j-ias-raras-1782745766680.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LWotaWFzLXJhcmFzLTE3ODI3NDU3NjY2ODAucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg2MCwiZXhwIjoxNzg3MTY3NjYwfQ.69SOaEMD6EZ6yHfq8ymQTLJP-itNeyHKEabRvf3ehEk",
+  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-j-ias-raras-1782745766680.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LWotaWFzLXJhcmFzLTE3ODI3NDU3NjY2ODAucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQzMSwiZXhwIjoxNzg3MjI4MjMxfQ.cekYntc6OvJwNC96WsMOvdFm20JesgpU29ZSvzCsWlE",
   "campo_origem_foto": "image_url",
   "image_source": "product_database",
   "image_is_generated": false,
-  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-j-ias-raras-1782745766680.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LWotaWFzLXJhcmFzLTE3ODI3NDU3NjY2ODAucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg2MCwiZXhwIjoxNzg3MTY3NjYwfQ.69SOaEMD6EZ6yHfq8ymQTLJP-itNeyHKEabRvf3ehEk]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
+  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-j-ias-raras-1782745766680.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LWotaWFzLXJhcmFzLTE3ODI3NDU3NjY2ODAucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQzMSwiZXhwIjoxNzg3MjI4MjMxfQ.cekYntc6OvJwNC96WsMOvdFm20JesgpU29ZSvzCsWlE]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
   "link_individual_produto": "https://lakma.com.br/products/kit-joias-raras?_pos=1&_sid=cc2e24439&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -7246,17 +7373,20 @@ Kit profissional com 3 máscaras faciais finalizadoras premium, indicado para hi
   "link_site": "https://lakma.com.br/products/kit-joias-raras?_pos=1&_sid=cc2e24439&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA35",
-  "desconto_site": "35%",
+  "cupom_site": "LAKMA30",
+  "desconto_site": "30%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
   "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "cupom_ativo": true,
+  "cupom_codigo": "LAKMA30",
+  "cupom_desconto_percent": 30,
   "valor_sem_desconto": 493.61,
-  "valor_com_cupom_lakma35": 320.85,
+  "valor_com_cupom": 345.53,
   "valor_sem_desconto_br": "R$ 493,61",
-  "valor_com_cupom_lakma35_br": "R$ 320,85",
-  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "valor_com_cupom_br": "R$ 345,53",
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.7",
   "pdf_aprovado_protocolo": null,
   "pdf_source": null,
   "pdf_is_generated": false,
@@ -7265,7 +7395,7 @@ Kit profissional com 3 máscaras faciais finalizadoras premium, indicado para hi
   "categoria_intencao": [],
   "quando_indicar_direto": [],
   "indicacao_curta": null,
-  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_lakma35_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
+  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
 }
 ```
 
@@ -7407,21 +7537,21 @@ Creme emoliente facial profissional, indicado para emoliência de cravos, comed�
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/emoliente-de-cravos---250g-1782745809918.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZW1vbGllbnRlLWRlLWNyYXZvcy0tLTI1MGctMTc4Mjc0NTgwOTkxOC5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODYwLCJleHAiOjE3ODcxNjc2NjB9.f5x9NLVsrGzOrXNkdUBIOto8o8nTy_KJ9UewOQf5ino ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/emoliente-de-cravos---250g-1782745809918.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZW1vbGllbnRlLWRlLWNyYXZvcy0tLTI1MGctMTc4Mjc0NTgwOTkxOC5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODYwLCJleHAiOjE3ODcxNjc2NjB9.f5x9NLVsrGzOrXNkdUBIOto8o8nTy_KJ9UewOQf5ino]]` no topo da resposta
+- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/emoliente-de-cravos---250g-1782745809918.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZW1vbGllbnRlLWRlLWNyYXZvcy0tLTI1MGctMTc4Mjc0NTgwOTkxOC5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDMxLCJleHAiOjE3ODcyMjgyMzF9.zgrl1TkwOB-Le5Z4aAkuNO80exrRoUd0bHZ7OpVJq7A ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/emoliente-de-cravos---250g-1782745809918.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZW1vbGllbnRlLWRlLWNyYXZvcy0tLTI1MGctMTc4Mjc0NTgwOTkxOC5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDMxLCJleHAiOjE3ODcyMjgyMzF9.zgrl1TkwOB-Le5Z4aAkuNO80exrRoUd0bHZ7OpVJq7A]]` no topo da resposta
 - **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
 - **Valor sem desconto:** R$ 139,90
-- **Valor com cupom LAKMA35:** R$ 90,94  _(calculado automaticamente = valor_sem_desconto × 0,65)_
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/emoliente-de-cravos-250gr?_pos=1&_sid=3dbce4669&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+- **Valor com cupom LAKMA30:** R$ 97,93  _(calculado automaticamente = valor_sem_desconto × 0.7)_
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/emoliente-de-cravos-250gr?_pos=1&_sid=3dbce4669&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
 
 ```json
 {
   "produto": "Emoliente de Cravos - 250g",
   "aliases": [],
-  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/emoliente-de-cravos---250g-1782745809918.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZW1vbGllbnRlLWRlLWNyYXZvcy0tLTI1MGctMTc4Mjc0NTgwOTkxOC5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODYwLCJleHAiOjE3ODcxNjc2NjB9.f5x9NLVsrGzOrXNkdUBIOto8o8nTy_KJ9UewOQf5ino",
+  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/emoliente-de-cravos---250g-1782745809918.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZW1vbGllbnRlLWRlLWNyYXZvcy0tLTI1MGctMTc4Mjc0NTgwOTkxOC5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDMxLCJleHAiOjE3ODcyMjgyMzF9.zgrl1TkwOB-Le5Z4aAkuNO80exrRoUd0bHZ7OpVJq7A",
   "campo_origem_foto": "image_url",
   "image_source": "product_database",
   "image_is_generated": false,
-  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/emoliente-de-cravos---250g-1782745809918.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZW1vbGllbnRlLWRlLWNyYXZvcy0tLTI1MGctMTc4Mjc0NTgwOTkxOC5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODYwLCJleHAiOjE3ODcxNjc2NjB9.f5x9NLVsrGzOrXNkdUBIOto8o8nTy_KJ9UewOQf5ino]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
+  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/emoliente-de-cravos---250g-1782745809918.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZW1vbGllbnRlLWRlLWNyYXZvcy0tLTI1MGctMTc4Mjc0NTgwOTkxOC5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDMxLCJleHAiOjE3ODcyMjgyMzF9.zgrl1TkwOB-Le5Z4aAkuNO80exrRoUd0bHZ7OpVJq7A]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
   "link_individual_produto": "https://lakma.com.br/products/emoliente-de-cravos-250gr?_pos=1&_sid=3dbce4669&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -7429,17 +7559,20 @@ Creme emoliente facial profissional, indicado para emoliência de cravos, comed�
   "link_site": "https://lakma.com.br/products/emoliente-de-cravos-250gr?_pos=1&_sid=3dbce4669&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA35",
-  "desconto_site": "35%",
+  "cupom_site": "LAKMA30",
+  "desconto_site": "30%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
   "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "cupom_ativo": true,
+  "cupom_codigo": "LAKMA30",
+  "cupom_desconto_percent": 30,
   "valor_sem_desconto": 139.9,
-  "valor_com_cupom_lakma35": 90.94,
+  "valor_com_cupom": 97.93,
   "valor_sem_desconto_br": "R$ 139,90",
-  "valor_com_cupom_lakma35_br": "R$ 90,94",
-  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "valor_com_cupom_br": "R$ 97,93",
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.7",
   "pdf_aprovado_protocolo": null,
   "pdf_source": null,
   "pdf_is_generated": false,
@@ -7448,7 +7581,7 @@ Creme emoliente facial profissional, indicado para emoliência de cravos, comed�
   "categoria_intencao": [],
   "quando_indicar_direto": [],
   "indicacao_curta": null,
-  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_lakma35_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
+  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
 }
 ```
 
@@ -7592,21 +7725,21 @@ Sérum facial multifuncional com ação clareadora, rejuvenescedora, hidratante 
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/nano-drone-clareador-rejuvenescedor-hidratante---30ml-1782745854296.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbmFuby1kcm9uZS1jbGFyZWFkb3ItcmVqdXZlbmVzY2Vkb3ItaGlkcmF0YW50ZS0tLTMwbWwtMTc4Mjc0NTg1NDI5Ni5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODYxLCJleHAiOjE3ODcxNjc2NjF9.6X0lKYVlS4yL2-Gozrm_RBtldP0JueGBot0QoyBb2x4 ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/nano-drone-clareador-rejuvenescedor-hidratante---30ml-1782745854296.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbmFuby1kcm9uZS1jbGFyZWFkb3ItcmVqdXZlbmVzY2Vkb3ItaGlkcmF0YW50ZS0tLTMwbWwtMTc4Mjc0NTg1NDI5Ni5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODYxLCJleHAiOjE3ODcxNjc2NjF9.6X0lKYVlS4yL2-Gozrm_RBtldP0JueGBot0QoyBb2x4]]` no topo da resposta
+- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/nano-drone-clareador-rejuvenescedor-hidratante---30ml-1782745854296.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbmFuby1kcm9uZS1jbGFyZWFkb3ItcmVqdXZlbmVzY2Vkb3ItaGlkcmF0YW50ZS0tLTMwbWwtMTc4Mjc0NTg1NDI5Ni5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDMxLCJleHAiOjE3ODcyMjgyMzF9.KQz5-MphPXDxMkslHqyp9myvdB8MoR955nHqy5BFYR0 ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/nano-drone-clareador-rejuvenescedor-hidratante---30ml-1782745854296.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbmFuby1kcm9uZS1jbGFyZWFkb3ItcmVqdXZlbmVzY2Vkb3ItaGlkcmF0YW50ZS0tLTMwbWwtMTc4Mjc0NTg1NDI5Ni5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDMxLCJleHAiOjE3ODcyMjgyMzF9.KQz5-MphPXDxMkslHqyp9myvdB8MoR955nHqy5BFYR0]]` no topo da resposta
 - **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
 - **Valor sem desconto:** R$ 225,46
-- **Valor com cupom LAKMA35:** R$ 146,55  _(calculado automaticamente = valor_sem_desconto × 0,65)_
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/nano-drone-clareador-rejuvenescedor-hidratante-30ml?_pos=1&_sid=b4eaa40f4&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+- **Valor com cupom LAKMA30:** R$ 157,82  _(calculado automaticamente = valor_sem_desconto × 0.7)_
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/nano-drone-clareador-rejuvenescedor-hidratante-30ml?_pos=1&_sid=b4eaa40f4&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
 
 ```json
 {
   "produto": "Nano Drone, clareador, rejuvenescedor, hidratante - 30ml",
   "aliases": [],
-  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/nano-drone-clareador-rejuvenescedor-hidratante---30ml-1782745854296.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbmFuby1kcm9uZS1jbGFyZWFkb3ItcmVqdXZlbmVzY2Vkb3ItaGlkcmF0YW50ZS0tLTMwbWwtMTc4Mjc0NTg1NDI5Ni5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODYxLCJleHAiOjE3ODcxNjc2NjF9.6X0lKYVlS4yL2-Gozrm_RBtldP0JueGBot0QoyBb2x4",
+  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/nano-drone-clareador-rejuvenescedor-hidratante---30ml-1782745854296.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbmFuby1kcm9uZS1jbGFyZWFkb3ItcmVqdXZlbmVzY2Vkb3ItaGlkcmF0YW50ZS0tLTMwbWwtMTc4Mjc0NTg1NDI5Ni5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDMxLCJleHAiOjE3ODcyMjgyMzF9.KQz5-MphPXDxMkslHqyp9myvdB8MoR955nHqy5BFYR0",
   "campo_origem_foto": "image_url",
   "image_source": "product_database",
   "image_is_generated": false,
-  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/nano-drone-clareador-rejuvenescedor-hidratante---30ml-1782745854296.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbmFuby1kcm9uZS1jbGFyZWFkb3ItcmVqdXZlbmVzY2Vkb3ItaGlkcmF0YW50ZS0tLTMwbWwtMTc4Mjc0NTg1NDI5Ni5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODYxLCJleHAiOjE3ODcxNjc2NjF9.6X0lKYVlS4yL2-Gozrm_RBtldP0JueGBot0QoyBb2x4]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
+  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/nano-drone-clareador-rejuvenescedor-hidratante---30ml-1782745854296.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbmFuby1kcm9uZS1jbGFyZWFkb3ItcmVqdXZlbmVzY2Vkb3ItaGlkcmF0YW50ZS0tLTMwbWwtMTc4Mjc0NTg1NDI5Ni5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDMxLCJleHAiOjE3ODcyMjgyMzF9.KQz5-MphPXDxMkslHqyp9myvdB8MoR955nHqy5BFYR0]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
   "link_individual_produto": "https://lakma.com.br/products/nano-drone-clareador-rejuvenescedor-hidratante-30ml?_pos=1&_sid=b4eaa40f4&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -7614,17 +7747,20 @@ Sérum facial multifuncional com ação clareadora, rejuvenescedora, hidratante 
   "link_site": "https://lakma.com.br/products/nano-drone-clareador-rejuvenescedor-hidratante-30ml?_pos=1&_sid=b4eaa40f4&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA35",
-  "desconto_site": "35%",
+  "cupom_site": "LAKMA30",
+  "desconto_site": "30%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
   "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "cupom_ativo": true,
+  "cupom_codigo": "LAKMA30",
+  "cupom_desconto_percent": 30,
   "valor_sem_desconto": 225.46,
-  "valor_com_cupom_lakma35": 146.55,
+  "valor_com_cupom": 157.82,
   "valor_sem_desconto_br": "R$ 225,46",
-  "valor_com_cupom_lakma35_br": "R$ 146,55",
-  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "valor_com_cupom_br": "R$ 157,82",
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.7",
   "pdf_aprovado_protocolo": null,
   "pdf_source": null,
   "pdf_is_generated": false,
@@ -7633,7 +7769,7 @@ Sérum facial multifuncional com ação clareadora, rejuvenescedora, hidratante 
   "categoria_intencao": [],
   "quando_indicar_direto": [],
   "indicacao_curta": null,
-  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_lakma35_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
+  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
 }
 ```
 
@@ -7780,20 +7916,20 @@ Protetor solar facial FPS 30 com Vitamina E, indicado para proteção UVA/UVB, p
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/ideal-protect---protetor-solar-50g-1782745907683.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvaWRlYWwtcHJvdGVjdC0tLXByb3RldG9yLXNvbGFyLTUwZy0xNzgyNzQ1OTA3NjgzLnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY1NjI4NjEsImV4cCI6MTc4NzE2NzY2MX0.KZBUuDFJJ_7k2fxylFyP5r5AH7BeL8cvFks5Uwk6LKQ ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/ideal-protect---protetor-solar-50g-1782745907683.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvaWRlYWwtcHJvdGVjdC0tLXByb3RldG9yLXNvbGFyLTUwZy0xNzgyNzQ1OTA3NjgzLnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY1NjI4NjEsImV4cCI6MTc4NzE2NzY2MX0.KZBUuDFJJ_7k2fxylFyP5r5AH7BeL8cvFks5Uwk6LKQ]]` no topo da resposta
+- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/ideal-protect---protetor-solar-50g-1782745907683.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvaWRlYWwtcHJvdGVjdC0tLXByb3RldG9yLXNvbGFyLTUwZy0xNzgyNzQ1OTA3NjgzLnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY2MjM0MzEsImV4cCI6MTc4NzIyODIzMX0.cgyaXiMSse_-rWGoNN83dX82u3obrUVTS5u_Ec1JwgI ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/ideal-protect---protetor-solar-50g-1782745907683.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvaWRlYWwtcHJvdGVjdC0tLXByb3RldG9yLXNvbGFyLTUwZy0xNzgyNzQ1OTA3NjgzLnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY2MjM0MzEsImV4cCI6MTc4NzIyODIzMX0.cgyaXiMSse_-rWGoNN83dX82u3obrUVTS5u_Ec1JwgI]]` no topo da resposta
 - **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
 - **Valor:** _(não cadastrado — NÃO inventar preço; responder "Você consegue consultar o valor atualizado diretamente no link oficial.")_
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/ideal-protect-protetor-solar-50gr?_pos=1&_sid=30aa08e72&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/ideal-protect-protetor-solar-50gr?_pos=1&_sid=30aa08e72&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
 
 ```json
 {
   "produto": "Ideal Protect - Protetor Solar 50g",
   "aliases": [],
-  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/ideal-protect---protetor-solar-50g-1782745907683.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvaWRlYWwtcHJvdGVjdC0tLXByb3RldG9yLXNvbGFyLTUwZy0xNzgyNzQ1OTA3NjgzLnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY1NjI4NjEsImV4cCI6MTc4NzE2NzY2MX0.KZBUuDFJJ_7k2fxylFyP5r5AH7BeL8cvFks5Uwk6LKQ",
+  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/ideal-protect---protetor-solar-50g-1782745907683.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvaWRlYWwtcHJvdGVjdC0tLXByb3RldG9yLXNvbGFyLTUwZy0xNzgyNzQ1OTA3NjgzLnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY2MjM0MzEsImV4cCI6MTc4NzIyODIzMX0.cgyaXiMSse_-rWGoNN83dX82u3obrUVTS5u_Ec1JwgI",
   "campo_origem_foto": "image_url",
   "image_source": "product_database",
   "image_is_generated": false,
-  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/ideal-protect---protetor-solar-50g-1782745907683.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvaWRlYWwtcHJvdGVjdC0tLXByb3RldG9yLXNvbGFyLTUwZy0xNzgyNzQ1OTA3NjgzLnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY1NjI4NjEsImV4cCI6MTc4NzE2NzY2MX0.KZBUuDFJJ_7k2fxylFyP5r5AH7BeL8cvFks5Uwk6LKQ]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
+  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/ideal-protect---protetor-solar-50g-1782745907683.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvaWRlYWwtcHJvdGVjdC0tLXByb3RldG9yLXNvbGFyLTUwZy0xNzgyNzQ1OTA3NjgzLnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY2MjM0MzEsImV4cCI6MTc4NzIyODIzMX0.cgyaXiMSse_-rWGoNN83dX82u3obrUVTS5u_Ec1JwgI]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
   "link_individual_produto": "https://lakma.com.br/products/ideal-protect-protetor-solar-50gr?_pos=1&_sid=30aa08e72&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -7801,17 +7937,20 @@ Protetor solar facial FPS 30 com Vitamina E, indicado para proteção UVA/UVB, p
   "link_site": "https://lakma.com.br/products/ideal-protect-protetor-solar-50gr?_pos=1&_sid=30aa08e72&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA35",
-  "desconto_site": "35%",
+  "cupom_site": "LAKMA30",
+  "desconto_site": "30%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
   "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "cupom_ativo": true,
+  "cupom_codigo": "LAKMA30",
+  "cupom_desconto_percent": 30,
   "valor_sem_desconto": null,
-  "valor_com_cupom_lakma35": null,
+  "valor_com_cupom": null,
   "valor_sem_desconto_br": null,
-  "valor_com_cupom_lakma35_br": null,
-  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "valor_com_cupom_br": null,
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.7",
   "pdf_aprovado_protocolo": null,
   "pdf_source": null,
   "pdf_is_generated": false,
@@ -7976,21 +8115,21 @@ Peeling químico profissional com Ácido Glicólico, indicado para renovação c
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/peeling-rejuvenescedor---50ml-1782745953435.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvcGVlbGluZy1yZWp1dmVuZXNjZWRvci0tLTUwbWwtMTc4Mjc0NTk1MzQzNS5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODYxLCJleHAiOjE3ODcxNjc2NjF9.YxHWaYB1tn6FhXPS-vR47ADrHd-pivXzRKXTNxeT_sM ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/peeling-rejuvenescedor---50ml-1782745953435.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvcGVlbGluZy1yZWp1dmVuZXNjZWRvci0tLTUwbWwtMTc4Mjc0NTk1MzQzNS5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODYxLCJleHAiOjE3ODcxNjc2NjF9.YxHWaYB1tn6FhXPS-vR47ADrHd-pivXzRKXTNxeT_sM]]` no topo da resposta
+- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/peeling-rejuvenescedor---50ml-1782745953435.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvcGVlbGluZy1yZWp1dmVuZXNjZWRvci0tLTUwbWwtMTc4Mjc0NTk1MzQzNS5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDMyLCJleHAiOjE3ODcyMjgyMzJ9.w8gjRwhhM5Qy4cz81xVFKZk1eorEMKz9dB8WSSnYEuk ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/peeling-rejuvenescedor---50ml-1782745953435.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvcGVlbGluZy1yZWp1dmVuZXNjZWRvci0tLTUwbWwtMTc4Mjc0NTk1MzQzNS5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDMyLCJleHAiOjE3ODcyMjgyMzJ9.w8gjRwhhM5Qy4cz81xVFKZk1eorEMKz9dB8WSSnYEuk]]` no topo da resposta
 - **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
 - **Valor sem desconto:** R$ 163,02
-- **Valor com cupom LAKMA35:** R$ 105,96  _(calculado automaticamente = valor_sem_desconto × 0,65)_
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/peeling-rejuvenescedor-50ml?_pos=1&_sid=b70efd411&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+- **Valor com cupom LAKMA30:** R$ 114,11  _(calculado automaticamente = valor_sem_desconto × 0.7)_
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/peeling-rejuvenescedor-50ml?_pos=1&_sid=b70efd411&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
 
 ```json
 {
   "produto": "Peeling Rejuvenescedor - 50ml",
   "aliases": [],
-  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/peeling-rejuvenescedor---50ml-1782745953435.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvcGVlbGluZy1yZWp1dmVuZXNjZWRvci0tLTUwbWwtMTc4Mjc0NTk1MzQzNS5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODYxLCJleHAiOjE3ODcxNjc2NjF9.YxHWaYB1tn6FhXPS-vR47ADrHd-pivXzRKXTNxeT_sM",
+  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/peeling-rejuvenescedor---50ml-1782745953435.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvcGVlbGluZy1yZWp1dmVuZXNjZWRvci0tLTUwbWwtMTc4Mjc0NTk1MzQzNS5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDMyLCJleHAiOjE3ODcyMjgyMzJ9.w8gjRwhhM5Qy4cz81xVFKZk1eorEMKz9dB8WSSnYEuk",
   "campo_origem_foto": "image_url",
   "image_source": "product_database",
   "image_is_generated": false,
-  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/peeling-rejuvenescedor---50ml-1782745953435.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvcGVlbGluZy1yZWp1dmVuZXNjZWRvci0tLTUwbWwtMTc4Mjc0NTk1MzQzNS5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODYxLCJleHAiOjE3ODcxNjc2NjF9.YxHWaYB1tn6FhXPS-vR47ADrHd-pivXzRKXTNxeT_sM]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
+  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/peeling-rejuvenescedor---50ml-1782745953435.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvcGVlbGluZy1yZWp1dmVuZXNjZWRvci0tLTUwbWwtMTc4Mjc0NTk1MzQzNS5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDMyLCJleHAiOjE3ODcyMjgyMzJ9.w8gjRwhhM5Qy4cz81xVFKZk1eorEMKz9dB8WSSnYEuk]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
   "link_individual_produto": "https://lakma.com.br/products/peeling-rejuvenescedor-50ml?_pos=1&_sid=b70efd411&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -7998,17 +8137,20 @@ Peeling químico profissional com Ácido Glicólico, indicado para renovação c
   "link_site": "https://lakma.com.br/products/peeling-rejuvenescedor-50ml?_pos=1&_sid=b70efd411&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA35",
-  "desconto_site": "35%",
+  "cupom_site": "LAKMA30",
+  "desconto_site": "30%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
   "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "cupom_ativo": true,
+  "cupom_codigo": "LAKMA30",
+  "cupom_desconto_percent": 30,
   "valor_sem_desconto": 163.02,
-  "valor_com_cupom_lakma35": 105.96,
+  "valor_com_cupom": 114.11,
   "valor_sem_desconto_br": "R$ 163,02",
-  "valor_com_cupom_lakma35_br": "R$ 105,96",
-  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "valor_com_cupom_br": "R$ 114,11",
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.7",
   "pdf_aprovado_protocolo": null,
   "pdf_source": null,
   "pdf_is_generated": false,
@@ -8017,7 +8159,7 @@ Peeling químico profissional com Ácido Glicólico, indicado para renovação c
   "categoria_intencao": [],
   "quando_indicar_direto": [],
   "indicacao_curta": null,
-  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_lakma35_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
+  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
 }
 ```
 
@@ -8153,21 +8295,21 @@ Loção tônica facial para tonificação, controle de pH, frescor e remoção d
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/lo-o-t-nica---200ml-1782745988993.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbG8tby10LW5pY2EtLS0yMDBtbC0xNzgyNzQ1OTg4OTkzLnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY1NjI4NjEsImV4cCI6MTc4NzE2NzY2MX0.Vr1-_E8dsQgkIXlCJu11ngt7Wtt4tV9nR9BbdK4e-Q4 ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/lo-o-t-nica---200ml-1782745988993.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbG8tby10LW5pY2EtLS0yMDBtbC0xNzgyNzQ1OTg4OTkzLnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY1NjI4NjEsImV4cCI6MTc4NzE2NzY2MX0.Vr1-_E8dsQgkIXlCJu11ngt7Wtt4tV9nR9BbdK4e-Q4]]` no topo da resposta
+- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/lo-o-t-nica---200ml-1782745988993.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbG8tby10LW5pY2EtLS0yMDBtbC0xNzgyNzQ1OTg4OTkzLnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY2MjM0MzIsImV4cCI6MTc4NzIyODIzMn0.jKW_oYwTe0DZ0wr9AlqEiDXCM1ZYSVl3z0XaUNdrP_o ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/lo-o-t-nica---200ml-1782745988993.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbG8tby10LW5pY2EtLS0yMDBtbC0xNzgyNzQ1OTg4OTkzLnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY2MjM0MzIsImV4cCI6MTc4NzIyODIzMn0.jKW_oYwTe0DZ0wr9AlqEiDXCM1ZYSVl3z0XaUNdrP_o]]` no topo da resposta
 - **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
 - **Valor sem desconto:** R$ 95,48
-- **Valor com cupom LAKMA35:** R$ 62,06  _(calculado automaticamente = valor_sem_desconto × 0,65)_
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/locao-tonica-200ml?_pos=1&_sid=8de5c51f8&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+- **Valor com cupom LAKMA30:** R$ 66,84  _(calculado automaticamente = valor_sem_desconto × 0.7)_
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/locao-tonica-200ml?_pos=1&_sid=8de5c51f8&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
 
 ```json
 {
   "produto": "Loção Tônica - 200ml",
   "aliases": [],
-  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/lo-o-t-nica---200ml-1782745988993.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbG8tby10LW5pY2EtLS0yMDBtbC0xNzgyNzQ1OTg4OTkzLnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY1NjI4NjEsImV4cCI6MTc4NzE2NzY2MX0.Vr1-_E8dsQgkIXlCJu11ngt7Wtt4tV9nR9BbdK4e-Q4",
+  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/lo-o-t-nica---200ml-1782745988993.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbG8tby10LW5pY2EtLS0yMDBtbC0xNzgyNzQ1OTg4OTkzLnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY2MjM0MzIsImV4cCI6MTc4NzIyODIzMn0.jKW_oYwTe0DZ0wr9AlqEiDXCM1ZYSVl3z0XaUNdrP_o",
   "campo_origem_foto": "image_url",
   "image_source": "product_database",
   "image_is_generated": false,
-  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/lo-o-t-nica---200ml-1782745988993.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbG8tby10LW5pY2EtLS0yMDBtbC0xNzgyNzQ1OTg4OTkzLnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY1NjI4NjEsImV4cCI6MTc4NzE2NzY2MX0.Vr1-_E8dsQgkIXlCJu11ngt7Wtt4tV9nR9BbdK4e-Q4]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
+  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/lo-o-t-nica---200ml-1782745988993.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbG8tby10LW5pY2EtLS0yMDBtbC0xNzgyNzQ1OTg4OTkzLnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY2MjM0MzIsImV4cCI6MTc4NzIyODIzMn0.jKW_oYwTe0DZ0wr9AlqEiDXCM1ZYSVl3z0XaUNdrP_o]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
   "link_individual_produto": "https://lakma.com.br/products/locao-tonica-200ml?_pos=1&_sid=8de5c51f8&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -8175,17 +8317,20 @@ Loção tônica facial para tonificação, controle de pH, frescor e remoção d
   "link_site": "https://lakma.com.br/products/locao-tonica-200ml?_pos=1&_sid=8de5c51f8&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA35",
-  "desconto_site": "35%",
+  "cupom_site": "LAKMA30",
+  "desconto_site": "30%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
   "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "cupom_ativo": true,
+  "cupom_codigo": "LAKMA30",
+  "cupom_desconto_percent": 30,
   "valor_sem_desconto": 95.48,
-  "valor_com_cupom_lakma35": 62.06,
+  "valor_com_cupom": 66.84,
   "valor_sem_desconto_br": "R$ 95,48",
-  "valor_com_cupom_lakma35_br": "R$ 62,06",
-  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "valor_com_cupom_br": "R$ 66,84",
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.7",
   "pdf_aprovado_protocolo": null,
   "pdf_source": null,
   "pdf_is_generated": false,
@@ -8194,7 +8339,7 @@ Loção tônica facial para tonificação, controle de pH, frescor e remoção d
   "categoria_intencao": [],
   "quando_indicar_direto": [],
   "indicacao_curta": null,
-  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_lakma35_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
+  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
 }
 ```
 
@@ -8345,21 +8490,21 @@ Booster facial profissional com foco em colágeno, elastina, firmeza, hidrataç�
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/booster-col-geno---50ml-1782746023636.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvYm9vc3Rlci1jb2wtZ2Vuby0tLTUwbWwtMTc4Mjc0NjAyMzYzNi5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODYyLCJleHAiOjE3ODcxNjc2NjJ9.NhTFJNoEdHzA1Ke4IwCEUDuc49YeErbKuPs1hg2_ULw ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/booster-col-geno---50ml-1782746023636.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvYm9vc3Rlci1jb2wtZ2Vuby0tLTUwbWwtMTc4Mjc0NjAyMzYzNi5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODYyLCJleHAiOjE3ODcxNjc2NjJ9.NhTFJNoEdHzA1Ke4IwCEUDuc49YeErbKuPs1hg2_ULw]]` no topo da resposta
+- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/booster-col-geno---50ml-1782746023636.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvYm9vc3Rlci1jb2wtZ2Vuby0tLTUwbWwtMTc4Mjc0NjAyMzYzNi5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDMyLCJleHAiOjE3ODcyMjgyMzJ9.d95fIGFDKGzpfGwq6uj89g97169SJAKQZbhbzphuBrg ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/booster-col-geno---50ml-1782746023636.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvYm9vc3Rlci1jb2wtZ2Vuby0tLTUwbWwtMTc4Mjc0NjAyMzYzNi5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDMyLCJleHAiOjE3ODcyMjgyMzJ9.d95fIGFDKGzpfGwq6uj89g97169SJAKQZbhbzphuBrg]]` no topo da resposta
 - **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
 - **Valor sem desconto:** R$ 266,89
-- **Valor com cupom LAKMA35:** R$ 173,48  _(calculado automaticamente = valor_sem_desconto × 0,65)_
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/booster-colageno-50ml?_pos=1&_sid=3164bec58&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+- **Valor com cupom LAKMA30:** R$ 186,82  _(calculado automaticamente = valor_sem_desconto × 0.7)_
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/booster-colageno-50ml?_pos=1&_sid=3164bec58&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
 
 ```json
 {
   "produto": "Booster Colágeno - 50ml",
   "aliases": [],
-  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/booster-col-geno---50ml-1782746023636.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvYm9vc3Rlci1jb2wtZ2Vuby0tLTUwbWwtMTc4Mjc0NjAyMzYzNi5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODYyLCJleHAiOjE3ODcxNjc2NjJ9.NhTFJNoEdHzA1Ke4IwCEUDuc49YeErbKuPs1hg2_ULw",
+  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/booster-col-geno---50ml-1782746023636.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvYm9vc3Rlci1jb2wtZ2Vuby0tLTUwbWwtMTc4Mjc0NjAyMzYzNi5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDMyLCJleHAiOjE3ODcyMjgyMzJ9.d95fIGFDKGzpfGwq6uj89g97169SJAKQZbhbzphuBrg",
   "campo_origem_foto": "image_url",
   "image_source": "product_database",
   "image_is_generated": false,
-  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/booster-col-geno---50ml-1782746023636.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvYm9vc3Rlci1jb2wtZ2Vuby0tLTUwbWwtMTc4Mjc0NjAyMzYzNi5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODYyLCJleHAiOjE3ODcxNjc2NjJ9.NhTFJNoEdHzA1Ke4IwCEUDuc49YeErbKuPs1hg2_ULw]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
+  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/booster-col-geno---50ml-1782746023636.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvYm9vc3Rlci1jb2wtZ2Vuby0tLTUwbWwtMTc4Mjc0NjAyMzYzNi5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDMyLCJleHAiOjE3ODcyMjgyMzJ9.d95fIGFDKGzpfGwq6uj89g97169SJAKQZbhbzphuBrg]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
   "link_individual_produto": "https://lakma.com.br/products/booster-colageno-50ml?_pos=1&_sid=3164bec58&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -8367,17 +8512,20 @@ Booster facial profissional com foco em colágeno, elastina, firmeza, hidrataç�
   "link_site": "https://lakma.com.br/products/booster-colageno-50ml?_pos=1&_sid=3164bec58&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA35",
-  "desconto_site": "35%",
+  "cupom_site": "LAKMA30",
+  "desconto_site": "30%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
   "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "cupom_ativo": true,
+  "cupom_codigo": "LAKMA30",
+  "cupom_desconto_percent": 30,
   "valor_sem_desconto": 266.89,
-  "valor_com_cupom_lakma35": 173.48,
+  "valor_com_cupom": 186.82,
   "valor_sem_desconto_br": "R$ 266,89",
-  "valor_com_cupom_lakma35_br": "R$ 173,48",
-  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "valor_com_cupom_br": "R$ 186,82",
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.7",
   "pdf_aprovado_protocolo": null,
   "pdf_source": null,
   "pdf_is_generated": false,
@@ -8386,7 +8534,7 @@ Booster facial profissional com foco em colágeno, elastina, firmeza, hidrataç�
   "categoria_intencao": [],
   "quando_indicar_direto": [],
   "indicacao_curta": null,
-  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_lakma35_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
+  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
 }
 ```
 
@@ -8533,21 +8681,21 @@ Creme corporal profissional neutro para massagem, indicado para alto deslizament
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/creme-de-massagem-neutro---1kg-1782746069816.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvY3JlbWUtZGUtbWFzc2FnZW0tbmV1dHJvLS0tMWtnLTE3ODI3NDYwNjk4MTYucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg2MiwiZXhwIjoxNzg3MTY3NjYyfQ.2OcbM4_Qy0jmBkN5mwB4eFHFIqldFyT5FTHK3vf8MaM ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/creme-de-massagem-neutro---1kg-1782746069816.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvY3JlbWUtZGUtbWFzc2FnZW0tbmV1dHJvLS0tMWtnLTE3ODI3NDYwNjk4MTYucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg2MiwiZXhwIjoxNzg3MTY3NjYyfQ.2OcbM4_Qy0jmBkN5mwB4eFHFIqldFyT5FTHK3vf8MaM]]` no topo da resposta
+- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/creme-de-massagem-neutro---1kg-1782746069816.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvY3JlbWUtZGUtbWFzc2FnZW0tbmV1dHJvLS0tMWtnLTE3ODI3NDYwNjk4MTYucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQzMiwiZXhwIjoxNzg3MjI4MjMyfQ.raCm0AhJWFAEsWVIZLEKAvCJpszfn2iMfUXAjECA8iY ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/creme-de-massagem-neutro---1kg-1782746069816.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvY3JlbWUtZGUtbWFzc2FnZW0tbmV1dHJvLS0tMWtnLTE3ODI3NDYwNjk4MTYucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQzMiwiZXhwIjoxNzg3MjI4MjMyfQ.raCm0AhJWFAEsWVIZLEKAvCJpszfn2iMfUXAjECA8iY]]` no topo da resposta
 - **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
 - **Valor sem desconto:** R$ 140,48
-- **Valor com cupom LAKMA35:** R$ 91,31  _(calculado automaticamente = valor_sem_desconto × 0,65)_
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/creme-de-massagem-neutro-1kg?_pos=1&_sid=3277b35f1&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+- **Valor com cupom LAKMA30:** R$ 98,34  _(calculado automaticamente = valor_sem_desconto × 0.7)_
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/creme-de-massagem-neutro-1kg?_pos=1&_sid=3277b35f1&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
 
 ```json
 {
   "produto": "Creme de Massagem Neutro - 1kg",
   "aliases": [],
-  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/creme-de-massagem-neutro---1kg-1782746069816.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvY3JlbWUtZGUtbWFzc2FnZW0tbmV1dHJvLS0tMWtnLTE3ODI3NDYwNjk4MTYucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg2MiwiZXhwIjoxNzg3MTY3NjYyfQ.2OcbM4_Qy0jmBkN5mwB4eFHFIqldFyT5FTHK3vf8MaM",
+  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/creme-de-massagem-neutro---1kg-1782746069816.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvY3JlbWUtZGUtbWFzc2FnZW0tbmV1dHJvLS0tMWtnLTE3ODI3NDYwNjk4MTYucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQzMiwiZXhwIjoxNzg3MjI4MjMyfQ.raCm0AhJWFAEsWVIZLEKAvCJpszfn2iMfUXAjECA8iY",
   "campo_origem_foto": "image_url",
   "image_source": "product_database",
   "image_is_generated": false,
-  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/creme-de-massagem-neutro---1kg-1782746069816.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvY3JlbWUtZGUtbWFzc2FnZW0tbmV1dHJvLS0tMWtnLTE3ODI3NDYwNjk4MTYucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg2MiwiZXhwIjoxNzg3MTY3NjYyfQ.2OcbM4_Qy0jmBkN5mwB4eFHFIqldFyT5FTHK3vf8MaM]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
+  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/creme-de-massagem-neutro---1kg-1782746069816.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvY3JlbWUtZGUtbWFzc2FnZW0tbmV1dHJvLS0tMWtnLTE3ODI3NDYwNjk4MTYucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQzMiwiZXhwIjoxNzg3MjI4MjMyfQ.raCm0AhJWFAEsWVIZLEKAvCJpszfn2iMfUXAjECA8iY]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
   "link_individual_produto": "https://lakma.com.br/products/creme-de-massagem-neutro-1kg?_pos=1&_sid=3277b35f1&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -8555,17 +8703,20 @@ Creme corporal profissional neutro para massagem, indicado para alto deslizament
   "link_site": "https://lakma.com.br/products/creme-de-massagem-neutro-1kg?_pos=1&_sid=3277b35f1&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA35",
-  "desconto_site": "35%",
+  "cupom_site": "LAKMA30",
+  "desconto_site": "30%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
   "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "cupom_ativo": true,
+  "cupom_codigo": "LAKMA30",
+  "cupom_desconto_percent": 30,
   "valor_sem_desconto": 140.48,
-  "valor_com_cupom_lakma35": 91.31,
+  "valor_com_cupom": 98.34,
   "valor_sem_desconto_br": "R$ 140,48",
-  "valor_com_cupom_lakma35_br": "R$ 91,31",
-  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "valor_com_cupom_br": "R$ 98,34",
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.7",
   "pdf_aprovado_protocolo": null,
   "pdf_source": null,
   "pdf_is_generated": false,
@@ -8574,7 +8725,7 @@ Creme corporal profissional neutro para massagem, indicado para alto deslizament
   "categoria_intencao": [],
   "quando_indicar_direto": [],
   "indicacao_curta": null,
-  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_lakma35_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
+  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
 }
 ```
 
@@ -8713,21 +8864,21 @@ Fluido/tônico home care para fios, indicado para auxiliar no crescimento, forta
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/perfect-growth-crescimento-de-cabelo-barba-e-sobrancelha---50ml-1782746136652.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvcGVyZmVjdC1ncm93dGgtY3Jlc2NpbWVudG8tZGUtY2FiZWxvLWJhcmJhLWUtc29icmFuY2VsaGEtLS01MG1sLTE3ODI3NDYxMzY2NTIucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg2MiwiZXhwIjoxNzg3MTY3NjYyfQ.mkOE1eovUQxl8OH8H0-a5l3PP6bQE5gEiuLXMGOilwQ ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/perfect-growth-crescimento-de-cabelo-barba-e-sobrancelha---50ml-1782746136652.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvcGVyZmVjdC1ncm93dGgtY3Jlc2NpbWVudG8tZGUtY2FiZWxvLWJhcmJhLWUtc29icmFuY2VsaGEtLS01MG1sLTE3ODI3NDYxMzY2NTIucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg2MiwiZXhwIjoxNzg3MTY3NjYyfQ.mkOE1eovUQxl8OH8H0-a5l3PP6bQE5gEiuLXMGOilwQ]]` no topo da resposta
+- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/perfect-growth-crescimento-de-cabelo-barba-e-sobrancelha---50ml-1782746136652.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvcGVyZmVjdC1ncm93dGgtY3Jlc2NpbWVudG8tZGUtY2FiZWxvLWJhcmJhLWUtc29icmFuY2VsaGEtLS01MG1sLTE3ODI3NDYxMzY2NTIucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQzMiwiZXhwIjoxNzg3MjI4MjMyfQ.13DY9mS9O8T1gGn9aNmNYfRyiDqqeK5j-BzeAakgiuY ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/perfect-growth-crescimento-de-cabelo-barba-e-sobrancelha---50ml-1782746136652.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvcGVyZmVjdC1ncm93dGgtY3Jlc2NpbWVudG8tZGUtY2FiZWxvLWJhcmJhLWUtc29icmFuY2VsaGEtLS01MG1sLTE3ODI3NDYxMzY2NTIucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQzMiwiZXhwIjoxNzg3MjI4MjMyfQ.13DY9mS9O8T1gGn9aNmNYfRyiDqqeK5j-BzeAakgiuY]]` no topo da resposta
 - **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
 - **Valor sem desconto:** R$ 166,91
-- **Valor com cupom LAKMA35:** R$ 108,49  _(calculado automaticamente = valor_sem_desconto × 0,65)_
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/perfect-growth-crescimento-de-cabelo-braba-e-sobrancelha-50ml?_pos=1&_sid=848eab35d&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+- **Valor com cupom LAKMA30:** R$ 116,84  _(calculado automaticamente = valor_sem_desconto × 0.7)_
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/perfect-growth-crescimento-de-cabelo-braba-e-sobrancelha-50ml?_pos=1&_sid=848eab35d&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
 
 ```json
 {
   "produto": "Perfect Growth, crescimento de cabelo, barba e sobrancelha - 50ml",
   "aliases": [],
-  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/perfect-growth-crescimento-de-cabelo-barba-e-sobrancelha---50ml-1782746136652.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvcGVyZmVjdC1ncm93dGgtY3Jlc2NpbWVudG8tZGUtY2FiZWxvLWJhcmJhLWUtc29icmFuY2VsaGEtLS01MG1sLTE3ODI3NDYxMzY2NTIucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg2MiwiZXhwIjoxNzg3MTY3NjYyfQ.mkOE1eovUQxl8OH8H0-a5l3PP6bQE5gEiuLXMGOilwQ",
+  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/perfect-growth-crescimento-de-cabelo-barba-e-sobrancelha---50ml-1782746136652.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvcGVyZmVjdC1ncm93dGgtY3Jlc2NpbWVudG8tZGUtY2FiZWxvLWJhcmJhLWUtc29icmFuY2VsaGEtLS01MG1sLTE3ODI3NDYxMzY2NTIucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQzMiwiZXhwIjoxNzg3MjI4MjMyfQ.13DY9mS9O8T1gGn9aNmNYfRyiDqqeK5j-BzeAakgiuY",
   "campo_origem_foto": "image_url",
   "image_source": "product_database",
   "image_is_generated": false,
-  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/perfect-growth-crescimento-de-cabelo-barba-e-sobrancelha---50ml-1782746136652.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvcGVyZmVjdC1ncm93dGgtY3Jlc2NpbWVudG8tZGUtY2FiZWxvLWJhcmJhLWUtc29icmFuY2VsaGEtLS01MG1sLTE3ODI3NDYxMzY2NTIucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg2MiwiZXhwIjoxNzg3MTY3NjYyfQ.mkOE1eovUQxl8OH8H0-a5l3PP6bQE5gEiuLXMGOilwQ]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
+  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/perfect-growth-crescimento-de-cabelo-barba-e-sobrancelha---50ml-1782746136652.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvcGVyZmVjdC1ncm93dGgtY3Jlc2NpbWVudG8tZGUtY2FiZWxvLWJhcmJhLWUtc29icmFuY2VsaGEtLS01MG1sLTE3ODI3NDYxMzY2NTIucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQzMiwiZXhwIjoxNzg3MjI4MjMyfQ.13DY9mS9O8T1gGn9aNmNYfRyiDqqeK5j-BzeAakgiuY]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
   "link_individual_produto": "https://lakma.com.br/products/perfect-growth-crescimento-de-cabelo-braba-e-sobrancelha-50ml?_pos=1&_sid=848eab35d&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -8735,17 +8886,20 @@ Fluido/tônico home care para fios, indicado para auxiliar no crescimento, forta
   "link_site": "https://lakma.com.br/products/perfect-growth-crescimento-de-cabelo-braba-e-sobrancelha-50ml?_pos=1&_sid=848eab35d&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA35",
-  "desconto_site": "35%",
+  "cupom_site": "LAKMA30",
+  "desconto_site": "30%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
   "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "cupom_ativo": true,
+  "cupom_codigo": "LAKMA30",
+  "cupom_desconto_percent": 30,
   "valor_sem_desconto": 166.91,
-  "valor_com_cupom_lakma35": 108.49,
+  "valor_com_cupom": 116.84,
   "valor_sem_desconto_br": "R$ 166,91",
-  "valor_com_cupom_lakma35_br": "R$ 108,49",
-  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "valor_com_cupom_br": "R$ 116,84",
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.7",
   "pdf_aprovado_protocolo": null,
   "pdf_source": null,
   "pdf_is_generated": false,
@@ -8754,7 +8908,7 @@ Fluido/tônico home care para fios, indicado para auxiliar no crescimento, forta
   "categoria_intencao": [],
   "quando_indicar_direto": [],
   "indicacao_curta": null,
-  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_lakma35_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
+  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
 }
 ```
 
@@ -8889,21 +9043,21 @@ Máscara facial calmante profissional, indicada para acalmar, hidratar, suavizar
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/m-scara-calmante---250g-1782746175235.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbS1zY2FyYS1jYWxtYW50ZS0tLTI1MGctMTc4Mjc0NjE3NTIzNS5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODYyLCJleHAiOjE3ODcxNjc2NjJ9.uBMVQmTeZDJUxL10FolLphhW7WLZ6Gc9NDPwKU44Oes ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/m-scara-calmante---250g-1782746175235.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbS1zY2FyYS1jYWxtYW50ZS0tLTI1MGctMTc4Mjc0NjE3NTIzNS5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODYyLCJleHAiOjE3ODcxNjc2NjJ9.uBMVQmTeZDJUxL10FolLphhW7WLZ6Gc9NDPwKU44Oes]]` no topo da resposta
+- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/m-scara-calmante---250g-1782746175235.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbS1zY2FyYS1jYWxtYW50ZS0tLTI1MGctMTc4Mjc0NjE3NTIzNS5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDMzLCJleHAiOjE3ODcyMjgyMzN9.hVVVbLgSoOfc4Okf6jouDvz7TSh9lyPjFDHagk0cEO8 ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/m-scara-calmante---250g-1782746175235.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbS1zY2FyYS1jYWxtYW50ZS0tLTI1MGctMTc4Mjc0NjE3NTIzNS5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDMzLCJleHAiOjE3ODcyMjgyMzN9.hVVVbLgSoOfc4Okf6jouDvz7TSh9lyPjFDHagk0cEO8]]` no topo da resposta
 - **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
 - **Valor sem desconto:** R$ 146,42
-- **Valor com cupom LAKMA35:** R$ 95,17  _(calculado automaticamente = valor_sem_desconto × 0,65)_
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/mascara-calmante-250gr?_pos=1&_sid=861decedf&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+- **Valor com cupom LAKMA30:** R$ 102,49  _(calculado automaticamente = valor_sem_desconto × 0.7)_
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/mascara-calmante-250gr?_pos=1&_sid=861decedf&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
 
 ```json
 {
   "produto": "Máscara Calmante - 250g",
   "aliases": [],
-  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/m-scara-calmante---250g-1782746175235.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbS1zY2FyYS1jYWxtYW50ZS0tLTI1MGctMTc4Mjc0NjE3NTIzNS5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODYyLCJleHAiOjE3ODcxNjc2NjJ9.uBMVQmTeZDJUxL10FolLphhW7WLZ6Gc9NDPwKU44Oes",
+  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/m-scara-calmante---250g-1782746175235.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbS1zY2FyYS1jYWxtYW50ZS0tLTI1MGctMTc4Mjc0NjE3NTIzNS5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDMzLCJleHAiOjE3ODcyMjgyMzN9.hVVVbLgSoOfc4Okf6jouDvz7TSh9lyPjFDHagk0cEO8",
   "campo_origem_foto": "image_url",
   "image_source": "product_database",
   "image_is_generated": false,
-  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/m-scara-calmante---250g-1782746175235.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbS1zY2FyYS1jYWxtYW50ZS0tLTI1MGctMTc4Mjc0NjE3NTIzNS5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODYyLCJleHAiOjE3ODcxNjc2NjJ9.uBMVQmTeZDJUxL10FolLphhW7WLZ6Gc9NDPwKU44Oes]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
+  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/m-scara-calmante---250g-1782746175235.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbS1zY2FyYS1jYWxtYW50ZS0tLTI1MGctMTc4Mjc0NjE3NTIzNS5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDMzLCJleHAiOjE3ODcyMjgyMzN9.hVVVbLgSoOfc4Okf6jouDvz7TSh9lyPjFDHagk0cEO8]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
   "link_individual_produto": "https://lakma.com.br/products/mascara-calmante-250gr?_pos=1&_sid=861decedf&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -8911,17 +9065,20 @@ Máscara facial calmante profissional, indicada para acalmar, hidratar, suavizar
   "link_site": "https://lakma.com.br/products/mascara-calmante-250gr?_pos=1&_sid=861decedf&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA35",
-  "desconto_site": "35%",
+  "cupom_site": "LAKMA30",
+  "desconto_site": "30%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
   "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "cupom_ativo": true,
+  "cupom_codigo": "LAKMA30",
+  "cupom_desconto_percent": 30,
   "valor_sem_desconto": 146.42,
-  "valor_com_cupom_lakma35": 95.17,
+  "valor_com_cupom": 102.49,
   "valor_sem_desconto_br": "R$ 146,42",
-  "valor_com_cupom_lakma35_br": "R$ 95,17",
-  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "valor_com_cupom_br": "R$ 102,49",
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.7",
   "pdf_aprovado_protocolo": null,
   "pdf_source": null,
   "pdf_is_generated": false,
@@ -8930,7 +9087,7 @@ Máscara facial calmante profissional, indicada para acalmar, hidratar, suavizar
   "categoria_intencao": [],
   "quando_indicar_direto": [],
   "indicacao_curta": null,
-  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_lakma35_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
+  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
 }
 ```
 
@@ -9089,20 +9246,20 @@ Fluido revitalizante facial com Ureia, indicado para hidratação profunda, recu
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/fluido-passo-1---ureia-50ml-1782746229957.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZmx1aWRvLXBhc3NvLTEtLS11cmVpYS01MG1sLTE3ODI3NDYyMjk5NTcucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg2MywiZXhwIjoxNzg3MTY3NjYzfQ.8dWTNruw5cnUmD_1Xj_y5Yg-PszI7wQV-yfdR4p6pro ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/fluido-passo-1---ureia-50ml-1782746229957.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZmx1aWRvLXBhc3NvLTEtLS11cmVpYS01MG1sLTE3ODI3NDYyMjk5NTcucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg2MywiZXhwIjoxNzg3MTY3NjYzfQ.8dWTNruw5cnUmD_1Xj_y5Yg-PszI7wQV-yfdR4p6pro]]` no topo da resposta
+- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/fluido-passo-1---ureia-50ml-1782746229957.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZmx1aWRvLXBhc3NvLTEtLS11cmVpYS01MG1sLTE3ODI3NDYyMjk5NTcucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQzMywiZXhwIjoxNzg3MjI4MjMzfQ.dfGdpACsrhVD_hngLVdX5GENhK_agbbe7V8OIdRXqPo ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/fluido-passo-1---ureia-50ml-1782746229957.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZmx1aWRvLXBhc3NvLTEtLS11cmVpYS01MG1sLTE3ODI3NDYyMjk5NTcucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQzMywiZXhwIjoxNzg3MjI4MjMzfQ.dfGdpACsrhVD_hngLVdX5GENhK_agbbe7V8OIdRXqPo]]` no topo da resposta
 - **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
 - **Valor:** _(não cadastrado — NÃO inventar preço; responder "Você consegue consultar o valor atualizado diretamente no link oficial.")_
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/fluido-passo-1-ureia-50ml?_pos=1&_sid=12378b763&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/fluido-passo-1-ureia-50ml?_pos=1&_sid=12378b763&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
 
 ```json
 {
   "produto": "Fluido Passo 1 - Ureia 50ml",
   "aliases": [],
-  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/fluido-passo-1---ureia-50ml-1782746229957.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZmx1aWRvLXBhc3NvLTEtLS11cmVpYS01MG1sLTE3ODI3NDYyMjk5NTcucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg2MywiZXhwIjoxNzg3MTY3NjYzfQ.8dWTNruw5cnUmD_1Xj_y5Yg-PszI7wQV-yfdR4p6pro",
+  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/fluido-passo-1---ureia-50ml-1782746229957.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZmx1aWRvLXBhc3NvLTEtLS11cmVpYS01MG1sLTE3ODI3NDYyMjk5NTcucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQzMywiZXhwIjoxNzg3MjI4MjMzfQ.dfGdpACsrhVD_hngLVdX5GENhK_agbbe7V8OIdRXqPo",
   "campo_origem_foto": "image_url",
   "image_source": "product_database",
   "image_is_generated": false,
-  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/fluido-passo-1---ureia-50ml-1782746229957.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZmx1aWRvLXBhc3NvLTEtLS11cmVpYS01MG1sLTE3ODI3NDYyMjk5NTcucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg2MywiZXhwIjoxNzg3MTY3NjYzfQ.8dWTNruw5cnUmD_1Xj_y5Yg-PszI7wQV-yfdR4p6pro]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
+  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/fluido-passo-1---ureia-50ml-1782746229957.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZmx1aWRvLXBhc3NvLTEtLS11cmVpYS01MG1sLTE3ODI3NDYyMjk5NTcucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQzMywiZXhwIjoxNzg3MjI4MjMzfQ.dfGdpACsrhVD_hngLVdX5GENhK_agbbe7V8OIdRXqPo]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
   "link_individual_produto": "https://lakma.com.br/products/fluido-passo-1-ureia-50ml?_pos=1&_sid=12378b763&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -9110,17 +9267,20 @@ Fluido revitalizante facial com Ureia, indicado para hidratação profunda, recu
   "link_site": "https://lakma.com.br/products/fluido-passo-1-ureia-50ml?_pos=1&_sid=12378b763&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA35",
-  "desconto_site": "35%",
+  "cupom_site": "LAKMA30",
+  "desconto_site": "30%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
   "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "cupom_ativo": true,
+  "cupom_codigo": "LAKMA30",
+  "cupom_desconto_percent": 30,
   "valor_sem_desconto": null,
-  "valor_com_cupom_lakma35": null,
+  "valor_com_cupom": null,
   "valor_sem_desconto_br": null,
-  "valor_com_cupom_lakma35_br": null,
-  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "valor_com_cupom_br": null,
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.7",
   "pdf_aprovado_protocolo": null,
   "pdf_source": null,
   "pdf_is_generated": false,
@@ -9270,20 +9430,20 @@ Kit corporal profissional ozonizado com 3 etapas para preparo, massagem e finali
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-oz-nio-premium---corporal-1782746263808.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LW96LW5pby1wcmVtaXVtLS0tY29ycG9yYWwtMTc4Mjc0NjI2MzgwOC5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODYzLCJleHAiOjE3ODcxNjc2NjN9.jp7RFnFumHXGycBnVHBTjLtez7C6keFnEO3fBM3ORhk ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-oz-nio-premium---corporal-1782746263808.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LW96LW5pby1wcmVtaXVtLS0tY29ycG9yYWwtMTc4Mjc0NjI2MzgwOC5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODYzLCJleHAiOjE3ODcxNjc2NjN9.jp7RFnFumHXGycBnVHBTjLtez7C6keFnEO3fBM3ORhk]]` no topo da resposta
+- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-oz-nio-premium---corporal-1782746263808.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LW96LW5pby1wcmVtaXVtLS0tY29ycG9yYWwtMTc4Mjc0NjI2MzgwOC5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDMzLCJleHAiOjE3ODcyMjgyMzN9.GeUshoBtsTAH8ovoXeyAftwvg1H6GuenT9K6TtW2JSE ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-oz-nio-premium---corporal-1782746263808.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LW96LW5pby1wcmVtaXVtLS0tY29ycG9yYWwtMTc4Mjc0NjI2MzgwOC5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDMzLCJleHAiOjE3ODcyMjgyMzN9.GeUshoBtsTAH8ovoXeyAftwvg1H6GuenT9K6TtW2JSE]]` no topo da resposta
 - **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
 - **Valor:** _(não cadastrado — NÃO inventar preço; responder "Você consegue consultar o valor atualizado diretamente no link oficial.")_
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/kit-ozonio-premium-corporal?_pos=1&_sid=ecdf2ef25&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/kit-ozonio-premium-corporal?_pos=1&_sid=ecdf2ef25&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
 
 ```json
 {
   "produto": "Kit Ozônio Premium - Corporal",
   "aliases": [],
-  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-oz-nio-premium---corporal-1782746263808.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LW96LW5pby1wcmVtaXVtLS0tY29ycG9yYWwtMTc4Mjc0NjI2MzgwOC5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODYzLCJleHAiOjE3ODcxNjc2NjN9.jp7RFnFumHXGycBnVHBTjLtez7C6keFnEO3fBM3ORhk",
+  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-oz-nio-premium---corporal-1782746263808.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LW96LW5pby1wcmVtaXVtLS0tY29ycG9yYWwtMTc4Mjc0NjI2MzgwOC5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDMzLCJleHAiOjE3ODcyMjgyMzN9.GeUshoBtsTAH8ovoXeyAftwvg1H6GuenT9K6TtW2JSE",
   "campo_origem_foto": "image_url",
   "image_source": "product_database",
   "image_is_generated": false,
-  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-oz-nio-premium---corporal-1782746263808.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LW96LW5pby1wcmVtaXVtLS0tY29ycG9yYWwtMTc4Mjc0NjI2MzgwOC5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODYzLCJleHAiOjE3ODcxNjc2NjN9.jp7RFnFumHXGycBnVHBTjLtez7C6keFnEO3fBM3ORhk]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
+  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-oz-nio-premium---corporal-1782746263808.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LW96LW5pby1wcmVtaXVtLS0tY29ycG9yYWwtMTc4Mjc0NjI2MzgwOC5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDMzLCJleHAiOjE3ODcyMjgyMzN9.GeUshoBtsTAH8ovoXeyAftwvg1H6GuenT9K6TtW2JSE]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
   "link_individual_produto": "https://lakma.com.br/products/kit-ozonio-premium-corporal?_pos=1&_sid=ecdf2ef25&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -9291,17 +9451,20 @@ Kit corporal profissional ozonizado com 3 etapas para preparo, massagem e finali
   "link_site": "https://lakma.com.br/products/kit-ozonio-premium-corporal?_pos=1&_sid=ecdf2ef25&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA35",
-  "desconto_site": "35%",
+  "cupom_site": "LAKMA30",
+  "desconto_site": "30%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
   "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "cupom_ativo": true,
+  "cupom_codigo": "LAKMA30",
+  "cupom_desconto_percent": 30,
   "valor_sem_desconto": null,
-  "valor_com_cupom_lakma35": null,
+  "valor_com_cupom": null,
   "valor_sem_desconto_br": null,
-  "valor_com_cupom_lakma35_br": null,
-  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "valor_com_cupom_br": null,
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.7",
   "pdf_aprovado_protocolo": null,
   "pdf_source": null,
   "pdf_is_generated": false,
@@ -9471,21 +9634,21 @@ Creme corporal profissional para massagem estética, indicado para alto deslizam
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/creme-de-massagem-7-ativos---1kg-1782746298514.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvY3JlbWUtZGUtbWFzc2FnZW0tNy1hdGl2b3MtLS0xa2ctMTc4Mjc0NjI5ODUxNC5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODYzLCJleHAiOjE3ODcxNjc2NjN9.eiJMpRmE3mV-PG8SLQipgfoNkGlEMY1dp9ih09fCXZQ ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/creme-de-massagem-7-ativos---1kg-1782746298514.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvY3JlbWUtZGUtbWFzc2FnZW0tNy1hdGl2b3MtLS0xa2ctMTc4Mjc0NjI5ODUxNC5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODYzLCJleHAiOjE3ODcxNjc2NjN9.eiJMpRmE3mV-PG8SLQipgfoNkGlEMY1dp9ih09fCXZQ]]` no topo da resposta
+- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/creme-de-massagem-7-ativos---1kg-1782746298514.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvY3JlbWUtZGUtbWFzc2FnZW0tNy1hdGl2b3MtLS0xa2ctMTc4Mjc0NjI5ODUxNC5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDMzLCJleHAiOjE3ODcyMjgyMzN9.DYpLsrHqkjrwgWEegHmBW3jrpmCNhwjfuawEjchk57o ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/creme-de-massagem-7-ativos---1kg-1782746298514.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvY3JlbWUtZGUtbWFzc2FnZW0tNy1hdGl2b3MtLS0xa2ctMTc4Mjc0NjI5ODUxNC5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDMzLCJleHAiOjE3ODcyMjgyMzN9.DYpLsrHqkjrwgWEegHmBW3jrpmCNhwjfuawEjchk57o]]` no topo da resposta
 - **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
 - **Valor sem desconto:** R$ 192,87
-- **Valor com cupom LAKMA35:** R$ 125,37  _(calculado automaticamente = valor_sem_desconto × 0,65)_
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/creme-de-massagem-7-ativos-1-kg?_pos=1&_sid=ec61753f2&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+- **Valor com cupom LAKMA30:** R$ 135,01  _(calculado automaticamente = valor_sem_desconto × 0.7)_
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/creme-de-massagem-7-ativos-1-kg?_pos=1&_sid=ec61753f2&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
 
 ```json
 {
   "produto": "Creme de Massagem 7 Ativos - 1kg",
   "aliases": [],
-  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/creme-de-massagem-7-ativos---1kg-1782746298514.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvY3JlbWUtZGUtbWFzc2FnZW0tNy1hdGl2b3MtLS0xa2ctMTc4Mjc0NjI5ODUxNC5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODYzLCJleHAiOjE3ODcxNjc2NjN9.eiJMpRmE3mV-PG8SLQipgfoNkGlEMY1dp9ih09fCXZQ",
+  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/creme-de-massagem-7-ativos---1kg-1782746298514.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvY3JlbWUtZGUtbWFzc2FnZW0tNy1hdGl2b3MtLS0xa2ctMTc4Mjc0NjI5ODUxNC5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDMzLCJleHAiOjE3ODcyMjgyMzN9.DYpLsrHqkjrwgWEegHmBW3jrpmCNhwjfuawEjchk57o",
   "campo_origem_foto": "image_url",
   "image_source": "product_database",
   "image_is_generated": false,
-  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/creme-de-massagem-7-ativos---1kg-1782746298514.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvY3JlbWUtZGUtbWFzc2FnZW0tNy1hdGl2b3MtLS0xa2ctMTc4Mjc0NjI5ODUxNC5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODYzLCJleHAiOjE3ODcxNjc2NjN9.eiJMpRmE3mV-PG8SLQipgfoNkGlEMY1dp9ih09fCXZQ]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
+  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/creme-de-massagem-7-ativos---1kg-1782746298514.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvY3JlbWUtZGUtbWFzc2FnZW0tNy1hdGl2b3MtLS0xa2ctMTc4Mjc0NjI5ODUxNC5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDMzLCJleHAiOjE3ODcyMjgyMzN9.DYpLsrHqkjrwgWEegHmBW3jrpmCNhwjfuawEjchk57o]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
   "link_individual_produto": "https://lakma.com.br/products/creme-de-massagem-7-ativos-1-kg?_pos=1&_sid=ec61753f2&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -9493,17 +9656,20 @@ Creme corporal profissional para massagem estética, indicado para alto deslizam
   "link_site": "https://lakma.com.br/products/creme-de-massagem-7-ativos-1-kg?_pos=1&_sid=ec61753f2&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA35",
-  "desconto_site": "35%",
+  "cupom_site": "LAKMA30",
+  "desconto_site": "30%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
   "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "cupom_ativo": true,
+  "cupom_codigo": "LAKMA30",
+  "cupom_desconto_percent": 30,
   "valor_sem_desconto": 192.87,
-  "valor_com_cupom_lakma35": 125.37,
+  "valor_com_cupom": 135.01,
   "valor_sem_desconto_br": "R$ 192,87",
-  "valor_com_cupom_lakma35_br": "R$ 125,37",
-  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "valor_com_cupom_br": "R$ 135,01",
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.7",
   "pdf_aprovado_protocolo": null,
   "pdf_source": null,
   "pdf_is_generated": false,
@@ -9512,7 +9678,7 @@ Creme corporal profissional para massagem estética, indicado para alto deslizam
   "categoria_intencao": [],
   "quando_indicar_direto": [],
   "indicacao_curta": null,
-  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_lakma35_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
+  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
 }
 ```
 
@@ -9669,21 +9835,21 @@ Esfoliante labial home care, indicado para lábios ressecados, ásperos, opacos 
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/dolce-peel---10g-1782746336866.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZG9sY2UtcGVlbC0tLTEwZy0xNzgyNzQ2MzM2ODY2LnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY1NjI4NjMsImV4cCI6MTc4NzE2NzY2M30.X0C48_rMSAbAEayFD20NCpI5GG4w3xucCFV2r5rOXQQ ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/dolce-peel---10g-1782746336866.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZG9sY2UtcGVlbC0tLTEwZy0xNzgyNzQ2MzM2ODY2LnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY1NjI4NjMsImV4cCI6MTc4NzE2NzY2M30.X0C48_rMSAbAEayFD20NCpI5GG4w3xucCFV2r5rOXQQ]]` no topo da resposta
+- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/dolce-peel---10g-1782746336866.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZG9sY2UtcGVlbC0tLTEwZy0xNzgyNzQ2MzM2ODY2LnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY2MjM0MzQsImV4cCI6MTc4NzIyODIzNH0.qmiasqZbEH9iOGLagSkuhlJbiX2mNfVFUIY3wiw9ezw ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/dolce-peel---10g-1782746336866.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZG9sY2UtcGVlbC0tLTEwZy0xNzgyNzQ2MzM2ODY2LnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY2MjM0MzQsImV4cCI6MTc4NzIyODIzNH0.qmiasqZbEH9iOGLagSkuhlJbiX2mNfVFUIY3wiw9ezw]]` no topo da resposta
 - **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
 - **Valor sem desconto:** R$ 57,73
-- **Valor com cupom LAKMA35:** R$ 37,52  _(calculado automaticamente = valor_sem_desconto × 0,65)_
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/dolce-peel-10gr?_pos=1&_sid=557a2fe70&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+- **Valor com cupom LAKMA30:** R$ 40,41  _(calculado automaticamente = valor_sem_desconto × 0.7)_
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/dolce-peel-10gr?_pos=1&_sid=557a2fe70&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
 
 ```json
 {
   "produto": "Dolce Peel - 10g",
   "aliases": [],
-  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/dolce-peel---10g-1782746336866.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZG9sY2UtcGVlbC0tLTEwZy0xNzgyNzQ2MzM2ODY2LnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY1NjI4NjMsImV4cCI6MTc4NzE2NzY2M30.X0C48_rMSAbAEayFD20NCpI5GG4w3xucCFV2r5rOXQQ",
+  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/dolce-peel---10g-1782746336866.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZG9sY2UtcGVlbC0tLTEwZy0xNzgyNzQ2MzM2ODY2LnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY2MjM0MzQsImV4cCI6MTc4NzIyODIzNH0.qmiasqZbEH9iOGLagSkuhlJbiX2mNfVFUIY3wiw9ezw",
   "campo_origem_foto": "image_url",
   "image_source": "product_database",
   "image_is_generated": false,
-  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/dolce-peel---10g-1782746336866.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZG9sY2UtcGVlbC0tLTEwZy0xNzgyNzQ2MzM2ODY2LnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY1NjI4NjMsImV4cCI6MTc4NzE2NzY2M30.X0C48_rMSAbAEayFD20NCpI5GG4w3xucCFV2r5rOXQQ]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
+  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/dolce-peel---10g-1782746336866.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZG9sY2UtcGVlbC0tLTEwZy0xNzgyNzQ2MzM2ODY2LnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY2MjM0MzQsImV4cCI6MTc4NzIyODIzNH0.qmiasqZbEH9iOGLagSkuhlJbiX2mNfVFUIY3wiw9ezw]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
   "link_individual_produto": "https://lakma.com.br/products/dolce-peel-10gr?_pos=1&_sid=557a2fe70&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -9691,17 +9857,20 @@ Esfoliante labial home care, indicado para lábios ressecados, ásperos, opacos 
   "link_site": "https://lakma.com.br/products/dolce-peel-10gr?_pos=1&_sid=557a2fe70&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA35",
-  "desconto_site": "35%",
+  "cupom_site": "LAKMA30",
+  "desconto_site": "30%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
   "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "cupom_ativo": true,
+  "cupom_codigo": "LAKMA30",
+  "cupom_desconto_percent": 30,
   "valor_sem_desconto": 57.73,
-  "valor_com_cupom_lakma35": 37.52,
+  "valor_com_cupom": 40.41,
   "valor_sem_desconto_br": "R$ 57,73",
-  "valor_com_cupom_lakma35_br": "R$ 37,52",
-  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "valor_com_cupom_br": "R$ 40,41",
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.7",
   "pdf_aprovado_protocolo": null,
   "pdf_source": null,
   "pdf_is_generated": false,
@@ -9710,7 +9879,7 @@ Esfoliante labial home care, indicado para lábios ressecados, ásperos, opacos 
   "categoria_intencao": [],
   "quando_indicar_direto": [],
   "indicacao_curta": null,
-  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_lakma35_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
+  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
 }
 ```
 
@@ -9844,21 +10013,21 @@ Body splash corporal home care, indicado para finalização corporal, perfumaç�
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/body-splash-firmador-corporal---300ml-1782746374192.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvYm9keS1zcGxhc2gtZmlybWFkb3ItY29ycG9yYWwtLS0zMDBtbC0xNzgyNzQ2Mzc0MTkyLmpwZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY1NjI4NjQsImV4cCI6MTc4NzE2NzY2NH0.RLLCRln1dw3BwZsyx9YDsbQnT-RO45bJXl3SSznWjGg ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/body-splash-firmador-corporal---300ml-1782746374192.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvYm9keS1zcGxhc2gtZmlybWFkb3ItY29ycG9yYWwtLS0zMDBtbC0xNzgyNzQ2Mzc0MTkyLmpwZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY1NjI4NjQsImV4cCI6MTc4NzE2NzY2NH0.RLLCRln1dw3BwZsyx9YDsbQnT-RO45bJXl3SSznWjGg]]` no topo da resposta
+- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/body-splash-firmador-corporal---300ml-1782746374192.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvYm9keS1zcGxhc2gtZmlybWFkb3ItY29ycG9yYWwtLS0zMDBtbC0xNzgyNzQ2Mzc0MTkyLmpwZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY2MjM0MzQsImV4cCI6MTc4NzIyODIzNH0.TaCdYQjE8C6zJBIVwdPkb-ezg4EHLeH6qEhRIFUU420 ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/body-splash-firmador-corporal---300ml-1782746374192.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvYm9keS1zcGxhc2gtZmlybWFkb3ItY29ycG9yYWwtLS0zMDBtbC0xNzgyNzQ2Mzc0MTkyLmpwZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY2MjM0MzQsImV4cCI6MTc4NzIyODIzNH0.TaCdYQjE8C6zJBIVwdPkb-ezg4EHLeH6qEhRIFUU420]]` no topo da resposta
 - **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
 - **Valor sem desconto:** R$ 165,15
-- **Valor com cupom LAKMA35:** R$ 107,35  _(calculado automaticamente = valor_sem_desconto × 0,65)_
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/body-splash-firmador-corporal-300ml?_pos=1&_sid=7c2587a80&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+- **Valor com cupom LAKMA30:** R$ 115,60  _(calculado automaticamente = valor_sem_desconto × 0.7)_
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/body-splash-firmador-corporal-300ml?_pos=1&_sid=7c2587a80&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
 
 ```json
 {
   "produto": "Body Splash Firmador Corporal - 300ml",
   "aliases": [],
-  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/body-splash-firmador-corporal---300ml-1782746374192.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvYm9keS1zcGxhc2gtZmlybWFkb3ItY29ycG9yYWwtLS0zMDBtbC0xNzgyNzQ2Mzc0MTkyLmpwZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY1NjI4NjQsImV4cCI6MTc4NzE2NzY2NH0.RLLCRln1dw3BwZsyx9YDsbQnT-RO45bJXl3SSznWjGg",
+  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/body-splash-firmador-corporal---300ml-1782746374192.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvYm9keS1zcGxhc2gtZmlybWFkb3ItY29ycG9yYWwtLS0zMDBtbC0xNzgyNzQ2Mzc0MTkyLmpwZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY2MjM0MzQsImV4cCI6MTc4NzIyODIzNH0.TaCdYQjE8C6zJBIVwdPkb-ezg4EHLeH6qEhRIFUU420",
   "campo_origem_foto": "image_url",
   "image_source": "product_database",
   "image_is_generated": false,
-  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/body-splash-firmador-corporal---300ml-1782746374192.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvYm9keS1zcGxhc2gtZmlybWFkb3ItY29ycG9yYWwtLS0zMDBtbC0xNzgyNzQ2Mzc0MTkyLmpwZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY1NjI4NjQsImV4cCI6MTc4NzE2NzY2NH0.RLLCRln1dw3BwZsyx9YDsbQnT-RO45bJXl3SSznWjGg]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
+  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/body-splash-firmador-corporal---300ml-1782746374192.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvYm9keS1zcGxhc2gtZmlybWFkb3ItY29ycG9yYWwtLS0zMDBtbC0xNzgyNzQ2Mzc0MTkyLmpwZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY2MjM0MzQsImV4cCI6MTc4NzIyODIzNH0.TaCdYQjE8C6zJBIVwdPkb-ezg4EHLeH6qEhRIFUU420]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
   "link_individual_produto": "https://lakma.com.br/products/body-splash-firmador-corporal-300ml?_pos=1&_sid=7c2587a80&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -9866,17 +10035,20 @@ Body splash corporal home care, indicado para finalização corporal, perfumaç�
   "link_site": "https://lakma.com.br/products/body-splash-firmador-corporal-300ml?_pos=1&_sid=7c2587a80&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA35",
-  "desconto_site": "35%",
+  "cupom_site": "LAKMA30",
+  "desconto_site": "30%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
   "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "cupom_ativo": true,
+  "cupom_codigo": "LAKMA30",
+  "cupom_desconto_percent": 30,
   "valor_sem_desconto": 165.15,
-  "valor_com_cupom_lakma35": 107.35,
+  "valor_com_cupom": 115.6,
   "valor_sem_desconto_br": "R$ 165,15",
-  "valor_com_cupom_lakma35_br": "R$ 107,35",
-  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "valor_com_cupom_br": "R$ 115,60",
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.7",
   "pdf_aprovado_protocolo": null,
   "pdf_source": null,
   "pdf_is_generated": false,
@@ -9885,7 +10057,7 @@ Body splash corporal home care, indicado para finalização corporal, perfumaç�
   "categoria_intencao": [],
   "quando_indicar_direto": [],
   "indicacao_curta": null,
-  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_lakma35_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
+  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
 }
 ```
 
@@ -10016,20 +10188,20 @@ Booster profissional em ampolas com Vitamina C 100% nanoencapsulada e ozonizada,
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/booster-c100-vitamina-c-100-pura-1782746408993.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvYm9vc3Rlci1jMTAwLXZpdGFtaW5hLWMtMTAwLXB1cmEtMTc4Mjc0NjQwODk5My5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODY0LCJleHAiOjE3ODcxNjc2NjR9.vngYALlAQwGSGZ3zfSyLF6Qep4XPYth-i5JDABo6C0o ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/booster-c100-vitamina-c-100-pura-1782746408993.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvYm9vc3Rlci1jMTAwLXZpdGFtaW5hLWMtMTAwLXB1cmEtMTc4Mjc0NjQwODk5My5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODY0LCJleHAiOjE3ODcxNjc2NjR9.vngYALlAQwGSGZ3zfSyLF6Qep4XPYth-i5JDABo6C0o]]` no topo da resposta
+- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/booster-c100-vitamina-c-100-pura-1782746408993.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvYm9vc3Rlci1jMTAwLXZpdGFtaW5hLWMtMTAwLXB1cmEtMTc4Mjc0NjQwODk5My5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDM0LCJleHAiOjE3ODcyMjgyMzR9.nATqUleGJFwhYJ7zXYT8q-wRpceVgr3PXFvEGlN3u2E ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/booster-c100-vitamina-c-100-pura-1782746408993.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvYm9vc3Rlci1jMTAwLXZpdGFtaW5hLWMtMTAwLXB1cmEtMTc4Mjc0NjQwODk5My5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDM0LCJleHAiOjE3ODcyMjgyMzR9.nATqUleGJFwhYJ7zXYT8q-wRpceVgr3PXFvEGlN3u2E]]` no topo da resposta
 - **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
 - **Valor:** _(não cadastrado — NÃO inventar preço; responder "Você consegue consultar o valor atualizado diretamente no link oficial.")_
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/booster-c100-vitamina-c-100-pura?_pos=1&_sid=40a87e8d0&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/booster-c100-vitamina-c-100-pura?_pos=1&_sid=40a87e8d0&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
 
 ```json
 {
   "produto": "Booster C100 Vitamina C 100% Pura",
   "aliases": [],
-  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/booster-c100-vitamina-c-100-pura-1782746408993.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvYm9vc3Rlci1jMTAwLXZpdGFtaW5hLWMtMTAwLXB1cmEtMTc4Mjc0NjQwODk5My5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODY0LCJleHAiOjE3ODcxNjc2NjR9.vngYALlAQwGSGZ3zfSyLF6Qep4XPYth-i5JDABo6C0o",
+  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/booster-c100-vitamina-c-100-pura-1782746408993.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvYm9vc3Rlci1jMTAwLXZpdGFtaW5hLWMtMTAwLXB1cmEtMTc4Mjc0NjQwODk5My5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDM0LCJleHAiOjE3ODcyMjgyMzR9.nATqUleGJFwhYJ7zXYT8q-wRpceVgr3PXFvEGlN3u2E",
   "campo_origem_foto": "image_url",
   "image_source": "product_database",
   "image_is_generated": false,
-  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/booster-c100-vitamina-c-100-pura-1782746408993.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvYm9vc3Rlci1jMTAwLXZpdGFtaW5hLWMtMTAwLXB1cmEtMTc4Mjc0NjQwODk5My5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODY0LCJleHAiOjE3ODcxNjc2NjR9.vngYALlAQwGSGZ3zfSyLF6Qep4XPYth-i5JDABo6C0o]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
+  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/booster-c100-vitamina-c-100-pura-1782746408993.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvYm9vc3Rlci1jMTAwLXZpdGFtaW5hLWMtMTAwLXB1cmEtMTc4Mjc0NjQwODk5My5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDM0LCJleHAiOjE3ODcyMjgyMzR9.nATqUleGJFwhYJ7zXYT8q-wRpceVgr3PXFvEGlN3u2E]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
   "link_individual_produto": "https://lakma.com.br/products/booster-c100-vitamina-c-100-pura?_pos=1&_sid=40a87e8d0&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -10037,17 +10209,20 @@ Booster profissional em ampolas com Vitamina C 100% nanoencapsulada e ozonizada,
   "link_site": "https://lakma.com.br/products/booster-c100-vitamina-c-100-pura?_pos=1&_sid=40a87e8d0&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA35",
-  "desconto_site": "35%",
+  "cupom_site": "LAKMA30",
+  "desconto_site": "30%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
   "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "cupom_ativo": true,
+  "cupom_codigo": "LAKMA30",
+  "cupom_desconto_percent": 30,
   "valor_sem_desconto": null,
-  "valor_com_cupom_lakma35": null,
+  "valor_com_cupom": null,
   "valor_sem_desconto_br": null,
-  "valor_com_cupom_lakma35_br": null,
-  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "valor_com_cupom_br": null,
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.7",
   "pdf_aprovado_protocolo": null,
   "pdf_source": null,
   "pdf_is_generated": false,
@@ -10200,21 +10375,21 @@ Fluido revitalizante facial com foco em colágeno, elastina, firmeza, rejuvenesc
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/fluido-passo-3---col-geno-50ml-1782746685514.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZmx1aWRvLXBhc3NvLTMtLS1jb2wtZ2Vuby01MG1sLTE3ODI3NDY2ODU1MTQucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg2NCwiZXhwIjoxNzg3MTY3NjY0fQ.xNJ04IpIsdOhbsGVxYrt8YkK3DOytglvg9riWSU3rYY ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/fluido-passo-3---col-geno-50ml-1782746685514.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZmx1aWRvLXBhc3NvLTMtLS1jb2wtZ2Vuby01MG1sLTE3ODI3NDY2ODU1MTQucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg2NCwiZXhwIjoxNzg3MTY3NjY0fQ.xNJ04IpIsdOhbsGVxYrt8YkK3DOytglvg9riWSU3rYY]]` no topo da resposta
+- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/fluido-passo-3---col-geno-50ml-1782746685514.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZmx1aWRvLXBhc3NvLTMtLS1jb2wtZ2Vuby01MG1sLTE3ODI3NDY2ODU1MTQucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQzNCwiZXhwIjoxNzg3MjI4MjM0fQ.S5mLKxZ1gjvy10YxDIvg2fhwU5bCEdvmEca98hgJ6Go ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/fluido-passo-3---col-geno-50ml-1782746685514.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZmx1aWRvLXBhc3NvLTMtLS1jb2wtZ2Vuby01MG1sLTE3ODI3NDY2ODU1MTQucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQzNCwiZXhwIjoxNzg3MjI4MjM0fQ.S5mLKxZ1gjvy10YxDIvg2fhwU5bCEdvmEca98hgJ6Go]]` no topo da resposta
 - **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
 - **Valor sem desconto:** R$ 163,02
-- **Valor com cupom LAKMA35:** R$ 105,96  _(calculado automaticamente = valor_sem_desconto × 0,65)_
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/fluido-passo-3-colageno-50ml?_pos=1&_sid=7ee7cabd2&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+- **Valor com cupom LAKMA30:** R$ 114,11  _(calculado automaticamente = valor_sem_desconto × 0.7)_
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/fluido-passo-3-colageno-50ml?_pos=1&_sid=7ee7cabd2&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
 
 ```json
 {
   "produto": "Fluido Passo 3 - Colágeno 50ml",
   "aliases": [],
-  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/fluido-passo-3---col-geno-50ml-1782746685514.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZmx1aWRvLXBhc3NvLTMtLS1jb2wtZ2Vuby01MG1sLTE3ODI3NDY2ODU1MTQucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg2NCwiZXhwIjoxNzg3MTY3NjY0fQ.xNJ04IpIsdOhbsGVxYrt8YkK3DOytglvg9riWSU3rYY",
+  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/fluido-passo-3---col-geno-50ml-1782746685514.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZmx1aWRvLXBhc3NvLTMtLS1jb2wtZ2Vuby01MG1sLTE3ODI3NDY2ODU1MTQucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQzNCwiZXhwIjoxNzg3MjI4MjM0fQ.S5mLKxZ1gjvy10YxDIvg2fhwU5bCEdvmEca98hgJ6Go",
   "campo_origem_foto": "image_url",
   "image_source": "product_database",
   "image_is_generated": false,
-  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/fluido-passo-3---col-geno-50ml-1782746685514.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZmx1aWRvLXBhc3NvLTMtLS1jb2wtZ2Vuby01MG1sLTE3ODI3NDY2ODU1MTQucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg2NCwiZXhwIjoxNzg3MTY3NjY0fQ.xNJ04IpIsdOhbsGVxYrt8YkK3DOytglvg9riWSU3rYY]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
+  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/fluido-passo-3---col-geno-50ml-1782746685514.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZmx1aWRvLXBhc3NvLTMtLS1jb2wtZ2Vuby01MG1sLTE3ODI3NDY2ODU1MTQucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQzNCwiZXhwIjoxNzg3MjI4MjM0fQ.S5mLKxZ1gjvy10YxDIvg2fhwU5bCEdvmEca98hgJ6Go]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
   "link_individual_produto": "https://lakma.com.br/products/fluido-passo-3-colageno-50ml?_pos=1&_sid=7ee7cabd2&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -10222,17 +10397,20 @@ Fluido revitalizante facial com foco em colágeno, elastina, firmeza, rejuvenesc
   "link_site": "https://lakma.com.br/products/fluido-passo-3-colageno-50ml?_pos=1&_sid=7ee7cabd2&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA35",
-  "desconto_site": "35%",
+  "cupom_site": "LAKMA30",
+  "desconto_site": "30%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
   "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "cupom_ativo": true,
+  "cupom_codigo": "LAKMA30",
+  "cupom_desconto_percent": 30,
   "valor_sem_desconto": 163.02,
-  "valor_com_cupom_lakma35": 105.96,
+  "valor_com_cupom": 114.11,
   "valor_sem_desconto_br": "R$ 163,02",
-  "valor_com_cupom_lakma35_br": "R$ 105,96",
-  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "valor_com_cupom_br": "R$ 114,11",
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.7",
   "pdf_aprovado_protocolo": null,
   "pdf_source": null,
   "pdf_is_generated": false,
@@ -10241,7 +10419,7 @@ Fluido revitalizante facial com foco em colágeno, elastina, firmeza, rejuvenesc
   "categoria_intencao": [],
   "quando_indicar_direto": [],
   "indicacao_curta": null,
-  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_lakma35_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
+  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
 }
 ```
 
@@ -10383,21 +10561,21 @@ Kit com 4 argilas prontas em creme, indicado para personalizar protocolos faciai
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-terras-do-brasil-argilas-facial-e-corporal-em-creme-1782746723490.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LXRlcnJhcy1kby1icmFzaWwtYXJnaWxhcy1mYWNpYWwtZS1jb3Jwb3JhbC1lbS1jcmVtZS0xNzgyNzQ2NzIzNDkwLnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY1NjI4NjQsImV4cCI6MTc4NzE2NzY2NH0.m3xcztcfvojb0hoHWBddbfRhYUbaYtW7yE78h4j9yrA ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-terras-do-brasil-argilas-facial-e-corporal-em-creme-1782746723490.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LXRlcnJhcy1kby1icmFzaWwtYXJnaWxhcy1mYWNpYWwtZS1jb3Jwb3JhbC1lbS1jcmVtZS0xNzgyNzQ2NzIzNDkwLnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY1NjI4NjQsImV4cCI6MTc4NzE2NzY2NH0.m3xcztcfvojb0hoHWBddbfRhYUbaYtW7yE78h4j9yrA]]` no topo da resposta
+- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-terras-do-brasil-argilas-facial-e-corporal-em-creme-1782746723490.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LXRlcnJhcy1kby1icmFzaWwtYXJnaWxhcy1mYWNpYWwtZS1jb3Jwb3JhbC1lbS1jcmVtZS0xNzgyNzQ2NzIzNDkwLnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY2MjM0MzUsImV4cCI6MTc4NzIyODIzNX0.6uhU_Suenes-3ri_VE4y2dN2_yf3huN2A1tQO5mIR5c ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-terras-do-brasil-argilas-facial-e-corporal-em-creme-1782746723490.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LXRlcnJhcy1kby1icmFzaWwtYXJnaWxhcy1mYWNpYWwtZS1jb3Jwb3JhbC1lbS1jcmVtZS0xNzgyNzQ2NzIzNDkwLnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY2MjM0MzUsImV4cCI6MTc4NzIyODIzNX0.6uhU_Suenes-3ri_VE4y2dN2_yf3huN2A1tQO5mIR5c]]` no topo da resposta
 - **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
 - **Valor sem desconto:** R$ 414,13
-- **Valor com cupom LAKMA35:** R$ 269,18  _(calculado automaticamente = valor_sem_desconto × 0,65)_
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/kit-terras-do-brasil-argilas-facial-em-creme?_pos=1&_sid=5402f47c7&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+- **Valor com cupom LAKMA30:** R$ 289,89  _(calculado automaticamente = valor_sem_desconto × 0.7)_
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/kit-terras-do-brasil-argilas-facial-em-creme?_pos=1&_sid=5402f47c7&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
 
 ```json
 {
   "produto": "Kit Terras do Brasil, argilas facial e corporal em creme",
   "aliases": [],
-  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-terras-do-brasil-argilas-facial-e-corporal-em-creme-1782746723490.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LXRlcnJhcy1kby1icmFzaWwtYXJnaWxhcy1mYWNpYWwtZS1jb3Jwb3JhbC1lbS1jcmVtZS0xNzgyNzQ2NzIzNDkwLnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY1NjI4NjQsImV4cCI6MTc4NzE2NzY2NH0.m3xcztcfvojb0hoHWBddbfRhYUbaYtW7yE78h4j9yrA",
+  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-terras-do-brasil-argilas-facial-e-corporal-em-creme-1782746723490.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LXRlcnJhcy1kby1icmFzaWwtYXJnaWxhcy1mYWNpYWwtZS1jb3Jwb3JhbC1lbS1jcmVtZS0xNzgyNzQ2NzIzNDkwLnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY2MjM0MzUsImV4cCI6MTc4NzIyODIzNX0.6uhU_Suenes-3ri_VE4y2dN2_yf3huN2A1tQO5mIR5c",
   "campo_origem_foto": "image_url",
   "image_source": "product_database",
   "image_is_generated": false,
-  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-terras-do-brasil-argilas-facial-e-corporal-em-creme-1782746723490.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LXRlcnJhcy1kby1icmFzaWwtYXJnaWxhcy1mYWNpYWwtZS1jb3Jwb3JhbC1lbS1jcmVtZS0xNzgyNzQ2NzIzNDkwLnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY1NjI4NjQsImV4cCI6MTc4NzE2NzY2NH0.m3xcztcfvojb0hoHWBddbfRhYUbaYtW7yE78h4j9yrA]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
+  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-terras-do-brasil-argilas-facial-e-corporal-em-creme-1782746723490.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LXRlcnJhcy1kby1icmFzaWwtYXJnaWxhcy1mYWNpYWwtZS1jb3Jwb3JhbC1lbS1jcmVtZS0xNzgyNzQ2NzIzNDkwLnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY2MjM0MzUsImV4cCI6MTc4NzIyODIzNX0.6uhU_Suenes-3ri_VE4y2dN2_yf3huN2A1tQO5mIR5c]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
   "link_individual_produto": "https://lakma.com.br/products/kit-terras-do-brasil-argilas-facial-em-creme?_pos=1&_sid=5402f47c7&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -10405,17 +10583,20 @@ Kit com 4 argilas prontas em creme, indicado para personalizar protocolos faciai
   "link_site": "https://lakma.com.br/products/kit-terras-do-brasil-argilas-facial-em-creme?_pos=1&_sid=5402f47c7&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA35",
-  "desconto_site": "35%",
+  "cupom_site": "LAKMA30",
+  "desconto_site": "30%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
   "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "cupom_ativo": true,
+  "cupom_codigo": "LAKMA30",
+  "cupom_desconto_percent": 30,
   "valor_sem_desconto": 414.13,
-  "valor_com_cupom_lakma35": 269.18,
+  "valor_com_cupom": 289.89,
   "valor_sem_desconto_br": "R$ 414,13",
-  "valor_com_cupom_lakma35_br": "R$ 269,18",
-  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "valor_com_cupom_br": "R$ 289,89",
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.7",
   "pdf_aprovado_protocolo": null,
   "pdf_source": null,
   "pdf_is_generated": false,
@@ -10424,7 +10605,7 @@ Kit com 4 argilas prontas em creme, indicado para personalizar protocolos faciai
   "categoria_intencao": [],
   "quando_indicar_direto": [],
   "indicacao_curta": null,
-  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_lakma35_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
+  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
 }
 ```
 
@@ -10575,20 +10756,20 @@ Creme corporal profissional de massagem ozonizado, indicado para drenagem linfá
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/creme-de-massagem-ozonizado---900g-1782746784863.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvY3JlbWUtZGUtbWFzc2FnZW0tb3pvbml6YWRvLS0tOTAwZy0xNzgyNzQ2Nzg0ODYzLnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY1NjI4NjUsImV4cCI6MTc4NzE2NzY2NX0.GcNcWHif5JL6dMqtFCw4yOC_seaPkNX1_l-uWioM1DA ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/creme-de-massagem-ozonizado---900g-1782746784863.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvY3JlbWUtZGUtbWFzc2FnZW0tb3pvbml6YWRvLS0tOTAwZy0xNzgyNzQ2Nzg0ODYzLnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY1NjI4NjUsImV4cCI6MTc4NzE2NzY2NX0.GcNcWHif5JL6dMqtFCw4yOC_seaPkNX1_l-uWioM1DA]]` no topo da resposta
+- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/creme-de-massagem-ozonizado---900g-1782746784863.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvY3JlbWUtZGUtbWFzc2FnZW0tb3pvbml6YWRvLS0tOTAwZy0xNzgyNzQ2Nzg0ODYzLnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY2MjM0MzUsImV4cCI6MTc4NzIyODIzNX0.Pa_QKE6JkY9Q_ANaIeAjA3t793nnRhlqfUF7JrbD3aM ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/creme-de-massagem-ozonizado---900g-1782746784863.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvY3JlbWUtZGUtbWFzc2FnZW0tb3pvbml6YWRvLS0tOTAwZy0xNzgyNzQ2Nzg0ODYzLnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY2MjM0MzUsImV4cCI6MTc4NzIyODIzNX0.Pa_QKE6JkY9Q_ANaIeAjA3t793nnRhlqfUF7JrbD3aM]]` no topo da resposta
 - **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
 - **Valor:** _(não cadastrado — NÃO inventar preço; responder "Você consegue consultar o valor atualizado diretamente no link oficial.")_
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/creme-de-massagem-ozonizado-900g?_pos=1&_sid=50477e7eb&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/creme-de-massagem-ozonizado-900g?_pos=1&_sid=50477e7eb&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
 
 ```json
 {
   "produto": "Creme de Massagem Ozonizado - 900g",
   "aliases": [],
-  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/creme-de-massagem-ozonizado---900g-1782746784863.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvY3JlbWUtZGUtbWFzc2FnZW0tb3pvbml6YWRvLS0tOTAwZy0xNzgyNzQ2Nzg0ODYzLnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY1NjI4NjUsImV4cCI6MTc4NzE2NzY2NX0.GcNcWHif5JL6dMqtFCw4yOC_seaPkNX1_l-uWioM1DA",
+  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/creme-de-massagem-ozonizado---900g-1782746784863.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvY3JlbWUtZGUtbWFzc2FnZW0tb3pvbml6YWRvLS0tOTAwZy0xNzgyNzQ2Nzg0ODYzLnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY2MjM0MzUsImV4cCI6MTc4NzIyODIzNX0.Pa_QKE6JkY9Q_ANaIeAjA3t793nnRhlqfUF7JrbD3aM",
   "campo_origem_foto": "image_url",
   "image_source": "product_database",
   "image_is_generated": false,
-  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/creme-de-massagem-ozonizado---900g-1782746784863.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvY3JlbWUtZGUtbWFzc2FnZW0tb3pvbml6YWRvLS0tOTAwZy0xNzgyNzQ2Nzg0ODYzLnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY1NjI4NjUsImV4cCI6MTc4NzE2NzY2NX0.GcNcWHif5JL6dMqtFCw4yOC_seaPkNX1_l-uWioM1DA]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
+  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/creme-de-massagem-ozonizado---900g-1782746784863.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvY3JlbWUtZGUtbWFzc2FnZW0tb3pvbml6YWRvLS0tOTAwZy0xNzgyNzQ2Nzg0ODYzLnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY2MjM0MzUsImV4cCI6MTc4NzIyODIzNX0.Pa_QKE6JkY9Q_ANaIeAjA3t793nnRhlqfUF7JrbD3aM]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
   "link_individual_produto": "https://lakma.com.br/products/creme-de-massagem-ozonizado-900g?_pos=1&_sid=50477e7eb&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -10596,17 +10777,20 @@ Creme corporal profissional de massagem ozonizado, indicado para drenagem linfá
   "link_site": "https://lakma.com.br/products/creme-de-massagem-ozonizado-900g?_pos=1&_sid=50477e7eb&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA35",
-  "desconto_site": "35%",
+  "cupom_site": "LAKMA30",
+  "desconto_site": "30%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
   "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "cupom_ativo": true,
+  "cupom_codigo": "LAKMA30",
+  "cupom_desconto_percent": 30,
   "valor_sem_desconto": null,
-  "valor_com_cupom_lakma35": null,
+  "valor_com_cupom": null,
   "valor_sem_desconto_br": null,
-  "valor_com_cupom_lakma35_br": null,
-  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "valor_com_cupom_br": null,
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.7",
   "pdf_aprovado_protocolo": null,
   "pdf_source": null,
   "pdf_is_generated": false,
@@ -10775,21 +10959,21 @@ Sabonete líquido facial para higienização, remoção de impurezas, controle d
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/sabonete-l-quido-facial---250ml-1782746830963.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uvc2Fib25ldGUtbC1xdWlkby1mYWNpYWwtLS0yNTBtbC0xNzgyNzQ2ODMwOTYzLnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY1NjI4NjUsImV4cCI6MTc4NzE2NzY2NX0.vpyV-4nETimeUW4Wr_gM57i3UblTxz3YEGVhbHiy6bs ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/sabonete-l-quido-facial---250ml-1782746830963.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uvc2Fib25ldGUtbC1xdWlkby1mYWNpYWwtLS0yNTBtbC0xNzgyNzQ2ODMwOTYzLnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY1NjI4NjUsImV4cCI6MTc4NzE2NzY2NX0.vpyV-4nETimeUW4Wr_gM57i3UblTxz3YEGVhbHiy6bs]]` no topo da resposta
+- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/sabonete-l-quido-facial---250ml-1782746830963.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uvc2Fib25ldGUtbC1xdWlkby1mYWNpYWwtLS0yNTBtbC0xNzgyNzQ2ODMwOTYzLnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY2MjM0MzUsImV4cCI6MTc4NzIyODIzNX0.GuKZd4tbPdD6YpBDFL_ahZOcIHs7Lc0H_pPp6mebJsw ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/sabonete-l-quido-facial---250ml-1782746830963.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uvc2Fib25ldGUtbC1xdWlkby1mYWNpYWwtLS0yNTBtbC0xNzgyNzQ2ODMwOTYzLnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY2MjM0MzUsImV4cCI6MTc4NzIyODIzNX0.GuKZd4tbPdD6YpBDFL_ahZOcIHs7Lc0H_pPp6mebJsw]]` no topo da resposta
 - **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
 - **Valor sem desconto:** R$ 98,56
-- **Valor com cupom LAKMA35:** R$ 64,06  _(calculado automaticamente = valor_sem_desconto × 0,65)_
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/sabonete-liquido-facial-250ml?_pos=1&_sid=e71294b11&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+- **Valor com cupom LAKMA30:** R$ 68,99  _(calculado automaticamente = valor_sem_desconto × 0.7)_
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/sabonete-liquido-facial-250ml?_pos=1&_sid=e71294b11&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
 
 ```json
 {
   "produto": "Sabonete Líquido Facial - 250ml",
   "aliases": [],
-  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/sabonete-l-quido-facial---250ml-1782746830963.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uvc2Fib25ldGUtbC1xdWlkby1mYWNpYWwtLS0yNTBtbC0xNzgyNzQ2ODMwOTYzLnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY1NjI4NjUsImV4cCI6MTc4NzE2NzY2NX0.vpyV-4nETimeUW4Wr_gM57i3UblTxz3YEGVhbHiy6bs",
+  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/sabonete-l-quido-facial---250ml-1782746830963.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uvc2Fib25ldGUtbC1xdWlkby1mYWNpYWwtLS0yNTBtbC0xNzgyNzQ2ODMwOTYzLnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY2MjM0MzUsImV4cCI6MTc4NzIyODIzNX0.GuKZd4tbPdD6YpBDFL_ahZOcIHs7Lc0H_pPp6mebJsw",
   "campo_origem_foto": "image_url",
   "image_source": "product_database",
   "image_is_generated": false,
-  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/sabonete-l-quido-facial---250ml-1782746830963.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uvc2Fib25ldGUtbC1xdWlkby1mYWNpYWwtLS0yNTBtbC0xNzgyNzQ2ODMwOTYzLnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY1NjI4NjUsImV4cCI6MTc4NzE2NzY2NX0.vpyV-4nETimeUW4Wr_gM57i3UblTxz3YEGVhbHiy6bs]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
+  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/sabonete-l-quido-facial---250ml-1782746830963.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uvc2Fib25ldGUtbC1xdWlkby1mYWNpYWwtLS0yNTBtbC0xNzgyNzQ2ODMwOTYzLnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY2MjM0MzUsImV4cCI6MTc4NzIyODIzNX0.GuKZd4tbPdD6YpBDFL_ahZOcIHs7Lc0H_pPp6mebJsw]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
   "link_individual_produto": "https://lakma.com.br/products/sabonete-liquido-facial-250ml?_pos=1&_sid=e71294b11&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -10797,17 +10981,20 @@ Sabonete líquido facial para higienização, remoção de impurezas, controle d
   "link_site": "https://lakma.com.br/products/sabonete-liquido-facial-250ml?_pos=1&_sid=e71294b11&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA35",
-  "desconto_site": "35%",
+  "cupom_site": "LAKMA30",
+  "desconto_site": "30%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
   "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "cupom_ativo": true,
+  "cupom_codigo": "LAKMA30",
+  "cupom_desconto_percent": 30,
   "valor_sem_desconto": 98.56,
-  "valor_com_cupom_lakma35": 64.06,
+  "valor_com_cupom": 68.99,
   "valor_sem_desconto_br": "R$ 98,56",
-  "valor_com_cupom_lakma35_br": "R$ 64,06",
-  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "valor_com_cupom_br": "R$ 68,99",
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.7",
   "pdf_aprovado_protocolo": null,
   "pdf_source": null,
   "pdf_is_generated": false,
@@ -10816,7 +11003,7 @@ Sabonete líquido facial para higienização, remoção de impurezas, controle d
   "categoria_intencao": [],
   "quando_indicar_direto": [],
   "indicacao_curta": null,
-  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_lakma35_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
+  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
 }
 ```
 
@@ -10967,21 +11154,21 @@ Sabonete facial com Ácido Glicólico, indicado para higienização com ação r
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/sabonete-de-cido-glic-lico---150ml-1782746866136.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uvc2Fib25ldGUtZGUtY2lkby1nbGljLWxpY28tLS0xNTBtbC0xNzgyNzQ2ODY2MTM2LnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY1NjI4NjUsImV4cCI6MTc4NzE2NzY2NX0.bj3VvPPkSdThVgG7wEAYhWzUuAY6I6secv3DM9PTh7g ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/sabonete-de-cido-glic-lico---150ml-1782746866136.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uvc2Fib25ldGUtZGUtY2lkby1nbGljLWxpY28tLS0xNTBtbC0xNzgyNzQ2ODY2MTM2LnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY1NjI4NjUsImV4cCI6MTc4NzE2NzY2NX0.bj3VvPPkSdThVgG7wEAYhWzUuAY6I6secv3DM9PTh7g]]` no topo da resposta
+- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/sabonete-de-cido-glic-lico---150ml-1782746866136.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uvc2Fib25ldGUtZGUtY2lkby1nbGljLWxpY28tLS0xNTBtbC0xNzgyNzQ2ODY2MTM2LnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY2MjM0MzUsImV4cCI6MTc4NzIyODIzNX0.ZylycGdsEkJjf6m88KrijhikZsPmJYJj02dv7-izbwY ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/sabonete-de-cido-glic-lico---150ml-1782746866136.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uvc2Fib25ldGUtZGUtY2lkby1nbGljLWxpY28tLS0xNTBtbC0xNzgyNzQ2ODY2MTM2LnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY2MjM0MzUsImV4cCI6MTc4NzIyODIzNX0.ZylycGdsEkJjf6m88KrijhikZsPmJYJj02dv7-izbwY]]` no topo da resposta
 - **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
 - **Valor sem desconto:** R$ 200,10
-- **Valor com cupom LAKMA35:** R$ 130,06  _(calculado automaticamente = valor_sem_desconto × 0,65)_
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/sabonete-de-acido-glicolico-150ml?_pos=1&_sid=2f97aa27a&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+- **Valor com cupom LAKMA30:** R$ 140,07  _(calculado automaticamente = valor_sem_desconto × 0.7)_
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/sabonete-de-acido-glicolico-150ml?_pos=1&_sid=2f97aa27a&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
 
 ```json
 {
   "produto": "Sabonete de Ácido Glicólico - 150ml",
   "aliases": [],
-  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/sabonete-de-cido-glic-lico---150ml-1782746866136.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uvc2Fib25ldGUtZGUtY2lkby1nbGljLWxpY28tLS0xNTBtbC0xNzgyNzQ2ODY2MTM2LnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY1NjI4NjUsImV4cCI6MTc4NzE2NzY2NX0.bj3VvPPkSdThVgG7wEAYhWzUuAY6I6secv3DM9PTh7g",
+  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/sabonete-de-cido-glic-lico---150ml-1782746866136.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uvc2Fib25ldGUtZGUtY2lkby1nbGljLWxpY28tLS0xNTBtbC0xNzgyNzQ2ODY2MTM2LnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY2MjM0MzUsImV4cCI6MTc4NzIyODIzNX0.ZylycGdsEkJjf6m88KrijhikZsPmJYJj02dv7-izbwY",
   "campo_origem_foto": "image_url",
   "image_source": "product_database",
   "image_is_generated": false,
-  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/sabonete-de-cido-glic-lico---150ml-1782746866136.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uvc2Fib25ldGUtZGUtY2lkby1nbGljLWxpY28tLS0xNTBtbC0xNzgyNzQ2ODY2MTM2LnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY1NjI4NjUsImV4cCI6MTc4NzE2NzY2NX0.bj3VvPPkSdThVgG7wEAYhWzUuAY6I6secv3DM9PTh7g]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
+  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/sabonete-de-cido-glic-lico---150ml-1782746866136.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uvc2Fib25ldGUtZGUtY2lkby1nbGljLWxpY28tLS0xNTBtbC0xNzgyNzQ2ODY2MTM2LnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY2MjM0MzUsImV4cCI6MTc4NzIyODIzNX0.ZylycGdsEkJjf6m88KrijhikZsPmJYJj02dv7-izbwY]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
   "link_individual_produto": "https://lakma.com.br/products/sabonete-de-acido-glicolico-150ml?_pos=1&_sid=2f97aa27a&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -10989,17 +11176,20 @@ Sabonete facial com Ácido Glicólico, indicado para higienização com ação r
   "link_site": "https://lakma.com.br/products/sabonete-de-acido-glicolico-150ml?_pos=1&_sid=2f97aa27a&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA35",
-  "desconto_site": "35%",
+  "cupom_site": "LAKMA30",
+  "desconto_site": "30%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
   "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "cupom_ativo": true,
+  "cupom_codigo": "LAKMA30",
+  "cupom_desconto_percent": 30,
   "valor_sem_desconto": 200.1,
-  "valor_com_cupom_lakma35": 130.06,
+  "valor_com_cupom": 140.07,
   "valor_sem_desconto_br": "R$ 200,10",
-  "valor_com_cupom_lakma35_br": "R$ 130,06",
-  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "valor_com_cupom_br": "R$ 140,07",
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.7",
   "pdf_aprovado_protocolo": null,
   "pdf_source": null,
   "pdf_is_generated": false,
@@ -11008,7 +11198,7 @@ Sabonete facial com Ácido Glicólico, indicado para higienização com ação r
   "categoria_intencao": [],
   "quando_indicar_direto": [],
   "indicacao_curta": null,
-  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_lakma35_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
+  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
 }
 ```
 
@@ -11163,20 +11353,20 @@ Máscara facial hidratante e nutritiva, indicada para hidratação profunda, nut
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/m-scara-brownie-de-chocolate-hidrata-o-profunda---150g-1782746900548.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbS1zY2FyYS1icm93bmllLWRlLWNob2NvbGF0ZS1oaWRyYXRhLW8tcHJvZnVuZGEtLS0xNTBnLTE3ODI3NDY5MDA1NDgucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg2NSwiZXhwIjoxNzg3MTY3NjY1fQ.OxwnzGncoSaegKO4B0GS7afTWfgTnwURgYew-ymRxYY ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/m-scara-brownie-de-chocolate-hidrata-o-profunda---150g-1782746900548.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbS1zY2FyYS1icm93bmllLWRlLWNob2NvbGF0ZS1oaWRyYXRhLW8tcHJvZnVuZGEtLS0xNTBnLTE3ODI3NDY5MDA1NDgucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg2NSwiZXhwIjoxNzg3MTY3NjY1fQ.OxwnzGncoSaegKO4B0GS7afTWfgTnwURgYew-ymRxYY]]` no topo da resposta
+- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/m-scara-brownie-de-chocolate-hidrata-o-profunda---150g-1782746900548.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbS1zY2FyYS1icm93bmllLWRlLWNob2NvbGF0ZS1oaWRyYXRhLW8tcHJvZnVuZGEtLS0xNTBnLTE3ODI3NDY5MDA1NDgucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQzNiwiZXhwIjoxNzg3MjI4MjM2fQ.sBjBdSf7UDMro_2yXMW5opUiebgKCFcRKY5pURMgEqg ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/m-scara-brownie-de-chocolate-hidrata-o-profunda---150g-1782746900548.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbS1zY2FyYS1icm93bmllLWRlLWNob2NvbGF0ZS1oaWRyYXRhLW8tcHJvZnVuZGEtLS0xNTBnLTE3ODI3NDY5MDA1NDgucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQzNiwiZXhwIjoxNzg3MjI4MjM2fQ.sBjBdSf7UDMro_2yXMW5opUiebgKCFcRKY5pURMgEqg]]` no topo da resposta
 - **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
 - **Valor:** _(não cadastrado — NÃO inventar preço; responder "Você consegue consultar o valor atualizado diretamente no link oficial.")_
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/mascara-brownie-de-chocolate-hidratacao-profunda-150gr?_pos=1&_sid=5a64b5ef8&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/mascara-brownie-de-chocolate-hidratacao-profunda-150gr?_pos=1&_sid=5a64b5ef8&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
 
 ```json
 {
   "produto": "Máscara Brownie de Chocolate, hidratação profunda - 150g",
   "aliases": [],
-  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/m-scara-brownie-de-chocolate-hidrata-o-profunda---150g-1782746900548.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbS1zY2FyYS1icm93bmllLWRlLWNob2NvbGF0ZS1oaWRyYXRhLW8tcHJvZnVuZGEtLS0xNTBnLTE3ODI3NDY5MDA1NDgucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg2NSwiZXhwIjoxNzg3MTY3NjY1fQ.OxwnzGncoSaegKO4B0GS7afTWfgTnwURgYew-ymRxYY",
+  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/m-scara-brownie-de-chocolate-hidrata-o-profunda---150g-1782746900548.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbS1zY2FyYS1icm93bmllLWRlLWNob2NvbGF0ZS1oaWRyYXRhLW8tcHJvZnVuZGEtLS0xNTBnLTE3ODI3NDY5MDA1NDgucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQzNiwiZXhwIjoxNzg3MjI4MjM2fQ.sBjBdSf7UDMro_2yXMW5opUiebgKCFcRKY5pURMgEqg",
   "campo_origem_foto": "image_url",
   "image_source": "product_database",
   "image_is_generated": false,
-  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/m-scara-brownie-de-chocolate-hidrata-o-profunda---150g-1782746900548.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbS1zY2FyYS1icm93bmllLWRlLWNob2NvbGF0ZS1oaWRyYXRhLW8tcHJvZnVuZGEtLS0xNTBnLTE3ODI3NDY5MDA1NDgucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg2NSwiZXhwIjoxNzg3MTY3NjY1fQ.OxwnzGncoSaegKO4B0GS7afTWfgTnwURgYew-ymRxYY]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
+  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/m-scara-brownie-de-chocolate-hidrata-o-profunda---150g-1782746900548.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbS1zY2FyYS1icm93bmllLWRlLWNob2NvbGF0ZS1oaWRyYXRhLW8tcHJvZnVuZGEtLS0xNTBnLTE3ODI3NDY5MDA1NDgucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQzNiwiZXhwIjoxNzg3MjI4MjM2fQ.sBjBdSf7UDMro_2yXMW5opUiebgKCFcRKY5pURMgEqg]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
   "link_individual_produto": "https://lakma.com.br/products/mascara-brownie-de-chocolate-hidratacao-profunda-150gr?_pos=1&_sid=5a64b5ef8&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -11184,17 +11374,20 @@ Máscara facial hidratante e nutritiva, indicada para hidratação profunda, nut
   "link_site": "https://lakma.com.br/products/mascara-brownie-de-chocolate-hidratacao-profunda-150gr?_pos=1&_sid=5a64b5ef8&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA35",
-  "desconto_site": "35%",
+  "cupom_site": "LAKMA30",
+  "desconto_site": "30%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
   "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "cupom_ativo": true,
+  "cupom_codigo": "LAKMA30",
+  "cupom_desconto_percent": 30,
   "valor_sem_desconto": null,
-  "valor_com_cupom_lakma35": null,
+  "valor_com_cupom": null,
   "valor_sem_desconto_br": null,
-  "valor_com_cupom_lakma35_br": null,
-  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "valor_com_cupom_br": null,
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.7",
   "pdf_aprovado_protocolo": null,
   "pdf_source": null,
   "pdf_is_generated": false,
@@ -11345,21 +11538,21 @@ Gel roll-on para olheiras, indicado para contorno dos olhos, olheiras pigmentada
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/nanohydrat-roll-para-olheiras---15ml-1782746936563.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbmFub2h5ZHJhdC1yb2xsLXBhcmEtb2xoZWlyYXMtLS0xNW1sLTE3ODI3NDY5MzY1NjMucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg2NSwiZXhwIjoxNzg3MTY3NjY1fQ.nAMZRKq4l3bvN35V64lwiDE7GZFWQxG8A_b8GfPmlVk ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/nanohydrat-roll-para-olheiras---15ml-1782746936563.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbmFub2h5ZHJhdC1yb2xsLXBhcmEtb2xoZWlyYXMtLS0xNW1sLTE3ODI3NDY5MzY1NjMucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg2NSwiZXhwIjoxNzg3MTY3NjY1fQ.nAMZRKq4l3bvN35V64lwiDE7GZFWQxG8A_b8GfPmlVk]]` no topo da resposta
+- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/nanohydrat-roll-para-olheiras---15ml-1782746936563.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbmFub2h5ZHJhdC1yb2xsLXBhcmEtb2xoZWlyYXMtLS0xNW1sLTE3ODI3NDY5MzY1NjMucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQzNiwiZXhwIjoxNzg3MjI4MjM2fQ.aaYVNsxE01TfwlXtKhjIIbs1HI-tbGOvijX80rkACto ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/nanohydrat-roll-para-olheiras---15ml-1782746936563.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbmFub2h5ZHJhdC1yb2xsLXBhcmEtb2xoZWlyYXMtLS0xNW1sLTE3ODI3NDY5MzY1NjMucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQzNiwiZXhwIjoxNzg3MjI4MjM2fQ.aaYVNsxE01TfwlXtKhjIIbs1HI-tbGOvijX80rkACto]]` no topo da resposta
 - **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
 - **Valor sem desconto:** R$ 99,90
-- **Valor com cupom LAKMA35:** R$ 64,94  _(calculado automaticamente = valor_sem_desconto × 0,65)_
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/nanohydrat-roll-para-olheiras-15ml?_pos=1&_sid=17dd3224b&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+- **Valor com cupom LAKMA30:** R$ 69,93  _(calculado automaticamente = valor_sem_desconto × 0.7)_
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/nanohydrat-roll-para-olheiras-15ml?_pos=1&_sid=17dd3224b&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
 
 ```json
 {
   "produto": "Nanohydrat Roll para Olheiras - 15ml",
   "aliases": [],
-  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/nanohydrat-roll-para-olheiras---15ml-1782746936563.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbmFub2h5ZHJhdC1yb2xsLXBhcmEtb2xoZWlyYXMtLS0xNW1sLTE3ODI3NDY5MzY1NjMucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg2NSwiZXhwIjoxNzg3MTY3NjY1fQ.nAMZRKq4l3bvN35V64lwiDE7GZFWQxG8A_b8GfPmlVk",
+  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/nanohydrat-roll-para-olheiras---15ml-1782746936563.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbmFub2h5ZHJhdC1yb2xsLXBhcmEtb2xoZWlyYXMtLS0xNW1sLTE3ODI3NDY5MzY1NjMucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQzNiwiZXhwIjoxNzg3MjI4MjM2fQ.aaYVNsxE01TfwlXtKhjIIbs1HI-tbGOvijX80rkACto",
   "campo_origem_foto": "image_url",
   "image_source": "product_database",
   "image_is_generated": false,
-  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/nanohydrat-roll-para-olheiras---15ml-1782746936563.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbmFub2h5ZHJhdC1yb2xsLXBhcmEtb2xoZWlyYXMtLS0xNW1sLTE3ODI3NDY5MzY1NjMucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg2NSwiZXhwIjoxNzg3MTY3NjY1fQ.nAMZRKq4l3bvN35V64lwiDE7GZFWQxG8A_b8GfPmlVk]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
+  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/nanohydrat-roll-para-olheiras---15ml-1782746936563.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbmFub2h5ZHJhdC1yb2xsLXBhcmEtb2xoZWlyYXMtLS0xNW1sLTE3ODI3NDY5MzY1NjMucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQzNiwiZXhwIjoxNzg3MjI4MjM2fQ.aaYVNsxE01TfwlXtKhjIIbs1HI-tbGOvijX80rkACto]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
   "link_individual_produto": "https://lakma.com.br/products/nanohydrat-roll-para-olheiras-15ml?_pos=1&_sid=17dd3224b&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -11367,17 +11560,20 @@ Gel roll-on para olheiras, indicado para contorno dos olhos, olheiras pigmentada
   "link_site": "https://lakma.com.br/products/nanohydrat-roll-para-olheiras-15ml?_pos=1&_sid=17dd3224b&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA35",
-  "desconto_site": "35%",
+  "cupom_site": "LAKMA30",
+  "desconto_site": "30%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
   "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "cupom_ativo": true,
+  "cupom_codigo": "LAKMA30",
+  "cupom_desconto_percent": 30,
   "valor_sem_desconto": 99.9,
-  "valor_com_cupom_lakma35": 64.94,
+  "valor_com_cupom": 69.93,
   "valor_sem_desconto_br": "R$ 99,90",
-  "valor_com_cupom_lakma35_br": "R$ 64,94",
-  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "valor_com_cupom_br": "R$ 69,93",
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.7",
   "pdf_aprovado_protocolo": null,
   "pdf_source": null,
   "pdf_is_generated": false,
@@ -11386,7 +11582,7 @@ Gel roll-on para olheiras, indicado para contorno dos olhos, olheiras pigmentada
   "categoria_intencao": [],
   "quando_indicar_direto": [],
   "indicacao_curta": null,
-  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_lakma35_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
+  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
 }
 ```
 
@@ -11527,20 +11723,20 @@ Fluido secativo facial para peles oleosas e acneicas, indicado para ação secat
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/fluido-secativo---melaleuca-para-acne-50ml-1782746992848.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZmx1aWRvLXNlY2F0aXZvLS0tbWVsYWxldWNhLXBhcmEtYWNuZS01MG1sLTE3ODI3NDY5OTI4NDgucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg2NiwiZXhwIjoxNzg3MTY3NjY2fQ.EJVGe7D2qNHCHRBH4P4DxrVMVIu-xor11lHABWVRNHU ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/fluido-secativo---melaleuca-para-acne-50ml-1782746992848.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZmx1aWRvLXNlY2F0aXZvLS0tbWVsYWxldWNhLXBhcmEtYWNuZS01MG1sLTE3ODI3NDY5OTI4NDgucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg2NiwiZXhwIjoxNzg3MTY3NjY2fQ.EJVGe7D2qNHCHRBH4P4DxrVMVIu-xor11lHABWVRNHU]]` no topo da resposta
+- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/fluido-secativo---melaleuca-para-acne-50ml-1782746992848.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZmx1aWRvLXNlY2F0aXZvLS0tbWVsYWxldWNhLXBhcmEtYWNuZS01MG1sLTE3ODI3NDY5OTI4NDgucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQzNiwiZXhwIjoxNzg3MjI4MjM2fQ.Vuj4ICphLPo6Ls4PG-roX8N5pJMBq69PSoVRdbBkd0A ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/fluido-secativo---melaleuca-para-acne-50ml-1782746992848.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZmx1aWRvLXNlY2F0aXZvLS0tbWVsYWxldWNhLXBhcmEtYWNuZS01MG1sLTE3ODI3NDY5OTI4NDgucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQzNiwiZXhwIjoxNzg3MjI4MjM2fQ.Vuj4ICphLPo6Ls4PG-roX8N5pJMBq69PSoVRdbBkd0A]]` no topo da resposta
 - **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
 - **Valor:** _(não cadastrado — NÃO inventar preço; responder "Você consegue consultar o valor atualizado diretamente no link oficial.")_
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/fluido-secativo-melaleuca-para-acne-50ml?_pos=1&_sid=b08c5f760&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/fluido-secativo-melaleuca-para-acne-50ml?_pos=1&_sid=b08c5f760&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
 
 ```json
 {
   "produto": "Fluido Secativo - Melaleuca para acne 50ml",
   "aliases": [],
-  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/fluido-secativo---melaleuca-para-acne-50ml-1782746992848.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZmx1aWRvLXNlY2F0aXZvLS0tbWVsYWxldWNhLXBhcmEtYWNuZS01MG1sLTE3ODI3NDY5OTI4NDgucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg2NiwiZXhwIjoxNzg3MTY3NjY2fQ.EJVGe7D2qNHCHRBH4P4DxrVMVIu-xor11lHABWVRNHU",
+  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/fluido-secativo---melaleuca-para-acne-50ml-1782746992848.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZmx1aWRvLXNlY2F0aXZvLS0tbWVsYWxldWNhLXBhcmEtYWNuZS01MG1sLTE3ODI3NDY5OTI4NDgucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQzNiwiZXhwIjoxNzg3MjI4MjM2fQ.Vuj4ICphLPo6Ls4PG-roX8N5pJMBq69PSoVRdbBkd0A",
   "campo_origem_foto": "image_url",
   "image_source": "product_database",
   "image_is_generated": false,
-  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/fluido-secativo---melaleuca-para-acne-50ml-1782746992848.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZmx1aWRvLXNlY2F0aXZvLS0tbWVsYWxldWNhLXBhcmEtYWNuZS01MG1sLTE3ODI3NDY5OTI4NDgucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg2NiwiZXhwIjoxNzg3MTY3NjY2fQ.EJVGe7D2qNHCHRBH4P4DxrVMVIu-xor11lHABWVRNHU]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
+  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/fluido-secativo---melaleuca-para-acne-50ml-1782746992848.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZmx1aWRvLXNlY2F0aXZvLS0tbWVsYWxldWNhLXBhcmEtYWNuZS01MG1sLTE3ODI3NDY5OTI4NDgucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQzNiwiZXhwIjoxNzg3MjI4MjM2fQ.Vuj4ICphLPo6Ls4PG-roX8N5pJMBq69PSoVRdbBkd0A]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
   "link_individual_produto": "https://lakma.com.br/products/fluido-secativo-melaleuca-para-acne-50ml?_pos=1&_sid=b08c5f760&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -11548,17 +11744,20 @@ Fluido secativo facial para peles oleosas e acneicas, indicado para ação secat
   "link_site": "https://lakma.com.br/products/fluido-secativo-melaleuca-para-acne-50ml?_pos=1&_sid=b08c5f760&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA35",
-  "desconto_site": "35%",
+  "cupom_site": "LAKMA30",
+  "desconto_site": "30%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
   "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "cupom_ativo": true,
+  "cupom_codigo": "LAKMA30",
+  "cupom_desconto_percent": 30,
   "valor_sem_desconto": null,
-  "valor_com_cupom_lakma35": null,
+  "valor_com_cupom": null,
   "valor_sem_desconto_br": null,
-  "valor_com_cupom_lakma35_br": null,
-  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "valor_com_cupom_br": null,
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.7",
   "pdf_aprovado_protocolo": null,
   "pdf_source": null,
   "pdf_is_generated": false,
@@ -11711,21 +11910,21 @@ Esfoliante facial para renovação, preparo da pele, remoção de células morta
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/esfoliante-facial---250ml-1782747038113.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZXNmb2xpYW50ZS1mYWNpYWwtLS0yNTBtbC0xNzgyNzQ3MDM4MTEzLnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY1NjI4NjYsImV4cCI6MTc4NzE2NzY2Nn0.KxZZ7HBagVffPAbgiPRf3BHRwL7_5gEOyH8FklZSkEk ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/esfoliante-facial---250ml-1782747038113.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZXNmb2xpYW50ZS1mYWNpYWwtLS0yNTBtbC0xNzgyNzQ3MDM4MTEzLnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY1NjI4NjYsImV4cCI6MTc4NzE2NzY2Nn0.KxZZ7HBagVffPAbgiPRf3BHRwL7_5gEOyH8FklZSkEk]]` no topo da resposta
+- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/esfoliante-facial---250ml-1782747038113.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZXNmb2xpYW50ZS1mYWNpYWwtLS0yNTBtbC0xNzgyNzQ3MDM4MTEzLnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY2MjM0MzYsImV4cCI6MTc4NzIyODIzNn0.rydTJG2I4O3FSlu0cIEtZapvN65iu5frgeY1cMNYljA ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/esfoliante-facial---250ml-1782747038113.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZXNmb2xpYW50ZS1mYWNpYWwtLS0yNTBtbC0xNzgyNzQ3MDM4MTEzLnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY2MjM0MzYsImV4cCI6MTc4NzIyODIzNn0.rydTJG2I4O3FSlu0cIEtZapvN65iu5frgeY1cMNYljA]]` no topo da resposta
 - **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
 - **Valor sem desconto:** R$ 129,89
-- **Valor com cupom LAKMA35:** R$ 84,43  _(calculado automaticamente = valor_sem_desconto × 0,65)_
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/esfoliante-facial-250ml?_pos=1&_sid=6964d0934&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+- **Valor com cupom LAKMA30:** R$ 90,92  _(calculado automaticamente = valor_sem_desconto × 0.7)_
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/esfoliante-facial-250ml?_pos=1&_sid=6964d0934&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
 
 ```json
 {
   "produto": "Esfoliante Facial - 250ml",
   "aliases": [],
-  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/esfoliante-facial---250ml-1782747038113.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZXNmb2xpYW50ZS1mYWNpYWwtLS0yNTBtbC0xNzgyNzQ3MDM4MTEzLnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY1NjI4NjYsImV4cCI6MTc4NzE2NzY2Nn0.KxZZ7HBagVffPAbgiPRf3BHRwL7_5gEOyH8FklZSkEk",
+  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/esfoliante-facial---250ml-1782747038113.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZXNmb2xpYW50ZS1mYWNpYWwtLS0yNTBtbC0xNzgyNzQ3MDM4MTEzLnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY2MjM0MzYsImV4cCI6MTc4NzIyODIzNn0.rydTJG2I4O3FSlu0cIEtZapvN65iu5frgeY1cMNYljA",
   "campo_origem_foto": "image_url",
   "image_source": "product_database",
   "image_is_generated": false,
-  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/esfoliante-facial---250ml-1782747038113.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZXNmb2xpYW50ZS1mYWNpYWwtLS0yNTBtbC0xNzgyNzQ3MDM4MTEzLnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY1NjI4NjYsImV4cCI6MTc4NzE2NzY2Nn0.KxZZ7HBagVffPAbgiPRf3BHRwL7_5gEOyH8FklZSkEk]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
+  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/esfoliante-facial---250ml-1782747038113.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZXNmb2xpYW50ZS1mYWNpYWwtLS0yNTBtbC0xNzgyNzQ3MDM4MTEzLnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY2MjM0MzYsImV4cCI6MTc4NzIyODIzNn0.rydTJG2I4O3FSlu0cIEtZapvN65iu5frgeY1cMNYljA]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
   "link_individual_produto": "https://lakma.com.br/products/esfoliante-facial-250ml?_pos=1&_sid=6964d0934&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -11733,17 +11932,20 @@ Esfoliante facial para renovação, preparo da pele, remoção de células morta
   "link_site": "https://lakma.com.br/products/esfoliante-facial-250ml?_pos=1&_sid=6964d0934&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA35",
-  "desconto_site": "35%",
+  "cupom_site": "LAKMA30",
+  "desconto_site": "30%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
   "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "cupom_ativo": true,
+  "cupom_codigo": "LAKMA30",
+  "cupom_desconto_percent": 30,
   "valor_sem_desconto": 129.89,
-  "valor_com_cupom_lakma35": 84.43,
+  "valor_com_cupom": 90.92,
   "valor_sem_desconto_br": "R$ 129,89",
-  "valor_com_cupom_lakma35_br": "R$ 84,43",
-  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "valor_com_cupom_br": "R$ 90,92",
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.7",
   "pdf_aprovado_protocolo": null,
   "pdf_source": null,
   "pdf_is_generated": false,
@@ -11752,7 +11954,7 @@ Esfoliante facial para renovação, preparo da pele, remoção de células morta
   "categoria_intencao": [],
   "quando_indicar_direto": [],
   "indicacao_curta": null,
-  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_lakma35_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
+  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
 }
 ```
 
@@ -11898,21 +12100,21 @@ Peeling químico profissional clareador, indicado para clareamento de manchas, h
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/peeling-bio-complex-clareador---50ml-1782747079148.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvcGVlbGluZy1iaW8tY29tcGxleC1jbGFyZWFkb3ItLS01MG1sLTE3ODI3NDcwNzkxNDgucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg2NiwiZXhwIjoxNzg3MTY3NjY2fQ.IUj-r8h-k5u4w2KqnHTKUbySDR71dCI2p-lEuvwzyOA ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/peeling-bio-complex-clareador---50ml-1782747079148.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvcGVlbGluZy1iaW8tY29tcGxleC1jbGFyZWFkb3ItLS01MG1sLTE3ODI3NDcwNzkxNDgucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg2NiwiZXhwIjoxNzg3MTY3NjY2fQ.IUj-r8h-k5u4w2KqnHTKUbySDR71dCI2p-lEuvwzyOA]]` no topo da resposta
+- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/peeling-bio-complex-clareador---50ml-1782747079148.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvcGVlbGluZy1iaW8tY29tcGxleC1jbGFyZWFkb3ItLS01MG1sLTE3ODI3NDcwNzkxNDgucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQzNywiZXhwIjoxNzg3MjI4MjM3fQ.URdzlO2JAhWctsAVql_z7zAoXzM4A6E9RO6qbYT_8aM ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/peeling-bio-complex-clareador---50ml-1782747079148.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvcGVlbGluZy1iaW8tY29tcGxleC1jbGFyZWFkb3ItLS01MG1sLTE3ODI3NDcwNzkxNDgucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQzNywiZXhwIjoxNzg3MjI4MjM3fQ.URdzlO2JAhWctsAVql_z7zAoXzM4A6E9RO6qbYT_8aM]]` no topo da resposta
 - **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
 - **Valor sem desconto:** R$ 200,10
-- **Valor com cupom LAKMA35:** R$ 130,06  _(calculado automaticamente = valor_sem_desconto × 0,65)_
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/peeling-bio-complex-clareador-50ml?_pos=1&_sid=3b6d9d823&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+- **Valor com cupom LAKMA30:** R$ 140,07  _(calculado automaticamente = valor_sem_desconto × 0.7)_
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/peeling-bio-complex-clareador-50ml?_pos=1&_sid=3b6d9d823&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
 
 ```json
 {
   "produto": "Peeling Bio Complex, Clareador - 50ml",
   "aliases": [],
-  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/peeling-bio-complex-clareador---50ml-1782747079148.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvcGVlbGluZy1iaW8tY29tcGxleC1jbGFyZWFkb3ItLS01MG1sLTE3ODI3NDcwNzkxNDgucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg2NiwiZXhwIjoxNzg3MTY3NjY2fQ.IUj-r8h-k5u4w2KqnHTKUbySDR71dCI2p-lEuvwzyOA",
+  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/peeling-bio-complex-clareador---50ml-1782747079148.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvcGVlbGluZy1iaW8tY29tcGxleC1jbGFyZWFkb3ItLS01MG1sLTE3ODI3NDcwNzkxNDgucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQzNywiZXhwIjoxNzg3MjI4MjM3fQ.URdzlO2JAhWctsAVql_z7zAoXzM4A6E9RO6qbYT_8aM",
   "campo_origem_foto": "image_url",
   "image_source": "product_database",
   "image_is_generated": false,
-  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/peeling-bio-complex-clareador---50ml-1782747079148.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvcGVlbGluZy1iaW8tY29tcGxleC1jbGFyZWFkb3ItLS01MG1sLTE3ODI3NDcwNzkxNDgucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg2NiwiZXhwIjoxNzg3MTY3NjY2fQ.IUj-r8h-k5u4w2KqnHTKUbySDR71dCI2p-lEuvwzyOA]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
+  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/peeling-bio-complex-clareador---50ml-1782747079148.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvcGVlbGluZy1iaW8tY29tcGxleC1jbGFyZWFkb3ItLS01MG1sLTE3ODI3NDcwNzkxNDgucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQzNywiZXhwIjoxNzg3MjI4MjM3fQ.URdzlO2JAhWctsAVql_z7zAoXzM4A6E9RO6qbYT_8aM]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
   "link_individual_produto": "https://lakma.com.br/products/peeling-bio-complex-clareador-50ml?_pos=1&_sid=3b6d9d823&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -11920,17 +12122,20 @@ Peeling químico profissional clareador, indicado para clareamento de manchas, h
   "link_site": "https://lakma.com.br/products/peeling-bio-complex-clareador-50ml?_pos=1&_sid=3b6d9d823&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA35",
-  "desconto_site": "35%",
+  "cupom_site": "LAKMA30",
+  "desconto_site": "30%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
   "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "cupom_ativo": true,
+  "cupom_codigo": "LAKMA30",
+  "cupom_desconto_percent": 30,
   "valor_sem_desconto": 200.1,
-  "valor_com_cupom_lakma35": 130.06,
+  "valor_com_cupom": 140.07,
   "valor_sem_desconto_br": "R$ 200,10",
-  "valor_com_cupom_lakma35_br": "R$ 130,06",
-  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "valor_com_cupom_br": "R$ 140,07",
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.7",
   "pdf_aprovado_protocolo": null,
   "pdf_source": null,
   "pdf_is_generated": false,
@@ -11939,7 +12144,7 @@ Peeling químico profissional clareador, indicado para clareamento de manchas, h
   "categoria_intencao": [],
   "quando_indicar_direto": [],
   "indicacao_curta": null,
-  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_lakma35_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
+  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
 }
 ```
 
@@ -12086,21 +12291,21 @@ Emoliente facial profissional para limpeza de pele, indicado para amolecer cravo
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/emoliente-de-cravos-e-espinhas---500g-1782747114133.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZW1vbGllbnRlLWRlLWNyYXZvcy1lLWVzcGluaGFzLS0tNTAwZy0xNzgyNzQ3MTE0MTMzLnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY1NjI4NjYsImV4cCI6MTc4NzE2NzY2Nn0.20MCrvsPfbQGwwSFBSbUNW4t-2M7R8jdEKJfZAxzbaQ ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/emoliente-de-cravos-e-espinhas---500g-1782747114133.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZW1vbGllbnRlLWRlLWNyYXZvcy1lLWVzcGluaGFzLS0tNTAwZy0xNzgyNzQ3MTE0MTMzLnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY1NjI4NjYsImV4cCI6MTc4NzE2NzY2Nn0.20MCrvsPfbQGwwSFBSbUNW4t-2M7R8jdEKJfZAxzbaQ]]` no topo da resposta
+- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/emoliente-de-cravos-e-espinhas---500g-1782747114133.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZW1vbGllbnRlLWRlLWNyYXZvcy1lLWVzcGluaGFzLS0tNTAwZy0xNzgyNzQ3MTE0MTMzLnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY2MjM0MzcsImV4cCI6MTc4NzIyODIzN30.AKynyJhCmnyFtVx7oRorpVeG9Yjau9qDEXFHXy0t8dg ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/emoliente-de-cravos-e-espinhas---500g-1782747114133.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZW1vbGllbnRlLWRlLWNyYXZvcy1lLWVzcGluaGFzLS0tNTAwZy0xNzgyNzQ3MTE0MTMzLnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY2MjM0MzcsImV4cCI6MTc4NzIyODIzN30.AKynyJhCmnyFtVx7oRorpVeG9Yjau9qDEXFHXy0t8dg]]` no topo da resposta
 - **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
 - **Valor sem desconto:** R$ 170,16
-- **Valor com cupom LAKMA35:** R$ 110,60  _(calculado automaticamente = valor_sem_desconto × 0,65)_
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/emoliente-de-cravos-250gr?_pos=1&_sid=9b5e6289b&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+- **Valor com cupom LAKMA30:** R$ 119,11  _(calculado automaticamente = valor_sem_desconto × 0.7)_
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/emoliente-de-cravos-250gr?_pos=1&_sid=9b5e6289b&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
 
 ```json
 {
   "produto": "Emoliente de Cravos e Espinhas - 500g",
   "aliases": [],
-  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/emoliente-de-cravos-e-espinhas---500g-1782747114133.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZW1vbGllbnRlLWRlLWNyYXZvcy1lLWVzcGluaGFzLS0tNTAwZy0xNzgyNzQ3MTE0MTMzLnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY1NjI4NjYsImV4cCI6MTc4NzE2NzY2Nn0.20MCrvsPfbQGwwSFBSbUNW4t-2M7R8jdEKJfZAxzbaQ",
+  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/emoliente-de-cravos-e-espinhas---500g-1782747114133.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZW1vbGllbnRlLWRlLWNyYXZvcy1lLWVzcGluaGFzLS0tNTAwZy0xNzgyNzQ3MTE0MTMzLnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY2MjM0MzcsImV4cCI6MTc4NzIyODIzN30.AKynyJhCmnyFtVx7oRorpVeG9Yjau9qDEXFHXy0t8dg",
   "campo_origem_foto": "image_url",
   "image_source": "product_database",
   "image_is_generated": false,
-  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/emoliente-de-cravos-e-espinhas---500g-1782747114133.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZW1vbGllbnRlLWRlLWNyYXZvcy1lLWVzcGluaGFzLS0tNTAwZy0xNzgyNzQ3MTE0MTMzLnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY1NjI4NjYsImV4cCI6MTc4NzE2NzY2Nn0.20MCrvsPfbQGwwSFBSbUNW4t-2M7R8jdEKJfZAxzbaQ]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
+  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/emoliente-de-cravos-e-espinhas---500g-1782747114133.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZW1vbGllbnRlLWRlLWNyYXZvcy1lLWVzcGluaGFzLS0tNTAwZy0xNzgyNzQ3MTE0MTMzLnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY2MjM0MzcsImV4cCI6MTc4NzIyODIzN30.AKynyJhCmnyFtVx7oRorpVeG9Yjau9qDEXFHXy0t8dg]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
   "link_individual_produto": "https://lakma.com.br/products/emoliente-de-cravos-250gr?_pos=1&_sid=9b5e6289b&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -12108,17 +12313,20 @@ Emoliente facial profissional para limpeza de pele, indicado para amolecer cravo
   "link_site": "https://lakma.com.br/products/emoliente-de-cravos-250gr?_pos=1&_sid=9b5e6289b&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA35",
-  "desconto_site": "35%",
+  "cupom_site": "LAKMA30",
+  "desconto_site": "30%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
   "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "cupom_ativo": true,
+  "cupom_codigo": "LAKMA30",
+  "cupom_desconto_percent": 30,
   "valor_sem_desconto": 170.16,
-  "valor_com_cupom_lakma35": 110.6,
+  "valor_com_cupom": 119.11,
   "valor_sem_desconto_br": "R$ 170,16",
-  "valor_com_cupom_lakma35_br": "R$ 110,60",
-  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "valor_com_cupom_br": "R$ 119,11",
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.7",
   "pdf_aprovado_protocolo": null,
   "pdf_source": null,
   "pdf_is_generated": false,
@@ -12127,7 +12335,7 @@ Emoliente facial profissional para limpeza de pele, indicado para amolecer cravo
   "categoria_intencao": [],
   "quando_indicar_direto": [],
   "indicacao_curta": null,
-  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_lakma35_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
+  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
 }
 ```
 
@@ -12279,21 +12487,21 @@ Creme corporal redutor para massagem, indicado para protocolos profissionais de 
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/creme-10-ativos-para-celulite---900g-1782747150973.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvY3JlbWUtMTAtYXRpdm9zLXBhcmEtY2VsdWxpdGUtLS05MDBnLTE3ODI3NDcxNTA5NzMucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg2NywiZXhwIjoxNzg3MTY3NjY3fQ.U4DvmcyPCtsOICLaHwV7LU3tlpafbjGlAsqLgwJIVwU ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/creme-10-ativos-para-celulite---900g-1782747150973.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvY3JlbWUtMTAtYXRpdm9zLXBhcmEtY2VsdWxpdGUtLS05MDBnLTE3ODI3NDcxNTA5NzMucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg2NywiZXhwIjoxNzg3MTY3NjY3fQ.U4DvmcyPCtsOICLaHwV7LU3tlpafbjGlAsqLgwJIVwU]]` no topo da resposta
+- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/creme-10-ativos-para-celulite---900g-1782747150973.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvY3JlbWUtMTAtYXRpdm9zLXBhcmEtY2VsdWxpdGUtLS05MDBnLTE3ODI3NDcxNTA5NzMucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQzNywiZXhwIjoxNzg3MjI4MjM3fQ.0tmPTC04KGSENBdLEpmHsX-5bt6-j_R3yyDfVgn8WMs ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/creme-10-ativos-para-celulite---900g-1782747150973.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvY3JlbWUtMTAtYXRpdm9zLXBhcmEtY2VsdWxpdGUtLS05MDBnLTE3ODI3NDcxNTA5NzMucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQzNywiZXhwIjoxNzg3MjI4MjM3fQ.0tmPTC04KGSENBdLEpmHsX-5bt6-j_R3yyDfVgn8WMs]]` no topo da resposta
 - **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
 - **Valor sem desconto:** R$ 232,63
-- **Valor com cupom LAKMA35:** R$ 151,21  _(calculado automaticamente = valor_sem_desconto × 0,65)_
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/creme-de-massagem-10-ativos-900g?_pos=1&_sid=96328ab85&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+- **Valor com cupom LAKMA30:** R$ 162,84  _(calculado automaticamente = valor_sem_desconto × 0.7)_
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/creme-de-massagem-10-ativos-900g?_pos=1&_sid=96328ab85&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
 
 ```json
 {
   "produto": "Creme 10 Ativos para Celulite - 900g",
   "aliases": [],
-  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/creme-10-ativos-para-celulite---900g-1782747150973.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvY3JlbWUtMTAtYXRpdm9zLXBhcmEtY2VsdWxpdGUtLS05MDBnLTE3ODI3NDcxNTA5NzMucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg2NywiZXhwIjoxNzg3MTY3NjY3fQ.U4DvmcyPCtsOICLaHwV7LU3tlpafbjGlAsqLgwJIVwU",
+  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/creme-10-ativos-para-celulite---900g-1782747150973.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvY3JlbWUtMTAtYXRpdm9zLXBhcmEtY2VsdWxpdGUtLS05MDBnLTE3ODI3NDcxNTA5NzMucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQzNywiZXhwIjoxNzg3MjI4MjM3fQ.0tmPTC04KGSENBdLEpmHsX-5bt6-j_R3yyDfVgn8WMs",
   "campo_origem_foto": "image_url",
   "image_source": "product_database",
   "image_is_generated": false,
-  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/creme-10-ativos-para-celulite---900g-1782747150973.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvY3JlbWUtMTAtYXRpdm9zLXBhcmEtY2VsdWxpdGUtLS05MDBnLTE3ODI3NDcxNTA5NzMucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg2NywiZXhwIjoxNzg3MTY3NjY3fQ.U4DvmcyPCtsOICLaHwV7LU3tlpafbjGlAsqLgwJIVwU]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
+  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/creme-10-ativos-para-celulite---900g-1782747150973.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvY3JlbWUtMTAtYXRpdm9zLXBhcmEtY2VsdWxpdGUtLS05MDBnLTE3ODI3NDcxNTA5NzMucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQzNywiZXhwIjoxNzg3MjI4MjM3fQ.0tmPTC04KGSENBdLEpmHsX-5bt6-j_R3yyDfVgn8WMs]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
   "link_individual_produto": "https://lakma.com.br/products/creme-de-massagem-10-ativos-900g?_pos=1&_sid=96328ab85&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -12301,17 +12509,20 @@ Creme corporal redutor para massagem, indicado para protocolos profissionais de 
   "link_site": "https://lakma.com.br/products/creme-de-massagem-10-ativos-900g?_pos=1&_sid=96328ab85&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA35",
-  "desconto_site": "35%",
+  "cupom_site": "LAKMA30",
+  "desconto_site": "30%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
   "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "cupom_ativo": true,
+  "cupom_codigo": "LAKMA30",
+  "cupom_desconto_percent": 30,
   "valor_sem_desconto": 232.63,
-  "valor_com_cupom_lakma35": 151.21,
+  "valor_com_cupom": 162.84,
   "valor_sem_desconto_br": "R$ 232,63",
-  "valor_com_cupom_lakma35_br": "R$ 151,21",
-  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "valor_com_cupom_br": "R$ 162,84",
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.7",
   "pdf_aprovado_protocolo": null,
   "pdf_source": null,
   "pdf_is_generated": false,
@@ -12320,7 +12531,7 @@ Creme corporal redutor para massagem, indicado para protocolos profissionais de 
   "categoria_intencao": [],
   "quando_indicar_direto": [],
   "indicacao_curta": null,
-  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_lakma35_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
+  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
 }
 ```
 
@@ -12469,21 +12680,21 @@ Loção profissional neutralizante, indicada para controlar ou interromper a aç
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/solu-o-neutralizante-de-cidos---50ml-1782747188534.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uvc29sdS1vLW5ldXRyYWxpemFudGUtZGUtY2lkb3MtLS01MG1sLTE3ODI3NDcxODg1MzQucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg2NywiZXhwIjoxNzg3MTY3NjY3fQ.pxrn63Od08EM86RHgU1WG2BXahssM7hQhTFvlhufAOw ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/solu-o-neutralizante-de-cidos---50ml-1782747188534.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uvc29sdS1vLW5ldXRyYWxpemFudGUtZGUtY2lkb3MtLS01MG1sLTE3ODI3NDcxODg1MzQucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg2NywiZXhwIjoxNzg3MTY3NjY3fQ.pxrn63Od08EM86RHgU1WG2BXahssM7hQhTFvlhufAOw]]` no topo da resposta
+- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/solu-o-neutralizante-de-cidos---50ml-1782747188534.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uvc29sdS1vLW5ldXRyYWxpemFudGUtZGUtY2lkb3MtLS01MG1sLTE3ODI3NDcxODg1MzQucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQzNywiZXhwIjoxNzg3MjI4MjM3fQ.JjK5_dWfZmJYpV8mDnI0CqG_ai_hC1MEHmlxMVZ3QtM ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/solu-o-neutralizante-de-cidos---50ml-1782747188534.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uvc29sdS1vLW5ldXRyYWxpemFudGUtZGUtY2lkb3MtLS01MG1sLTE3ODI3NDcxODg1MzQucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQzNywiZXhwIjoxNzg3MjI4MjM3fQ.JjK5_dWfZmJYpV8mDnI0CqG_ai_hC1MEHmlxMVZ3QtM]]` no topo da resposta
 - **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
 - **Valor sem desconto:** R$ 87,78
-- **Valor com cupom LAKMA35:** R$ 57,06  _(calculado automaticamente = valor_sem_desconto × 0,65)_
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/solucao-neutralizante-50ml?_pos=1&_sid=11920c378&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+- **Valor com cupom LAKMA30:** R$ 61,45  _(calculado automaticamente = valor_sem_desconto × 0.7)_
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/solucao-neutralizante-50ml?_pos=1&_sid=11920c378&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
 
 ```json
 {
   "produto": "Solução Neutralizante de Ácidos - 50ml",
   "aliases": [],
-  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/solu-o-neutralizante-de-cidos---50ml-1782747188534.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uvc29sdS1vLW5ldXRyYWxpemFudGUtZGUtY2lkb3MtLS01MG1sLTE3ODI3NDcxODg1MzQucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg2NywiZXhwIjoxNzg3MTY3NjY3fQ.pxrn63Od08EM86RHgU1WG2BXahssM7hQhTFvlhufAOw",
+  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/solu-o-neutralizante-de-cidos---50ml-1782747188534.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uvc29sdS1vLW5ldXRyYWxpemFudGUtZGUtY2lkb3MtLS01MG1sLTE3ODI3NDcxODg1MzQucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQzNywiZXhwIjoxNzg3MjI4MjM3fQ.JjK5_dWfZmJYpV8mDnI0CqG_ai_hC1MEHmlxMVZ3QtM",
   "campo_origem_foto": "image_url",
   "image_source": "product_database",
   "image_is_generated": false,
-  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/solu-o-neutralizante-de-cidos---50ml-1782747188534.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uvc29sdS1vLW5ldXRyYWxpemFudGUtZGUtY2lkb3MtLS01MG1sLTE3ODI3NDcxODg1MzQucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg2NywiZXhwIjoxNzg3MTY3NjY3fQ.pxrn63Od08EM86RHgU1WG2BXahssM7hQhTFvlhufAOw]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
+  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/solu-o-neutralizante-de-cidos---50ml-1782747188534.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uvc29sdS1vLW5ldXRyYWxpemFudGUtZGUtY2lkb3MtLS01MG1sLTE3ODI3NDcxODg1MzQucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQzNywiZXhwIjoxNzg3MjI4MjM3fQ.JjK5_dWfZmJYpV8mDnI0CqG_ai_hC1MEHmlxMVZ3QtM]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
   "link_individual_produto": "https://lakma.com.br/products/solucao-neutralizante-50ml?_pos=1&_sid=11920c378&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -12491,17 +12702,20 @@ Loção profissional neutralizante, indicada para controlar ou interromper a aç
   "link_site": "https://lakma.com.br/products/solucao-neutralizante-50ml?_pos=1&_sid=11920c378&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA35",
-  "desconto_site": "35%",
+  "cupom_site": "LAKMA30",
+  "desconto_site": "30%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
   "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "cupom_ativo": true,
+  "cupom_codigo": "LAKMA30",
+  "cupom_desconto_percent": 30,
   "valor_sem_desconto": 87.78,
-  "valor_com_cupom_lakma35": 57.06,
+  "valor_com_cupom": 61.45,
   "valor_sem_desconto_br": "R$ 87,78",
-  "valor_com_cupom_lakma35_br": "R$ 57,06",
-  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "valor_com_cupom_br": "R$ 61,45",
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.7",
   "pdf_aprovado_protocolo": null,
   "pdf_source": null,
   "pdf_is_generated": false,
@@ -12510,7 +12724,7 @@ Loção profissional neutralizante, indicada para controlar ou interromper a aç
   "categoria_intencao": [],
   "quando_indicar_direto": [],
   "indicacao_curta": null,
-  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_lakma35_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
+  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
 }
 ```
 
@@ -12654,21 +12868,21 @@ Máscara facial hidratante e revitalizante com efeito dourado, indicada para hid
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/m-scara-facial-de-ouro-golden-glitter---150g-1782747260703.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbS1zY2FyYS1mYWNpYWwtZGUtb3Vyby1nb2xkZW4tZ2xpdHRlci0tLTE1MGctMTc4Mjc0NzI2MDcwMy5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODY3LCJleHAiOjE3ODcxNjc2Njd9.urrxor7klsFU4r2EgegAM0cGBIsMfA1KJM6_aFz9npI ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/m-scara-facial-de-ouro-golden-glitter---150g-1782747260703.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbS1zY2FyYS1mYWNpYWwtZGUtb3Vyby1nb2xkZW4tZ2xpdHRlci0tLTE1MGctMTc4Mjc0NzI2MDcwMy5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODY3LCJleHAiOjE3ODcxNjc2Njd9.urrxor7klsFU4r2EgegAM0cGBIsMfA1KJM6_aFz9npI]]` no topo da resposta
+- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/m-scara-facial-de-ouro-golden-glitter---150g-1782747260703.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbS1zY2FyYS1mYWNpYWwtZGUtb3Vyby1nb2xkZW4tZ2xpdHRlci0tLTE1MGctMTc4Mjc0NzI2MDcwMy5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDM3LCJleHAiOjE3ODcyMjgyMzd9.DOUjhZ9eo6AIYGy8IUQoRwO-fV6sP0RBkwI2lS-dhlU ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/m-scara-facial-de-ouro-golden-glitter---150g-1782747260703.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbS1zY2FyYS1mYWNpYWwtZGUtb3Vyby1nb2xkZW4tZ2xpdHRlci0tLTE1MGctMTc4Mjc0NzI2MDcwMy5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDM3LCJleHAiOjE3ODcyMjgyMzd9.DOUjhZ9eo6AIYGy8IUQoRwO-fV6sP0RBkwI2lS-dhlU]]` no topo da resposta
 - **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
 - **Valor sem desconto:** R$ 200,10
-- **Valor com cupom LAKMA35:** R$ 130,06  _(calculado automaticamente = valor_sem_desconto × 0,65)_
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/mascara-ouro-rejuvenescedora-150gr?_pos=1&_sid=7b0b04bfc&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+- **Valor com cupom LAKMA30:** R$ 140,07  _(calculado automaticamente = valor_sem_desconto × 0.7)_
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/mascara-ouro-rejuvenescedora-150gr?_pos=1&_sid=7b0b04bfc&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
 
 ```json
 {
   "produto": "Máscara Facial de Ouro Golden Glitter - 150g",
   "aliases": [],
-  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/m-scara-facial-de-ouro-golden-glitter---150g-1782747260703.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbS1zY2FyYS1mYWNpYWwtZGUtb3Vyby1nb2xkZW4tZ2xpdHRlci0tLTE1MGctMTc4Mjc0NzI2MDcwMy5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODY3LCJleHAiOjE3ODcxNjc2Njd9.urrxor7klsFU4r2EgegAM0cGBIsMfA1KJM6_aFz9npI",
+  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/m-scara-facial-de-ouro-golden-glitter---150g-1782747260703.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbS1zY2FyYS1mYWNpYWwtZGUtb3Vyby1nb2xkZW4tZ2xpdHRlci0tLTE1MGctMTc4Mjc0NzI2MDcwMy5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDM3LCJleHAiOjE3ODcyMjgyMzd9.DOUjhZ9eo6AIYGy8IUQoRwO-fV6sP0RBkwI2lS-dhlU",
   "campo_origem_foto": "image_url",
   "image_source": "product_database",
   "image_is_generated": false,
-  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/m-scara-facial-de-ouro-golden-glitter---150g-1782747260703.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbS1zY2FyYS1mYWNpYWwtZGUtb3Vyby1nb2xkZW4tZ2xpdHRlci0tLTE1MGctMTc4Mjc0NzI2MDcwMy5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODY3LCJleHAiOjE3ODcxNjc2Njd9.urrxor7klsFU4r2EgegAM0cGBIsMfA1KJM6_aFz9npI]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
+  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/m-scara-facial-de-ouro-golden-glitter---150g-1782747260703.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbS1zY2FyYS1mYWNpYWwtZGUtb3Vyby1nb2xkZW4tZ2xpdHRlci0tLTE1MGctMTc4Mjc0NzI2MDcwMy5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDM3LCJleHAiOjE3ODcyMjgyMzd9.DOUjhZ9eo6AIYGy8IUQoRwO-fV6sP0RBkwI2lS-dhlU]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
   "link_individual_produto": "https://lakma.com.br/products/mascara-ouro-rejuvenescedora-150gr?_pos=1&_sid=7b0b04bfc&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -12676,17 +12890,20 @@ Máscara facial hidratante e revitalizante com efeito dourado, indicada para hid
   "link_site": "https://lakma.com.br/products/mascara-ouro-rejuvenescedora-150gr?_pos=1&_sid=7b0b04bfc&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA35",
-  "desconto_site": "35%",
+  "cupom_site": "LAKMA30",
+  "desconto_site": "30%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
   "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "cupom_ativo": true,
+  "cupom_codigo": "LAKMA30",
+  "cupom_desconto_percent": 30,
   "valor_sem_desconto": 200.1,
-  "valor_com_cupom_lakma35": 130.06,
+  "valor_com_cupom": 140.07,
   "valor_sem_desconto_br": "R$ 200,10",
-  "valor_com_cupom_lakma35_br": "R$ 130,06",
-  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "valor_com_cupom_br": "R$ 140,07",
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.7",
   "pdf_aprovado_protocolo": null,
   "pdf_source": null,
   "pdf_is_generated": false,
@@ -12695,7 +12912,7 @@ Máscara facial hidratante e revitalizante com efeito dourado, indicada para hid
   "categoria_intencao": [],
   "quando_indicar_direto": [],
   "indicacao_curta": null,
-  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_lakma35_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
+  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
 }
 ```
 
@@ -12851,21 +13068,21 @@ Sérum facial com fator de crescimento e peptídeos, indicado para firmeza, revi
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/fator-de-crescimento-melange-especial---50ml-1782747302777.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZmF0b3ItZGUtY3Jlc2NpbWVudG8tbWVsYW5nZS1lc3BlY2lhbC0tLTUwbWwtMTc4Mjc0NzMwMjc3Ny5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODY3LCJleHAiOjE3ODcxNjc2Njd9.gmEfLdO3_K3liIa9xB0bb5PC2_3hTPK-RwpVHL4mqkQ ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/fator-de-crescimento-melange-especial---50ml-1782747302777.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZmF0b3ItZGUtY3Jlc2NpbWVudG8tbWVsYW5nZS1lc3BlY2lhbC0tLTUwbWwtMTc4Mjc0NzMwMjc3Ny5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODY3LCJleHAiOjE3ODcxNjc2Njd9.gmEfLdO3_K3liIa9xB0bb5PC2_3hTPK-RwpVHL4mqkQ]]` no topo da resposta
+- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/fator-de-crescimento-melange-especial---50ml-1782747302777.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZmF0b3ItZGUtY3Jlc2NpbWVudG8tbWVsYW5nZS1lc3BlY2lhbC0tLTUwbWwtMTc4Mjc0NzMwMjc3Ny5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDM4LCJleHAiOjE3ODcyMjgyMzh9.6gbHnUGFq_clXBpvB0okQFi3W0cIzzkIW3R-yNpTBsc ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/fator-de-crescimento-melange-especial---50ml-1782747302777.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZmF0b3ItZGUtY3Jlc2NpbWVudG8tbWVsYW5nZS1lc3BlY2lhbC0tLTUwbWwtMTc4Mjc0NzMwMjc3Ny5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDM4LCJleHAiOjE3ODcyMjgyMzh9.6gbHnUGFq_clXBpvB0okQFi3W0cIzzkIW3R-yNpTBsc]]` no topo da resposta
 - **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
 - **Valor sem desconto:** R$ 200,10
-- **Valor com cupom LAKMA35:** R$ 130,06  _(calculado automaticamente = valor_sem_desconto × 0,65)_
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/melange-especial-fator-de-crescimento-para-microagulhamento-50ml?_pos=1&_sid=e3164b646&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+- **Valor com cupom LAKMA30:** R$ 140,07  _(calculado automaticamente = valor_sem_desconto × 0.7)_
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/melange-especial-fator-de-crescimento-para-microagulhamento-50ml?_pos=1&_sid=e3164b646&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
 
 ```json
 {
   "produto": "Fator de Crescimento Melange Especial - 50ml",
   "aliases": [],
-  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/fator-de-crescimento-melange-especial---50ml-1782747302777.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZmF0b3ItZGUtY3Jlc2NpbWVudG8tbWVsYW5nZS1lc3BlY2lhbC0tLTUwbWwtMTc4Mjc0NzMwMjc3Ny5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODY3LCJleHAiOjE3ODcxNjc2Njd9.gmEfLdO3_K3liIa9xB0bb5PC2_3hTPK-RwpVHL4mqkQ",
+  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/fator-de-crescimento-melange-especial---50ml-1782747302777.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZmF0b3ItZGUtY3Jlc2NpbWVudG8tbWVsYW5nZS1lc3BlY2lhbC0tLTUwbWwtMTc4Mjc0NzMwMjc3Ny5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDM4LCJleHAiOjE3ODcyMjgyMzh9.6gbHnUGFq_clXBpvB0okQFi3W0cIzzkIW3R-yNpTBsc",
   "campo_origem_foto": "image_url",
   "image_source": "product_database",
   "image_is_generated": false,
-  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/fator-de-crescimento-melange-especial---50ml-1782747302777.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZmF0b3ItZGUtY3Jlc2NpbWVudG8tbWVsYW5nZS1lc3BlY2lhbC0tLTUwbWwtMTc4Mjc0NzMwMjc3Ny5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODY3LCJleHAiOjE3ODcxNjc2Njd9.gmEfLdO3_K3liIa9xB0bb5PC2_3hTPK-RwpVHL4mqkQ]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
+  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/fator-de-crescimento-melange-especial---50ml-1782747302777.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZmF0b3ItZGUtY3Jlc2NpbWVudG8tbWVsYW5nZS1lc3BlY2lhbC0tLTUwbWwtMTc4Mjc0NzMwMjc3Ny5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDM4LCJleHAiOjE3ODcyMjgyMzh9.6gbHnUGFq_clXBpvB0okQFi3W0cIzzkIW3R-yNpTBsc]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
   "link_individual_produto": "https://lakma.com.br/products/melange-especial-fator-de-crescimento-para-microagulhamento-50ml?_pos=1&_sid=e3164b646&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -12873,17 +13090,20 @@ Sérum facial com fator de crescimento e peptídeos, indicado para firmeza, revi
   "link_site": "https://lakma.com.br/products/melange-especial-fator-de-crescimento-para-microagulhamento-50ml?_pos=1&_sid=e3164b646&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA35",
-  "desconto_site": "35%",
+  "cupom_site": "LAKMA30",
+  "desconto_site": "30%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
   "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "cupom_ativo": true,
+  "cupom_codigo": "LAKMA30",
+  "cupom_desconto_percent": 30,
   "valor_sem_desconto": 200.1,
-  "valor_com_cupom_lakma35": 130.06,
+  "valor_com_cupom": 140.07,
   "valor_sem_desconto_br": "R$ 200,10",
-  "valor_com_cupom_lakma35_br": "R$ 130,06",
-  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "valor_com_cupom_br": "R$ 140,07",
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.7",
   "pdf_aprovado_protocolo": null,
   "pdf_source": null,
   "pdf_is_generated": false,
@@ -12892,7 +13112,7 @@ Sérum facial com fator de crescimento e peptídeos, indicado para firmeza, revi
   "categoria_intencao": [],
   "quando_indicar_direto": [],
   "indicacao_curta": null,
-  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_lakma35_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
+  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
 }
 ```
 
@@ -13046,21 +13266,21 @@ Fluido dermocosmético regenerador facial e corporal, indicado para melhorar a a
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/neuroplasma-nutri-complex---50ml-1782747616937.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbmV1cm9wbGFzbWEtbnV0cmktY29tcGxleC0tLTUwbWwtMTc4Mjc0NzYxNjkzNy5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODY4LCJleHAiOjE3ODcxNjc2Njh9.56J_nOPR3snUfLSL3Yf00aEYNAVihZ8pa19T4V9iAj0 ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/neuroplasma-nutri-complex---50ml-1782747616937.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbmV1cm9wbGFzbWEtbnV0cmktY29tcGxleC0tLTUwbWwtMTc4Mjc0NzYxNjkzNy5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODY4LCJleHAiOjE3ODcxNjc2Njh9.56J_nOPR3snUfLSL3Yf00aEYNAVihZ8pa19T4V9iAj0]]` no topo da resposta
+- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/neuroplasma-nutri-complex---50ml-1782747616937.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbmV1cm9wbGFzbWEtbnV0cmktY29tcGxleC0tLTUwbWwtMTc4Mjc0NzYxNjkzNy5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDM4LCJleHAiOjE3ODcyMjgyMzh9.auPOMv0vWEHXSyrOtJuFWWTBqAikZtCSEv0qOoSO0Vo ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/neuroplasma-nutri-complex---50ml-1782747616937.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbmV1cm9wbGFzbWEtbnV0cmktY29tcGxleC0tLTUwbWwtMTc4Mjc0NzYxNjkzNy5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDM4LCJleHAiOjE3ODcyMjgyMzh9.auPOMv0vWEHXSyrOtJuFWWTBqAikZtCSEv0qOoSO0Vo]]` no topo da resposta
 - **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
 - **Valor sem desconto:** R$ 186,34
-- **Valor com cupom LAKMA35:** R$ 121,12  _(calculado automaticamente = valor_sem_desconto × 0,65)_
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/neuroplasma-nutri-complex-para-cicatriz-a-acne-e-estrias-50ml?_pos=2&_sid=06b71ae8f&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+- **Valor com cupom LAKMA30:** R$ 130,44  _(calculado automaticamente = valor_sem_desconto × 0.7)_
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/neuroplasma-nutri-complex-para-cicatriz-a-acne-e-estrias-50ml?_pos=2&_sid=06b71ae8f&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
 
 ```json
 {
   "produto": "Neuroplasma Nutri-Complex - 50ml",
   "aliases": [],
-  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/neuroplasma-nutri-complex---50ml-1782747616937.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbmV1cm9wbGFzbWEtbnV0cmktY29tcGxleC0tLTUwbWwtMTc4Mjc0NzYxNjkzNy5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODY4LCJleHAiOjE3ODcxNjc2Njh9.56J_nOPR3snUfLSL3Yf00aEYNAVihZ8pa19T4V9iAj0",
+  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/neuroplasma-nutri-complex---50ml-1782747616937.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbmV1cm9wbGFzbWEtbnV0cmktY29tcGxleC0tLTUwbWwtMTc4Mjc0NzYxNjkzNy5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDM4LCJleHAiOjE3ODcyMjgyMzh9.auPOMv0vWEHXSyrOtJuFWWTBqAikZtCSEv0qOoSO0Vo",
   "campo_origem_foto": "image_url",
   "image_source": "product_database",
   "image_is_generated": false,
-  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/neuroplasma-nutri-complex---50ml-1782747616937.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbmV1cm9wbGFzbWEtbnV0cmktY29tcGxleC0tLTUwbWwtMTc4Mjc0NzYxNjkzNy5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODY4LCJleHAiOjE3ODcxNjc2Njh9.56J_nOPR3snUfLSL3Yf00aEYNAVihZ8pa19T4V9iAj0]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
+  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/neuroplasma-nutri-complex---50ml-1782747616937.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbmV1cm9wbGFzbWEtbnV0cmktY29tcGxleC0tLTUwbWwtMTc4Mjc0NzYxNjkzNy5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDM4LCJleHAiOjE3ODcyMjgyMzh9.auPOMv0vWEHXSyrOtJuFWWTBqAikZtCSEv0qOoSO0Vo]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
   "link_individual_produto": "https://lakma.com.br/products/neuroplasma-nutri-complex-para-cicatriz-a-acne-e-estrias-50ml?_pos=2&_sid=06b71ae8f&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -13068,17 +13288,20 @@ Fluido dermocosmético regenerador facial e corporal, indicado para melhorar a a
   "link_site": "https://lakma.com.br/products/neuroplasma-nutri-complex-para-cicatriz-a-acne-e-estrias-50ml?_pos=2&_sid=06b71ae8f&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA35",
-  "desconto_site": "35%",
+  "cupom_site": "LAKMA30",
+  "desconto_site": "30%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
   "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "cupom_ativo": true,
+  "cupom_codigo": "LAKMA30",
+  "cupom_desconto_percent": 30,
   "valor_sem_desconto": 186.34,
-  "valor_com_cupom_lakma35": 121.12,
+  "valor_com_cupom": 130.44,
   "valor_sem_desconto_br": "R$ 186,34",
-  "valor_com_cupom_lakma35_br": "R$ 121,12",
-  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "valor_com_cupom_br": "R$ 130,44",
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.7",
   "pdf_aprovado_protocolo": null,
   "pdf_source": null,
   "pdf_is_generated": false,
@@ -13087,7 +13310,7 @@ Fluido dermocosmético regenerador facial e corporal, indicado para melhorar a a
   "categoria_intencao": [],
   "quando_indicar_direto": [],
   "indicacao_curta": null,
-  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_lakma35_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
+  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
 }
 ```
 
@@ -13232,21 +13455,21 @@ Máscara facial em pó de Argila Verde 100%, indicada para peles normais, oleosa
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/argila-verde---150g-1782825043022.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvYXJnaWxhLXZlcmRlLS0tMTUwZy0xNzgyODI1MDQzMDIyLnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY1NjI4NjgsImV4cCI6MTc4NzE2NzY2OH0.KPl7xKKy5ZD2cQNnKe7yHticVPao3wu0NFLo0_PBTiU ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/argila-verde---150g-1782825043022.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvYXJnaWxhLXZlcmRlLS0tMTUwZy0xNzgyODI1MDQzMDIyLnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY1NjI4NjgsImV4cCI6MTc4NzE2NzY2OH0.KPl7xKKy5ZD2cQNnKe7yHticVPao3wu0NFLo0_PBTiU]]` no topo da resposta
+- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/argila-verde---150g-1782825043022.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvYXJnaWxhLXZlcmRlLS0tMTUwZy0xNzgyODI1MDQzMDIyLnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY2MjM0MzgsImV4cCI6MTc4NzIyODIzOH0.B_h821mUbYHUqIk8xLMDlNdNM2_e4kLyfYWFYEyPyLI ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/argila-verde---150g-1782825043022.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvYXJnaWxhLXZlcmRlLS0tMTUwZy0xNzgyODI1MDQzMDIyLnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY2MjM0MzgsImV4cCI6MTc4NzIyODIzOH0.B_h821mUbYHUqIk8xLMDlNdNM2_e4kLyfYWFYEyPyLI]]` no topo da resposta
 - **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
 - **Valor sem desconto:** R$ 51,07
-- **Valor com cupom LAKMA35:** R$ 33,20  _(calculado automaticamente = valor_sem_desconto × 0,65)_
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/argila-verde-150gr?_pos=1&_sid=d2cd41c2a&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+- **Valor com cupom LAKMA30:** R$ 35,75  _(calculado automaticamente = valor_sem_desconto × 0.7)_
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/argila-verde-150gr?_pos=1&_sid=d2cd41c2a&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
 
 ```json
 {
   "produto": "Argila Verde - 150g",
   "aliases": [],
-  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/argila-verde---150g-1782825043022.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvYXJnaWxhLXZlcmRlLS0tMTUwZy0xNzgyODI1MDQzMDIyLnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY1NjI4NjgsImV4cCI6MTc4NzE2NzY2OH0.KPl7xKKy5ZD2cQNnKe7yHticVPao3wu0NFLo0_PBTiU",
+  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/argila-verde---150g-1782825043022.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvYXJnaWxhLXZlcmRlLS0tMTUwZy0xNzgyODI1MDQzMDIyLnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY2MjM0MzgsImV4cCI6MTc4NzIyODIzOH0.B_h821mUbYHUqIk8xLMDlNdNM2_e4kLyfYWFYEyPyLI",
   "campo_origem_foto": "image_url",
   "image_source": "product_database",
   "image_is_generated": false,
-  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/argila-verde---150g-1782825043022.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvYXJnaWxhLXZlcmRlLS0tMTUwZy0xNzgyODI1MDQzMDIyLnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY1NjI4NjgsImV4cCI6MTc4NzE2NzY2OH0.KPl7xKKy5ZD2cQNnKe7yHticVPao3wu0NFLo0_PBTiU]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
+  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/argila-verde---150g-1782825043022.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvYXJnaWxhLXZlcmRlLS0tMTUwZy0xNzgyODI1MDQzMDIyLnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY2MjM0MzgsImV4cCI6MTc4NzIyODIzOH0.B_h821mUbYHUqIk8xLMDlNdNM2_e4kLyfYWFYEyPyLI]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
   "link_individual_produto": "https://lakma.com.br/products/argila-verde-150gr?_pos=1&_sid=d2cd41c2a&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -13254,17 +13477,20 @@ Máscara facial em pó de Argila Verde 100%, indicada para peles normais, oleosa
   "link_site": "https://lakma.com.br/products/argila-verde-150gr?_pos=1&_sid=d2cd41c2a&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA35",
-  "desconto_site": "35%",
+  "cupom_site": "LAKMA30",
+  "desconto_site": "30%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
   "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "cupom_ativo": true,
+  "cupom_codigo": "LAKMA30",
+  "cupom_desconto_percent": 30,
   "valor_sem_desconto": 51.07,
-  "valor_com_cupom_lakma35": 33.2,
+  "valor_com_cupom": 35.75,
   "valor_sem_desconto_br": "R$ 51,07",
-  "valor_com_cupom_lakma35_br": "R$ 33,20",
-  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "valor_com_cupom_br": "R$ 35,75",
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.7",
   "pdf_aprovado_protocolo": null,
   "pdf_source": null,
   "pdf_is_generated": false,
@@ -13273,7 +13499,7 @@ Máscara facial em pó de Argila Verde 100%, indicada para peles normais, oleosa
   "categoria_intencao": [],
   "quando_indicar_direto": [],
   "indicacao_curta": null,
-  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_lakma35_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
+  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
 }
 ```
 
@@ -13435,21 +13661,21 @@ Kit profissional de peelings clareadores para protocolos de clareamento, manchas
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-cidos-sem-mist-rios---5-produtos-1782747701496.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LWNpZG9zLXNlbS1taXN0LXJpb3MtLS01LXByb2R1dG9zLTE3ODI3NDc3MDE0OTYucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg2OCwiZXhwIjoxNzg3MTY3NjY4fQ.4-4m_WZa6ycCz3cUru36ifpTL10AyB-v02MzvPUd3bU ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-cidos-sem-mist-rios---5-produtos-1782747701496.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LWNpZG9zLXNlbS1taXN0LXJpb3MtLS01LXByb2R1dG9zLTE3ODI3NDc3MDE0OTYucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg2OCwiZXhwIjoxNzg3MTY3NjY4fQ.4-4m_WZa6ycCz3cUru36ifpTL10AyB-v02MzvPUd3bU]]` no topo da resposta
+- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-cidos-sem-mist-rios---5-produtos-1782747701496.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LWNpZG9zLXNlbS1taXN0LXJpb3MtLS01LXByb2R1dG9zLTE3ODI3NDc3MDE0OTYucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQzOCwiZXhwIjoxNzg3MjI4MjM4fQ.gmkBGmWTLOA9dUwNeQi042wZKBQJXMfED0XdhIYLTjI ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-cidos-sem-mist-rios---5-produtos-1782747701496.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LWNpZG9zLXNlbS1taXN0LXJpb3MtLS01LXByb2R1dG9zLTE3ODI3NDc3MDE0OTYucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQzOCwiZXhwIjoxNzg3MjI4MjM4fQ.gmkBGmWTLOA9dUwNeQi042wZKBQJXMfED0XdhIYLTjI]]` no topo da resposta
 - **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
 - **Valor:** _(não cadastrado — NÃO inventar preço; responder "Você consegue consultar o valor atualizado diretamente no link oficial.")_
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/kit-acidos-sem-misterios-clareamento-de-manchas?_pos=1&_sid=5200ce86c&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/kit-acidos-sem-misterios-clareamento-de-manchas?_pos=1&_sid=5200ce86c&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
 - **Mercado Livre (link aprovado):** https://www.mercadolivre.com.br/kit-acidos-sem-misterios-facial-e-corporal-clareador-manchas/up/MLBU3831726030?pdp_filters=item_id:MLB4508976989
 
 ```json
 {
   "produto": "Kit Ácidos Sem Mistérios - 5 Produtos",
   "aliases": [],
-  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-cidos-sem-mist-rios---5-produtos-1782747701496.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LWNpZG9zLXNlbS1taXN0LXJpb3MtLS01LXByb2R1dG9zLTE3ODI3NDc3MDE0OTYucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg2OCwiZXhwIjoxNzg3MTY3NjY4fQ.4-4m_WZa6ycCz3cUru36ifpTL10AyB-v02MzvPUd3bU",
+  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-cidos-sem-mist-rios---5-produtos-1782747701496.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LWNpZG9zLXNlbS1taXN0LXJpb3MtLS01LXByb2R1dG9zLTE3ODI3NDc3MDE0OTYucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQzOCwiZXhwIjoxNzg3MjI4MjM4fQ.gmkBGmWTLOA9dUwNeQi042wZKBQJXMfED0XdhIYLTjI",
   "campo_origem_foto": "image_url",
   "image_source": "product_database",
   "image_is_generated": false,
-  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-cidos-sem-mist-rios---5-produtos-1782747701496.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LWNpZG9zLXNlbS1taXN0LXJpb3MtLS01LXByb2R1dG9zLTE3ODI3NDc3MDE0OTYucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg2OCwiZXhwIjoxNzg3MTY3NjY4fQ.4-4m_WZa6ycCz3cUru36ifpTL10AyB-v02MzvPUd3bU]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
+  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-cidos-sem-mist-rios---5-produtos-1782747701496.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LWNpZG9zLXNlbS1taXN0LXJpb3MtLS01LXByb2R1dG9zLTE3ODI3NDc3MDE0OTYucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQzOCwiZXhwIjoxNzg3MjI4MjM4fQ.gmkBGmWTLOA9dUwNeQi042wZKBQJXMfED0XdhIYLTjI]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
   "link_individual_produto": "https://lakma.com.br/products/kit-acidos-sem-misterios-clareamento-de-manchas?_pos=1&_sid=5200ce86c&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -13457,17 +13683,20 @@ Kit profissional de peelings clareadores para protocolos de clareamento, manchas
   "link_site": "https://lakma.com.br/products/kit-acidos-sem-misterios-clareamento-de-manchas?_pos=1&_sid=5200ce86c&_ss=r",
   "link_mercadolivre": "https://www.mercadolivre.com.br/kit-acidos-sem-misterios-facial-e-corporal-clareador-manchas/up/MLBU3831726030?pdp_filters=item_id:MLB4508976989",
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA35",
-  "desconto_site": "35%",
+  "cupom_site": "LAKMA30",
+  "desconto_site": "30%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
   "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "cupom_ativo": true,
+  "cupom_codigo": "LAKMA30",
+  "cupom_desconto_percent": 30,
   "valor_sem_desconto": null,
-  "valor_com_cupom_lakma35": null,
+  "valor_com_cupom": null,
   "valor_sem_desconto_br": null,
-  "valor_com_cupom_lakma35_br": null,
-  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "valor_com_cupom_br": null,
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.7",
   "pdf_aprovado_protocolo": null,
   "pdf_source": null,
   "pdf_is_generated": false,
@@ -13630,21 +13859,21 @@ Máscara facial em gel prebiótica e detox, indicada para equilíbrio da microbi
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/m-scara-detox-zen-marine-prebi-tica---150g-1782747743220.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbS1zY2FyYS1kZXRveC16ZW4tbWFyaW5lLXByZWJpLXRpY2EtLS0xNTBnLTE3ODI3NDc3NDMyMjAucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg2OCwiZXhwIjoxNzg3MTY3NjY4fQ.VXNZB76T6ASI2P7D7P4eSVl3hJcNX-8Z_7gPc3payxM ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/m-scara-detox-zen-marine-prebi-tica---150g-1782747743220.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbS1zY2FyYS1kZXRveC16ZW4tbWFyaW5lLXByZWJpLXRpY2EtLS0xNTBnLTE3ODI3NDc3NDMyMjAucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg2OCwiZXhwIjoxNzg3MTY3NjY4fQ.VXNZB76T6ASI2P7D7P4eSVl3hJcNX-8Z_7gPc3payxM]]` no topo da resposta
+- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/m-scara-detox-zen-marine-prebi-tica---150g-1782747743220.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbS1zY2FyYS1kZXRveC16ZW4tbWFyaW5lLXByZWJpLXRpY2EtLS0xNTBnLTE3ODI3NDc3NDMyMjAucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQzOCwiZXhwIjoxNzg3MjI4MjM4fQ.-b5ubeeN7C33NqXiiLSKVIDI6VuSRObUj8EegXfgSq4 ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/m-scara-detox-zen-marine-prebi-tica---150g-1782747743220.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbS1zY2FyYS1kZXRveC16ZW4tbWFyaW5lLXByZWJpLXRpY2EtLS0xNTBnLTE3ODI3NDc3NDMyMjAucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQzOCwiZXhwIjoxNzg3MjI4MjM4fQ.-b5ubeeN7C33NqXiiLSKVIDI6VuSRObUj8EegXfgSq4]]` no topo da resposta
 - **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
 - **Valor sem desconto:** R$ 104,15
-- **Valor com cupom LAKMA35:** R$ 67,70  _(calculado automaticamente = valor_sem_desconto × 0,65)_
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/zen-marine-detox-150gr?_pos=1&_sid=6ef45705f&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+- **Valor com cupom LAKMA30:** R$ 72,91  _(calculado automaticamente = valor_sem_desconto × 0.7)_
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/zen-marine-detox-150gr?_pos=1&_sid=6ef45705f&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
 
 ```json
 {
   "produto": "Máscara Detox Zen Marine Prebiótica - 150g",
   "aliases": [],
-  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/m-scara-detox-zen-marine-prebi-tica---150g-1782747743220.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbS1zY2FyYS1kZXRveC16ZW4tbWFyaW5lLXByZWJpLXRpY2EtLS0xNTBnLTE3ODI3NDc3NDMyMjAucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg2OCwiZXhwIjoxNzg3MTY3NjY4fQ.VXNZB76T6ASI2P7D7P4eSVl3hJcNX-8Z_7gPc3payxM",
+  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/m-scara-detox-zen-marine-prebi-tica---150g-1782747743220.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbS1zY2FyYS1kZXRveC16ZW4tbWFyaW5lLXByZWJpLXRpY2EtLS0xNTBnLTE3ODI3NDc3NDMyMjAucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQzOCwiZXhwIjoxNzg3MjI4MjM4fQ.-b5ubeeN7C33NqXiiLSKVIDI6VuSRObUj8EegXfgSq4",
   "campo_origem_foto": "image_url",
   "image_source": "product_database",
   "image_is_generated": false,
-  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/m-scara-detox-zen-marine-prebi-tica---150g-1782747743220.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbS1zY2FyYS1kZXRveC16ZW4tbWFyaW5lLXByZWJpLXRpY2EtLS0xNTBnLTE3ODI3NDc3NDMyMjAucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg2OCwiZXhwIjoxNzg3MTY3NjY4fQ.VXNZB76T6ASI2P7D7P4eSVl3hJcNX-8Z_7gPc3payxM]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
+  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/m-scara-detox-zen-marine-prebi-tica---150g-1782747743220.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbS1zY2FyYS1kZXRveC16ZW4tbWFyaW5lLXByZWJpLXRpY2EtLS0xNTBnLTE3ODI3NDc3NDMyMjAucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQzOCwiZXhwIjoxNzg3MjI4MjM4fQ.-b5ubeeN7C33NqXiiLSKVIDI6VuSRObUj8EegXfgSq4]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
   "link_individual_produto": "https://lakma.com.br/products/zen-marine-detox-150gr?_pos=1&_sid=6ef45705f&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -13652,17 +13881,20 @@ Máscara facial em gel prebiótica e detox, indicada para equilíbrio da microbi
   "link_site": "https://lakma.com.br/products/zen-marine-detox-150gr?_pos=1&_sid=6ef45705f&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA35",
-  "desconto_site": "35%",
+  "cupom_site": "LAKMA30",
+  "desconto_site": "30%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
   "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "cupom_ativo": true,
+  "cupom_codigo": "LAKMA30",
+  "cupom_desconto_percent": 30,
   "valor_sem_desconto": 104.15,
-  "valor_com_cupom_lakma35": 67.7,
+  "valor_com_cupom": 72.91,
   "valor_sem_desconto_br": "R$ 104,15",
-  "valor_com_cupom_lakma35_br": "R$ 67,70",
-  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "valor_com_cupom_br": "R$ 72,91",
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.7",
   "pdf_aprovado_protocolo": null,
   "pdf_source": null,
   "pdf_is_generated": false,
@@ -13671,7 +13903,7 @@ Máscara facial em gel prebiótica e detox, indicada para equilíbrio da microbi
   "categoria_intencao": [],
   "quando_indicar_direto": [],
   "indicacao_curta": null,
-  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_lakma35_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
+  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
 }
 ```
 
@@ -13823,21 +14055,21 @@ Sérum facial com ação de peeling enzimático clareador e renovador, indicado 
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/peeling-enzim-tico-de-rom-facial---60ml-1782747776438.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvcGVlbGluZy1lbnppbS10aWNvLWRlLXJvbS1mYWNpYWwtLS02MG1sLTE3ODI3NDc3NzY0MzgucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg2OSwiZXhwIjoxNzg3MTY3NjY5fQ.6jxMH6-3liBz6E1MqncKkf86x_llbsBg_TsXp9g0tAY ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/peeling-enzim-tico-de-rom-facial---60ml-1782747776438.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvcGVlbGluZy1lbnppbS10aWNvLWRlLXJvbS1mYWNpYWwtLS02MG1sLTE3ODI3NDc3NzY0MzgucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg2OSwiZXhwIjoxNzg3MTY3NjY5fQ.6jxMH6-3liBz6E1MqncKkf86x_llbsBg_TsXp9g0tAY]]` no topo da resposta
+- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/peeling-enzim-tico-de-rom-facial---60ml-1782747776438.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvcGVlbGluZy1lbnppbS10aWNvLWRlLXJvbS1mYWNpYWwtLS02MG1sLTE3ODI3NDc3NzY0MzgucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQzOSwiZXhwIjoxNzg3MjI4MjM5fQ.MbedGuDVKMMMVifnEY_ZYm-k1H0QcLa_qdSv2D732gY ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/peeling-enzim-tico-de-rom-facial---60ml-1782747776438.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvcGVlbGluZy1lbnppbS10aWNvLWRlLXJvbS1mYWNpYWwtLS02MG1sLTE3ODI3NDc3NzY0MzgucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQzOSwiZXhwIjoxNzg3MjI4MjM5fQ.MbedGuDVKMMMVifnEY_ZYm-k1H0QcLa_qdSv2D732gY]]` no topo da resposta
 - **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
 - **Valor sem desconto:** R$ 169,49
-- **Valor com cupom LAKMA35:** R$ 110,17  _(calculado automaticamente = valor_sem_desconto × 0,65)_
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/peeling-enzimatico-de-roma-clareador-60ml?_pos=1&_sid=1bc092cdb&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+- **Valor com cupom LAKMA30:** R$ 118,64  _(calculado automaticamente = valor_sem_desconto × 0.7)_
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/peeling-enzimatico-de-roma-clareador-60ml?_pos=1&_sid=1bc092cdb&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
 
 ```json
 {
   "produto": "Peeling Enzimático de Romã Facial - 60ml",
   "aliases": [],
-  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/peeling-enzim-tico-de-rom-facial---60ml-1782747776438.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvcGVlbGluZy1lbnppbS10aWNvLWRlLXJvbS1mYWNpYWwtLS02MG1sLTE3ODI3NDc3NzY0MzgucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg2OSwiZXhwIjoxNzg3MTY3NjY5fQ.6jxMH6-3liBz6E1MqncKkf86x_llbsBg_TsXp9g0tAY",
+  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/peeling-enzim-tico-de-rom-facial---60ml-1782747776438.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvcGVlbGluZy1lbnppbS10aWNvLWRlLXJvbS1mYWNpYWwtLS02MG1sLTE3ODI3NDc3NzY0MzgucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQzOSwiZXhwIjoxNzg3MjI4MjM5fQ.MbedGuDVKMMMVifnEY_ZYm-k1H0QcLa_qdSv2D732gY",
   "campo_origem_foto": "image_url",
   "image_source": "product_database",
   "image_is_generated": false,
-  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/peeling-enzim-tico-de-rom-facial---60ml-1782747776438.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvcGVlbGluZy1lbnppbS10aWNvLWRlLXJvbS1mYWNpYWwtLS02MG1sLTE3ODI3NDc3NzY0MzgucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg2OSwiZXhwIjoxNzg3MTY3NjY5fQ.6jxMH6-3liBz6E1MqncKkf86x_llbsBg_TsXp9g0tAY]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
+  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/peeling-enzim-tico-de-rom-facial---60ml-1782747776438.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvcGVlbGluZy1lbnppbS10aWNvLWRlLXJvbS1mYWNpYWwtLS02MG1sLTE3ODI3NDc3NzY0MzgucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQzOSwiZXhwIjoxNzg3MjI4MjM5fQ.MbedGuDVKMMMVifnEY_ZYm-k1H0QcLa_qdSv2D732gY]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
   "link_individual_produto": "https://lakma.com.br/products/peeling-enzimatico-de-roma-clareador-60ml?_pos=1&_sid=1bc092cdb&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -13845,17 +14077,20 @@ Sérum facial com ação de peeling enzimático clareador e renovador, indicado 
   "link_site": "https://lakma.com.br/products/peeling-enzimatico-de-roma-clareador-60ml?_pos=1&_sid=1bc092cdb&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA35",
-  "desconto_site": "35%",
+  "cupom_site": "LAKMA30",
+  "desconto_site": "30%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
   "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "cupom_ativo": true,
+  "cupom_codigo": "LAKMA30",
+  "cupom_desconto_percent": 30,
   "valor_sem_desconto": 169.49,
-  "valor_com_cupom_lakma35": 110.17,
+  "valor_com_cupom": 118.64,
   "valor_sem_desconto_br": "R$ 169,49",
-  "valor_com_cupom_lakma35_br": "R$ 110,17",
-  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "valor_com_cupom_br": "R$ 118,64",
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.7",
   "pdf_aprovado_protocolo": null,
   "pdf_source": null,
   "pdf_is_generated": false,
@@ -13864,7 +14099,7 @@ Sérum facial com ação de peeling enzimático clareador e renovador, indicado 
   "categoria_intencao": [],
   "quando_indicar_direto": [],
   "indicacao_curta": null,
-  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_lakma35_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
+  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
 }
 ```
 
@@ -14009,21 +14244,21 @@ Kit facial Eco Skin com 3 produtos, indicado para limpeza facial express, limpez
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-lakma-limpeza-de-pele-profunda-skin-care---ecoskin-1782747817029.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LWxha21hLWxpbXBlemEtZGUtcGVsZS1wcm9mdW5kYS1za2luLWNhcmUtLS1lY29za2luLTE3ODI3NDc4MTcwMjkucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg2OSwiZXhwIjoxNzg3MTY3NjY5fQ.e-RVPpRfC2AFTY69G9wfNgAXVUdFmxHw_ix82z8I8Zs ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-lakma-limpeza-de-pele-profunda-skin-care---ecoskin-1782747817029.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LWxha21hLWxpbXBlemEtZGUtcGVsZS1wcm9mdW5kYS1za2luLWNhcmUtLS1lY29za2luLTE3ODI3NDc4MTcwMjkucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg2OSwiZXhwIjoxNzg3MTY3NjY5fQ.e-RVPpRfC2AFTY69G9wfNgAXVUdFmxHw_ix82z8I8Zs]]` no topo da resposta
+- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-lakma-limpeza-de-pele-profunda-skin-care---ecoskin-1782747817029.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LWxha21hLWxpbXBlemEtZGUtcGVsZS1wcm9mdW5kYS1za2luLWNhcmUtLS1lY29za2luLTE3ODI3NDc4MTcwMjkucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQzOSwiZXhwIjoxNzg3MjI4MjM5fQ.8ShuAIAB7zFPqP5c7eNDqJDuQxEXK0BaPAxU1Kxt7JQ ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-lakma-limpeza-de-pele-profunda-skin-care---ecoskin-1782747817029.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LWxha21hLWxpbXBlemEtZGUtcGVsZS1wcm9mdW5kYS1za2luLWNhcmUtLS1lY29za2luLTE3ODI3NDc4MTcwMjkucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQzOSwiZXhwIjoxNzg3MjI4MjM5fQ.8ShuAIAB7zFPqP5c7eNDqJDuQxEXK0BaPAxU1Kxt7JQ]]` no topo da resposta
 - **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
 - **Valor sem desconto:** R$ 254,44
-- **Valor com cupom LAKMA35:** R$ 165,39  _(calculado automaticamente = valor_sem_desconto × 0,65)_
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/kit-eco-skin-para-dermaplaning?_pos=1&_sid=b9365a88d&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+- **Valor com cupom LAKMA30:** R$ 178,11  _(calculado automaticamente = valor_sem_desconto × 0.7)_
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/kit-eco-skin-para-dermaplaning?_pos=1&_sid=b9365a88d&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
 
 ```json
 {
   "produto": "Kit Lakma Limpeza de Pele Profunda Skin Care - ECOSKIN",
   "aliases": [],
-  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-lakma-limpeza-de-pele-profunda-skin-care---ecoskin-1782747817029.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LWxha21hLWxpbXBlemEtZGUtcGVsZS1wcm9mdW5kYS1za2luLWNhcmUtLS1lY29za2luLTE3ODI3NDc4MTcwMjkucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg2OSwiZXhwIjoxNzg3MTY3NjY5fQ.e-RVPpRfC2AFTY69G9wfNgAXVUdFmxHw_ix82z8I8Zs",
+  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-lakma-limpeza-de-pele-profunda-skin-care---ecoskin-1782747817029.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LWxha21hLWxpbXBlemEtZGUtcGVsZS1wcm9mdW5kYS1za2luLWNhcmUtLS1lY29za2luLTE3ODI3NDc4MTcwMjkucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQzOSwiZXhwIjoxNzg3MjI4MjM5fQ.8ShuAIAB7zFPqP5c7eNDqJDuQxEXK0BaPAxU1Kxt7JQ",
   "campo_origem_foto": "image_url",
   "image_source": "product_database",
   "image_is_generated": false,
-  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-lakma-limpeza-de-pele-profunda-skin-care---ecoskin-1782747817029.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LWxha21hLWxpbXBlemEtZGUtcGVsZS1wcm9mdW5kYS1za2luLWNhcmUtLS1lY29za2luLTE3ODI3NDc4MTcwMjkucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg2OSwiZXhwIjoxNzg3MTY3NjY5fQ.e-RVPpRfC2AFTY69G9wfNgAXVUdFmxHw_ix82z8I8Zs]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
+  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-lakma-limpeza-de-pele-profunda-skin-care---ecoskin-1782747817029.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LWxha21hLWxpbXBlemEtZGUtcGVsZS1wcm9mdW5kYS1za2luLWNhcmUtLS1lY29za2luLTE3ODI3NDc4MTcwMjkucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQzOSwiZXhwIjoxNzg3MjI4MjM5fQ.8ShuAIAB7zFPqP5c7eNDqJDuQxEXK0BaPAxU1Kxt7JQ]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
   "link_individual_produto": "https://lakma.com.br/products/kit-eco-skin-para-dermaplaning?_pos=1&_sid=b9365a88d&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -14031,17 +14266,20 @@ Kit facial Eco Skin com 3 produtos, indicado para limpeza facial express, limpez
   "link_site": "https://lakma.com.br/products/kit-eco-skin-para-dermaplaning?_pos=1&_sid=b9365a88d&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA35",
-  "desconto_site": "35%",
+  "cupom_site": "LAKMA30",
+  "desconto_site": "30%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
   "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "cupom_ativo": true,
+  "cupom_codigo": "LAKMA30",
+  "cupom_desconto_percent": 30,
   "valor_sem_desconto": 254.44,
-  "valor_com_cupom_lakma35": 165.39,
+  "valor_com_cupom": 178.11,
   "valor_sem_desconto_br": "R$ 254,44",
-  "valor_com_cupom_lakma35_br": "R$ 165,39",
-  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "valor_com_cupom_br": "R$ 178,11",
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.7",
   "pdf_aprovado_protocolo": null,
   "pdf_source": null,
   "pdf_is_generated": false,
@@ -14050,7 +14288,7 @@ Kit facial Eco Skin com 3 produtos, indicado para limpeza facial express, limpez
   "categoria_intencao": [],
   "quando_indicar_direto": [],
   "indicacao_curta": null,
-  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_lakma35_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
+  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
 }
 ```
 
@@ -14205,22 +14443,22 @@ Kit profissional com 5 fluidos revitalizantes nanotecnológicos e biotecnológic
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-fluidos-revitalizantes-para-microagulhamento---5-passos-1782747861385.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LWZsdWlkb3MtcmV2aXRhbGl6YW50ZXMtcGFyYS1taWNyb2FndWxoYW1lbnRvLS0tNS1wYXNzb3MtMTc4Mjc0Nzg2MTM4NS5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODY5LCJleHAiOjE3ODcxNjc2Njl9.Be6BCqSL4uoq5b_O8I3SS_xNbur_m-uIkbYAM3qtlro ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-fluidos-revitalizantes-para-microagulhamento---5-passos-1782747861385.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LWZsdWlkb3MtcmV2aXRhbGl6YW50ZXMtcGFyYS1taWNyb2FndWxoYW1lbnRvLS0tNS1wYXNzb3MtMTc4Mjc0Nzg2MTM4NS5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODY5LCJleHAiOjE3ODcxNjc2Njl9.Be6BCqSL4uoq5b_O8I3SS_xNbur_m-uIkbYAM3qtlro]]` no topo da resposta
+- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-fluidos-revitalizantes-para-microagulhamento---5-passos-1782747861385.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LWZsdWlkb3MtcmV2aXRhbGl6YW50ZXMtcGFyYS1taWNyb2FndWxoYW1lbnRvLS0tNS1wYXNzb3MtMTc4Mjc0Nzg2MTM4NS5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDM5LCJleHAiOjE3ODcyMjgyMzl9.7esVx_YuYVwEuma2-ex1jF0reltAniKjzs2sirO4iPM ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-fluidos-revitalizantes-para-microagulhamento---5-passos-1782747861385.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LWZsdWlkb3MtcmV2aXRhbGl6YW50ZXMtcGFyYS1taWNyb2FndWxoYW1lbnRvLS0tNS1wYXNzb3MtMTc4Mjc0Nzg2MTM4NS5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDM5LCJleHAiOjE3ODcyMjgyMzl9.7esVx_YuYVwEuma2-ex1jF0reltAniKjzs2sirO4iPM]]` no topo da resposta
 - **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
 - **Valor sem desconto:** R$ 614,68
-- **Valor com cupom LAKMA35:** R$ 399,54  _(calculado automaticamente = valor_sem_desconto × 0,65)_
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/kit-fluidos-revitalizantes-para-microagulhamento?_pos=1&_sid=e3adb7d8b&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+- **Valor com cupom LAKMA30:** R$ 430,28  _(calculado automaticamente = valor_sem_desconto × 0.7)_
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/kit-fluidos-revitalizantes-para-microagulhamento?_pos=1&_sid=e3adb7d8b&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
 - **Mercado Livre (link aprovado):** https://www.mercadolivre.com.br/kit-fluidos-revitalizantes-para-microagulhamento-facial/up/MLBU3874393485?pdp_filters=item_id:MLB4580770083
 
 ```json
 {
   "produto": "Kit Fluidos Revitalizantes para Microagulhamento - 5 Passos",
   "aliases": [],
-  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-fluidos-revitalizantes-para-microagulhamento---5-passos-1782747861385.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LWZsdWlkb3MtcmV2aXRhbGl6YW50ZXMtcGFyYS1taWNyb2FndWxoYW1lbnRvLS0tNS1wYXNzb3MtMTc4Mjc0Nzg2MTM4NS5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODY5LCJleHAiOjE3ODcxNjc2Njl9.Be6BCqSL4uoq5b_O8I3SS_xNbur_m-uIkbYAM3qtlro",
+  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-fluidos-revitalizantes-para-microagulhamento---5-passos-1782747861385.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LWZsdWlkb3MtcmV2aXRhbGl6YW50ZXMtcGFyYS1taWNyb2FndWxoYW1lbnRvLS0tNS1wYXNzb3MtMTc4Mjc0Nzg2MTM4NS5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDM5LCJleHAiOjE3ODcyMjgyMzl9.7esVx_YuYVwEuma2-ex1jF0reltAniKjzs2sirO4iPM",
   "campo_origem_foto": "image_url",
   "image_source": "product_database",
   "image_is_generated": false,
-  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-fluidos-revitalizantes-para-microagulhamento---5-passos-1782747861385.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LWZsdWlkb3MtcmV2aXRhbGl6YW50ZXMtcGFyYS1taWNyb2FndWxoYW1lbnRvLS0tNS1wYXNzb3MtMTc4Mjc0Nzg2MTM4NS5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NTYyODY5LCJleHAiOjE3ODcxNjc2Njl9.Be6BCqSL4uoq5b_O8I3SS_xNbur_m-uIkbYAM3qtlro]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
+  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-fluidos-revitalizantes-para-microagulhamento---5-passos-1782747861385.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LWZsdWlkb3MtcmV2aXRhbGl6YW50ZXMtcGFyYS1taWNyb2FndWxoYW1lbnRvLS0tNS1wYXNzb3MtMTc4Mjc0Nzg2MTM4NS5wbmciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg2NjIzNDM5LCJleHAiOjE3ODcyMjgyMzl9.7esVx_YuYVwEuma2-ex1jF0reltAniKjzs2sirO4iPM]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
   "link_individual_produto": "https://lakma.com.br/products/kit-fluidos-revitalizantes-para-microagulhamento?_pos=1&_sid=e3adb7d8b&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -14228,17 +14466,20 @@ Kit profissional com 5 fluidos revitalizantes nanotecnológicos e biotecnológic
   "link_site": "https://lakma.com.br/products/kit-fluidos-revitalizantes-para-microagulhamento?_pos=1&_sid=e3adb7d8b&_ss=r",
   "link_mercadolivre": "https://www.mercadolivre.com.br/kit-fluidos-revitalizantes-para-microagulhamento-facial/up/MLBU3874393485?pdp_filters=item_id:MLB4580770083",
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA35",
-  "desconto_site": "35%",
+  "cupom_site": "LAKMA30",
+  "desconto_site": "30%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
   "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "cupom_ativo": true,
+  "cupom_codigo": "LAKMA30",
+  "cupom_desconto_percent": 30,
   "valor_sem_desconto": 614.68,
-  "valor_com_cupom_lakma35": 399.54,
+  "valor_com_cupom": 430.28,
   "valor_sem_desconto_br": "R$ 614,68",
-  "valor_com_cupom_lakma35_br": "R$ 399,54",
-  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "valor_com_cupom_br": "R$ 430,28",
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.7",
   "pdf_aprovado_protocolo": null,
   "pdf_source": null,
   "pdf_is_generated": false,
@@ -14247,7 +14488,7 @@ Kit profissional com 5 fluidos revitalizantes nanotecnológicos e biotecnológic
   "categoria_intencao": [],
   "quando_indicar_direto": [],
   "indicacao_curta": null,
-  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_lakma35_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
+  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
 }
 ```
 
@@ -14422,21 +14663,21 @@ Peeling químico profissional secativo, indicado para peles acneicas, cravos, co
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/peeling-qu-mico-secativo---50ml-1782747899966.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvcGVlbGluZy1xdS1taWNvLXNlY2F0aXZvLS0tNTBtbC0xNzgyNzQ3ODk5OTY2LnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY1NjI4NjksImV4cCI6MTc4NzE2NzY2OX0.VpGasHjqlx9PK6IHnTrbXACgno0x96FT6GY1fMCdz_o ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/peeling-qu-mico-secativo---50ml-1782747899966.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvcGVlbGluZy1xdS1taWNvLXNlY2F0aXZvLS0tNTBtbC0xNzgyNzQ3ODk5OTY2LnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY1NjI4NjksImV4cCI6MTc4NzE2NzY2OX0.VpGasHjqlx9PK6IHnTrbXACgno0x96FT6GY1fMCdz_o]]` no topo da resposta
+- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/peeling-qu-mico-secativo---50ml-1782747899966.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvcGVlbGluZy1xdS1taWNvLXNlY2F0aXZvLS0tNTBtbC0xNzgyNzQ3ODk5OTY2LnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY2MjM0MzksImV4cCI6MTc4NzIyODIzOX0.6vBSHDoBK9WOjjOmZbBS0XabCZ-FLXMFHJ3e6bbkTqU ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/peeling-qu-mico-secativo---50ml-1782747899966.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvcGVlbGluZy1xdS1taWNvLXNlY2F0aXZvLS0tNTBtbC0xNzgyNzQ3ODk5OTY2LnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY2MjM0MzksImV4cCI6MTc4NzIyODIzOX0.6vBSHDoBK9WOjjOmZbBS0XabCZ-FLXMFHJ3e6bbkTqU]]` no topo da resposta
 - **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
 - **Valor sem desconto:** R$ 169,49
-- **Valor com cupom LAKMA35:** R$ 110,17  _(calculado automaticamente = valor_sem_desconto × 0,65)_
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/peeling-quimico-secativo-50ml?_pos=1&_sid=60a60c291&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+- **Valor com cupom LAKMA30:** R$ 118,64  _(calculado automaticamente = valor_sem_desconto × 0.7)_
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/peeling-quimico-secativo-50ml?_pos=1&_sid=60a60c291&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
 
 ```json
 {
   "produto": "Peeling Químico Secativo - 50ml",
   "aliases": [],
-  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/peeling-qu-mico-secativo---50ml-1782747899966.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvcGVlbGluZy1xdS1taWNvLXNlY2F0aXZvLS0tNTBtbC0xNzgyNzQ3ODk5OTY2LnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY1NjI4NjksImV4cCI6MTc4NzE2NzY2OX0.VpGasHjqlx9PK6IHnTrbXACgno0x96FT6GY1fMCdz_o",
+  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/peeling-qu-mico-secativo---50ml-1782747899966.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvcGVlbGluZy1xdS1taWNvLXNlY2F0aXZvLS0tNTBtbC0xNzgyNzQ3ODk5OTY2LnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY2MjM0MzksImV4cCI6MTc4NzIyODIzOX0.6vBSHDoBK9WOjjOmZbBS0XabCZ-FLXMFHJ3e6bbkTqU",
   "campo_origem_foto": "image_url",
   "image_source": "product_database",
   "image_is_generated": false,
-  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/peeling-qu-mico-secativo---50ml-1782747899966.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvcGVlbGluZy1xdS1taWNvLXNlY2F0aXZvLS0tNTBtbC0xNzgyNzQ3ODk5OTY2LnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY1NjI4NjksImV4cCI6MTc4NzE2NzY2OX0.VpGasHjqlx9PK6IHnTrbXACgno0x96FT6GY1fMCdz_o]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
+  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/peeling-qu-mico-secativo---50ml-1782747899966.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvcGVlbGluZy1xdS1taWNvLXNlY2F0aXZvLS0tNTBtbC0xNzgyNzQ3ODk5OTY2LnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODY2MjM0MzksImV4cCI6MTc4NzIyODIzOX0.6vBSHDoBK9WOjjOmZbBS0XabCZ-FLXMFHJ3e6bbkTqU]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
   "link_individual_produto": "https://lakma.com.br/products/peeling-quimico-secativo-50ml?_pos=1&_sid=60a60c291&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -14444,17 +14685,20 @@ Peeling químico profissional secativo, indicado para peles acneicas, cravos, co
   "link_site": "https://lakma.com.br/products/peeling-quimico-secativo-50ml?_pos=1&_sid=60a60c291&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA35",
-  "desconto_site": "35%",
+  "cupom_site": "LAKMA30",
+  "desconto_site": "30%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
   "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "cupom_ativo": true,
+  "cupom_codigo": "LAKMA30",
+  "cupom_desconto_percent": 30,
   "valor_sem_desconto": 169.49,
-  "valor_com_cupom_lakma35": 110.17,
+  "valor_com_cupom": 118.64,
   "valor_sem_desconto_br": "R$ 169,49",
-  "valor_com_cupom_lakma35_br": "R$ 110,17",
-  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "valor_com_cupom_br": "R$ 118,64",
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.7",
   "pdf_aprovado_protocolo": null,
   "pdf_source": null,
   "pdf_is_generated": false,
@@ -14463,7 +14707,7 @@ Peeling químico profissional secativo, indicado para peles acneicas, cravos, co
   "categoria_intencao": [],
   "quando_indicar_direto": [],
   "indicacao_curta": null,
-  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_lakma35_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
+  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
 }
 ```
 
@@ -14611,21 +14855,21 @@ Fluido revitalizante facial com Ácido Hialurônico, indicado para hidratação 
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/fluido-revitalizante-passo-2---cido-hialur-nico---50ml-1782747942067.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZmx1aWRvLXJldml0YWxpemFudGUtcGFzc28tMi0tLWNpZG8taGlhbHVyLW5pY28tLS01MG1sLTE3ODI3NDc5NDIwNjcucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg3MCwiZXhwIjoxNzg3MTY3NjcwfQ.szcv1LJL-HfhnkFgY1DLxCEV0BXCi7gLf2D_f-S3TV8 ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/fluido-revitalizante-passo-2---cido-hialur-nico---50ml-1782747942067.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZmx1aWRvLXJldml0YWxpemFudGUtcGFzc28tMi0tLWNpZG8taGlhbHVyLW5pY28tLS01MG1sLTE3ODI3NDc5NDIwNjcucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg3MCwiZXhwIjoxNzg3MTY3NjcwfQ.szcv1LJL-HfhnkFgY1DLxCEV0BXCi7gLf2D_f-S3TV8]]` no topo da resposta
+- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/fluido-revitalizante-passo-2---cido-hialur-nico---50ml-1782747942067.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZmx1aWRvLXJldml0YWxpemFudGUtcGFzc28tMi0tLWNpZG8taGlhbHVyLW5pY28tLS01MG1sLTE3ODI3NDc5NDIwNjcucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQ0MCwiZXhwIjoxNzg3MjI4MjQwfQ.zmzKzDxqJLle4kN7ZJ33Zi5nASzFQhDpiPHcnFqOFSg ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/fluido-revitalizante-passo-2---cido-hialur-nico---50ml-1782747942067.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZmx1aWRvLXJldml0YWxpemFudGUtcGFzc28tMi0tLWNpZG8taGlhbHVyLW5pY28tLS01MG1sLTE3ODI3NDc5NDIwNjcucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQ0MCwiZXhwIjoxNzg3MjI4MjQwfQ.zmzKzDxqJLle4kN7ZJ33Zi5nASzFQhDpiPHcnFqOFSg]]` no topo da resposta
 - **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
 - **Valor sem desconto:** R$ 163,02
-- **Valor com cupom LAKMA35:** R$ 105,96  _(calculado automaticamente = valor_sem_desconto × 0,65)_
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/fluido-passo-2-hialuronico-50ml?_pos=1&_sid=4c1d3e80d&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+- **Valor com cupom LAKMA30:** R$ 114,11  _(calculado automaticamente = valor_sem_desconto × 0.7)_
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/fluido-passo-2-hialuronico-50ml?_pos=1&_sid=4c1d3e80d&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
 
 ```json
 {
   "produto": "Fluido Revitalizante Passo 2 - Ácido Hialurônico - 50ml",
   "aliases": [],
-  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/fluido-revitalizante-passo-2---cido-hialur-nico---50ml-1782747942067.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZmx1aWRvLXJldml0YWxpemFudGUtcGFzc28tMi0tLWNpZG8taGlhbHVyLW5pY28tLS01MG1sLTE3ODI3NDc5NDIwNjcucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg3MCwiZXhwIjoxNzg3MTY3NjcwfQ.szcv1LJL-HfhnkFgY1DLxCEV0BXCi7gLf2D_f-S3TV8",
+  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/fluido-revitalizante-passo-2---cido-hialur-nico---50ml-1782747942067.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZmx1aWRvLXJldml0YWxpemFudGUtcGFzc28tMi0tLWNpZG8taGlhbHVyLW5pY28tLS01MG1sLTE3ODI3NDc5NDIwNjcucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQ0MCwiZXhwIjoxNzg3MjI4MjQwfQ.zmzKzDxqJLle4kN7ZJ33Zi5nASzFQhDpiPHcnFqOFSg",
   "campo_origem_foto": "image_url",
   "image_source": "product_database",
   "image_is_generated": false,
-  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/fluido-revitalizante-passo-2---cido-hialur-nico---50ml-1782747942067.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZmx1aWRvLXJldml0YWxpemFudGUtcGFzc28tMi0tLWNpZG8taGlhbHVyLW5pY28tLS01MG1sLTE3ODI3NDc5NDIwNjcucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg3MCwiZXhwIjoxNzg3MTY3NjcwfQ.szcv1LJL-HfhnkFgY1DLxCEV0BXCi7gLf2D_f-S3TV8]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
+  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/fluido-revitalizante-passo-2---cido-hialur-nico---50ml-1782747942067.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZmx1aWRvLXJldml0YWxpemFudGUtcGFzc28tMi0tLWNpZG8taGlhbHVyLW5pY28tLS01MG1sLTE3ODI3NDc5NDIwNjcucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQ0MCwiZXhwIjoxNzg3MjI4MjQwfQ.zmzKzDxqJLle4kN7ZJ33Zi5nASzFQhDpiPHcnFqOFSg]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
   "link_individual_produto": "https://lakma.com.br/products/fluido-passo-2-hialuronico-50ml?_pos=1&_sid=4c1d3e80d&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -14633,17 +14877,20 @@ Fluido revitalizante facial com Ácido Hialurônico, indicado para hidratação 
   "link_site": "https://lakma.com.br/products/fluido-passo-2-hialuronico-50ml?_pos=1&_sid=4c1d3e80d&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA35",
-  "desconto_site": "35%",
+  "cupom_site": "LAKMA30",
+  "desconto_site": "30%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
   "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "cupom_ativo": true,
+  "cupom_codigo": "LAKMA30",
+  "cupom_desconto_percent": 30,
   "valor_sem_desconto": 163.02,
-  "valor_com_cupom_lakma35": 105.96,
+  "valor_com_cupom": 114.11,
   "valor_sem_desconto_br": "R$ 163,02",
-  "valor_com_cupom_lakma35_br": "R$ 105,96",
-  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "valor_com_cupom_br": "R$ 114,11",
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.7",
   "pdf_aprovado_protocolo": null,
   "pdf_source": null,
   "pdf_is_generated": false,
@@ -14652,7 +14899,7 @@ Fluido revitalizante facial com Ácido Hialurônico, indicado para hidratação 
   "categoria_intencao": [],
   "quando_indicar_direto": [],
   "indicacao_curta": null,
-  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_lakma35_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
+  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
 }
 ```
 
@@ -14798,21 +15045,21 @@ Fluido revitalizante facial com Vitamina C 40%, indicado para clareamento, hiper
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/fluido-revitalizante-passo-4---vitamina-c-40---50ml-1782747984589.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZmx1aWRvLXJldml0YWxpemFudGUtcGFzc28tNC0tLXZpdGFtaW5hLWMtNDAtLS01MG1sLTE3ODI3NDc5ODQ1ODkucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg3MCwiZXhwIjoxNzg3MTY3NjcwfQ.YoYwR-yzeMfWTRIqWsx4hxa28LoPDDczlzY65R61X54 ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/fluido-revitalizante-passo-4---vitamina-c-40---50ml-1782747984589.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZmx1aWRvLXJldml0YWxpemFudGUtcGFzc28tNC0tLXZpdGFtaW5hLWMtNDAtLS01MG1sLTE3ODI3NDc5ODQ1ODkucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg3MCwiZXhwIjoxNzg3MTY3NjcwfQ.YoYwR-yzeMfWTRIqWsx4hxa28LoPDDczlzY65R61X54]]` no topo da resposta
+- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/fluido-revitalizante-passo-4---vitamina-c-40---50ml-1782747984589.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZmx1aWRvLXJldml0YWxpemFudGUtcGFzc28tNC0tLXZpdGFtaW5hLWMtNDAtLS01MG1sLTE3ODI3NDc5ODQ1ODkucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQ0MCwiZXhwIjoxNzg3MjI4MjQwfQ.8hZMuYBIsQwETYjTZ024H2ffkrIIGl1pXp3v2SZ_3s8 ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/fluido-revitalizante-passo-4---vitamina-c-40---50ml-1782747984589.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZmx1aWRvLXJldml0YWxpemFudGUtcGFzc28tNC0tLXZpdGFtaW5hLWMtNDAtLS01MG1sLTE3ODI3NDc5ODQ1ODkucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQ0MCwiZXhwIjoxNzg3MjI4MjQwfQ.8hZMuYBIsQwETYjTZ024H2ffkrIIGl1pXp3v2SZ_3s8]]` no topo da resposta
 - **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
 - **Valor sem desconto:** R$ 174,93
-- **Valor com cupom LAKMA35:** R$ 113,70  _(calculado automaticamente = valor_sem_desconto × 0,65)_
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/fluido-passo-4-vitamina-c-50ml?_pos=1&_sid=976b990d3&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+- **Valor com cupom LAKMA30:** R$ 122,45  _(calculado automaticamente = valor_sem_desconto × 0.7)_
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/fluido-passo-4-vitamina-c-50ml?_pos=1&_sid=976b990d3&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
 
 ```json
 {
   "produto": "Fluido Revitalizante Passo 4 - Vitamina C 40% - 50ml",
   "aliases": [],
-  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/fluido-revitalizante-passo-4---vitamina-c-40---50ml-1782747984589.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZmx1aWRvLXJldml0YWxpemFudGUtcGFzc28tNC0tLXZpdGFtaW5hLWMtNDAtLS01MG1sLTE3ODI3NDc5ODQ1ODkucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg3MCwiZXhwIjoxNzg3MTY3NjcwfQ.YoYwR-yzeMfWTRIqWsx4hxa28LoPDDczlzY65R61X54",
+  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/fluido-revitalizante-passo-4---vitamina-c-40---50ml-1782747984589.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZmx1aWRvLXJldml0YWxpemFudGUtcGFzc28tNC0tLXZpdGFtaW5hLWMtNDAtLS01MG1sLTE3ODI3NDc5ODQ1ODkucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQ0MCwiZXhwIjoxNzg3MjI4MjQwfQ.8hZMuYBIsQwETYjTZ024H2ffkrIIGl1pXp3v2SZ_3s8",
   "campo_origem_foto": "image_url",
   "image_source": "product_database",
   "image_is_generated": false,
-  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/fluido-revitalizante-passo-4---vitamina-c-40---50ml-1782747984589.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZmx1aWRvLXJldml0YWxpemFudGUtcGFzc28tNC0tLXZpdGFtaW5hLWMtNDAtLS01MG1sLTE3ODI3NDc5ODQ1ODkucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg3MCwiZXhwIjoxNzg3MTY3NjcwfQ.YoYwR-yzeMfWTRIqWsx4hxa28LoPDDczlzY65R61X54]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
+  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/fluido-revitalizante-passo-4---vitamina-c-40---50ml-1782747984589.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvZmx1aWRvLXJldml0YWxpemFudGUtcGFzc28tNC0tLXZpdGFtaW5hLWMtNDAtLS01MG1sLTE3ODI3NDc5ODQ1ODkucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQ0MCwiZXhwIjoxNzg3MjI4MjQwfQ.8hZMuYBIsQwETYjTZ024H2ffkrIIGl1pXp3v2SZ_3s8]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
   "link_individual_produto": "https://lakma.com.br/products/fluido-passo-4-vitamina-c-50ml?_pos=1&_sid=976b990d3&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -14820,17 +15067,20 @@ Fluido revitalizante facial com Vitamina C 40%, indicado para clareamento, hiper
   "link_site": "https://lakma.com.br/products/fluido-passo-4-vitamina-c-50ml?_pos=1&_sid=976b990d3&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA35",
-  "desconto_site": "35%",
+  "cupom_site": "LAKMA30",
+  "desconto_site": "30%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
   "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "cupom_ativo": true,
+  "cupom_codigo": "LAKMA30",
+  "cupom_desconto_percent": 30,
   "valor_sem_desconto": 174.93,
-  "valor_com_cupom_lakma35": 113.7,
+  "valor_com_cupom": 122.45,
   "valor_sem_desconto_br": "R$ 174,93",
-  "valor_com_cupom_lakma35_br": "R$ 113,70",
-  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "valor_com_cupom_br": "R$ 122,45",
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.7",
   "pdf_aprovado_protocolo": null,
   "pdf_source": null,
   "pdf_is_generated": false,
@@ -14839,7 +15089,7 @@ Fluido revitalizante facial com Vitamina C 40%, indicado para clareamento, hiper
   "categoria_intencao": [],
   "quando_indicar_direto": [],
   "indicacao_curta": null,
-  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_lakma35_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
+  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
 }
 ```
 
@@ -14999,21 +15249,21 @@ Máscara clareadora facial e corporal, indicada para manchas, uniformização do
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/m-scara-clareadora---30g-1782748070487.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbS1zY2FyYS1jbGFyZWFkb3JhLS0tMzBnLTE3ODI3NDgwNzA0ODcucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg3MCwiZXhwIjoxNzg3MTY3NjcwfQ.yZDVJ7eAqWkX9gw315M4st4rBxrbnOtaRjOUd1n86Gc ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/m-scara-clareadora---30g-1782748070487.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbS1zY2FyYS1jbGFyZWFkb3JhLS0tMzBnLTE3ODI3NDgwNzA0ODcucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg3MCwiZXhwIjoxNzg3MTY3NjcwfQ.yZDVJ7eAqWkX9gw315M4st4rBxrbnOtaRjOUd1n86Gc]]` no topo da resposta
+- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/m-scara-clareadora---30g-1782748070487.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbS1zY2FyYS1jbGFyZWFkb3JhLS0tMzBnLTE3ODI3NDgwNzA0ODcucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQ0MCwiZXhwIjoxNzg3MjI4MjQwfQ.vzyjDEKtgPt8Y2NzY3UE6LDQc236_WK5MFAzrIqmRHA ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/m-scara-clareadora---30g-1782748070487.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbS1zY2FyYS1jbGFyZWFkb3JhLS0tMzBnLTE3ODI3NDgwNzA0ODcucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQ0MCwiZXhwIjoxNzg3MjI4MjQwfQ.vzyjDEKtgPt8Y2NzY3UE6LDQc236_WK5MFAzrIqmRHA]]` no topo da resposta
 - **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
 - **Valor sem desconto:** R$ 91,55
-- **Valor com cupom LAKMA35:** R$ 59,51  _(calculado automaticamente = valor_sem_desconto × 0,65)_
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/mascara-clareadora-30g?_pos=2&_sid=1cf15edab&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+- **Valor com cupom LAKMA30:** R$ 64,08  _(calculado automaticamente = valor_sem_desconto × 0.7)_
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/mascara-clareadora-30g?_pos=2&_sid=1cf15edab&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
 
 ```json
 {
   "produto": "Máscara Clareadora - 30g",
   "aliases": [],
-  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/m-scara-clareadora---30g-1782748070487.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbS1zY2FyYS1jbGFyZWFkb3JhLS0tMzBnLTE3ODI3NDgwNzA0ODcucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg3MCwiZXhwIjoxNzg3MTY3NjcwfQ.yZDVJ7eAqWkX9gw315M4st4rBxrbnOtaRjOUd1n86Gc",
+  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/m-scara-clareadora---30g-1782748070487.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbS1zY2FyYS1jbGFyZWFkb3JhLS0tMzBnLTE3ODI3NDgwNzA0ODcucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQ0MCwiZXhwIjoxNzg3MjI4MjQwfQ.vzyjDEKtgPt8Y2NzY3UE6LDQc236_WK5MFAzrIqmRHA",
   "campo_origem_foto": "image_url",
   "image_source": "product_database",
   "image_is_generated": false,
-  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/m-scara-clareadora---30g-1782748070487.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbS1zY2FyYS1jbGFyZWFkb3JhLS0tMzBnLTE3ODI3NDgwNzA0ODcucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg3MCwiZXhwIjoxNzg3MTY3NjcwfQ.yZDVJ7eAqWkX9gw315M4st4rBxrbnOtaRjOUd1n86Gc]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
+  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/m-scara-clareadora---30g-1782748070487.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbS1zY2FyYS1jbGFyZWFkb3JhLS0tMzBnLTE3ODI3NDgwNzA0ODcucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQ0MCwiZXhwIjoxNzg3MjI4MjQwfQ.vzyjDEKtgPt8Y2NzY3UE6LDQc236_WK5MFAzrIqmRHA]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
   "link_individual_produto": "https://lakma.com.br/products/mascara-clareadora-30g?_pos=2&_sid=1cf15edab&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -15021,17 +15271,20 @@ Máscara clareadora facial e corporal, indicada para manchas, uniformização do
   "link_site": "https://lakma.com.br/products/mascara-clareadora-30g?_pos=2&_sid=1cf15edab&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA35",
-  "desconto_site": "35%",
+  "cupom_site": "LAKMA30",
+  "desconto_site": "30%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
   "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "cupom_ativo": true,
+  "cupom_codigo": "LAKMA30",
+  "cupom_desconto_percent": 30,
   "valor_sem_desconto": 91.55,
-  "valor_com_cupom_lakma35": 59.51,
+  "valor_com_cupom": 64.08,
   "valor_sem_desconto_br": "R$ 91,55",
-  "valor_com_cupom_lakma35_br": "R$ 59,51",
-  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "valor_com_cupom_br": "R$ 64,08",
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.7",
   "pdf_aprovado_protocolo": null,
   "pdf_source": null,
   "pdf_is_generated": false,
@@ -15040,7 +15293,7 @@ Máscara clareadora facial e corporal, indicada para manchas, uniformização do
   "categoria_intencao": [],
   "quando_indicar_direto": [],
   "indicacao_curta": null,
-  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_lakma35_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
+  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
 }
 ```
 
@@ -15195,21 +15448,21 @@ Máscara clareadora facial e corporal em apresentação menor, indicada para man
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/m-scara-clareadora-facial-e-corporal---10g-1782748029204.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbS1zY2FyYS1jbGFyZWFkb3JhLWZhY2lhbC1lLWNvcnBvcmFsLS0tMTBnLTE3ODI3NDgwMjkyMDQucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg3MCwiZXhwIjoxNzg3MTY3NjcwfQ.bo-PA8Zg-e_M3iY3MvzP76Zdt4yuotNCZyj6-MYPY5g ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/m-scara-clareadora-facial-e-corporal---10g-1782748029204.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbS1zY2FyYS1jbGFyZWFkb3JhLWZhY2lhbC1lLWNvcnBvcmFsLS0tMTBnLTE3ODI3NDgwMjkyMDQucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg3MCwiZXhwIjoxNzg3MTY3NjcwfQ.bo-PA8Zg-e_M3iY3MvzP76Zdt4yuotNCZyj6-MYPY5g]]` no topo da resposta
+- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/m-scara-clareadora-facial-e-corporal---10g-1782748029204.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbS1zY2FyYS1jbGFyZWFkb3JhLWZhY2lhbC1lLWNvcnBvcmFsLS0tMTBnLTE3ODI3NDgwMjkyMDQucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQ0MCwiZXhwIjoxNzg3MjI4MjQwfQ.wiHpbLjLRen0dS-_PE4m9ezo2MV9hqLXVZJFRIKrBJs ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/m-scara-clareadora-facial-e-corporal---10g-1782748029204.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbS1zY2FyYS1jbGFyZWFkb3JhLWZhY2lhbC1lLWNvcnBvcmFsLS0tMTBnLTE3ODI3NDgwMjkyMDQucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQ0MCwiZXhwIjoxNzg3MjI4MjQwfQ.wiHpbLjLRen0dS-_PE4m9ezo2MV9hqLXVZJFRIKrBJs]]` no topo da resposta
 - **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
 - **Valor sem desconto:** R$ 54,05
-- **Valor com cupom LAKMA35:** R$ 35,13  _(calculado automaticamente = valor_sem_desconto × 0,65)_
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/mascara-clareadora-10g?_pos=1&_sid=1cf15edab&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+- **Valor com cupom LAKMA30:** R$ 37,83  _(calculado automaticamente = valor_sem_desconto × 0.7)_
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/mascara-clareadora-10g?_pos=1&_sid=1cf15edab&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
 
 ```json
 {
   "produto": "Máscara Clareadora Facial e Corporal - 10g",
   "aliases": [],
-  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/m-scara-clareadora-facial-e-corporal---10g-1782748029204.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbS1zY2FyYS1jbGFyZWFkb3JhLWZhY2lhbC1lLWNvcnBvcmFsLS0tMTBnLTE3ODI3NDgwMjkyMDQucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg3MCwiZXhwIjoxNzg3MTY3NjcwfQ.bo-PA8Zg-e_M3iY3MvzP76Zdt4yuotNCZyj6-MYPY5g",
+  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/m-scara-clareadora-facial-e-corporal---10g-1782748029204.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbS1zY2FyYS1jbGFyZWFkb3JhLWZhY2lhbC1lLWNvcnBvcmFsLS0tMTBnLTE3ODI3NDgwMjkyMDQucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQ0MCwiZXhwIjoxNzg3MjI4MjQwfQ.wiHpbLjLRen0dS-_PE4m9ezo2MV9hqLXVZJFRIKrBJs",
   "campo_origem_foto": "image_url",
   "image_source": "product_database",
   "image_is_generated": false,
-  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/m-scara-clareadora-facial-e-corporal---10g-1782748029204.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbS1zY2FyYS1jbGFyZWFkb3JhLWZhY2lhbC1lLWNvcnBvcmFsLS0tMTBnLTE3ODI3NDgwMjkyMDQucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg3MCwiZXhwIjoxNzg3MTY3NjcwfQ.bo-PA8Zg-e_M3iY3MvzP76Zdt4yuotNCZyj6-MYPY5g]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
+  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/m-scara-clareadora-facial-e-corporal---10g-1782748029204.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2UvbS1zY2FyYS1jbGFyZWFkb3JhLWZhY2lhbC1lLWNvcnBvcmFsLS0tMTBnLTE3ODI3NDgwMjkyMDQucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQ0MCwiZXhwIjoxNzg3MjI4MjQwfQ.wiHpbLjLRen0dS-_PE4m9ezo2MV9hqLXVZJFRIKrBJs]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
   "link_individual_produto": "https://lakma.com.br/products/mascara-clareadora-10g?_pos=1&_sid=1cf15edab&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -15217,17 +15470,20 @@ Máscara clareadora facial e corporal em apresentação menor, indicada para man
   "link_site": "https://lakma.com.br/products/mascara-clareadora-10g?_pos=1&_sid=1cf15edab&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA35",
-  "desconto_site": "35%",
+  "cupom_site": "LAKMA30",
+  "desconto_site": "30%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
   "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "cupom_ativo": true,
+  "cupom_codigo": "LAKMA30",
+  "cupom_desconto_percent": 30,
   "valor_sem_desconto": 54.05,
-  "valor_com_cupom_lakma35": 35.13,
+  "valor_com_cupom": 37.83,
   "valor_sem_desconto_br": "R$ 54,05",
-  "valor_com_cupom_lakma35_br": "R$ 35,13",
-  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "valor_com_cupom_br": "R$ 37,83",
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.7",
   "pdf_aprovado_protocolo": null,
   "pdf_source": null,
   "pdf_is_generated": false,
@@ -15236,7 +15492,7 @@ Máscara clareadora facial e corporal em apresentação menor, indicada para man
   "categoria_intencao": [],
   "quando_indicar_direto": [],
   "indicacao_curta": null,
-  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_lakma35_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
+  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
 }
 ```
 
@@ -15386,21 +15642,21 @@ Kit profissional facial para limpeza de pele, com 5 produtos para higienização
 
 - **Campo real no cadastro:** `site_url`
 - **Nome obrigatório para a Nina:** `link_individual_produto`
-- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-limpeza-de-pele-profissional---5-produtos-1782748113740.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LWxpbXBlemEtZGUtcGVsZS1wcm9maXNzaW9uYWwtLS01LXByb2R1dG9zLTE3ODI3NDgxMTM3NDAucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg3MSwiZXhwIjoxNzg3MTY3NjcxfQ.DfpWm6dOQbnCN7XNpYEnMmJZcOpMz9xTvX0FFCyofqM ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-limpeza-de-pele-profissional---5-produtos-1782748113740.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LWxpbXBlemEtZGUtcGVsZS1wcm9maXNzaW9uYWwtLS01LXByb2R1dG9zLTE3ODI3NDgxMTM3NDAucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg3MSwiZXhwIjoxNzg3MTY3NjcxfQ.DfpWm6dOQbnCN7XNpYEnMmJZcOpMz9xTvX0FFCyofqM]]` no topo da resposta
+- **Foto oficial aprovada (`image_url`):** https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-limpeza-de-pele-profissional---5-produtos-1782748113740.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LWxpbXBlemEtZGUtcGVsZS1wcm9maXNzaW9uYWwtLS01LXByb2R1dG9zLTE3ODI3NDgxMTM3NDAucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQ0MCwiZXhwIjoxNzg3MjI4MjQwfQ.6Z5KnAkVviI0y3mCe3eHCe8fQ9KGPqyE3C3M6e2pIyY ← enviar como primeira mensagem usando `[[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-limpeza-de-pele-profissional---5-produtos-1782748113740.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LWxpbXBlemEtZGUtcGVsZS1wcm9maXNzaW9uYWwtLS01LXByb2R1dG9zLTE3ODI3NDgxMTM3NDAucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQ0MCwiZXhwIjoxNzg3MjI4MjQwfQ.6Z5KnAkVviI0y3mCe3eHCe8fQ9KGPqyE3C3M6e2pIyY]]` no topo da resposta
 - **PDF aprovado do protocolo (`protocolo_pdf_url`):** _(não cadastrado — NÃO inventar PDF; não escrever "te envio o protocolo em PDF")_
 - **Valor sem desconto:** R$ 336,60
-- **Valor com cupom LAKMA35:** R$ 218,79  _(calculado automaticamente = valor_sem_desconto × 0,65)_
-- **Link individual do produto no site oficial:** https://lakma.com.br/products/kit-limpeza-de-pele?_pos=1&_sid=422b7e433&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA35** = 35% de desconto no site
+- **Valor com cupom LAKMA30:** R$ 235,62  _(calculado automaticamente = valor_sem_desconto × 0.7)_
+- **Link individual do produto no site oficial:** https://lakma.com.br/products/kit-limpeza-de-pele?_pos=1&_sid=422b7e433&_ss=r ← enviar este link quando o lead pedir este produto; cupom **LAKMA30** = 30% de desconto no site
 
 ```json
 {
   "produto": "Kit Limpeza de Pele Profissional - 5 Produtos",
   "aliases": [],
-  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-limpeza-de-pele-profissional---5-produtos-1782748113740.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LWxpbXBlemEtZGUtcGVsZS1wcm9maXNzaW9uYWwtLS01LXByb2R1dG9zLTE3ODI3NDgxMTM3NDAucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg3MSwiZXhwIjoxNzg3MTY3NjcxfQ.DfpWm6dOQbnCN7XNpYEnMmJZcOpMz9xTvX0FFCyofqM",
+  "foto_aprovada_produto": "https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-limpeza-de-pele-profissional---5-produtos-1782748113740.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LWxpbXBlemEtZGUtcGVsZS1wcm9maXNzaW9uYWwtLS01LXByb2R1dG9zLTE3ODI3NDgxMTM3NDAucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQ0MCwiZXhwIjoxNzg3MjI4MjQwfQ.6Z5KnAkVviI0y3mCe3eHCe8fQ9KGPqyE3C3M6e2pIyY",
   "campo_origem_foto": "image_url",
   "image_source": "product_database",
   "image_is_generated": false,
-  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-limpeza-de-pele-profissional---5-produtos-1782748113740.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LWxpbXBlemEtZGUtcGVsZS1wcm9maXNzaW9uYWwtLS01LXByb2R1dG9zLTE3ODI3NDgxMTM3NDAucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjU2Mjg3MSwiZXhwIjoxNzg3MTY3NjcxfQ.DfpWm6dOQbnCN7XNpYEnMmJZcOpMz9xTvX0FFCyofqM]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
+  "instrucao_envio_foto": "Inserir uma linha [[IMG:https://bfuuucuzebtkregbycqd.supabase.co/storage/v1/object/sign/brain-media/f8475131-87da-46a1-aa8a-17ffd7f6c7f7/products/image/kit-limpeza-de-pele-profissional---5-produtos-1782748113740.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82ZjdhZDJmYS1hN2RkLTQ4NTgtOGEzNS0xZjM4MTY5ZTYwYTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJicmFpbi1tZWRpYS9mODQ3NTEzMS04N2RhLTQ2YTEtYWE4YS0xN2ZmZDdmNmM3ZjcvcHJvZHVjdHMvaW1hZ2Uva2l0LWxpbXBlemEtZGUtcGVsZS1wcm9maXNzaW9uYWwtLS01LXByb2R1dG9zLTE3ODI3NDgxMTM3NDAucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NjYyMzQ0MCwiZXhwIjoxNzg3MjI4MjQwfQ.6Z5KnAkVviI0y3mCe3eHCe8fQ9KGPqyE3C3M6e2pIyY]] no TOPO da resposta (antes do texto) quando indicar este produto. O backend converte em mensagem WhatsApp do tipo image automaticamente.",
   "link_individual_produto": "https://lakma.com.br/products/kit-limpeza-de-pele?_pos=1&_sid=422b7e433&_ss=r",
   "campo_origem_link_individual_produto": "site_url",
   "link_source": "product_database",
@@ -15408,17 +15664,20 @@ Kit profissional facial para limpeza de pele, com 5 produtos para higienização
   "link_site": "https://lakma.com.br/products/kit-limpeza-de-pele?_pos=1&_sid=422b7e433&_ss=r",
   "link_mercadolivre": null,
   "site_geral_fallback": "https://www.lakma.com.br",
-  "cupom_site": "LAKMA35",
-  "desconto_site": "35%",
+  "cupom_site": "LAKMA30",
+  "desconto_site": "30%",
   "status_link_individual_produto": "aprovado",
   "status_link": "aprovado",
   "regra_prioridade_link": "Produto específico citado: enviar EXATAMENTE o valor de link_individual_produto acima; nunca reescrever, encurtar, simplificar ou regenerar essa URL.",
   "proibicao_invencao_url": "Nunca construir URL a partir de nome/slug/categoria. Nunca concatenar site_geral_fallback + '/products/' + slug. Só enviar URLs com link_source='product_database' e link_is_generated=false.",
+  "cupom_ativo": true,
+  "cupom_codigo": "LAKMA30",
+  "cupom_desconto_percent": 30,
   "valor_sem_desconto": 336.6,
-  "valor_com_cupom_lakma35": 218.79,
+  "valor_com_cupom": 235.62,
   "valor_sem_desconto_br": "R$ 336,60",
-  "valor_com_cupom_lakma35_br": "R$ 218,79",
-  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.65",
+  "valor_com_cupom_br": "R$ 235,62",
+  "formula_cupom": "valor_com_cupom = valor_sem_desconto * 0.7",
   "pdf_aprovado_protocolo": null,
   "pdf_source": null,
   "pdf_is_generated": false,
@@ -15427,7 +15686,7 @@ Kit profissional facial para limpeza de pele, com 5 produtos para higienização
   "categoria_intencao": [],
   "quando_indicar_direto": [],
   "indicacao_curta": null,
-  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_lakma35_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
+  "regra_preco": "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
 }
 ```
 
