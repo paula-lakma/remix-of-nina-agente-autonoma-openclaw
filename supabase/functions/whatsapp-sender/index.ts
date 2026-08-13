@@ -262,10 +262,33 @@ async function sendMessage(supabase: any, settings: any, queueItem: any) {
       };
       break;
     
+
+    case 'template': {
+      const meta = queueItem.metadata || {};
+      const tplName = meta.template_name;
+      if (!tplName) throw new Error('template_name ausente no metadata');
+      const vars = meta.template_variables || {};
+      const components: any[] = [];
+      if (Array.isArray(vars.header) && vars.header.length) {
+        components.push({ type: 'header', parameters: vars.header.map((v: string) => ({ type: 'text', text: String(v) })) });
+      }
+      if (Array.isArray(vars.body) && vars.body.length) {
+        components.push({ type: 'body', parameters: vars.body.map((v: string) => ({ type: 'text', text: String(v) })) });
+      }
+      payload.type = 'template';
+      payload.template = {
+        name: tplName,
+        language: { code: meta.template_language || 'pt_BR' },
+        ...(components.length ? { components } : {}),
+      };
+      break;
+    }
+
     default:
       payload.type = 'text';
       payload.text = { body: queueItem.content };
   }
+
 
   console.log('[Sender] WhatsApp API payload:', JSON.stringify(payload, null, 2));
 
