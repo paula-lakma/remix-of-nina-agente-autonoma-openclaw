@@ -1,56 +1,42 @@
-# Diagnóstico: de onde vem LAKMA35 / 35% no fluxo de Protocolo
+# Webhook Shopify → aviso de status no WhatsApp
 
-Nenhum arquivo do projeto foi alterado.
+Objetivo: receber qualquer JSON de pedido/fulfillment da Shopify, guardar o payload bruto, normalizar os campos úteis e disparar uma mensagem de template no WhatsApp do cliente com o novo status.
 
-## A) Origem exata
+## Como vai funcionar
 
-Arquivos **antigos (órfãos) do branch `nina-brain`**, já sincronizados na VPS, gerados por builds anteriores à correção do cupom dinâmico. Eles carregam o texto literal semeado em junho:
+1. A Shopify chama uma URL pública nossa (`shopify-webhook`) com um token secreto na query string.
+2. O JSON chega inteiro e é gravado como veio, sem validação de formato — nada é perdido mesmo que a Shopify mude o payload.
+3. Um normalizador extrai: telefone do cliente, nome, número do pedido, status, valor, transportadora e código/link de rastreio (tentando vários caminhos possíveis do JSON).
+4. O contato é buscado pelo telefone (normalizado para o formato BR/E.164). Se não existir, criamos contato + conversa novos.
+5. A mensagem é enfileirada em `send_queue` como template aprovado da Meta, com as variáveis preenchidas, e o `whatsapp-sender` entrega.
+6. A mensagem também aparece no Chat ao Vivo, como mensagem enviada pela Nina.
 
-> "No site, você pode usar o cupom **LAKMA35** para ter 35% de desconto."
-> "Cupom **LAKMA35** = 35% off → `valor_com_cupom = valor_sem_desconto * 0,65`."
+## Eventos cobertos
 
-(strings presentes em `supabase/migrations/20260625164536_*.sql` e `20260626143300_*.sql`, que inseriram esses conteúdos como Conhecimentos/Habilidades na época).
+- `orders/create` e `orders/paid` → "pedido confirmado"
+- `fulfillments/create` e `fulfillments/update` → "pedido enviado" com rastreio
+- Qualquer outro tópico: gravado no log, sem envio.
 
-O que foi verificado e está **limpo hoje**:
+Deduplicação por ID do evento Shopify para não mandar a mesma mensagem duas vezes.
 
-- `nina_settings`: `coupon_enabled=true`, `coupon_code=LAKMA30`, `coupon_discount_percent=30`; o `system_prompt_override` **não** contém LAKMA35 nem 35%.
-- `brain_knowledge` (10 registros), `brain_protocols` (15), `custom_knowledge_skills` (14), `brain_products`: **zero** ocorrências de `LAKMA35`.
-- `brain-build/index.ts`: 100% dinâmico (`couponFrom(settings)`); nenhuma ocorrência de `LAKMA35`, `35%` ou `0.65`.
-- `nina-orchestrator` e `nina-test`: nenhuma menção a cupom.
-- `skills/nina/*` no repo: nenhuma menção a cupom.
+## Templates da Meta
 
-Único resíduo em código-fonte vivo: `src/components/cerebro/train/ProductForm.tsx:187-191` — o **rótulo da UI** diz "cupom LAKMA35 … (35% off)" e calcula a prévia com `* 0.65`. Isso é só exibição no painel, não vai para o cérebro, mas confunde o cadastro.
+Precisam ser criados e aprovados na Meta (posso deixá-los cadastrados na aba Templates para você submeter):
 
-## B) Arquivo / função / bloco responsável
+- `pedido_confirmado` — variáveis: nome, número do pedido, valor
+- `pedido_enviado` — variáveis: nome, número do pedido, transportadora, código de rastreio
 
-`supabase/functions/brain-build/index.ts`, bloco de commit (~linhas 975-1000):
+Enquanto não houver aprovação, o evento fica registrado com status "aguardando template" e não é enviado.
 
-```ts
-const newTree = await gh("POST", `${base}/git/trees`, token, { base_tree: baseTreeSha, tree });
-```
+## Tela de acompanhamento
 
-O commit usa `base_tree`, ou seja, **só sobrescreve os arquivos que ele gera nesta rodada e nunca remove os demais**. O prune existente (`.nina-packs.json`) cobre apenas `skills/<pack>` e `skills/custom-*` — **não** cobre `skills/nina/knowledge/*.md`.
+Uma seção simples em Configurações listando os últimos eventos recebidos: data, tópico, pedido, telefone, status do envio e erro (quando houver), com o JSON bruto visível para inspeção — é o que vai permitir ajustar o mapeamento assim que os payloads reais chegarem.
 
-Consequência: todo `knowledge/<slug>.md` de um Conhecimento que foi renomeado (mudança de slug) ou excluído continua vivo no branch e na VPS, com o texto antigo.
+## Detalhes técnicos
 
-## C) Trecho conflitante
-
-Dois textos coexistem no workspace da VPS:
-
-- gerado hoje (correto): `- Quando enviar um link individual aprovado do site, sempre informar o cupom **LAKMA30** = 30% de desconto no site.`
-- órfão (errado): `No site, você pode usar o cupom **LAKMA35** para ter 35% de desconto.`
-
-## D) Por que afeta protocolo e não o fluxo de produto
-
-`brain_protocols` **não é exportado pelo brain-build** — não há uma única referência à tabela nas edge functions (só no hook do painel `useBrainProtocols.ts`). O "Protocolo ACNE OFF" não existe em nenhum arquivo gerado hoje: os 10 Conhecimentos atuais não citam ACNE OFF.
-
-Logo, quando a Nina respondeu com o Protocolo ACNE OFF, ela leu um **arquivo órfão** de um build antigo — e esse mesmo arquivo traz o cupom antigo junto. Já o fluxo de produto lê `knowledge/produtos.md`, que é regravado a cada build a partir de `nina_settings` — por isso sai LAKMA30 corretamente.
-
-## E) Correção mínima recomendada
-
-1. **Prune do diretório `skills/nina/knowledge/`** no `brain-build`: gerar a lista canônica de arquivos esperados (`produtos.md` + um por slug de `brain_knowledge`) e remover do tree qualquer outro `.md` sob esse diretório. É a correção que elimina toda a classe do problema (não só o cupom).
-2. **Exportar `brain_protocols`** no brain-build (`knowledge/protocolos/<slug>.md`), com o bloco comercial usando o mesmo `coupon` dinâmico — hoje os Protocolos cadastrados no painel simplesmente não chegam ao cérebro, e o agente depende de arquivo velho.
-3. **Ajustar o rótulo do painel** em `ProductForm.tsx` para ler `coupon_code` / `coupon_discount_percent` de `nina_settings` em vez de "LAKMA35 / 35% / 0.65".
-4. Depois disso, rodar um Build e aguardar o `brain_sync` (*/2 min) para que a VPS receba a remoção dos órfãos.
-
-Não recomendo tocar em `nina_settings`, Produtos, Protocolos, Conhecimentos, System Prompt, WhatsApp, pipeline ou handoff.
+- Nova tabela `shopify_events`: `id`, `topic`, `shopify_event_id` (único), `order_number`, `phone_number`, `contact_id`, `conversation_id`, `raw_payload jsonb`, `normalized jsonb`, `send_status`, `error_message`, `created_at`. RLS + GRANTs: leitura para `authenticated` (admin/manager), escrita só `service_role`.
+- Nova edge function `shopify-webhook` (`verify_jwt = false`): valida `?token=` contra o secret `SHOPIFY_WEBHOOK_TOKEN`, responde 200 rápido e processa em background (`EdgeRuntime.waitUntil`). HMAC fica preparado (leitura do header `X-Shopify-Hmac-Sha256`) mas desativado até você configurar o segredo.
+- Módulo `_shared/shopify.ts`: normalização do payload + normalização de telefone (dígitos, DDI 55, 9º dígito).
+- Enfileiramento reaproveita o fluxo atual: insert em `messages` + `send_queue` com `message_type = 'template'` e `metadata` contendo `template_name`, `template_language`, `template_variables` (mesmo formato usado por `send-meta-message`).
+- Um secret novo será solicitado: `SHOPIFY_WEBHOOK_TOKEN`.
+- Nada do fluxo da Nina (orchestrator/brain) é alterado; o webhook não aciona a IA.
