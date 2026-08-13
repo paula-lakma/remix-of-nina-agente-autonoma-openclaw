@@ -148,7 +148,11 @@ export function buildTemplateMessage(n: NormalizedShopify, couponFreeText?: stri
   const order = n.order_number || n.order_id || "-";
 
   if (n.event_kind === "order_confirmed") {
-    const total = n.total ? `${n.currency || "BRL"} ${n.total}` : "-";
+    const total = n.total
+      ? (n.currency || "BRL") === "BRL"
+        ? `R$ ${Number(n.total).toFixed(2).replace(".", ",")}`
+        : `${n.currency} ${n.total}`
+      : "-";
     return {
       template_name: "pedido_confirmado",
       template_language: "pt_BR",
@@ -164,7 +168,7 @@ export function buildTemplateMessage(n: NormalizedShopify, couponFreeText?: stri
       template_name: "pedido_enviado",
       template_language: "pt_BR",
       variables: [first, order, company, code],
-      preview: `Boa notícia, ${first}! Seu pedido ${order} foi enviado pela ${company}. Código de rastreio: ${code}${n.tracking_url ? ` — ${n.tracking_url}` : ""}`,
+      preview: `Boa notícia, ${first}! Seu pedido ${order} foi enviado pela ${company}. Código de rastreio: ${code}. Você já pode acompanhar a entrega pelo site da transportadora.${n.tracking_url ? ` ${n.tracking_url}` : ""}`,
     };
   }
 
