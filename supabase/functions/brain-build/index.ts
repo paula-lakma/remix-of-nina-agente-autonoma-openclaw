@@ -767,6 +767,46 @@ function renderKnowledgeEntry(k: any, products: any[] = [], coupon: Coupon): str
 // Sanitiza o slug para uso como nome de arquivo (evita path traversal).
 const safeSlug = (slug: string): string => v(slug).replace(/[^a-zA-Z0-9_-]/g, "-").replace(/^-+|-+$/g, "") || "item";
 
+// ── Protocolos (brain_protocols) ────────────────────────────────────────────
+// Exporta EXATAMENTE o que está cadastrado; nunca inventa passo a passo.
+function renderProtocol(p: any, coupon: Coupon): string {
+  const status = v(p.status).toLowerCase();
+  const isActive = status === "active" || status === "ativo" || status === "published";
+  const statusLabel = isActive ? "Ativo" : `Inativo/Rascunho (${v(p.status) || "sem status"})`;
+
+  let md = `# Protocolo: ${v(p.name)}\n\n`;
+  md += `- **Slug:** ${v(p.slug)}\n`;
+  md += `- **Status:** ${statusLabel}\n\n`;
+  md += isActive
+    ? `> Protocolo APROVADO — pode ser apresentado ao lead.\n\n`
+    : `> Protocolo NÃO aprovado (inativo/rascunho) — **não** apresentar ao lead nem citar como disponível. Use apenas como contexto interno.\n\n`;
+
+  const img = v(p.image_url);
+  const pdf = v(p.pdf_url);
+  const drive = v(p.drive_url);
+  md += `## Mídia aprovada\n\n`;
+  md += img
+    ? `- **Imagem:** ${img} ← enviar com \`[[IMG:${img}]]\`.\n`
+    : `- **Imagem:** _(não cadastrada — PROIBIDO inventar ou buscar externamente.)_\n`;
+  md += pdf
+    ? `- **PDF:** ${pdf} ← enviar com \`[[PDF:${pdf}]]\`.\n`
+    : `- **PDF:** _(não cadastrado — não prometer PDF.)_\n`;
+  if (drive) md += `- **Material interno (não enviar ao lead):** ${drive}\n`;
+  md += `\n`;
+
+  md += `## Conhecimento aprovado\n\n${v(p.knowledge_text) || "_(sem conteúdo cadastrado — não completar por conta própria.)_"}\n\n`;
+
+  if (coupon.enabled && isActive) {
+    md += `## Bloco comercial\n\n`;
+    md += `- Ao enviar link aprovado do site, informar o cupom **${coupon.code}** = ${coupon.percent}% de desconto.\n`;
+    md += `- Cálculo do preço com cupom: \`valor_sem_desconto * ${coupon.factor}\`.\n`;
+  }
+
+  md += `\n> Regras: não inventar etapas, produtos, preços ou mídias que não estejam acima.\n`;
+  return md;
+}
+
+
 // K1 — custom knowledge skills (self-service). Defense-in-depth: re-valida o slug
 // (mesmo CHECK do banco) antes de usar como nome de dir, e trata name/description/
 // content como DADOS (não instruções). Limites soft p/ não estourar o prompt.
