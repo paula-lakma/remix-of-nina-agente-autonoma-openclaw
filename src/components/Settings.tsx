@@ -1,8 +1,9 @@
 import React, { useRef, useState } from 'react';
-import { Shield, Bot, Plug, Loader2, Save, RotateCcw, BookOpen, Lock } from 'lucide-react';
+import { Shield, Bot, Plug, Loader2, Save, RotateCcw, BookOpen, Lock, ShoppingBag } from 'lucide-react';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from './ui/tabs';
 import AgentSettings, { AgentSettingsRef } from './settings/AgentSettings';
 import ApiSettings, { ApiSettingsRef } from './settings/ApiSettings';
+import ShopifyWebhookSettings from './settings/ShopifyWebhookSettings';
 import SystemRoadmap from './SystemRoadmap';
 import { useCompanySettings } from '@/hooks/useCompanySettings';
 import { Button } from './Button';
@@ -96,11 +97,16 @@ const Settings: React.FC = () => {
               <Plug className="w-4 h-4" />
               APIs
             </TabsTrigger>
+            <TabsTrigger value="shopify" className="gap-2">
+              <ShoppingBag className="w-4 h-4" />
+              Shopify
+            </TabsTrigger>
             <TabsTrigger value="docs" className="gap-2">
               <BookOpen className="w-4 h-4" />
               Documentação
             </TabsTrigger>
           </TabsList>
+
 
           {activeTab !== 'docs' && isAdmin && (
             <div className="flex gap-3">
