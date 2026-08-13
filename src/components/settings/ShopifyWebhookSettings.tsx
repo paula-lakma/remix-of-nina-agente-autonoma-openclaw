@@ -63,7 +63,7 @@ const ShopifyWebhookSettings: React.FC = () => {
           <span className="text-foreground"> orders/create</span>,
           <span className="text-foreground"> orders/paid</span>,
           <span className="text-foreground"> fulfillments/create</span> e
-          <span className="text-foreground"> fulfillments/update</span>. Substitua <code>SEU_TOKEN</code> pelo token secreto configurado.
+          <span className="text-foreground"> fulfillments/update</span>. Não é necessário token.
         </p>
         <div className="mt-4 flex items-center gap-2">
           <code className="flex-1 truncate rounded-lg border border-border bg-muted/40 px-3 py-2 text-xs text-foreground">
