@@ -412,7 +412,7 @@ function renderProducts(products: any[]): string {
       quando_indicar_direto: quandoIndicarDireto,
       indicacao_curta: indicacaoCurta || null,
       regra_preco: valorSemDesconto != null
-        ? "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_lakma35_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
+        ? "Use EXATAMENTE valor_sem_desconto_br e valor_com_cupom_br nos formatos R$ x,xx. Nunca recalcule, nunca arredonde."
         : "valor_sem_desconto ausente: PROIBIDO inventar preço. Resposta padrão: 'Você consegue consultar o valor atualizado diretamente no link oficial.'",
     };
 
