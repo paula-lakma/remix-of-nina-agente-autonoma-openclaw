@@ -1,13 +1,14 @@
 /**
- * POST /shopify-webhook?token=<SHOPIFY_WEBHOOK_TOKEN>
+ * POST /shopify-webhook
  *
  * Recebe QUALQUER JSON da Shopify (orders/create, orders/paid, fulfillments/*),
  * grava o payload bruto em public.shopify_events, normaliza os campos úteis e
  * enfileira um template do WhatsApp para o cliente em send_queue.
  *
- * Auth: token na query string (HMAC fica preparado, desativado até haver segredo).
+ * Auth: público (sem token). Se SHOPIFY_WEBHOOK_TOKEN existir, o token é exigido.
  * Responde 200 rápido; o processamento acontece em background.
  */
+
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import { buildTemplateMessage, normalizeShopifyPayload } from "../_shared/shopify.ts";
 
