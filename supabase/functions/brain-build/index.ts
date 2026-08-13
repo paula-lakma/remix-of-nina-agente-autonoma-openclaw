@@ -271,16 +271,18 @@ const list = (label: string, items: string[]) =>
 const line = (label: string, val: string) => (val ? `- **${label}:** ${val}\n` : "");
 const LAKMA_SITE_FALLBACK = "https://www.lakma.com.br";
 
-function renderProducts(products: any[]): string {
+function renderProducts(products: any[], coupon: Coupon): string {
+  const cupomTxt = coupon.enabled ? `cupom **${coupon.code}** (${coupon.percent}%)` : "sem cupom";
   let md = `# Catálogo de produtos/soluções\n\n`;
   md += `> Cada produto traz: identificação, categoria, indicações, participação em protocolos\n`;
   md += `> e orientações para a Nina. O passo a passo completo dos protocolos está em outros\n`;
   md += `> arquivos desta pasta \`knowledge/\`.\n\n`;
   md += `## Indicação curta, direta e comercial (LEITURA OBRIGATÓRIA)\n\n`;
   md += `- Quando a intenção do lead estiver clara ("quero peeling", "tem algo para manchas?", "quero clareador", "quero algo para acne/oleosidade", "quero rejuvenescimento", "quero hidratação", "me indica um produto", "me vende algo", "quero algo para pele madura", "quero limpeza de pele"), **NÃO** fique perguntando. Indique direto.\n`;
-  md += `- Formato: **indicação curta + foto (se houver) + nome + link individual oficial + cupom LAKMA35**. Nada de texto longo, nada de várias perguntas.\n`;
+  md += `- Formato: **indicação curta + foto (se houver) + nome + link individual oficial${coupon.enabled ? ` + ${cupomTxt}` : ""}**. Nada de texto longo, nada de várias perguntas.\n`;
   md += `- Use no MÁXIMO 2 ou 3 produtos por indicação simples. Nada de listas longas.\n`;
-  md += `- Só faça UMA pergunta antes de indicar quando: não souber se é uso pessoal/home care ou profissional/cabine; a necessidade estiver confusa; houver risco técnico, gestante, lactante, alergia, reação adversa, pele sensibilizada/lesionada, procedimento recente, uso de medicamento, contraindicação ou qualquer caso sensível. Nesses casos, uma pergunta de cada vez. Em risco real → encaminhar para dermoconsultora.\n`;
+  md += `- **Não existe etapa obrigatória de descoberta.** É PROIBIDO condicionar o link a uma pergunta ("para eu confirmar se é ideal", "antes de te passar o link", "sua pele é sensível ou oleosa?"). Se dá para indicar com segurança, indique e mande o link na mesma resposta.\n`;
+  md += `- Só faça UMA pergunta antes de indicar quando: (a) faltar o tipo de uso (profissional/cabine vs home care) e o produto candidato atender aos dois; ou (b) houver caso sensível — gestante, lactante, alergia, reação adversa, pele sensibilizada/lesionada, procedimento recente, uso de medicamento, contraindicação. Em risco real → encaminhar para dermoconsultora, sem indicar produto.\n`;
   md += `- Profissionais pedindo protocolo: também responder de forma curta (nome do protocolo + produtos principais com link + fotos). Não despejar o passo a passo de cara — pergunte se a pessoa quer o passo a passo aprovado também.\n\n`;
   md += `## Envio de FOTO oficial/aprovada do produto\n\n`;
   md += `- O cadastro do produto traz o campo \`image_url\` ("Foto oficial / aprovada do produto"). Trate como \`foto_aprovada_produto\`.\n`;
@@ -299,7 +301,9 @@ function renderProducts(products: any[]): string {
   md += `- Se o produto existe no cadastro mas \`link_individual_produto\` está vazio/nulo, a Nina responde: "Não encontrei o link individual desse produto no cadastro. Você pode consultar no site oficial da Lakma (${LAKMA_SITE_FALLBACK}) ou falar com a equipe de atendimento." — sem inventar URL específica.\n`;
   md += `- Se o produto NÃO existe no cadastro, a Nina pede confirmação do nome ou encaminha para humano. Nunca chuta link.\n`;
   md += `- O site geral \`${LAKMA_SITE_FALLBACK}\` (raiz) é o único fallback aprovado e só pode ser enviado como página inicial — nunca com path \`/products/...\` fabricado.\n`;
-  md += `- Quando enviar um link individual aprovado do site, sempre informar o cupom **LAKMA35** = 35% de desconto no site.\n\n`;
+  md += coupon.enabled
+    ? `- Quando enviar um link individual aprovado do site, sempre informar o cupom **${coupon.code}** = ${coupon.percent}% de desconto no site.\n\n`
+    : `- **Não há cupom ativo no momento:** é PROIBIDO mencionar, citar ou inventar qualquer cupom de desconto.\n\n`;
   md += `## Envio de PDF de protocolo (aprovado pela Paula)\n\n`;
   md += `- O cadastro do produto traz \`protocolo_pdf_url\` (campo visual "PDF aprovado do protocolo"). Trate como \`pdf_aprovado_protocolo\`.\n`;
   md += `- Quando indicar um kit/produto profissional com PDF cadastrado, inclua uma linha no TOPO da resposta no formato exato \`[[PDF:<URL exata do protocolo_pdf_url>]]\`. O backend (\`nina-reply\`) detecta esse marcador, enfileira o PDF como mensagem WhatsApp do tipo \`document\` (filename = nome do produto) e remove o marcador do texto.\n`;
@@ -307,15 +311,21 @@ function renderProducts(products: any[]): string {
   md += `- A Nina **só pode** usar URLs que aparecem literalmente em \`pdf_aprovado_protocolo\` deste arquivo. PROIBIDO: gerar PDF, inventar URL de PDF, reusar PDF de outro produto, oferecer "vou montar um PDF".\n`;
   md += `- Se não houver PDF cadastrado, a Nina não menciona PDF e não escreve "Também te envio o protocolo aprovado em PDF.".\n\n`;
   md += `## Fluxo comercial (Paula): uso profissional vs home care\n\n`;
-  md += `- Quando o lead pedir peeling, clareamento, manchas/carreamento de manchas, acne, rejuvenescimento, hidratação ou limpeza de pele, faça PRIMEIRO esta única pergunta de qualificação: **"Você procura para uso profissional ou para home care?"**. Sem outras perguntas (não pedir idade, tipo de pele, foto, etc.) — exceto em casos sensíveis (gestante, lactante, alergia, reação, pele sensibilizada/lesionada, procedimento recente, medicamentos, contraindicação) → encaminhar dermoconsultora.\n`;
+  md += `- O tipo de uso (profissional/cabine vs home care) só precisa ser perguntado quando **não for possível inferir** e o produto candidato servir aos dois. Infira sempre que puder:\n`;
+  md += `  - O lead disse que é esteticista/profissional, citou cabine, clínica, atendimento, cliente/paciente, ou pediu protocolo → **profissional**.\n`;
+  md += `  - O lead falou "para mim", "para o meu rosto", "em casa", rotina diária/skincare → **home care**.\n`;
+  md += `  - O produto candidato tem \`tipo_uso\` definido como \`profissional\` ou \`home_care\` → use esse valor, não pergunte.\n`;
+  md += `- Se o tipo de uso já estiver claro (informado ou inferível), **indique direto** — nada de perguntar de novo.\n`;
+  md += `- Só quando realmente não der para inferir: faça UMA pergunta — **"Você procura para uso profissional ou para home care?"** — e nada além disso (não pedir idade, tipo de pele, foto).\n`;
+  md += `- Caso sensível (gestante, lactante, alergia, reação, pele sensibilizada/lesionada, procedimento recente, medicamentos, contraindicação) → encaminhar dermoconsultora, sem indicar produto.\n`;
   md += `- Resposta para **uso profissional** em peeling/clareamento/carreamento de manchas/ácidos: priorize o **Kit Ácidos Sem Mistérios** se cadastrado e ativo. Caso contrário, escolha o produto profissional aderente (\`tipo_uso = 'profissional'\` ou \`'ambos'\`, \`categoria_intencao\` cruzando com a necessidade). Formato exato (copie):\n\n`;
   md += "```\n";
   md += `[[IMG:<foto_produto_url>]]   ← se houver\n`;
   md += `[[PDF:<protocolo_pdf_url>]]  ← se houver\n`;
   md += `Para uso profissional, eu indicaria o {{nome}}.\n\n`;
   md += `Valor sem desconto: R$ {{valor_sem_desconto}}\n`;
-  md += `Valor com cupom LAKMA35: R$ {{valor_com_cupom}}\n\n`;
-  md += `Link oficial: {{link_individual_produto}}\n\n`;
+  if (coupon.enabled) md += `Valor com cupom ${coupon.code}: R$ {{valor_com_cupom}}\n`;
+  md += `\nLink oficial: {{link_individual_produto}}\n\n`;
   md += `Também te envio o protocolo aprovado em PDF.   ← REMOVER se não houver PDF\n`;
   md += "```\n\n";
   md += `- Resposta para **home care** de clareamento de manchas: priorize **Vitamina C** e **Máscara Clareadora 10g** se cadastradas e ativas. Para outras intenções home care, escolha 2 a 3 produtos com \`tipo_uso = 'home_care'\` ou \`'ambos'\`. Formato exato:\n\n`;
@@ -323,15 +333,18 @@ function renderProducts(products: any[]): string {
   md += `[[IMG:<foto_produto_url_1>]]   ← uma linha por foto cadastrada\n`;
   md += `[[IMG:<foto_produto_url_2>]]\n`;
   md += `Para home care de {{necessidade}}, temos essas opções:\n\n`;
-  md += `{{Produto 1}}\nValor sem desconto: R$ ...\nValor com cupom LAKMA35: R$ ...\nLink: ...\n\n`;
-  md += `{{Produto 2}}\nValor sem desconto: R$ ...\nValor com cupom LAKMA35: R$ ...\nLink: ...\n\n`;
+  const linhaCupom = coupon.enabled ? `\nValor com cupom ${coupon.code}: R$ ...` : "";
+  md += `{{Produto 1}}\nValor sem desconto: R$ ...${linhaCupom}\nLink: ...\n\n`;
+  md += `{{Produto 2}}\nValor sem desconto: R$ ...${linhaCupom}\nLink: ...\n\n`;
   md += `Quer que eu te explique como usar e quais cuidados precisa ter?\n`;
   md += "```\n\n";
   md += `## Regra de preço (CRÍTICA)\n\n`;
   md += `- Use o campo \`valor_sem_desconto\` (number) do bloco JSON do produto.\n`;
-  md += `- O valor com cupom **LAKMA35** já vem pré-calculado em \`valor_com_cupom_lakma35\` (= \`valor_sem_desconto * 0,65\`, 2 casas, formato BR). Use esse valor diretamente — NUNCA calcule manualmente.\n`;
-  md += `- Se \`valor_sem_desconto\` for null/ausente, **PROIBIDO inventar preço**. Substituir as duas linhas de preço por uma única frase: "Você consegue consultar o valor atualizado diretamente no link oficial."\n`;
-  md += `- Sempre exibir os preços no formato brasileiro com duas casas (ex.: R$ 129,90 → R$ 84,44).\n\n`;
+  md += coupon.enabled
+    ? `- O valor com cupom **${coupon.code}** já vem pré-calculado em \`valor_com_cupom\` (= \`valor_sem_desconto × ${coupon.factor}\`, 2 casas, formato BR). Use esse valor diretamente — NUNCA calcule manualmente.\n`
+    : `- Não há cupom ativo: informe apenas o valor sem desconto e não mencione cupom.\n`;
+  md += `- Se \`valor_sem_desconto\` for null/ausente, **PROIBIDO inventar preço**. Substituir as linhas de preço por uma única frase: "Você consegue consultar o valor atualizado diretamente no link oficial."\n`;
+  md += `- Sempre exibir os preços no formato brasileiro com duas casas (ex.: R$ 129,90).\n\n`;
 
 
   if (!products.length) {
