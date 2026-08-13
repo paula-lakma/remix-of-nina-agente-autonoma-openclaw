@@ -108,7 +108,7 @@ const Settings: React.FC = () => {
           </TabsList>
 
 
-          {activeTab !== 'docs' && isAdmin && (
+          {activeTab !== 'docs' && activeTab !== 'shopify' && isAdmin && (
             <div className="flex gap-3">
               <Button
                 variant="ghost"
@@ -138,7 +138,7 @@ const Settings: React.FC = () => {
             </div>
           )}
           
-          {activeTab !== 'docs' && !isAdmin && (
+          {activeTab !== 'docs' && activeTab !== 'shopify' && !isAdmin && (
             <div className="flex items-center gap-2 text-sm text-amber-400">
               <Lock className="w-4 h-4" />
               Apenas administradores podem editar
@@ -152,6 +152,10 @@ const Settings: React.FC = () => {
 
         <TabsContent value="apis">
           <ApiSettings ref={apiRef} />
+        </TabsContent>
+
+        <TabsContent value="shopify">
+          <ShopifyWebhookSettings />
         </TabsContent>
 
         <TabsContent value="docs">
