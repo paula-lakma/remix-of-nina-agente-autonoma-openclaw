@@ -17,7 +17,7 @@ import { adminClient, corsHeaders, errorResponse, jsonResponse } from "../_share
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const HOOKS_DISPATCH_TIMEOUT_MS = 12_000; // ack do enqueue (deliver:false)
-const POLL_TIMEOUT_MS = 35_000;           // espera total pela resposta do agente
+const POLL_TIMEOUT_MS = 120_000;          // espera total pela resposta do agente (alinhado ao timeoutSeconds:120 do run)
 const POLL_INTERVAL_MS = 1_500;
 const HEARTBEAT_WINDOW_MS = 10 * 60 * 1000;
 
