@@ -79,8 +79,33 @@ Deno.serve(async (req: Request) => {
     return errorResponse("Erro ao iniciar teste", 500);
   }
 
+  // 2.1) Carrega o System Prompt do painel (test_system_prompt tem precedência).
+  // Sem isso o teste rodava só com os arquivos estáticos da VPS e divergia do
+  // comportamento real em produção.
+  let sysPrompt = "";
+  {
+    const cols = "system_prompt_override, test_system_prompt";
+    const byUser = await admin.from("nina_settings").select(cols).eq("user_id", user.id).maybeSingle();
+    let st: any = byUser.data;
+    if (!st) {
+      const global = await admin.from("nina_settings").select(cols).is("user_id", null).maybeSingle();
+      st = global.data;
+    }
+    if (!st) {
+      const anyRow = await admin.from("nina_settings").select(cols).limit(1).maybeSingle();
+      st = anyRow.data;
+    }
+    sysPrompt = String(st?.test_system_prompt ?? st?.system_prompt_override ?? "").trim();
+  }
+
   // 3) Dispara /hooks/agent (ack rápido via deliver:false). Sem instance/ack => erro.
   const agentMessage =
+    (sysPrompt
+      ? `## Instruções de sistema (precedência máxima)\n` +
+        `As instruções abaixo vêm do painel e TÊM PRECEDÊNCIA sobre qualquer arquivo ` +
+        `de skill, prompt ou protocolo presente no workspace. Em caso de conflito, siga estas.\n\n` +
+        `${sysPrompt}\n\n---\n\n## Mensagem do lead\n\n`
+      : "") +
     `${message}\n\n` +
     `## Instrução de resposta\n` +
     `Responda à mensagem acima como a Nina. Para ENTREGAR sua resposta, execute a skill ` +
