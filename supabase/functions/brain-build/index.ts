@@ -917,6 +917,17 @@ Deno.serve(async (req: Request) => {
       if (s) (k as any).protocolo_pdf_url = s;
     }
   }
+  for (const p of protocols ?? []) {
+    if (p.image_path) {
+      const s = await signPath(p.image_path);
+      if (s) (p as any).image_url = s;
+    }
+    if (p.pdf_path) {
+      const s = await signPath(p.pdf_path);
+      if (s) (p as any).pdf_url = s;
+    }
+  }
+
 
 
   // 2) Renderiza os arquivos da skill (identity/, knowledge/, SKILL.md e prompts/).
