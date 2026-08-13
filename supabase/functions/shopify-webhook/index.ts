@@ -32,13 +32,17 @@ Deno.serve(async (req: Request) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
   if (req.method !== "POST") return json({ error: "Method not allowed" }, 405);
 
-  const url = new URL(req.url);
+  // Token é opcional: só valida se SHOPIFY_WEBHOOK_TOKEN estiver configurado.
   const expected = Deno.env.get("SHOPIFY_WEBHOOK_TOKEN") || "";
-  const provided = url.searchParams.get("token") || req.headers.get("x-shopify-token") || "";
-  if (!expected || provided !== expected) {
-    console.warn("[shopify-webhook] token inválido");
-    return json({ error: "unauthorized" }, 401);
+  if (expected) {
+    const url = new URL(req.url);
+    const provided = url.searchParams.get("token") || req.headers.get("x-shopify-token") || "";
+    if (provided !== expected) {
+      console.warn("[shopify-webhook] token inválido");
+      return json({ error: "unauthorized" }, 401);
+    }
   }
+
 
   const rawText = await req.text();
   let body: Any = {};
