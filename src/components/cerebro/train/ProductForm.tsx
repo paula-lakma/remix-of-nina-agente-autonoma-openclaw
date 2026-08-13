@@ -2,6 +2,8 @@ import React from 'react';
 import TagsInput from './TagsInput';
 import MediaUpload from './MediaUpload';
 import type { BrainProductInput } from '@/hooks/useBrainProducts';
+import { useNinaSettings } from '@/hooks/useNinaSettings';
+
 
 const inputClass =
   'w-full rounded-lg border border-slate-700 bg-slate-950 px-3 py-2 text-sm text-slate-100 placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-cyan-500/50';
@@ -35,8 +37,14 @@ interface ProductFormProps {
 }
 
 const ProductForm: React.FC<ProductFormProps> = ({ draft, onChange }) => {
+  const { values: ninaSettings } = useNinaSettings();
+  const couponPercent = Number(ninaSettings.coupon_discount_percent) || 0;
+  const couponCode = ninaSettings.coupon_code || '';
+  const couponEnabled = ninaSettings.coupon_enabled && !!couponCode && couponPercent > 0;
   const set = <K extends keyof BrainProductInput>(key: K, value: BrainProductInput[K]) =>
     onChange({ ...draft, [key]: value });
+
+
 
   return (
     <div className="space-y-4">
@@ -184,17 +192,29 @@ const ProductForm: React.FC<ProductFormProps> = ({ draft, onChange }) => {
               className={inputClass}
             />
             <p className="text-[10px] text-slate-500 mt-1">
-              Preço cheio/oficial. O valor com cupom <strong>LAKMA35</strong> é calculado automaticamente
-              (35% off):{' '}
-              {draft.valor_sem_desconto && draft.valor_sem_desconto > 0 ? (
-                <span className="text-emerald-300">
-                  R$ {formatBRL(draft.valor_sem_desconto * 0.65)}
-                </span>
+              Preço cheio/oficial.{' '}
+              {couponEnabled ? (
+                <>
+                  O valor com o cupom <strong>{couponCode}</strong> configurado em Identidade &gt;
+                  Configuração comercial ({couponPercent}% off) é calculado automaticamente:{' '}
+                  {draft.valor_sem_desconto && draft.valor_sem_desconto > 0 ? (
+                    <span className="text-emerald-300">
+                      R$ {formatBRL(draft.valor_sem_desconto * (1 - couponPercent / 100))}
+                    </span>
+                  ) : (
+                    <span className="text-slate-500">—</span>
+                  )}
+                  .{' '}
+                </>
               ) : (
-                <span className="text-slate-500">—</span>
+                <>
+                  Nenhum cupom ativo — configure em Identidade &gt; Configuração comercial para que a
+                  Nina informe desconto.{' '}
+                </>
               )}
-              . Se vazio, a Nina não inventa preço.
+              Se vazio, a Nina não inventa preço.
             </p>
+
           </div>
           <div>
             <label className={labelClass}>Tipo de uso</label>

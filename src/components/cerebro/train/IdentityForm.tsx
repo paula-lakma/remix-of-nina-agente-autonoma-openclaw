@@ -107,7 +107,7 @@ const IdentityForm: React.FC = () => {
               type="text"
               value={draft.coupon_code}
               onChange={(e) => setField('coupon_code', e.target.value)}
-              placeholder="Ex: LAKMA35"
+              placeholder="Ex: CUPOM10"
               className={inputClass}
             />
           </Field>

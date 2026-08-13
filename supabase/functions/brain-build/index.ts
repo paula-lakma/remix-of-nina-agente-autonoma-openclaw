@@ -767,6 +767,46 @@ function renderKnowledgeEntry(k: any, products: any[] = [], coupon: Coupon): str
 // Sanitiza o slug para uso como nome de arquivo (evita path traversal).
 const safeSlug = (slug: string): string => v(slug).replace(/[^a-zA-Z0-9_-]/g, "-").replace(/^-+|-+$/g, "") || "item";
 
+// ── Protocolos (brain_protocols) ────────────────────────────────────────────
+// Exporta EXATAMENTE o que está cadastrado; nunca inventa passo a passo.
+function renderProtocol(p: any, coupon: Coupon): string {
+  const status = v(p.status).toLowerCase();
+  const isActive = status === "active" || status === "ativo" || status === "published";
+  const statusLabel = isActive ? "Ativo" : `Inativo/Rascunho (${v(p.status) || "sem status"})`;
+
+  let md = `# Protocolo: ${v(p.name)}\n\n`;
+  md += `- **Slug:** ${v(p.slug)}\n`;
+  md += `- **Status:** ${statusLabel}\n\n`;
+  md += isActive
+    ? `> Protocolo APROVADO — pode ser apresentado ao lead.\n\n`
+    : `> Protocolo NÃO aprovado (inativo/rascunho) — **não** apresentar ao lead nem citar como disponível. Use apenas como contexto interno.\n\n`;
+
+  const img = v(p.image_url);
+  const pdf = v(p.pdf_url);
+  const drive = v(p.drive_url);
+  md += `## Mídia aprovada\n\n`;
+  md += img
+    ? `- **Imagem:** ${img} ← enviar com \`[[IMG:${img}]]\`.\n`
+    : `- **Imagem:** _(não cadastrada — PROIBIDO inventar ou buscar externamente.)_\n`;
+  md += pdf
+    ? `- **PDF:** ${pdf} ← enviar com \`[[PDF:${pdf}]]\`.\n`
+    : `- **PDF:** _(não cadastrado — não prometer PDF.)_\n`;
+  if (drive) md += `- **Material interno (não enviar ao lead):** ${drive}\n`;
+  md += `\n`;
+
+  md += `## Conhecimento aprovado\n\n${v(p.knowledge_text) || "_(sem conteúdo cadastrado — não completar por conta própria.)_"}\n\n`;
+
+  if (coupon.enabled && isActive) {
+    md += `## Bloco comercial\n\n`;
+    md += `- Ao enviar link aprovado do site, informar o cupom **${coupon.code}** = ${coupon.percent}% de desconto.\n`;
+    md += `- Cálculo do preço com cupom: \`valor_sem_desconto * ${coupon.factor}\`.\n`;
+  }
+
+  md += `\n> Regras: não inventar etapas, produtos, preços ou mídias que não estejam acima.\n`;
+  return md;
+}
+
+
 // K1 — custom knowledge skills (self-service). Defense-in-depth: re-valida o slug
 // (mesmo CHECK do banco) antes de usar como nome de dir, e trata name/description/
 // content como DADOS (não instruções). Limites soft p/ não estourar o prompt.
@@ -835,6 +875,13 @@ Deno.serve(async (req: Request) => {
     .eq("owner_user_id", user.id)
     .order("position", { ascending: true });
 
+  const { data: protocols } = await admin
+    .from("brain_protocols")
+    .select("name, slug, status, knowledge_text, image_url, image_path, pdf_url, pdf_path, drive_url")
+    .eq("owner_user_id", user.id)
+    .order("name", { ascending: true });
+
+
   // Re-gera signed URLs de 7 dias para arquivos no Storage `brain-media`.
   // `*_path` (Storage) tem precedência sobre `*_url` (manual) — sempre que
   // existir um path, sobrescrevemos a URL com uma signed fresca para que o
@@ -870,6 +917,17 @@ Deno.serve(async (req: Request) => {
       if (s) (k as any).protocolo_pdf_url = s;
     }
   }
+  for (const p of protocols ?? []) {
+    if (p.image_path) {
+      const s = await signPath(p.image_path);
+      if (s) (p as any).image_url = s;
+    }
+    if (p.pdf_path) {
+      const s = await signPath(p.pdf_path);
+      if (s) (p as any).pdf_url = s;
+    }
+  }
+
 
 
   // 2) Renderiza os arquivos da skill (identity/, knowledge/, SKILL.md e prompts/).
@@ -889,6 +947,13 @@ Deno.serve(async (req: Request) => {
       content: renderKnowledgeEntry(k, products ?? [], coupon),
     });
   }
+  for (const p of protocols ?? []) {
+    files.push({
+      path: `${SKILL_BASE}/knowledge/protocolos/${safeSlug(p.slug)}.md`,
+      content: renderProtocol(p, coupon),
+    });
+  }
+
 
   // SP1: renderiza os Skill Packs HABILITADOS do owner em skills/<slug>/.
   // O brain_sync na VPS sincroniza esses dirs -> a presença do dir ATIVA o pack
@@ -998,9 +1063,37 @@ Deno.serve(async (req: Request) => {
     const baseCommit = await gh("GET", `${base}/git/commits/${baseCommitSha}`, token);
     const baseTreeSha = baseCommit.tree.sha;
 
-    // Tree com base_tree (preserva o resto do repo — scripts, SKILL.md etc).
-    const tree = files.map((f) => ({ path: f.path, mode: "100644", type: "blob", content: f.content }));
+    // Tree com base_tree (preserva o resto do repo — scripts etc).
+    const tree: Array<Record<string, unknown>> = files.map((f) => ({
+      path: f.path,
+      mode: "100644",
+      type: "blob",
+      content: f.content,
+    }));
+
+    // ── Prune canônico de skills/nina/knowledge/ (inclui protocolos/) ──────
+    // Remove .md órfãos de Knowledges/Protocolos antigos, renomeados ou
+    // excluídos. NÃO toca em nada fora de skills/nina/knowledge/.
+    const KNOWLEDGE_DIR = `${SKILL_BASE}/knowledge/`;
+    const canonical = new Set(files.filter((f) => f.path.startsWith(KNOWLEDGE_DIR)).map((f) => f.path));
+    const prunedFiles: string[] = [];
+    try {
+      const baseTree = await gh("GET", `${base}/git/trees/${baseTreeSha}?recursive=1`, token);
+      for (const entry of (baseTree?.tree ?? []) as any[]) {
+        if (entry.type !== "blob") continue;
+        const p = String(entry.path ?? "");
+        if (!p.startsWith(KNOWLEDGE_DIR)) continue;
+        if (!p.toLowerCase().endsWith(".md")) continue;
+        if (canonical.has(p)) continue;
+        tree.push({ path: p, mode: "100644", type: "blob", sha: null });
+        prunedFiles.push(p);
+      }
+    } catch (e) {
+      console.error("[brain-build] prune skip:", (e as Error)?.message ?? e);
+    }
+
     const newTree = await gh("POST", `${base}/git/trees`, token, { base_tree: baseTreeSha, tree });
+
 
     const commit = await gh("POST", `${base}/git/commits`, token, {
       message: "chore(brain): atualiza identidade/conhecimento da Nina (Brain Build)",
@@ -1018,6 +1111,8 @@ Deno.serve(async (req: Request) => {
       commit_sha: commit.sha,
       branch: BRAIN_BRANCH,
       files_written: files.map((f) => f.path),
+      files_pruned: prunedFiles,
+
       enabled_packs: enabledSlugs,
       rendered_packs: renderedPacks,
       custom_skills: customRendered,
