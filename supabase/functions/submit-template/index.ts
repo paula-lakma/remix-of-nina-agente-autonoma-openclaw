@@ -100,7 +100,11 @@ Deno.serve(async (req) => {
     }
 
     if (!metaResponse.ok) {
-      return new Response(JSON.stringify({ error: metaResult?.error?.message || "Erro ao submeter template" }), {
+      console.error("Meta rejeitou template:", JSON.stringify(metaResult));
+      return new Response(JSON.stringify({
+        error: metaResult?.error?.error_user_msg || metaResult?.error?.message || "Erro ao submeter template",
+        details: metaResult?.error ?? null,
+      }), {
         status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
