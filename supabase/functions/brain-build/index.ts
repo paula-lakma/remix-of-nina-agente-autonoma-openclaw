@@ -1046,6 +1046,8 @@ Deno.serve(async (req: Request) => {
       commit_sha: commit.sha,
       branch: BRAIN_BRANCH,
       files_written: files.map((f) => f.path),
+      files_pruned: prunedFiles,
+
       enabled_packs: enabledSlugs,
       rendered_packs: renderedPacks,
       custom_skills: customRendered,
