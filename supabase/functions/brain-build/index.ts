@@ -431,8 +431,8 @@ function renderProducts(products: any[]): string {
         link_site: siteUrl || null,
         link_mercadolivre: mlUrl || null,
         site_geral_fallback: LAKMA_SITE_FALLBACK,
-        cupom_site: siteUrl ? "LAKMA35" : null,
-        desconto_site: siteUrl ? "35%" : null,
+        cupom_site: siteUrl && coupon.enabled ? coupon.code : null,
+        desconto_site: siteUrl && coupon.enabled ? `${coupon.percent}%` : null,
         status_link_individual_produto: siteUrl ? "aprovado" : "indisponivel",
         status_link: (siteUrl || mlUrl) ? "aprovado" : "indisponivel",
         regra_prioridade_link: siteUrl
