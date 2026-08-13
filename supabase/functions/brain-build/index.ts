@@ -929,6 +929,13 @@ Deno.serve(async (req: Request) => {
       content: renderKnowledgeEntry(k, products ?? [], coupon),
     });
   }
+  for (const p of protocols ?? []) {
+    files.push({
+      path: `${SKILL_BASE}/knowledge/protocolos/${safeSlug(p.slug)}.md`,
+      content: renderProtocol(p, coupon),
+    });
+  }
+
 
   // SP1: renderiza os Skill Packs HABILITADOS do owner em skills/<slug>/.
   // O brain_sync na VPS sincroniza esses dirs -> a presença do dir ATIVA o pack
