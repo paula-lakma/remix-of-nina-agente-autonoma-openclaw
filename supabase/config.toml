@@ -1,1 +1,4 @@
 project_id = "bfuuucuzebtkregbycqd"
+
+[functions.shopify-webhook]
+verify_jwt = false
