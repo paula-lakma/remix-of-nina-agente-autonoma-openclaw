@@ -1,46 +1,56 @@
-# Diagnóstico: o painel "Testar o cérebro" mantém contexto?
+# Diagnóstico: de onde vem LAKMA35 / 35% no fluxo de Protocolo
 
-## A) Stateless
+Nenhum arquivo do projeto foi alterado.
 
-O sandbox é **stateless**. Cada clique em "Testar" gera:
+## A) Origem exata
 
-- `runId = test-<uuid>` novo (`nina-test/index.ts`, linha 69)
-- `testConversationId = crypto.randomUUID()` novo (linha 70), explicitamente "cosmético; não cria conversa real"
-- uma linha nova em `nina_test_results` (chave = `run_id`)
+Arquivos **antigos (órfãos) do branch `nina-brain`**, já sincronizados na VPS, gerados por builds anteriores à correção do cupom dinâmico. Eles carregam o texto literal semeado em junho:
 
-Não há `session_id`/`thread_id` persistido entre execuções, nem leitura de execuções anteriores. Nada liga o teste 2 ao teste 1.
+> "No site, você pode usar o cupom **LAKMA35** para ter 35% de desconto."
+> "Cupom **LAKMA35** = 35% off → `valor_com_cupom = valor_sem_desconto * 0,65`."
 
-## B) O que ele envia ao OpenClaw
+(strings presentes em `supabase/migrations/20260625164536_*.sql` e `20260626143300_*.sql`, que inseriram esses conteúdos como Conhecimentos/Habilidades na época).
 
-O `agentMessage` do `nina-test` contém apenas:
+O que foi verificado e está **limpo hoje**:
 
-1. System Prompt do painel (`test_system_prompt` ou `system_prompt_override`);
-2. a **mensagem atual** digitada;
-3. a instrução de responder via `nina_reply.sh` com `conversation_id` + `run_id`.
+- `nina_settings`: `coupon_enabled=true`, `coupon_code=LAKMA30`, `coupon_discount_percent=30`; o `system_prompt_override` **não** contém LAKMA35 nem 35%.
+- `brain_knowledge` (10 registros), `brain_protocols` (15), `custom_knowledge_skills` (14), `brain_products`: **zero** ocorrências de `LAKMA35`.
+- `brain-build/index.ts`: 100% dinâmico (`couponFrom(settings)`); nenhuma ocorrência de `LAKMA35`, `35%` ou `0.65`.
+- `nina-orchestrator` e `nina-test`: nenhuma menção a cupom.
+- `skills/nina/*` no repo: nenhuma menção a cupom.
 
-Não envia histórico, não envia `client_memory`, não envia bloco de agendamento. Endpoint: `POST {ingress_url}/hooks/agent`, `deliver:false`, `metadata.mode = "test"`.
+Único resíduo em código-fonte vivo: `src/components/cerebro/train/ProductForm.tsx:187-191` — o **rótulo da UI** diz "cupom LAKMA35 … (35% off)" e calcula a prévia com `* 0.65`. Isso é só exibição no painel, não vai para o cérebro, mas confunde o cadastro.
 
-Ressalva: o payload usa `name: "nina_whatsapp"` (mesma sessão nomeada da produção). Qualquer resquício de contexto que apareça vem da sessão do OpenClaw na VPS, não do app — é acidental e não confiável, e é o oposto do isolamento que o app assume.
+## B) Arquivo / função / bloco responsável
 
-## C) O teste "Me manda o link" é válido?
+`supabase/functions/brain-build/index.ts`, bloco de commit (~linhas 975-1000):
 
-**Não.** Do ponto de vista do app, a segunda chamada é uma conversa nova sem nenhuma mensagem anterior. "Me manda o link" chega sozinho, sem referente. A resposta "Qual produto você gostaria do link?" é o comportamento **correto** para o input recebido — não é falha de memória nem de prompt.
+```ts
+const newTree = await gh("POST", `${base}/git/trees`, token, { base_tree: baseTreeSha, tree });
+```
 
-## D) Diferença para produção (WhatsApp / Chat ao Vivo)
+O commit usa `base_tree`, ou seja, **só sobrescreve os arquivos que ele gera nesta rodada e nunca remove os demais**. O prune existente (`.nina-packs.json`) cobre apenas `skills/<pack>` e `skills/custom-*` — **não** cobre `skills/nina/knowledge/*.md`.
 
-Produção (`nina-orchestrator`) monta o `agentMessage` com:
+Consequência: todo `knowledge/<slug>.md` de um Conhecimento que foi renomeado (mudança de slug) ou excluído continua vivo no branch e na VPS, com o texto antigo.
 
-- as **últimas 20 mensagens** da conversa (`messages` filtradas por `conversation_id`, formatadas como `Lead: ... / Nina: ...`);
-- `contact.client_memory` (bloco "Memória do cliente");
-- `conversation_id` real e persistente, `contact_id`, data de hoje em BRT e o bloco de agendamento.
+## C) Trecho conflitante
 
-Ou seja: produção é **stateful por conversa**; o sandbox é one-shot.
+Dois textos coexistem no workspace da VPS:
 
-## E) Forma correta de testar contexto real
+- gerado hoje (correto): `- Quando enviar um link individual aprovado do site, sempre informar o cupom **LAKMA30** = 30% de desconto no site.`
+- órfão (errado): `No site, você pode usar o cupom **LAKMA35** para ter 35% de desconto.`
 
-1. Usar o WhatsApp real (ou o Chat ao Vivo do painel) com o mesmo contato, mandando as duas mensagens em sequência — é o único caminho que grava em `messages` e alimenta o histórico das últimas 20.
-2. No sandbox, testar apenas comportamento de turno único: escrever a mensagem autocontida ("Quero o link do Sabonete Glicólico").
+## D) Por que afeta protocolo e não o fluxo de produto
 
-Se você quiser que o sandbox também avalie memória, seria preciso mudança de código (manter `conversation_id` fixo por sessão do painel e enviar o histórico dos testes anteriores) — fora do escopo deste diagnóstico.
+`brain_protocols` **não é exportado pelo brain-build** — não há uma única referência à tabela nas edge functions (só no hook do painel `useBrainProtocols.ts`). O "Protocolo ACNE OFF" não existe em nenhum arquivo gerado hoje: os 10 Conhecimentos atuais não citam ACNE OFF.
 
-Nenhum arquivo foi alterado.
+Logo, quando a Nina respondeu com o Protocolo ACNE OFF, ela leu um **arquivo órfão** de um build antigo — e esse mesmo arquivo traz o cupom antigo junto. Já o fluxo de produto lê `knowledge/produtos.md`, que é regravado a cada build a partir de `nina_settings` — por isso sai LAKMA30 corretamente.
+
+## E) Correção mínima recomendada
+
+1. **Prune do diretório `skills/nina/knowledge/`** no `brain-build`: gerar a lista canônica de arquivos esperados (`produtos.md` + um por slug de `brain_knowledge`) e remover do tree qualquer outro `.md` sob esse diretório. É a correção que elimina toda a classe do problema (não só o cupom).
+2. **Exportar `brain_protocols`** no brain-build (`knowledge/protocolos/<slug>.md`), com o bloco comercial usando o mesmo `coupon` dinâmico — hoje os Protocolos cadastrados no painel simplesmente não chegam ao cérebro, e o agente depende de arquivo velho.
+3. **Ajustar o rótulo do painel** em `ProductForm.tsx` para ler `coupon_code` / `coupon_discount_percent` de `nina_settings` em vez de "LAKMA35 / 35% / 0.65".
+4. Depois disso, rodar um Build e aguardar o `brain_sync` (*/2 min) para que a VPS receba a remoção dos órfãos.
+
+Não recomendo tocar em `nina_settings`, Produtos, Protocolos, Conhecimentos, System Prompt, WhatsApp, pipeline ou handoff.
