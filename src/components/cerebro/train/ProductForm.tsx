@@ -35,8 +35,14 @@ interface ProductFormProps {
 }
 
 const ProductForm: React.FC<ProductFormProps> = ({ draft, onChange }) => {
+  const { values: ninaSettings } = useNinaSettings();
+  const couponPercent = Number(ninaSettings.coupon_discount_percent) || 0;
+  const couponCode = ninaSettings.coupon_code || '';
+  const couponEnabled = ninaSettings.coupon_enabled && !!couponCode && couponPercent > 0;
   const set = <K extends keyof BrainProductInput>(key: K, value: BrainProductInput[K]) =>
     onChange({ ...draft, [key]: value });
+
+
 
   return (
     <div className="space-y-4">
