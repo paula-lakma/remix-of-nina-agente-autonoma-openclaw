@@ -381,7 +381,9 @@ function renderProducts(products: any[]): string {
     }
     if (valorSemDesconto != null) {
       md += `- **Valor sem desconto:** R$ ${fmtBR(valorSemDesconto)}\n`;
-      md += `- **Valor com cupom LAKMA35:** R$ ${fmtBR(valorComCupom!)}  _(calculado automaticamente = valor_sem_desconto × 0,65)_\n`;
+      if (coupon.enabled && valorComCupom != null) {
+        md += `- **Valor com cupom ${coupon.code}:** R$ ${fmtBR(valorComCupom)}  _(calculado automaticamente = valor_sem_desconto × ${coupon.factor})_\n`;
+      }
     } else {
       md += `- **Valor:** _(não cadastrado — NÃO inventar preço; responder "Você consegue consultar o valor atualizado diretamente no link oficial.")_\n`;
     }
