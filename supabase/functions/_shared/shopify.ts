@@ -71,12 +71,29 @@ export interface NormalizedShopify {
 const CONFIRM_TOPICS = ["orders/create", "orders/paid"];
 const SHIP_TOPICS = ["fulfillments/create", "fulfillments/update", "orders/fulfilled"];
 
+/**
+ * Limpa o número do pedido: remove "#" e sufixos de fulfillment
+ * ("#1885.1", "1885-F1", "1885.F1" -> "1885").
+ */
+export function cleanOrderNumber(raw: unknown): string | null {
+  if (raw == null) return null;
+  let s = String(raw).trim().replace(/^#/, "");
+  s = s.replace(/[.\-_](F?\d+)$/i, "");
+  return s || null;
+}
+
 export function normalizeShopifyPayload(topic: string, body: Any): NormalizedShopify {
   const t = (topic || "").toLowerCase();
 
+  // Em eventos de fulfillment o "name" da raiz é o do processamento (ex.: #1885.1),
+  // então priorizamos os campos do pedido.
+  const orderNumberPaths = t.startsWith("fulfillments")
+    ? ["order.order_number", "order.name", "order_number", "order_id"]
+    : ["order_number", "name", "order.order_number", "order.name", "order_id"];
   const orderNumber =
-    pick(body, ["order_number", "name", "order.order_number", "order.name", "order_id"]) ??
+    pick(body, orderNumberPaths) ??
     deepFind(body, /^(order_number|order_name)$/i);
+
 
   const nameParts = [
     pick(body, ["customer.first_name", "order.customer.first_name", "billing_address.first_name", "shipping_address.first_name", "destination.first_name"]),
