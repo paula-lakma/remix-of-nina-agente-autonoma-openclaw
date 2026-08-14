@@ -161,6 +161,11 @@ async function process(supabase: Any, topic: string, body: Any) {
     notificationId = notif?.id ?? null;
   }
 
+  // Libera a trava de rastreio caso o envio não chegue a ser enfileirado.
+  const releaseLock = async () => {
+    if (notificationId) await supabase.from("shopify_shipment_notifications").delete().eq("id", notificationId);
+  };
+
   // Contato (cria se não existir)
   let contactId: string;
   const { data: contact } = await supabase
@@ -180,7 +185,7 @@ async function process(supabase: Any, topic: string, body: Any) {
       .insert({ phone_number: n.phone, whatsapp_id: n.phone, name: n.customer_name, user_id: null })
       .select("id")
       .single();
-    if (cErr) return await fail("error", `Falha ao criar contato: ${cErr.message}`);
+    if (cErr) { await releaseLock(); return await fail("error", `Falha ao criar contato: ${cErr.message}`); }
     contactId = newContact.id;
   }
 
@@ -201,7 +206,7 @@ async function process(supabase: Any, topic: string, body: Any) {
       .insert({ contact_id: contactId, status: "nina", is_active: true, user_id: null })
       .select("id")
       .single();
-    if (convErr) return await fail("error", `Falha ao criar conversa: ${convErr.message}`);
+    if (convErr) { await releaseLock(); return await fail("error", `Falha ao criar conversa: ${convErr.message}`); }
     conversationId = newConv.id;
   }
 
@@ -223,7 +228,11 @@ async function process(supabase: Any, topic: string, body: Any) {
     },
   });
 
-  if (qErr) return await fail("error", `Falha ao enfileirar: ${qErr.message}`);
+  if (qErr) { await releaseLock(); return await fail("error", `Falha ao enfileirar: ${qErr.message}`); }
+
+  if (notificationId) {
+    await supabase.from("shopify_shipment_notifications").update({ status: "sent" }).eq("id", notificationId);
+  }
 
   await supabase
     .from("shopify_events")
