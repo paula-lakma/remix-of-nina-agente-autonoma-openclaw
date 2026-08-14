@@ -1824,6 +1824,42 @@ export type Database = {
           },
         ]
       }
+      shopify_shipment_notifications: {
+        Row: {
+          created_at: string
+          event_id: string | null
+          fulfillment_id: string
+          id: string
+          order_number: string | null
+          phone_number: string | null
+          status: string
+          tracking_number: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          event_id?: string | null
+          fulfillment_id: string
+          id?: string
+          order_number?: string | null
+          phone_number?: string | null
+          status?: string
+          tracking_number: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          event_id?: string | null
+          fulfillment_id?: string
+          id?: string
+          order_number?: string | null
+          phone_number?: string | null
+          status?: string
+          tracking_number?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       skill_packs: {
         Row: {
           active_by_default: boolean

@@ -56,6 +56,7 @@ export interface NormalizedShopify {
   event_id: string | null;
   order_number: string | null;
   order_id: string | null;
+  fulfillment_id: string | null;
   customer_name: string | null;
   phone: string | null;
   total: string | null;
@@ -123,6 +124,12 @@ export function normalizeShopifyPayload(topic: string, body: Any): NormalizedSho
       : null,
     order_number: orderNumber != null ? String(orderNumber).replace(/^#/, "") : null,
     order_id: pick(body, ["order_id", "id", "order.id"]) != null ? String(pick(body, ["order_id", "id", "order.id"])) : null,
+    fulfillment_id: (() => {
+      const fid = t.startsWith("fulfillments")
+        ? pick(body, ["id", "admin_graphql_api_id"])
+        : pick(body, ["fulfillment_id", "fulfillments.0.id"]) ?? deepFind(body, /^fulfillment_id$/i);
+      return fid != null ? String(fid) : null;
+    })(),
     customer_name: customerName ? String(customerName).trim() : null,
     phone: normalizePhone(rawPhone),
     total: pick(body, ["total_price", "current_total_price", "order.total_price"]) != null
