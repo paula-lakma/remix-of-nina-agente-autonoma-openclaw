@@ -115,6 +115,11 @@ async function process(supabase: Any, topic: string, body: Any) {
   if (n.event_kind === "unknown") return await fail("ignored", `Tópico não tratado: ${n.topic}`);
   if (!n.phone) return await fail("no_phone", "Telefone do cliente não encontrado no payload");
 
+  // Rastreio obrigatório para avisos de envio
+  if (n.event_kind === "order_shipped" && !n.tracking_number) {
+    return await fail("no_tracking", "Evento de envio sem código de rastreio");
+  }
+
   const msg = buildTemplateMessage(n);
   if (!msg) return await fail("no_template", "Sem template para este evento");
 
@@ -126,6 +131,34 @@ async function process(supabase: Any, topic: string, body: Any) {
     .maybeSingle();
   if (!tpl || String(tpl.status).toUpperCase() !== "APPROVED") {
     return await fail("awaiting_template", `Template "${msg.template_name}" ainda não aprovado na Meta`);
+  }
+
+  // Dedup atômico de rastreio: UNIQUE(fulfillment_id, tracking_number).
+  // Se o insert falhar por conflito, outro evento já enviou/está enviando.
+  let notificationId: string | null = null;
+  if (n.event_kind === "order_shipped") {
+    const fulfillmentKey = n.fulfillment_id || n.order_id || n.order_number || "unknown";
+    const { data: notif, error: notifErr } = await supabase
+      .from("shopify_shipment_notifications")
+      .insert({
+        fulfillment_id: fulfillmentKey,
+        tracking_number: n.tracking_number,
+        order_number: n.order_number,
+        phone_number: n.phone,
+        event_id: eventId,
+        status: "processing",
+      })
+      .select("id")
+      .maybeSingle();
+
+    if (notifErr) {
+      console.log("[shopify-webhook] rastreio já notificado, ignorando:", fulfillmentKey, n.tracking_number);
+      return await fail(
+        "skipped_duplicate",
+        `Rastreio ${n.tracking_number} já notificado para o fulfillment ${fulfillmentKey}`,
+      );
+    }
+    notificationId = notif?.id ?? null;
   }
 
   // Contato (cria se não existir)
