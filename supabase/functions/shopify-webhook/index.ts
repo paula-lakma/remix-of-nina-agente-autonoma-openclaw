@@ -29,29 +29,52 @@ const json = (body: unknown, status = 200) =>
     headers: { ...corsHeaders, "Content-Type": "application/json" },
   });
 
+async function isValidHmac(secret: string, rawBody: string, provided: string): Promise<boolean> {
+  try {
+    const key = await crypto.subtle.importKey(
+      "raw",
+      new TextEncoder().encode(secret),
+      { name: "HMAC", hash: "SHA-256" },
+      false,
+      ["sign"],
+    );
+    const sig = await crypto.subtle.sign("HMAC", key, new TextEncoder().encode(rawBody));
+    const expected = btoa(String.fromCharCode(...new Uint8Array(sig)));
+    if (expected.length !== provided.length) return false;
+    let diff = 0;
+    for (let i = 0; i < expected.length; i++) diff |= expected.charCodeAt(i) ^ provided.charCodeAt(i);
+    return diff === 0;
+  } catch (e) {
+    console.error("[shopify-webhook] erro ao validar HMAC:", e);
+    return false;
+  }
+}
+
 Deno.serve(async (req: Request) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
   if (req.method !== "POST") return json({ error: "Method not allowed" }, 405);
 
-  // Token é opcional: só valida se SHOPIFY_WEBHOOK_TOKEN estiver configurado.
-  const expected = Deno.env.get("SHOPIFY_WEBHOOK_TOKEN") || "";
-  if (expected) {
-    const url = new URL(req.url);
-    const provided = url.searchParams.get("token") || req.headers.get("x-shopify-token") || "";
-    if (provided !== expected) {
-      console.warn("[shopify-webhook] token inválido");
-      return json({ error: "unauthorized" }, 401);
-    }
+  const rawText = await req.text();
+
+  // Validação obrigatória da assinatura da Shopify (HMAC-SHA256 do corpo bruto).
+  const secret = Deno.env.get("SHOPIFY_WEBHOOK_SECRET") || "";
+  const providedHmac = req.headers.get("x-shopify-hmac-sha256") || "";
+  if (!secret) {
+    console.error("[shopify-webhook] SHOPIFY_WEBHOOK_SECRET não configurado");
+    return json({ error: "invalid_hmac", reason: "secret_not_configured" }, 401);
+  }
+  if (!providedHmac || !(await isValidHmac(secret, rawText, providedHmac))) {
+    console.warn("[shopify-webhook] invalid_hmac: assinatura ausente ou inválida");
+    return json({ error: "invalid_hmac" }, 401);
   }
 
-
-  const rawText = await req.text();
   let body: Any = {};
   try {
     body = rawText ? JSON.parse(rawText) : {};
   } catch {
     body = { _unparsed: rawText };
   }
+
 
   const topic =
     req.headers.get("x-shopify-topic") ||
