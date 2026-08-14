@@ -256,7 +256,13 @@ serve(async (req) => {
               mediaType = 'document';
               break;
             default:
-              messageContent = `[${message.type}]`;
+              console.log('[Webhook] Tipo não suportado, ignorando:', message.type);
+              continue;
+          }
+
+          if (messageType === 'text' && !messageContent.trim()) {
+            console.log('[Webhook] Mensagem de texto vazia, ignorando:', message.id);
+            continue;
           }
 
           // 4. Create message IMMEDIATELY (for realtime updates)
