@@ -139,11 +139,20 @@ serve(async (req) => {
       if (messages && messages.length > 0) {
         const processAfter = new Date(Date.now() + GROUPING_DELAY_MS).toISOString();
 
+        const IGNORED_TYPES = ['reaction', 'system', 'ephemeral', 'unsupported', 'order', 'request_welcome'];
+
         for (const message of messages) {
+          // Ignorar eventos sem conteúdo real do cliente (reações, sistema, etc.)
+          if (IGNORED_TYPES.includes(message.type) || message.reaction || message.system) {
+            console.log('[Webhook] Ignorando evento sem conteúdo do cliente:', message.type, message.id);
+            continue;
+          }
+
           const contactInfo = contacts?.find((c: any) => c.wa_id === message.from);
           const phoneNumber = message.from;
           const whatsappId = contactInfo?.wa_id || phoneNumber;
           const contactName = contactInfo?.profile?.name || null;
+
 
           // 1. Get or create contact IMMEDIATELY
           let { data: contact } = await supabase
