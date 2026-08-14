@@ -157,8 +157,9 @@ async function process(supabase: Any, topic: string, body: Any) {
   }
 
   // Dedup atômico de rastreio: UNIQUE(fulfillment_id, tracking_number).
-  // Se o insert falhar por conflito, outro evento já enviou/está enviando.
+  // Se o insert falhar por conflito, só é permitido retomar quando o registro está "failed".
   let notificationId: string | null = null;
+  let notificationRetried = false;
   if (n.event_kind === "order_shipped") {
     const fulfillmentKey = n.fulfillment_id || n.order_id || n.order_number || "unknown";
     const { data: notif, error: notifErr } = await supabase
@@ -175,19 +176,41 @@ async function process(supabase: Any, topic: string, body: Any) {
       .maybeSingle();
 
     if (notifErr) {
-      console.log("[shopify-webhook] rastreio já notificado, ignorando:", fulfillmentKey, n.tracking_number);
-      return await fail(
-        "skipped_duplicate",
-        `Rastreio ${n.tracking_number} já notificado para o fulfillment ${fulfillmentKey}`,
-      );
+      // Retry seguro: só reivindica se o registro existente estiver "failed".
+      const { data: retried } = await supabase
+        .from("shopify_shipment_notifications")
+        .update({ status: "processing", event_id: eventId })
+        .eq("fulfillment_id", fulfillmentKey)
+        .eq("tracking_number", n.tracking_number)
+        .eq("status", "failed")
+        .select("id")
+        .maybeSingle();
+
+      if (!retried) {
+        console.log("[shopify-webhook] rastreio já notificado, ignorando:", fulfillmentKey, n.tracking_number);
+        return await fail(
+          "skipped_duplicate",
+          `Rastreio ${n.tracking_number} já notificado para o fulfillment ${fulfillmentKey}`,
+        );
+      }
+      notificationId = retried.id;
+      notificationRetried = true;
+      console.log("[shopify-webhook] reprocessando rastreio que havia falhado:", fulfillmentKey, n.tracking_number);
+    } else {
+      notificationId = notif?.id ?? null;
     }
-    notificationId = notif?.id ?? null;
   }
 
   // Libera a trava de rastreio caso o envio não chegue a ser enfileirado.
   const releaseLock = async () => {
-    if (notificationId) await supabase.from("shopify_shipment_notifications").delete().eq("id", notificationId);
+    if (!notificationId) return;
+    if (notificationRetried) {
+      await supabase.from("shopify_shipment_notifications").update({ status: "failed" }).eq("id", notificationId);
+    } else {
+      await supabase.from("shopify_shipment_notifications").delete().eq("id", notificationId);
+    }
   };
+
 
   // Contato (cria se não existir)
   let contactId: string;
