@@ -169,7 +169,9 @@ export function buildTemplateMessage(n: NormalizedShopify, couponFreeText?: stri
   preview: string;
 } | null {
   const first = (n.customer_name || "Cliente").split(" ")[0];
-  const order = n.order_number || n.order_id || "-";
+  const orderRaw = n.order_number || cleanOrderNumber(n.order_id) || null;
+  const order = orderRaw ? `#${orderRaw}` : "-";
+
 
   if (n.event_kind === "order_confirmed") {
     const total = n.total
