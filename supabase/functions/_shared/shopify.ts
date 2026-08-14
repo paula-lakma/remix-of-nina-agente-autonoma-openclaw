@@ -139,7 +139,7 @@ export function normalizeShopifyPayload(topic: string, body: Any): NormalizedSho
     event_id: pick(body, ["admin_graphql_api_id", "id", "order.id"]) != null
       ? `${t}:${pick(body, ["admin_graphql_api_id", "id", "order.id"])}${trackingNumber ? `:${trackingNumber}` : ""}`
       : null,
-    order_number: orderNumber != null ? String(orderNumber).replace(/^#/, "") : null,
+    order_number: cleanOrderNumber(orderNumber),
     order_id: pick(body, ["order_id", "id", "order.id"]) != null ? String(pick(body, ["order_id", "id", "order.id"])) : null,
     fulfillment_id: (() => {
       const fid = t.startsWith("fulfillments")
