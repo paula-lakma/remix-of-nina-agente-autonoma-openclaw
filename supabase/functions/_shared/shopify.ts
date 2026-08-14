@@ -71,12 +71,29 @@ export interface NormalizedShopify {
 const CONFIRM_TOPICS = ["orders/create", "orders/paid"];
 const SHIP_TOPICS = ["fulfillments/create", "fulfillments/update", "orders/fulfilled"];
 
+/**
+ * Limpa o número do pedido: remove "#" e sufixos de fulfillment
+ * ("#1885.1", "1885-F1", "1885.F1" -> "1885").
+ */
+export function cleanOrderNumber(raw: unknown): string | null {
+  if (raw == null) return null;
+  let s = String(raw).trim().replace(/^#/, "");
+  s = s.replace(/[.\-_](F?\d+)$/i, "");
+  return s || null;
+}
+
 export function normalizeShopifyPayload(topic: string, body: Any): NormalizedShopify {
   const t = (topic || "").toLowerCase();
 
+  // Em eventos de fulfillment o "name" da raiz é o do processamento (ex.: #1885.1),
+  // então priorizamos os campos do pedido.
+  const orderNumberPaths = t.startsWith("fulfillments")
+    ? ["order.order_number", "order.name", "order_number", "order_id"]
+    : ["order_number", "name", "order.order_number", "order.name", "order_id"];
   const orderNumber =
-    pick(body, ["order_number", "name", "order.order_number", "order.name", "order_id"]) ??
+    pick(body, orderNumberPaths) ??
     deepFind(body, /^(order_number|order_name)$/i);
+
 
   const nameParts = [
     pick(body, ["customer.first_name", "order.customer.first_name", "billing_address.first_name", "shipping_address.first_name", "destination.first_name"]),
@@ -122,7 +139,7 @@ export function normalizeShopifyPayload(topic: string, body: Any): NormalizedSho
     event_id: pick(body, ["admin_graphql_api_id", "id", "order.id"]) != null
       ? `${t}:${pick(body, ["admin_graphql_api_id", "id", "order.id"])}${trackingNumber ? `:${trackingNumber}` : ""}`
       : null,
-    order_number: orderNumber != null ? String(orderNumber).replace(/^#/, "") : null,
+    order_number: cleanOrderNumber(orderNumber),
     order_id: pick(body, ["order_id", "id", "order.id"]) != null ? String(pick(body, ["order_id", "id", "order.id"])) : null,
     fulfillment_id: (() => {
       const fid = t.startsWith("fulfillments")
@@ -152,7 +169,9 @@ export function buildTemplateMessage(n: NormalizedShopify, couponFreeText?: stri
   preview: string;
 } | null {
   const first = (n.customer_name || "Cliente").split(" ")[0];
-  const order = n.order_number || n.order_id || "-";
+  const orderRaw = n.order_number || cleanOrderNumber(n.order_id) || null;
+  const order = orderRaw ? `#${orderRaw}` : "-";
+
 
   if (n.event_kind === "order_confirmed") {
     const total = n.total
