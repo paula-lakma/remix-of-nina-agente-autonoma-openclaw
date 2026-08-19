@@ -45,12 +45,35 @@ export function useMetaTemplates() {
     return data;
   };
 
-  const syncStatuses = async () => {
-    const { data, error } = await supabase.functions.invoke("sync-template-status", { body: {} });
+  const syncStatuses = async (opts?: { dryRun?: boolean }) => {
+    const { data, error } = await supabase.functions.invoke("sync-template-status", {
+      body: { dryRun: opts?.dryRun ?? false },
+    });
     if (error) throw error;
+    const res = data as {
+      ok?: boolean;
+      error?: string;
+      hint?: string;
+      errors?: Array<{ name: string; error: string }>;
+      updated?: number;
+      inserted?: number;
+      unchanged?: number;
+      failed?: number;
+    } | null;
+    if (!res || res.ok === false || res.error) {
+      const detail = res?.hint ? `${res?.error} — ${res.hint}` : res?.error;
+      throw new Error(detail || "Falha ao sincronizar com a Meta.");
+    }
+    if ((res.failed ?? 0) > 0) {
+      const first = res.errors?.[0];
+      throw new Error(
+        `Sincronização parcial: ${res.failed} template(s) falharam${first ? ` (${first.name}: ${first.error})` : ""}.`,
+      );
+    }
     await fetch();
-    return data;
+    return res;
   };
+
 
   const remove = async (id: string) => {
     await supabase.from("meta_templates").delete().eq("id", id);

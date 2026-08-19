@@ -25,9 +25,28 @@ const Templates: React.FC = () => {
           <p className="text-sm text-slate-400 mt-1">Templates oficiais aprovados pela Meta para uso fora da janela 24h.</p>
         </div>
         <div className="flex gap-2">
-          <Button variant="outline" onClick={async () => { setSyncing(true); try { await syncStatuses(); toast.success("Status atualizado"); } catch (e: any) { toast.error(e.message); } setSyncing(false); }} disabled={syncing}>
+          <Button
+            variant="outline"
+            onClick={async () => {
+              setSyncing(true);
+              try {
+                const res: any = await syncStatuses();
+                const changed = (res?.updated ?? 0) + (res?.inserted ?? 0);
+                toast.success(
+                  changed > 0
+                    ? `Status atualizado: ${changed} alterado(s), ${res?.unchanged ?? 0} sem mudança`
+                    : `Sincronizado: nenhum status mudou (${res?.unchanged ?? 0} iguais)`,
+                );
+              } catch (e: any) {
+                toast.error(e?.message || "Falha ao sincronizar com a Meta");
+              }
+              setSyncing(false);
+            }}
+            disabled={syncing}
+          >
             <RefreshCw className={`w-4 h-4 mr-2 ${syncing ? "animate-spin" : ""}`} /> Sincronizar
           </Button>
+
           <Button onClick={() => setShowNew(true)}><Plus className="w-4 h-4 mr-2" /> Novo template</Button>
         </div>
       </div>
