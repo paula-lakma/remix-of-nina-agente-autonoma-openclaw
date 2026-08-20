@@ -14,6 +14,21 @@ const ROLE_PERMISSIONS: Record<AppRole, string[]> = {
   expedicao: ['tracking'],
 };
 
+// Rota inicial por papel (usada em "/" e no fallback de acesso negado)
+const ROLE_HOME: Record<AppRole, string> = {
+  admin: '/dashboard',
+  manager: '/dashboard',
+  moderator: '/dashboard',
+  sdr: '/chat',
+  user: '/chat',
+  expedicao: '/tracking',
+};
+
+export function homeRouteForRole(role: AppRole | null): string {
+  return (role && ROLE_HOME[role]) || '/chat';
+}
+
+
 
 export function useUserRole() {
   const { user, loading: authLoading } = useAuth();
@@ -51,5 +66,5 @@ export function useUserRole() {
   const isAdmin = role === 'admin';
   const can = (area: string) => (role ? ROLE_PERMISSIONS[role]?.includes(area) ?? false : false);
 
-  return { role, isAdmin, can, loading };
+  return { role, isAdmin, can, loading, homeRoute: homeRouteForRole(role) };
 }

@@ -1,0 +1,39 @@
+FASE 2B1 — PATCH PREPARADO (NÃO APLICADO / NÃO IMPLANTADO)
+Arquivo alvo: supabase/functions/whatsapp-sender/index.ts
+
+Motivo: hoje o processador marca send_queue como 'completed' ou 'failed', mas
+NÃO toca em tracking_send_locks. Sem esta alteração a trava ficaria 'queued'
+para sempre. O bloco só roda com o interruptor ligado E quando o item da fila
+carrega `metadata.tracking_key`.
+
+--- a/supabase/functions/whatsapp-sender/index.ts
++++ b/supabase/functions/whatsapp-sender/index.ts
+@@
++import { releaseCoordinatedLock, sharedTrackingLockEnabled } from "../_shared/tracking_lock.ts";
++
++async function settleTrackingLock(
++  supabase: any, item: any, result: "sent" | "failed", errorMessage?: string,
++) {
++  if (!sharedTrackingLockEnabled()) return;           // interruptor primeiro
++  const md = item?.metadata ?? {};
++  if (!md.tracking_key) return;                        // itens não-rastreio: nada muda
++  await releaseCoordinatedLock(supabase, {
++    trackingKey: md.tracking_key,
++    fulfillmentId: md.fulfillment_id ?? "unknown",
++    trackingNumber: md.tracking_number ?? "",
++    result,
++    sendQueueId: item.id,
++    errorMessage: errorMessage ?? null,
++  });
++}
+@@ (sucesso)
+           await supabase.from('send_queue').update({ status: 'completed', sent_at: ... }).eq('id', item.id);
++          await settleTrackingLock(supabase, item, 'sent');
+@@ (erro definitivo — apenas quando NÃO haverá retry)
+           await supabase.from('send_queue').update({ status: shouldRetry ? 'pending' : 'failed', ... });
++          if (!shouldRetry) await settleTrackingLock(supabase, item, 'failed', errorMessage);
+
+Nota sobre retry: enquanto shouldRetry for verdadeiro o item volta para
+'pending' e a trava permanece 'queued' (correto — a mensagem ainda será
+tentada). Só no esgotamento das tentativas a trava vira 'failed', liberando
+uma nova reivindicação segura.

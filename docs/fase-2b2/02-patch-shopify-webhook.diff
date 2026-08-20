@@ -1,0 +1,83 @@
+FASE 2B1 — PATCH PREPARADO (NÃO APLICADO / NÃO IMPLANTADO)
+Arquivo alvo: supabase/functions/shopify-webhook/index.ts
+Aplicar somente na Fase 2B2. Com o interruptor desligado o comportamento é
+byte-a-byte o fluxo legado atual (o bloco novo nem é alcançado).
+
+--- a/supabase/functions/shopify-webhook/index.ts
++++ b/supabase/functions/shopify-webhook/index.ts
+@@
+ import { buildTemplateMessage, normalizeShopifyPayload } from "../_shared/shopify.ts";
++import {
++  acquireCoordinatedLock,
++  buildTrackingKey,
++  releaseCoordinatedLock,
++  sharedTrackingLockEnabled,
++} from "../_shared/tracking_lock.ts";
+@@ (dentro de process(), no bloco `if (n.event_kind === "order_shipped")`)
+   let notificationId: string | null = null;
+   let notificationRetried = false;
++  let trackingKey: string | null = null;
+   if (n.event_kind === "order_shipped") {
+     const fulfillmentKey = n.fulfillment_id || n.order_id || n.order_number || "unknown";
++
++    // INTERRUPTOR EXCLUSIVO — checado ANTES de qualquer chamada à nova trava.
++    if (sharedTrackingLockEnabled()) {
++      trackingKey = buildTrackingKey(n.order_number, n.tracking_number);
++      const acq = await acquireCoordinatedLock(supabase, {
++        fulfillmentId: fulfillmentKey,
++        trackingNumber: n.tracking_number!,
++        orderNumber: n.order_number,
++        phoneNumber: n.phone,
++        customerName: n.customer_name,
++        carrier: n.tracking_company,
++        templateName: null,
++        eventId: eventId,
++      });
++      if (!acq.acquired) {
++        return await fail(
++          "skipped_duplicate",
++          `Rastreio ${n.tracking_number} já notificado (${acq.reason})`,
++        );
++      }
++      notificationId = acq.notification_id ?? null;
++      notificationRetried = !!acq.legacy_retried;
++    } else {
++      // ---- FLUXO LEGADO (inalterado) ----
+       const { data: notif, error: notifErr } = await supabase
+         ... (código atual, sem nenhuma alteração) ...
++    }
+   }
+@@ (releaseLock — compensação)
+   const releaseLock = async () => {
+     if (!notificationId) return;
++    if (trackingKey) {
++      await releaseCoordinatedLock(supabase, {
++        trackingKey,
++        fulfillmentId: n.fulfillment_id || n.order_id || n.order_number || "unknown",
++        trackingNumber: n.tracking_number!,
++        result: "failed",
++        errorMessage: "falha antes da fila",
++      });
++      return;
++    }
+     ... (código legado atual) ...
+   };
+@@ (após inserir com sucesso em send_queue)
+-  if (notificationId) {
+-    await supabase.from("shopify_shipment_notifications").update({ status: "sent" }).eq("id", notificationId);
+-  }
++  if (trackingKey) {
++    // 'queued' (não 'sent'): o aceite real da Meta é registrado pelo whatsapp-sender.
++    await releaseCoordinatedLock(supabase, {
++      trackingKey,
++      fulfillmentId: n.fulfillment_id || n.order_id || n.order_number || "unknown",
++      trackingNumber: n.tracking_number!,
++      result: "queued",
++      sendQueueId: queued?.id ?? null,
++    });
++  } else if (notificationId) {
++    await supabase.from("shopify_shipment_notifications").update({ status: "sent" }).eq("id", notificationId);
++  }
+
+Obs.: o insert em send_queue passa a usar `.select("id").single()` para obter
+`send_queue_id`, e `metadata` ganha `tracking_key` (usado pelo processador).
