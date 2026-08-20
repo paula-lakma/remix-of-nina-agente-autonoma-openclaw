@@ -2305,6 +2305,20 @@ export type Database = {
       }
     }
     Functions: {
+      acquire_shopify_tracking_locks: {
+        Args: {
+          p_carrier?: string
+          p_customer_name?: string
+          p_event_id?: string
+          p_fulfillment_id: string
+          p_order_number?: string
+          p_phone_number?: string
+          p_template_name?: string
+          p_tracking_key: string
+          p_tracking_number: string
+        }
+        Returns: Json
+      }
       acquire_tracking_send_lock: {
         Args: {
           p_carrier?: string
@@ -2426,6 +2440,17 @@ export type Database = {
         Returns: boolean
       }
       pick_next_dermoconsultora: { Args: never; Returns: string }
+      release_shopify_tracking_locks: {
+        Args: {
+          p_error_message?: string
+          p_fulfillment_id: string
+          p_result: string
+          p_send_queue_id?: string
+          p_tracking_key: string
+          p_tracking_number: string
+        }
+        Returns: Json
+      }
       release_tracking_send_lock: {
         Args: {
           p_error_message?: string

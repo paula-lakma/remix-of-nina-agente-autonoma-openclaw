@@ -1,5 +1,36 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { releaseCoordinatedLock, sharedTrackingLockEnabled } from "../_shared/tracking_lock.ts";
+
+/**
+ * FASE 2B2 — implantação inerte.
+ * Só executa quando o interruptor SHOPIFY_SHARED_TRACKING_LOCK_ENABLED === "true"
+ * E o item da fila carrega metadata.tracking_key. Caso contrário: no-op absoluto.
+ */
+// deno-lint-ignore no-explicit-any
+async function settleTrackingLock(
+  supabase: any,
+  // deno-lint-ignore no-explicit-any
+  item: any,
+  result: "sent" | "failed",
+  errorMessage?: string,
+) {
+  try {
+    if (!sharedTrackingLockEnabled()) return; // interruptor ANTES de qualquer chamada
+    const md = item?.metadata ?? {};
+    if (!md.tracking_key) return; // itens não-rastreio: nada muda
+    await releaseCoordinatedLock(supabase, {
+      trackingKey: md.tracking_key,
+      fulfillmentId: md.fulfillment_id ?? "unknown",
+      trackingNumber: md.tracking_number ?? "",
+      result,
+      sendQueueId: item.id,
+      errorMessage: errorMessage ?? null,
+    });
+  } catch (e) {
+    console.error("[Sender] settleTrackingLock falhou (ignorado):", e);
+  }
+}
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -165,7 +196,9 @@ serve(async (req) => {
               sent_at: new Date().toISOString() 
             })
             .eq('id', item.id);
-          
+
+          await settleTrackingLock(supabase, item, 'sent');
+
           totalSent++;
           console.log(`[Sender] Successfully sent message ${item.id} (${totalSent} total)`);
         } catch (error) {
@@ -187,6 +220,8 @@ serve(async (req) => {
                 : null
             })
             .eq('id', item.id);
+
+          if (!shouldRetry) await settleTrackingLock(supabase, item, 'failed', errorMessage);
         }
       }
     }
