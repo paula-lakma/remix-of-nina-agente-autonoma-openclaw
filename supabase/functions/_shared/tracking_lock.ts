@@ -16,6 +16,14 @@ type Any = any;
 
 export const SHOPIFY_LOCK_FLAG = "SHOPIFY_SHARED_TRACKING_LOCK_ENABLED";
 
+/**
+ * FASE 2B3 — MODO DE TESTE TEMPORÁRIO (REMOVER APÓS O TESTE).
+ * Habilita o novo caminho SOMENTE para esta chave sintética exata.
+ * Nenhum rastreio real bate com ela; todos continuam no fluxo legado.
+ */
+export const TEST_ONLY_TRACKING_KEY = "TESTENINA2B3::NINATEST20260820PAULA01";
+export const TEST_ONLY_PHONE = "5514997835777";
+
 /** Interruptor exclusivo da integração Shopify (não reutiliza MANUAL_TRACKING_SEND_ENABLED). */
 export function sharedTrackingLockEnabled(
   env: (k: string) => string | undefined = (k) =>
@@ -23,6 +31,22 @@ export function sharedTrackingLockEnabled(
 ): boolean {
   return (env(SHOPIFY_LOCK_FLAG) ?? "") === "true";
 }
+
+/**
+ * Ativo se o interruptor global estiver ligado OU se for exatamente a chave de teste
+ * (e, quando o telefone é conhecido, somente o telefone autorizado).
+ */
+export function sharedLockActiveForKey(
+  trackingKey: string | null | undefined,
+  phone?: string | null,
+  env?: (k: string) => string | undefined,
+): boolean {
+  if (sharedTrackingLockEnabled(env)) return true;
+  if (trackingKey !== TEST_ONLY_TRACKING_KEY) return false;
+  if (phone != null && String(phone).replace(/\D/g, "") !== TEST_ONLY_PHONE) return false;
+  return true;
+}
+
 
 /**
  * Chave canônica compartilhada entre origens (Shopify e envio manual).
