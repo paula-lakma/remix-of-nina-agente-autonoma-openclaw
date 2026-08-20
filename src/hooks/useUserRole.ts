@@ -2,16 +2,18 @@ import { useEffect, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 
-export type AppRole = 'admin' | 'manager' | 'sdr' | 'user' | 'moderator';
+export type AppRole = 'admin' | 'manager' | 'sdr' | 'user' | 'moderator' | 'expedicao';
 
 // Permissões por área (rota base)
 const ROLE_PERMISSIONS: Record<AppRole, string[]> = {
-  admin:     ['dashboard', 'pipeline', 'chat', 'contacts', 'scheduling', 'campaigns', 'templates', 'team', 'cerebro', 'settings'],
-  manager:   ['dashboard', 'pipeline', 'chat', 'contacts', 'scheduling', 'campaigns', 'templates'],
+  admin:     ['dashboard', 'pipeline', 'chat', 'contacts', 'scheduling', 'campaigns', 'templates', 'team', 'cerebro', 'settings', 'tracking'],
+  manager:   ['dashboard', 'pipeline', 'chat', 'contacts', 'scheduling', 'campaigns', 'templates', 'tracking'],
   sdr:       ['pipeline', 'chat', 'contacts', 'scheduling'],
   user:      ['pipeline', 'chat', 'contacts', 'scheduling'], // legado = SDR
   moderator: ['dashboard', 'pipeline', 'chat', 'contacts', 'scheduling'],
+  expedicao: ['tracking'],
 };
+
 
 export function useUserRole() {
   const { user, loading: authLoading } = useAuth();
@@ -34,9 +36,10 @@ export function useUserRole() {
         .order('role', { ascending: true });
       if (!active) return;
       const roles = (data || []).map((r) => r.role as AppRole);
-      // prioridade: admin > manager > moderator > sdr > user
-      const priority: AppRole[] = ['admin', 'manager', 'moderator', 'sdr', 'user'];
+      // prioridade: admin > manager > moderator > sdr > expedicao > user
+      const priority: AppRole[] = ['admin', 'manager', 'moderator', 'sdr', 'expedicao', 'user'];
       const resolved = priority.find((p) => roles.includes(p)) || 'sdr';
+
       setRole(resolved);
       setLoading(false);
     })();

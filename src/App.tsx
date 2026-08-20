@@ -13,6 +13,8 @@ import Auth from './pages/Auth';
 import ResetPassword from './pages/ResetPassword';
 import Campaigns from './pages/Campaigns';
 import Templates from './pages/Templates';
+import TrackingSend from './pages/TrackingSend';
+
 import ProtectedRoute from './components/ProtectedRoute';
 import RoleGate from './components/RoleGate';
 
@@ -88,6 +90,9 @@ const App: React.FC = () => {
                 <Route path="/scheduling" element={<RoleGate area="scheduling"><Scheduling /></RoleGate>} />
                 <Route path="/campaigns" element={<RoleGate area="campaigns"><Campaigns /></RoleGate>} />
                 <Route path="/templates" element={<RoleGate area="templates"><Templates /></RoleGate>} />
+                {/* Rota oculta do menu — Fase 2A (envio desativado) */}
+                <Route path="/tracking" element={<RoleGate area="tracking"><TrackingSend /></RoleGate>} />
+
                 <Route path="/team" element={<RoleGate area="team"><Team /></RoleGate>} />
                 <Route path="/cerebro" element={<RoleGate area="cerebro"><Cerebro /></RoleGate>} />
                 <Route path="/settings" element={<RoleGate area="settings"><Settings /></RoleGate>} />
