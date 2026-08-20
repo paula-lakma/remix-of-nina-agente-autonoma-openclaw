@@ -1,0 +1,91 @@
+import { useCallback, useEffect, useState } from 'react';
+import { supabase } from '@/integrations/supabase/client';
+
+export type Carrier = 'correios' | 'jadlog';
+
+export const CARRIERS: Record<Carrier, { label: string; template: string; link: string }> = {
+  correios: {
+    label: 'Correios',
+    template: 'pedido_enviado_correios',
+    link: 'https://rastreamento.correios.com.br/',
+  },
+  jadlog: {
+    label: 'Jadlog',
+    template: 'pedido_enviado_jadlog',
+    link: 'https://www.jadlog.com.br/jadlog/rastreie',
+  },
+};
+
+export interface ManualTrackingInput {
+  customer_name: string;
+  phone_number: string;
+  order_number: string;
+  tracking_number: string;
+  carrier: Carrier;
+}
+
+export interface ManualTrackingLog {
+  id: string;
+  tracking_number: string;
+  carrier: string;
+  order_number: string;
+  phone_number: string;
+  customer_name: string;
+  status: string;
+  error_message: string | null;
+  created_at: string;
+  sent_at: string | null;
+}
+
+export function buildTemplatePreview(input: ManualTrackingInput): string {
+  const first = input.customer_name.trim().split(/\s+/)[0] || '{{1}}';
+  const order = input.order_number.trim().replace(/^#/, '') || '{{2}}';
+  const code = input.tracking_number.trim().toUpperCase() || '{{3}}';
+  const c = CARRIERS[input.carrier];
+  const via = input.carrier === 'correios' ? 'pelos Correios' : 'pela Jadlog';
+  return `Boa notícia, ${first}! Seu pedido #${order} foi enviado ${via}.\n\nCódigo de rastreio: ${code}\n\nAcompanhe sua entrega em:\n${c.link}`;
+}
+
+export function useManualTracking() {
+  const [logs, setLogs] = useState<ManualTrackingLog[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [sending, setSending] = useState(false);
+
+  const fetchLogs = useCallback(async () => {
+    setLoading(true);
+    const { data } = await supabase
+      .from('manual_tracking_logs')
+      .select('id, tracking_number, carrier, order_number, phone_number, customer_name, status, error_message, created_at, sent_at')
+      .order('created_at', { ascending: false })
+      .limit(50);
+    setLogs((data as ManualTrackingLog[]) || []);
+    setLoading(false);
+  }, []);
+
+  useEffect(() => {
+    fetchLogs();
+  }, [fetchLogs]);
+
+  const send = useCallback(async (input: ManualTrackingInput) => {
+    setSending(true);
+    try {
+      const { data, error } = await supabase.functions.invoke('send-manual-tracking', {
+        body: input,
+      });
+      if (error) throw error;
+      await fetchLogs();
+      return data as {
+        ok?: boolean;
+        disabled?: boolean;
+        code?: string;
+        message?: string;
+        error?: string;
+        fields?: Record<string, string>;
+      };
+    } finally {
+      setSending(false);
+    }
+  }, [fetchLogs]);
+
+  return { logs, loading, sending, send, refetch: fetchLogs };
+}
