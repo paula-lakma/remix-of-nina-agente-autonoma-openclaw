@@ -1095,6 +1095,80 @@ export type Database = {
         }
         Relationships: []
       }
+      manual_tracking_logs: {
+        Row: {
+          attempts: number
+          carrier: string
+          created_at: string
+          customer_name: string
+          error_message: string | null
+          id: string
+          lock_id: string | null
+          order_number: string
+          phone_number: string
+          requested_by: string | null
+          requested_by_role: string | null
+          result: string | null
+          send_queue_id: string | null
+          sent_at: string | null
+          status: string
+          template_name: string | null
+          tracking_key: string | null
+          tracking_number: string
+          updated_at: string
+        }
+        Insert: {
+          attempts?: number
+          carrier: string
+          created_at?: string
+          customer_name: string
+          error_message?: string | null
+          id?: string
+          lock_id?: string | null
+          order_number: string
+          phone_number: string
+          requested_by?: string | null
+          requested_by_role?: string | null
+          result?: string | null
+          send_queue_id?: string | null
+          sent_at?: string | null
+          status?: string
+          template_name?: string | null
+          tracking_key?: string | null
+          tracking_number: string
+          updated_at?: string
+        }
+        Update: {
+          attempts?: number
+          carrier?: string
+          created_at?: string
+          customer_name?: string
+          error_message?: string | null
+          id?: string
+          lock_id?: string | null
+          order_number?: string
+          phone_number?: string
+          requested_by?: string | null
+          requested_by_role?: string | null
+          result?: string | null
+          send_queue_id?: string | null
+          sent_at?: string | null
+          status?: string
+          template_name?: string | null
+          tracking_key?: string | null
+          tracking_number?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "manual_tracking_logs_lock_id_fkey"
+            columns: ["lock_id"]
+            isOneToOne: false
+            referencedRelation: "tracking_send_locks"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       message_grouping_queue: {
         Row: {
           contacts_data: Json | null
@@ -2079,6 +2153,69 @@ export type Database = {
         }
         Relationships: []
       }
+      tracking_send_locks: {
+        Row: {
+          attempts: number
+          carrier: string | null
+          created_at: string
+          customer_name: string | null
+          error_message: string | null
+          fulfillment_id: string | null
+          id: string
+          order_number: string | null
+          phone_number: string | null
+          send_queue_id: string | null
+          sent_at: string | null
+          sent_by: string | null
+          source: string
+          status: string
+          template_name: string | null
+          tracking_key: string
+          tracking_number: string
+          updated_at: string
+        }
+        Insert: {
+          attempts?: number
+          carrier?: string | null
+          created_at?: string
+          customer_name?: string | null
+          error_message?: string | null
+          fulfillment_id?: string | null
+          id?: string
+          order_number?: string | null
+          phone_number?: string | null
+          send_queue_id?: string | null
+          sent_at?: string | null
+          sent_by?: string | null
+          source?: string
+          status?: string
+          template_name?: string | null
+          tracking_key: string
+          tracking_number: string
+          updated_at?: string
+        }
+        Update: {
+          attempts?: number
+          carrier?: string | null
+          created_at?: string
+          customer_name?: string | null
+          error_message?: string | null
+          fulfillment_id?: string | null
+          id?: string
+          order_number?: string | null
+          phone_number?: string | null
+          send_queue_id?: string | null
+          sent_at?: string | null
+          sent_by?: string | null
+          source?: string
+          status?: string
+          template_name?: string | null
+          tracking_key?: string
+          tracking_number?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           created_at: string
@@ -2168,6 +2305,21 @@ export type Database = {
       }
     }
     Functions: {
+      acquire_tracking_send_lock: {
+        Args: {
+          p_carrier?: string
+          p_customer_name?: string
+          p_fulfillment_id?: string
+          p_order_number?: string
+          p_phone_number?: string
+          p_sent_by?: string
+          p_source: string
+          p_template_name?: string
+          p_tracking_key: string
+          p_tracking_number: string
+        }
+        Returns: Json
+      }
       claim_message_processing_batch: {
         Args: { p_limit?: number }
         Returns: {
@@ -2274,6 +2426,15 @@ export type Database = {
         Returns: boolean
       }
       pick_next_dermoconsultora: { Args: never; Returns: string }
+      release_tracking_send_lock: {
+        Args: {
+          p_error_message?: string
+          p_result: string
+          p_send_queue_id?: string
+          p_tracking_key: string
+        }
+        Returns: Json
+      }
       set_secret: {
         Args: { secret_name: string; secret_value: string }
         Returns: undefined
