@@ -196,7 +196,9 @@ serve(async (req) => {
               sent_at: new Date().toISOString() 
             })
             .eq('id', item.id);
-          
+
+          await settleTrackingLock(supabase, item, 'sent');
+
           totalSent++;
           console.log(`[Sender] Successfully sent message ${item.id} (${totalSent} total)`);
         } catch (error) {
@@ -218,6 +220,8 @@ serve(async (req) => {
                 : null
             })
             .eq('id', item.id);
+
+          if (!shouldRetry) await settleTrackingLock(supabase, item, 'failed', errorMessage);
         }
       }
     }
