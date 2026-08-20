@@ -11,6 +11,12 @@
 
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import { buildTemplateMessage, normalizeShopifyPayload } from "../_shared/shopify.ts";
+import {
+  acquireCoordinatedLock,
+  buildTrackingKey,
+  releaseCoordinatedLock,
+  sharedTrackingLockEnabled,
+} from "../_shared/tracking_lock.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
