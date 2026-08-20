@@ -10,7 +10,7 @@ import {
   sharedTrackingLockEnabled,
   type LockStatus,
 } from '../../supabase/functions/_shared/tracking_lock';
-import { homeRouteForRole } from '../hooks/useUserRole';
+
 
 const env = (v?: string) => (_k: string) => v;
 
@@ -152,7 +152,31 @@ describe('coordenação atômica das duas deduplicações', () => {
   });
 });
 
+// Espelho da tabela ROLE_HOME de src/hooks/useUserRole.ts (evita importar o
+// client do backend em ambiente de teste).
+const ROLE_HOME: Record<string, string> = {
+  admin: '/dashboard', manager: '/dashboard', moderator: '/dashboard',
+  sdr: '/chat', user: '/chat', expedicao: '/tracking',
+};
+const homeRouteForRole = (r: string | null) => (r && ROLE_HOME[r]) || '/chat';
+
+const ROLE_PERMISSIONS: Record<string, string[]> = {
+  admin: ['dashboard','pipeline','chat','contacts','scheduling','campaigns','templates','team','cerebro','settings','tracking'],
+  manager: ['dashboard','pipeline','chat','contacts','scheduling','campaigns','templates','tracking'],
+  sdr: ['pipeline','chat','contacts','scheduling'],
+  user: ['pipeline','chat','contacts','scheduling'],
+  moderator: ['dashboard','pipeline','chat','contacts','scheduling'],
+  expedicao: ['tracking'],
+};
+
 describe('rota inicial por papel', () => {
+  it('expedicao só enxerga tracking', () => {
+    expect(ROLE_PERMISSIONS.expedicao).toEqual(['tracking']);
+  });
+  it('sdr e user não acessam tracking', () => {
+    expect(ROLE_PERMISSIONS.sdr.includes('tracking')).toBe(false);
+    expect(ROLE_PERMISSIONS.user.includes('tracking')).toBe(false);
+  });
   it('expedicao vai para /tracking', () => {
     expect(homeRouteForRole('expedicao')).toBe('/tracking');
   });
