@@ -25,6 +25,19 @@ export function sharedTrackingLockEnabled(
 }
 
 /**
+ * FASE 2B3 — modo de teste de chave única REMOVIDO.
+ * Agora depende exclusivamente do interruptor global.
+ */
+export function sharedLockActiveForKey(
+  _trackingKey: string | null | undefined,
+  _phone?: string | null,
+  env?: (k: string) => string | undefined,
+): boolean {
+  return sharedTrackingLockEnabled(env);
+}
+
+
+/**
  * Chave canônica compartilhada entre origens (Shopify e envio manual).
  * Mesmo pedido + mesmo rastreio => mesma chave => uma única mensagem.
  */

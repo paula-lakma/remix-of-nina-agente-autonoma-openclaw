@@ -1,6 +1,6 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
-import { releaseCoordinatedLock, sharedTrackingLockEnabled } from "../_shared/tracking_lock.ts";
+import { releaseCoordinatedLock, sharedLockActiveForKey } from "../_shared/tracking_lock.ts";
 
 /**
  * FASE 2B2 — implantação inerte.
@@ -16,9 +16,9 @@ async function settleTrackingLock(
   errorMessage?: string,
 ) {
   try {
-    if (!sharedTrackingLockEnabled()) return; // interruptor ANTES de qualquer chamada
     const md = item?.metadata ?? {};
     if (!md.tracking_key) return; // itens não-rastreio: nada muda
+    if (!sharedLockActiveForKey(md.tracking_key)) return; // interruptor / chave de teste
     await releaseCoordinatedLock(supabase, {
       trackingKey: md.tracking_key,
       fulfillmentId: md.fulfillment_id ?? "unknown",
