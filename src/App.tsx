@@ -82,7 +82,7 @@ const App: React.FC = () => {
                   <AppLayout />
                 </ProtectedRoute>
               }>
-                <Route path="/" element={<Navigate to="/dashboard" replace />} />
+                <Route path="/" element={<HomeRedirect />} />
                 <Route path="/dashboard" element={<RoleGate area="dashboard"><Dashboard /></RoleGate>} />
                 <Route path="/pipeline" element={<RoleGate area="pipeline"><Kanban /></RoleGate>} />
                 <Route path="/chat" element={<RoleGate area="chat"><ChatInterface /></RoleGate>} />
@@ -99,7 +99,7 @@ const App: React.FC = () => {
               </Route>
 
               {/* Catch all - redirect to dashboard */}
-              <Route path="*" element={<Navigate to="/dashboard" replace />} />
+              <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
             <Toaster
               position="top-right"
