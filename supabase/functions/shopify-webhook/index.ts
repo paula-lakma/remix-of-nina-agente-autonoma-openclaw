@@ -299,7 +299,22 @@ async function process(supabase: Any, topic: string, body: Any) {
     conversationId = newConv.id;
   }
 
-  const { error: qErr } = await supabase.from("send_queue").insert({
+  const queueMetadata: Any = {
+    source: "shopify",
+    topic: n.topic,
+    shopify_event_id: eventId,
+    template_name: msg.template_name,
+    template_language: msg.template_language,
+    template_variables: { body: msg.variables },
+  };
+  // Só com o interruptor ligado o item carrega a chave para o whatsapp-sender liquidar a trava.
+  if (trackingKey) {
+    queueMetadata.tracking_key = trackingKey;
+    queueMetadata.tracking_number = n.tracking_number;
+    queueMetadata.fulfillment_id = n.fulfillment_id || n.order_id || n.order_number || "unknown";
+  }
+
+  const { data: queued, error: qErr } = await supabase.from("send_queue").insert({
     conversation_id: conversationId,
     contact_id: contactId,
     message_type: "template",
@@ -307,19 +322,21 @@ async function process(supabase: Any, topic: string, body: Any) {
     content: msg.preview,
     priority: 5,
     status: "pending",
-    metadata: {
-      source: "shopify",
-      topic: n.topic,
-      shopify_event_id: eventId,
-      template_name: msg.template_name,
-      template_language: msg.template_language,
-      template_variables: { body: msg.variables },
-    },
-  });
+    metadata: queueMetadata,
+  }).select("id").maybeSingle();
 
   if (qErr) { await releaseLock(); return await fail("error", `Falha ao enfileirar: ${qErr.message}`); }
 
-  if (notificationId) {
+  if (trackingKey) {
+    // 'queued' (não 'sent'): o aceite real da Meta é registrado pelo whatsapp-sender.
+    await releaseCoordinatedLock(supabase, {
+      trackingKey,
+      fulfillmentId: n.fulfillment_id || n.order_id || n.order_number || "unknown",
+      trackingNumber: n.tracking_number!,
+      result: "queued",
+      sendQueueId: queued?.id ?? null,
+    });
+  } else if (notificationId) {
     await supabase.from("shopify_shipment_notifications").update({ status: "sent" }).eq("id", notificationId);
   }
 
