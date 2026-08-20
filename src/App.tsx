@@ -24,9 +24,19 @@ import ErrorBoundary from './components/ErrorBoundary';
 import { Toaster } from 'sonner';
 import { OnboardingWizard } from './components/OnboardingWizard';
 import { useOnboardingStatus } from './hooks/useOnboardingStatus';
+import { useUserRole } from './hooks/useUserRole';
+
+
+// Redireciona cada papel para a sua rota inicial (ex.: expedicao -> /tracking)
+const HomeRedirect: React.FC = () => {
+  const { homeRoute, loading } = useUserRole();
+  if (loading) return null;
+  return <Navigate to={homeRoute} replace />;
+};
 
 // Componente de Layout que envolve a aplicação principal
 const AppLayout: React.FC = () => {
+
   const [showOnboarding, setShowOnboarding] = useState(false);
   const { isComplete, hasSeenWizard, loading } = useOnboardingStatus();
 
