@@ -2164,6 +2164,7 @@ export type Database = {
           id: string
           order_number: string | null
           phone_number: string | null
+          previous_tracking_key: string | null
           send_queue_id: string | null
           sent_at: string | null
           sent_by: string | null
@@ -2184,6 +2185,7 @@ export type Database = {
           id?: string
           order_number?: string | null
           phone_number?: string | null
+          previous_tracking_key?: string | null
           send_queue_id?: string | null
           sent_at?: string | null
           sent_by?: string | null
@@ -2204,6 +2206,7 @@ export type Database = {
           id?: string
           order_number?: string | null
           phone_number?: string | null
+          previous_tracking_key?: string | null
           send_queue_id?: string | null
           sent_at?: string | null
           sent_by?: string | null
@@ -2439,6 +2442,7 @@ export type Database = {
         }
         Returns: boolean
       }
+      normalize_tracking_code: { Args: { p_code: string }; Returns: string }
       pick_next_dermoconsultora: { Args: never; Returns: string }
       release_shopify_tracking_locks: {
         Args: {

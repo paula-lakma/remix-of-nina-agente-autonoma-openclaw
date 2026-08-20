@@ -5,6 +5,7 @@
 import { describe, expect, it } from 'vitest';
 import {
   buildTrackingKey,
+  normalizeTrackingCode,
   canClaim,
   nextStatus,
   sharedTrackingLockEnabled,
@@ -29,14 +30,24 @@ describe('interruptor SHOPIFY_SHARED_TRACKING_LOCK_ENABLED', () => {
   });
 });
 
-describe('chave compartilhada', () => {
-  it('mesma origem lógica gera a mesma chave', () => {
-    expect(buildTrackingKey('#1885', 'aa123456789br')).toBe(
-      buildTrackingKey('1885', 'AA123456789BR'),
-    );
+describe('chave canônica = somente rastreio normalizado', () => {
+  it('normaliza caixa, espaços e hifens para a mesma chave', () => {
+    const alvo = 'AA123456789BR';
+    for (const v of ['AA123456789BR', 'aa123456789br', 'AA 123 456 789 BR', 'AA-123-456-789-BR', ' aa.123.456.789.br ']) {
+      expect(buildTrackingKey(v)).toBe(alvo);
+      expect(normalizeTrackingCode(v)).toBe(alvo);
+    }
+  });
+  it('a chave NÃO depende do pedido, transportadora ou origem', () => {
+    expect(buildTrackingKey('AA1')).toBe(buildTrackingKey('aa-1'));
   });
   it('rastreios diferentes geram chaves diferentes', () => {
-    expect(buildTrackingKey('1885', 'A1')).not.toBe(buildTrackingKey('1885', 'A2'));
+    expect(buildTrackingKey('A1')).not.toBe(buildTrackingKey('A2'));
+  });
+  it('rastreio vazio/inválido é rejeitado', () => {
+    expect(normalizeTrackingCode('  ---  ')).toBe('');
+    expect(normalizeTrackingCode(null)).toBe('');
+    expect(() => buildTrackingKey('---')).toThrow();
   });
 });
 
@@ -84,9 +95,9 @@ function makeCoordinator() {
   return {
     legacy,
     shared,
-    acquire(fulfillment: string, order: string, tracking: string) {
+    acquire(fulfillment: string, _order: string, tracking: string) {
       const lk = `${fulfillment}::${tracking}`;
-      const sk = buildTrackingKey(order, tracking);
+      const sk = buildTrackingKey(tracking);
       const legacyPrev = legacy.get(lk) ?? 'none';
       if (!canClaim(legacyPrev)) return { acquired: false, reason: 'legacy_duplicate' as const };
       legacy.set(lk, 'processing');
@@ -118,7 +129,7 @@ describe('coordenação atômica das duas deduplicações', () => {
   it('bloqueio compartilhado não deixa a linha legada em processing', () => {
     const c = makeCoordinator();
     // manual já enviou com a mesma tracking_key, fulfillment legado diferente
-    c.shared.set(buildTrackingKey('1885', 'AA1'), 'sent');
+    c.shared.set(buildTrackingKey('AA1'), 'sent');
     const r = c.acquire('F-NOVO', '1885', 'AA1');
     expect(r.acquired).toBe(false);
     expect(r.reason).toBe('shared_duplicate');
@@ -130,7 +141,7 @@ describe('coordenação atômica das duas deduplicações', () => {
     c.legacy.set('F1::AA1', 'sent');
     const r = c.acquire('F1', '1885', 'AA1');
     expect(r.acquired).toBe(false);
-    expect(c.shared.get(buildTrackingKey('1885', 'AA1'))).toBeUndefined();
+    expect(c.shared.get(buildTrackingKey('AA1'))).toBeUndefined();
   });
 
   it('falha antes da fila libera os dois lados para nova tentativa', () => {
@@ -138,6 +149,16 @@ describe('coordenação atômica das duas deduplicações', () => {
     const a = c.acquire('F1', '1885', 'AA1') as { acquired: true; lk: string; sk: string };
     c.release(a.lk, a.sk, 'failed');
     expect(c.acquire('F1', '1885', 'AA1').acquired).toBe(true);
+  });
+
+  it('mesmo rastreio com pedido/transportadora/origem diferentes = shared_duplicate', () => {
+    const c = makeCoordinator();
+    const a = c.acquire('F1', '1885', 'AA1') as { acquired: true; lk: string; sk: string };
+    c.release(a.lk, a.sk, 'sent');
+    const outroPedido = c.acquire('F2', '9999', 'aa-1');
+    expect(outroPedido.acquired).toBe(false);
+    expect(outroPedido.reason).toBe('shared_duplicate');
+    expect(c.legacy.get('F2::aa-1')).toBeUndefined();
   });
 
   it('queued -> sent bloqueia definitivamente; nenhuma trava fica presa', () => {

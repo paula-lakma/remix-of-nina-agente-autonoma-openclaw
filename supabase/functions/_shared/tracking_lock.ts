@@ -38,17 +38,31 @@ export function sharedLockActiveForKey(
 
 
 /**
- * Chave canônica compartilhada entre origens (Shopify e envio manual).
- * Mesmo pedido + mesmo rastreio => mesma chave => uma única mensagem.
+ * Normalização ÚNICA do código de rastreio (fonte da verdade).
+ * trim -> maiúsculas -> remove tudo que não for A-Z/0-9.
+ * Retorna "" quando o resultado é vazio/inválido.
  */
-export function buildTrackingKey(
-  orderNumber: string | null | undefined,
+export function normalizeTrackingCode(
   trackingNumber: string | null | undefined,
 ): string {
-  const order = String(orderNumber ?? "").trim().replace(/^#/, "").toUpperCase() || "-";
-  const tracking = String(trackingNumber ?? "").trim().toUpperCase();
-  return `${order}::${tracking}`;
+  const norm = String(trackingNumber ?? "").trim().toUpperCase().replace(/[^A-Z0-9]/g, "");
+  return /^[A-Z0-9]+$/.test(norm) ? norm : "";
 }
+
+/**
+ * Chave canônica compartilhada entre origens (Shopify e envio manual).
+ * SOMENTE o rastreio normalizado: o mesmo código bloqueia independente de
+ * pedido, transportadora, fulfillment ou origem.
+ * Lança quando o rastreio é inválido/vazio.
+ */
+export function buildTrackingKey(
+  trackingNumber: string | null | undefined,
+): string {
+  const key = normalizeTrackingCode(trackingNumber);
+  if (!key) throw new Error("invalid_tracking_number");
+  return key;
+}
+
 
 export interface AcquireInput {
   fulfillmentId: string;
@@ -80,7 +94,7 @@ export async function acquireCoordinatedLock(
   supabase: Any,
   input: AcquireInput,
 ): Promise<AcquireResult> {
-  const trackingKey = buildTrackingKey(input.orderNumber, input.trackingNumber);
+  const trackingKey = buildTrackingKey(input.trackingNumber);
   const { data, error } = await supabase.rpc("acquire_shopify_tracking_locks", {
     p_tracking_key: trackingKey,
     p_fulfillment_id: input.fulfillmentId,
