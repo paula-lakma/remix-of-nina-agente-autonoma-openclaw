@@ -66,5 +66,5 @@ export function useUserRole() {
   const isAdmin = role === 'admin';
   const can = (area: string) => (role ? ROLE_PERMISSIONS[role]?.includes(area) ?? false : false);
 
-  return { role, isAdmin, can, loading };
+  return { role, isAdmin, can, loading, homeRoute: homeRouteForRole(role) };
 }
