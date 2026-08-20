@@ -15,7 +15,7 @@ import {
   acquireCoordinatedLock,
   buildTrackingKey,
   releaseCoordinatedLock,
-  sharedTrackingLockEnabled,
+  sharedLockActiveForKey,
 } from "../_shared/tracking_lock.ts";
 
 const corsHeaders = {
@@ -170,9 +170,10 @@ async function process(supabase: Any, topic: string, body: Any) {
   if (n.event_kind === "order_shipped") {
     const fulfillmentKey = n.fulfillment_id || n.order_id || n.order_number || "unknown";
 
-    // INTERRUPTOR EXCLUSIVO — checado ANTES de qualquer chamada às novas RPCs.
-    if (sharedTrackingLockEnabled()) {
-      trackingKey = buildTrackingKey(n.order_number, n.tracking_number);
+    // INTERRUPTOR EXCLUSIVO (ou modo de teste de chave única) — checado ANTES das novas RPCs.
+    const candidateKey = buildTrackingKey(n.order_number, n.tracking_number);
+    if (sharedLockActiveForKey(candidateKey, n.phone)) {
+      trackingKey = candidateKey;
       const acq = await acquireCoordinatedLock(supabase, {
         fulfillmentId: fulfillmentKey,
         trackingNumber: n.tracking_number!,
