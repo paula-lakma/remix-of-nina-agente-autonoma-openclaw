@@ -1,6 +1,6 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
-import { releaseCoordinatedLock, sharedTrackingLockEnabled } from "../_shared/tracking_lock.ts";
+import { releaseCoordinatedLock, sharedLockActiveForKey } from "../_shared/tracking_lock.ts";
 
 /**
  * FASE 2B2 — implantação inerte.
