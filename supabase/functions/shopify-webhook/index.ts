@@ -166,50 +166,87 @@ async function process(supabase: Any, topic: string, body: Any) {
   // Se o insert falhar por conflito, só é permitido retomar quando o registro está "failed".
   let notificationId: string | null = null;
   let notificationRetried = false;
+  let trackingKey: string | null = null;
   if (n.event_kind === "order_shipped") {
     const fulfillmentKey = n.fulfillment_id || n.order_id || n.order_number || "unknown";
-    const { data: notif, error: notifErr } = await supabase
-      .from("shopify_shipment_notifications")
-      .insert({
-        fulfillment_id: fulfillmentKey,
-        tracking_number: n.tracking_number,
-        order_number: n.order_number,
-        phone_number: n.phone,
-        event_id: eventId,
-        status: "processing",
-      })
-      .select("id")
-      .maybeSingle();
 
-    if (notifErr) {
-      // Retry seguro: só reivindica se o registro existente estiver "failed".
-      const { data: retried } = await supabase
+    // INTERRUPTOR EXCLUSIVO — checado ANTES de qualquer chamada às novas RPCs.
+    if (sharedTrackingLockEnabled()) {
+      trackingKey = buildTrackingKey(n.order_number, n.tracking_number);
+      const acq = await acquireCoordinatedLock(supabase, {
+        fulfillmentId: fulfillmentKey,
+        trackingNumber: n.tracking_number!,
+        orderNumber: n.order_number,
+        phoneNumber: n.phone,
+        customerName: n.customer_name,
+        carrier: n.tracking_company ?? null,
+        templateName: msg.template_name,
+        eventId: eventId,
+      });
+      if (!acq.acquired) {
+        console.log("[shopify-webhook] rastreio já notificado (trava compartilhada):", acq.reason);
+        return await fail(
+          "skipped_duplicate",
+          `Rastreio ${n.tracking_number} já notificado (${acq.reason})`,
+        );
+      }
+      notificationId = acq.notification_id ?? null;
+      notificationRetried = !!acq.legacy_retried;
+    } else {
+      // ---- FLUXO LEGADO (inalterado) ----
+      const { data: notif, error: notifErr } = await supabase
         .from("shopify_shipment_notifications")
-        .update({ status: "processing", event_id: eventId })
-        .eq("fulfillment_id", fulfillmentKey)
-        .eq("tracking_number", n.tracking_number)
-        .eq("status", "failed")
+        .insert({
+          fulfillment_id: fulfillmentKey,
+          tracking_number: n.tracking_number,
+          order_number: n.order_number,
+          phone_number: n.phone,
+          event_id: eventId,
+          status: "processing",
+        })
         .select("id")
         .maybeSingle();
 
-      if (!retried) {
-        console.log("[shopify-webhook] rastreio já notificado, ignorando:", fulfillmentKey, n.tracking_number);
-        return await fail(
-          "skipped_duplicate",
-          `Rastreio ${n.tracking_number} já notificado para o fulfillment ${fulfillmentKey}`,
-        );
+      if (notifErr) {
+        // Retry seguro: só reivindica se o registro existente estiver "failed".
+        const { data: retried } = await supabase
+          .from("shopify_shipment_notifications")
+          .update({ status: "processing", event_id: eventId })
+          .eq("fulfillment_id", fulfillmentKey)
+          .eq("tracking_number", n.tracking_number)
+          .eq("status", "failed")
+          .select("id")
+          .maybeSingle();
+
+        if (!retried) {
+          console.log("[shopify-webhook] rastreio já notificado, ignorando:", fulfillmentKey, n.tracking_number);
+          return await fail(
+            "skipped_duplicate",
+            `Rastreio ${n.tracking_number} já notificado para o fulfillment ${fulfillmentKey}`,
+          );
+        }
+        notificationId = retried.id;
+        notificationRetried = true;
+        console.log("[shopify-webhook] reprocessando rastreio que havia falhado:", fulfillmentKey, n.tracking_number);
+      } else {
+        notificationId = notif?.id ?? null;
       }
-      notificationId = retried.id;
-      notificationRetried = true;
-      console.log("[shopify-webhook] reprocessando rastreio que havia falhado:", fulfillmentKey, n.tracking_number);
-    } else {
-      notificationId = notif?.id ?? null;
     }
   }
 
   // Libera a trava de rastreio caso o envio não chegue a ser enfileirado.
   const releaseLock = async () => {
     if (!notificationId) return;
+    if (trackingKey) {
+      await releaseCoordinatedLock(supabase, {
+        trackingKey,
+        fulfillmentId: n.fulfillment_id || n.order_id || n.order_number || "unknown",
+        trackingNumber: n.tracking_number!,
+        result: "failed",
+        errorMessage: "falha antes da fila",
+      });
+      return;
+    }
     if (notificationRetried) {
       await supabase.from("shopify_shipment_notifications").update({ status: "failed" }).eq("id", notificationId);
     } else {
