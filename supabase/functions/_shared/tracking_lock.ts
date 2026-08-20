@@ -94,7 +94,7 @@ export async function acquireCoordinatedLock(
   supabase: Any,
   input: AcquireInput,
 ): Promise<AcquireResult> {
-  const trackingKey = buildTrackingKey(input.orderNumber, input.trackingNumber);
+  const trackingKey = buildTrackingKey(input.trackingNumber);
   const { data, error } = await supabase.rpc("acquire_shopify_tracking_locks", {
     p_tracking_key: trackingKey,
     p_fulfillment_id: input.fulfillmentId,
