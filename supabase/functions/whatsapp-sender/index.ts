@@ -16,9 +16,9 @@ async function settleTrackingLock(
   errorMessage?: string,
 ) {
   try {
-    if (!sharedTrackingLockEnabled()) return; // interruptor ANTES de qualquer chamada
     const md = item?.metadata ?? {};
     if (!md.tracking_key) return; // itens não-rastreio: nada muda
+    if (!sharedLockActiveForKey(md.tracking_key)) return; // interruptor / chave de teste
     await releaseCoordinatedLock(supabase, {
       trackingKey: md.tracking_key,
       fulfillmentId: md.fulfillment_id ?? "unknown",
