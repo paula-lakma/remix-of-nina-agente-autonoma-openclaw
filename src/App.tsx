@@ -38,14 +38,17 @@ const HomeRedirect: React.FC = () => {
 const AppLayout: React.FC = () => {
 
   const [showOnboarding, setShowOnboarding] = useState(false);
-  const { isComplete, hasSeenWizard, loading } = useOnboardingStatus();
+  const { isComplete, hasSeenWizard, loading, isAdmin } = useOnboardingStatus();
 
-  // Show wizard automatically on first load if not complete and never seen
+  // Show wizard automatically on first load if not complete and never seen.
+  // Somente administradores veem o assistente: papéis operacionais (sdr,
+  // expedicao) não leem nina_settings e veriam o wizard indevidamente.
   useEffect(() => {
-    if (!loading && !isComplete && !hasSeenWizard) {
+    if (!loading && isAdmin && !isComplete && !hasSeenWizard) {
       setShowOnboarding(true);
     }
-  }, [loading, isComplete, hasSeenWizard]);
+  }, [loading, isAdmin, isComplete, hasSeenWizard]);
+
 
   return (
     <div className="flex h-screen w-full bg-background text-foreground overflow-hidden">
