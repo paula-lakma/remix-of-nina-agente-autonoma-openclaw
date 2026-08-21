@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { LayoutDashboard, MessageSquare, Users, Settings as SettingsIcon, LogOut, ShieldCheck, Calendar, Kanban, BrainCircuit, Megaphone, FileText } from 'lucide-react';
+import { LayoutDashboard, MessageSquare, Users, Settings as SettingsIcon, LogOut, ShieldCheck, Calendar, Kanban, BrainCircuit, Megaphone, FileText, Truck } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useCompanySettings } from '@/hooks/useCompanySettings';
 import { useAuth } from '@/hooks/useAuth';
@@ -19,14 +19,16 @@ const menuItems = [
   { id: 'scheduling', label: 'Agendamentos', icon: Calendar },
   { id: 'campaigns', label: 'Campanhas', icon: Megaphone },
   { id: 'templates', label: 'Templates', icon: FileText },
+  { id: 'tracking', label: 'Envio de rastreio', icon: Truck },
   { id: 'team', label: 'Equipe', icon: ShieldCheck },
   { id: 'cerebro', label: 'Cérebro', icon: BrainCircuit },
   { id: 'settings', label: 'Configurações', icon: SettingsIcon },
 ];
 
-const Logo = ({ companyName }: { companyName: string }) => {
+
+const Logo = ({ companyName, homeHref }: { companyName: string; homeHref: string }) => {
   return (
-    <Link to="/dashboard" className="flex items-center space-x-3 py-1">
+    <Link to={homeHref} className="flex items-center space-x-3 py-1">
       <div className="relative w-10 h-10 flex items-center justify-center flex-shrink-0">
         <div className="absolute inset-0 bg-primary/20 blur-lg rounded-full" />
         <div className="relative w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center shadow-lg shadow-primary/20 p-1.5">
@@ -46,9 +48,9 @@ const Logo = ({ companyName }: { companyName: string }) => {
   );
 };
 
-const LogoIcon = () => {
+const LogoIcon = ({ homeHref }: { homeHref: string }) => {
   return (
-    <Link to="/dashboard" className="flex items-center py-1">
+    <Link to={homeHref} className="flex items-center py-1">
       <div className="relative w-10 h-10 flex items-center justify-center flex-shrink-0">
         <div className="absolute inset-0 bg-primary/20 blur-lg rounded-full" />
         <div className="relative w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center shadow-lg shadow-primary/20 p-1.5">
@@ -66,7 +68,7 @@ const SidebarContent = () => {
   const navigate = useNavigate();
   const currentPath = location.pathname.substring(1) || 'dashboard';
   const { open, setOpen } = useSidebar();
-  const { can, loading: roleLoading } = useUserRole();
+  const { can, loading: roleLoading, homeRoute } = useUserRole();
 
   const links = menuItems
     .filter(item => roleLoading ? false : can(item.id))
@@ -105,7 +107,7 @@ const SidebarContent = () => {
     <>
       <div className="flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
         <div className="mb-6">
-          {open ? <Logo companyName={companyName} /> : <LogoIcon />}
+          {open ? <Logo companyName={companyName} homeHref={homeRoute} /> : <LogoIcon homeHref={homeRoute} />}
         </div>
         
         <nav className="flex flex-col gap-1.5">
