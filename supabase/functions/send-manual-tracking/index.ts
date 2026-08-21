@@ -151,7 +151,7 @@ Deno.serve(async (req) => {
     const { data: acq, error: acqErr } = await admin.rpc("acquire_tracking_send_lock", {
       p_tracking_key: trackingKey,
       p_tracking_number: trackingNumber,
-      p_source: "manual",
+      p_source: "manual_tracking",
       p_carrier: carrier,
       p_template_name: templateName,
       p_order_number: orderNumber,
