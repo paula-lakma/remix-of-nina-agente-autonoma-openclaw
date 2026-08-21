@@ -1,35 +1,20 @@
 import { useCallback, useEffect, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 
-export type Carrier = 'correios' | 'jadlog';
+export {
+  CARRIERS,
+  normalizePhoneClient,
+  validateTrackingForm,
+  buildTemplatePreview,
+} from '@/lib/trackingForm';
+export type {
+  Carrier,
+  CarrierSelection,
+  ManualTrackingInput,
+  ManualTrackingForm,
+} from '@/lib/trackingForm';
 
-export const CARRIERS: Record<Carrier, { label: string; template: string; link: string }> = {
-  correios: {
-    label: 'Correios',
-    template: 'pedido_enviado_correios',
-    link: 'https://rastreamento.correios.com.br/',
-  },
-  jadlog: {
-    label: 'Jadlog',
-    template: 'pedido_enviado_jadlog',
-    link: 'https://www.jadlog.com.br/jadlog/rastreie',
-  },
-};
-
-export type CarrierSelection = Carrier | '';
-
-export interface ManualTrackingInput {
-  customer_name: string;
-  phone_number: string;
-  order_number: string;
-  tracking_number: string;
-  carrier: Carrier;
-}
-
-/** Estado do formulário: a transportadora começa vazia (escolha consciente). */
-export interface ManualTrackingForm extends Omit<ManualTrackingInput, 'carrier'> {
-  carrier: CarrierSelection;
-}
+import type { ManualTrackingInput } from '@/lib/trackingForm';
 
 export interface ManualTrackingLog {
   id: string;
@@ -44,17 +29,6 @@ export interface ManualTrackingLog {
   sent_at: string | null;
 }
 
-/** Retorna null enquanto o formulário estiver incompleto. */
-export function buildTemplatePreview(input: ManualTrackingForm): string | null {
-  const name = input.customer_name.trim();
-  const order = input.order_number.trim().replace(/^#/, '');
-  const code = input.tracking_number.trim().toUpperCase();
-  if (!name || !order || !code || !input.carrier || !CARRIERS[input.carrier]) return null;
-  const first = name.split(/\s+/)[0];
-  const c = CARRIERS[input.carrier];
-  const via = input.carrier === 'correios' ? 'pelos Correios' : 'pela Jadlog';
-  return `Boa notícia, ${first}! Seu pedido #${order} foi enviado ${via}.\n\nCódigo de rastreio: ${code}\n\nAcompanhe sua entrega em:\n${c.link}`;
-}
 
 
 export function useManualTracking() {
