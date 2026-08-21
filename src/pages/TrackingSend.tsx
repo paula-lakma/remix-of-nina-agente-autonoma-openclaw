@@ -10,25 +10,22 @@ import { Button } from '@/components/ui/button';
 import {
   Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
 } from '@/components/ui/select';
+import { useManualTracking } from '@/hooks/useManualTracking';
 import {
-  CARRIERS, buildTemplatePreview, useManualTracking,
-  type Carrier, type ManualTrackingInput,
-} from '@/hooks/useManualTracking';
+  CARRIERS, buildTemplatePreview, normalizePhoneClient, validateTrackingForm,
+  type Carrier, type CarrierSelection, type ManualTrackingForm, type ManualTrackingInput,
+} from '@/lib/trackingForm';
 
-const EMPTY: ManualTrackingInput = {
+const EMPTY: ManualTrackingForm = {
   customer_name: '',
   phone_number: '',
   order_number: '',
   tracking_number: '',
-  carrier: 'correios',
+  carrier: '',
 };
 
-function normalizePhoneClient(raw: string): string | null {
-  let d = raw.replace(/\D/g, '').replace(/^0+/, '');
-  if (!d) return null;
-  if (!d.startsWith('55')) d = '55' + d;
-  return /^55\d{10,11}$/.test(d) ? d : null;
-}
+const Req: React.FC = () => <span className="text-destructive" aria-hidden="true"> *</span>;
+
 
 const statusMeta: Record<string, { label: string; icon: React.ElementType; className: string }> = {
   processing: { label: 'Aguardando', icon: Clock, className: 'text-amber-500' },
@@ -40,34 +37,30 @@ const statusMeta: Record<string, { label: string; icon: React.ElementType; class
 
 const TrackingSend: React.FC = () => {
   const { logs, loading, sending, sendingEnabled, send } = useManualTracking();
-  const [form, setForm] = useState<ManualTrackingInput>(EMPTY);
+  const [form, setForm] = useState<ManualTrackingForm>(EMPTY);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [confirmOpen, setConfirmOpen] = useState(false);
 
   const preview = useMemo(() => buildTemplatePreview(form), [form]);
-  const set = (k: keyof ManualTrackingInput, v: string) =>
-    setForm((f) => ({ ...f, [k]: v } as ManualTrackingInput));
+  const set = (k: keyof ManualTrackingForm, v: string) =>
+    setForm((f) => ({ ...f, [k]: v } as ManualTrackingForm));
 
-  const validate = () => {
-    const e: Record<string, string> = {};
-    if (form.customer_name.trim().length < 2) e.customer_name = 'Informe o nome do cliente.';
-    if (!normalizePhoneClient(form.phone_number)) e.phone_number = 'Telefone brasileiro inválido (DDD + número).';
-    if (!form.order_number.trim()) e.order_number = 'Informe o número do pedido.';
-    if (form.tracking_number.trim().length < 6) e.tracking_number = 'Código de rastreio inválido.';
-    if (!CARRIERS[form.carrier]) e.carrier = 'Selecione a transportadora.';
-    setErrors(e);
-    return Object.keys(e).length === 0;
-  };
+  const formErrors = useMemo(() => validateTrackingForm(form), [form]);
+  const isValid = Object.keys(formErrors).length === 0;
 
   const openConfirm = () => {
-    if (!validate()) return;
+    if (!isValid) {
+      setErrors(formErrors);
+      return;
+    }
+    setErrors({});
     setConfirmOpen(true);
   };
 
   const handleSend = async () => {
-    if (sending) return;
+    if (sending || !isValid) return;
     try {
-      const res = await send(form);
+      const res = await send(form as ManualTrackingInput);
       if (res?.disabled) {
         toast.warning(res.message || 'Envio manual de rastreio está desativado.');
       } else if (res?.error === 'validation_error') {
@@ -125,46 +118,47 @@ const TrackingSend: React.FC = () => {
             <h2 className="font-semibold text-foreground">Dados do envio</h2>
 
             <div className="space-y-1.5">
-              <Label htmlFor="customer_name">Nome do cliente</Label>
+              <Label htmlFor="customer_name">Nome do cliente<Req /></Label>
               <Input id="customer_name" value={form.customer_name}
                 onChange={(e) => set('customer_name', e.target.value)} placeholder="Maria Silva" />
               {errors.customer_name && <p className="text-xs text-destructive">{errors.customer_name}</p>}
             </div>
 
             <div className="space-y-1.5">
-              <Label htmlFor="phone_number">Telefone</Label>
+              <Label htmlFor="phone_number">Telefone<Req /></Label>
               <Input id="phone_number" value={form.phone_number}
                 onChange={(e) => set('phone_number', e.target.value)} placeholder="(11) 99888-7777" />
               {errors.phone_number && <p className="text-xs text-destructive">{errors.phone_number}</p>}
             </div>
 
             <div className="space-y-1.5">
-              <Label htmlFor="order_number">Número do pedido</Label>
+              <Label htmlFor="order_number">Número do pedido<Req /></Label>
               <Input id="order_number" value={form.order_number}
                 onChange={(e) => set('order_number', e.target.value)} placeholder="1885" />
               {errors.order_number && <p className="text-xs text-destructive">{errors.order_number}</p>}
             </div>
 
             <div className="space-y-1.5">
-              <Label htmlFor="carrier">Transportadora</Label>
-              <Select value={form.carrier} onValueChange={(v) => set('carrier', v as Carrier)}>
-                <SelectTrigger id="carrier"><SelectValue /></SelectTrigger>
+              <Label htmlFor="carrier">Transportadora<Req /></Label>
+              <Select value={form.carrier || undefined} onValueChange={(v) => set('carrier', v as CarrierSelection)}>
+                <SelectTrigger id="carrier"><SelectValue placeholder="Selecione a transportadora" /></SelectTrigger>
                 <SelectContent>
                   <SelectItem value="correios">Correios</SelectItem>
                   <SelectItem value="jadlog">Jadlog</SelectItem>
                 </SelectContent>
               </Select>
+              {errors.carrier && <p className="text-xs text-destructive">{errors.carrier}</p>}
             </div>
 
             <div className="space-y-1.5">
-              <Label htmlFor="tracking_number">Código de rastreio</Label>
+              <Label htmlFor="tracking_number">Código de rastreio<Req /></Label>
               <Input id="tracking_number" value={form.tracking_number}
                 onChange={(e) => set('tracking_number', e.target.value.toUpperCase())}
                 placeholder="AA123456789BR" />
               {errors.tracking_number && <p className="text-xs text-destructive">{errors.tracking_number}</p>}
             </div>
 
-            <Button onClick={openConfirm} disabled={sending} className="w-full">
+            <Button onClick={openConfirm} disabled={sending || !isValid} className="w-full">
               {sending && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
               Enviar rastreio
             </Button>
@@ -172,11 +166,19 @@ const TrackingSend: React.FC = () => {
 
           <section className="rounded-xl border border-border bg-card/50 p-5 space-y-3">
             <h2 className="font-semibold text-foreground">Prévia da mensagem</h2>
-            <p className="text-xs text-muted-foreground">
-              Template <span className="font-mono">{CARRIERS[form.carrier].template}</span> · pt_BR · UTILITY
-            </p>
+            {form.carrier && CARRIERS[form.carrier as Carrier] && (
+              <p className="text-xs text-muted-foreground">
+                Template{' '}
+                <span className="font-mono">{CARRIERS[form.carrier as Carrier].template}</span>
+                {' '}· pt_BR · UTILITY
+              </p>
+            )}
             <div className="rounded-lg bg-muted/40 p-4 whitespace-pre-wrap text-sm text-foreground">
-              {preview}
+              {preview ?? (
+                <span className="text-muted-foreground">
+                  Preencha todos os campos para visualizar a mensagem.
+                </span>
+              )}
             </div>
           </section>
         </div>
@@ -226,7 +228,7 @@ const TrackingSend: React.FC = () => {
             <p><span className="text-muted-foreground">Cliente:</span> {form.customer_name}</p>
             <p><span className="text-muted-foreground">Telefone:</span> {normalizePhoneClient(form.phone_number)}</p>
             <p><span className="text-muted-foreground">Pedido:</span> #{form.order_number.replace(/^#/, '')}</p>
-            <p><span className="text-muted-foreground">Transportadora:</span> {CARRIERS[form.carrier].label}</p>
+            <p><span className="text-muted-foreground">Transportadora:</span> {form.carrier ? CARRIERS[form.carrier as Carrier].label : '—'}</p>
             <p><span className="text-muted-foreground">Rastreio:</span> {form.tracking_number}</p>
             <div className="rounded-lg bg-muted/40 p-3 whitespace-pre-wrap">{preview}</div>
           </div>
@@ -234,7 +236,7 @@ const TrackingSend: React.FC = () => {
             <Button variant="outline" onClick={() => setConfirmOpen(false)} disabled={sending}>
               Cancelar
             </Button>
-            <Button onClick={handleSend} disabled={sending}>
+            <Button onClick={handleSend} disabled={sending || !isValid}>
               {sending && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
               Confirmar envio
             </Button>

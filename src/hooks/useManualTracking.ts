@@ -1,28 +1,20 @@
 import { useCallback, useEffect, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 
-export type Carrier = 'correios' | 'jadlog';
+export {
+  CARRIERS,
+  normalizePhoneClient,
+  validateTrackingForm,
+  buildTemplatePreview,
+} from '@/lib/trackingForm';
+export type {
+  Carrier,
+  CarrierSelection,
+  ManualTrackingInput,
+  ManualTrackingForm,
+} from '@/lib/trackingForm';
 
-export const CARRIERS: Record<Carrier, { label: string; template: string; link: string }> = {
-  correios: {
-    label: 'Correios',
-    template: 'pedido_enviado_correios',
-    link: 'https://rastreamento.correios.com.br/',
-  },
-  jadlog: {
-    label: 'Jadlog',
-    template: 'pedido_enviado_jadlog',
-    link: 'https://www.jadlog.com.br/jadlog/rastreie',
-  },
-};
-
-export interface ManualTrackingInput {
-  customer_name: string;
-  phone_number: string;
-  order_number: string;
-  tracking_number: string;
-  carrier: Carrier;
-}
+import type { ManualTrackingInput } from '@/lib/trackingForm';
 
 export interface ManualTrackingLog {
   id: string;
@@ -37,14 +29,7 @@ export interface ManualTrackingLog {
   sent_at: string | null;
 }
 
-export function buildTemplatePreview(input: ManualTrackingInput): string {
-  const first = input.customer_name.trim().split(/\s+/)[0] || '{{1}}';
-  const order = input.order_number.trim().replace(/^#/, '') || '{{2}}';
-  const code = input.tracking_number.trim().toUpperCase() || '{{3}}';
-  const c = CARRIERS[input.carrier];
-  const via = input.carrier === 'correios' ? 'pelos Correios' : 'pela Jadlog';
-  return `Boa notícia, ${first}! Seu pedido #${order} foi enviado ${via}.\n\nCódigo de rastreio: ${code}\n\nAcompanhe sua entrega em:\n${c.link}`;
-}
+
 
 export function useManualTracking() {
   const [logs, setLogs] = useState<ManualTrackingLog[]>([]);
