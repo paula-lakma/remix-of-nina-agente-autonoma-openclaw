@@ -166,10 +166,10 @@ const TrackingSend: React.FC = () => {
 
           <section className="rounded-xl border border-border bg-card/50 p-5 space-y-3">
             <h2 className="font-semibold text-foreground">Prévia da mensagem</h2>
-            {form.carrier && CARRIERS[form.carrier as keyof typeof CARRIERS] && (
+            {form.carrier && CARRIERS[form.carrier as Carrier] && (
               <p className="text-xs text-muted-foreground">
                 Template{' '}
-                <span className="font-mono">{CARRIERS[form.carrier as keyof typeof CARRIERS].template}</span>
+                <span className="font-mono">{CARRIERS[form.carrier as Carrier].template}</span>
                 {' '}· pt_BR · UTILITY
               </p>
             )}
@@ -228,7 +228,7 @@ const TrackingSend: React.FC = () => {
             <p><span className="text-muted-foreground">Cliente:</span> {form.customer_name}</p>
             <p><span className="text-muted-foreground">Telefone:</span> {normalizePhoneClient(form.phone_number)}</p>
             <p><span className="text-muted-foreground">Pedido:</span> #{form.order_number.replace(/^#/, '')}</p>
-            <p><span className="text-muted-foreground">Transportadora:</span> {form.carrier ? CARRIERS[form.carrier as keyof typeof CARRIERS].label : '—'}</p>
+            <p><span className="text-muted-foreground">Transportadora:</span> {form.carrier ? CARRIERS[form.carrier as Carrier].label : '—'}</p>
             <p><span className="text-muted-foreground">Rastreio:</span> {form.tracking_number}</p>
             <div className="rounded-lg bg-muted/40 p-3 whitespace-pre-wrap">{preview}</div>
           </div>

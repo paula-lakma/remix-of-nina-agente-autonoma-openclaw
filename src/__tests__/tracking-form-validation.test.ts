@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest';
-import { validateTrackingForm } from '@/pages/TrackingSend';
-import { buildTemplatePreview, type ManualTrackingForm } from '@/hooks/useManualTracking';
+import {
+  validateTrackingForm, buildTemplatePreview, type ManualTrackingForm,
+} from '@/lib/trackingForm';
 
 const valid: ManualTrackingForm = {
   customer_name: 'Maria Silva',
