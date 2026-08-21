@@ -2442,6 +2442,8 @@ export type Database = {
         }
         Returns: boolean
       }
+      is_admin_or_manager: { Args: { _user_id: string }; Returns: boolean }
+      is_operational_staff: { Args: { _user_id: string }; Returns: boolean }
       normalize_tracking_code: { Args: { p_code: string }; Returns: string }
       pick_next_dermoconsultora: { Args: never; Returns: string }
       release_shopify_tracking_locks: {
