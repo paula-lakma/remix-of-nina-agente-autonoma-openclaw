@@ -10,10 +10,11 @@ import { Button } from '@/components/ui/button';
 import {
   Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
 } from '@/components/ui/select';
+import { useManualTracking } from '@/hooks/useManualTracking';
 import {
-  CARRIERS, buildTemplatePreview, useManualTracking,
-  type CarrierSelection, type ManualTrackingForm, type ManualTrackingInput,
-} from '@/hooks/useManualTracking';
+  CARRIERS, buildTemplatePreview, normalizePhoneClient, validateTrackingForm,
+  type Carrier, type CarrierSelection, type ManualTrackingForm, type ManualTrackingInput,
+} from '@/lib/trackingForm';
 
 const EMPTY: ManualTrackingForm = {
   customer_name: '',
@@ -25,26 +26,6 @@ const EMPTY: ManualTrackingForm = {
 
 const Req: React.FC = () => <span className="text-destructive" aria-hidden="true"> *</span>;
 
-export function validateTrackingForm(form: ManualTrackingForm): Record<string, string> {
-  const e: Record<string, string> = {};
-  if (!form.customer_name.trim()) e.customer_name = 'Informe o nome do cliente.';
-  if (!form.phone_number.trim() || !normalizePhoneClient(form.phone_number)) {
-    e.phone_number = 'Informe um telefone válido com DDD.';
-  }
-  if (!form.order_number.trim()) e.order_number = 'Informe o número do pedido.';
-  if (!form.carrier || !CARRIERS[form.carrier as keyof typeof CARRIERS]) {
-    e.carrier = 'Selecione a transportadora.';
-  }
-  if (!form.tracking_number.trim()) e.tracking_number = 'Informe o código de rastreio.';
-  return e;
-}
-
-function normalizePhoneClient(raw: string): string | null {
-  let d = raw.replace(/\D/g, '').replace(/^0+/, '');
-  if (!d) return null;
-  if (!d.startsWith('55')) d = '55' + d;
-  return /^55\d{10,11}$/.test(d) ? d : null;
-}
 
 const statusMeta: Record<string, { label: string; icon: React.ElementType; className: string }> = {
   processing: { label: 'Aguardando', icon: Clock, className: 'text-amber-500' },
