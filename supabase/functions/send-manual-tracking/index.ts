@@ -11,6 +11,7 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import { corsHeaders } from "npm:@supabase/supabase-js@2/cors";
 import { getJwtUser } from "../_shared/userauth.ts";
 import { cleanOrderNumber, normalizePhone } from "../_shared/shopify.ts";
+import { buildTrackingKey } from "../_shared/tracking_lock.ts";
 
 const CARRIERS = {
   correios: { label: "Correios", template: "pedido_enviado_correios" },
@@ -18,6 +19,18 @@ const CARRIERS = {
 } as const;
 
 type CarrierKey = keyof typeof CARRIERS;
+// deno-lint-ignore no-explicit-any
+type Any = any;
+
+const TRACK_LINK: Record<CarrierKey, string> = {
+  correios: "https://rastreamento.correios.com.br/",
+  jadlog: "https://www.jadlog.com.br/jadlog/rastreie",
+};
+
+function buildPreview(carrier: CarrierKey, vars: string[]): string {
+  const via = carrier === "correios" ? "pelos Correios" : "pela Jadlog";
+  return `Boa notícia, ${vars[0]}! Seu pedido ${vars[1]} foi enviado ${via}.\n\nCódigo de rastreio: ${vars[2]}\n\nAcompanhe sua entrega em:\n${TRACK_LINK[carrier]}`;
+}
 
 const ALLOWED_ROLES = ["admin", "manager", "expedicao"];
 
@@ -53,8 +66,19 @@ Deno.serve(async (req) => {
     const effectiveRole = ALLOWED_ROLES.find((r) => roles.includes(r));
     if (!effectiveRole) return json({ error: "forbidden" }, 403);
 
-    // 3) Validação dos campos
     const body = await req.json().catch(() => ({}));
+
+    // 2.1) Sonda de estado (sem efeitos colaterais)
+    if (body?.probe === true) {
+      return json({
+        ok: true,
+        probe: true,
+        role: effectiveRole,
+        sending_enabled: (Deno.env.get("MANUAL_TRACKING_SEND_ENABLED") ?? "") === "true",
+      }, 200);
+    }
+
+    // 3) Validação dos campos
     const customerName = String(body?.customer_name ?? "").trim();
     const rawPhone = String(body?.phone_number ?? "").trim();
     const rawOrder = String(body?.order_number ?? "").trim();
@@ -116,12 +140,178 @@ Deno.serve(async (req) => {
       }, 200);
     }
 
-    // 6) Fase 2B: trava atômica + histórico + send_queue + envio.
+    // 6) Trava compartilhada (mesma chave canônica da Shopify)
+    let trackingKey: string;
+    try {
+      trackingKey = buildTrackingKey(trackingNumber);
+    } catch {
+      return json({ error: "validation_error", fields: { tracking_number: "Código de rastreio inválido." } }, 400);
+    }
+
+    const { data: acq, error: acqErr } = await admin.rpc("acquire_tracking_send_lock", {
+      p_tracking_key: trackingKey,
+      p_tracking_number: trackingNumber,
+      p_source: "manual_tracking",
+      p_carrier: carrier,
+      p_template_name: templateName,
+      p_order_number: orderNumber,
+      p_phone_number: phone,
+      p_customer_name: customerName,
+      p_sent_by: user.id,
+      p_fulfillment_id: null,
+    });
+
+    if (acqErr) {
+      return json({ error: "lock_error", message: acqErr.message }, 500);
+    }
+
+    const acquired = !!(acq as Any)?.acquired;
+    const logBase = {
+      tracking_key: trackingKey,
+      tracking_number: trackingNumber,
+      carrier,
+      template_name: templateName,
+      order_number: orderNumber,
+      phone_number: phone,
+      customer_name: customerName,
+      requested_by: user.id,
+      requested_by_role: effectiveRole,
+    };
+
+    if (!acquired) {
+      await admin.from("manual_tracking_logs").insert({
+        ...logBase,
+        status: "duplicate",
+        result: String((acq as Any)?.existing_status ?? "duplicate"),
+        error_message: "Este código de rastreio já foi enviado ou está em processamento.",
+        lock_id: (acq as Any)?.lock_id ?? null,
+      });
+      return json({
+        ok: false,
+        code: "duplicate",
+        message: "Este código de rastreio já foi enviado ao cliente. Nenhuma mensagem foi enviada.",
+        existing_status: (acq as Any)?.existing_status ?? null,
+      }, 409);
+    }
+
+    const lockId = (acq as Any)?.lock_id ?? null;
+
+    // 7) Registro do histórico (fila)
+    const { data: logRow, error: logErr } = await admin
+      .from("manual_tracking_logs")
+      .insert({ ...logBase, status: "processing", lock_id: lockId })
+      .select("id")
+      .maybeSingle();
+
+    const failAndRelease = async (message: string, status = 500) => {
+      await admin.rpc("release_tracking_send_lock", {
+        p_tracking_key: trackingKey,
+        p_result: "failed",
+        p_send_queue_id: null,
+        p_error_message: message,
+      });
+      if (logRow?.id) {
+        await admin.from("manual_tracking_logs")
+          .update({ status: "failed", error_message: message })
+          .eq("id", logRow.id);
+      }
+      return json({ ok: false, code: "error", message }, status);
+    };
+
+    if (logErr) return await failAndRelease(`Falha ao registrar histórico: ${logErr.message}`);
+
+    // 8) Contato + conversa (mesma lógica da Shopify)
+    let contactId: string;
+    const { data: contact } = await admin
+      .from("contacts").select("id, name").eq("phone_number", phone).maybeSingle();
+    if (contact) {
+      contactId = contact.id;
+      if (!contact.name && customerName) {
+        await admin.from("contacts").update({ name: customerName }).eq("id", contactId);
+      }
+    } else {
+      const { data: newContact, error: cErr } = await admin
+        .from("contacts")
+        .insert({ phone_number: phone, whatsapp_id: phone, name: customerName, user_id: null })
+        .select("id").single();
+      if (cErr) return await failAndRelease(`Falha ao criar contato: ${cErr.message}`);
+      contactId = newContact.id;
+    }
+
+    let conversationId: string;
+    const { data: conv } = await admin
+      .from("conversations").select("id")
+      .eq("contact_id", contactId).eq("is_active", true).maybeSingle();
+    if (conv) {
+      conversationId = conv.id;
+    } else {
+      const { data: newConv, error: convErr } = await admin
+        .from("conversations")
+        .insert({ contact_id: contactId, status: "nina", is_active: true, user_id: null })
+        .select("id").single();
+      if (convErr) return await failAndRelease(`Falha ao criar conversa: ${convErr.message}`);
+      conversationId = newConv.id;
+    }
+
+    // 9) Fila de envio (o Chat ao Vivo recebe a mensagem quando o sender confirmar)
+    const preview = buildPreview(carrier, variables);
+    const { data: queued, error: qErr } = await admin.from("send_queue").insert({
+      conversation_id: conversationId,
+      contact_id: contactId,
+      message_type: "template",
+      from_type: "human",
+      content: preview,
+      priority: 5,
+      status: "pending",
+      metadata: {
+        source: "manual",
+        template_name: templateName,
+        template_language: "pt_BR",
+        template_variables: { body: variables },
+        tracking_key: trackingKey,
+        tracking_number: trackingNumber,
+        carrier,
+        manual_log_id: logRow?.id ?? null,
+        requested_by: user.id,
+      },
+    }).select("id").maybeSingle();
+
+    if (qErr) return await failAndRelease(`Falha ao enfileirar: ${qErr.message}`);
+
+    await admin.rpc("release_tracking_send_lock", {
+      p_tracking_key: trackingKey,
+      p_result: "queued",
+      p_send_queue_id: queued?.id ?? null,
+      p_error_message: null,
+    });
+
+    if (logRow?.id) {
+      await admin.from("manual_tracking_logs")
+        .update({ status: "queued", send_queue_id: queued?.id ?? null })
+        .eq("id", logRow.id);
+    }
+
+    // 10) Dispara o sender (best-effort) — atualização do status é assíncrona
+    try {
+      await fetch(`${Deno.env.get("SUPABASE_URL")}/functions/v1/whatsapp-sender`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")}`,
+        },
+        body: JSON.stringify({ triggered_by: "send-manual-tracking" }),
+      });
+    } catch (_e) { /* o cron do sender processa mesmo assim */ }
+
     return json({
-      ok: false,
-      code: "not_implemented",
-      message: "Fluxo de envio será habilitado na Fase 2B.",
-    }, 501);
+      ok: true,
+      code: "queued",
+      message: "Envio enfileirado. O status é atualizado automaticamente.",
+      log_id: logRow?.id ?? null,
+      send_queue_id: queued?.id ?? null,
+      conversation_id: conversationId,
+      tracking_key: trackingKey,
+    }, 200);
   } catch (e) {
     return json({ error: "internal_error", message: String((e as Error)?.message ?? e) }, 500);
   }

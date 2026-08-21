@@ -18,6 +18,26 @@ async function settleTrackingLock(
   try {
     const md = item?.metadata ?? {};
     if (!md.tracking_key) return; // itens não-rastreio: nada muda
+
+    // Envio manual (Fase 2C): trava própria, independente do interruptor da Shopify.
+    if (md.source === "manual") {
+      await supabase.rpc("release_tracking_send_lock", {
+        p_tracking_key: md.tracking_key,
+        p_result: result,
+        p_send_queue_id: item.id,
+        p_error_message: errorMessage ?? null,
+      });
+      if (md.manual_log_id) {
+        await supabase.from("manual_tracking_logs").update({
+          status: result,
+          result,
+          error_message: errorMessage ?? null,
+          sent_at: result === "sent" ? new Date().toISOString() : null,
+        }).eq("id", md.manual_log_id);
+      }
+      return;
+    }
+
     if (!sharedLockActiveForKey(md.tracking_key)) return; // interruptor / chave de teste
     await releaseCoordinatedLock(supabase, {
       trackingKey: md.tracking_key,
