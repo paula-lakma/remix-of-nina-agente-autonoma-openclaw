@@ -50,6 +50,7 @@ export function useManualTracking() {
   const [logs, setLogs] = useState<ManualTrackingLog[]>([]);
   const [loading, setLoading] = useState(true);
   const [sending, setSending] = useState(false);
+  const [sendingEnabled, setSendingEnabled] = useState<boolean | null>(null);
 
   const fetchLogs = useCallback(async () => {
     setLoading(true);
@@ -64,6 +65,31 @@ export function useManualTracking() {
 
   useEffect(() => {
     fetchLogs();
+  }, [fetchLogs]);
+
+  // Sonda de estado do interruptor (sem efeitos colaterais no backend)
+  useEffect(() => {
+    let alive = true;
+    supabase.functions
+      .invoke('send-manual-tracking', { body: { probe: true } })
+      .then(({ data }) => {
+        if (alive) setSendingEnabled(!!(data as { sending_enabled?: boolean })?.sending_enabled);
+      })
+      .catch(() => alive && setSendingEnabled(false));
+    return () => { alive = false; };
+  }, []);
+
+  // Atualização assíncrona do histórico (status muda depois do envio real)
+  useEffect(() => {
+    const channel = supabase
+      .channel('manual-tracking-logs')
+      .on(
+        'postgres_changes',
+        { event: '*', schema: 'public', table: 'manual_tracking_logs' },
+        () => { fetchLogs(); },
+      )
+      .subscribe();
+    return () => { supabase.removeChannel(channel); };
   }, [fetchLogs]);
 
   const send = useCallback(async (input: ManualTrackingInput) => {
@@ -81,11 +107,13 @@ export function useManualTracking() {
         message?: string;
         error?: string;
         fields?: Record<string, string>;
+        existing_status?: string | null;
+        log_id?: string | null;
       };
     } finally {
       setSending(false);
     }
   }, [fetchLogs]);
 
-  return { logs, loading, sending, send, refetch: fetchLogs };
+  return { logs, loading, sending, sendingEnabled, send, refetch: fetchLogs };
 }

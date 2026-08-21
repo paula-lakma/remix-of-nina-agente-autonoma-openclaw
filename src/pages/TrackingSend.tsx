@@ -39,7 +39,7 @@ const statusMeta: Record<string, { label: string; icon: React.ElementType; class
 };
 
 const TrackingSend: React.FC = () => {
-  const { logs, loading, sending, send } = useManualTracking();
+  const { logs, loading, sending, sendingEnabled, send } = useManualTracking();
   const [form, setForm] = useState<ManualTrackingInput>(EMPTY);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [confirmOpen, setConfirmOpen] = useState(false);
@@ -77,9 +77,12 @@ const TrackingSend: React.FC = () => {
         toast.error('Este template ainda não está aprovado pela Meta.');
       } else if (res?.error === 'forbidden') {
         toast.error('Você não tem permissão para enviar rastreios.');
+      } else if (res?.code === 'duplicate') {
+        toast.error(res.message || 'Este código de rastreio já foi enviado ao cliente.');
       } else if (res?.ok) {
-        // O formulário só é limpo quando o envio for confirmado como "sent".
-        toast.success('Envio registrado.');
+        toast.success('Envio enfileirado. O status é atualizado automaticamente.');
+        setForm(EMPTY);
+        setErrors({});
       } else {
         toast.error(res?.message || 'Não foi possível enviar.');
       }
@@ -105,15 +108,17 @@ const TrackingSend: React.FC = () => {
           </div>
         </header>
 
-        <div className="flex items-start gap-3 rounded-xl border border-amber-500/30 bg-amber-500/10 p-4">
-          <Lock className="w-5 h-5 text-amber-500 mt-0.5 shrink-0" />
-          <div className="text-sm">
-            <p className="font-semibold text-foreground">Envio desativado</p>
-            <p className="text-muted-foreground">
-              Esta área está em homologação. Nenhuma mensagem de WhatsApp é enviada e nenhum registro é criado.
-            </p>
+        {sendingEnabled === false && (
+          <div className="flex items-start gap-3 rounded-xl border border-amber-500/30 bg-amber-500/10 p-4">
+            <Lock className="w-5 h-5 text-amber-500 mt-0.5 shrink-0" />
+            <div className="text-sm">
+              <p className="font-semibold text-foreground">Envio desativado</p>
+              <p className="text-muted-foreground">
+                Esta área está em homologação. Nenhuma mensagem de WhatsApp é enviada e nenhum registro é criado.
+              </p>
+            </div>
           </div>
-        </div>
+        )}
 
         <div className="grid gap-6 lg:grid-cols-2">
           <section className="rounded-xl border border-border bg-card/50 p-5 space-y-4">
