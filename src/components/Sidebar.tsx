@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { LayoutDashboard, MessageSquare, Users, Settings as SettingsIcon, LogOut, ShieldCheck, Calendar, Kanban, BrainCircuit, Megaphone, FileText } from 'lucide-react';
+import { LayoutDashboard, MessageSquare, Users, Settings as SettingsIcon, LogOut, ShieldCheck, Calendar, Kanban, BrainCircuit, Megaphone, FileText, Truck } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useCompanySettings } from '@/hooks/useCompanySettings';
 import { useAuth } from '@/hooks/useAuth';
@@ -19,10 +19,12 @@ const menuItems = [
   { id: 'scheduling', label: 'Agendamentos', icon: Calendar },
   { id: 'campaigns', label: 'Campanhas', icon: Megaphone },
   { id: 'templates', label: 'Templates', icon: FileText },
+  { id: 'tracking', label: 'Envio de rastreio', icon: Truck },
   { id: 'team', label: 'Equipe', icon: ShieldCheck },
   { id: 'cerebro', label: 'Cérebro', icon: BrainCircuit },
   { id: 'settings', label: 'Configurações', icon: SettingsIcon },
 ];
+
 
 const Logo = ({ companyName }: { companyName: string }) => {
   return (
