@@ -11,7 +11,9 @@ const ROLE_PERMISSIONS: Record<AppRole, string[]> = {
   sdr:       ['pipeline', 'chat', 'contacts', 'scheduling'],
   user:      ['pipeline', 'chat', 'contacts', 'scheduling'], // legado = SDR
   moderator: ['dashboard', 'pipeline', 'chat', 'contacts', 'scheduling'],
-  expedicao: ['tracking'],
+  // Fase B1: expedição passa a ver o Chat ao Vivo restrito (somente conversas
+  // com concessão ativa, via backend `expedicao-chat`). Home continua /tracking.
+  expedicao: ['tracking', 'chat'],
 };
 
 // Rota inicial por papel (usada em "/" e no fallback de acesso negado)
