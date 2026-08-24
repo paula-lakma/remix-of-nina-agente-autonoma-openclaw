@@ -1,94 +1,95 @@
-# Ampliação controlada: Letícia no Chat ao Vivo (financeiro + rastreio)
+# v2 — Ampliação controlada: Letícia no Chat ao Vivo (financeiro + rastreio)
 
-Parada obrigatória: nada será implementado, migrado ou publicado sem sua aprovação.
+Parada obrigatória: nada será implementado, migrado, testado com dados reais ou publicado sem sua aprovação.
 
-## Estado verificado hoje
+## Estado verificado
 
-- Letícia: `financeiro@lakma.com.br`, papel `expedicao`, conta de autenticação existente e `team_members` ativo (os dois estão vinculados pelo mesmo identificador de usuário).
-- `conversations.assigned_user_id` guarda o **id do membro da equipe** (não o id de login). Qualquer regra por "conversa minha" precisa traduzir login → membro da equipe.
-- RLS atual em `contacts`, `conversations`, `messages`: uma policy por operação, todas exigindo `is_operational_staff` (admin/manager/sdr). O papel `expedicao` está bloqueado nessas tabelas — é exatamente o que mantém a segurança hoje.
-- `conversation_handoff_events` hoje é legível por qualquer autenticado (será restringido junto).
-- No roteamento de handoff atual existem motivos financeiros (`payment`, `invoice`) apontando para o e-mail da Letícia. **Não existe** nenhum motivo de rastreio/entrega — precisa ser criado.
-- Menu e rotas são filtrados por `useUserRole` (`expedicao` só tem `tracking`).
+- Letícia: `financeiro@lakma.com.br`, papel `expedicao`, com conta de login e membro de equipe ativos vinculados ao mesmo identificador.
+- `conversations.assigned_user_id` guarda o **id do membro da equipe**, não o id de login — a tradução login → membro é feita só no servidor.
+- RLS v3 atual em `contacts`, `conversations`, `messages`: uma policy por operação exigindo staff operacional (admin/manager/sdr). `expedicao` está bloqueado. Nada disso será removido ou enfraquecido.
+- `conversation_handoff_events` hoje é legível por qualquer autenticado — passará a ser restrito.
+- Roteamento de handoff atual tem motivos financeiros antigos (`payment`, `invoice`) apontando para o e-mail dela; **não existe** motivo de rastreio/entrega. Os motivos antigos e os eventos históricos **não** concederão acesso.
 
-## 1. O que será alterado
+## 1. Correção central da v2: acesso por concessão explícita, não por responsável
 
-Banco (uma única migration, revisável antes):
-- Função de apoio `current_team_member_id()` (traduz o login autenticado para o membro da equipe correspondente).
-- Função `expedicao_owns_conversation(conversation_id)` — verdadeira só se o papel for `expedicao` e a conversa estiver atribuída à própria pessoa.
-- Novas policies **aditivas** (não removem nem alteram as de admin/manager/sdr):
-  - `conversations`: leitura e atualização restrita das próprias conversas atribuídas (update limitado a campos operacionais via trigger de guarda; troca de responsável bloqueada).
-  - `messages`: leitura e inserção apenas dentro dessas conversas.
-  - `contacts`: **sem** nova policy ampla. Os dados mínimos do contato virão por função dedicada.
-  - `conversation_handoff_events`: leitura passa a exigir staff operacional ou conversa própria.
-- Trigger de guarda em `conversations` impedindo que `expedicao` altere `assigned_user_id`, exclua, ou mexa em campos comerciais.
-- Funções de leitura (security definer, filtradas pelo próprio usuário):
-  - `list_my_conversations()` — devolve só conversas atribuídas, com nome e telefone mascarado do contato, sem memória da NINA, sem tags comerciais.
-  - `get_my_conversation_messages(conversation_id)` — mensagens de uma conversa própria.
-- Auditoria: reaproveita `conversation_handoff_events` (motivo, intenção, data, responsável, origem, trecho da mensagem que gerou o encaminhamento).
+Estar atribuída à Letícia **não basta**. Uma conversa só fica visível para o papel `expedicao` quando existir uma **concessão de encaminhamento ativa** criada pelo novo fluxo.
 
-Backend (edge functions):
-- `_shared/handoff.ts`: novos motivos canônicos de rastreio/entrega (rastreio não recebido, código inválido, sem atualização, dúvida Correios/Jadlog, "onde está meu pedido", link de rastreio com problema) e novos motivos financeiros que faltam (pagamento não identificado, recusado, cobrança duplicada, comprovante, estorno). Todos apontam para o destino `financeiro` (Letícia), sem mexer nos destinos comercial/parcerias/dermoconsultora.
-- Atribuição atômica: uma RPC `claim_handoff_expedicao` que, em uma única transação, marca `ai_paused`, `human_takeover_required`, `handoff_type/reason`, `assigned_user_id`, `assigned_at`, e grava o evento de auditoria — só se a conversa ainda não estiver atribuída (`assigned_user_id is null` ou reatribuição autorizada). Isso evita duas atribuições concorrentes.
-- Nova função `chat-reply-assigned`: valida sessão, confirma papel `expedicao`, confirma que a conversa é dela, e só então enfileira a resposta pela fila de envio já existente. Nada de service_role no navegador.
+Nova tabela `conversation_access_grants` (nome final a confirmar na migration):
+- conversa, membro de equipe beneficiário, motivo canônico (validado contra allowlist fechada de financeiro/rastreio), origem (NINA ou atribuição manual de admin/manager), mensagem que gerou o encaminhamento, criado em, criado por, status ativo, encerrado em, encerrado por, motivo do encerramento.
+- Índice único parcial: no máximo **uma** concessão ativa por conversa.
+- Sem INSERT/UPDATE/DELETE diretos pelo navegador para nenhum papel; só funções backend escrevem.
+- Nenhum backfill: conversas históricas atribuídas a ela continuam invisíveis, inclusive as com eventos antigos de `payment`/`invoice`. Só um encaminhamento novo, posterior à ativação, concede acesso.
+- Atribuição manual por admin/manager exige escolher um motivo autorizado e cria a mesma concessão; mudar apenas o responsável não dá acesso nenhum.
 
-Frontend:
-- `useUserRole`: `expedicao` passa a ter `['tracking', 'chat']`; home continua `/tracking`. Menu passa a exibir apenas Chat ao Vivo, Envio de rastreio e Sair (comportamento já derivado das permissões).
-- `useConversations` / `ChatInterface`: quando o papel for `expedicao`, usar as funções de leitura restrita em vez das consultas diretas às tabelas; esconder ações de excluir conversa, trocar responsável, exportar, ver memória/dados comerciais. "Finalizar atendimento" continua disponível e com o comportamento atual.
-- `App.tsx`/`RoleGate`: rota `/chat` liberada para `expedicao`; demais rotas continuam bloqueadas.
+Predicado único de visibilidade (função no banco): papel `expedicao` **e** conversa atribuída ao membro correspondente ao login atual **e** concessão ativa para essa conversa e esse membro **e** motivo dentro da allowlist.
 
-## 2. Como a NINA reconhece a intenção sem falso encaminhamento
+## 2. Revogação imediata
 
-- O roteamento continua **determinístico pelo motivo estruturado** (`[[HANDOFF:<motivo>]]`), nunca por palavra solta no texto. A regex legada não recebe os novos motivos, para não disparar por "pix" ou "rastreio" isolados.
-- Instrução no cérebro: encaminhar só quando o cliente estiver claramente tratando de pagamento/cobrança/nota/estorno ou de rastreio/entrega de um pedido já feito. Assuntos de produto, protocolo, pele, cupom, intenção de compra, agendamento, distribuidor, agradecimento e respostas curtas ("ok", "obrigada") ficam explicitamente fora.
-- Ambiguidade: a NINA faz **uma** pergunta curta de confirmação e só encaminha após resposta afirmativa.
-- Mensagem única e curta ao cliente antes do encaminhamento; depois disso a NINA não responde mais naquela conversa.
+A concessão é encerrada atomicamente, na mesma transação da ação, quando: Letícia finaliza o atendimento; admin/manager reassume; a conversa é reatribuída; o encaminhamento é cancelado; o atendimento deixa de estar ativo. No mesmo instante ela perde leitura da conversa, leitura das mensagens, permissão de resposta e as atualizações em tempo real (o canal de realtime é filtrado pelo mesmo predicado e revalidado no servidor a cada evento).
 
-## 3. Pausa e atribuição atômicas
+Nova mensagem do cliente após a finalização: a conversa reabre no fluxo normal da NINA (gatilho já existente, preservado) e **permanece invisível** para a Letícia. Ela só volta a vê-la se ocorrer um novo encaminhamento válido de financeiro ou rastreio.
 
-Tudo em uma chamada de banco: pausa da IA + atribuição à Letícia + status humano + evento de auditoria. Se outra pessoa já assumiu, a chamada não sobrescreve e o resultado indica "já atribuída". O orquestrador já respeita `ai_paused`, então nenhuma resposta automática ocorre depois.
+## 3. Sem gravação direta pelo navegador
 
-## 4. Sem resposta simultânea
+- **Nenhuma** policy de INSERT em `messages` para `expedicao`.
+- **Nenhuma** policy de UPDATE genérico em `conversations` para `expedicao`.
+- Para `expedicao` existirão apenas policies de **leitura**, todas condicionadas ao predicado do item 1 (`conversations`, `messages`, e os eventos de auditoria da própria conversa). `contacts` não recebe policy nova: os dados mínimos do contato (nome e telefone mascarado) vêm de função dedicada.
+- Responder, finalizar atendimento, alterar estado operacional permitido e registrar auditoria acontecem **exclusivamente** por funções backend autenticadas e específicas.
 
-Bloqueio por linha na conversa durante a atribuição, e a resposta da Letícia só é aceita se a conversa continuar atribuída a ela no momento do envio. Admin/manager reassumindo grava um evento de auditoria e a fila dela deixa de mostrar a conversa.
+Cada função revalida no servidor: sessão autenticada; papel `expedicao`; membro de equipe derivado do login; conversa atribuída a esse membro; concessão ainda ativa; motivo na allowlist. Falha em qualquer item → 403, sem vazar existência da conversa.
 
-## 5. Chat ao Vivo da Letícia
+Funções SECURITY DEFINER: obtêm o usuário internamente, nunca aceitam identificador de usuário ou de membro vindo do navegador, `search_path` fixo, `EXECUTE` revogado de PUBLIC e `anon`, concedido só a `authenticated`. O navegador nunca recebe chave privilegiada.
 
-Lista alimentada pela função `list_my_conversations()` — só conversas com `assigned_user_id` = membro dela. Sem busca global, sem lista de contatos, sem filtros por outros responsáveis. Realtime filtrado pela mesma condição, com revalidação no servidor.
+Funções de leitura previstas: `list_my_conversations()` (só conversas com concessão ativa; sem busca global, sem memória da NINA, sem dados comerciais) e `get_my_conversation_messages(conversation_id)`.
+Funções de escrita previstas: `reply_in_assigned_conversation`, `finish_assigned_conversation`, ambas expostas por edge function autenticada que enfileira pelo caminho de envio já existente.
 
-## 6/7. Proteção de cada consulta e bloqueio de URL/API
+## 4. Proteção contra injeção do marcador
 
-Três camadas: RLS por responsável no banco; funções security definer que filtram pelo usuário autenticado; edge function de resposta que valida sessão + papel + posse. Digitar a URL de outra conversa retorna vazio/negado, e uma chamada direta à API com o token dela não devolve linhas de outras conversas nem de tabelas administrativas. Nenhuma chave privilegiada vai para o navegador.
+- O marcador de handoff **nunca** é lido do texto bruto do cliente. Uma mensagem do cliente contendo `[[HANDOFF:payment]]` não encaminha nada: a extração passa a ocorrer só sobre a resposta gerada pelo orquestrador, e a mensagem recebida é tratada como dado inerte.
+- O motivo vem exclusivamente de um campo interno produzido pela classificação de intenção, validado contra allowlist fechada; motivo desconhecido é rejeitado e registrado.
+- O marcador é removido antes de qualquer texto chegar ao cliente.
+- A auditoria grava o motivo canônico realmente aplicado.
+- Palavras isoladas ("Pix", "pedido", "rastreio", "boleto", "pagamento") não geram encaminhamento; a regex legada não recebe os novos motivos. Em dúvida, a NINA faz **uma** pergunta curta de confirmação e só encaminha após confirmação.
 
-## 8. Histórico e auditoria
+## 5. Intenções autorizadas
 
-Cada encaminhamento e cada reassunção registram em `conversation_handoff_events`: motivo, intenção detectada, data/hora, responsável, origem (NINA/manual) e trecho da mensagem que gerou o encaminhamento. Eventos são imutáveis (sem update/delete).
+Financeiro: pagamento não identificado, pendente ou recusado, cobrança, cobrança duplicada, boleto, Pix, cartão, comprovante, nota fiscal, estorno/reembolso, dúvida financeira sobre pedido já feito.
+Rastreio/expedição: rastreio não recebido, código inválido, dificuldade de acompanhar, rastreio sem atualização, dúvida sobre Correios/Jadlog, pedido enviado sem informação, "onde está meu pedido", problema no link de rastreamento.
+Fora da lista (nunca encaminha): produto, protocolo/tratamento, pele/acne/manchas, cupom e promoção, intenção de compra, dúvida comercial, distribuidor/influenciador, agendamento, agradecimento, "ok"/reações, e qualquer assunto sem relação clara.
 
-## 9. Admin e manager
+## 6. Atomicidade e ausência de conflito
 
-Continuam com acesso total: veem, assumem, reatribuem e finalizam qualquer conversa. Nenhuma policy existente é removida ou enfraquecida.
+Uma única função transacional faz: pausa da NINA, atribuição ao membro dela, status humano, criação da concessão ativa e evento de auditoria — com bloqueio de linha na conversa e recusa se já houver atendimento humano ativo ou concessão ativa de outra pessoa. A resposta da Letícia só é aceita se, no momento do envio, a concessão continuar ativa e dela.
 
-## 10. Conversa finalizada
+## 7. Admin e manager
 
-Comportamento atual preservado: ao finalizar, a conversa é encerrada; uma nova mensagem do cliente reabre e devolve o atendimento ao fluxo normal da NINA pelo gatilho já existente.
+Continuam vendo, assumindo, reatribuindo e finalizando qualquer conversa, exatamente como hoje. Reassumir encerra a concessão da Letícia e grava auditoria. Nenhuma policy existente de admin/manager/sdr é alterada.
 
-## 11. Testes (todos em conversa de teste dedicada, nunca com cliente real)
+## 8. Auditoria
 
-Roteamento: financeiro encaminha; rastreio encaminha; produto/protocolo/cupom não encaminha; mensagem ambígua gera pergunta de confirmação; palavra isolada não encaminha.
-Fluxo: NINA pausa após o encaminhamento; nenhuma resposta automática depois da pausa; finalização e reabertura funcionam.
-Acesso: Letícia vê só as próprias conversas; acesso por URL a conversa não atribuída é negado; chamada direta de API com o token dela não retorna outras conversas, contatos, negócios, agendamentos ou configurações; ela consegue responder só na conversa atribuída; ela não troca responsável nem exclui nada; páginas administrativas continuam bloqueadas.
-Regressão: admin, manager e sdr operam como hoje; Shopify, rastreio automático, envio manual, filas e trava compartilhada intactos (contagens antes/depois).
+`conversation_handoff_events` (imutável) mais os campos da própria concessão registram: motivo canônico, intenção detectada, data/hora, responsável, origem do encaminhamento, mensagem que o gerou, e cada encerramento com motivo e autor.
+
+## 9. Frontend
+
+`useUserRole`: `expedicao` ganha a área `chat` **apenas na Fase B**; home continua `/tracking`. Menu dela: Chat ao Vivo, Envio de rastreio, Sair. `ChatInterface`/`useConversations` usam as funções restritas quando o papel for `expedicao`, sem excluir conversa, sem trocar responsável, sem exportar, sem memória da NINA nem dados comerciais. Ocultação no frontend é conveniência; a garantia está no banco e no backend.
+
+## 10. Testes obrigatórios (somente conversa e contato sintéticos; nenhum WhatsApp real sem nova autorização)
+
+Visibilidade: conversa histórica atribuída a ela permanece invisível; conversa de assunto não autorizado atribuída manualmente permanece invisível; somente um novo handoff válido de financeiro ou rastreio torna visível.
+Revogação: conversa finalizada desaparece imediatamente; conversa reassumida ou reatribuída desaparece imediatamente; nova mensagem após finalização volta à NINA e permanece invisível; novo handoff válido posterior torna visível de novo.
+Roteamento: financeiro encaminha; rastreio encaminha; produto/protocolo/cupom não encaminha; ambíguo gera pergunta de confirmação; palavra isolada não encaminha; texto do cliente com marcador falso não encaminha.
+Backend/segurança: INSERT direto em `messages` com o token dela é bloqueado; UPDATE direto em `conversations` com o token dela é bloqueado; resposta pelo backend dedicado funciona só na conversa autorizada; acesso a outra conversa por URL ou API retorna vazio ou 403; NINA pausa após o encaminhamento e não responde mais; ela continua sem acesso a contatos, pipeline, agendamentos, campanhas, templates, equipe, cérebro e configurações.
+Regressão: admin, manager e sdr operam como hoje; Shopify, rastreio automático, envio manual, templates, filas e trava compartilhada intactos (contagens antes/depois).
+
+## 11. Fases
+
+**Fase A** (esta aprovação): criar tabela de concessões, funções, policies restritas de leitura, backend autenticado e auditoria; roteamento novo **desativado** por flag; menu da Letícia **sem** Chat ao Vivo; **sem publicar**; testes só com dados sintéticos; relatório e **parada obrigatória**.
+
+**Fase B** (nova aprovação): ativar os motivos de encaminhamento, liberar Chat ao Vivo para ela, publicar, validar uma transferência controlada e reconfirmar Shopify, rastreio automático, envio manual, templates, filas, Chat ao Vivo atual e RLS v3.
 
 ## 12. Rollback imediato
 
-1. Reverter `expedicao` para apenas `tracking` no controle de acesso do frontend (efeito imediato, sem migration).
-2. Migration de reversão que remove só as policies/funções/trigger novos — as policies v3 originais não são tocadas, então o estado volta exatamente ao de hoje.
-3. Se necessário, desabilitar a função de resposta nova; o envio manual de rastreio e o fluxo da Shopify não dependem dela.
-
-## Ordem de execução proposta (após aprovação)
-
-1. Migration (funções + policies + trigger + auditoria) — revisada antes de aplicar.
-2. Motivos de handoff e RPC de atribuição atômica.
-3. Função de resposta autenticada.
-4. Frontend restrito e liberação da rota.
-5. Bateria de testes com conversa de teste; só depois publicação.
+1. Desligar a flag do roteamento novo — nenhuma concessão nova é criada.
+2. Encerrar as concessões ativas (uma instrução) — acesso da Letícia cai na hora.
+3. Remover a área `chat` do papel `expedicao` no frontend.
+4. Migration de reversão removendo apenas os objetos novos; as policies v3 não são tocadas, então o estado volta exatamente ao de hoje. Envio manual e fluxo Shopify não dependem de nada disso.
