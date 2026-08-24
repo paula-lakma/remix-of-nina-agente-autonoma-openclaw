@@ -1,4 +1,5 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+import { stripHandoffMarkers } from "../_shared/handoff.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 declare const EdgeRuntime: {
@@ -259,6 +260,9 @@ serve(async (req) => {
               console.log('[Webhook] Tipo não suportado, ignorando:', message.type);
               continue;
           }
+
+          // ANTI-INJEÇÃO: o cliente nunca pode inserir marcadores de handoff.
+          messageContent = stripHandoffMarkers(messageContent);
 
           if (messageType === 'text' && !messageContent.trim()) {
             console.log('[Webhook] Mensagem de texto vazia, ignorando:', message.id);

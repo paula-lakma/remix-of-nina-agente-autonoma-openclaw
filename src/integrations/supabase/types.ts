@@ -610,6 +610,79 @@ export type Database = {
         }
         Relationships: []
       }
+      conversation_access_grants: {
+        Row: {
+          conversation_id: string
+          created_at: string
+          created_by: string | null
+          id: string
+          is_active: boolean
+          origin: string
+          reason: string
+          revoke_reason: string | null
+          revoked_at: string | null
+          revoked_by: string | null
+          team_member_id: string
+          trigger_message_id: string | null
+          trigger_snippet: string | null
+          updated_at: string
+        }
+        Insert: {
+          conversation_id: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          is_active?: boolean
+          origin?: string
+          reason: string
+          revoke_reason?: string | null
+          revoked_at?: string | null
+          revoked_by?: string | null
+          team_member_id: string
+          trigger_message_id?: string | null
+          trigger_snippet?: string | null
+          updated_at?: string
+        }
+        Update: {
+          conversation_id?: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          is_active?: boolean
+          origin?: string
+          reason?: string
+          revoke_reason?: string | null
+          revoked_at?: string | null
+          revoked_by?: string | null
+          team_member_id?: string
+          trigger_message_id?: string | null
+          trigger_snippet?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "conversation_access_grants_conversation_id_fkey"
+            columns: ["conversation_id"]
+            isOneToOne: false
+            referencedRelation: "conversations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "conversation_access_grants_team_member_id_fkey"
+            columns: ["team_member_id"]
+            isOneToOne: false
+            referencedRelation: "team_members"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "conversation_access_grants_trigger_message_id_fkey"
+            columns: ["trigger_message_id"]
+            isOneToOne: false
+            referencedRelation: "messages"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       conversation_handoff_events: {
         Row: {
           actor_user_id: string | null
@@ -2337,6 +2410,14 @@ export type Database = {
         }
         Returns: Json
       }
+      assign_conversation_to_expedicao: {
+        Args: {
+          _conversation_id: string
+          _reason: string
+          _team_member_id: string
+        }
+        Returns: Json
+      }
       claim_message_processing_batch: {
         Args: { p_limit?: number }
         Returns: {
@@ -2414,7 +2495,34 @@ export type Database = {
       }
       cleanup_processed_message_queue: { Args: never; Returns: undefined }
       cleanup_processed_queues: { Args: never; Returns: undefined }
+      current_team_member_id: { Args: never; Returns: string }
+      expedicao_can_access_conversation: {
+        Args: { _conversation_id: string }
+        Returns: boolean
+      }
+      expedicao_finish_conversation: {
+        Args: { _conversation_id: string }
+        Returns: boolean
+      }
+      expedicao_reply: {
+        Args: { _content: string; _conversation_id: string }
+        Returns: string
+      }
       get_auth_user_id: { Args: never; Returns: string }
+      get_my_expedicao_messages: {
+        Args: { _conversation_id: string }
+        Returns: {
+          content: string
+          conversation_id: string
+          from_type: Database["public"]["Enums"]["message_from"]
+          id: string
+          media_type: string
+          media_url: string
+          sent_at: string
+          status: Database["public"]["Enums"]["message_status"]
+          type: Database["public"]["Enums"]["message_type"]
+        }[]
+      }
       get_or_create_conversation_state: {
         Args: { p_conversation_id: string }
         Returns: {
@@ -2442,8 +2550,36 @@ export type Database = {
         }
         Returns: boolean
       }
+      internal_grant_expedicao_access: {
+        Args: {
+          _conversation_id: string
+          _origin?: string
+          _reason: string
+          _team_member_id: string
+          _trigger_message_id?: string
+          _trigger_snippet?: string
+        }
+        Returns: Json
+      }
       is_admin_or_manager: { Args: { _user_id: string }; Returns: boolean }
+      is_expedicao_handoff_reason: {
+        Args: { _reason: string }
+        Returns: boolean
+      }
       is_operational_staff: { Args: { _user_id: string }; Returns: boolean }
+      list_my_expedicao_conversations: {
+        Args: never
+        Returns: {
+          attendance_finished: boolean
+          contact_name: string
+          contact_phone_masked: string
+          conversation_id: string
+          granted_at: string
+          human_status: string
+          last_message_at: string
+          reason: string
+        }[]
+      }
       normalize_tracking_code: { Args: { p_code: string }; Returns: string }
       pick_next_dermoconsultora: { Args: never; Returns: string }
       release_shopify_tracking_locks: {
@@ -2465,6 +2601,10 @@ export type Database = {
           p_tracking_key: string
         }
         Returns: Json
+      }
+      revoke_expedicao_access: {
+        Args: { _conversation_id: string; _reason?: string }
+        Returns: boolean
       }
       set_secret: {
         Args: { secret_name: string; secret_value: string }
