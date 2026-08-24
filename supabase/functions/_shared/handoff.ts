@@ -59,6 +59,32 @@ export const REASON_DESTINATIONS = {
   payment: "financeiro",
   invoice: "financeiro",
 
+  // ── Motivos canônicos NOVOS (Fase A) — financeiro detalhado ──────────────
+  // Somente estes (ver EXPEDICAO_GRANT_REASONS) podem gerar concessão de
+  // acesso da expedição ao Chat ao Vivo. `payment`/`invoice` legados NÃO.
+  payment_unidentified: "financeiro",
+  payment_pending: "financeiro",
+  payment_declined: "financeiro",
+  charge_issue: "financeiro",
+  duplicate_charge: "financeiro",
+  boleto_issue: "financeiro",
+  pix_issue: "financeiro",
+  card_issue: "financeiro",
+  payment_receipt: "financeiro",
+  invoice_request: "financeiro",
+  refund_request: "financeiro",
+  order_financial_question: "financeiro",
+
+  // ── Motivos canônicos NOVOS (Fase A) — rastreio / expedição ──────────────
+  tracking_not_received: "financeiro",
+  tracking_code_invalid: "financeiro",
+  tracking_no_update: "financeiro",
+  tracking_help: "financeiro",
+  carrier_question: "financeiro",
+  shipped_no_info: "financeiro",
+  where_is_my_order: "financeiro",
+  tracking_link_issue: "financeiro",
+
   // Dermoconsultora (técnico / sensível)
   technical_question: "dermoconsultant",
   sensitive_case: "dermoconsultant",
@@ -76,6 +102,32 @@ export const REASON_DESTINATIONS = {
 } as const satisfies Record<string, HandoffDestination>;
 
 export type HandoffReason = keyof typeof REASON_DESTINATIONS;
+
+/**
+ * Allowlist FECHADA de motivos que concedem acesso da expedição ao Chat ao Vivo.
+ * Espelha `public.is_expedicao_handoff_reason` no banco. Motivos legados
+ * (`payment`, `invoice`) e qualquer outro NÃO concedem acesso.
+ */
+export const EXPEDICAO_GRANT_REASONS: ReadonlySet<string> = new Set([
+  "payment_unidentified", "payment_pending", "payment_declined", "charge_issue",
+  "duplicate_charge", "boleto_issue", "pix_issue", "card_issue", "payment_receipt",
+  "invoice_request", "refund_request", "order_financial_question",
+  "tracking_not_received", "tracking_code_invalid", "tracking_no_update",
+  "tracking_help", "carrier_question", "shipped_no_info", "where_is_my_order",
+  "tracking_link_issue",
+]);
+
+export function isExpedicaoGrantReason(reason: string | null | undefined): boolean {
+  return !!reason && EXPEDICAO_GRANT_REASONS.has(String(reason).trim().toLowerCase());
+}
+
+/**
+ * Remove marcadores `[[HANDOFF:...]]` de QUALQUER texto vindo do cliente.
+ * Defesa contra injeção: o cliente nunca pode induzir um encaminhamento.
+ */
+export function stripHandoffMarkers(text: string | null | undefined): string {
+  return String(text ?? "").replace(/\[\[\s*HANDOFF\s*:[^\]]*\]\]/gi, "").trim();
+}
 
 /** Motivos legados (pt-BR, vindos da regex antiga) -> motivo canônico. */
 const REASON_ALIASES: Record<string, HandoffReason> = {
