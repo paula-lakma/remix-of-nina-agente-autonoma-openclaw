@@ -22,6 +22,7 @@ import {
 } from "../_shared/panel.ts";
 import {
   applyHandoff,
+  isExpedicaoGrantReason,
   detectHandoffTarget,
   extractHandoffMarker,
   isOutsideDermoHours,
@@ -337,7 +338,7 @@ Deno.serve(async (req: Request) => {
           ? isOutsideDermoHours()
           : { outsideHours: false, weekday: "", hour: 0 };
 
-      await applyHandoff(supabase, {
+      const handoffResult = await applyHandoff(supabase, {
         conversationId: conversation.id,
         contactId: conversation.contact_id,
         destination: target.destination,
@@ -352,6 +353,36 @@ Deno.serve(async (req: Request) => {
             : {}),
         },
       });
+
+      // ── FASE A (desativada por padrão) ───────────────────────────────────
+      // Concessão controlada de acesso da expedição ao Chat ao Vivo.
+      // Só ocorre com a flag EXPEDICAO_CHAT_HANDOFF_ENABLED=true, motivo
+      // ESTRUTURADO (nunca regex) e dentro da allowlist fechada.
+      try {
+        const grantEnabled = (Deno.env.get("EXPEDICAO_CHAT_HANDOFF_ENABLED") ?? "false") === "true";
+        if (
+          grantEnabled &&
+          source === "structured" &&
+          isExpedicaoGrantReason(target.reason) &&
+          handoffResult.team_member_id
+        ) {
+          const { data: grant, error: grantErr } = await supabase.rpc(
+            "internal_grant_expedicao_access",
+            {
+              _conversation_id: conversation.id,
+              _team_member_id: handoffResult.team_member_id,
+              _reason: target.reason,
+              _origin: "nina",
+              _trigger_message_id: null,
+              _trigger_snippet: cleaned || content,
+            },
+          );
+          if (grantErr) console.error("[nina-reply] grant expedicao error:", grantErr);
+          else console.log("[nina-reply] grant expedicao:", JSON.stringify(grant));
+        }
+      } catch (ge) {
+        console.error("[nina-reply] grant expedicao exception:", ge);
+      }
     }
   } catch (e) {
     console.error("[nina-reply] handoff resolution error:", e);
