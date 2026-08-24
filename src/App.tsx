@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate, Outlet } from 'react-router-dom';
 import Sidebar from './components/Sidebar';
 import Dashboard from './components/Dashboard';
-import ChatInterface from './components/ChatInterface';
+import ChatRouteSwitch from './components/ChatRouteSwitch';
 import Contacts from './components/Contacts';
 import Settings from './components/Settings';
 import Team from './components/Team';
