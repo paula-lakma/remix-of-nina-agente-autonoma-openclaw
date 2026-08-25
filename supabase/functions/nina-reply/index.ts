@@ -326,8 +326,7 @@ Deno.serve(async (req: Request) => {
 
         target =
           detectHandoffTarget(content) ??
-          detectHandoffTarget(leadText) ??
-          { reason: "sensitive_case", destination: "dermoconsultant" as const };
+          detectHandoffTarget(leadText);
         source = "regex_fallback";
       }
     }

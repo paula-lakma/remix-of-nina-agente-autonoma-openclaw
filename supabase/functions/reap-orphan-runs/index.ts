@@ -19,6 +19,7 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import { corsHeaders, errorResponse, validatePanelToken } from "../_shared/panel.ts";
 import { generateLovableReply } from "../_shared/lovable_reply.ts";
+import { TRACKING_HANDOFF_PROMPT } from "../_shared/handoff.ts";
 
 const ORPHAN_MIN_AGE_MS = 5 * 60 * 1000;   // tem que ter > 5min (margem: latência openclaw observada ~30-100s; evita preemptar resposta boa com fallback)
 const ORPHAN_MAX_AGE_MS = 30 * 60 * 1000;  // janela: não reapar > 30min
@@ -148,7 +149,8 @@ Deno.serve(async (req: Request) => {
       .reverse()
       .map((r: any) => ({ role: r.from_type === "user" ? "user" as const : "assistant" as const, content: r.content || "[media]" }));
 
-    const systemPrompt = (settings?.system_prompt_override || "").trim() || FALLBACK_SYSTEM_PROMPT;
+    const baseSystemPrompt = (settings?.system_prompt_override || "").trim() || FALLBACK_SYSTEM_PROMPT;
+    const systemPrompt = `${baseSystemPrompt}\n\n${TRACKING_HANDOFF_PROMPT}`;
     const content = await generateLovableReply({ systemPrompt, history, settings });
     if (!content) {
       console.warn(`[reaper] geração falhou p/ msg ${m.id} — deixa pro próximo ciclo (dentro da janela)`);
