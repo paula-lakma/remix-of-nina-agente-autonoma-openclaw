@@ -1,32 +1,28 @@
-# Confirmação da flag EXPEDICAO_CHAT_HANDOFF_ENABLED
+# Regravar EXPEDICAO_CHAT_HANDOFF_ENABLED como `true`
 
-## O que já está confirmado (sem alterações)
+Objetivo: eliminar a incerteza sobre o valor atual da flag sem adicionar código de diagnóstico.
 
-- **RPC `apply_expedicao_handoff` resolve exatamente 1 responsável**: Leticia, `financeiro@lakma.com.br`, papel `expedicao`, membro ativo, função Financeiro, `team_member_id 22222222-0000-4000-a000-000000000004`. Sem ambiguidade.
-- A secret `EXPEDICAO_CHAT_HANDOFF_ENABLED` **existe** no ambiente de produção, mas o valor é criptografado e nenhuma ferramenta de leitura o expõe.
-- Não há evento `handoff_financeiro` registrado até agora e há 0 concessões ativas, então não existe evidência indireta do valor da flag.
+## O que será alterado (exatamente isto)
 
-## Limitação a resolver
+| Item | Valor atual | Valor após |
+| --- | --- | --- |
+| Secret `EXPEDICAO_CHAT_HANDOFF_ENABLED` | existe, valor não legível | `true` (string literal, minúsculas, sem espaços) |
 
-A função `nina-reply` lê a flag em tempo de execução, mas **não registra o valor em log hoje**. Portanto um diagnóstico read-only só é possível adicionando temporariamente uma linha de log booleana.
+Nada mais.
 
-## Diagnóstico proposto (temporário e reversível)
+## O que NÃO será alterado
 
-1. Adicionar em `supabase/functions/nina-reply/index.ts` um ramo de diagnóstico acionado apenas por `{"diagnostic": true}` com `X-Panel-Token` válido, que:
-   - responde `{ expedicao_chat_handoff_enabled: true|false }`;
-   - **retorna antes** de qualquer leitura de conversa, insert em `send_queue`, RPC de handoff ou disparo do sender;
-   - não expõe nenhum valor de secret, apenas o booleano derivado.
-2. Publicar somente essa função.
-3. Invocar o endpoint de diagnóstico uma vez e ler o resultado/log.
-4. **Reverter a linha de diagnóstico** e republicar `nina-reply` no estado atual.
+- Nenhuma outra secret (`MANUAL_TRACKING_SEND_ENABLED`, `SHOPIFY_SHARED_TRACKING_LOCK_ENABLED`, `SHOPIFY_WEBHOOK_SECRET`, chaves de backend etc.) permanece intocada.
+- Nenhum arquivo de código, migration, RPC ou política RLS.
+- Nenhuma publicação de frontend.
+- Fluxo Shopify → WhatsApp preservado integralmente: essa flag é lida apenas pelo caminho de handoff da `nina-reply`; o webhook Shopify e o sender de rastreio não a consultam.
 
-## Garantias
+## Efeito colateral técnico esperado
 
-- Nenhuma mensagem é enfileirada ou enviada ao WhatsApp.
-- Nenhuma conversa, concessão, atribuição ou evento é criado ou alterado.
-- Nenhuma secret é alterada; o valor bruto nunca é logado.
-- O fluxo Shopify → WhatsApp permanece intocado.
+Regravar uma secret provoca redeploy automático das edge functions com o novo ambiente. O código-fonte das funções continua idêntico ao que já está em produção (nada novo é publicado); apenas o ambiente é recarregado. Durante alguns segundos as funções podem responder com cold start.
 
-## Alternativa sem tocar em código
+## Verificação após a execução
 
-Se preferir zero alteração em `nina-reply`, a opção equivalente é **regravar a secret explicitamente como `true`** (idempotente, sem deploy de código), aceitando que o valor anterior permanece desconhecido.
+1. Confirmar que a secret consta na lista de secrets do projeto.
+2. Confirmar por consulta ao banco que `apply_expedicao_handoff` continua resolvendo exatamente um membro ativo: Leticia (`financeiro@lakma.com.br`, papel `expedicao`).
+3. Nenhum teste real de mensagem será disparado nesta etapa — validação em produção fica para uma etapa posterior, sob sua autorização.
