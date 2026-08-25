@@ -2410,6 +2410,17 @@ export type Database = {
         }
         Returns: Json
       }
+      apply_expedicao_handoff: {
+        Args: {
+          _conversation_id: string
+          _origin?: string
+          _reason: string
+          _run_id?: string
+          _trigger_message_id?: string
+          _trigger_snippet?: string
+        }
+        Returns: Json
+      }
       assign_conversation_to_expedicao: {
         Args: {
           _conversation_id: string

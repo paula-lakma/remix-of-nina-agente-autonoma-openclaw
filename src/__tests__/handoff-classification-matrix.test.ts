@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   detectHandoffTarget,
   extractHandoffMarker,
+  isConfirmedHandoffResponse,
   isExpedicaoGrantReason,
   resolveHandoffReason,
   stripHandoffMarkers,
@@ -32,6 +33,20 @@ describe("classificação sintética de rastreio e entrega", () => {
 });
 
 describe("fronteiras do handoff", () => {
+  it.each([
+    "Já encaminhei o seu caso para o nosso time de atendimento.",
+    "Vou encaminhar seu atendimento agora.",
+  ])("reconhece confirmação inequívoca: %s", (text) => {
+    expect(isConfirmedHandoffResponse(text)).toBe(true);
+  });
+
+  it.each([
+    "Você quer que eu encaminhe seu atendimento?",
+    "Deseja aguardar para eu encaminhar?",
+  ])("não trata pergunta como confirmação: %s", (text) => {
+    expect(isConfirmedHandoffResponse(text)).toBe(false);
+  });
+
   it.each([
     ["Estou gestante, posso usar esse ácido?", "pregnancy_breastfeeding"],
     ["Tive alergia e inchaço com o produto", "allergy"],

@@ -25,6 +25,7 @@ import {
   isExpedicaoGrantReason,
   detectHandoffTarget,
   extractHandoffMarker,
+  isConfirmedHandoffResponse,
   isOutsideDermoHours,
   resolveHandoffReason,
 } from "../_shared/handoff.ts";
@@ -311,10 +312,7 @@ Deno.serve(async (req: Request) => {
 
     if (!target) {
       // ⚠️ FALLBACK LEGADO — só quando não houve motivo estruturado.
-      const confirmedHandoffRegex = /\bvou\s+(deixar|encaminhar|passar)\b|deixar.{0,15}encaminhad[oa]|encaminhar (sua |seu )?(d[úu]vida|caso|atendimento|solicita[çc][ãa]o)|vou\s+chamar\s+(a|o)\s+respons[áa]vel/i;
-      const askingOnlyRegex = /(voc[êe] (quer|prefere)|deseja).{0,80}(encaminhar|deixar.{0,15}encaminhad|aguardar)/i;
-
-      if (confirmedHandoffRegex.test(content) && !askingOnlyRegex.test(content)) {
+      if (isConfirmedHandoffResponse(content)) {
         let leadText = "";
         try {
           const { data: lastMsg } = await supabase
@@ -324,9 +322,9 @@ Deno.serve(async (req: Request) => {
           leadText = lastMsg?.content ?? "";
         } catch (_e) { /* ignore */ }
 
-        target =
-          detectHandoffTarget(content) ??
-          detectHandoffTarget(leadText);
+        // A intenção pertence à mensagem original do cliente. O texto da Nina
+        // apenas confirma que o encaminhamento foi efetivamente comunicado.
+        target = detectHandoffTarget(leadText);
         source = "regex_fallback";
       }
     }
@@ -337,50 +335,45 @@ Deno.serve(async (req: Request) => {
           ? isOutsideDermoHours()
           : { outsideHours: false, weekday: "", hour: 0 };
 
-      const handoffResult = await applyHandoff(supabase, {
-        conversationId: conversation.id,
-        contactId: conversation.contact_id,
-        destination: target.destination,
-        reason: target.reason,
-        runId: runId ?? null,
-        snippet: content,
-        outsideHours,
-        extraMetadata: {
-          reason_source: source,
-          ...(target.destination === "dermoconsultant"
-            ? { tz: "America/Sao_Paulo", weekday, hour }
-            : {}),
-        },
-      });
-
-      // ── FASE A (desativada por padrão) ───────────────────────────────────
-      // Concessão controlada de acesso da expedição ao Chat ao Vivo.
-      // Só ocorre com a flag EXPEDICAO_CHAT_HANDOFF_ENABLED=true, motivo
-      // ESTRUTURADO (nunca regex) e dentro da allowlist fechada.
-      try {
-        const grantEnabled = (Deno.env.get("EXPEDICAO_CHAT_HANDOFF_ENABLED") ?? "false") === "true";
-        if (
-          grantEnabled &&
-          source === "structured" &&
-          isExpedicaoGrantReason(target.reason) &&
-          handoffResult.team_member_id
-        ) {
-          const { data: grant, error: grantErr } = await supabase.rpc(
-            "internal_grant_expedicao_access",
-            {
-              _conversation_id: conversation.id,
-              _team_member_id: handoffResult.team_member_id,
-              _reason: target.reason,
-              _origin: "nina",
-              _trigger_message_id: null,
-              _trigger_snippet: cleaned || content,
-            },
-          );
-          if (grantErr) console.error("[nina-reply] grant expedicao error:", grantErr);
-          else console.log("[nina-reply] grant expedicao:", JSON.stringify(grant));
-        }
-      } catch (ge) {
-        console.error("[nina-reply] grant expedicao exception:", ge);
+      const grantEnabled = (Deno.env.get("EXPEDICAO_CHAT_HANDOFF_ENABLED") ?? "false") === "true";
+      if (
+        grantEnabled &&
+        target.destination === "financeiro" &&
+        isExpedicaoGrantReason(target.reason)
+      ) {
+        // Pausa, atribuição, evento e concessão são atômicos. A RPC também
+        // resolve e valida a Letícia no servidor; nenhum ID vem do cliente.
+        const { data: handoff, error: handoffErr } = await supabase.rpc(
+          "apply_expedicao_handoff",
+          {
+            _conversation_id: conversation.id,
+            _reason: target.reason,
+            _origin: source,
+            _run_id: runId ?? null,
+            _trigger_message_id: null,
+            _trigger_snippet: cleaned || content,
+          },
+        );
+        if (handoffErr) throw handoffErr;
+        console.log("[nina-reply] handoff expedicao:", JSON.stringify(handoff));
+      } else {
+        // Destinos não-expedição e instalações com a liberação desligada
+        // preservam exatamente o fluxo já existente.
+        await applyHandoff(supabase, {
+          conversationId: conversation.id,
+          contactId: conversation.contact_id,
+          destination: target.destination,
+          reason: target.reason,
+          runId: runId ?? null,
+          snippet: content,
+          outsideHours,
+          extraMetadata: {
+            reason_source: source,
+            ...(target.destination === "dermoconsultant"
+              ? { tz: "America/Sao_Paulo", weekday, hour }
+              : {}),
+          },
+        });
       }
     }
   } catch (e) {
