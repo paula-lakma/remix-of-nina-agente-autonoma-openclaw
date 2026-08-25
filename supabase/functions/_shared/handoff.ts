@@ -104,6 +104,29 @@ export const REASON_DESTINATIONS = {
 export type HandoffReason = keyof typeof REASON_DESTINATIONS;
 
 /**
+ * Regras operacionais anexadas ao prompt em todos os caminhos de resposta.
+ * Mantidas junto da matriz canônica para o agente e o fallback não divergirem.
+ */
+export const TRACKING_HANDOFF_PROMPT = `
+<tracking_handoff>
+Casos claramente relacionados a pedido já enviado, entrega ou rastreio devem ser encaminhados para a expedição usando exatamente um motivo estruturado aprovado:
+- pedido atrasado, não chegou ou "onde está meu pedido" -> where_is_my_order
+- rastreio parado ou sem atualização -> tracking_no_update
+- código de rastreio não recebido -> tracking_not_received
+- código de rastreio inválido -> tracking_code_invalid
+- link de rastreio com erro -> tracking_link_issue
+- pedido enviado sem informação de acompanhamento -> shipped_no_info
+- dúvida sobre transportadora -> carrier_question
+
+Ao confirmar o encaminhamento, inclua no retorno interno [[HANDOFF:<motivo>]]. O marcador não é texto para o cliente.
+Não classifique esses casos como sensitive_case e não os encaminhe para dermoconsultora.
+
+Casos de pele, lesão, sensibilidade, alergia, reação, gestação/lactação, medicamento, procedimento recente, contraindicação, protocolo ou orientação dermatológica continuam seguindo exclusivamente as regras da dermoconsultora.
+
+Se a mensagem for ambígua, como "problema no pedido", "ajuda com uma compra" ou "falar com alguém sobre um produto", faça uma pergunta curta para distinguir entrega/rastreio, pagamento ou orientação de produto. Não prometa encaminhamento, não inclua marcador e não pause a conversa antes da confirmação.
+</tracking_handoff>`;
+
+/**
  * Allowlist FECHADA de motivos que concedem acesso da expedição ao Chat ao Vivo.
  * Espelha `public.is_expedicao_handoff_reason` no banco. Motivos legados
  * (`payment`, `invoice`) e qualquer outro NÃO concedem acesso.
@@ -200,6 +223,15 @@ export function extractHandoffMarker(text: string): {
  * só é consultada quando nenhum `handoff_reason` estruturado foi informado.
  */
 const REASON_MATRIX: Array<{ reason: string; destination: HandoffDestination; rx: RegExp }> = [
+  // ── Leticia (rastreio / expedição) — antes das regras genéricas ───────────
+  { reason: "tracking_no_update", destination: "financeiro", rx: /rastre(?:io|amento).{0,35}(n[ãa]o atualiza|sem atualiza[çc][ãa]o|parad[oa]|n[ãa]o muda)/i },
+  { reason: "tracking_not_received", destination: "financeiro", rx: /(n[ãa]o recebi|sem).{0,25}c[óo]digo.{0,15}(de )?rastreio|c[óo]digo.{0,15}(de )?rastreio.{0,25}n[ãa]o (chegou|recebi)/i },
+  { reason: "tracking_code_invalid", destination: "financeiro", rx: /c[óo]digo.{0,15}(de )?rastreio.{0,30}(inv[áa]lid|n[ãa]o funciona|erro)/i },
+  { reason: "tracking_link_issue", destination: "financeiro", rx: /link.{0,20}(de )?rastreio.{0,30}(n[ãa]o abre|n[ãa]o funciona|erro)|rastreio.{0,20}link.{0,20}(inv[áa]lid|quebrad|erro)/i },
+  { reason: "carrier_question", destination: "financeiro", rx: /qual (a )?transportadora|transportadora.{0,30}(meu pedido|minha entrega)|correios|jadlog/i },
+  { reason: "shipped_no_info", destination: "financeiro", rx: /(pedido|compra).{0,25}(enviad|despachad).{0,35}(sem informa[çc][ãa]o|sem rastreio|n[ãa]o recebi)|n[ãa]o recebi.{0,25}(informa[çc][ãa]o|rastreio).{0,25}(pedido|compra)/i },
+  { reason: "where_is_my_order", destination: "financeiro", rx: /onde (est[áa]|t[áa]).{0,20}(meu )?pedido|(pedido|entrega).{0,35}(atrasad|n[ãa]o chegou|n[ãa]o foi entregue)|atraso.{0,20}(pedido|entrega)/i },
+
   // ── Paula Rodrigues (comercial / SAC / logística) ────────────────────────
   { reason: "estoque", destination: "comercial", rx: /\bestoque\b|sem estoque|indispon[íi]vel/i },
   { reason: "troca", destination: "comercial", rx: /\btroca(r)?\b/i },
@@ -233,7 +265,7 @@ const REASON_MATRIX: Array<{ reason: string; destination: HandoffDestination; rx
   { reason: "pele_sensibilizada", destination: "dermoconsultant", rx: /sensibiliz|sens[íi]vel|lesionad/i },
   { reason: "contraindicacao", destination: "dermoconsultant", rx: /contraindic|contra-indic/i },
   { reason: "medicamento_dermatologico", destination: "dermoconsultant", rx: /medicament|roacutan|isotretino[íi]na|tratamento dermatol[óo]gico|dermatologista/i },
-  { reason: "procedimento_recente", destination: "dermoconsultant", rx: /procedimento recente|fez (peeling|laser|microagulhamento)|p[óo]s[- ]procedimento/i },
+  { reason: "procedimento_recente", destination: "dermoconsultant", rx: /procedimento recente|f(?:ez|iz) (peeling|laser|microagulhamento)|p[óo]s[- ]procedimento/i },
   { reason: "adaptacao_protocolo", destination: "dermoconsultant", rx: /adapta[çc][ãa]o.{0,15}protocolo|trocar.{0,10}produto.{0,10}protocolo/i },
   { reason: "duvida_tecnica", destination: "dermoconsultant", rx: /d[úu]vida t[ée]cnica|avalia[çc][ãa]o (t[ée]cnica|humana)|t[ée]cnic/i },
   { reason: "protocolo_nao_aprovado", destination: "dermoconsultant", rx: /protocolo n[ãa]o aprovado|protocolo n[ãa]o cadastr/i },

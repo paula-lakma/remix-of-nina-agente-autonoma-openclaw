@@ -6,6 +6,7 @@ import {
   rescheduleAppointmentFromAI,
   cancelAppointmentFromAI,
 } from "../_shared/appointments.ts";
+import { TRACKING_HANDOFF_PROMPT } from "../_shared/handoff.ts";
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -510,7 +511,10 @@ async function processQueueItem(
   );
 
   // Process template variables ({{ data_hora }}, {{ dia_semana }}, etc.)
-  const processedPrompt = processPromptTemplate(enhancedSystemPrompt, conversation.contact);
+  const processedPrompt = processPromptTemplate(
+    `${enhancedSystemPrompt}\n\n${TRACKING_HANDOFF_PROMPT}`,
+    conversation.contact,
+  );
 
   // ── F3c: modo openclaw ASSÍNCRONO via /hooks/agent (padrão Marcos) ──────────
   // Quando brain_provider='openclaw', a Nina "pensa" na VPS OpenClaw do owner.
