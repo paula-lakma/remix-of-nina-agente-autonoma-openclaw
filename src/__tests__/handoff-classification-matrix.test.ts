@@ -36,6 +36,9 @@ describe("fronteiras do handoff", () => {
   it.each([
     "Já encaminhei o seu caso para o nosso time de atendimento.",
     "Vou encaminhar seu atendimento agora.",
+    "Seu caso de pedido atrasado já foi encaminhado para o nosso time de atendimento.",
+    "Seu caso foi encaminhado.",
+    "Foi encaminhado para o time responsável.",
   ])("reconhece confirmação inequívoca: %s", (text) => {
     expect(isConfirmedHandoffResponse(text)).toBe(true);
   });
@@ -43,9 +46,13 @@ describe("fronteiras do handoff", () => {
   it.each([
     "Você quer que eu encaminhe seu atendimento?",
     "Deseja aguardar para eu encaminhar?",
+    "Quer que eu encaminhe?",
+    "Posso encaminhar?",
+    "Deseja que eu encaminhe seu caso?",
   ])("não trata pergunta como confirmação: %s", (text) => {
     expect(isConfirmedHandoffResponse(text)).toBe(false);
   });
+
 
   it.each([
     ["Estou gestante, posso usar esse ácido?", "pregnancy_breastfeeding"],
