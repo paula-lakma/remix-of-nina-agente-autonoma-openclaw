@@ -265,7 +265,7 @@ const REASON_MATRIX: Array<{ reason: string; destination: HandoffDestination; rx
   { reason: "pele_sensibilizada", destination: "dermoconsultant", rx: /sensibiliz|sens[íi]vel|lesionad/i },
   { reason: "contraindicacao", destination: "dermoconsultant", rx: /contraindic|contra-indic/i },
   { reason: "medicamento_dermatologico", destination: "dermoconsultant", rx: /medicament|roacutan|isotretino[íi]na|tratamento dermatol[óo]gico|dermatologista/i },
-  { reason: "procedimento_recente", destination: "dermoconsultant", rx: /procedimento recente|fez (peeling|laser|microagulhamento)|p[óo]s[- ]procedimento/i },
+  { reason: "procedimento_recente", destination: "dermoconsultant", rx: /procedimento recente|f(?:ez|iz) (peeling|laser|microagulhamento)|p[óo]s[- ]procedimento/i },
   { reason: "adaptacao_protocolo", destination: "dermoconsultant", rx: /adapta[çc][ãa]o.{0,15}protocolo|trocar.{0,10}produto.{0,10}protocolo/i },
   { reason: "duvida_tecnica", destination: "dermoconsultant", rx: /d[úu]vida t[ée]cnica|avalia[çc][ãa]o (t[ée]cnica|humana)|t[ée]cnic/i },
   { reason: "protocolo_nao_aprovado", destination: "dermoconsultant", rx: /protocolo n[ãa]o aprovado|protocolo n[ãa]o cadastr/i },
