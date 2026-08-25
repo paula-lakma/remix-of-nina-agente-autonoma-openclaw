@@ -29,6 +29,10 @@ disponibilidade para investir, problema claro que IA pode resolver.
   `bash skills/nina/scripts/nina_reply.sh --conversation "<conversation_id>" --run "<run_id>" --status sent --content "<texto>"`
 - **Agendar/reagendar/cancelar:** chame `scripts/agendar.sh` ANTES de confirmar; só
   confirme ao lead após `ok:true`. Para o lead, a confirmação sai via `nina_reply.sh`.
+- **Encaminhamento humano:** quando confirmar o encaminhamento, acrescente
+  `--handoff-reason "<motivo_canônico>"` à chamada de `nina_reply.sh`. Pedido
+  atrasado/que não chegou usa `where_is_my_order`; rastreio parado usa
+  `tracking_no_update`. Em caso ambíguo, pergunte antes e não envie motivo.
 
 ## Exemplos
 

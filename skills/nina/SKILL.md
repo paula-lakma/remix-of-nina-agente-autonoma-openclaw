@@ -57,6 +57,12 @@ conversa. Extraia e use:
    Só confirme o agendamento ao lead (via `nina_reply.sh`) após `ok:true`. Em
    `time_conflict`/`date_in_past`/`no_appointment_found`, ofereça alternativa —
    nunca exponha o erro técnico.
+4. **Se confirmar um encaminhamento humano**, passe também o motivo canônico:
+   `--handoff-reason "<motivo>"`. Para pedido atrasado use
+   `where_is_my_order`; rastreio sem atualização, `tracking_no_update`;
+   código não recebido, `tracking_not_received`; código inválido,
+   `tracking_code_invalid`. Não use motivo de rastreio para dúvidas de pele,
+   lesão, sensibilidade, produtos ou orientação dermatológica.
 
 ## Scripts da skill
 

@@ -10,13 +10,14 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "$SCRIPT_DIR/_shared.sh"
 
-CONVERSATION_ID=""; RUN_ID=""; STATUS="sent"; CONTENT=""
+CONVERSATION_ID=""; RUN_ID=""; STATUS="sent"; CONTENT=""; HANDOFF_REASON=""
 while [[ $# -gt 0 ]]; do
     case "$1" in
         --conversation|--conversation-id) CONVERSATION_ID="$2"; shift 2;;
         --run|--run-id)                   RUN_ID="$2"; shift 2;;
         --status)                         STATUS="$2"; shift 2;;
         --content)                        CONTENT="$2"; shift 2;;
+        --handoff-reason)                 HANDOFF_REASON="$2"; shift 2;;
         *) echo "arg desconhecido: $1" >&2; exit 2;;
     esac
 done
@@ -25,14 +26,15 @@ done
 [[ -z "$CONVERSATION_ID" ]] && { echo '{"error":"missing_conversation_id"}'; exit 2; }
 [[ "$STATUS" != "error" ]] && STATUS="sent"
 
-BODY=$(python3 - "$CONVERSATION_ID" "$RUN_ID" "$STATUS" "$CONTENT" <<'PY'
+BODY=$(python3 - "$CONVERSATION_ID" "$RUN_ID" "$STATUS" "$CONTENT" "$HANDOFF_REASON" <<'PY'
 import json, sys
-_, conv, run, status, content = sys.argv
+_, conv, run, status, content, handoff_reason = sys.argv
 print(json.dumps({
     "conversation_id": conv,
     "run_id": run or None,
     "content": content,
     "status": status,
+    "handoff_reason": handoff_reason or None,
 }))
 PY
 )

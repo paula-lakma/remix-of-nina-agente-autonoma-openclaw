@@ -286,6 +286,17 @@ export function detectHandoffTarget(
 }
 
 /**
+ * Confirma que a resposta do agente declarou um encaminhamento já realizado.
+ * Perguntas/ofertas de encaminhamento não autorizam o fallback sobre a mensagem
+ * do cliente. O caminho estruturado não depende desta heurística.
+ */
+export function isConfirmedHandoffResponse(text: string): boolean {
+  const confirmed = /\b(?:vou\s+(?:deixar|encaminhar|passar)\b|j[áa]\s+(?:deixei|encaminhei|passei)\b)|deixar.{0,15}encaminhad[oa]|encaminhar (?:sua |seu )?(?:d[úu]vida|caso|atendimento|solicita[çc][ãa]o)|vou\s+chamar\s+(?:a|o)\s+respons[áa]vel/i;
+  const askingOnly = /(?:voc[êe] (?:quer|prefere)|deseja).{0,80}(?:encaminhar|deixar.{0,15}encaminhad|aguardar)/i;
+  return confirmed.test(text) && !askingOnly.test(text);
+}
+
+/**
  * Resolve o team_member responsável pelo destino.
  * - dermoconsultant: usa public.pick_next_dermoconsultora() (round-robin por carga).
  * - demais: busca por e-mail em team_members ativos.

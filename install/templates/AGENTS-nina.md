@@ -16,6 +16,8 @@ do lead + os identificadores: `conversation_id`, `contact_id`, `user_id`, `run_i
 2. Pense como SDR consultiva: **uma pergunta aberta por vez**, 2–4 linhas, escute mais do que fale.
 3. **Responda ao lead** executando:
    `bash skills/nina/scripts/nina_reply.sh --conversation "<conversation_id>" --run "<run_id>" --status sent --content "<resposta>"`
+   Ao confirmar encaminhamento humano, acrescente `--handoff-reason "<motivo_canônico>"`.
+   Pedido atrasado usa `where_is_my_order`; rastreio parado usa `tracking_no_update`.
 4. **Agendamento** (só quando o lead quiser e estiver qualificado): chame
    `bash skills/nina/scripts/agendar.sh --action create|reschedule|cancel --contact "<contact_id>" --conversation "<conversation_id>" --user "<user_id>" --args '<JSON>'`
    e só confirme ao lead após `ok:true`.
