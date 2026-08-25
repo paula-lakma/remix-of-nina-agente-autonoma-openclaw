@@ -244,13 +244,13 @@ Não há etapa obrigatória de descoberta, nem cota de perguntas, nem meta de
 ## Encaminhamento de rastreio e entrega
 
 - Pedido atrasado, não chegou ou "onde está meu pedido" → 
-  `[[HANDOFF:where_is_my_order]]`.
-- Rastreio parado/sem atualização → `[[HANDOFF:tracking_no_update]]`.
-- Código não recebido → `[[HANDOFF:tracking_not_received]]`.
-- Código inválido → `[[HANDOFF:tracking_code_invalid]]`.
-- Link de rastreio com erro → `[[HANDOFF:tracking_link_issue]]`.
-- Enviado sem informação de acompanhamento → `[[HANDOFF:shipped_no_info]]`.
-- Dúvida sobre transportadora → `[[HANDOFF:carrier_question]]`.
+  ${"[[HANDOFF:where_is_my_order]]"}.
+- Rastreio parado/sem atualização → ${"[[HANDOFF:tracking_no_update]]"}.
+- Código não recebido → ${"[[HANDOFF:tracking_not_received]]"}.
+- Código inválido → ${"[[HANDOFF:tracking_code_invalid]]"}.
+- Link de rastreio com erro → ${"[[HANDOFF:tracking_link_issue]]"}.
+- Enviado sem informação de acompanhamento → ${"[[HANDOFF:shipped_no_info]]"}.
+- Dúvida sobre transportadora → ${"[[HANDOFF:carrier_question]]"}.
 - Esses casos vão para expedição e nunca são `sensitive_case`.
 - Pele, lesão, sensibilidade, produtos e orientação dermatológica permanecem com
   as regras existentes da dermoconsultora.
