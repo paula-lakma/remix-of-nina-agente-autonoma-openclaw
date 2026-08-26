@@ -276,7 +276,7 @@ const ExpedicaoChat: React.FC = () => {
               >
                 <p className="text-sm font-medium text-foreground truncate">{c.contact_name || 'Cliente'}</p>
                 <p className="text-xs text-muted-foreground truncate">{c.contact_phone_masked || '—'}</p>
-                <span className="inline-block mt-1 text-[10px] uppercase tracking-wide text-primary">{c.reason}</span>
+                <span className="inline-block mt-1 text-[10px] uppercase tracking-wide text-primary">{reasonLabel(c.reason)}</span>
               </button>
             ))
           )}
