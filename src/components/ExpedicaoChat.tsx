@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { Loader2, MessageSquare, RefreshCw, CheckCircle2, Send } from 'lucide-react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { Loader2, MessageSquare, RefreshCw, CheckCircle2, Send, Bot, User, Headset, ChevronDown, ChevronRight, Info } from 'lucide-react';
 import { toast } from 'sonner';
 import { supabase } from '@/integrations/supabase/client';
 
@@ -17,6 +17,9 @@ interface ExpedicaoConversation {
   last_message_at: string | null;
   human_status: string | null;
   attendance_finished: boolean | null;
+  handoff_at: string | null;
+  trigger_message_id: string | null;
+  trigger_snippet: string | null;
 }
 
 interface ExpedicaoMessage {
@@ -28,6 +31,42 @@ interface ExpedicaoMessage {
   media_type: string | null;
   sent_at: string;
 }
+
+// Motivos amigáveis (leitura apenas — não altera classificação nem allowlist)
+const REASON_LABELS: Record<string, string> = {
+  where_is_my_order: 'Onde está meu pedido',
+  tracking_not_received: 'Pedido atrasado / rastreio',
+  tracking_no_update: 'Pedido enviado sem atualização',
+  tracking_code_invalid: 'Código de rastreio inválido',
+  tracking_help: 'Ajuda com rastreio',
+  tracking_link_issue: 'Problema no link de rastreio',
+  carrier_question: 'Transportadora',
+  shipped_no_info: 'Pedido enviado sem atualização',
+  payment_unidentified: 'Pagamento não identificado',
+  payment_pending: 'Pagamento pendente',
+  payment_declined: 'Pagamento recusado',
+  charge_issue: 'Problema na cobrança',
+  duplicate_charge: 'Cobrança duplicada',
+  boleto_issue: 'Problema com boleto',
+  pix_issue: 'Problema com Pix',
+  card_issue: 'Problema com cartão',
+  payment_receipt: 'Comprovante de pagamento',
+  invoice_request: 'Solicitação de nota fiscal',
+  refund_request: 'Solicitação de reembolso',
+  order_financial_question: 'Dúvida financeira do pedido',
+};
+
+const reasonLabel = (reason: string) =>
+  REASON_LABELS[(reason || '').toLowerCase()] || 'Atendimento financeiro / expedição';
+
+type Author = 'client' | 'nina' | 'human';
+
+const authorOf = (fromType: string): Author => {
+  if (fromType === 'nina') return 'nina';
+  if (fromType === 'human') return 'human';
+  return 'client';
+};
+
 
 async function callExpedicaoChat<T>(body: Record<string, unknown>): Promise<T> {
   const { data, error } = await supabase.functions.invoke('expedicao-chat', { body });
