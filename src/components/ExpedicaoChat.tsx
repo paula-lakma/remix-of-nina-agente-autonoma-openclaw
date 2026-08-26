@@ -164,6 +164,75 @@ const ExpedicaoChat: React.FC = () => {
 
   const selected = conversations.find((c) => c.conversation_id === selectedId) || null;
 
+  const handoffAt = selected?.handoff_at ? new Date(selected.handoff_at).getTime() : null;
+
+  const { history, current } = useMemo(() => {
+    if (!handoffAt) return { history: [] as ExpedicaoMessage[], current: messages };
+    const h: ExpedicaoMessage[] = [];
+    const c: ExpedicaoMessage[] = [];
+    for (const m of messages) {
+      (new Date(m.sent_at).getTime() < handoffAt ? h : c).push(m);
+    }
+    return { history: h, current: c };
+  }, [messages, handoffAt]);
+
+  // Mensagem que originou o handoff: id explícito > última fala do cliente antes
+  // do encaminhamento > trecho registrado na concessão.
+  const triggerText = useMemo(() => {
+    if (!selected) return null;
+    if (selected.trigger_message_id) {
+      const m = messages.find((x) => x.id === selected.trigger_message_id);
+      if (m?.content) return m.content;
+    }
+    if (handoffAt) {
+      const last = [...messages]
+        .filter((m) => m.from_type === 'user' && new Date(m.sent_at).getTime() <= handoffAt)
+        .pop();
+      if (last?.content) return last.content;
+    }
+    return selected.trigger_snippet || null;
+  }, [selected, messages, handoffAt]);
+
+  const renderMessage = (m: ExpedicaoMessage) => {
+    const author = authorOf(m.from_type);
+    const meta = {
+      client: {
+        label: selected?.contact_name || 'Cliente',
+        Icon: User,
+        bubble: 'bg-secondary/70 border border-border/60 text-foreground',
+        align: '',
+      },
+      nina: {
+        label: 'NINA',
+        Icon: Bot,
+        bubble: 'bg-muted/40 border border-dashed border-border text-muted-foreground',
+        align: 'ml-auto',
+      },
+      human: {
+        label: 'Atendimento',
+        Icon: Headset,
+        bubble: 'bg-primary/20 border border-primary/40 text-foreground',
+        align: 'ml-auto',
+      },
+    }[author];
+
+    return (
+      <div key={m.id} className={`max-w-[75%] ${meta.align}`}>
+        <div className={`flex items-center gap-1.5 mb-1 text-[10px] font-medium uppercase tracking-wide text-muted-foreground ${author === 'client' ? '' : 'justify-end'}`}>
+          <meta.Icon className="w-3 h-3" />
+          <span>{meta.label}</span>
+        </div>
+        <div className={`rounded-2xl px-4 py-2 text-sm ${meta.bubble}`}>
+          <p className="whitespace-pre-wrap break-words">{m.content}</p>
+          <span className="block mt-1 text-[10px] text-muted-foreground">
+            {new Date(m.sent_at).toLocaleString('pt-BR')}
+          </span>
+        </div>
+      </div>
+    );
+  };
+
+
   return (
     <div className="flex h-full w-full">
       {/* Lista */}
