@@ -240,23 +240,49 @@ const ExpedicaoChat: React.FC = () => {
               ) : messages.length === 0 ? (
                 <p className="text-sm text-muted-foreground text-center py-10">Sem mensagens.</p>
               ) : (
-                messages.map((m) => (
-                  <div
-                    key={m.id}
-                    className={`max-w-[70%] rounded-2xl px-4 py-2 text-sm ${
-                      m.from_type === 'contact'
-                        ? 'bg-secondary/60 text-foreground'
-                        : 'bg-primary/20 text-foreground ml-auto'
-                    }`}
-                  >
-                    <p className="whitespace-pre-wrap break-words">{m.content}</p>
-                    <span className="block mt-1 text-[10px] text-muted-foreground">
-                      {new Date(m.sent_at).toLocaleString('pt-BR')}
-                    </span>
+                <>
+                  {/* Motivo do encaminhamento */}
+                  <div className="rounded-xl border border-primary/30 bg-primary/5 p-4">
+                    <div className="flex items-center gap-2 mb-2">
+                      <Info className="w-4 h-4 text-primary" />
+                      <p className="text-xs font-semibold uppercase tracking-wide text-primary">
+                        Motivo do encaminhamento
+                      </p>
+                    </div>
+                    <p className="text-sm font-medium text-foreground">{reasonLabel(selected.reason)}</p>
+                    {triggerText && (
+                      <div className="mt-3 rounded-lg bg-background/60 border border-border/50 px-3 py-2">
+                        <p className="text-[10px] uppercase tracking-wide text-muted-foreground mb-1">
+                          Mensagem do cliente
+                        </p>
+                        <p className="text-sm text-foreground whitespace-pre-wrap break-words">{triggerText}</p>
+                      </div>
+                    )}
                   </div>
-                ))
+
+                  {/* Histórico anterior com a NINA */}
+                  {history.length > 0 && (
+                    <div className="rounded-xl border border-border/50 bg-card/40">
+                      <button
+                        onClick={() => setShowHistory((v) => !v)}
+                        className="w-full flex items-center gap-2 px-4 py-3 text-left text-sm text-muted-foreground hover:text-foreground transition-colors"
+                      >
+                        {showHistory ? <ChevronDown className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}
+                        Ver conversa anterior com a NINA ({history.length})
+                      </button>
+                      {showHistory && (
+                        <div className="px-4 pb-4 space-y-3">
+                          {history.map(renderMessage)}
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                  {current.map(renderMessage)}
+                </>
               )}
             </div>
+
 
             <footer className="p-4 border-t border-border/50 flex items-center gap-2">
               <input
