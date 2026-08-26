@@ -2586,9 +2586,12 @@ export type Database = {
           contact_phone_masked: string
           conversation_id: string
           granted_at: string
+          handoff_at: string
           human_status: string
           last_message_at: string
           reason: string
+          trigger_message_id: string
+          trigger_snippet: string
         }[]
       }
       normalize_tracking_code: { Args: { p_code: string }; Returns: string }

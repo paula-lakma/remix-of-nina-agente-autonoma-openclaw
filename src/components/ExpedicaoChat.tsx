@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { Loader2, MessageSquare, RefreshCw, CheckCircle2, Send } from 'lucide-react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { Loader2, MessageSquare, RefreshCw, CheckCircle2, Send, Bot, User, Headset, ChevronDown, ChevronRight, Info } from 'lucide-react';
 import { toast } from 'sonner';
 import { supabase } from '@/integrations/supabase/client';
 
@@ -17,6 +17,9 @@ interface ExpedicaoConversation {
   last_message_at: string | null;
   human_status: string | null;
   attendance_finished: boolean | null;
+  handoff_at: string | null;
+  trigger_message_id: string | null;
+  trigger_snippet: string | null;
 }
 
 interface ExpedicaoMessage {
@@ -28,6 +31,42 @@ interface ExpedicaoMessage {
   media_type: string | null;
   sent_at: string;
 }
+
+// Motivos amigáveis (leitura apenas — não altera classificação nem allowlist)
+const REASON_LABELS: Record<string, string> = {
+  where_is_my_order: 'Onde está meu pedido',
+  tracking_not_received: 'Pedido atrasado / rastreio',
+  tracking_no_update: 'Pedido enviado sem atualização',
+  tracking_code_invalid: 'Código de rastreio inválido',
+  tracking_help: 'Ajuda com rastreio',
+  tracking_link_issue: 'Problema no link de rastreio',
+  carrier_question: 'Transportadora',
+  shipped_no_info: 'Pedido enviado sem atualização',
+  payment_unidentified: 'Pagamento não identificado',
+  payment_pending: 'Pagamento pendente',
+  payment_declined: 'Pagamento recusado',
+  charge_issue: 'Problema na cobrança',
+  duplicate_charge: 'Cobrança duplicada',
+  boleto_issue: 'Problema com boleto',
+  pix_issue: 'Problema com Pix',
+  card_issue: 'Problema com cartão',
+  payment_receipt: 'Comprovante de pagamento',
+  invoice_request: 'Solicitação de nota fiscal',
+  refund_request: 'Solicitação de reembolso',
+  order_financial_question: 'Dúvida financeira do pedido',
+};
+
+const reasonLabel = (reason: string) =>
+  REASON_LABELS[(reason || '').toLowerCase()] || 'Atendimento financeiro / expedição';
+
+type Author = 'client' | 'nina' | 'human';
+
+const authorOf = (fromType: string): Author => {
+  if (fromType === 'nina') return 'nina';
+  if (fromType === 'human') return 'human';
+  return 'client';
+};
+
 
 async function callExpedicaoChat<T>(body: Record<string, unknown>): Promise<T> {
   const { data, error } = await supabase.functions.invoke('expedicao-chat', { body });
@@ -46,6 +85,8 @@ const ExpedicaoChat: React.FC = () => {
   const [loadingMessages, setLoadingMessages] = useState(false);
   const [draft, setDraft] = useState('');
   const [sending, setSending] = useState(false);
+  const [showHistory, setShowHistory] = useState(false);
+
 
   const loadList = useCallback(async () => {
     setLoadingList(true);
@@ -83,7 +124,9 @@ const ExpedicaoChat: React.FC = () => {
   useEffect(() => { loadList(); }, [loadList]);
 
   useEffect(() => {
+    setShowHistory(false);
     if (!selectedId) { setMessages([]); return; }
+
     loadMessages(selectedId);
   }, [selectedId, loadMessages]);
 
@@ -125,6 +168,75 @@ const ExpedicaoChat: React.FC = () => {
 
   const selected = conversations.find((c) => c.conversation_id === selectedId) || null;
 
+  const handoffAt = selected?.handoff_at ? new Date(selected.handoff_at).getTime() : null;
+
+  const { history, current } = useMemo(() => {
+    if (!handoffAt) return { history: [] as ExpedicaoMessage[], current: messages };
+    const h: ExpedicaoMessage[] = [];
+    const c: ExpedicaoMessage[] = [];
+    for (const m of messages) {
+      (new Date(m.sent_at).getTime() < handoffAt ? h : c).push(m);
+    }
+    return { history: h, current: c };
+  }, [messages, handoffAt]);
+
+  // Mensagem que originou o handoff: id explícito > última fala do cliente antes
+  // do encaminhamento > trecho registrado na concessão.
+  const triggerText = useMemo(() => {
+    if (!selected) return null;
+    if (selected.trigger_message_id) {
+      const m = messages.find((x) => x.id === selected.trigger_message_id);
+      if (m?.content) return m.content;
+    }
+    if (handoffAt) {
+      const last = [...messages]
+        .filter((m) => m.from_type === 'user' && new Date(m.sent_at).getTime() <= handoffAt)
+        .pop();
+      if (last?.content) return last.content;
+    }
+    return selected.trigger_snippet || null;
+  }, [selected, messages, handoffAt]);
+
+  const renderMessage = (m: ExpedicaoMessage) => {
+    const author = authorOf(m.from_type);
+    const meta = {
+      client: {
+        label: selected?.contact_name || 'Cliente',
+        Icon: User,
+        bubble: 'bg-secondary/70 border border-border/60 text-foreground',
+        align: '',
+      },
+      nina: {
+        label: 'NINA',
+        Icon: Bot,
+        bubble: 'bg-muted/40 border border-dashed border-border text-muted-foreground',
+        align: 'ml-auto',
+      },
+      human: {
+        label: 'Atendimento',
+        Icon: Headset,
+        bubble: 'bg-primary/20 border border-primary/40 text-foreground',
+        align: 'ml-auto',
+      },
+    }[author];
+
+    return (
+      <div key={m.id} className={`max-w-[75%] ${meta.align}`}>
+        <div className={`flex items-center gap-1.5 mb-1 text-[10px] font-medium uppercase tracking-wide text-muted-foreground ${author === 'client' ? '' : 'justify-end'}`}>
+          <meta.Icon className="w-3 h-3" />
+          <span>{meta.label}</span>
+        </div>
+        <div className={`rounded-2xl px-4 py-2 text-sm ${meta.bubble}`}>
+          <p className="whitespace-pre-wrap break-words">{m.content}</p>
+          <span className="block mt-1 text-[10px] text-muted-foreground">
+            {new Date(m.sent_at).toLocaleString('pt-BR')}
+          </span>
+        </div>
+      </div>
+    );
+  };
+
+
   return (
     <div className="flex h-full w-full">
       {/* Lista */}
@@ -164,7 +276,7 @@ const ExpedicaoChat: React.FC = () => {
               >
                 <p className="text-sm font-medium text-foreground truncate">{c.contact_name || 'Cliente'}</p>
                 <p className="text-xs text-muted-foreground truncate">{c.contact_phone_masked || '—'}</p>
-                <span className="inline-block mt-1 text-[10px] uppercase tracking-wide text-primary">{c.reason}</span>
+                <span className="inline-block mt-1 text-[10px] uppercase tracking-wide text-primary">{reasonLabel(c.reason)}</span>
               </button>
             ))
           )}
@@ -201,23 +313,49 @@ const ExpedicaoChat: React.FC = () => {
               ) : messages.length === 0 ? (
                 <p className="text-sm text-muted-foreground text-center py-10">Sem mensagens.</p>
               ) : (
-                messages.map((m) => (
-                  <div
-                    key={m.id}
-                    className={`max-w-[70%] rounded-2xl px-4 py-2 text-sm ${
-                      m.from_type === 'contact'
-                        ? 'bg-secondary/60 text-foreground'
-                        : 'bg-primary/20 text-foreground ml-auto'
-                    }`}
-                  >
-                    <p className="whitespace-pre-wrap break-words">{m.content}</p>
-                    <span className="block mt-1 text-[10px] text-muted-foreground">
-                      {new Date(m.sent_at).toLocaleString('pt-BR')}
-                    </span>
+                <>
+                  {/* Motivo do encaminhamento */}
+                  <div className="rounded-xl border border-primary/30 bg-primary/5 p-4">
+                    <div className="flex items-center gap-2 mb-2">
+                      <Info className="w-4 h-4 text-primary" />
+                      <p className="text-xs font-semibold uppercase tracking-wide text-primary">
+                        Motivo do encaminhamento
+                      </p>
+                    </div>
+                    <p className="text-sm font-medium text-foreground">{reasonLabel(selected.reason)}</p>
+                    {triggerText && (
+                      <div className="mt-3 rounded-lg bg-background/60 border border-border/50 px-3 py-2">
+                        <p className="text-[10px] uppercase tracking-wide text-muted-foreground mb-1">
+                          Mensagem do cliente
+                        </p>
+                        <p className="text-sm text-foreground whitespace-pre-wrap break-words">{triggerText}</p>
+                      </div>
+                    )}
                   </div>
-                ))
+
+                  {/* Histórico anterior com a NINA */}
+                  {history.length > 0 && (
+                    <div className="rounded-xl border border-border/50 bg-card/40">
+                      <button
+                        onClick={() => setShowHistory((v) => !v)}
+                        className="w-full flex items-center gap-2 px-4 py-3 text-left text-sm text-muted-foreground hover:text-foreground transition-colors"
+                      >
+                        {showHistory ? <ChevronDown className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}
+                        Ver conversa anterior com a NINA ({history.length})
+                      </button>
+                      {showHistory && (
+                        <div className="px-4 pb-4 space-y-3">
+                          {history.map(renderMessage)}
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                  {current.map(renderMessage)}
+                </>
               )}
             </div>
+
 
             <footer className="p-4 border-t border-border/50 flex items-center gap-2">
               <input
