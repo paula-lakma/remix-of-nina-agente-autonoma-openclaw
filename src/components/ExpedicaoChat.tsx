@@ -124,7 +124,9 @@ const ExpedicaoChat: React.FC = () => {
   useEffect(() => { loadList(); }, [loadList]);
 
   useEffect(() => {
+    setShowHistory(false);
     if (!selectedId) { setMessages([]); return; }
+
     loadMessages(selectedId);
   }, [selectedId, loadMessages]);
 
