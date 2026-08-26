@@ -85,6 +85,8 @@ const ExpedicaoChat: React.FC = () => {
   const [loadingMessages, setLoadingMessages] = useState(false);
   const [draft, setDraft] = useState('');
   const [sending, setSending] = useState(false);
+  const [showHistory, setShowHistory] = useState(false);
+
 
   const loadList = useCallback(async () => {
     setLoadingList(true);
