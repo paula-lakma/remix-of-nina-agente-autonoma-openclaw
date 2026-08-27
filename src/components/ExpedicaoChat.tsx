@@ -1,7 +1,8 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { Loader2, MessageSquare, RefreshCw, CheckCircle2, Send, Bot, User, Headset, ChevronDown, ChevronRight, Info } from 'lucide-react';
+import { Loader2, MessageSquare, RefreshCw, CheckCircle2, Send, Bot, User, Headset, ChevronDown, ChevronRight, Info, FileText, X } from 'lucide-react';
 import { toast } from 'sonner';
 import { supabase } from '@/integrations/supabase/client';
+import { useSignedMediaUrls } from '@/hooks/useSignedMediaUrls';
 
 // Chat ao Vivo restrito do papel `expedicao`.
 // Todo acesso passa EXCLUSIVAMENTE pela edge function `expedicao-chat`
@@ -27,6 +28,7 @@ interface ExpedicaoMessage {
   conversation_id: string;
   content: string | null;
   from_type: string;
+  type: string | null;
   media_url: string | null;
   media_type: string | null;
   sent_at: string;
@@ -68,6 +70,56 @@ const authorOf = (fromType: string): Author => {
 };
 
 
+const isMediaMessage = (m: ExpedicaoMessage) =>
+  !!m.type && m.type !== 'text';
+
+// Renderiza a mídia real da mensagem (bucket privado, URL assinada sob demanda)
+const MediaBlock: React.FC<{
+  message: ExpedicaoMessage;
+  url: string | null;
+  onOpenImage: (url: string) => void;
+}> = ({ message, url, onOpenImage }) => {
+  const kind = message.type;
+  if (!kind || kind === 'text') return null;
+
+  if (!url) {
+    return <p className="text-xs text-muted-foreground italic">Mídia indisponível</p>;
+  }
+
+  if (kind === 'image') {
+    return (
+      <button type="button" onClick={() => onOpenImage(url)} className="block w-full text-left">
+        <img
+          src={url}
+          alt="Anexo do cliente"
+          loading="lazy"
+          className="rounded-lg max-w-full h-auto max-h-64 object-contain border border-border/50 cursor-zoom-in"
+        />
+      </button>
+    );
+  }
+
+  if (kind === 'audio') {
+    return <audio src={url} controls preload="metadata" className="w-full max-w-[260px]" />;
+  }
+
+  if (kind === 'video') {
+    return <video src={url} controls preload="metadata" className="rounded-lg max-w-full max-h-64" />;
+  }
+
+  const name = url.split('/').pop()?.split('?')[0] || 'documento';
+  return (
+    <a
+      href={url}
+      target="_blank"
+      rel="noreferrer"
+      className="flex items-center gap-2 text-xs underline text-primary break-all"
+    >
+      <FileText className="w-4 h-4 shrink-0" /> {name}
+    </a>
+  );
+};
+
 async function callExpedicaoChat<T>(body: Record<string, unknown>): Promise<T> {
   const { data, error } = await supabase.functions.invoke('expedicao-chat', { body });
   if (error) throw error;
@@ -86,6 +138,7 @@ const ExpedicaoChat: React.FC = () => {
   const [draft, setDraft] = useState('');
   const [sending, setSending] = useState(false);
   const [showHistory, setShowHistory] = useState(false);
+  const [lightboxUrl, setLightboxUrl] = useState<string | null>(null);
 
 
   const loadList = useCallback(async () => {
@@ -168,6 +221,15 @@ const ExpedicaoChat: React.FC = () => {
 
   const selected = conversations.find((c) => c.conversation_id === selectedId) || null;
 
+  const signedMedia = useSignedMediaUrls(
+    messages.map((m) => ({
+      id: m.id,
+      conversationId: m.conversation_id,
+      hasMedia: isMediaMessage(m),
+    })),
+  );
+  const mediaSrc = (m: ExpedicaoMessage) => signedMedia[m.id] || m.media_url || null;
+
   const handoffAt = selected?.handoff_at ? new Date(selected.handoff_at).getTime() : null;
 
   const { history, current } = useMemo(() => {
@@ -182,20 +244,22 @@ const ExpedicaoChat: React.FC = () => {
 
   // Mensagem que originou o handoff: id explícito > última fala do cliente antes
   // do encaminhamento > trecho registrado na concessão.
-  const triggerText = useMemo(() => {
+  const triggerMessage = useMemo(() => {
     if (!selected) return null;
     if (selected.trigger_message_id) {
       const m = messages.find((x) => x.id === selected.trigger_message_id);
-      if (m?.content) return m.content;
+      if (m) return m;
     }
     if (handoffAt) {
       const last = [...messages]
         .filter((m) => m.from_type === 'user' && new Date(m.sent_at).getTime() <= handoffAt)
         .pop();
-      if (last?.content) return last.content;
+      if (last) return last;
     }
-    return selected.trigger_snippet || null;
+    return null;
   }, [selected, messages, handoffAt]);
+
+  const triggerText = triggerMessage?.content || selected?.trigger_snippet || null;
 
   const renderMessage = (m: ExpedicaoMessage) => {
     const author = authorOf(m.from_type);
@@ -226,8 +290,11 @@ const ExpedicaoChat: React.FC = () => {
           <meta.Icon className="w-3 h-3" />
           <span>{meta.label}</span>
         </div>
-        <div className={`rounded-2xl px-4 py-2 text-sm ${meta.bubble}`}>
-          <p className="whitespace-pre-wrap break-words">{m.content}</p>
+        <div className={`rounded-2xl px-4 py-2 text-sm ${meta.bubble} space-y-2`}>
+          {isMediaMessage(m) && (
+            <MediaBlock message={m} url={mediaSrc(m)} onOpenImage={setLightboxUrl} />
+          )}
+          {m.content && <p className="whitespace-pre-wrap break-words">{m.content}</p>}
           <span className="block mt-1 text-[10px] text-muted-foreground">
             {new Date(m.sent_at).toLocaleString('pt-BR')}
           </span>
@@ -323,12 +390,23 @@ const ExpedicaoChat: React.FC = () => {
                       </p>
                     </div>
                     <p className="text-sm font-medium text-foreground">{reasonLabel(selected.reason)}</p>
-                    {triggerText && (
+                    {(triggerText || (triggerMessage && isMediaMessage(triggerMessage))) && (
                       <div className="mt-3 rounded-lg bg-background/60 border border-border/50 px-3 py-2">
                         <p className="text-[10px] uppercase tracking-wide text-muted-foreground mb-1">
                           Mensagem do cliente
                         </p>
-                        <p className="text-sm text-foreground whitespace-pre-wrap break-words">{triggerText}</p>
+                        {triggerMessage && isMediaMessage(triggerMessage) && (
+                          <div className="mb-2">
+                            <MediaBlock
+                              message={triggerMessage}
+                              url={mediaSrc(triggerMessage)}
+                              onOpenImage={setLightboxUrl}
+                            />
+                          </div>
+                        )}
+                        {triggerText && (
+                          <p className="text-sm text-foreground whitespace-pre-wrap break-words">{triggerText}</p>
+                        )}
                       </div>
                     )}
                   </div>
@@ -377,6 +455,22 @@ const ExpedicaoChat: React.FC = () => {
           </>
         )}
       </section>
+
+      {lightboxUrl && (
+        <div
+          className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-6"
+          onClick={() => setLightboxUrl(null)}
+        >
+          <button
+            className="absolute top-4 right-4 p-2 rounded-lg bg-black/50 text-white"
+            onClick={() => setLightboxUrl(null)}
+            title="Fechar"
+          >
+            <X className="w-5 h-5" />
+          </button>
+          <img src={lightboxUrl} alt="Anexo ampliado" className="max-h-full max-w-full object-contain rounded-lg" />
+        </div>
+      )}
     </div>
   );
 };
