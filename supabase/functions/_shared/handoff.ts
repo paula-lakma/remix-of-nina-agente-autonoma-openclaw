@@ -248,7 +248,7 @@ const REASON_MATRIX: Array<{ reason: string; destination: HandoffDestination; rx
   { reason: "tracking_not_received", destination: "financeiro", rx: /(n[ãa]o recebi|sem).{0,25}c[óo]digo.{0,15}(de )?rastreio|c[óo]digo.{0,15}(de )?rastreio.{0,25}n[ãa]o (chegou|recebi)/i },
   { reason: "tracking_code_invalid", destination: "financeiro", rx: /c[óo]digo.{0,15}(de )?rastreio.{0,30}(inv[áa]lid|n[ãa]o funciona|erro)/i },
   { reason: "tracking_link_issue", destination: "financeiro", rx: /link.{0,20}(de )?rastreio.{0,30}(n[ãa]o abre|n[ãa]o funciona|erro)|rastreio.{0,20}link.{0,20}(inv[áa]lid|quebrad|erro)/i },
-  { reason: "carrier_question", destination: "financeiro", rx: /qual (a )?transportadora|transportadora.{0,30}(meu pedido|minha entrega)|correios|jadlog/i },
+  { reason: "carrier_question", destination: "financeiro", rx: /qual (?:seria |[ée] )?(?:a )?transportadora|transportadora.{0,30}(meu pedido|minha entrega)|correios|jadlog/i },
   { reason: "shipped_no_info", destination: "financeiro", rx: /(pedido|compra).{0,25}(enviad|despachad).{0,35}(sem informa[çc][ãa]o|sem rastreio|n[ãa]o recebi)|n[ãa]o recebi.{0,25}(informa[çc][ãa]o|rastreio).{0,25}(pedido|compra)/i },
   { reason: "where_is_my_order", destination: "financeiro", rx: /onde (est[áa]|t[áa]).{0,20}(meu )?pedido|(pedido|entrega).{0,35}(atrasad|n[ãa]o chegou|n[ãa]o foi entregue)|atraso.{0,20}(pedido|entrega)/i },
   { reason: "tracking_help", destination: "financeiro", rx: /(?:ajuda|d[úu]vida|problema|dificuldade).{0,30}(?:rastreio|rastreamento|c[óo]digo)|(?:rastreio|rastreamento|c[óo]digo).{0,30}(?:ajuda|d[úu]vida|problema|dificuldade)/i },
