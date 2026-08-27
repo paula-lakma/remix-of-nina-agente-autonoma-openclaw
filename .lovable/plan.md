@@ -54,6 +54,6 @@ Consulta read-only confirmando, para cada uma das 4 conversas: `ai_paused = true
 
 Casos dermatológicos, produtos e protocolos; a conversa da Tania e qualquer conversa fora dos 4 IDs; as 2 conversas já corretas; Shopify → WhatsApp; rastreio automático e manual; templates; mídia; `send_queue`; classificador e Edge Functions (nenhum deploy). Nenhuma alteração de schema, política RLS ou RPC.
 
-## Decisão necessária antes de implementar
+## Escopo confirmado
 
-Confirmar o corte: incluir apenas as 4 conversas com atividade nos últimos 15 dias, ou incluir também a da Tania (09/07).
+Corte de 15 dias confirmado: backfill somente das 4 conversas recentes (`120573eb…`, `a7b8eddb…`, `d0e6ec25…`, `22641148…`). A conversa da Tania (09/07) fica de fora.
