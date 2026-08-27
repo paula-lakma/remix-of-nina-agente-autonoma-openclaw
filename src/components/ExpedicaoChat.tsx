@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { Loader2, MessageSquare, RefreshCw, CheckCircle2, Send, Bot, User, Headset, ChevronDown, ChevronRight, Info, FileText, X } from 'lucide-react';
+import { Loader2, MessageSquare, RefreshCw, CheckCircle2, Send, Bot, User, Headset, ChevronDown, ChevronRight, Info, FileText, Paperclip, X } from 'lucide-react';
 import { toast } from 'sonner';
 import { supabase } from '@/integrations/supabase/client';
 import { useSignedMediaUrls } from '@/hooks/useSignedMediaUrls';
@@ -72,6 +72,12 @@ const authorOf = (fromType: string): Author => {
 
 const isMediaMessage = (m: ExpedicaoMessage) =>
   !!m.type && m.type !== 'text';
+
+const HANDOFF_WINDOW_MS = 5 * 60 * 1000;
+const HANDOFF_AFTER_MS = 2 * 60 * 1000;
+
+const isWithinHandoffWindow = (handoffAt: number, sentAt: number) =>
+  sentAt >= handoffAt - HANDOFF_WINDOW_MS && sentAt <= handoffAt + HANDOFF_AFTER_MS;
 
 // Renderiza a mídia real da mensagem (bucket privado, URL assinada sob demanda)
 const MediaBlock: React.FC<{
@@ -261,6 +267,44 @@ const ExpedicaoChat: React.FC = () => {
 
   const triggerText = triggerMessage?.content || selected?.trigger_snippet || null;
 
+  // Mídias do cliente próximas ao handoff (até 5 min antes e 2 min depois)
+  const clientMediaWindow = useMemo(() => {
+    if (!handoffAt) return [];
+    return messages.filter((m) => {
+      if (m.from_type !== 'user' || !isMediaMessage(m)) return false;
+      const t = new Date(m.sent_at).getTime();
+      return isWithinHandoffWindow(handoffAt, t);
+    });
+  }, [messages, handoffAt]);
+
+  // Mídia exibida dentro do bloco "Motivo do encaminhamento"
+  const motivoMedia = useMemo(() => {
+    if (triggerMessage && isMediaMessage(triggerMessage)) return triggerMessage;
+    // Se o gatilho for texto, anexa a mídia do cliente mais próxima ao handoff
+    return clientMediaWindow[0] ?? null;
+  }, [triggerMessage, clientMediaWindow]);
+
+  const motivoShownIds = useMemo(() => {
+    const ids = new Set<string>();
+    if (triggerMessage && isMediaMessage(triggerMessage)) ids.add(triggerMessage.id);
+    if (motivoMedia && motivoMedia.id !== triggerMessage?.id) ids.add(motivoMedia.id);
+    return ids;
+  }, [triggerMessage, motivoMedia]);
+
+  const recentAttachments = useMemo(() => {
+    return clientMediaWindow.filter((m) => !motivoShownIds.has(m.id));
+  }, [clientMediaWindow, motivoShownIds]);
+
+  const historyMediaCount = useMemo(() => history.filter(isMediaMessage).length, [history]);
+  const currentMediaCount = useMemo(() => current.filter(isMediaMessage).length, [current]);
+
+  // Abre automaticamente o histórico quando toda a mídia relevante caiu nele
+  useEffect(() => {
+    if (historyMediaCount > 0 && currentMediaCount === 0) {
+      setShowHistory(true);
+    }
+  }, [historyMediaCount, currentMediaCount]);
+
   const renderMessage = (m: ExpedicaoMessage) => {
     const author = authorOf(m.from_type);
     const meta = {
@@ -390,16 +434,16 @@ const ExpedicaoChat: React.FC = () => {
                       </p>
                     </div>
                     <p className="text-sm font-medium text-foreground">{reasonLabel(selected.reason)}</p>
-                    {(triggerText || (triggerMessage && isMediaMessage(triggerMessage))) && (
+                    {(triggerText || motivoMedia) && (
                       <div className="mt-3 rounded-lg bg-background/60 border border-border/50 px-3 py-2">
                         <p className="text-[10px] uppercase tracking-wide text-muted-foreground mb-1">
                           Mensagem do cliente
                         </p>
-                        {triggerMessage && isMediaMessage(triggerMessage) && (
+                        {motivoMedia && (
                           <div className="mb-2">
                             <MediaBlock
-                              message={triggerMessage}
-                              url={mediaSrc(triggerMessage)}
+                              message={motivoMedia}
+                              url={mediaSrc(motivoMedia)}
                               onOpenImage={setLightboxUrl}
                             />
                           </div>
@@ -419,13 +463,36 @@ const ExpedicaoChat: React.FC = () => {
                         className="w-full flex items-center gap-2 px-4 py-3 text-left text-sm text-muted-foreground hover:text-foreground transition-colors"
                       >
                         {showHistory ? <ChevronDown className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}
-                        Ver conversa anterior com a NINA ({history.length})
+                        <span className="flex-1">
+                          Ver conversa anterior com a NINA ({history.length})
+                          {historyMediaCount > 0 && (
+                            <span className="ml-2 text-[10px] text-primary">
+                              • {historyMediaCount} anexo{historyMediaCount > 1 ? 's' : ''}
+                            </span>
+                          )}
+                        </span>
                       </button>
                       {showHistory && (
                         <div className="px-4 pb-4 space-y-3">
                           {history.map(renderMessage)}
                         </div>
                       )}
+                    </div>
+                  )}
+
+                  {/* Faixa de anexos recentes do cliente (sem duplicar o motivo) */}
+                  {recentAttachments.length > 0 && (
+                    <div className="rounded-xl border border-border/50 bg-card/40 p-3">
+                      <p className="text-[10px] uppercase tracking-wide text-muted-foreground mb-2 flex items-center gap-1.5">
+                        <Paperclip className="w-3 h-3" /> Anexos do cliente ({recentAttachments.length})
+                      </p>
+                      <div className="flex flex-wrap gap-3">
+                        {recentAttachments.map((m) => (
+                          <div key={m.id} className="max-w-[200px]">
+                            <MediaBlock message={m} url={mediaSrc(m)} onOpenImage={setLightboxUrl} />
+                          </div>
+                        ))}
+                      </div>
                     </div>
                   )}
 
