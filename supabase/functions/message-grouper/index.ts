@@ -355,7 +355,11 @@ async function combineAndTranscribeMessages(
                 content,
                 media_url: uploaded?.signedUrl ?? null,
                 media_type: info.mime_type,
-                metadata: { ...(dbMsg.metadata || {}), media_path: uploaded?.path ?? null },
+                metadata: {
+                  ...(dbMsg.metadata || {}),
+                  media_path: uploaded?.path ?? null,
+                  media_filename: filename,
+                },
               })
               .eq('id', dbMsg.id);
           }
