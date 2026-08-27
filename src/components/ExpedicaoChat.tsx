@@ -267,6 +267,44 @@ const ExpedicaoChat: React.FC = () => {
 
   const triggerText = triggerMessage?.content || selected?.trigger_snippet || null;
 
+  // Mídias do cliente próximas ao handoff (até 5 min antes e 2 min depois)
+  const clientMediaWindow = useMemo(() => {
+    if (!handoffAt) return [];
+    return messages.filter((m) => {
+      if (m.from_type !== 'user' || !isMediaMessage(m)) return false;
+      const t = new Date(m.sent_at).getTime();
+      return isWithinHandoffWindow(handoffAt, t);
+    });
+  }, [messages, handoffAt]);
+
+  // Mídia exibida dentro do bloco "Motivo do encaminhamento"
+  const motivoMedia = useMemo(() => {
+    if (triggerMessage && isMediaMessage(triggerMessage)) return triggerMessage;
+    // Se o gatilho for texto, anexa a mídia do cliente mais próxima ao handoff
+    return clientMediaWindow[0] ?? null;
+  }, [triggerMessage, clientMediaWindow]);
+
+  const motivoShownIds = useMemo(() => {
+    const ids = new Set<string>();
+    if (triggerMessage && isMediaMessage(triggerMessage)) ids.add(triggerMessage.id);
+    if (motivoMedia && motivoMedia.id !== triggerMessage?.id) ids.add(motivoMedia.id);
+    return ids;
+  }, [triggerMessage, motivoMedia]);
+
+  const recentAttachments = useMemo(() => {
+    return clientMediaWindow.filter((m) => !motivoShownIds.has(m.id));
+  }, [clientMediaWindow, motivoShownIds]);
+
+  const historyMediaCount = useMemo(() => history.filter(isMediaMessage).length, [history]);
+  const currentMediaCount = useMemo(() => current.filter(isMediaMessage).length, [current]);
+
+  // Abre automaticamente o histórico quando toda a mídia relevante caiu nele
+  useEffect(() => {
+    if (historyMediaCount > 0 && currentMediaCount === 0) {
+      setShowHistory(true);
+    }
+  }, [historyMediaCount, currentMediaCount]);
+
   const renderMessage = (m: ExpedicaoMessage) => {
     const author = authorOf(m.from_type);
     const meta = {
