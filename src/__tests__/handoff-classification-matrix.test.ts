@@ -23,6 +23,8 @@ describe("classificação sintética de rastreio e entrega", () => {
     ["Qual o prazo de entrega?", "order_financial_question"],
     ["Preciso alterar o endereço do meu pedido", "order_financial_question"],
     ["Tenho uma dúvida sobre o frete da compra", "order_financial_question"],
+    ["Estou com problema no meu pedido", "order_financial_question"],
+    ["Preciso de ajuda com uma compra", "order_financial_question"],
     ["Fizeram uma cobrança duplicada", "duplicate_charge"],
     ["Meu pagamento foi recusado", "payment_declined"],
     ["O pagamento continua pendente", "payment_pending"],
@@ -94,8 +96,6 @@ describe("fronteiras do handoff", () => {
 
   it.each([
     "Qual produto vocês indicam para acne?",
-    "Estou com problema no meu pedido",
-    "Preciso de ajuda com uma compra",
     "Quero falar com alguém sobre um produto",
   ])("não encaminha automaticamente a frase ambígua/comercial: %s", (text) => {
     expect(detectHandoffTarget(text)).toBeNull();
