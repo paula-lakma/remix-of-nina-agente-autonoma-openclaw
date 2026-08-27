@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   detectHandoffTarget,
+  detectHandoffTargetFromHistory,
   extractHandoffMarker,
   isConfirmedHandoffResponse,
   isExpedicaoGrantReason,
@@ -18,11 +19,38 @@ describe("classificação sintética de rastreio e entrega", () => {
     ["Meu código de rastreio dá inválido", "tracking_code_invalid"],
     ["O link do rastreio não abre", "tracking_link_issue"],
     ["Qual transportadora está com meu pedido?", "carrier_question"],
+    ["Preciso de ajuda com o rastreio", "tracking_help"],
+    ["Qual o prazo de entrega?", "order_financial_question"],
+    ["Preciso alterar o endereço do meu pedido", "order_financial_question"],
+    ["Tenho uma dúvida sobre o frete da compra", "order_financial_question"],
+    ["Fizeram uma cobrança duplicada", "duplicate_charge"],
+    ["Meu pagamento foi recusado", "payment_declined"],
+    ["O pagamento continua pendente", "payment_pending"],
+    ["Quero enviar o comprovante do Pix", "payment_receipt"],
+    ["Estou com problema no boleto", "boleto_issue"],
+    ["Meu cartão não passa", "card_issue"],
+    ["Preciso da nota fiscal", "invoice_request"],
+    ["Quero solicitar reembolso", "refund_request"],
   ] as const;
 
   it.each(cases)("encaminha %s para Letícia com %s", (text, reason) => {
     expect(detectHandoffTarget(text)).toEqual({ reason, destination: "financeiro" });
     expect(isExpedicaoGrantReason(reason)).toBe(true);
+  });
+
+  it("recupera a intenção de transportadora quando o turno atual é Dificuldade", () => {
+    expect(detectHandoffTargetFromHistory("Dificuldade", [
+      { from_type: "user", content: "Qual seria a transportadora?" },
+      { from_type: "nina", content: "Você quer que eu encaminhe?" },
+      { from_type: "user", content: "Dificuldade" },
+    ])).toEqual({ reason: "carrier_question", destination: "financeiro" });
+  });
+
+  it("recupera pedido/endereço quando o turno atual contém somente o endereço", () => {
+    expect(detectHandoffTargetFromHistory("Av Divino Salvador 589", [
+      { from_type: "user", content: "Foi alterado o endereço de entrega do pedido?" },
+      { from_type: "user", content: "Av Divino Salvador 589" },
+    ])).toEqual({ reason: "order_financial_question", destination: "financeiro" });
   });
 
   it("impede a regressão exata para sensitive_case", () => {

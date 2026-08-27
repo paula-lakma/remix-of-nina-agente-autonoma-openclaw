@@ -352,9 +352,12 @@ export function resolveHandoffDecision(params: {
   const structured = resolveHandoffReason(params.structuredReason) ?? marker.target;
   if (structured) return { target: structured, cleanedAgentContent: marker.cleaned, source: "structured" };
   const direct = detectHandoffTarget(stripHandoffMarkers(params.currentUserText));
-  if (direct) return { target: direct, cleanedAgentContent: marker.cleaned, source: "customer_intent" };
+  if (direct?.destination === "financeiro" || (direct && isConfirmedHandoffResponse(params.agentContent ?? ""))) {
+    return { target: direct, cleanedAgentContent: marker.cleaned, source: "customer_intent" };
+  }
   const contextual = detectHandoffTargetFromHistory(params.currentUserText, params.history ?? []);
-  return { target: contextual, cleanedAgentContent: marker.cleaned, source: contextual ? "context" : "customer_intent" };
+  const eligibleContext = contextual?.destination === "financeiro" ? contextual : null;
+  return { target: eligibleContext, cleanedAgentContent: marker.cleaned, source: eligibleContext ? "context" : "customer_intent" };
 }
 
 export async function applyResolvedHandoff(

@@ -24,7 +24,6 @@ import {
   applyResolvedHandoff,
   extractHandoffMarker,
   resolveHandoffDecision,
-  resolveHandoffReason,
 } from "../_shared/handoff.ts";
 
 
@@ -141,8 +140,6 @@ Deno.serve(async (req: Request) => {
   // do encaminhamento independentemente do texto escrito ao cliente. É removido
   // do conteúdo antes do envio.
   const markerParse = extractHandoffMarker(content);
-  const structuredTarget =
-    resolveHandoffReason(body.handoff_reason ?? body.handoff?.reason) ?? markerParse.target;
 
   const { data: recentUserMessages } = await supabase
     .from("messages")
