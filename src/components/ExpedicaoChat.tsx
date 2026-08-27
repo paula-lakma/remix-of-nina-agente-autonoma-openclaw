@@ -463,7 +463,14 @@ const ExpedicaoChat: React.FC = () => {
                         className="w-full flex items-center gap-2 px-4 py-3 text-left text-sm text-muted-foreground hover:text-foreground transition-colors"
                       >
                         {showHistory ? <ChevronDown className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}
-                        Ver conversa anterior com a NINA ({history.length})
+                        <span className="flex-1">
+                          Ver conversa anterior com a NINA ({history.length})
+                          {historyMediaCount > 0 && (
+                            <span className="ml-2 text-[10px] text-primary">
+                              • {historyMediaCount} anexo{historyMediaCount > 1 ? 's' : ''}
+                            </span>
+                          )}
+                        </span>
                       </button>
                       {showHistory && (
                         <div className="px-4 pb-4 space-y-3">
