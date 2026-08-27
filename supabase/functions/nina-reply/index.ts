@@ -21,12 +21,9 @@ import {
   validatePanelToken,
 } from "../_shared/panel.ts";
 import {
-  applyHandoff,
-  isExpedicaoGrantReason,
-  detectHandoffTarget,
+  applyResolvedHandoff,
   extractHandoffMarker,
-  isConfirmedHandoffResponse,
-  isOutsideDermoHours,
+  resolveHandoffDecision,
   resolveHandoffReason,
 } from "../_shared/handoff.ts";
 
@@ -146,6 +143,38 @@ Deno.serve(async (req: Request) => {
   const markerParse = extractHandoffMarker(content);
   const structuredTarget =
     resolveHandoffReason(body.handoff_reason ?? body.handoff?.reason) ?? markerParse.target;
+
+  const { data: recentUserMessages } = await supabase
+    .from("messages")
+    .select("id, from_type, content, sent_at")
+    .eq("conversation_id", conversation.id)
+    .order("sent_at", { ascending: false })
+    .limit(12);
+  const orderedHistory = [...(recentUserMessages ?? [])].reverse();
+  const latestUser = [...orderedHistory].reverse().find((entry) => entry.from_type === "user");
+  const handoffDecision = resolveHandoffDecision({
+    structuredReason: body.handoff_reason ?? body.handoff?.reason,
+    agentContent: content,
+    currentUserText: latestUser?.content ?? "",
+    history: orderedHistory,
+  });
+
+  if (handoffDecision.target) {
+    try {
+      await applyResolvedHandoff(supabase, {
+        conversationId: conversation.id,
+        contactId: conversation.contact_id,
+        target: handoffDecision.target,
+        source: handoffDecision.source,
+        runId: runId ?? null,
+        triggerMessageId: latestUser?.id ?? null,
+        triggerSnippet: latestUser?.content ?? "",
+      });
+    } catch (handoffError) {
+      console.error("[nina-reply] handoff application failed:", handoffError);
+      return errorResponse("Falha ao aplicar encaminhamento", 500);
+    }
+  }
 
   const IMG_RE = /\[\[IMG:(https?:\/\/[^\s\]]+)\]\]/gi;
   const PDF_RE = /\[\[PDF:(https?:\/\/[^\s\]]+)\]\]/gi;
@@ -299,87 +328,6 @@ Deno.serve(async (req: Request) => {
   if (typeof EdgeRuntime !== "undefined" && EdgeRuntime?.waitUntil) {
     EdgeRuntime.waitUntil(triggerAnalyze);
   }
-
-  // ── HANDOFF HUMANO (matriz de destinos em _shared/handoff.ts) ──────────────
-  // DETERMINÍSTICO: o destino vem do `handoff_reason` estruturado (body ou
-  // marcador [[HANDOFF:reason]]). O texto enviado ao cliente NÃO decide o
-  // destino. A regex antiga permanece apenas como fallback legado.
-  // Para dermoconsultora, as regras de horário comercial seguem preservadas.
-  try {
-    let target: { reason: string; destination: "comercial" | "parcerias" | "financeiro" | "dermoconsultant" } | null =
-      structuredTarget;
-    let source: "structured" | "regex_fallback" = "structured";
-
-    if (!target) {
-      // ⚠️ FALLBACK LEGADO — só quando não houve motivo estruturado.
-      if (isConfirmedHandoffResponse(content)) {
-        let leadText = "";
-        try {
-          const { data: lastMsg } = await supabase
-            .from("messages").select("content")
-            .eq("conversation_id", conversation.id).eq("from_type", "user")
-            .order("sent_at", { ascending: false }).limit(1).maybeSingle();
-          leadText = lastMsg?.content ?? "";
-        } catch (_e) { /* ignore */ }
-
-        // A intenção pertence à mensagem original do cliente. O texto da Nina
-        // apenas confirma que o encaminhamento foi efetivamente comunicado.
-        target = detectHandoffTarget(leadText);
-        source = "regex_fallback";
-      }
-    }
-
-    if (target) {
-      const { outsideHours, weekday, hour } =
-        target.destination === "dermoconsultant"
-          ? isOutsideDermoHours()
-          : { outsideHours: false, weekday: "", hour: 0 };
-
-      const grantEnabled = (Deno.env.get("EXPEDICAO_CHAT_HANDOFF_ENABLED") ?? "false") === "true";
-      if (
-        grantEnabled &&
-        target.destination === "financeiro" &&
-        isExpedicaoGrantReason(target.reason)
-      ) {
-        // Pausa, atribuição, evento e concessão são atômicos. A RPC também
-        // resolve e valida a Letícia no servidor; nenhum ID vem do cliente.
-        const { data: handoff, error: handoffErr } = await supabase.rpc(
-          "apply_expedicao_handoff",
-          {
-            _conversation_id: conversation.id,
-            _reason: target.reason,
-            _origin: source,
-            _run_id: runId ?? null,
-            _trigger_message_id: null,
-            _trigger_snippet: cleaned || content,
-          },
-        );
-        if (handoffErr) throw handoffErr;
-        console.log("[nina-reply] handoff expedicao:", JSON.stringify(handoff));
-      } else {
-        // Destinos não-expedição e instalações com a liberação desligada
-        // preservam exatamente o fluxo já existente.
-        await applyHandoff(supabase, {
-          conversationId: conversation.id,
-          contactId: conversation.contact_id,
-          destination: target.destination,
-          reason: target.reason,
-          runId: runId ?? null,
-          snippet: content,
-          outsideHours,
-          extraMetadata: {
-            reason_source: source,
-            ...(target.destination === "dermoconsultant"
-              ? { tz: "America/Sao_Paulo", weekday, hour }
-              : {}),
-          },
-        });
-      }
-    }
-  } catch (e) {
-    console.error("[nina-reply] handoff resolution error:", e);
-  }
-
 
   return jsonResponse({ queued: true, send_queue_id: queued.id });
 });
