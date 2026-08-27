@@ -322,7 +322,9 @@ export function detectHandoffTargetFromHistory(
   const direct = detectHandoffTarget(cleanCurrent);
   if (direct) return direct;
 
-  const isContinuation = cleanCurrent.length <= 80 && /^(?:sim|isso|isso mesmo|pode|por favor|dificuldade|n[ãa]o consigo|n[ãa]o funciona|obrigad[oa]?|obg|bom dia|boa tarde|boa noite|[\p{L}\d\s,.-]{5,80})$/iu.test(cleanCurrent);
+  const isShortConfirmation = /^(?:sim|isso|isso mesmo|pode|por favor|dificuldade|n[ãa]o consigo|n[ãa]o funciona|obrigad[oa]?|obg|bom dia|boa tarde|boa noite)[.!?\s]*$/iu.test(cleanCurrent);
+  const looksLikeAddress = cleanCurrent.length <= 100 && /\b(?:rua|r\.|avenida|av\.?|alameda|travessa|rodovia|estrada|pra[çc]a)\b.{1,80}\d+/iu.test(cleanCurrent);
+  const isContinuation = isShortConfirmation || looksLikeAddress;
   if (!isContinuation) return null;
 
   const priorUserTexts = history
@@ -373,7 +375,10 @@ export async function applyResolvedHandoff(
   },
 ): Promise<{ applied: boolean; deduped?: boolean; destination: HandoffDestination }> {
   const { target } = params;
-  const grantEnabled = (Deno.env.get("EXPEDICAO_CHAT_HANDOFF_ENABLED") ?? "false") === "true";
+  const runtime = globalThis as typeof globalThis & {
+    Deno?: { env?: { get?: (name: string) => string | undefined } };
+  };
+  const grantEnabled = (runtime.Deno?.env?.get?.("EXPEDICAO_CHAT_HANDOFF_ENABLED") ?? "false") === "true";
 
   if (target.destination === "financeiro" && grantEnabled && isExpedicaoGrantReason(target.reason)) {
     // Defesa idempotente entre orchestrator, callback tardio e reaper. A RPC atual
