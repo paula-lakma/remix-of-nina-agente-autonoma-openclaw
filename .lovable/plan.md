@@ -26,8 +26,8 @@ Ou seja: a Letícia vê exatamente o texto descritivo da imagem, mas nunca a ima
 
 ## Correção mínima (somente apresentação em `src/components/ExpedicaoChat.tsx`)
 
-1. **Anexo no bloco "Motivo do encaminhamento"**: quando a mensagem de origem for de texto mas existir uma mensagem de mídia do cliente próxima ao handoff (mesma conversa, últimos minutos antes/depois), exibir essa mídia junto do texto, com o `MediaBlock` já existente.
-2. **Faixa de anexos recentes**: acima da conversa atual, listar as mídias do cliente pertencentes à janela do atendimento (últimas mídias recebidas), para que qualquer imagem, áudio, vídeo ou documento fique visível sem precisar abrir o histórico.
+1. **Anexo no bloco "Motivo do encaminhamento"**: quando a mensagem de origem for de texto mas existir uma mensagem de mídia do cliente próxima ao handoff (mesma conversa, até poucos minutos antes/depois), exibir essa mídia junto do texto, com o `MediaBlock` já existente.
+2. **Faixa de anexos recentes**: acima da conversa atual, listar as mídias do cliente do mesmo período do handoff que ainda **não** estejam sendo exibidas no bloco "Motivo do encaminhamento". Se a mídia do motivo já estiver visível ali, ela é removida da faixa (por `id` da mensagem) para evitar duplicação. Nenhuma mídia antiga sem relação com o atendimento atual é incluída; a janela é restrita às mensagens próximas ao handoff.
 3. **Histórico com indicação de mídia**: o botão "Ver conversa anterior com a NINA" passa a indicar quantos anexos existem lá dentro, e abre automaticamente quando o histórico contém mídia e a conversa atual não tem nenhuma.
 4. Nada de novo sistema de mídia: continua usando `useSignedMediaUrls` → `chat-media` → URL assinada do bucket privado `whatsapp-media`.
 
