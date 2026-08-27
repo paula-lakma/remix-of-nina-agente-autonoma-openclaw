@@ -317,6 +317,7 @@ async function combineAndTranscribeMessages(
                 content,
                 media_url: uploaded?.signedUrl ?? null,
                 media_type: info.mime_type,
+                metadata: { ...(dbMsg.metadata || {}), media_path: uploaded?.path ?? null },
               })
               .eq('id', dbMsg.id);
           }
@@ -354,6 +355,7 @@ async function combineAndTranscribeMessages(
                 content,
                 media_url: uploaded?.signedUrl ?? null,
                 media_type: info.mime_type,
+                metadata: { ...(dbMsg.metadata || {}), media_path: uploaded?.path ?? null },
               })
               .eq('id', dbMsg.id);
           }
@@ -384,6 +386,7 @@ async function combineAndTranscribeMessages(
                 content,
                 media_url: uploaded?.signedUrl ?? null,
                 media_type: info.mime_type,
+                metadata: { ...(dbMsg.metadata || {}), media_path: uploaded?.path ?? null },
               })
               .eq('id', dbMsg.id);
           }
