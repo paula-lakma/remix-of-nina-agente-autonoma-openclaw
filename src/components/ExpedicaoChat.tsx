@@ -434,16 +434,16 @@ const ExpedicaoChat: React.FC = () => {
                       </p>
                     </div>
                     <p className="text-sm font-medium text-foreground">{reasonLabel(selected.reason)}</p>
-                    {(triggerText || (triggerMessage && isMediaMessage(triggerMessage))) && (
+                    {(triggerText || motivoMedia) && (
                       <div className="mt-3 rounded-lg bg-background/60 border border-border/50 px-3 py-2">
                         <p className="text-[10px] uppercase tracking-wide text-muted-foreground mb-1">
                           Mensagem do cliente
                         </p>
-                        {triggerMessage && isMediaMessage(triggerMessage) && (
+                        {motivoMedia && (
                           <div className="mb-2">
                             <MediaBlock
-                              message={triggerMessage}
-                              url={mediaSrc(triggerMessage)}
+                              message={motivoMedia}
+                              url={mediaSrc(motivoMedia)}
                               onOpenImage={setLightboxUrl}
                             />
                           </div>
