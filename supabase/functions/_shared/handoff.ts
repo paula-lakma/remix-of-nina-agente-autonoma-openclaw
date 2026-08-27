@@ -357,6 +357,83 @@ export function resolveHandoffDecision(params: {
   return { target: contextual, cleanedAgentContent: marker.cleaned, source: contextual ? "context" : "customer_intent" };
 }
 
+export async function applyResolvedHandoff(
+  admin: Admin,
+  params: {
+    conversationId: string;
+    contactId?: string | null;
+    target: HandoffTarget;
+    source: "structured" | "customer_intent" | "context" | "reaper";
+    runId?: string | null;
+    triggerMessageId?: string | null;
+    triggerSnippet?: string | null;
+  },
+): Promise<{ applied: boolean; deduped?: boolean; destination: HandoffDestination }> {
+  const { target } = params;
+  const grantEnabled = (Deno.env.get("EXPEDICAO_CHAT_HANDOFF_ENABLED") ?? "false") === "true";
+
+  if (target.destination === "financeiro" && grantEnabled && isExpedicaoGrantReason(target.reason)) {
+    // Defesa idempotente entre orchestrator, callback tardio e reaper. A RPC atual
+    // substitui grants; portanto não a repetimos quando o mesmo handoff já está ativo.
+    const { data: existingConversation } = await admin
+      .from("conversations")
+      .select("ai_paused, human_takeover_required, handoff_type, handoff_reason")
+      .eq("id", params.conversationId)
+      .maybeSingle();
+    if (
+      existingConversation?.ai_paused === true &&
+      existingConversation?.human_takeover_required === true &&
+      existingConversation?.handoff_type === "financeiro" &&
+      existingConversation?.handoff_reason === target.reason
+    ) {
+      const { data: activeGrant } = await admin
+        .from("conversation_access_grants")
+        .select("id")
+        .eq("conversation_id", params.conversationId)
+        .eq("reason", target.reason)
+        .eq("is_active", true)
+        .limit(1)
+        .maybeSingle();
+      if (activeGrant?.id) {
+        console.log(`[handoff] dedup conv=${params.conversationId} motivo=${target.reason}`);
+        return { applied: true, deduped: true, destination: target.destination };
+      }
+    }
+
+    const { data, error } = await admin.rpc("apply_expedicao_handoff", {
+      _conversation_id: params.conversationId,
+      _reason: target.reason,
+      _origin: "nina",
+      _run_id: params.runId ?? null,
+      _trigger_message_id: params.triggerMessageId ?? null,
+      _trigger_snippet: params.triggerSnippet?.slice(0, 500) ?? null,
+    });
+    if (error) throw error;
+    console.log(`[handoff] expedição aplicada source=${params.source}:`, JSON.stringify(data));
+    return { applied: true, destination: target.destination };
+  }
+
+  const { outsideHours, weekday, hour } = target.destination === "dermoconsultant"
+    ? isOutsideDermoHours()
+    : { outsideHours: false, weekday: "", hour: 0 };
+  await applyHandoff(admin, {
+    conversationId: params.conversationId,
+    contactId: params.contactId,
+    destination: target.destination,
+    reason: target.reason,
+    runId: params.runId,
+    snippet: params.triggerSnippet,
+    outsideHours,
+    extraMetadata: {
+      reason_source: params.source,
+      ...(target.destination === "dermoconsultant"
+        ? { tz: "America/Sao_Paulo", weekday, hour }
+        : {}),
+    },
+  });
+  return { applied: true, destination: target.destination };
+}
+
 /**
  * Confirma que a resposta do agente declarou um encaminhamento já realizado.
  * Perguntas/ofertas de encaminhamento não autorizam o fallback sobre a mensagem
