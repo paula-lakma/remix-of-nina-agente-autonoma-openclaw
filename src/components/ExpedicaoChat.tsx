@@ -73,6 +73,12 @@ const authorOf = (fromType: string): Author => {
 const isMediaMessage = (m: ExpedicaoMessage) =>
   !!m.type && m.type !== 'text';
 
+const HANDOFF_WINDOW_MS = 5 * 60 * 1000;
+const HANDOFF_AFTER_MS = 2 * 60 * 1000;
+
+const isWithinHandoffWindow = (handoffAt: number, sentAt: number) =>
+  sentAt >= handoffAt - HANDOFF_WINDOW_MS && sentAt <= handoffAt + HANDOFF_AFTER_MS;
+
 // Renderiza a mídia real da mensagem (bucket privado, URL assinada sob demanda)
 const MediaBlock: React.FC<{
   message: ExpedicaoMessage;
