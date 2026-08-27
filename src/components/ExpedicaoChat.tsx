@@ -480,6 +480,22 @@ const ExpedicaoChat: React.FC = () => {
                     </div>
                   )}
 
+                  {/* Faixa de anexos recentes do cliente (sem duplicar o motivo) */}
+                  {recentAttachments.length > 0 && (
+                    <div className="rounded-xl border border-border/50 bg-card/40 p-3">
+                      <p className="text-[10px] uppercase tracking-wide text-muted-foreground mb-2 flex items-center gap-1.5">
+                        <Paperclip className="w-3 h-3" /> Anexos do cliente ({recentAttachments.length})
+                      </p>
+                      <div className="flex flex-wrap gap-3">
+                        {recentAttachments.map((m) => (
+                          <div key={m.id} className="max-w-[200px]">
+                            <MediaBlock message={m} url={mediaSrc(m)} onOpenImage={setLightboxUrl} />
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
                   {current.map(renderMessage)}
                 </>
               )}
