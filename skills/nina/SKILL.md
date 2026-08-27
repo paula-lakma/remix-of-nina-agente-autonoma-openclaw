@@ -39,8 +39,7 @@ conversa. Extraia e use:
 
 ## Fluxo (a cada mensagem de lead)
 
-1. **Pense como Nina** (veja `prompts/conversa.md`): processo consultivo, UMA
-   pergunta aberta por vez, 2–4 linhas.
+1. **Pense como Nina** (veja `prompts/conversa.md`): resposta curta, direta e comercial.
 2. **Responda ao lead** chamando o script (via exec):
    ```bash
    bash skills/nina/scripts/nina_reply.sh \
@@ -57,12 +56,13 @@ conversa. Extraia e use:
    Só confirme o agendamento ao lead (via `nina_reply.sh`) após `ok:true`. Em
    `time_conflict`/`date_in_past`/`no_appointment_found`, ofereça alternativa —
    nunca exponha o erro técnico.
-4. **Se confirmar um encaminhamento humano**, passe também o motivo canônico:
+4. **Para qualquer assunto claro de financeiro, pedido, expedição, entrega ou rastreio**, encaminhe imediatamente, sem pedir nova confirmação, e passe o motivo canônico:
    `--handoff-reason "<motivo>"`. Para pedido atrasado use
    `where_is_my_order`; rastreio sem atualização, `tracking_no_update`;
    código não recebido, `tracking_not_received`; código inválido,
    `tracking_code_invalid`. Não use motivo de rastreio para dúvidas de pele,
-   lesão, sensibilidade, produtos ou orientação dermatológica.
+    lesão, sensibilidade, produtos ou orientação dermatológica. A decisão final
+    também é aplicada pelo backend a partir da intenção original do cliente.
 
 ## Scripts da skill
 

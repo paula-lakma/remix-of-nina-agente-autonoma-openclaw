@@ -19,7 +19,12 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import { corsHeaders, errorResponse, validatePanelToken } from "../_shared/panel.ts";
 import { generateLovableReply } from "../_shared/lovable_reply.ts";
-import { TRACKING_HANDOFF_PROMPT } from "../_shared/handoff.ts";
+import {
+  applyResolvedHandoff,
+  detectHandoffTargetFromHistory,
+  resolveHandoffDecision,
+  TRACKING_HANDOFF_PROMPT,
+} from "../_shared/handoff.ts";
 
 const ORPHAN_MIN_AGE_MS = 5 * 60 * 1000;   // tem que ter > 5min (margem: latência openclaw observada ~30-100s; evita preemptar resposta boa com fallback)
 const ORPHAN_MAX_AGE_MS = 30 * 60 * 1000;  // janela: não reapar > 30min
@@ -149,6 +154,49 @@ Deno.serve(async (req: Request) => {
       .reverse()
       .map((r: any) => ({ role: r.from_type === "user" ? "user" as const : "assistant" as const, content: r.content || "[media]" }));
 
+    const deterministicTarget = detectHandoffTargetFromHistory(m.content ?? "", recent ?? []);
+    if (deterministicTarget?.destination === "financeiro") {
+      try {
+        await applyResolvedHandoff(supabase, {
+          conversationId: conversation.id,
+          contactId: conversation.contact_id,
+          target: deterministicTarget,
+          source: "reaper",
+          runId: `reaper-${m.id}`,
+          triggerMessageId: m.id,
+          triggerSnippet: m.content ?? "",
+        });
+      } catch (handoffError) {
+        console.error("[reaper] deterministic handoff failed:", handoffError);
+        continue;
+      }
+
+      const confirmation = "Encaminhei sua solicitação para o time responsável. A Leticia vai continuar o atendimento por aqui.";
+      const { error: handoffQueueError } = await supabase.from("send_queue").insert({
+        conversation_id: conversation.id,
+        contact_id: conversation.contact_id,
+        message_type: "text",
+        from_type: "nina",
+        content: confirmation,
+        status: "pending",
+        metadata: { source: "reaper_handoff", reaped_for_message: m.id, handoff_reason: deterministicTarget.reason },
+      });
+      if (handoffQueueError) {
+        console.error("[reaper] handoff send_queue insert error:", handoffQueueError);
+        continue;
+      }
+      await supabase.from("messages")
+        .update({ metadata: { ...(m.metadata ?? {}), reaped_at: new Date().toISOString() } })
+        .eq("id", m.id);
+      fetch(`${supabaseUrl}/functions/v1/whatsapp-sender`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Authorization": `Bearer ${serviceKey}` },
+        body: JSON.stringify({ triggered_by: "reap-orphan-runs-handoff" }),
+      }).catch((err) => console.error("[reaper] handoff sender error:", err));
+      reaped++;
+      continue;
+    }
+
     const baseSystemPrompt = (settings?.system_prompt_override || "").trim() || FALLBACK_SYSTEM_PROMPT;
     const systemPrompt = `${baseSystemPrompt}\n\n${TRACKING_HANDOFF_PROMPT}`;
     const content = await generateLovableReply({ systemPrompt, history, settings });
@@ -157,12 +205,36 @@ Deno.serve(async (req: Request) => {
       continue; // NÃO marca reaped_at -> tenta de novo no próximo cron
     }
 
+    const decision = resolveHandoffDecision({
+      agentContent: content,
+      currentUserText: m.content ?? "",
+      history: recent ?? [],
+    });
+    if (decision.target) {
+      try {
+        await applyResolvedHandoff(supabase, {
+          conversationId: conversation.id,
+          contactId: conversation.contact_id,
+          target: decision.target,
+          source: "reaper",
+          runId: `reaper-${m.id}`,
+          triggerMessageId: m.id,
+          triggerSnippet: m.content ?? "",
+        });
+      } catch (handoffError) {
+        console.error("[reaper] generated handoff failed:", handoffError);
+        continue;
+      }
+    }
+
+    const cleanedContent = decision.cleanedAgentContent.trim();
+    if (!cleanedContent) continue;
     const { error: insErr } = await supabase.from("send_queue").insert({
       conversation_id: conversation.id,
       contact_id: conversation.contact_id,
       message_type: "text",
       from_type: "nina",
-      content,
+      content: cleanedContent,
       status: "pending",
       metadata: { source: "reaper", reaped_for_message: m.id },
     });

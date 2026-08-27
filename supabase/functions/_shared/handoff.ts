@@ -109,7 +109,7 @@ export type HandoffReason = keyof typeof REASON_DESTINATIONS;
  */
 export const TRACKING_HANDOFF_PROMPT = `
 <tracking_handoff>
-Casos claramente relacionados a pedido já enviado, entrega ou rastreio devem ser encaminhados para a expedição usando exatamente um motivo estruturado aprovado:
+Qualquer assunto claramente relacionado a financeiro, pedido, expedição, entrega ou rastreio deve ser encaminhado imediatamente para a expedição, sem perguntar novamente se o cliente deseja o encaminhamento. Use exatamente um motivo estruturado aprovado:
 - pedido atrasado, não chegou ou "onde está meu pedido" -> where_is_my_order
 - rastreio parado ou sem atualização -> tracking_no_update
 - código de rastreio não recebido -> tracking_not_received
@@ -117,6 +117,8 @@ Casos claramente relacionados a pedido já enviado, entrega ou rastreio devem se
 - link de rastreio com erro -> tracking_link_issue
 - pedido enviado sem informação de acompanhamento -> shipped_no_info
 - dúvida sobre transportadora -> carrier_question
+- prazo, frete, endereço, alteração ou questão administrativa/pós-compra -> order_financial_question
+- pagamento, cobrança, Pix, cartão, boleto, nota fiscal ou reembolso -> use o motivo financeiro específico correspondente
 
 Ao confirmar o encaminhamento, inclua no retorno interno [[HANDOFF:<motivo>]]. O marcador não é texto para o cliente.
 Não classifique esses casos como sensitive_case e não os encaminhe para dermoconsultora.
@@ -171,8 +173,8 @@ const REASON_ALIASES: Record<string, HandoffReason> = {
   parceria: "partnership",
   influenciadora: "influencer",
   collab: "collab",
-  pagamento: "payment",
-  nota_fiscal: "invoice",
+  pagamento: "payment_unidentified",
+  nota_fiscal: "invoice_request",
   gestante: "pregnancy_breastfeeding",
   lactante: "pregnancy_breastfeeding",
   alergia: "allergy",
@@ -194,7 +196,10 @@ export function resolveHandoffReason(
 ): { reason: HandoffReason; destination: HandoffDestination } | null {
   if (!raw) return null;
   const key = String(raw).trim().toLowerCase().replace(/[\s-]+/g, "_");
-  const canonical = (key in REASON_DESTINATIONS ? key : REASON_ALIASES[key]) as HandoffReason | undefined;
+  // Os dois nomes legados agora convergem para motivos aceitos pela trava
+  // atômica da expedição. Isso evita um destino "financeiro" sem acesso da Leticia.
+  const normalizedKey = key === "payment" ? "payment_unidentified" : key === "invoice" ? "invoice_request" : key;
+  const canonical = (normalizedKey in REASON_DESTINATIONS ? normalizedKey : REASON_ALIASES[normalizedKey]) as HandoffReason | undefined;
   if (!canonical) return null;
   return { reason: canonical, destination: REASON_DESTINATIONS[canonical] };
 }
@@ -222,15 +227,45 @@ export function extractHandoffMarker(text: string): {
  * Regex sobre texto natural. NÃO é mais o mecanismo principal de roteamento:
  * só é consultada quando nenhum `handoff_reason` estruturado foi informado.
  */
+const SENSITIVE_REASON_MATRIX: Array<{ reason: string; destination: HandoffDestination; rx: RegExp }> = [
+  { reason: "gestante", destination: "dermoconsultant", rx: /gestante|gr[áa]vida|gesta(?:ç|c)[ãa]o/i },
+  { reason: "lactante", destination: "dermoconsultant", rx: /lactante|amament/i },
+  { reason: "alergia", destination: "dermoconsultant", rx: /alergi/i },
+  { reason: "reacao", destination: "dermoconsultant", rx: /rea[çc][ãa]o|reagiu|ard[êe]ncia forte|incha[çc]o/i },
+  { reason: "pele_sensibilizada", destination: "dermoconsultant", rx: /sensibiliz|pele sens[íi]vel|lesionad/i },
+  { reason: "contraindicacao", destination: "dermoconsultant", rx: /contraindic|contra-indic/i },
+  { reason: "medicamento_dermatologico", destination: "dermoconsultant", rx: /medicament|roacutan|isotretino[íi]na|tratamento dermatol[óo]gico|dermatologista/i },
+  { reason: "procedimento_recente", destination: "dermoconsultant", rx: /procedimento recente|f(?:ez|iz) (peeling|laser|microagulhamento)|p[óo]s[- ]procedimento/i },
+  { reason: "adaptacao_protocolo", destination: "dermoconsultant", rx: /adapta[çc][ãa]o.{0,15}protocolo|trocar.{0,10}produto.{0,10}protocolo/i },
+  { reason: "duvida_tecnica", destination: "dermoconsultant", rx: /d[úu]vida t[ée]cnica|avalia[çc][ãa]o (t[ée]cnica|humana)|orienta[çc][ãa]o dermatol[óo]gica/i },
+  { reason: "protocolo_nao_aprovado", destination: "dermoconsultant", rx: /protocolo n[ãa]o aprovado|protocolo n[ãa]o cadastr/i },
+  { reason: "link_nao_localizado", destination: "dermoconsultant", rx: /link n[ãa]o (encontrad|localizad)|n[ãa]o (consegui|localizei) (o )?link|n[ãa]o encontrei o link/i },
+];
+
 const REASON_MATRIX: Array<{ reason: string; destination: HandoffDestination; rx: RegExp }> = [
   // ── Leticia (rastreio / expedição) — antes das regras genéricas ───────────
   { reason: "tracking_no_update", destination: "financeiro", rx: /rastre(?:io|amento).{0,35}(n[ãa]o atualiza|sem atualiza[çc][ãa]o|parad[oa]|n[ãa]o muda)/i },
   { reason: "tracking_not_received", destination: "financeiro", rx: /(n[ãa]o recebi|sem).{0,25}c[óo]digo.{0,15}(de )?rastreio|c[óo]digo.{0,15}(de )?rastreio.{0,25}n[ãa]o (chegou|recebi)/i },
   { reason: "tracking_code_invalid", destination: "financeiro", rx: /c[óo]digo.{0,15}(de )?rastreio.{0,30}(inv[áa]lid|n[ãa]o funciona|erro)/i },
   { reason: "tracking_link_issue", destination: "financeiro", rx: /link.{0,20}(de )?rastreio.{0,30}(n[ãa]o abre|n[ãa]o funciona|erro)|rastreio.{0,20}link.{0,20}(inv[áa]lid|quebrad|erro)/i },
-  { reason: "carrier_question", destination: "financeiro", rx: /qual (a )?transportadora|transportadora.{0,30}(meu pedido|minha entrega)|correios|jadlog/i },
+  { reason: "carrier_question", destination: "financeiro", rx: /qual (?:seria |[ée] )?(?:a )?transportadora|transportadora.{0,30}(meu pedido|minha entrega)|correios|jadlog/i },
   { reason: "shipped_no_info", destination: "financeiro", rx: /(pedido|compra).{0,25}(enviad|despachad).{0,35}(sem informa[çc][ãa]o|sem rastreio|n[ãa]o recebi)|n[ãa]o recebi.{0,25}(informa[çc][ãa]o|rastreio).{0,25}(pedido|compra)/i },
   { reason: "where_is_my_order", destination: "financeiro", rx: /onde (est[áa]|t[áa]).{0,20}(meu )?pedido|(pedido|entrega).{0,35}(atrasad|n[ãa]o chegou|n[ãa]o foi entregue)|atraso.{0,20}(pedido|entrega)/i },
+  { reason: "tracking_help", destination: "financeiro", rx: /(?:ajuda|d[úu]vida|problema|dificuldade).{0,30}(?:rastreio|rastreamento|c[óo]digo)|(?:rastreio|rastreamento|c[óo]digo).{0,30}(?:ajuda|d[úu]vida|problema|dificuldade)/i },
+  { reason: "order_financial_question", destination: "financeiro", rx: /(?:prazo|previs[ãa]o).{0,25}(?:entrega|pedido)|(?:frete|endere[çc]o).{0,35}(?:pedido|entrega|compra)|(?:alterar|altera[çc][ãa]o|confirmar).{0,35}(?:endere[çc]o|pedido|entrega)|(?:problema|d[úu]vida|ajuda).{0,30}(?:pedido|compra)|(?:pedido|compra).{0,35}(?:problema|d[úu]vida|ajuda|endere[çc]o|frete|administrativ|p[óo]s[- ]compra|informa[çc][ãa]o|confirma[çc][ãa]o)/i },
+
+  // ── Leticia (financeiro detalhado) ───────────────────────────────────────
+  { reason: "duplicate_charge", destination: "financeiro", rx: /cobran[çc]a.{0,20}(duplicad|duas vezes)|cobrou.{0,15}duas vezes/i },
+  { reason: "payment_declined", destination: "financeiro", rx: /pagamento.{0,25}(recusad|negad|n[ãa]o aprov)|cart[ãa]o.{0,25}(recusad|negad)/i },
+  { reason: "payment_pending", destination: "financeiro", rx: /pagamento.{0,25}(pendent|processando|aguardando)|pedido.{0,25}aguardando pagamento/i },
+  { reason: "payment_receipt", destination: "financeiro", rx: /comprovante.{0,20}(pagamento|pix)|enviar comprovante/i },
+  { reason: "boleto_issue", destination: "financeiro", rx: /boleto/i },
+  { reason: "pix_issue", destination: "financeiro", rx: /\bpix\b/i },
+  { reason: "card_issue", destination: "financeiro", rx: /cart[ãa]o.{0,30}(erro|problema|n[ãa]o passa|falh)/i },
+  { reason: "invoice_request", destination: "financeiro", rx: /nota fiscal|\bnfe?\b|danfe/i },
+  { reason: "refund_request", destination: "financeiro", rx: /reembolso|estorno/i },
+  { reason: "charge_issue", destination: "financeiro", rx: /cobran[çc]a|valor cobrado/i },
+  { reason: "payment_unidentified", destination: "financeiro", rx: /pagamento|pagar/i },
 
   // ── Paula Rodrigues (comercial / SAC / logística) ────────────────────────
   { reason: "estoque", destination: "comercial", rx: /\bestoque\b|sem estoque|indispon[íi]vel/i },
@@ -253,23 +288,6 @@ const REASON_MATRIX: Array<{ reason: string; destination: HandoffDestination; rx
   { reason: "influenciadora", destination: "parcerias", rx: /influencia(dora)?|influencer/i },
   { reason: "collab", destination: "parcerias", rx: /collab/i },
 
-  // ── Leticia (financeiro) ─────────────────────────────────────────────────
-  { reason: "pagamento", destination: "financeiro", rx: /pagamento|pagar|boleto|estorno|reembolso|cobran[çc]a|\bpix\b/i },
-  { reason: "nota_fiscal", destination: "financeiro", rx: /nota fiscal|\bnfe?\b|danfe/i },
-
-  // ── Dermoconsultoras (técnico / sensível) ────────────────────────────────
-  { reason: "gestante", destination: "dermoconsultant", rx: /gestante|gr[áa]vida|gesta(ç|c)[ãa]o/i },
-  { reason: "lactante", destination: "dermoconsultant", rx: /lactante|amament/i },
-  { reason: "alergia", destination: "dermoconsultant", rx: /alergi/i },
-  { reason: "reacao", destination: "dermoconsultant", rx: /rea[çc][ãa]o|reagiu|ard[êe]ncia forte|incha[çc]o/i },
-  { reason: "pele_sensibilizada", destination: "dermoconsultant", rx: /sensibiliz|sens[íi]vel|lesionad/i },
-  { reason: "contraindicacao", destination: "dermoconsultant", rx: /contraindic|contra-indic/i },
-  { reason: "medicamento_dermatologico", destination: "dermoconsultant", rx: /medicament|roacutan|isotretino[íi]na|tratamento dermatol[óo]gico|dermatologista/i },
-  { reason: "procedimento_recente", destination: "dermoconsultant", rx: /procedimento recente|f(?:ez|iz) (peeling|laser|microagulhamento)|p[óo]s[- ]procedimento/i },
-  { reason: "adaptacao_protocolo", destination: "dermoconsultant", rx: /adapta[çc][ãa]o.{0,15}protocolo|trocar.{0,10}produto.{0,10}protocolo/i },
-  { reason: "duvida_tecnica", destination: "dermoconsultant", rx: /d[úu]vida t[ée]cnica|avalia[çc][ãa]o (t[ée]cnica|humana)|t[ée]cnic/i },
-  { reason: "protocolo_nao_aprovado", destination: "dermoconsultant", rx: /protocolo n[ãa]o aprovado|protocolo n[ãa]o cadastr/i },
-  { reason: "link_nao_localizado", destination: "dermoconsultant", rx: /link n[ãa]o (encontrad|localizad)|n[ãa]o (consegui|localizei) (o )?link|n[ãa]o encontrei o link/i },
 ];
 
 /**
@@ -279,10 +297,149 @@ const REASON_MATRIX: Array<{ reason: string; destination: HandoffDestination; rx
 export function detectHandoffTarget(
   text: string,
 ): { reason: HandoffReason; destination: HandoffDestination } | null {
+  // Segurança clínica sempre vence coincidências administrativas no mesmo texto.
+  for (const entry of SENSITIVE_REASON_MATRIX) {
+    if (entry.rx.test(text)) return resolveHandoffReason(entry.reason);
+  }
   for (const entry of REASON_MATRIX) {
     if (entry.rx.test(text)) return resolveHandoffReason(entry.reason);
   }
   return null;
+}
+
+export type HandoffHistoryMessage = { from_type?: string; role?: string; content?: string | null };
+
+/**
+ * Classifica o turno atual e, apenas para respostas curtas/continuações, recupera
+ * a intenção das mensagens recentes do cliente. Textos do agente nunca concedem
+ * autoridade; servem somente para delimitar o contexto da conversa.
+ */
+export function detectHandoffTargetFromHistory(
+  currentText: string,
+  history: HandoffHistoryMessage[] = [],
+): { reason: HandoffReason; destination: HandoffDestination } | null {
+  const cleanCurrent = stripHandoffMarkers(currentText);
+  const direct = detectHandoffTarget(cleanCurrent);
+  if (direct) return direct;
+
+  const isShortConfirmation = /^(?:sim|isso|isso mesmo|pode|por favor|dificuldade|n[ãa]o consigo|n[ãa]o funciona|obrigad[oa]?|obg|bom dia|boa tarde|boa noite)[.!?\s]*$/iu.test(cleanCurrent);
+  const looksLikeAddress = cleanCurrent.length <= 100 && /\b(?:rua|r\.|avenida|av\.?|alameda|travessa|rodovia|estrada|pra[çc]a)\b.{1,80}\d+/iu.test(cleanCurrent);
+  const isContinuation = isShortConfirmation || looksLikeAddress;
+  if (!isContinuation) return null;
+
+  const priorUserTexts = history
+    .filter((entry) => (entry.from_type ?? entry.role) === "user")
+    .map((entry) => stripHandoffMarkers(entry.content))
+    .filter(Boolean)
+    .filter((text) => text !== cleanCurrent)
+    .slice(-3)
+    .reverse();
+
+  for (const priorText of priorUserTexts) {
+    const target = detectHandoffTarget(priorText);
+    if (target) return target;
+  }
+  return null;
+}
+
+export type HandoffTarget = { reason: HandoffReason; destination: HandoffDestination };
+
+export function resolveHandoffDecision(params: {
+  structuredReason?: string | null;
+  agentContent?: string | null;
+  currentUserText: string;
+  history?: HandoffHistoryMessage[];
+}): { target: HandoffTarget | null; cleanedAgentContent: string; source: "structured" | "customer_intent" | "context" } {
+  const marker = extractHandoffMarker(params.agentContent ?? "");
+  const structured = resolveHandoffReason(params.structuredReason) ?? marker.target;
+  if (structured) return { target: structured, cleanedAgentContent: marker.cleaned, source: "structured" };
+  const direct = detectHandoffTarget(stripHandoffMarkers(params.currentUserText));
+  if (direct?.destination === "financeiro" || (direct && isConfirmedHandoffResponse(params.agentContent ?? ""))) {
+    return { target: direct, cleanedAgentContent: marker.cleaned, source: "customer_intent" };
+  }
+  const contextual = detectHandoffTargetFromHistory(params.currentUserText, params.history ?? []);
+  const eligibleContext = contextual?.destination === "financeiro" ? contextual : null;
+  return { target: eligibleContext, cleanedAgentContent: marker.cleaned, source: eligibleContext ? "context" : "customer_intent" };
+}
+
+export async function applyResolvedHandoff(
+  admin: Admin,
+  params: {
+    conversationId: string;
+    contactId?: string | null;
+    target: HandoffTarget;
+    source: "structured" | "customer_intent" | "context" | "reaper";
+    runId?: string | null;
+    triggerMessageId?: string | null;
+    triggerSnippet?: string | null;
+  },
+): Promise<{ applied: boolean; deduped?: boolean; destination: HandoffDestination }> {
+  const { target } = params;
+  const runtime = globalThis as typeof globalThis & {
+    Deno?: { env?: { get?: (name: string) => string | undefined } };
+  };
+  const grantEnabled = (runtime.Deno?.env?.get?.("EXPEDICAO_CHAT_HANDOFF_ENABLED") ?? "false") === "true";
+
+  if (target.destination === "financeiro" && grantEnabled && isExpedicaoGrantReason(target.reason)) {
+    // Defesa idempotente entre orchestrator, callback tardio e reaper. A RPC atual
+    // substitui grants; portanto não a repetimos quando o mesmo handoff já está ativo.
+    const { data: existingConversation } = await admin
+      .from("conversations")
+      .select("ai_paused, human_takeover_required, handoff_type, handoff_reason")
+      .eq("id", params.conversationId)
+      .maybeSingle();
+    if (
+      existingConversation?.ai_paused === true &&
+      existingConversation?.human_takeover_required === true &&
+      existingConversation?.handoff_type === "financeiro" &&
+      existingConversation?.handoff_reason === target.reason
+    ) {
+      const { data: activeGrant } = await admin
+        .from("conversation_access_grants")
+        .select("id")
+        .eq("conversation_id", params.conversationId)
+        .eq("reason", target.reason)
+        .eq("is_active", true)
+        .limit(1)
+        .maybeSingle();
+      if (activeGrant?.id) {
+        console.log(`[handoff] dedup conv=${params.conversationId} motivo=${target.reason}`);
+        return { applied: true, deduped: true, destination: target.destination };
+      }
+    }
+
+    const { data, error } = await admin.rpc("apply_expedicao_handoff", {
+      _conversation_id: params.conversationId,
+      _reason: target.reason,
+      _origin: "nina",
+      _run_id: params.runId ?? null,
+      _trigger_message_id: params.triggerMessageId ?? null,
+      _trigger_snippet: params.triggerSnippet?.slice(0, 500) ?? null,
+    });
+    if (error) throw error;
+    console.log(`[handoff] expedição aplicada source=${params.source}:`, JSON.stringify(data));
+    return { applied: true, destination: target.destination };
+  }
+
+  const { outsideHours, weekday, hour } = target.destination === "dermoconsultant"
+    ? isOutsideDermoHours()
+    : { outsideHours: false, weekday: "", hour: 0 };
+  await applyHandoff(admin, {
+    conversationId: params.conversationId,
+    contactId: params.contactId,
+    destination: target.destination,
+    reason: target.reason,
+    runId: params.runId,
+    snippet: params.triggerSnippet,
+    outsideHours,
+    extraMetadata: {
+      reason_source: params.source,
+      ...(target.destination === "dermoconsultant"
+        ? { tz: "America/Sao_Paulo", weekday, hour }
+        : {}),
+    },
+  });
+  return { applied: true, destination: target.destination };
 }
 
 /**

@@ -6,7 +6,11 @@ import {
   rescheduleAppointmentFromAI,
   cancelAppointmentFromAI,
 } from "../_shared/appointments.ts";
-import { TRACKING_HANDOFF_PROMPT } from "../_shared/handoff.ts";
+import {
+  applyResolvedHandoff,
+  detectHandoffTargetFromHistory,
+  TRACKING_HANDOFF_PROMPT,
+} from "../_shared/handoff.ts";
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -499,6 +503,53 @@ async function processQueueItem(
       role: msg.from_type === 'user' ? 'user' : 'assistant',
       content: msg.content || '[media]'
     }));
+
+  // A intenção operacional do cliente é decidida antes do provedor de IA. Para
+  // financeiro/pedido/expedição/entrega/rastreio não dependemos de marcador nem
+  // da frase que o modelo escolheria escrever.
+  const deterministicTarget = detectHandoffTargetFromHistory(
+    message.content ?? "",
+    recentMessages ?? [],
+  );
+  if (deterministicTarget?.destination === "financeiro") {
+    const source = detectHandoffTargetFromHistory(message.content ?? "", [])
+      ? "customer_intent" as const
+      : "context" as const;
+    await applyResolvedHandoff(supabase, {
+      conversationId: conversation.id,
+      contactId: conversation.contact_id,
+      target: deterministicTarget,
+      source,
+      runId: `orchestrator-${item.id}`,
+      triggerMessageId: message.id,
+      triggerSnippet: message.content ?? "",
+    });
+
+    const confirmation = "Encaminhei sua solicitação para o time responsável. A Leticia vai continuar o atendimento por aqui.";
+    const { error: queueError } = await supabase.from("send_queue").insert({
+      conversation_id: conversation.id,
+      contact_id: conversation.contact_id,
+      message_type: "text",
+      from_type: "nina",
+      content: confirmation,
+      status: "pending",
+      priority: 2,
+      metadata: {
+        source: "deterministic_handoff",
+        response_to_message_id: message.id,
+        handoff_reason: deterministicTarget.reason,
+      },
+    });
+    if (queueError) throw queueError;
+    await supabase.from("messages").update({ processed_by_nina: true }).eq("id", message.id);
+    fetch(`${supabaseUrl}/functions/v1/whatsapp-sender`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Authorization": `Bearer ${supabaseServiceKey}` },
+      body: JSON.stringify({ triggered_by: "nina-orchestrator-handoff" }),
+    }).catch((err) => console.error("[Nina] handoff sender trigger error:", err));
+    console.log(`[Nina] Handoff determinístico aplicado: ${deterministicTarget.reason}`);
+    return;
+  }
 
   // Get client memory
   const clientMemory = conversation.contact?.client_memory || {};
