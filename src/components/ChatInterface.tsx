@@ -16,6 +16,7 @@ import { Dialog, DialogContent, DialogTitle } from './ui/dialog';
 import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
 import { FileText, Download, ExternalLink } from 'lucide-react';
 import { MessageActions } from './MessageActions';
+import { useSignedMediaUrls } from '@/hooks/useSignedMediaUrls';
 
 const ChatInterface: React.FC = () => {
   const { conversations, loading, sendMessage, updateStatus, markAsRead, assignConversation, deleteConversation } = useConversations();
@@ -41,6 +42,16 @@ const ChatInterface: React.FC = () => {
   const [lightboxUrl, setLightboxUrl] = useState<string | null>(null);
   
   const activeChat = conversations.find(c => c.id === selectedChatId);
+
+  // URLs assinadas frescas (bucket privado) para as mídias da conversa aberta
+  const signedMedia = useSignedMediaUrls(
+    (activeChat?.messages ?? []).map(m => ({
+      id: m.id,
+      conversationId: activeChat?.id ?? null,
+      hasMedia: m.type !== MessageType.TEXT && !m.id.startsWith('temp-'),
+    }))
+  );
+  const mediaSrc = (m: UIMessage) => signedMedia[m.id] || m.mediaUrl || null;
   const messagesEndRef = useRef<HTMLDivElement>(null);
   
   // Format audio time helper
@@ -267,7 +278,7 @@ const ChatInterface: React.FC = () => {
 
   const renderMessageContent = (msg: UIMessage) => {
     if (msg.type === MessageType.IMAGE) {
-      const src = msg.mediaUrl || msg.content;
+      const src = mediaSrc(msg) || msg.content;
       return (
         <div className="mb-1 group relative">
           <button
@@ -292,9 +303,10 @@ const ChatInterface: React.FC = () => {
 
 
     if (msg.type === MessageType.DOCUMENT) {
-      const name = (msg.mediaUrl || '').split('/').pop()?.split('?')[0] || 'documento';
+      const href = mediaSrc(msg);
+      const name = (href || '').split('/').pop()?.split('?')[0] || 'documento';
       return (
-        <a href={msg.mediaUrl || '#'} target="_blank" rel="noreferrer" className="flex items-center gap-3 p-2 -m-1 rounded-lg hover:bg-black/10 transition-colors">
+        <a href={href || '#'} target="_blank" rel="noreferrer" className="flex items-center gap-3 p-2 -m-1 rounded-lg hover:bg-black/10 transition-colors">
           <div className="w-10 h-10 rounded-lg bg-black/20 flex items-center justify-center flex-shrink-0">
             <FileText className="w-5 h-5" />
           </div>
@@ -330,10 +342,10 @@ const ChatInterface: React.FC = () => {
       return (
         <div className="flex items-center gap-3 min-w-[220px] py-1">
           {/* Hidden audio element */}
-          {msg.mediaUrl && (
+          {mediaSrc(msg) && (
             <audio
               ref={el => { if (el) audioRefs.current[msg.id] = el; }}
-              src={msg.mediaUrl}
+              src={mediaSrc(msg) as string}
               onLoadedMetadata={(e) => {
                 const audio = e.currentTarget;
                 setAudioDurations(prev => ({ ...prev, [msg.id]: audio.duration }));
@@ -349,7 +361,7 @@ const ChatInterface: React.FC = () => {
           {/* Play/Pause button */}
           <button 
             onClick={togglePlay}
-            disabled={!msg.mediaUrl}
+            disabled={!mediaSrc(msg)}
             className={`flex items-center justify-center w-9 h-9 rounded-full transition-all shadow-md ${
               msg.direction === MessageDirection.OUTGOING 
                 ? 'bg-white text-cyan-600 hover:bg-cyan-50 disabled:opacity-50' 
@@ -390,6 +402,25 @@ const ChatInterface: React.FC = () => {
               {formatAudioTime(progress)} / {formatAudioTime(duration)}
             </span>
           </div>
+        </div>
+      );
+    }
+
+    if (msg.type === MessageType.VIDEO) {
+      const src = mediaSrc(msg);
+      return (
+        <div className="mb-1">
+          {src ? (
+            <video
+              src={src}
+              controls
+              preload="metadata"
+              className="rounded-lg max-w-full max-h-72 border border-slate-700/50 shadow-lg"
+            />
+          ) : (
+            <p className="text-xs opacity-70">Vídeo indisponível</p>
+          )}
+          {msg.content && <p className="text-xs mt-2 opacity-90 whitespace-pre-wrap">{msg.content}</p>}
         </div>
       );
     }

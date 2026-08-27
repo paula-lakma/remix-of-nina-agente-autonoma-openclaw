@@ -265,22 +265,37 @@ async function combineAndTranscribeMessages(
 
     let content = dbMsg.content || '';
 
-    // Handle audio transcription
+    // Handle audio: persist no storage + transcrição
     if (messageData.type === 'audio') {
       const audioMediaId = messageData.audio?.id;
-      if (audioMediaId && accessToken && lovableApiKey) {
-        console.log('[MessageGrouper] Transcribing audio:', audioMediaId);
-        const audioBuffer = await downloadWhatsAppMedia(settings, audioMediaId);
-        if (audioBuffer) {
-          const transcription = await transcribeAudio(audioBuffer, lovableApiKey);
-          if (transcription) {
-            content = transcription;
-            // Update the message in database with transcription
-            await supabase
-              .from('messages')
-              .update({ content: transcription })
-              .eq('id', dbMsg.id);
+      if (audioMediaId && accessToken) {
+        console.log('[MessageGrouper] Processing audio:', audioMediaId);
+        const info = await fetchWhatsAppMediaInfo(accessToken, audioMediaId);
+        const audioBuffer = info ? await downloadWhatsAppBinary(accessToken, info.url) : null;
+
+        if (audioBuffer && info) {
+          const uploaded = await uploadMediaToStorage(supabase, audioBuffer, {
+            conversationId: dbMsg.conversation_id,
+            messageId: dbMsg.id,
+            mimeType: info.mime_type,
+            direction: 'in',
+          });
+
+          let transcription: string | null = null;
+          if (lovableApiKey) {
+            transcription = await transcribeAudio(audioBuffer, lovableApiKey);
           }
+          if (transcription) content = transcription;
+
+          await supabase
+            .from('messages')
+            .update({
+              ...(transcription ? { content: transcription } : {}),
+              media_url: uploaded?.signedUrl ?? null,
+              media_type: info.mime_type,
+              metadata: { ...(dbMsg.metadata || {}), media_path: uploaded?.path ?? null },
+            })
+            .eq('id', dbMsg.id);
         }
       }
     }
@@ -317,6 +332,7 @@ async function combineAndTranscribeMessages(
                 content,
                 media_url: uploaded?.signedUrl ?? null,
                 media_type: info.mime_type,
+                metadata: { ...(dbMsg.metadata || {}), media_path: uploaded?.path ?? null },
               })
               .eq('id', dbMsg.id);
           }
@@ -354,6 +370,11 @@ async function combineAndTranscribeMessages(
                 content,
                 media_url: uploaded?.signedUrl ?? null,
                 media_type: info.mime_type,
+                metadata: {
+                  ...(dbMsg.metadata || {}),
+                  media_path: uploaded?.path ?? null,
+                  media_filename: filename,
+                },
               })
               .eq('id', dbMsg.id);
           }
@@ -384,6 +405,7 @@ async function combineAndTranscribeMessages(
                 content,
                 media_url: uploaded?.signedUrl ?? null,
                 media_type: info.mime_type,
+                metadata: { ...(dbMsg.metadata || {}), media_path: uploaded?.path ?? null },
               })
               .eq('id', dbMsg.id);
           }
