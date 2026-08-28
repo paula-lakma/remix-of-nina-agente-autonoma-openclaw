@@ -34,9 +34,18 @@ Outras contas existentes no sistema (não mexer): Paula Rodrigues (comercial), C
 ## 3. O que o plano propõe
 
 ### 3.1 Contas e papéis
-- Reutilizar o registro existente da Cris; criar apenas as quatro faltantes (Mylena, Talia, Barbara, Laura) com auth user + team_member vinculado, função dermoconsultora.
-- Novo papel `dermo` no enum `app_role`, atribuído às cinco. Cris **deixa** de ser `sdr` (senão continuaria vendo tudo).
-- Marcar Laura como sênior por função própria ("Dermoconsultora Sênior"), fora do rodízio normal.
+Mylena, Talia, Barbara e Laura:
+- Verificação imediatamente antes da execução: só cria `auth.user` se o e-mail realmente não existir naquele momento (nada de conta duplicada caso surja entre a auditoria e a implementação).
+- Cria ou vincula o respectivo `team_member` (função dermoconsultora), com `user_id` apontando para o auth user e `status = active`.
+- Atribui o novo papel `dermo` em `user_roles`.
+- Nenhuma senha é inventada, escrita ou guardada em código, migration, banco ou frontend. O primeiro acesso usa o mecanismo seguro já existente na autenticação do projeto: convite/recuperação por e-mail, com a própria tela `/auth` → "esqueci minha senha" e a página `/reset-password` já implementadas. Cada profissional define a própria senha.
+
+Cris:
+- Nenhuma conta nova. Reutiliza exatamente o auth user `44c46675…` e o team_member `22222222-…-0003`.
+- Altera somente o papel `sdr` → `dermo`, após conferir que nada específico depende do papel `sdr` dela (verificação prévia em RLS, RPCs, edge functions e frontend; hoje `sdr` aparece apenas em `is_operational_staff` e no mapa de permissões da UI).
+
+Laura é marcada como sênior por função própria ("Dermoconsultora Sênior"), fora do rodízio normal.
+
 
 ### 3.2 Distribuição — recomendação
 **Menor quantidade de atendimentos ativos**, com desempate determinístico (mais antigo `assigned_at`, depois `id`), substituindo o `random()` atual. Motivo: já é a base do `pick_next_dermoconsultora`, é auto-corretivo quando alguém finaliza atendimentos e não exige tabela de ponteiro como o round-robin. Rodízio só entre Mylena, Cris, Talia e Barbara.
