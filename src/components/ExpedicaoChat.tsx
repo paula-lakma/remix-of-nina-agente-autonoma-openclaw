@@ -35,7 +35,7 @@ interface ExpedicaoMessage {
 }
 
 // Motivos amigáveis (leitura apenas — não altera classificação nem allowlist)
-const REASON_LABELS: Record<string, string> = {
+const EXPEDICAO_REASON_LABELS: Record<string, string> = {
   where_is_my_order: 'Onde está meu pedido',
   tracking_not_received: 'Pedido atrasado / rastreio',
   tracking_no_update: 'Pedido enviado sem atualização',
@@ -58,8 +58,28 @@ const REASON_LABELS: Record<string, string> = {
   order_financial_question: 'Dúvida financeira do pedido',
 };
 
-const reasonLabel = (reason: string) =>
-  REASON_LABELS[(reason || '').toLowerCase()] || 'Atendimento financeiro / expedição';
+export const DERMO_REASON_LABELS: Record<string, string> = {
+  technical_question: 'Dúvida técnica',
+  sensitive_case: 'Caso sensível',
+  contraindication: 'Contraindicação',
+  reaction: 'Reação ao produto',
+  allergy: 'Alergia',
+  pregnancy_breastfeeding: 'Gestante / lactante',
+  sensitized_or_injured_skin: 'Pele sensibilizada ou lesionada',
+  medication_or_dermatological_treatment: 'Medicamento / tratamento dermatológico',
+  recent_procedure: 'Procedimento recente',
+  protocol_adaptation: 'Adaptação de protocolo',
+  protocol_product_substitution: 'Substituição de produto do protocolo',
+  missing_technical_information: 'Informação técnica ausente',
+  product_link_not_found_after_search: 'Link de produto não localizado',
+};
+
+export interface RestrictedChatConfig {
+  /** Nome da edge function de backend (expedicao-chat | dermo-chat) */
+  edgeFunction: string;
+  reasonLabels: Record<string, string>;
+  fallbackReasonLabel: string;
+}
 
 type Author = 'client' | 'nina' | 'human';
 
