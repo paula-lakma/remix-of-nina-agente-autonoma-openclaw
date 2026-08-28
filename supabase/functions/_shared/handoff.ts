@@ -431,6 +431,7 @@ export async function applyResolvedHandoff(
     reason: target.reason,
     runId: params.runId,
     snippet: params.triggerSnippet,
+    triggerMessageId: params.triggerMessageId ?? null,
     outsideHours,
     extraMetadata: {
       reason_source: params.source,
@@ -463,15 +464,24 @@ export function isConfirmedHandoffResponse(text: string): boolean {
 export async function resolveAssignee(
   admin: Admin,
   destination: HandoffDestination,
-): Promise<{ team_member_id: string | null; email: string | null; name: string | null }> {
+  reason?: string,
+): Promise<{ team_member_id: string | null; email: string | null; name: string | null; dermo_mode?: string; dermo_fallback?: boolean }> {
   if (destination === "dermoconsultant") {
-    const { data, error } = await admin.rpc("pick_next_dermoconsultora");
-    if (error) console.error("[handoff] pick_next_dermoconsultora error:", error);
-    const id = (typeof data === "string" ? data : data?.[0]) ?? null;
+    // Casos sensíveis → Laura direto (fora do balanceamento); demais → menor
+    // carga de atendimentos ativos entre as cinco. O SQL decide e sinaliza o modo.
+    const { data, error } = await admin.rpc("pick_dermo_assignee", { _reason: reason ?? null });
+    if (error) console.error("[handoff] pick_dermo_assignee error:", error);
+    const id = (typeof data === "object" && data ? data.team_member_id : null) ?? null;
     if (!id) return { team_member_id: null, email: null, name: null };
+    if (data?.fallback) {
+      console.warn(`[handoff] dermo fallback: motivo sensível "${reason}" mas sênior indisponível — caiu no balanceamento`);
+    }
     const { data: tm } = await admin
       .from("team_members").select("id, email, name").eq("id", id).maybeSingle();
-    return { team_member_id: id, email: tm?.email ?? null, name: tm?.name ?? null };
+    return {
+      team_member_id: id, email: tm?.email ?? null, name: tm?.name ?? null,
+      dermo_mode: data?.mode ?? null, dermo_fallback: !!data?.fallback,
+    };
   }
 
   const email = DESTINATION_EMAILS[destination];
@@ -501,12 +511,13 @@ export async function applyHandoff(
     reason: string;
     runId?: string | null;
     snippet?: string | null;
+    triggerMessageId?: string | null;
     outsideHours?: boolean;
     humanStatus?: string | null;
     extraMetadata?: Record<string, unknown>;
   },
 ): Promise<{ team_member_id: string | null; destination: HandoffDestination }> {
-  const assignee = await resolveAssignee(admin, params.destination);
+  const assignee = await resolveAssignee(admin, params.destination, params.reason);
   const nowIso = new Date().toISOString();
   const isDermo = params.destination === "dermoconsultant";
 
@@ -536,6 +547,21 @@ export async function applyHandoff(
 
   await admin.from("conversations").update(update).eq("id", params.conversationId);
 
+  // Concessão de acesso da dermoconsultora (mesmo modelo da expedição):
+  // sem grant ativo, a profissional não lê a conversa no Chat ao Vivo.
+  if (isDermo && assignee.team_member_id) {
+    const { data: grantRes, error: grantErr } = await admin.rpc("internal_grant_dermo_access", {
+      _conversation_id: params.conversationId,
+      _team_member_id: assignee.team_member_id,
+      _reason: params.reason,
+      _origin: "nina",
+      _trigger_message_id: params.triggerMessageId ?? null,
+      _trigger_snippet: params.snippet ?? null,
+    });
+    if (grantErr) console.error("[handoff] internal_grant_dermo_access error:", grantErr);
+    else console.log(`[handoff] dermo grant: ${JSON.stringify(grantRes)}`);
+  }
+
   await admin.from("conversation_handoff_events").insert({
     conversation_id: params.conversationId,
     event_type: isDermo ? "handoff_dermoconsultant" : `handoff_${params.destination}`,
@@ -547,6 +573,9 @@ export async function applyHandoff(
       assigned_team_member_id: assignee.team_member_id,
       assigned_email: assignee.email,
       outside_hours: params.outsideHours ?? null,
+      ...(isDermo
+        ? { dermo_mode: assignee.dermo_mode ?? null, dermo_fallback: assignee.dermo_fallback ?? false }
+        : {}),
       ...(params.extraMetadata ?? {}),
     },
   });

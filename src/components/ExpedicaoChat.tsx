@@ -35,7 +35,7 @@ interface ExpedicaoMessage {
 }
 
 // Motivos amigáveis (leitura apenas — não altera classificação nem allowlist)
-const REASON_LABELS: Record<string, string> = {
+const EXPEDICAO_REASON_LABELS: Record<string, string> = {
   where_is_my_order: 'Onde está meu pedido',
   tracking_not_received: 'Pedido atrasado / rastreio',
   tracking_no_update: 'Pedido enviado sem atualização',
@@ -58,8 +58,28 @@ const REASON_LABELS: Record<string, string> = {
   order_financial_question: 'Dúvida financeira do pedido',
 };
 
-const reasonLabel = (reason: string) =>
-  REASON_LABELS[(reason || '').toLowerCase()] || 'Atendimento financeiro / expedição';
+export const DERMO_REASON_LABELS: Record<string, string> = {
+  technical_question: 'Dúvida técnica',
+  sensitive_case: 'Caso sensível',
+  contraindication: 'Contraindicação',
+  reaction: 'Reação ao produto',
+  allergy: 'Alergia',
+  pregnancy_breastfeeding: 'Gestante / lactante',
+  sensitized_or_injured_skin: 'Pele sensibilizada ou lesionada',
+  medication_or_dermatological_treatment: 'Medicamento / tratamento dermatológico',
+  recent_procedure: 'Procedimento recente',
+  protocol_adaptation: 'Adaptação de protocolo',
+  protocol_product_substitution: 'Substituição de produto do protocolo',
+  missing_technical_information: 'Informação técnica ausente',
+  product_link_not_found_after_search: 'Link de produto não localizado',
+};
+
+export interface RestrictedChatConfig {
+  /** Nome da edge function de backend (expedicao-chat | dermo-chat) */
+  edgeFunction: string;
+  reasonLabels: Record<string, string>;
+  fallbackReasonLabel: string;
+}
 
 type Author = 'client' | 'nina' | 'human';
 
@@ -126,8 +146,8 @@ const MediaBlock: React.FC<{
   );
 };
 
-async function callExpedicaoChat<T>(body: Record<string, unknown>): Promise<T> {
-  const { data, error } = await supabase.functions.invoke('expedicao-chat', { body });
+async function callRestrictedChat<T>(edgeFunction: string, body: Record<string, unknown>): Promise<T> {
+  const { data, error } = await supabase.functions.invoke(edgeFunction, { body });
   if (error) throw error;
   if (data && (data as { error?: string }).error) {
     throw new Error((data as { error: string }).error);
@@ -135,7 +155,10 @@ async function callExpedicaoChat<T>(body: Record<string, unknown>): Promise<T> {
   return data as T;
 }
 
-const ExpedicaoChat: React.FC = () => {
+export const RestrictedHandoffChat: React.FC<{ config: RestrictedChatConfig }> = ({ config }) => {
+  const reasonLabel = (reason: string) =>
+    config.reasonLabels[(reason || '').toLowerCase()] || config.fallbackReasonLabel;
+  const callBackend = <T,>(body: Record<string, unknown>) => callRestrictedChat<T>(config.edgeFunction, body);
   const [conversations, setConversations] = useState<ExpedicaoConversation[]>([]);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [messages, setMessages] = useState<ExpedicaoMessage[]>([]);
@@ -150,7 +173,7 @@ const ExpedicaoChat: React.FC = () => {
   const loadList = useCallback(async () => {
     setLoadingList(true);
     try {
-      const res = await callExpedicaoChat<{ conversations: ExpedicaoConversation[] }>({ action: 'list' });
+      const res = await callBackend<{ conversations: ExpedicaoConversation[] }>({ action: 'list' });
       const list = res.conversations ?? [];
       setConversations(list);
       setSelectedId((prev) => (prev && list.some((c) => c.conversation_id === prev) ? prev : null));
@@ -165,7 +188,7 @@ const ExpedicaoChat: React.FC = () => {
   const loadMessages = useCallback(async (conversationId: string) => {
     setLoadingMessages(true);
     try {
-      const res = await callExpedicaoChat<{ messages: ExpedicaoMessage[] }>({
+      const res = await callBackend<{ messages: ExpedicaoMessage[] }>({
         action: 'messages',
         conversation_id: conversationId,
       });
@@ -203,7 +226,7 @@ const ExpedicaoChat: React.FC = () => {
     if (!content || !selectedId || sending) return;
     setSending(true);
     try {
-      await callExpedicaoChat({ action: 'reply', conversation_id: selectedId, content });
+      await callBackend({ action: 'reply', conversation_id: selectedId, content });
       setDraft('');
       await loadMessages(selectedId);
     } catch (e) {
@@ -216,7 +239,7 @@ const ExpedicaoChat: React.FC = () => {
   const handleFinish = async () => {
     if (!selectedId) return;
     try {
-      await callExpedicaoChat({ action: 'finish', conversation_id: selectedId });
+      await callBackend({ action: 'finish', conversation_id: selectedId });
       toast.success('Atendimento finalizado');
       setSelectedId(null);
       await loadList();
@@ -554,5 +577,9 @@ const ExpedicaoChat: React.FC = () => {
     </div>
   );
 };
+
+const ExpedicaoChat: React.FC = () => (
+  <RestrictedHandoffChat config={{ edgeFunction: 'expedicao-chat', reasonLabels: EXPEDICAO_REASON_LABELS, fallbackReasonLabel: 'Atendimento financeiro / expedição' }} />
+);
 
 export default ExpedicaoChat;

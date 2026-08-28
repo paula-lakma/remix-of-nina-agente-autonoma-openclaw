@@ -84,12 +84,18 @@ Deno.serve(async (req) => {
       .maybeSingle();
     row = viaRls ?? null;
 
-    // 2) papel expedicao — acesso restrito à conversa concedida
+    // 2) papéis restritos (expedicao / dermo) — acesso à conversa concedida
     if (!row) {
       if (!UUID_RE.test(conversationId)) return json({ error: "forbidden" }, 403);
-      const { data: allowed } = await userClient
+      const { data: allowedExp } = await userClient
         .rpc("expedicao_can_access_conversation", { _conversation_id: conversationId });
-      if (allowed !== true) return json({ error: "forbidden" }, 403);
+      let allowed = allowedExp === true;
+      if (!allowed) {
+        const { data: allowedDermo } = await userClient
+          .rpc("dermo_can_access_conversation", { _conversation_id: conversationId });
+        allowed = allowedDermo === true;
+      }
+      if (!allowed) return json({ error: "forbidden" }, 403);
 
       const { data: viaAdmin } = await admin
         .from("messages")

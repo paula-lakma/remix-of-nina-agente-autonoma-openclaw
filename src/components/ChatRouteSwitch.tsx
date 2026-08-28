@@ -3,9 +3,11 @@ import { Loader2 } from 'lucide-react';
 import { useUserRole } from '@/hooks/useUserRole';
 import ChatInterface from './ChatInterface';
 import ExpedicaoChat from './ExpedicaoChat';
+import DermoChat from './DermoChat';
 
-// Seleciona a interface de chat conforme o papel: `expedicao` usa a versão
-// restrita (backend `expedicao-chat`); demais papéis mantêm o chat completo.
+// Seleciona a interface de chat conforme o papel: `expedicao` e `dermo` usam
+// versões restritas (backends `expedicao-chat` / `dermo-chat`); demais papéis
+// mantêm o chat completo.
 const ChatRouteSwitch: React.FC = () => {
   const { role, loading } = useUserRole();
 
@@ -17,7 +19,9 @@ const ChatRouteSwitch: React.FC = () => {
     );
   }
 
-  return role === 'expedicao' ? <ExpedicaoChat /> : <ChatInterface />;
+  if (role === 'expedicao') return <ExpedicaoChat />;
+  if (role === 'dermo') return <DermoChat />;
+  return <ChatInterface />;
 };
 
 export default ChatRouteSwitch;
