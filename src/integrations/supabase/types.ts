@@ -2507,6 +2507,18 @@ export type Database = {
       cleanup_processed_message_queue: { Args: never; Returns: undefined }
       cleanup_processed_queues: { Args: never; Returns: undefined }
       current_team_member_id: { Args: never; Returns: string }
+      dermo_can_access_conversation: {
+        Args: { _conversation_id: string }
+        Returns: boolean
+      }
+      dermo_finish_conversation: {
+        Args: { _conversation_id: string }
+        Returns: boolean
+      }
+      dermo_reply: {
+        Args: { _content: string; _conversation_id: string }
+        Returns: string
+      }
       expedicao_can_access_conversation: {
         Args: { _conversation_id: string }
         Returns: boolean
@@ -2520,6 +2532,20 @@ export type Database = {
         Returns: string
       }
       get_auth_user_id: { Args: never; Returns: string }
+      get_my_dermo_messages: {
+        Args: { _conversation_id: string }
+        Returns: {
+          content: string
+          conversation_id: string
+          from_type: Database["public"]["Enums"]["message_from"]
+          id: string
+          media_type: string
+          media_url: string
+          sent_at: string
+          status: Database["public"]["Enums"]["message_status"]
+          type: Database["public"]["Enums"]["message_type"]
+        }[]
+      }
       get_my_expedicao_messages: {
         Args: { _conversation_id: string }
         Returns: {
@@ -2561,6 +2587,17 @@ export type Database = {
         }
         Returns: boolean
       }
+      internal_grant_dermo_access: {
+        Args: {
+          _conversation_id: string
+          _origin?: string
+          _reason: string
+          _team_member_id: string
+          _trigger_message_id?: string
+          _trigger_snippet?: string
+        }
+        Returns: Json
+      }
       internal_grant_expedicao_access: {
         Args: {
           _conversation_id: string
@@ -2573,11 +2610,29 @@ export type Database = {
         Returns: Json
       }
       is_admin_or_manager: { Args: { _user_id: string }; Returns: boolean }
+      is_dermo_handoff_reason: { Args: { _reason: string }; Returns: boolean }
       is_expedicao_handoff_reason: {
         Args: { _reason: string }
         Returns: boolean
       }
       is_operational_staff: { Args: { _user_id: string }; Returns: boolean }
+      is_sensitive_dermo_reason: { Args: { _reason: string }; Returns: boolean }
+      list_my_dermo_conversations: {
+        Args: never
+        Returns: {
+          attendance_finished: boolean
+          contact_name: string
+          contact_phone_masked: string
+          conversation_id: string
+          granted_at: string
+          handoff_at: string
+          human_status: string
+          last_message_at: string
+          reason: string
+          trigger_message_id: string
+          trigger_snippet: string
+        }[]
+      }
       list_my_expedicao_conversations: {
         Args: never
         Returns: {
@@ -2595,6 +2650,7 @@ export type Database = {
         }[]
       }
       normalize_tracking_code: { Args: { p_code: string }; Returns: string }
+      pick_dermo_assignee: { Args: { _reason: string }; Returns: Json }
       pick_next_dermoconsultora: { Args: never; Returns: string }
       release_shopify_tracking_locks: {
         Args: {
@@ -2656,7 +2712,7 @@ export type Database = {
       }
     }
     Enums: {
-      app_role: "admin" | "user" | "sdr" | "manager" | "expedicao"
+      app_role: "admin" | "user" | "sdr" | "manager" | "expedicao" | "dermo"
       appointment_type: "demo" | "meeting" | "support" | "followup"
       conversation_status: "nina" | "human" | "paused"
       member_role: "admin" | "manager" | "agent"
@@ -2793,7 +2849,7 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
-      app_role: ["admin", "user", "sdr", "manager", "expedicao"],
+      app_role: ["admin", "user", "sdr", "manager", "expedicao", "dermo"],
       appointment_type: ["demo", "meeting", "support", "followup"],
       conversation_status: ["nina", "human", "paused"],
       member_role: ["admin", "manager", "agent"],
