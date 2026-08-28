@@ -44,14 +44,14 @@ Cris:
 - Nenhuma conta nova. Reutiliza exatamente o auth user `44c46675…` e o team_member `22222222-…-0003`.
 - Altera somente o papel `sdr` → `dermo`, após conferir que nada específico depende do papel `sdr` dela (verificação prévia em RLS, RPCs, edge functions e frontend; hoje `sdr` aparece apenas em `is_operational_staff` e no mapa de permissões da UI).
 
-Laura é marcada como sênior por função própria ("Dermoconsultora Sênior"), fora do rodízio normal.
+Laura é marcada como sênior por função própria ("Dermoconsultora Sênior"), mas **participa normalmente do rodízio/balanceamento** junto com as demais.
 
 
 ### 3.2 Distribuição — recomendação
-**Menor quantidade de atendimentos ativos**, com desempate determinístico (mais antigo `assigned_at`, depois `id`), substituindo o `random()` atual. Motivo: já é a base do `pick_next_dermoconsultora`, é auto-corretivo quando alguém finaliza atendimentos e não exige tabela de ponteiro como o round-robin. Rodízio só entre Mylena, Cris, Talia e Barbara.
+**Menor quantidade de atendimentos ativos**, com desempate determinístico (mais antigo `assigned_at`, depois `id`), substituindo o `random()` atual. Motivo: já é a base do `pick_next_dermoconsultora`, é auto-corretivo quando alguém finaliza atendimentos e não exige tabela de ponteiro como o round-robin. O balanceamento inclui as cinco: Mylena, Cris, Talia, Barbara **e Laura**.
 
 ### 3.3 Laura nos casos sensíveis
-Sem classificador novo. Uma lista de motivos sensíveis (subconjunto já existente da `REASON_MATRIX`: gestante, lactante, alergia, reação, pele sensibilizada, contraindicação, medicamento dermatológico, procedimento recente, intercorrência) roteia direto para Laura; os demais motivos de dermoconsultora entram no balanceamento. Se Laura estiver inativa, cai no rodízio normal.
+Sem classificador novo. Uma lista de motivos sensíveis (subconjunto já existente da `REASON_MATRIX`: gestante, lactante, alergia, reação, pele sensibilizada, contraindicação, medicamento dermatológico, procedimento recente, intercorrência) roteia **diretamente para Laura, com prioridade exclusiva e fora do balanceamento normal**. Os demais motivos de dermoconsultora entram no balanceamento das cinco. Se Laura estiver inativa ou indisponível, aplica fallback seguro para o balanceamento normal entre as demais dermoconsultoras e registra o fallback em log (`conversation_handoff_events` com metadados do fallback).
 
 ### 3.4 Visibilidade real (não só frontend)
 Espelhar exatamente o modelo já provado da Leticia: concessão de acesso na `conversation_access_grants` no momento do handoff, função `dermo_can_access_conversation(id)`, policies de SELECT em `conversations`/`messages`/`contacts` para o papel `dermo`, e RPCs `list_my_dermo_conversations` / `get_my_dermo_messages` / `dermo_reply` / `dermo_finish_conversation`. Admin e manager mantêm a visão atual.
@@ -69,7 +69,7 @@ Não alterados: `apply_expedicao_handoff`, `is_expedicao_handoff_reason`, classi
 Nenhuma alteração automática. As duas conversas dermo órfãs e a da Cris ficam como estão; depois da implantação decidimos se vale um backfill igual ao financeiro.
 
 ## 6. Testes previstos (sem mensagem real ao cliente)
-A) caso normal → uma das quatro · B) segundo caso normal → outra profissional (balanceamento) · C) caso sensível → Laura · D) pedido atrasado → Leticia · E) rastreio → Leticia · F) dúvida de produto → Nina segue · G) handoff dermo → Nina pausada e `human_takeover_required` · H) dermo A tentando ler conversa da dermo B → negado no banco · I) admin vê tudo · J) finalizar atendimento e reabertura pelo cliente · K) imagem/áudio/documento visíveis.
+A) caso normal → uma das cinco (incluindo Laura), pela menor carga ativa · B) segundo caso normal → outra profissional (balanceamento) · C) caso sensível → Laura direto, fora do balanceamento · C2) caso sensível com Laura inativa → fallback para outra dermoconsultora com registro em log · D) pedido atrasado → Leticia · E) rastreio → Leticia · F) dúvida de produto → Nina segue · G) handoff dermo → Nina pausada e `human_takeover_required` · H) dermo A tentando ler conversa da dermo B → negado no banco · I) admin vê tudo · J) finalizar atendimento e reabertura pelo cliente · K) imagem/áudio/documento visíveis.
 
 Testes adicionais de conta e visibilidade:
 - Cris deixa de enxergar todas as conversas e passa a ver somente as atribuídas a ela.
