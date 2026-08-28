@@ -146,8 +146,8 @@ const MediaBlock: React.FC<{
   );
 };
 
-async function callExpedicaoChat<T>(body: Record<string, unknown>): Promise<T> {
-  const { data, error } = await supabase.functions.invoke('expedicao-chat', { body });
+async function callRestrictedChat<T>(edgeFunction: string, body: Record<string, unknown>): Promise<T> {
+  const { data, error } = await supabase.functions.invoke(edgeFunction, { body });
   if (error) throw error;
   if (data && (data as { error?: string }).error) {
     throw new Error((data as { error: string }).error);
@@ -155,7 +155,10 @@ async function callExpedicaoChat<T>(body: Record<string, unknown>): Promise<T> {
   return data as T;
 }
 
-const ExpedicaoChat: React.FC = () => {
+export const RestrictedHandoffChat: React.FC<{ config: RestrictedChatConfig }> = ({ config }) => {
+  const reasonLabel = (reason: string) =>
+    config.reasonLabels[(reason || '').toLowerCase()] || config.fallbackReasonLabel;
+  const callBackend = <T,>(body: Record<string, unknown>) => callRestrictedChat<T>(config.edgeFunction, body);
   const [conversations, setConversations] = useState<ExpedicaoConversation[]>([]);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [messages, setMessages] = useState<ExpedicaoMessage[]>([]);
