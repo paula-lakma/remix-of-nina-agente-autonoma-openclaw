@@ -173,7 +173,7 @@ export const RestrictedHandoffChat: React.FC<{ config: RestrictedChatConfig }> =
   const loadList = useCallback(async () => {
     setLoadingList(true);
     try {
-      const res = await callExpedicaoChat<{ conversations: ExpedicaoConversation[] }>({ action: 'list' });
+      const res = await callBackend<{ conversations: ExpedicaoConversation[] }>({ action: 'list' });
       const list = res.conversations ?? [];
       setConversations(list);
       setSelectedId((prev) => (prev && list.some((c) => c.conversation_id === prev) ? prev : null));
@@ -188,7 +188,7 @@ export const RestrictedHandoffChat: React.FC<{ config: RestrictedChatConfig }> =
   const loadMessages = useCallback(async (conversationId: string) => {
     setLoadingMessages(true);
     try {
-      const res = await callExpedicaoChat<{ messages: ExpedicaoMessage[] }>({
+      const res = await callBackend<{ messages: ExpedicaoMessage[] }>({
         action: 'messages',
         conversation_id: conversationId,
       });
@@ -226,7 +226,7 @@ export const RestrictedHandoffChat: React.FC<{ config: RestrictedChatConfig }> =
     if (!content || !selectedId || sending) return;
     setSending(true);
     try {
-      await callExpedicaoChat({ action: 'reply', conversation_id: selectedId, content });
+      await callBackend({ action: 'reply', conversation_id: selectedId, content });
       setDraft('');
       await loadMessages(selectedId);
     } catch (e) {
@@ -239,7 +239,7 @@ export const RestrictedHandoffChat: React.FC<{ config: RestrictedChatConfig }> =
   const handleFinish = async () => {
     if (!selectedId) return;
     try {
-      await callExpedicaoChat({ action: 'finish', conversation_id: selectedId });
+      await callBackend({ action: 'finish', conversation_id: selectedId });
       toast.success('Atendimento finalizado');
       setSelectedId(null);
       await loadList();
@@ -577,5 +577,9 @@ export const RestrictedHandoffChat: React.FC<{ config: RestrictedChatConfig }> =
     </div>
   );
 };
+
+const ExpedicaoChat: React.FC = () => (
+  <RestrictedHandoffChat config={{ edgeFunction: 'expedicao-chat', reasonLabels: EXPEDICAO_REASON_LABELS, fallbackReasonLabel: 'Atendimento financeiro / expedição' }} />
+);
 
 export default ExpedicaoChat;
