@@ -56,8 +56,8 @@ export function useUserRole() {
         .order('role', { ascending: true });
       if (!active) return;
       const roles = (data || []).map((r) => r.role as AppRole);
-      // prioridade: admin > manager > moderator > sdr > expedicao > user
-      const priority: AppRole[] = ['admin', 'manager', 'moderator', 'sdr', 'expedicao', 'user'];
+      // prioridade: admin > manager > moderator > sdr > expedicao > dermo > user
+      const priority: AppRole[] = ['admin', 'manager', 'moderator', 'sdr', 'expedicao', 'dermo', 'user'];
       const resolved = priority.find((p) => roles.includes(p)) || 'sdr';
 
       setRole(resolved);
