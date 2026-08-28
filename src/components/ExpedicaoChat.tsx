@@ -238,16 +238,6 @@ const ExpedicaoChat: React.FC = () => {
 
   const handoffAt = selected?.handoff_at ? new Date(selected.handoff_at).getTime() : null;
 
-  const { history, current } = useMemo(() => {
-    if (!handoffAt) return { history: [] as ExpedicaoMessage[], current: messages };
-    const h: ExpedicaoMessage[] = [];
-    const c: ExpedicaoMessage[] = [];
-    for (const m of messages) {
-      (new Date(m.sent_at).getTime() < handoffAt ? h : c).push(m);
-    }
-    return { history: h, current: c };
-  }, [messages, handoffAt]);
-
   // Mensagem que originou o handoff: id explícito > última fala do cliente antes
   // do encaminhamento > trecho registrado na concessão.
   const triggerMessage = useMemo(() => {
@@ -267,15 +257,46 @@ const ExpedicaoChat: React.FC = () => {
 
   const triggerText = triggerMessage?.content || selected?.trigger_snippet || null;
 
-  // Mídias do cliente próximas ao handoff (até 5 min antes e 2 min depois)
+  // Âncora do corte: a fala real do cliente que originou o caso (importante nos
+  // backfills, onde a concessão foi criada muito depois da conversa).
+  const anchorAt = triggerMessage ? new Date(triggerMessage.sent_at).getTime() : handoffAt;
+
+  // Contexto mínimo: só quando o gatilho é curto/ambíguo, até 3 falas do cliente
+  // imediatamente anteriores.
+  const AMBIGUOUS = /^(sim|não|nao|ok|isso|dificuldade|não chegou|nao chegou|ainda não|ainda nao|e aí|oi|olá|ola)[.!?]*$/i;
+  const contextIds = useMemo(() => {
+    const ids = new Set<string>();
+    if (!triggerMessage || !anchorAt) return ids;
+    const text = (triggerMessage.content || '').trim();
+    const needsContext = isMediaMessage(triggerMessage) || text.length < 25 || AMBIGUOUS.test(text);
+    if (!needsContext) return ids;
+    const before = messages
+      .filter((m) => m.from_type === 'user' && new Date(m.sent_at).getTime() < anchorAt)
+      .slice(-3);
+    before.forEach((m) => ids.add(m.id));
+    return ids;
+  }, [triggerMessage, messages, anchorAt]);
+
+  const { history, current } = useMemo(() => {
+    if (!anchorAt) return { history: [] as ExpedicaoMessage[], current: messages };
+    const h: ExpedicaoMessage[] = [];
+    const c: ExpedicaoMessage[] = [];
+    for (const m of messages) {
+      const t = new Date(m.sent_at).getTime();
+      (t >= anchorAt || contextIds.has(m.id) ? c : h).push(m);
+    }
+    return { history: h, current: c };
+  }, [messages, anchorAt, contextIds]);
+
+  // Mídias do cliente próximas à âncora (até 5 min antes e 2 min depois)
   const clientMediaWindow = useMemo(() => {
-    if (!handoffAt) return [];
+    if (!anchorAt) return [];
     return messages.filter((m) => {
       if (m.from_type !== 'user' || !isMediaMessage(m)) return false;
       const t = new Date(m.sent_at).getTime();
-      return isWithinHandoffWindow(handoffAt, t);
+      return isWithinHandoffWindow(anchorAt, t);
     });
-  }, [messages, handoffAt]);
+  }, [messages, anchorAt]);
 
   // Mídia exibida dentro do bloco "Motivo do encaminhamento"
   const motivoMedia = useMemo(() => {
@@ -296,14 +317,6 @@ const ExpedicaoChat: React.FC = () => {
   }, [clientMediaWindow, motivoShownIds]);
 
   const historyMediaCount = useMemo(() => history.filter(isMediaMessage).length, [history]);
-  const currentMediaCount = useMemo(() => current.filter(isMediaMessage).length, [current]);
-
-  // Abre automaticamente o histórico quando toda a mídia relevante caiu nele
-  useEffect(() => {
-    if (historyMediaCount > 0 && currentMediaCount === 0) {
-      setShowHistory(true);
-    }
-  }, [historyMediaCount, currentMediaCount]);
 
   const renderMessage = (m: ExpedicaoMessage) => {
     const author = authorOf(m.from_type);
