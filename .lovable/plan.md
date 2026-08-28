@@ -69,7 +69,7 @@ Não alterados: `apply_expedicao_handoff`, `is_expedicao_handoff_reason`, classi
 Nenhuma alteração automática. As duas conversas dermo órfãs e a da Cris ficam como estão; depois da implantação decidimos se vale um backfill igual ao financeiro.
 
 ## 6. Testes previstos (sem mensagem real ao cliente)
-A) caso normal → uma das quatro · B) segundo caso normal → outra profissional (balanceamento) · C) caso sensível → Laura · D) pedido atrasado → Leticia · E) rastreio → Leticia · F) dúvida de produto → Nina segue · G) handoff dermo → Nina pausada e `human_takeover_required` · H) dermo A tentando ler conversa da dermo B → negado no banco · I) admin vê tudo · J) finalizar atendimento e reabertura pelo cliente · K) imagem/áudio/documento visíveis.
+A) caso normal → uma das cinco (incluindo Laura), pela menor carga ativa · B) segundo caso normal → outra profissional (balanceamento) · C) caso sensível → Laura direto, fora do balanceamento · C2) caso sensível com Laura inativa → fallback para outra dermoconsultora com registro em log · D) pedido atrasado → Leticia · E) rastreio → Leticia · F) dúvida de produto → Nina segue · G) handoff dermo → Nina pausada e `human_takeover_required` · H) dermo A tentando ler conversa da dermo B → negado no banco · I) admin vê tudo · J) finalizar atendimento e reabertura pelo cliente · K) imagem/áudio/documento visíveis.
 
 Testes adicionais de conta e visibilidade:
 - Cris deixa de enxergar todas as conversas e passa a ver somente as atribuídas a ela.
