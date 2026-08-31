@@ -38,14 +38,16 @@ const EXT_BY_MIME: Record<string, string> = {
   "audio/aac": "aac",
 };
 
-// Extrai o caminho dentro do bucket a partir de uma signed URL antiga.
-function pathFromSignedUrl(url: string | null): string | null {
+// Extrai bucket + caminho a partir de uma URL de storage (sign/public/authenticated).
+function parseStorageUrl(url: string | null): { bucket: string; path: string } | null {
   if (!url) return null;
-  const marker = `/${BUCKET}/`;
-  const i = url.indexOf(marker);
-  if (i === -1) return null;
-  return decodeURIComponent(url.slice(i + marker.length).split("?")[0]) || null;
+  const m = url.match(/\/storage\/v1\/object\/(?:sign|public|authenticated)\/([^/]+)\/(.+)$/);
+  if (!m) return null;
+  const path = decodeURIComponent(m[2].split("?")[0]);
+  if (!path) return null;
+  return { bucket: m[1], path };
 }
+
 
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
@@ -112,28 +114,46 @@ Deno.serve(async (req) => {
     const mime = typeof row.media_type === "string" ? row.media_type : "";
     const ext = EXT_BY_MIME[mime.toLowerCase()] ?? mime.split("/").pop()?.split(";")[0] ?? "bin";
 
-    const path =
-      (typeof metadata.media_path === "string" && metadata.media_path) ||
-      pathFromSignedUrl(typeof row.media_url === "string" ? row.media_url : null) ||
-      `${row.conversation_id}/in/${row.id}.${ext}`;
+    const fromUrl = parseStorageUrl(typeof row.media_url === "string" ? row.media_url : null);
 
-    const { data: signed, error: signErr } = await admin.storage
-      .from(BUCKET)
-      .createSignedUrl(path, TTL);
+    // candidatos (bucket, path) em ordem de confiança
+    const candidates: Array<{ bucket: string; path: string }> = [];
+    if (fromUrl) candidates.push(fromUrl);
+    if (typeof metadata.media_path === "string" && metadata.media_path) {
+      candidates.push({ bucket: fromUrl?.bucket ?? BUCKET, path: metadata.media_path });
+      if (fromUrl && fromUrl.bucket !== BUCKET) candidates.push({ bucket: BUCKET, path: metadata.media_path });
+    }
+    candidates.push({ bucket: BUCKET, path: `${row.conversation_id}/in/${row.id}.${ext}` });
 
-    if (signErr || !signed?.signedUrl) {
-      console.error("[chat-media] sign error", signErr?.message);
+    let signedUrl: string | null = null;
+    let usedPath: string | null = null;
+    let lastErr = "";
+    for (const c of candidates) {
+      const { data: signed, error: signErr } = await admin.storage
+        .from(c.bucket)
+        .createSignedUrl(c.path, TTL);
+      if (signed?.signedUrl) {
+        signedUrl = signed.signedUrl;
+        usedPath = c.path;
+        break;
+      }
+      lastErr = signErr?.message ?? "unknown";
+    }
+
+    if (!signedUrl) {
+      console.error("[chat-media] sign error", lastErr, "candidates:", JSON.stringify(candidates));
       return json({ error: "media_unavailable" }, 404);
     }
 
     return json({
       ok: true,
-      url: signed.signedUrl,
-      path,
+      url: signedUrl,
+      path: usedPath,
       media_type: mime || null,
       filename: typeof metadata.media_filename === "string" ? metadata.media_filename : null,
       expires_in: TTL,
     });
+
   } catch (e) {
     console.error("[chat-media] error", e instanceof Error ? e.message : String(e));
     return json({ error: "internal_error" }, 500);
