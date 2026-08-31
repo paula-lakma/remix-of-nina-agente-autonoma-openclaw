@@ -55,7 +55,7 @@ Candidatas ao backfill:
 |---|---|---|---|---|---|
 | Wellen Cristine (`9ea95d72…`) | "É que paguei pelo frete que chegaria em quatro dias" / "Foi enviado hoje?" | `order_financial_question` | `status=nina`, ativa, não finalizada | nenhum | Sim — a Nina já disse ao cliente que repassou; o backfill só materializa isso |
 | Amanda Mota (`eb54fa34…`) | "Só me confirma se foi alterado número de entrega por favor" | `order_financial_question` | `status=nina`, não finalizada | nenhum | Sim — Nina já afirmou ter encaminhado |
-| Aline (`99b9ef38…`) | "Como faço pra acompanhar meus pedidos" / "quantos dias ainda" | deveria ser `where_is_my_order` | `paused`, `handoff_type=dermoconsultant`, `handoff_reason=sensitive_case`, **sem concessão ativa** | handoff errado, sem grant | Sim, mas exige reclassificação de um handoff existente — trato como decisão separada e só executo se você autorizar |
+| Aline (`99b9ef38…`) | "Como faço pra acompanhar meus pedidos" / "quantos dias ainda" | `where_is_my_order` | `paused`, `handoff_type=dermoconsultant`, `handoff_reason=sensitive_case`, **sem concessão ativa** | classificação incorreta a corrigir | Sim — incluída no backfill; correção de destino usando a mesma `apply_expedicao_handoff`, sem mensagem ao cliente |
 
 Não são candidatas: `25918df9…` (Jusleyanne — mensagem automática de salão, não é cliente com pedido) e a conversa de rastreio `057bfd43…` da Wellen (apenas notificação Shopify, sem pergunta do cliente).
 
