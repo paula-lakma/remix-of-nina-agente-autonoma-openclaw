@@ -33,7 +33,7 @@ Somente ampliar a cobertura da matriz financeira/expedição em `_shared/handoff
 
 Também alinhar as instruções de prompt (`TRACKING_HANDOFF_PROMPT`, `skills/nina/SKILL.md`, `skills/nina/prompts/conversa.md`) para citar envio/postagem/prazo/frete, mantendo o backend como fonte da verdade.
 
-Precedência atual preservada: `SENSITIVE_REASON_MATRIX` (dermatológico) continua sendo avaliada **antes** de qualquer regra logística.
+Precedência ajustada: quando a **mensagem-gatilho atual** for claramente de entrega, frete, envio, prazo, transportadora, rastreio ou logística pós-compra, a decisão é **Leticia**, mesmo que a conversa tenha histórico dermatológico. A `SENSITIVE_REASON_MATRIX` continua íntegra e segue tendo precedência em qualquer outro caso — inclusive quando a mensagem atual mistura risco dermatológico real (reação, lesão, alergia, gestação, medicamento, procedimento recente) com menção logística, situação em que a dermoconsultora prevalece. Ou seja: a checagem logística passa a ser avaliada primeiro sobre a necessidade atual, e o dermatológico permanece como precedência sobre contexto anterior e sobre risco clínico presente.
 
 ### Nada disso muda
 
@@ -55,7 +55,7 @@ Candidatas ao backfill:
 |---|---|---|---|---|---|
 | Wellen Cristine (`9ea95d72…`) | "É que paguei pelo frete que chegaria em quatro dias" / "Foi enviado hoje?" | `order_financial_question` | `status=nina`, ativa, não finalizada | nenhum | Sim — a Nina já disse ao cliente que repassou; o backfill só materializa isso |
 | Amanda Mota (`eb54fa34…`) | "Só me confirma se foi alterado número de entrega por favor" | `order_financial_question` | `status=nina`, não finalizada | nenhum | Sim — Nina já afirmou ter encaminhado |
-| Aline (`99b9ef38…`) | "Como faço pra acompanhar meus pedidos" / "quantos dias ainda" | deveria ser `where_is_my_order` | `paused`, `handoff_type=dermoconsultant`, `handoff_reason=sensitive_case`, **sem concessão ativa** | handoff errado, sem grant | Sim, mas exige reclassificação de um handoff existente — trato como decisão separada e só executo se você autorizar |
+| Aline (`99b9ef38…`) | "Como faço pra acompanhar meus pedidos" / "quantos dias ainda" | `where_is_my_order` | `paused`, `handoff_type=dermoconsultant`, `handoff_reason=sensitive_case`, **sem concessão ativa** | classificação incorreta a corrigir | Sim — incluída no backfill; correção de destino usando a mesma `apply_expedicao_handoff`, sem mensagem ao cliente |
 
 Não são candidatas: `25918df9…` (Jusleyanne — mensagem automática de salão, não é cliente com pedido) e a conversa de rastreio `057bfd43…` da Wellen (apenas notificação Shopify, sem pergunta do cliente).
 
@@ -71,7 +71,8 @@ O caminho já é idempotente por construção e será reutilizado sem alteraçã
 
 - **Falso positivo comercial**: termos como "entrega" podem aparecer em conversa de produto. Mitigado mantendo a precedência dermatológica e exigindo contexto de pedido/envio nas novas regras.
 - **Volume de handoff para a Leticia** aumenta: mais casos legítimos chegam à fila dela.
-- **Aline**: reclassificar um handoff existente muda destino; fica fora do backfill automático.
+- **Aline**: o backfill corrige um handoff já existente (dermoconsultora → Leticia). Como não há concessão dermatológica ativa, não há acesso a revogar; a operação apenas reatribui e cria a concessão correta.
+- **Precedência logística**: uma conversa dermatológica que mencione entrega passa a ir para a Leticia. Mitigado exigindo intenção logística explícita na mensagem atual e mantendo o dermatológico à frente quando houver risco clínico presente.
 - Republicar `_shared` afeta as quatro funções dependentes — regressão coberta pela suíte existente.
 
 ## Plano mínimo de implementação (após aprovação)
@@ -80,5 +81,5 @@ O caminho já é idempotente por construção e será reutilizado sem alteraçã
 2. Atualizar `TRACKING_HANDOFF_PROMPT` e os dois arquivos de skill.
 3. Rodar a suíte existente de classificação (`src/__tests__/handoff-classification-matrix.test.ts`) e ampliar os casos com as frases reais da Wellen.
 4. Publicar `nina-orchestrator`, `nina-reply`, `reap-orphan-runs`, `brain-build`.
-5. Backfill idempotente de Wellen e Amanda via `apply_expedicao_handoff`, com verificação de estado antes/depois e confirmação de fila de envio em zero.
-6. Reportar resultado; Aline só se você autorizar explicitamente.
+5. Backfill idempotente de **Wellen, Amanda e Aline** via `apply_expedicao_handoff`, um por vez, com verificação de estado antes/depois e confirmação de fila de envio em zero.
+6. Reportar o resultado das três conversas; nenhum outro atendimento é tocado.
