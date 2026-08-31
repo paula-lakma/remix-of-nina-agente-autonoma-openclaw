@@ -33,7 +33,7 @@ Somente ampliar a cobertura da matriz financeira/expedição em `_shared/handoff
 
 Também alinhar as instruções de prompt (`TRACKING_HANDOFF_PROMPT`, `skills/nina/SKILL.md`, `skills/nina/prompts/conversa.md`) para citar envio/postagem/prazo/frete, mantendo o backend como fonte da verdade.
 
-Precedência ajustada: quando a **mensagem-gatilho atual** for claramente de entrega, frete, envio, prazo, transportadora, rastreio ou logística pós-compra, a decisão é **Leticia**, mesmo que a conversa tenha histórico dermatológico. A `SENSITIVE_REASON_MATRIX` continua íntegra e segue tendo precedência em qualquer outro caso — inclusive quando a mensagem atual mistura risco dermatológico real (reação, lesão, alergia, gestação, medicamento, procedimento recente) com menção logística, situação em que a dermoconsultora prevalece. Ou seja: a checagem logística passa a ser avaliada primeiro sobre a necessidade atual, e o dermatológico permanece como precedência sobre contexto anterior e sobre risco clínico presente.
+Precedência ajustada: a checagem logística passa a ser avaliada **antes** da `SENSITIVE_REASON_MATRIX`. Se a necessidade/mensagem atual contiver solicitação real de entrega, frete, prazo de entrega, envio, postagem, despacho, transportadora, rastreio, localização do pedido, pedido não recebido ou logística pós-compra, o destino é a **Leticia** — mesmo que a conversa tenha histórico dermatológico ou que a mesma mensagem também mencione um problema de pele. Em conversas **sem** assunto logístico, a classificação de casos sensíveis continua exatamente como hoje, sem qualquer alteração.
 
 ### Nada disso muda
 
@@ -72,7 +72,7 @@ O caminho já é idempotente por construção e será reutilizado sem alteraçã
 - **Falso positivo comercial**: termos como "entrega" podem aparecer em conversa de produto. Mitigado mantendo a precedência dermatológica e exigindo contexto de pedido/envio nas novas regras.
 - **Volume de handoff para a Leticia** aumenta: mais casos legítimos chegam à fila dela.
 - **Aline**: o backfill corrige um handoff já existente (dermoconsultora → Leticia). Como não há concessão dermatológica ativa, não há acesso a revogar; a operação apenas reatribui e cria a concessão correta.
-- **Precedência logística**: uma conversa dermatológica que mencione entrega passa a ir para a Leticia. Mitigado exigindo intenção logística explícita na mensagem atual e mantendo o dermatológico à frente quando houver risco clínico presente.
+- **Precedência logística**: uma conversa com histórico ou menção dermatológica que traga assunto logístico real passa a ir para a Leticia. Mitigado exigindo intenção logística explícita na mensagem atual; conversas sem assunto logístico seguem inalteradas na rota dermatológica.
 - Republicar `_shared` afeta as quatro funções dependentes — regressão coberta pela suíte existente.
 
 ## Plano mínimo de implementação (após aprovação)
