@@ -81,5 +81,5 @@ O caminho já é idempotente por construção e será reutilizado sem alteraçã
 2. Atualizar `TRACKING_HANDOFF_PROMPT` e os dois arquivos de skill.
 3. Rodar a suíte existente de classificação (`src/__tests__/handoff-classification-matrix.test.ts`) e ampliar os casos com as frases reais da Wellen.
 4. Publicar `nina-orchestrator`, `nina-reply`, `reap-orphan-runs`, `brain-build`.
-5. Backfill idempotente de Wellen e Amanda via `apply_expedicao_handoff`, com verificação de estado antes/depois e confirmação de fila de envio em zero.
-6. Reportar resultado; Aline só se você autorizar explicitamente.
+5. Backfill idempotente de **Wellen, Amanda e Aline** via `apply_expedicao_handoff`, um por vez, com verificação de estado antes/depois e confirmação de fila de envio em zero.
+6. Reportar o resultado das três conversas; nenhum outro atendimento é tocado.
