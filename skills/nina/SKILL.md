@@ -56,13 +56,18 @@ conversa. Extraia e use:
    Só confirme o agendamento ao lead (via `nina_reply.sh`) após `ok:true`. Em
    `time_conflict`/`date_in_past`/`no_appointment_found`, ofereça alternativa —
    nunca exponha o erro técnico.
-4. **Para qualquer assunto claro de financeiro, pedido, expedição, entrega ou rastreio**, encaminhe imediatamente, sem pedir nova confirmação, e passe o motivo canônico:
-   `--handoff-reason "<motivo>"`. Para pedido atrasado use
-   `where_is_my_order`; rastreio sem atualização, `tracking_no_update`;
+4. **Para qualquer assunto claro de financeiro, pedido, expedição, entrega, frete, prazo, envio, postagem, despacho, transportadora, rastreio ou logística pós-compra**, encaminhe imediatamente, sem pedir nova confirmação, e passe o motivo canônico:
+   `--handoff-reason "<motivo>"`. Pedido atrasado/não chegou/"como acompanho meu
+   pedido" usa `where_is_my_order`; rastreio sem atualização, `tracking_no_update`;
    código não recebido, `tracking_not_received`; código inválido,
-   `tracking_code_invalid`. Não use motivo de rastreio para dúvidas de pele,
-    lesão, sensibilidade, produtos ou orientação dermatológica. A decisão final
-    também é aplicada pelo backend a partir da intenção original do cliente.
+   `tracking_code_invalid`; pedido enviado/postado/despachado, `shipped_no_info`;
+   prazo, "quando chega", "quantos dias" e frete, `order_financial_question`;
+   transportadora/Correios/Jadlog, `carrier_question`. Se a necessidade atual for
+   logística, o destino é a expedição mesmo com histórico dermatológico ou menção
+   a pele na mesma mensagem. Sem assunto logístico, dúvidas de pele, lesão,
+   sensibilidade, produtos e orientação dermatológica seguem as regras da
+   dermoconsultora. A decisão final também é aplicada pelo backend a partir da
+   intenção original do cliente.
 
 ## Scripts da skill
 

@@ -123,3 +123,29 @@ describe("fronteiras do handoff", () => {
     );
   });
 });
+describe("logística pós-compra tem precedência", () => {
+  const logistica: Array<[string, string]> = [
+    ["Foi enviado hoje?", "shipped_no_info"],
+    ["É que paguei pelo frete que chegaria em quatro dias", "order_financial_question"],
+    ["Como faço pra acompanhar meus pedidos", "where_is_my_order"],
+    ["quantos dias ainda", "order_financial_question"],
+    ["Qual o prazo de entrega?", "order_financial_question"],
+    ["Quando chega?", "order_financial_question"],
+    ["Já postaram meu pedido?", "shipped_no_info"],
+    ["Meu pedido ainda não chegou", "where_is_my_order"],
+    ["Qual seria a transportadora?", "carrier_question"],
+  ];
+
+  it.each(logistica)("classifica %s como %s para Letícia", (text, reason) => {
+    expect(detectHandoffTarget(text)).toEqual({ reason, destination: "financeiro" });
+    expect(isExpedicaoGrantReason(reason)).toBe(true);
+  });
+
+  it("prevalece sobre menção dermatológica na mesma mensagem", () => {
+    expect(detectHandoffTarget("Tive alergia ao produto e meu pedido ainda não chegou")?.destination).toBe("financeiro");
+  });
+
+  it("mantém dermoconsultora quando não há assunto logístico", () => {
+    expect(detectHandoffTarget("Tive alergia e inchaço com o produto")?.destination).toBe("dermoconsultant");
+  });
+});
