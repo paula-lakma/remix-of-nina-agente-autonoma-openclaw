@@ -71,7 +71,8 @@ O caminho já é idempotente por construção e será reutilizado sem alteraçã
 
 - **Falso positivo comercial**: termos como "entrega" podem aparecer em conversa de produto. Mitigado mantendo a precedência dermatológica e exigindo contexto de pedido/envio nas novas regras.
 - **Volume de handoff para a Leticia** aumenta: mais casos legítimos chegam à fila dela.
-- **Aline**: reclassificar um handoff existente muda destino; fica fora do backfill automático.
+- **Aline**: o backfill corrige um handoff já existente (dermoconsultora → Leticia). Como não há concessão dermatológica ativa, não há acesso a revogar; a operação apenas reatribui e cria a concessão correta.
+- **Precedência logística**: uma conversa dermatológica que mencione entrega passa a ir para a Leticia. Mitigado exigindo intenção logística explícita na mensagem atual e mantendo o dermatológico à frente quando houver risco clínico presente.
 - Republicar `_shared` afeta as quatro funções dependentes — regressão coberta pela suíte existente.
 
 ## Plano mínimo de implementação (após aprovação)
