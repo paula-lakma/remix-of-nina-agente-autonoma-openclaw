@@ -17,7 +17,7 @@ Conversa `a7b8eddb…f5a1`, contato "Joao Felipe":
 
 ## Causa raiz exata
 
-O fluxo "Reativar Nina" (`src/services/api.ts`, `reactivateNina`) limpa `ai_paused`, `human_takeover_required`, `handoff_type`, `handoff_reason` e `status`, **mas não limpa `assigned_user_id`, `assigned_at` nem `handoff_created_at`**. Ao mesmo tempo, o gatilho `revoke_grants_on_conversation_change` revoga a concessão de acesso. Resultado: um estado meio-limpo — sem concessão (Leticia não vê) e com responsável humano residual (o painel mostra "Responsável: Leticia").
+O fluxo "Reativar Nina" (`src/services/api.ts`, `reactivateNina`) limpa `ai_paused`, `human_takeover_required`, `handoff_type`, `handoff_reason` e `status`, **mas não limpa `assigned_user_id`, `assigned_at`, `handoff_created_at` nem `trigger_message_id`**. Ao mesmo tempo, o gatilho `revoke_grants_on_conversation_change` revoga a concessão de acesso. Resultado: um estado meio-limpo — sem concessão (Leticia não vê) e com responsável humano residual (o painel mostra "Responsável: Leticia").
 
 ## Por que Leticia aparece como responsável mas não enxerga a conversa
 
