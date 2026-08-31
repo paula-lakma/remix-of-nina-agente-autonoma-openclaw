@@ -38,14 +38,16 @@ const EXT_BY_MIME: Record<string, string> = {
   "audio/aac": "aac",
 };
 
-// Extrai o caminho dentro do bucket a partir de uma signed URL antiga.
-function pathFromSignedUrl(url: string | null): string | null {
+// Extrai bucket + caminho a partir de uma URL de storage (sign/public/authenticated).
+function parseStorageUrl(url: string | null): { bucket: string; path: string } | null {
   if (!url) return null;
-  const marker = `/${BUCKET}/`;
-  const i = url.indexOf(marker);
-  if (i === -1) return null;
-  return decodeURIComponent(url.slice(i + marker.length).split("?")[0]) || null;
+  const m = url.match(/\/storage\/v1\/object\/(?:sign|public|authenticated)\/([^/]+)\/(.+)$/);
+  if (!m) return null;
+  const path = decodeURIComponent(m[2].split("?")[0]);
+  if (!path) return null;
+  return { bucket: m[1], path };
 }
+
 
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
