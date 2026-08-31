@@ -6,7 +6,7 @@ import { Button } from '@/components/Button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { toast } from 'sonner';
-import { Mail, Lock, User, ArrowRight, ArrowLeft, Loader2 } from 'lucide-react';
+import { Mail, Lock, ArrowRight, ArrowLeft, Loader2 } from 'lucide-react';
 import { z } from 'zod';
 
 type Mode = 'login' | 'forgot';
