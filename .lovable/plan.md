@@ -33,7 +33,7 @@ Somente ampliar a cobertura da matriz financeira/expedição em `_shared/handoff
 
 Também alinhar as instruções de prompt (`TRACKING_HANDOFF_PROMPT`, `skills/nina/SKILL.md`, `skills/nina/prompts/conversa.md`) para citar envio/postagem/prazo/frete, mantendo o backend como fonte da verdade.
 
-Precedência ajustada: quando a **mensagem-gatilho atual** for claramente de entrega, frete, envio, prazo, transportadora, rastreio ou logística pós-compra, a decisão é **Leticia**, mesmo que a conversa tenha histórico dermatológico. A `SENSITIVE_REASON_MATRIX` continua íntegra e segue tendo precedência em qualquer outro caso — inclusive quando a mensagem atual mistura risco dermatológico real (reação, lesão, alergia, gestação, medicamento, procedimento recente) com menção logística, situação em que a dermoconsultora prevalece. Ou seja: a checagem logística passa a ser avaliada primeiro sobre a necessidade atual, e o dermatológico permanece como precedência sobre contexto anterior e sobre risco clínico presente.
+Precedência ajustada: a checagem logística passa a ser avaliada **antes** da `SENSITIVE_REASON_MATRIX`. Se a necessidade/mensagem atual contiver solicitação real de entrega, frete, prazo de entrega, envio, postagem, despacho, transportadora, rastreio, localização do pedido, pedido não recebido ou logística pós-compra, o destino é a **Leticia** — mesmo que a conversa tenha histórico dermatológico ou que a mesma mensagem também mencione um problema de pele. Em conversas **sem** assunto logístico, a classificação de casos sensíveis continua exatamente como hoje, sem qualquer alteração.
 
 ### Nada disso muda
 
