@@ -6,29 +6,26 @@ import { Button } from '@/components/Button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { toast } from 'sonner';
-import { Mail, Lock, User, ArrowRight, ArrowLeft, Loader2 } from 'lucide-react';
+import { Mail, Lock, ArrowRight, ArrowLeft, Loader2 } from 'lucide-react';
 import { z } from 'zod';
 
-type Mode = 'login' | 'signup' | 'forgot';
+type Mode = 'login' | 'forgot';
 
 // Validation schemas
 const emailSchema = z.string().email('Email inválido');
 const passwordSchema = z.string().min(6, 'Senha deve ter pelo menos 6 caracteres');
-const nameSchema = z.string().min(2, 'Nome deve ter pelo menos 2 caracteres');
 
 const Auth: React.FC = () => {
   const [mode, setMode] = useState<Mode>('login');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [fullName, setFullName] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [errors, setErrors] = useState<{ email?: string; password?: string; fullName?: string }>({});
+  const [errors, setErrors] = useState<{ email?: string; password?: string }>({});
 
-  const { signIn, signUp, user, loading } = useAuth();
+  const { signIn, user, loading } = useAuth();
   const navigate = useNavigate();
 
   const isLogin = mode === 'login';
-  const isSignup = mode === 'signup';
   const isForgot = mode === 'forgot';
 
   useEffect(() => {
@@ -38,7 +35,7 @@ const Auth: React.FC = () => {
   }, [user, loading, navigate]);
 
   const validateForm = (): boolean => {
-    const newErrors: { email?: string; password?: string; fullName?: string } = {};
+    const newErrors: { email?: string; password?: string } = {};
 
     const emailResult = emailSchema.safeParse(email);
     if (!emailResult.success) newErrors.email = emailResult.error.errors[0].message;
@@ -46,11 +43,6 @@ const Auth: React.FC = () => {
     if (!isForgot) {
       const passwordResult = passwordSchema.safeParse(password);
       if (!passwordResult.success) newErrors.password = passwordResult.error.errors[0].message;
-    }
-
-    if (isSignup) {
-      const nameResult = nameSchema.safeParse(fullName);
-      if (!nameResult.success) newErrors.fullName = nameResult.error.errors[0].message;
     }
 
     setErrors(newErrors);
@@ -72,15 +64,6 @@ const Auth: React.FC = () => {
           return;
         }
         toast.success('Login realizado com sucesso!');
-        navigate('/dashboard', { replace: true });
-      } else if (isSignup) {
-        const { error } = await signUp(email, password, fullName);
-        if (error) {
-          if (error.message.includes('User already registered')) toast.error('Este email já está cadastrado. Tente fazer login.');
-          else toast.error(error.message);
-          return;
-        }
-        toast.success('Conta criada com sucesso! Você já pode usar a plataforma.');
         navigate('/dashboard', { replace: true });
       } else if (isForgot) {
         const { error } = await supabase.auth.resetPasswordForEmail(email, {
@@ -106,11 +89,9 @@ const Auth: React.FC = () => {
     );
   }
 
-  const title = isLogin ? 'Bem-vindo de volta' : isSignup ? 'Crie sua conta' : 'Esqueceu sua senha?';
+  const title = isLogin ? 'Bem-vindo de volta' : 'Esqueceu sua senha?';
   const subtitle = isLogin
     ? 'Entre para acessar sua plataforma'
-    : isSignup
-    ? 'Configure sua assistente de vendas em minutos'
     : 'Informe seu email e enviaremos um link para redefinir a senha';
 
   return (
@@ -134,17 +115,6 @@ const Auth: React.FC = () => {
 
         <div className="bg-card border border-border rounded-2xl p-8 shadow-xl">
           <form onSubmit={handleSubmit} className="space-y-5">
-            {isSignup && (
-              <div className="space-y-2">
-                <Label htmlFor="fullName" className="text-foreground">Nome completo</Label>
-                <div className="relative">
-                  <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                  <Input id="fullName" type="text" placeholder="Seu nome" value={fullName} onChange={(e) => setFullName(e.target.value)} className="pl-10" />
-                </div>
-                {errors.fullName && <p className="text-sm text-destructive">{errors.fullName}</p>}
-              </div>
-            )}
-
             <div className="space-y-2">
               <Label htmlFor="email" className="text-foreground">Email</Label>
               <div className="relative">
@@ -178,12 +148,12 @@ const Auth: React.FC = () => {
 
             <Button type="submit" variant="primary" size="lg" className="w-full" disabled={isSubmitting}>
               {isSubmitting ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : <ArrowRight className="h-4 w-4 mr-2" />}
-              {isLogin ? 'Entrar' : isSignup ? 'Criar conta' : 'Enviar link de redefinição'}
+              {isLogin ? 'Entrar' : 'Enviar link de redefinição'}
             </Button>
           </form>
 
-          <div className="mt-6 pt-6 border-t border-border text-center">
-            {isForgot ? (
+          {isForgot && (
+            <div className="mt-6 pt-6 border-t border-border text-center">
               <button
                 type="button"
                 onClick={() => { setMode('login'); setErrors({}); }}
@@ -191,19 +161,8 @@ const Auth: React.FC = () => {
               >
                 <ArrowLeft className="h-3 w-3" /> Voltar para o login
               </button>
-            ) : (
-              <p className="text-muted-foreground text-sm">
-                {isLogin ? 'Não tem uma conta?' : 'Já tem uma conta?'}
-                <button
-                  type="button"
-                  onClick={() => { setMode(isLogin ? 'signup' : 'login'); setErrors({}); }}
-                  className="ml-1 text-primary hover:text-primary/80 font-medium transition-colors"
-                >
-                  {isLogin ? 'Criar conta' : 'Fazer login'}
-                </button>
-              </p>
-            )}
-          </div>
+            </div>
+          )}
         </div>
 
         <p className="text-center text-muted-foreground text-xs mt-6">
