@@ -38,7 +38,7 @@ Não foi decisão de roteamento: nenhum campo residual influencia o texto. A úl
 
 ## Mudança mínima necessária
 
-1. Em `reactivateNina`, na mesma atualização, também zerar `assigned_user_id`, `assigned_at` e `handoff_created_at` (além do que já limpa). Assim "Nina ativa" passa a significar sempre "sem responsável humano".
+1. Em `reactivateNina`, na mesma atualização, também zerar `assigned_user_id`, `assigned_at`, `handoff_created_at` e `trigger_message_id` (além do que já limpa). Assim "Nina ativa" passa a significar sempre "sem responsável humano".
 2. Nada mais muda: gatilho, RPCs, classificação logística, dermoconsultoras, Shopify, sender, rastreio e backfills ficam intactos.
 
 Opcional (só se você quiser): na tela do admin, não exibir "Responsável" quando a Nina estiver ativa — é redundante depois do item 1.
