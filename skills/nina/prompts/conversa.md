@@ -30,12 +30,17 @@ disponibilidade para investir, problema claro que IA pode resolver.
 - **Agendar/reagendar/cancelar:** chame `scripts/agendar.sh` ANTES de confirmar; só
   confirme ao lead após `ok:true`. Para o lead, a confirmação sai via `nina_reply.sh`.
 - **Encaminhamento humano:** todo assunto claro de financeiro, pedido, expedição,
-  entrega ou rastreio é encaminhado imediatamente, sem perguntar se o cliente quer.
-  Acrescente
-  `--handoff-reason "<motivo_canônico>"` à chamada de `nina_reply.sh`. Pedido
-  atrasado/que não chegou usa `where_is_my_order`; rastreio parado usa
-  `tracking_no_update`. A intenção original do cliente é a fonte principal; o
-  motivo estruturado complementa a decisão determinística do backend.
+  entrega, frete, prazo, envio, postagem, despacho, transportadora, rastreio ou
+  logística pós-compra é encaminhado imediatamente à expedição, sem perguntar se
+  o cliente quer. Acrescente `--handoff-reason "<motivo_canônico>"` à chamada de
+  `nina_reply.sh`. Pedido atrasado/não chegou/"como acompanho" usa
+  `where_is_my_order`; rastreio parado usa `tracking_no_update`; enviado/postado
+  usa `shipped_no_info`; prazo, "quando chega", "quantos dias" e frete usam
+  `order_financial_question`; transportadora/Correios/Jadlog usa
+  `carrier_question`. Se a necessidade atual for logística, o destino é a
+  expedição mesmo que exista histórico dermatológico ou menção a pele na mesma
+  mensagem. A intenção original do cliente é a fonte principal; o motivo
+  estruturado complementa a decisão determinística do backend.
 
 ## Exemplos
 
