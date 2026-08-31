@@ -17,7 +17,7 @@ Conversa `a7b8eddb…f5a1`, contato "Joao Felipe":
 
 ## Causa raiz exata
 
-O fluxo "Reativar Nina" (`src/services/api.ts`, `reactivateNina`) limpa `ai_paused`, `human_takeover_required`, `handoff_type`, `handoff_reason` e `status`, **mas não limpa `assigned_user_id`, `assigned_at` nem `handoff_created_at`**. Ao mesmo tempo, o gatilho `revoke_grants_on_conversation_change` revoga a concessão de acesso. Resultado: um estado meio-limpo — sem concessão (Leticia não vê) e com responsável humano residual (o painel mostra "Responsável: Leticia").
+O fluxo "Reativar Nina" (`src/services/api.ts`, `reactivateNina`) limpa `ai_paused`, `human_takeover_required`, `handoff_type`, `handoff_reason` e `status`, **mas não limpa `assigned_user_id`, `assigned_at`, `handoff_created_at` nem `trigger_message_id`**. Ao mesmo tempo, o gatilho `revoke_grants_on_conversation_change` revoga a concessão de acesso. Resultado: um estado meio-limpo — sem concessão (Leticia não vê) e com responsável humano residual (o painel mostra "Responsável: Leticia").
 
 ## Por que Leticia aparece como responsável mas não enxerga a conversa
 
@@ -38,14 +38,14 @@ Não foi decisão de roteamento: nenhum campo residual influencia o texto. A úl
 
 ## Mudança mínima necessária
 
-1. Em `reactivateNina`, na mesma atualização, também zerar `assigned_user_id`, `assigned_at` e `handoff_created_at` (além do que já limpa). Assim "Nina ativa" passa a significar sempre "sem responsável humano".
+1. Em `reactivateNina`, na mesma atualização, também zerar `assigned_user_id`, `assigned_at`, `handoff_created_at` e `trigger_message_id` (além do que já limpa). Assim "Nina ativa" passa a significar sempre "sem responsável humano".
 2. Nada mais muda: gatilho, RPCs, classificação logística, dermoconsultoras, Shopify, sender, rastreio e backfills ficam intactos.
 
 Opcional (só se você quiser): na tela do admin, não exibir "Responsável" quando a Nina estiver ativa — é redundante depois do item 1.
 
 ## Como normalizar o João com segurança
 
-Uma única atualização nessa conversa, sem enviar mensagem e sem criar handoff: limpar `assigned_user_id`, `assigned_at` e `handoff_created_at`, mantendo `ai_paused = false` e `status = nina`. A concessão já está revogada; nada a fazer nela. Registro opcional de um evento de auditoria `state_normalized`.
+Uma única atualização nessa conversa, sem enviar mensagem e sem criar handoff: limpar `assigned_user_id`, `assigned_at`, `handoff_created_at` e `trigger_message_id`, mantendo `ai_paused = false` e `status = nina`. A concessão já está revogada; nada a fazer nela. `conversation_handoff_events` e demais auditorias permanecem intactas. Registro opcional de um evento de auditoria `state_normalized`.
 
 ## Como garantir que o próximo handoff logístico funcione
 
