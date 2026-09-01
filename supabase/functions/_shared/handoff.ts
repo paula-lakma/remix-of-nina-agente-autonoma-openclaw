@@ -554,6 +554,11 @@ export async function applyHandoff(
           : "aguardando_dermoconsultora"
         : "aguardando_humano"),
     status: "paused",
+    // Um novo handoff sempre representa um atendimento ativo novo,
+    // mesmo que a conversa tenha sido finalizada anteriormente.
+    attendance_finished: false,
+    attendance_finished_at: null,
+    attendance_finished_by: null,
   };
   if (isDermo) {
     update.requires_dermoconsultant = true;
