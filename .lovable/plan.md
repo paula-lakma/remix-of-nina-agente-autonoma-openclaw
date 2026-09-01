@@ -48,18 +48,20 @@ Observação: a reabertura automática por nova mensagem do cliente (`reopen_fin
 
 ## Mudança mínima necessária
 
-1. **Caminho dermo:** incluir no update de `applyHandoff` a limpeza de `attendance_finished = false`, `attendance_finished_at = NULL`, `attendance_finished_by = NULL`, igualando o comportamento já existente em `apply_expedicao_handoff`. Assim todo handoff válido, de qualquer destino, significa atendimento ativo novo.
-2. **João Felipe (normalização pontual, se você quiser):** como não há handoff novo, uma opção é apenas reexecutar o fluxo existente de encaminhamento para a Leticia sobre a mesma conversa (sem enviar mensagem), o que limpa a finalização e recria a concessão ativa. Alternativa mais conservadora: deixar como está e aguardar a próxima mensagem do cliente.
+1. **Caminho dermo:** incluir no update de `applyHandoff` em `supabase/functions/_shared/handoff.ts` a limpeza de `attendance_finished = false`, `attendance_finished_at = NULL`, `attendance_finished_by = NULL`, igualando o comportamento já existente em `apply_expedicao_handoff`. Assim todo novo handoff válido para dermoconsultora representa um atendimento ativo novo.
+2. **João Felipe:** NÃO será normalizado nem alterado. O handoff funcionou corretamente e a conversa foi finalizada pela conta da Leticia; o estado atual permanece como está.
+3. **`apply_expedicao_handoff`:** NÃO será alterado — auditoria confirmou que ele já limpa corretamente os campos de finalização.
 
-Histórico preservado nos dois casos: `conversation_handoff_events` (incluindo os `attendance_finished` anteriores) e as concessões revogadas permanecem intactos — só o estado atual muda.
+Histórico preservado: `conversation_handoff_events` (incluindo os `attendance_finished` anteriores) e as concessões revogadas permanecem intactos — só o estado atual da conversa muda no momento do novo handoff.
 
-## A correção vale para as dermoconsultoras?
+## Escopo excluído
 
-Sim — é exatamente onde a falha existe hoje. O caminho da expedição já está correto; a paridade deve ser dada ao caminho dermo (e a qualquer destino futuro que passe por `applyHandoff`).
+- Classificação logística, Shopify, WhatsApp sender, contas, permissões, filas e outros fluxos permanecem inalterados.
+- Nenhuma migration de banco; alteração apenas na edge function `nina-orchestrator` / `nina-reply` que chama `applyHandoff`.
 
 ## Riscos
 
 - Baixos. Limpar a finalização só ocorre no momento de um handoff válido novo, que por definição abre um atendimento.
 - Não afeta classificação logística, Shopify, sender, rastreio, filas ou contas.
 - Não amplia acesso: visibilidade continua dependendo exclusivamente de concessão ativa.
-- Efeito colateral esperado e desejado: conversas antes marcadas como "Finalizado" deixam de exibir essa tag ao receber novo encaminhamento.
+- Efeito colateral esperado e desejado: conversas dermo antes marcadas como "Finalizado" deixam de exibir essa tag ao receber novo encaminhamento.
