@@ -253,7 +253,7 @@ export const RestrictedHandoffChat: React.FC<{ config: RestrictedChatConfig }> =
 
   const selected = conversations.find((c) => c.conversation_id === selectedId) || null;
 
-  const signedMedia = useSignedMediaUrls(
+  const { urls: signedMedia } = useSignedMedia(
     messages.map((m) => ({
       id: m.id,
       conversationId: m.conversation_id,
@@ -261,6 +261,7 @@ export const RestrictedHandoffChat: React.FC<{ config: RestrictedChatConfig }> =
     })),
   );
   const mediaSrc = (m: ExpedicaoMessage) => signedMedia[m.id] || m.media_url || null;
+
 
   const handoffAt = selected?.handoff_at ? new Date(selected.handoff_at).getTime() : null;
 
