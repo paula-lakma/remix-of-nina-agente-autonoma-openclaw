@@ -2,7 +2,9 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Loader2, MessageSquare, RefreshCw, CheckCircle2, Send, Bot, User, Headset, ChevronDown, ChevronRight, Info, FileText, Paperclip, X } from 'lucide-react';
 import { toast } from 'sonner';
 import { supabase } from '@/integrations/supabase/client';
-import { useSignedMediaUrls } from '@/hooks/useSignedMediaUrls';
+import { useSignedMedia } from '@/hooks/useSignedMediaUrls';
+import { MediaUnavailable } from './MediaUnavailable';
+
 
 // Chat ao Vivo restrito do papel `expedicao`.
 // Todo acesso passa EXCLUSIVAMENTE pela edge function `expedicao-chat`
@@ -109,8 +111,9 @@ const MediaBlock: React.FC<{
   if (!kind || kind === 'text') return null;
 
   if (!url) {
-    return <p className="text-xs text-muted-foreground italic">Mídia indisponível</p>;
+    return <MediaUnavailable kind={kind} className="max-w-[260px]" />;
   }
+
 
   if (kind === 'image') {
     return (
@@ -250,7 +253,7 @@ export const RestrictedHandoffChat: React.FC<{ config: RestrictedChatConfig }> =
 
   const selected = conversations.find((c) => c.conversation_id === selectedId) || null;
 
-  const signedMedia = useSignedMediaUrls(
+  const { urls: signedMedia } = useSignedMedia(
     messages.map((m) => ({
       id: m.id,
       conversationId: m.conversation_id,
@@ -258,6 +261,7 @@ export const RestrictedHandoffChat: React.FC<{ config: RestrictedChatConfig }> =
     })),
   );
   const mediaSrc = (m: ExpedicaoMessage) => signedMedia[m.id] || m.media_url || null;
+
 
   const handoffAt = selected?.handoff_at ? new Date(selected.handoff_at).getTime() : null;
 
