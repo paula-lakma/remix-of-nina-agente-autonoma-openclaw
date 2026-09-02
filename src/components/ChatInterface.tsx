@@ -344,9 +344,19 @@ const ChatInterface: React.FC = () => {
 
 
     if (msg.type === MessageType.AUDIO) {
+      if (!mediaSrc(msg)) {
+        return (
+          <div className="py-1">
+            <MediaUnavailable kind="audio" className="max-w-[260px]" />
+            {msg.content && <p className="text-xs mt-2 opacity-90 whitespace-pre-wrap">{msg.content}</p>}
+          </div>
+        );
+      }
       const isPlaying = playingAudioId === msg.id;
       const duration = audioDurations[msg.id] || 0;
       const progress = audioProgress[msg.id] || 0;
+      
+
       
       const togglePlay = () => {
         const audio = audioRefs.current[msg.id];
