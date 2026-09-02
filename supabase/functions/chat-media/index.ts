@@ -141,9 +141,19 @@ Deno.serve(async (req) => {
     }
 
     if (!signedUrl) {
-      console.error("[chat-media] sign error", lastErr, "candidates:", JSON.stringify(candidates));
-      return json({ error: "media_unavailable" }, 404);
+      // Estado esperado (mídia antiga que nunca foi salva ou já não existe):
+      // responder 200 com ok:false para o cliente exibir fallback local em vez
+      // de tratar como falha HTTP.
+      console.warn("[chat-media] media_unavailable", lastErr, "candidates:", JSON.stringify(candidates));
+      return json({
+        ok: false,
+        reason: "media_unavailable",
+        url: null,
+        media_type: mime || null,
+        expires_in: 0,
+      });
     }
+
 
     return json({
       ok: true,
