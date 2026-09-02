@@ -4,6 +4,8 @@ import { supabase } from '@/integrations/supabase/client';
 // Resolve URLs assinadas frescas para mensagens com mídia.
 // O bucket é privado: o link é gerado sob demanda pela edge function
 // `chat-media`, que revalida sessão e permissão no servidor.
+// Mídia realmente ausente é um estado esperado ('unavailable'), cacheado em
+// memória para não repetir a chamada a cada render/scroll.
 
 export interface MediaRef {
   id: string;
@@ -11,9 +13,12 @@ export interface MediaRef {
   hasMedia: boolean;
 }
 
+export type MediaStatus = 'loading' | 'ready' | 'unavailable';
+
 interface CacheEntry {
-  url: string;
+  url: string | null;
   filename: string | null;
+  status: MediaStatus;
   expiresAt: number;
 }
 
@@ -22,7 +27,7 @@ const inflight = new Map<string, Promise<CacheEntry | null>>();
 
 async function resolveOne(id: string, conversationId?: string | null): Promise<CacheEntry | null> {
   const cached = cache.get(id);
-  if (cached && cached.expiresAt > Date.now()) return cached;
+  if (cached && (cached.status === 'unavailable' || cached.expiresAt > Date.now())) return cached;
 
   const existing = inflight.get(id);
   if (existing) return existing;
@@ -33,11 +38,21 @@ async function resolveOne(id: string, conversationId?: string | null): Promise<C
         body: { message_id: id, conversation_id: conversationId ?? undefined },
       });
       if (error) return null;
-      const payload = data as { url?: string; filename?: string | null; expires_in?: number } | null;
-      if (!payload?.url) return null;
+      const payload = data as
+        | { ok?: boolean; url?: string | null; filename?: string | null; expires_in?: number; reason?: string }
+        | null;
+
+      if (!payload?.url) {
+        // Sem URL = mídia indisponível: cache negativo, sem retry automático.
+        const miss: CacheEntry = { url: null, filename: null, status: 'unavailable', expiresAt: Infinity };
+        cache.set(id, miss);
+        return miss;
+      }
+
       const entry: CacheEntry = {
         url: payload.url,
         filename: payload.filename ?? null,
+        status: 'ready',
         // renova com folga antes do vencimento real
         expiresAt: Date.now() + ((payload.expires_in ?? 3600) - 300) * 1000,
       };
@@ -54,8 +69,14 @@ async function resolveOne(id: string, conversationId?: string | null): Promise<C
   return promise;
 }
 
-export function useSignedMediaUrls(refs: MediaRef[]): Record<string, string> {
+export interface SignedMediaResult {
+  urls: Record<string, string>;
+  statuses: Record<string, MediaStatus>;
+}
+
+export function useSignedMedia(refs: MediaRef[]): SignedMediaResult {
   const [urls, setUrls] = useState<Record<string, string>>({});
+  const [statuses, setStatuses] = useState<Record<string, MediaStatus>>({});
   const key = refs.filter(r => r.hasMedia).map(r => r.id).join(',');
 
   useEffect(() => {
@@ -67,7 +88,10 @@ export function useSignedMediaUrls(refs: MediaRef[]): Record<string, string> {
       for (const t of targets) {
         const entry = await resolveOne(t.id, t.conversationId);
         if (cancelled || !entry) continue;
-        setUrls(prev => (prev[t.id] === entry.url ? prev : { ...prev, [t.id]: entry.url }));
+        if (entry.url) {
+          setUrls(prev => (prev[t.id] === entry.url ? prev : { ...prev, [t.id]: entry.url as string }));
+        }
+        setStatuses(prev => (prev[t.id] === entry.status ? prev : { ...prev, [t.id]: entry.status }));
       }
     })();
 
@@ -75,5 +99,10 @@ export function useSignedMediaUrls(refs: MediaRef[]): Record<string, string> {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [key]);
 
-  return urls;
+  return { urls, statuses };
+}
+
+// Compatibilidade: só as URLs prontas.
+export function useSignedMediaUrls(refs: MediaRef[]): Record<string, string> {
+  return useSignedMedia(refs).urls;
 }
