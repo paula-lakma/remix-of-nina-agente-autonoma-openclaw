@@ -452,8 +452,9 @@ const ChatInterface: React.FC = () => {
               className="rounded-lg max-w-full max-h-72 border border-slate-700/50 shadow-lg"
             />
           ) : (
-            <p className="text-xs opacity-70">Vídeo indisponível</p>
+            <MediaUnavailable kind="video" className="max-w-[260px]" />
           )}
+
           {msg.content && <p className="text-xs mt-2 opacity-90 whitespace-pre-wrap">{msg.content}</p>}
         </div>
       );
