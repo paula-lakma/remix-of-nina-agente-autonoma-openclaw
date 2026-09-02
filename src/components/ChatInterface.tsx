@@ -46,7 +46,7 @@ const ChatInterface: React.FC = () => {
   const activeChat = conversations.find(c => c.id === selectedChatId);
 
   // URLs assinadas frescas (bucket privado) para as mídias da conversa aberta
-  const signedMedia = useSignedMediaUrls(
+  const { urls: signedMedia, statuses: mediaStatuses } = useSignedMedia(
     (activeChat?.messages ?? []).map(m => ({
       id: m.id,
       conversationId: activeChat?.id ?? null,
@@ -54,6 +54,8 @@ const ChatInterface: React.FC = () => {
     }))
   );
   const mediaSrc = (m: UIMessage) => signedMedia[m.id] || m.mediaUrl || null;
+  const isMediaMissing = (m: UIMessage) => !mediaSrc(m) && mediaStatuses[m.id] === 'unavailable';
+
   const messagesEndRef = useRef<HTMLDivElement>(null);
   
   // Format audio time helper
