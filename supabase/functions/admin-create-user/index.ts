@@ -59,18 +59,6 @@ Deno.serve(async (req) => {
     return json({ error: "invalid_email" }, 400);
   }
 
-  // Idempotência: e-mail já existente não é recriado nem alterado.
-  const { data: existing, error: lookupErr } = await admin
-    .schema("auth")
-    .from("users")
-    .select("id, email")
-    .eq("email", email)
-    .maybeSingle();
-  if (lookupErr) return json({ error: "lookup_failed" }, 500);
-  if (existing) {
-    return json({ ok: true, created: false, status: "already_exists", user_id: existing.id });
-  }
-
   // Senha temporária aleatória: nunca é exibida nem armazenada fora do Auth.
   // A pessoa define a própria senha via "Esqueci minha senha" em /auth.
   const tempPassword = crypto.randomUUID() + crypto.randomUUID();
@@ -82,10 +70,17 @@ Deno.serve(async (req) => {
     user_metadata: fullName ? { full_name: fullName } : {},
   });
 
-  if (createErr || !created?.user) {
-    console.error("[admin-create-user] create failed", createErr?.message);
-    return json({ error: "create_failed", detail: createErr?.message ?? null }, 500);
+  if (createErr) {
+    // Idempotência: e-mail já existente não é recriado nem alterado.
+    const msg = (createErr.message ?? "").toLowerCase();
+    if (msg.includes("already been registered") || msg.includes("already registered") || msg.includes("already exists")) {
+      return json({ ok: true, created: false, status: "already_exists" });
+    }
+    console.error("[admin-create-user] create failed", createErr.message);
+    return json({ error: "create_failed", detail: createErr.message }, 500);
   }
+
+  if (!created?.user) return json({ error: "create_failed", detail: null }, 500);
 
   return json({
     ok: true,
@@ -95,3 +90,4 @@ Deno.serve(async (req) => {
     next_step: "usuario deve usar 'Esqueci minha senha' em /auth para definir a senha",
   });
 });
+
