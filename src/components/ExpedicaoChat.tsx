@@ -109,8 +109,9 @@ const MediaBlock: React.FC<{
   if (!kind || kind === 'text') return null;
 
   if (!url) {
-    return <p className="text-xs text-muted-foreground italic">Mídia indisponível</p>;
+    return <MediaUnavailable kind={kind} className="max-w-[260px]" />;
   }
+
 
   if (kind === 'image') {
     return (
