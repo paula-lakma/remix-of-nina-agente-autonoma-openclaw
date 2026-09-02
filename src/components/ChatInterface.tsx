@@ -16,7 +16,9 @@ import { Dialog, DialogContent, DialogTitle } from './ui/dialog';
 import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
 import { FileText, Download, ExternalLink } from 'lucide-react';
 import { MessageActions } from './MessageActions';
-import { useSignedMediaUrls } from '@/hooks/useSignedMediaUrls';
+import { useSignedMedia } from '@/hooks/useSignedMediaUrls';
+import { MediaUnavailable } from './MediaUnavailable';
+
 
 const ChatInterface: React.FC = () => {
   const { conversations, loading, sendMessage, updateStatus, markAsRead, assignConversation, deleteConversation } = useConversations();
