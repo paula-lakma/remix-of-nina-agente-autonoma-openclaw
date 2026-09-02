@@ -2,7 +2,9 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Loader2, MessageSquare, RefreshCw, CheckCircle2, Send, Bot, User, Headset, ChevronDown, ChevronRight, Info, FileText, Paperclip, X } from 'lucide-react';
 import { toast } from 'sonner';
 import { supabase } from '@/integrations/supabase/client';
-import { useSignedMediaUrls } from '@/hooks/useSignedMediaUrls';
+import { useSignedMedia } from '@/hooks/useSignedMediaUrls';
+import { MediaUnavailable } from './MediaUnavailable';
+
 
 // Chat ao Vivo restrito do papel `expedicao`.
 // Todo acesso passa EXCLUSIVAMENTE pela edge function `expedicao-chat`
