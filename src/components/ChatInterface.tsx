@@ -283,23 +283,33 @@ const ChatInterface: React.FC = () => {
   const renderMessageContent = (msg: UIMessage) => {
     if (msg.type === MessageType.IMAGE) {
       const src = mediaSrc(msg) || msg.content;
+      const missing = isMediaMissing(msg) || !src;
       return (
         <div className="mb-1 group relative">
-          <button
-            type="button"
-            onClick={() => setLightboxUrl(src)}
-            className="block w-full text-left"
-          >
-            <img
-              src={src}
-              alt="Anexo"
-              className="rounded-lg max-w-full h-auto max-h-72 object-cover border border-slate-700/50 shadow-lg cursor-zoom-in"
-              loading="lazy"
-              onError={(e) => {
-                (e.target as HTMLImageElement).src = 'https://placehold.co/300x200/1e293b/cbd5e1?text=Erro+Imagem';
-              }}
-            />
-          </button>
+          {missing ? (
+            <MediaUnavailable kind="image" className="max-w-[260px]" />
+          ) : (
+            <button
+              type="button"
+              onClick={() => setLightboxUrl(src)}
+              className="block w-full text-left"
+            >
+              <img
+                src={src}
+                alt="Anexo"
+                className="rounded-lg max-w-full h-auto max-h-72 object-cover border border-slate-700/50 shadow-lg cursor-zoom-in"
+                loading="lazy"
+                onError={(e) => {
+                  const el = e.currentTarget;
+                  el.style.display = 'none';
+                  el.insertAdjacentHTML(
+                    'afterend',
+                    '<p class="text-xs opacity-70 italic">Mídia indisponível</p>',
+                  );
+                }}
+              />
+            </button>
+          )}
           {msg.content && <p className="text-xs mt-2 opacity-90 whitespace-pre-wrap">{msg.content}</p>}
         </div>
       );
@@ -309,8 +319,16 @@ const ChatInterface: React.FC = () => {
     if (msg.type === MessageType.DOCUMENT) {
       const href = mediaSrc(msg);
       const name = (href || '').split('/').pop()?.split('?')[0] || 'documento';
+      if (!href) {
+        return (
+          <div className="mb-1">
+            <MediaUnavailable kind="document" className="max-w-[260px]" />
+            {msg.content && <p className="text-xs mt-2 opacity-90 whitespace-pre-wrap">{msg.content}</p>}
+          </div>
+        );
+      }
       return (
-        <a href={href || '#'} target="_blank" rel="noreferrer" className="flex items-center gap-3 p-2 -m-1 rounded-lg hover:bg-black/10 transition-colors">
+        <a href={href} target="_blank" rel="noreferrer" className="flex items-center gap-3 p-2 -m-1 rounded-lg hover:bg-black/10 transition-colors">
           <div className="w-10 h-10 rounded-lg bg-black/20 flex items-center justify-center flex-shrink-0">
             <FileText className="w-5 h-5" />
           </div>
@@ -322,6 +340,8 @@ const ChatInterface: React.FC = () => {
         </a>
       );
     }
+
+
 
     if (msg.type === MessageType.AUDIO) {
       const isPlaying = playingAudioId === msg.id;
