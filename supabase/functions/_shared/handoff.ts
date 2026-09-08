@@ -239,7 +239,22 @@ const SENSITIVE_REASON_MATRIX: Array<{ reason: string; destination: HandoffDesti
   { reason: "gestante", destination: "dermoconsultant", rx: /gestante|gr[áa]vida|gesta(?:ç|c)[ãa]o/i },
   { reason: "lactante", destination: "dermoconsultant", rx: /lactante|amament/i },
   { reason: "alergia", destination: "dermoconsultant", rx: /alergi/i },
-  { reason: "reacao", destination: "dermoconsultant", rx: /rea[çc][ãa]o|reagiu|ard[êe]ncia forte|incha[çc]o/i },
+  {
+    reason: "reacao",
+    destination: "dermoconsultant",
+    // Vocabulário técnico + descrição natural de reação adversa em curso.
+    // A parte natural exige sintoma em ESTADO atual/recente E contexto de pele/
+    // região do corpo ou de uso/aplicação de produto/procedimento. Palavras
+    // isoladas (ácido, peeling, vermelha, ardendo, coçando, descamando) não bastam.
+    rx: new RegExp(
+      "rea[çc][ãa]o|reagiu|ard[êe]ncia forte|incha[çc]o" +
+        "|(?=[\\s\\S]*\\b(?:pele|rosto|face|pesco[çc]o|colo|m[ãa]os?|bra[çc]os?|pernas?|corpo|regi[ãa]o|fiquei|estou|usei|usando|apliquei|aplicando|passei|passando|ap[óo]s|depois)\\b)" +
+        "\\b(?:ficou|ficaram|fiquei|est[áa]|estou|t[áa]|continua|continuo|segue|amanheceu|amanheci|acordei)\\s+" +
+        "(?:muito\\s+|bem\\s+|toda\\s+|todo\\s+|super\\s+|meio\\s+|bastante\\s+|um\\s+pouco\\s+)*" +
+        "(?:vermelh[ao]s?|ardendo|ard[êe]ncia|queimando|queimou|irritad[ao]s?|irrita[çc][ãa]o|co[çc]ando|coceira|descamando|descama[çc][ãa]o|inchad[ao]s?|inchou|bolhas?|ferid[ao]s?|sensibilizad[ao]s?)\\b",
+      "i",
+    ),
+  },
   { reason: "pele_sensibilizada", destination: "dermoconsultant", rx: /sensibiliz|pele sens[íi]vel|lesionad/i },
   { reason: "contraindicacao", destination: "dermoconsultant", rx: /contraindic|contra-indic/i },
   { reason: "medicamento_dermatologico", destination: "dermoconsultant", rx: /medicament|roacutan|isotretino[íi]na|tratamento dermatol[óo]gico|dermatologista/i },
