@@ -239,6 +239,12 @@ const SENSITIVE_REASON_MATRIX: Array<{ reason: string; destination: HandoffDesti
   { reason: "gestante", destination: "dermoconsultant", rx: /gestante|gr[áa]vida|gesta(?:ç|c)[ãa]o/i },
   { reason: "lactante", destination: "dermoconsultant", rx: /lactante|amament/i },
   { reason: "alergia", destination: "dermoconsultant", rx: /alergi/i },
+  { reason: "pele_sensibilizada", destination: "dermoconsultant", rx: /sensibiliz|pele sens[íi]vel|lesionad/i },
+  { reason: "contraindicacao", destination: "dermoconsultant", rx: /contraindic|contra-indic/i },
+  { reason: "medicamento_dermatologico", destination: "dermoconsultant", rx: /medicament|roacutan|isotretino[íi]na|tratamento dermatol[óo]gico|dermatologista/i },
+  { reason: "procedimento_recente", destination: "dermoconsultant", rx: /procedimento recente|f(?:ez|iz) (peeling|laser|microagulhamento)|p[óo]s[- ]procedimento/i },
+  // Avaliada depois dos motivos clínicos mais específicos para não roubar
+  // classificações como procedimento recente.
   {
     reason: "reacao",
     destination: "dermoconsultant",
@@ -263,10 +269,6 @@ const SENSITIVE_REASON_MATRIX: Array<{ reason: string; destination: HandoffDesti
       );
     })(),
   },
-  { reason: "pele_sensibilizada", destination: "dermoconsultant", rx: /sensibiliz|pele sens[íi]vel|lesionad/i },
-  { reason: "contraindicacao", destination: "dermoconsultant", rx: /contraindic|contra-indic/i },
-  { reason: "medicamento_dermatologico", destination: "dermoconsultant", rx: /medicament|roacutan|isotretino[íi]na|tratamento dermatol[óo]gico|dermatologista/i },
-  { reason: "procedimento_recente", destination: "dermoconsultant", rx: /procedimento recente|f(?:ez|iz) (peeling|laser|microagulhamento)|p[óo]s[- ]procedimento/i },
   { reason: "adaptacao_protocolo", destination: "dermoconsultant", rx: /adapta[çc][ãa]o.{0,15}protocolo|trocar.{0,10}produto.{0,10}protocolo/i },
   { reason: "duvida_tecnica", destination: "dermoconsultant", rx: /d[úu]vida t[ée]cnica|avalia[çc][ãa]o (t[ée]cnica|humana)|orienta[çc][ãa]o dermatol[óo]gica/i },
   { reason: "protocolo_nao_aprovado", destination: "dermoconsultant", rx: /protocolo n[ãa]o aprovado|protocolo n[ãa]o cadastr/i },
