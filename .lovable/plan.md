@@ -55,30 +55,46 @@ A frase foi gerada apenas pelo modelo. O texto do agente é escrito **antes** de
 
 ## 9. Mudança mínima necessária
 
-1. **Classificar o pedido explícito** — adicionar à `SENSITIVE_REASON_MATRIX` um motivo `dermoconsultora` (canônico `sensitive_case`) cobrindo: `dermoconsultora / dermo consultora / dermoconsultor`, `especialista`, `falar com uma dermo`, `escolher (um) protocolo`, `protocolo profissional`, `atendimento de uma dermo`. Mantida **abaixo** da matriz logística, preservando a precedência absoluta da expedição.
-2. **Ampliar `isConfirmedHandoffResponse`** para aceitar pronome entre verbo e complemento: `vou te encaminhar`, `vou lhe passar`, `vou te deixar com`, `vou te conectar`, `vou chamar a dermoconsultora`. Continua bloqueando perguntas/ofertas ("quer que eu encaminhe?", "posso encaminhar?").
-3. **Instruir o marcador estruturado também para dermoconsultora** no bloco de prompt: ao confirmar encaminhamento dermatológico, emitir `[[HANDOFF:sensitive_case]]` (ou o motivo clínico específico). Isso torna o caminho principal determinístico e deixa a regex como rede de segurança.
+**Novo motivo canônico `dermoconsultora_request`** — pedido explícito de atendimento humano por dermoconsultora. Não é caso sensível, não reutiliza `sensitive_case`, não cria tabela, campo nem novo `handoff_type` (continua `dermoconsultora` / destino `dermoconsultant`).
 
-Nada de novo campo, nada de migração, nada de mudança em `apply_expedicao_handoff`, balanceamento, prioridade da Laura, contas ou RLS.
+1. `supabase/functions/_shared/handoff.ts`
+   - `REASON_DESTINATIONS`: adicionar `dermoconsultora_request: "dermoconsultant"`.
+   - `REASON_ALIASES`: reapontar o alias legado `dermoconsultora` para `dermoconsultora_request` (hoje aponta para `sensitive_case`).
+   - `SENSITIVE_REASON_MATRIX`: nova entrada `dermoconsultora_request`, colocada **por último** na matriz, exigindo **intenção explícita de falar com pessoa**: verbo/pedido de contato humano (`falar com`, `atendimento de`, `me passa/passar para`, `me transfere`, `quero que ... me ajude`, `preciso de ajuda de`, `conversar com`, `chamar`) **combinado** com o alvo humano (`dermoconsultora`, `dermo consultora`, `dermo`, `especialista`, `alguém da equipe`, `atendente humano`). A palavra "protocolo" **não** participa do padrão.
+   - `isConfirmedHandoffResponse`: aceitar pronome entre verbo e complemento — `vou te encaminhar`, `vou te passar`, `vou te conectar`, `vou te deixar com`, `vou lhe passar`, `vou chamar a dermoconsultora`. Continua rejeitando perguntas/ofertas ("quer que eu encaminhe?", "posso te encaminhar?").
+   - Bloco de prompt: instruir o marcador estruturado `[[HANDOFF:dermoconsultora_request]]` **apenas** quando o cliente pedir explicitamente uma pessoa/dermoconsultora, e reforçar que dúvida sobre protocolo, indicação ou explicação continua sendo respondida pela Nina com a base de conhecimento.
+
+2. **Uma migração mínima**: incluir `dermoconsultora_request` em `public.is_dermo_handoff_reason` (allowlist de concessão de acesso). `public.is_sensitive_dermo_reason` **não** é alterada — por isso `pick_dermo_assignee` cai automaticamente no ramo `balanced` (least-loaded) e a Laura não recebe prioridade nesses pedidos.
+
+Nada muda em `pick_next_dermoconsultora`, `applyHandoff`, `apply_expedicao_handoff`, precedência logística, contas, permissões ou RLS.
 
 ## 10. A correção vale para todas as dermoconsultoras?
 
-Sim. A mudança é na classificação/confirmação, antes do `pick_dermo_assignee`. O balanceamento least-loaded entre as cinco contas válidas e a prioridade da Laura apenas para casos sensíveis continuam exatamente como estão.
+Sim. A distribuição continua sendo `pick_dermo_assignee` → `pick_next_dermoconsultora` (least-loaded) entre as cinco contas válidas. A prioridade da Laura permanece restrita à lista clínica atual.
 
 ## 11. Plano de implementação e teste
 
-**Arquivos tocados:** somente `supabase/functions/_shared/handoff.ts` (matriz sensível, `isConfirmedHandoffResponse`, texto de `TRACKING_HANDOFF_PROMPT`) e os testes em `src/__tests__/handoff-classification-matrix.test.ts`.
+**Arquivos tocados:** `supabase/functions/_shared/handoff.ts`, uma migração de uma linha em `is_dermo_handoff_reason`, e `src/__tests__/handoff-classification-matrix.test.ts`.
 
 **Testes a adicionar:**
-- classificam para dermoconsultora: as cinco frases citadas + a mensagem real do João;
-- confirmação textual: "Vou te encaminhar para a nossa dermoconsultora agora." → `true`;
-- não confirmação: "Quer que eu te encaminhe para a dermoconsultora?" → `false`;
-- precedência preservada: "meu protocolo chegou atrasado" e "quando chega meu pedido?" continuam indo para a Leticia;
-- casos clínicos existentes (gestante, alergia, reação, procedimento recente) inalterados.
+- encaminham com `dermoconsultora_request` / destino `dermoconsultant`: "quero falar com uma dermoconsultora", "quero falar com uma especialista", "preciso falar com uma dermo", "quero atendimento de uma dermoconsultora", "pode me passar para uma dermo?", "preciso falar com alguém da equipe de dermoconsultoras", "quero que uma dermoconsultora me ajude a escolher um protocolo" e a mensagem real do João;
+- **não** encaminham (retornam `null`): "qual protocolo profissional você indica?", "quero escolher um protocolo", "me explique o protocolo de acne", "qual protocolo usar para manchas?", "me indique um protocolo";
+- `dermoconsultora_request` **não** é motivo sensível (sem prioridade da Laura) e **não** está na allowlist da expedição;
+- confirmação textual: "Vou te encaminhar para a nossa dermoconsultora agora." → `true`; "Quer que eu te encaminhe para a dermoconsultora?" → `false`;
+- precedência preservada: "meu protocolo chegou atrasado" e "quando chega meu pedido?" continuam com a Leticia;
+- casos clínicos (gestante, alergia, reação, procedimento recente) inalterados e ainda sensíveis.
 
-Rodar a suíte completa (`bunx vitest run`) e o typecheck, depois publicar apenas `nina-reply` e `nina-orchestrator`.
+Rodar `bunx vitest run` e o typecheck; publicar apenas `nina-reply` e `nina-orchestrator`.
 
-**Validação controlada:** um teste sintético de conversa com "Quero falar com uma dermoconsultora" confirmando pausa da Nina, `requires_dermoconsultant=true`, atribuição a uma das cinco dermoconsultoras pelo balanceamento, concessão ativa e evento `handoff_dermoconsultant`; limpar os dados sintéticos ao final.
+**Validação controlada:** conversa sintética com "Quero falar com uma dermoconsultora" confirmando pausa da Nina, `requires_dermoconsultant=true`, motivo `dermoconsultora_request`, atribuição via balanceamento (modo `balanced`), concessão ativa e evento `handoff_dermoconsultant`; dados sintéticos removidos ao final.
+
+## Confirmações explícitas
+
+1. Pedido comum de dermoconsultora entra no **balanceamento normal** (`mode: balanced`).
+2. A Laura **não** ganha prioridade nesses pedidos.
+3. Somente os casos clínicos sensíveis já listados mantêm a prioridade da Laura.
+4. Pedir informação sobre protocolo, sem solicitar uma pessoa, **continua sendo atendido pela Nina**.
+5. A mensagem real do João Felipe passa a gerar handoff para uma dermoconsultora pelo balanceamento normal.
 
 ## Preservado
 
