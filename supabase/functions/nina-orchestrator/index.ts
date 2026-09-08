@@ -629,9 +629,7 @@ async function processQueueItem(
 
     if (instance?.ingress_url && instance?.hooks_token) {
       const runId = crypto.randomUUID();
-      const historyText = conversationHistory
-        .map((m: any) => `${m.role === 'user' ? 'Lead' : 'Nina'}: ${m.content}`)
-        .join('\n');
+      const historyText = buildHistoryText(orderedMessages);
       const memoryText = clientMemory && Object.keys(clientMemory).length
         ? `\n\n## Memória do cliente\n${JSON.stringify(clientMemory)}`
         : '';
