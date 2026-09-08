@@ -511,7 +511,10 @@ async function processQueueItem(
     message.content ?? "",
     recentMessages ?? [],
   );
-  if (deterministicTarget?.destination === "financeiro") {
+  const isDeterministicHandoff =
+    deterministicTarget?.destination === "financeiro" ||
+    deterministicTarget?.reason === "dermoconsultora_request";
+  if (deterministicTarget && isDeterministicHandoff) {
     const source = detectHandoffTargetFromHistory(message.content ?? "", [])
       ? "customer_intent" as const
       : "context" as const;
@@ -525,7 +528,9 @@ async function processQueueItem(
       triggerSnippet: message.content ?? "",
     });
 
-    const confirmation = "Encaminhei sua solicitação para o time responsável. A Leticia vai continuar o atendimento por aqui.";
+    const confirmation = deterministicTarget.destination === "dermoconsultant"
+      ? "Vou te encaminhar para uma dermoconsultora. Ela continua o atendimento por aqui em breve."
+      : "Encaminhei sua solicitação para o time responsável. A Leticia vai continuar o atendimento por aqui.";
     const { error: queueError } = await supabase.from("send_queue").insert({
       conversation_id: conversation.id,
       contact_id: conversation.contact_id,
