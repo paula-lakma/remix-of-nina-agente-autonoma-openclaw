@@ -5,6 +5,7 @@ import {
   extractHandoffMarker,
   isConfirmedHandoffResponse,
   isExpedicaoGrantReason,
+  isSensitiveDermoReason,
   resolveHandoffDecision,
   resolveHandoffReason,
   stripHandoffMarkers,
