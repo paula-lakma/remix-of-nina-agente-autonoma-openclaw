@@ -497,11 +497,14 @@ async function processQueueItem(
     .limit(20);
 
   // Build conversation history for AI
-  const conversationHistory = (recentMessages || [])
-    .reverse()
+  const orderedMessages = (recentMessages || []).slice().reverse();
+  const conversationHistory = orderedMessages
     .map((msg: any) => ({
       role: msg.from_type === 'user' ? 'user' : 'assistant',
-      content: msg.content || '[media]'
+      // Mensagem escrita por uma pessoa da equipe não pode parecer escrita pela Nina.
+      content: msg.from_type === 'human'
+        ? `[Atendente humano] ${msg.content || '[media]'}`
+        : (msg.content || '[media]'),
     }));
 
   // A intenção operacional do cliente é decidida antes do provedor de IA. Para
