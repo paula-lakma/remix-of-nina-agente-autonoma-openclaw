@@ -86,12 +86,22 @@ clínicos ainda dependem de a Nina escrever uma frase de confirmação. Só `fin
 Somente em `supabase/functions/_shared/handoff.ts`:
 
 1. **Ampliar a entrada `reacao`** (que resolve para o canônico `reaction`, já sensível) para
-   reconhecer sinais de reação adversa em curso descritos em linguagem natural, exigindo
-   **sintoma + pele/uso de produto** no mesmo texto: vermelhid[ãa]o/vermelha, ardendo/ardência,
-   queimando/queimou, irritada/irritação, coçando/coceira, descamando/descamação, inchou,
-   bolha, "ficou ferida", combinados com "pele"/"rosto"/"após usar"/"usando o ácido/peeling".
-   Frases informativas sem sintoma atual (ex.: "quais ácidos vocês têm?") continuam **sem**
-   handoff.
+   reconhecer reação adversa em curso descrita em linguagem natural.
+   **Proteção obrigatória contra falso positivo:** palavras isoladas como `ácido`, `peeling`,
+   `vermelha`, `ardendo`, `coçando`, `descamando` **nunca** classificam sozinhas. O match exige
+   sintoma em estado atual/recente (`ficou`, `está`, `estou`, `fiquei`, `tá`, `continua`,
+   `acordei`) **mais**:
+   - sintoma + pele/rosto/região do corpo; **ou**
+   - sintoma + relação com uso/aplicação de produto ou procedimento (`usei`, `usando`,
+     `apliquei`, `passei`, `depois de`, `após`).
+
+   Devem encaminhar: "estou usando um ácido e minha pele ficou vermelha e ardendo";
+   "meu rosto está queimando depois do peeling"; "minha pele está coçando e descamando depois
+   que usei o produto"; "passei o ácido e minha pele ficou muito irritada".
+
+   **Não** devem encaminhar (informativas, hipotéticas ou comerciais): "quais ácidos vocês
+   têm?"; "ácido pode deixar a pele vermelha?"; "quero saber como usar o peeling"; "qual ácido
+   vocês indicam?"; "ácido hialurônico serve para quê?".
 2. **Tornar determinístico o handoff para motivos clinicamente sensíveis**, igual ao que já
    existe para logística e `dermoconsultora_request`: quando `detectHandoffTarget` devolver um
    motivo sensível, o encaminhamento acontece independentemente da frase escolhida pelo modelo.
