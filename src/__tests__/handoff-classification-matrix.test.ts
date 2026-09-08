@@ -191,3 +191,56 @@ describe("logística pós-compra tem precedência", () => {
     expect(detectHandoffTarget("Tive alergia e inchaço com o produto")?.destination).toBe("dermoconsultant");
   });
 });
+
+describe("pedido explícito de dermoconsultora é determinístico (caso real João Felipe)", () => {
+  const clienteReal = "Quero falar com uma dermoconsultora para me ajudar a escolher um protocolo profissional.";
+
+  it("aplica handoff mesmo sem marcador e sem frase de confirmação do modelo", () => {
+    const decision = resolveHandoffDecision({
+      agentContent: "Joao, entendi o que você precisa.",
+      currentUserText: clienteReal,
+      history: [],
+    });
+    expect(decision.target).toEqual({
+      reason: "dermoconsultora_request",
+      destination: "dermoconsultant",
+    });
+  });
+
+  it("aplica handoff com a resposta real das 11:34 (encaminhamento já foi feito)", () => {
+    const decision = resolveHandoffDecision({
+      agentContent:
+        "Joao, o encaminhamento para a dermoconsultora já foi feito. Ela vai entrar em contato para te ajudar a escolher o protocolo profissional ideal para a sua necessidade.",
+      currentUserText: clienteReal,
+      history: [],
+    });
+    expect(decision.target?.destination).toBe("dermoconsultant");
+  });
+
+  it("aplica handoff com a resposta real das 11:35 (vou te encaminhar)", () => {
+    const decision = resolveHandoffDecision({
+      agentContent: "Claro, Joao! Vou te encaminhar para a nossa dermoconsultora agora.",
+      currentUserText: clienteReal,
+      history: [],
+    });
+    expect(decision.target?.destination).toBe("dermoconsultant");
+  });
+
+  it("não aplica handoff para dúvida de protocolo sem pedir uma pessoa", () => {
+    const decision = resolveHandoffDecision({
+      agentContent: "Posso te ajudar a escolher o protocolo.",
+      currentUserText: "Qual protocolo devo usar para manchas?",
+      history: [],
+    });
+    expect(decision.target).toBeNull();
+  });
+
+  it("não aplica handoff para pedido humano genérico", () => {
+    const decision = resolveHandoffDecision({
+      agentContent: "Claro!",
+      currentUserText: "Quero falar com alguém da equipe",
+      history: [],
+    });
+    expect(decision.target).toBeNull();
+  });
+});
