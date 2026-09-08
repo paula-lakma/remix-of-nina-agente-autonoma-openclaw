@@ -66,6 +66,10 @@ describe("fronteiras do handoff", () => {
   it.each([
     "Já encaminhei o seu caso para o nosso time de atendimento.",
     "Vou encaminhar seu atendimento agora.",
+    "Vou te encaminhar para a nossa dermoconsultora agora.",
+    "Vou te passar para a nossa dermoconsultora.",
+    "Vou te conectar com a nossa especialista.",
+    "Vou chamar a dermoconsultora para você.",
     "Seu caso de pedido atrasado já foi encaminhado para o nosso time de atendimento.",
     "Seu caso foi encaminhado.",
     "Foi encaminhado para o time responsável.",
@@ -79,6 +83,7 @@ describe("fronteiras do handoff", () => {
     "Quer que eu encaminhe?",
     "Posso encaminhar?",
     "Deseja que eu encaminhe seu caso?",
+    "Quer que eu te encaminhe para a dermoconsultora?",
   ])("não trata pergunta como confirmação: %s", (text) => {
     expect(isConfirmedHandoffResponse(text)).toBe(false);
   });
