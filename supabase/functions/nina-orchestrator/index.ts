@@ -11,6 +11,10 @@ import {
   detectHandoffTargetFromHistory,
   TRACKING_HANDOFF_PROMPT,
 } from "../_shared/handoff.ts";
+import {
+  buildAttendanceStateBlock,
+  buildHistoryText,
+} from "../_shared/conversation_context.ts";
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
