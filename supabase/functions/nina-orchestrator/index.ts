@@ -573,9 +573,13 @@ async function processQueueItem(
     clientMemory
   );
 
+  // Estado atual do atendimento (humano encerrado x humano ativo) — condicional.
+  const attendanceStateBlock = buildAttendanceStateBlock(conversation, orderedMessages);
+
   // Process template variables ({{ data_hora }}, {{ dia_semana }}, etc.)
   const processedPrompt = processPromptTemplate(
-    `${enhancedSystemPrompt}\n\n${TRACKING_HANDOFF_PROMPT}`,
+    `${enhancedSystemPrompt}\n\n${TRACKING_HANDOFF_PROMPT}` +
+      (attendanceStateBlock ? `\n\n${attendanceStateBlock}` : ''),
     conversation.contact,
   );
 
