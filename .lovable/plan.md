@@ -60,7 +60,10 @@ A frase foi gerada apenas pelo modelo. O texto do agente é escrito **antes** de
 1. `supabase/functions/_shared/handoff.ts`
    - `REASON_DESTINATIONS`: adicionar `dermoconsultora_request: "dermoconsultant"`.
    - `REASON_ALIASES`: reapontar o alias legado `dermoconsultora` para `dermoconsultora_request` (hoje aponta para `sensitive_case`).
-   - `SENSITIVE_REASON_MATRIX`: nova entrada `dermoconsultora_request`, colocada **por último** na matriz, exigindo **intenção explícita de falar com pessoa**: verbo/pedido de contato humano (`falar com`, `atendimento de`, `me passa/passar para`, `me transfere`, `quero que ... me ajude`, `preciso de ajuda de`, `conversar com`, `chamar`) **combinado** com o alvo humano (`dermoconsultora`, `dermo consultora`, `dermo`, `especialista`, `alguém da equipe`, `atendente humano`). A palavra "protocolo" **não** participa do padrão.
+   - `SENSITIVE_REASON_MATRIX`: nova entrada `dermoconsultora_request`, colocada **por último** na matriz. O padrão exige **dois componentes simultâneos**:
+     1. **Intenção de contato humano**: `falar com`, `atendimento de`, `me passa/passar para`, `me transfere`, `quero que ... me ajude`, `preciso de ajuda de`, `conversar com`, `chamar`, `atender`.
+     2. **Alvo dermatológico/estético**: `dermoconsultora`, `dermo consultora`, `dermo`, `especialista em estética`, `especialista da pele`, `especialista em protocolo`, `alguém da equipe de dermoconsultoras`.
+     Termos genéricos como `alguém da equipe`, `atendente humano` ou `especialista` isolados **não** disparam `dermoconsultora_request`. A palavra "protocolo" **não** participa do padrão sozinha.
    - `isConfirmedHandoffResponse`: aceitar pronome entre verbo e complemento — `vou te encaminhar`, `vou te passar`, `vou te conectar`, `vou te deixar com`, `vou lhe passar`, `vou chamar a dermoconsultora`. Continua rejeitando perguntas/ofertas ("quer que eu encaminhe?", "posso te encaminhar?").
    - Bloco de prompt: instruir o marcador estruturado `[[HANDOFF:dermoconsultora_request]]` **apenas** quando o cliente pedir explicitamente uma pessoa/dermoconsultora, e reforçar que dúvida sobre protocolo, indicação ou explicação continua sendo respondida pela Nina com a base de conhecimento.
 
@@ -77,8 +80,8 @@ Sim. A distribuição continua sendo `pick_dermo_assignee` → `pick_next_dermoc
 **Arquivos tocados:** `supabase/functions/_shared/handoff.ts`, uma migração de uma linha em `is_dermo_handoff_reason`, e `src/__tests__/handoff-classification-matrix.test.ts`.
 
 **Testes a adicionar:**
-- encaminham com `dermoconsultora_request` / destino `dermoconsultant`: "quero falar com uma dermoconsultora", "quero falar com uma especialista", "preciso falar com uma dermo", "quero atendimento de uma dermoconsultora", "pode me passar para uma dermo?", "preciso falar com alguém da equipe de dermoconsultoras", "quero que uma dermoconsultora me ajude a escolher um protocolo" e a mensagem real do João;
-- **não** encaminham (retornam `null`): "qual protocolo profissional você indica?", "quero escolher um protocolo", "me explique o protocolo de acne", "qual protocolo usar para manchas?", "me indique um protocolo";
+- encaminham com `dermoconsultora_request` / destino `dermoconsultant`: "quero falar com uma dermoconsultora", "quero falar com uma especialista em estética", "preciso falar com uma dermo", "quero atendimento de uma dermoconsultora", "pode me passar para uma dermo?", "preciso falar com alguém da equipe de dermoconsultoras", "quero que uma dermoconsultora me ajude a escolher um protocolo" e a mensagem real do João;
+- **não** encaminham (retornam `null`): "qual protocolo profissional você indica?", "quero escolher um protocolo", "me explique o protocolo de acne", "qual protocolo usar para manchas?", "me indique um protocolo", "quero falar com alguém da equipe", "quero um atendente humano", "quero falar com uma especialista", "preciso falar com alguém sobre pagamento", "quero falar com alguém sobre entrega";
 - `dermoconsultora_request` **não** é motivo sensível (sem prioridade da Laura) e **não** está na allowlist da expedição;
 - confirmação textual: "Vou te encaminhar para a nossa dermoconsultora agora." → `true`; "Quer que eu te encaminhe para a dermoconsultora?" → `false`;
 - precedência preservada: "meu protocolo chegou atrasado" e "quando chega meu pedido?" continuam com a Leticia;
