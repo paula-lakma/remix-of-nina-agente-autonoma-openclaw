@@ -80,8 +80,10 @@ Publicar somente `nina-orchestrator`.
 ## Plano de teste
 
 1. Teste unitário: histórico com `user` + `nina` + `human` produz os três rótulos corretos;
-   conversa sem responsável gera o bloco "atendimento humano encerrado"; conversa atribuída
-   não gera o bloco.
+   conversa atualmente sob controle da Nina, sem responsável/handoff ativo E com evidência
+   de atendimento humano anterior gera o bloco "atendimento humano encerrado"; conversa
+   atribuída não gera o bloco; conversa sob controle da Nina, sem responsável, mas que
+   NUNCA teve mensagem/handoff humano anterior também NÃO gera o bloco.
 2. Suíte completa (128 testes atuais) sem regressão.
 3. Teste real repetindo o fluxo do João: handoff → dermo responde → Finalizar →
    nova mensagem do cliente. Esperado: Nina responde sem citar a profissional anterior
