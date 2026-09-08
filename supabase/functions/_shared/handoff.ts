@@ -482,7 +482,7 @@ export async function applyResolvedHandoff(
  * do cliente. O caminho estruturado não depende desta heurística.
  */
 export function isConfirmedHandoffResponse(text: string): boolean {
-  const confirmed = /\b(?:vou\s+(?:deixar|encaminhar|passar)\b|j[áa]\s+(?:deixei|encaminhei|passei)\b)|deixar.{0,15}encaminhad[oa]|encaminhar (?:sua |seu )?(?:d[úu]vida|caso|atendimento|solicita[çc][ãa]o)|vou\s+chamar\s+(?:a|o)\s+respons[áa]vel|\b(?:j[áa]\s+)?(?:foi|foram|est[áa])\s+encaminhad[oa]s?\b/i;
+  const confirmed = /\b(?:vou\s+(?:te\s+|lhe\s+)?(?:deixar|encaminhar|passar|conectar)\b|vou\s+(?:te\s+|lhe\s+)?deixar\s+com\b|j[áa]\s+(?:deixei|encaminhei|passei|conectei)\b)|deixar.{0,15}encaminhad[oa]|encaminhar (?:sua |seu )?(?:d[úu]vida|caso|atendimento|solicita[çc][ãa]o)|vou\s+chamar\s+(?:a\s+|o\s+)?(?:respons[áa]vel|dermoconsultora|especialista)\b|\b(?:j[áa]\s+)?(?:foi|foram|est[áa])\s+encaminhad[oa]s?\b/i;
   const askingOnly =
     /(?:voc[êe] (?:quer|prefere)|deseja|posso|quer)\b.{0,80}(?:encaminha(?:r|e)|deixar.{0,15}encaminhad|aguardar)/i;
   return confirmed.test(text) && !askingOnly.test(text);
