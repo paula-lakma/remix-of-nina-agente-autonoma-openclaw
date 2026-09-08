@@ -1,94 +1,118 @@
-# Validação individual das dermoconsultoras (Mylena → Talia → Laura)
+# Teste real da prioridade da Laura — auditoria read-only e correção mínima
 
-Auditoria read-only concluída. Abaixo, a estratégia mais segura, sem tocar em cliente real,
-balanceamento, prioridade da Laura, Nina, Leticia, logística, Shopify, RLS ou histórico.
+Auditoria feita agora, sem alterar banco, código, contas ou conversas.
 
-## 1. Melhor estratégia de teste
+## 1. Classificação real da mensagem sensível
 
-Criar um **atendimento sintético isolado**: contato de teste próprio + conversa de teste +
-handoff dermo reproduzido diretamente (mesmos campos que o fluxo real grava), atribuído
-manualmente à profissional alvo — **sem passar pelo balanceamento** (`pick_dermo_assignee`
-não é chamado, portanto nada da rotação real é consumido).
+Texto avaliado (idêntico ao enviado):
+"Estou usando um ácido e minha pele ficou muito vermelha e ardendo. Posso continuar usando?"
 
-O contato de teste usa um número de WhatsApp da própria equipe (ex.: o celular da pessoa que
-acompanha o teste), nunca um cliente. Assim, se a dermo responder pela interface, a mensagem
-chega no aparelho da equipe e nenhum cliente é impactado.
+Execução real de `detectHandoffTarget(...)` → **null**. Nenhuma entrada da matriz sensível casou.
 
-## 2. Tabelas/campos envolvidos (o que um handoff dermo real grava)
+## 2. Motivo canônico detectado
 
-- `contacts`: contato sintético (nome "TESTE INTERNO — Mylena", telefone da equipe).
-- `conversations`: `contact_id`, `status='human'`, `ai_paused=true`,
-  `human_takeover_required`, `requires_dermoconsultant=true`,
-  `handoff_type='dermoconsultora'`, `handoff_reason='dermoconsultora_request'`,
-  `handoff_created_at`, `assigned_user_id = team_members.id da dermo`, `assigned_at`,
-  `human_status='pendente'`, `attendance_finished=false`, `last_message_at`.
-- `messages`: 1–2 mensagens sintéticas (`from_type='user'`) para dar contexto e servir de
-  `trigger_message_id`.
-- `conversation_access_grants`: `conversation_id`, `team_member_id` da dermo alvo,
-  `reason='dermoconsultora_request'`, `is_active=true`, `trigger_message_id`,
-  `trigger_snippet`.
-- `conversation_handoff_events`: evento `handoff_applied` com metadata `{"synthetic": true}`
-  para rastreabilidade.
+**Nenhum.** A entrada `reacao` exige literalmente `reação` / `reagiu` / `ardência forte` / `inchaço`;
+a mensagem diz "vermelha e ardendo". `pele_sensibilizada` exige `sensibiliz` / `pele sensível` /
+`lesionad`. "ácido", "vermelha", "ardendo", "irritada", "queimando", "coçando", "descamando"
+não existem em nenhuma regex.
 
-`assigned_user_id` sozinho **não** basta: a visibilidade exige simultaneamente
-`assigned_user_id = grant.team_member_id`, grant ativo e motivo aceito por
-`is_dermo_handoff_reason` (confirmado em `list_my_dermo_conversations` e
-`dermo_can_access_conversation`).
+## 3. O motivo é sensível?
 
-## 3. Risco de interferência no least-loaded
+Não se aplica — não houve motivo. Se `reacao` tivesse casado, ele resolve para o canônico
+`reaction`, que **está** na allowlist de `public.is_sensitive_dermo_reason`. Ou seja, a regra de
+prioridade da Laura está correta; ela simplesmente nunca foi alcançada.
 
-Real e confirmado: `pick_next_dermoconsultora()` ordena por
-`count(conversations) WHERE assigned_user_id = tm.id AND human_takeover_required = true
-AND attendance_finished = false`.
+## 4. `isConfirmedHandoffResponse` da frase da Nina
 
-Mitigação escolhida: manter `human_takeover_required = false` na conversa sintética.
-Ela continua visível, abrível, respondível e finalizável pela dermo (nenhuma das funções de
-acesso usa esse campo), mas **não entra na contagem de carga** — impacto zero no
-balanceamento. Se quisermos validar também com o campo em `true`, faremos apenas por poucos
-minutos e revertemos logo em seguida.
+Testado com a frase real ("Vou te encaminhar agora para a nossa dermoconsultora...") → **true**.
+A palavra "agora" **não** quebra a regex. Este ponto não é a causa.
 
-## 4. Como evitar envio externo indevido
+## 5. `resolveHandoffDecision`
 
-Não existe hoje modo dry-run: `dermo_reply` insere em `send_queue` e o `dermo-chat` chama o
-`whatsapp-sender`. Por isso o contato sintético usa o número da própria equipe — o envio real
-acontece, mas apenas para nós. Nada é enviado a cliente, nenhuma conversa real é tocada e
-nenhuma regra de envio é alterada.
+`target: null`, `source: "customer_intent"`, sem marcador `[[HANDOFF:...]]` no texto do agente
+(o texto limpo é idêntico ao original, logo nenhum marcador foi emitido nem extraído).
+Sem motivo estruturado e sem classificação de texto, não há alvo.
 
-## 5. Acesso somente da dermo alvo
+## 6. `applyHandoff` / `pick_dermo_assignee` / prioridade da Laura
 
-Garantido pelo próprio modelo: um único grant ativo para o `team_member_id` da Mylena, com
-`assigned_user_id` igual. Verificação explícita depois: executar `list_my_dermo_conversations`
-no contexto de cada uma das outras dermos e confirmar que a conversa sintética não aparece.
+Nada executou. `applyResolvedHandoff` só roda com `target` preenchido.
+`pick_dermo_assignee` não foi chamado, nenhuma dermoconsultora foi escolhida e o ramo
+`sensitive_direct` da Laura não chegou a executar. Não houve erro posterior.
 
-## 6. Limpeza pós-teste
+## 7. Estado real da conversa (Joao Felipe, `a7b8eddb-…a5a1`)
 
-Remoção completa e restrita aos IDs sintéticos: eventos → grants → mensagens → conversa →
-contato. Nada de real é tocado; a limpeza é filtrada pelo `conversation_id`/`contact_id`
-criados no teste.
+| Campo | Valor |
+| --- | --- |
+| status | `nina` |
+| ai_paused | `false` |
+| human_takeover_required | `false` |
+| requires_dermoconsultant | `false` |
+| handoff_type / handoff_reason | `null` / `null` |
+| assigned_user_id / assigned_at | `null` / `null` |
+| attendance_finished | `false` |
+| human_status | `devolvido_para_nina` |
+| last_message_at | 08/09 19:34 UTC |
 
-## 7. Mecanismo já pronto para reutilizar
+## 8. Grants e eventos após 16:33 (19:33 UTC)
 
-Não há flag de "conversa sintética" nem fixture. Existe precedente: o handoff sintético já
-usado para validar a Cris. Reutilizamos exatamente esse padrão, acrescentando
-`metadata.synthetic = true` e o prefixo "TESTE INTERNO" no nome do contato.
+Nenhum. Os últimos registros do dia são de 15:51 UTC (handoff `dermoconsultora_request`, já
+inativo) e 16:11 UTC (`nina_reactivated`). Zero grant, zero evento no horário do teste.
 
-## 8. Plano mínimo — Mylena primeiro
+## 9. Laura
 
-1. Confirmar `team_members.id`, `status='active'` e `user_roles.role='dermo'` de Mylena
-   (`mylenalakma@outlook.com`).
-2. Criar contato sintético com número da equipe.
-3. Criar conversa + 1 mensagem de cliente sintética.
-4. Aplicar o estado de handoff dermo com atribuição direta à Mylena
-   (`human_takeover_required=false`), criar o grant ativo e o evento.
-5. Verificação de isolamento: a conversa aparece para Mylena e para nenhuma outra dermo.
-6. Teste humano da Mylena: abrir, responder (mensagem chega no aparelho da equipe),
-   finalizar atendimento.
-7. Conferir estado final (`attendance_finished=true`, grant revogado).
-8. Limpar tudo pelos IDs criados.
-9. Repetir o mesmo roteiro para Talia e depois Laura, sem alterar sua prioridade clínica.
+Ativa, `lauralakma@outlook.com` vinculada ao team_member correto, Dermoconsultora Sênior.
+`pick_dermo_assignee` reconhece o e-mail novo (e mantém o legado como fallback) e retorna
+`sensitive_direct` para os motivos sensíveis. Nenhuma condição faria o caso cair no
+least-loaded — exceto Laura inativa, o que não ocorre.
+
+## 10. Ponto exato onde o fluxo parou
+
+`detectHandoffTarget` dentro de `resolveHandoffDecision`
+(`supabase/functions/_shared/handoff.ts`, matriz sensível) — retornou `null`.
+
+## 11. Causa raiz
+
+A matriz de casos clínicos sensíveis cobre o **vocabulário técnico** ("reação", "alergia",
+"sensibilizada") mas não o **vocabulário real do cliente** para uma reação adversa em curso:
+pele vermelha, ardendo, queimando, irritada, coçando, descamando, ferida/ferindo, após uso de
+ácido/peeling. Como nada casa, não existe motivo — e sem motivo não há handoff nem prioridade.
+
+Ponto secundário observado (não é a causa deste caso, mas fragiliza o fluxo): motivos dermo
+clínicos ainda dependem de a Nina escrever uma frase de confirmação. Só `financeiro` e
+`dermoconsultora_request` são determinísticos hoje.
+
+## Correção mínima proposta
+
+Somente em `supabase/functions/_shared/handoff.ts`:
+
+1. **Ampliar a entrada `reacao`** (que resolve para o canônico `reaction`, já sensível) para
+   reconhecer sinais de reação adversa em curso descritos em linguagem natural, exigindo
+   **sintoma + pele/uso de produto** no mesmo texto: vermelhid[ãa]o/vermelha, ardendo/ardência,
+   queimando/queimou, irritada/irritação, coçando/coceira, descamando/descamação, inchou,
+   bolha, "ficou ferida", combinados com "pele"/"rosto"/"após usar"/"usando o ácido/peeling".
+   Frases informativas sem sintoma atual (ex.: "quais ácidos vocês têm?") continuam **sem**
+   handoff.
+2. **Tornar determinístico o handoff para motivos clinicamente sensíveis**, igual ao que já
+   existe para logística e `dermoconsultora_request`: quando `detectHandoffTarget` devolver um
+   motivo sensível, o encaminhamento acontece independentemente da frase escolhida pelo modelo.
+3. Nenhuma mudança em `is_sensitive_dermo_reason`, `pick_dermo_assignee`, prioridade da Laura,
+   `dermoconsultora_request`, balanceamento, Leticia/logística, reabertura, RLS, WhatsApp,
+   Shopify, chat-media, contas ou histórico. Nenhuma migration.
+
+**Testes a adicionar** em `src/__tests__/handoff-classification-matrix.test.ts`:
+a mensagem real do teste e variações ("minha pele está queimando depois do ácido",
+"fiquei toda vermelha e coçando", "minha pele descamou muito") → motivo `reaction`,
+destino `dermoconsultant`, sensível = true; negativos ("qual ácido vocês indicam?",
+"quero saber sobre ácido hialurônico") → `null`; logística continua com precedência;
+`dermoconsultora_request` e demais casos inalterados.
+
+Depois: suíte completa + typecheck e publicação apenas de `nina-reply` e `nina-orchestrator`.
+
+**Validação**: repetir a mensagem real do teste e confirmar Pausado + Dermo +
+`handoff_reason=reaction` + atribuição direta à Laura (`mode: sensitive_direct`), com grant e
+evento criados.
 
 ## Fora do escopo
 
-Nenhuma mudança de código, migration, RLS, balanceamento, prioridade da Laura, classificação,
-Nina, Leticia, Shopify, WhatsApp, contas ou histórico. Nenhuma conversa ou cliente real é
-alterado.
+João Felipe não é atribuído, normalizado nem alterado; nenhuma mensagem é enviada;
+nenhum grant ou evento é criado nesta etapa.
