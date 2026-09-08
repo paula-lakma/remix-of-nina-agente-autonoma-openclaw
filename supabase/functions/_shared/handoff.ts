@@ -246,14 +246,22 @@ const SENSITIVE_REASON_MATRIX: Array<{ reason: string; destination: HandoffDesti
     // A parte natural exige sintoma em ESTADO atual/recente E contexto de pele/
     // região do corpo ou de uso/aplicação de produto/procedimento. Palavras
     // isoladas (ácido, peeling, vermelha, ardendo, coçando, descamando) não bastam.
-    rx: new RegExp(
-      "rea[çc][ãa]o|reagiu|ard[êe]ncia forte|incha[çc]o" +
-        "|(?=[\\s\\S]*\\b(?:pele|rosto|face|pesco[çc]o|colo|m[ãa]os?|bra[çc]os?|pernas?|corpo|regi[ãa]o|fiquei|estou|usei|usando|apliquei|aplicando|passei|passando|ap[óo]s|depois)\\b)" +
+    rx: (() => {
+      // Contexto obrigatório: parte do corpo OU uso/aplicação de produto/procedimento.
+      const ctx =
+        "\\b(?:pele|rosto|face|pesco[çc]o|colo|m[ãa]os?|bra[çc]os?|pernas?|corpo|regi[ãa]o|usei|usando|apliquei|aplicando|passei|passando|ap[óo]s|depois)\\b";
+      // Sintoma em estado atual/recente (nunca a palavra solta).
+      const core =
         "\\b(?:ficou|ficaram|fiquei|est[áa]|estou|t[áa]|continua|continuo|segue|amanheceu|amanheci|acordei)\\s+" +
         "(?:muito\\s+|bem\\s+|toda\\s+|todo\\s+|super\\s+|meio\\s+|bastante\\s+|um\\s+pouco\\s+)*" +
-        "(?:vermelh[ao]s?|ardendo|ard[êe]ncia|queimando|queimou|irritad[ao]s?|irrita[çc][ãa]o|co[çc]ando|coceira|descamando|descama[çc][ãa]o|inchad[ao]s?|inchou|bolhas?|ferid[ao]s?|sensibilizad[ao]s?)\\b",
-      "i",
-    ),
+        "(?:vermelh[ao]s?|ardendo|ard[êe]ncia|queimando|queimou|irritad[ao]s?|irrita[çc][ãa]o|co[çc]ando|coceira|descamando|descama[çc][ãa]o|inchad[ao]s?|inchou|bolhas?|ferid[ao]s?|sensibilizad[ao]s?)\\b";
+      return new RegExp(
+        "rea[çc][ãa]o|reagiu|ard[êe]ncia forte|incha[çc]o" +
+          `|${ctx}[\\s\\S]{0,60}${core}` +
+          `|${core}[\\s\\S]{0,60}${ctx}`,
+        "i",
+      );
+    })(),
   },
   { reason: "pele_sensibilizada", destination: "dermoconsultant", rx: /sensibiliz|pele sens[íi]vel|lesionad/i },
   { reason: "contraindicacao", destination: "dermoconsultant", rx: /contraindic|contra-indic/i },
