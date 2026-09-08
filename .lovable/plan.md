@@ -58,23 +58,41 @@ Sim, confirmado. Em empate o critério é fixo e não rotaciona.
 
 Não. Ele prioriza corretamente quem tem menos atendimentos ativos, mas quando há empate — que é o caso normal em operação de baixo volume — concentra 100% dos novos leads na mesma profissional. Além disso, ao finalizar o atendimento a carga volta imediatamente a 0, então a mesma pessoa fica elegível de novo já no próximo lead.
 
-## 8. Correção mínima proposta
+## 8. Correção aprovada (Opção A) — apenas `pick_next_dermoconsultora`
 
-Manter least-loaded como primeiro critério e trocar apenas o desempate:
+Least-loaded continua sendo o primeiro e decisivo critério. A recência só é avaliada em empate de carga.
+
+Nova ordenação:
 
 ```text
-1) count(conversas ativas)                                   ASC
-2) último recebimento do membro (max(assigned_at) histórico) ASC NULLS FIRST
-3) tm.id                                                     ASC   (último recurso)
+1) count(conversas ativas)                                        ASC
+2) MAX(created_at) do último handoff dermo real do membro         ASC NULLS FIRST
+3) tm.id                                                          ASC  (último desempate técnico)
 ```
 
-Ou seja: em empate, recebe quem está há mais tempo sem receber um lead (round-robin natural, sem tabela de estado nova).
+Memória permanente da última atribuição: `conversation_handoff_events`, filtrando
+- `event_type = 'handoff_dermoconsultant'`
+- `metadata->>'assigned_team_member_id' = tm.id`
+- ignorando eventos com `metadata->>'synthetic' = 'true'`
 
-Para isso funcionar é preciso uma memória de "última atribuição" que não seja apagada quando a Nina é reativada. Duas opções:
+Contam tanto os handoffs de balanceamento normal / `dermoconsultora_request` quanto os casos clínicos sensíveis atribuídos diretamente à Laura — assim um caso sensível recente conta como atribuição recente dela nos empates futuros.
 
-- **A (recomendada):** derivar o "último recebimento" de `conversation_handoff_events` (eventos `handoff_dermoconsultant` já gravam `assigned_team_member_id` e ficam permanentes), em vez de `conversations.assigned_at`.
-- **B:** adicionar uma coluna `last_assigned_at` em `team_members`, atualizada no momento do handoff.
+Escopo: uma única migration substituindo o corpo de `pick_next_dermoconsultora`. Nenhuma coluna nova, nenhuma tabela nova, nenhuma mudança em `pick_dermo_assignee` além da chamada já existente.
 
-Nada mais muda: `pick_dermo_assignee`, prioridade da Laura, casos sensíveis, `dermoconsultora_request`, Leticia, logística, contas, RLS, reabertura, WhatsApp, Shopify, chat-media e histórico ficam intactos. A alteração seria uma única migration substituindo o corpo de `pick_next_dermoconsultora`.
+## 9. Validação (sem deixar dado de teste em produção)
 
-Validação sugerida após aprovação: simulação read-only de 10 chamadas consecutivas mostrando rodízio entre as cinco, sem criar conversas.
+Simulação em transação com `BEGIN ... ROLLBACK`, inserindo eventos sintéticos temporários e chamando a função a cada rodada, cobrindo:
+
+- rotação: cinco dermos com carga igual e sem histórico → sucessivas atribuições alternam (ex.: Barbara → Mylena → Talia → Laura → Cris → Barbara…), nenhuma vence todos os empates seguidos;
+- A) Mylena 0, Talia 0, Barbara 1, Laura 0 → Barbara não pode ser escolhida enquanto houver carga 0;
+- B) empate de carga → ganha quem recebeu há mais tempo;
+- C) profissional sem nenhum handoff histórico → prioridade por NULLS FIRST;
+- D) caso sensível → Laura continua `sensitive_direct`, sem passar pelo balanceamento;
+- E) após Laura receber caso sensível, esse handoff conta como última atribuição dela em empates normais.
+
+Também será adicionado/rodado o conjunto de testes existente para garantir que nada de classificação mudou.
+
+## 10. Preservado (sem alteração)
+
+`pick_dermo_assignee` (além da chamada existente), prioridade sensitive_direct da Laura, `dermoconsultora_request`, classificação clínica, Leticia/logística, Finalizar atendimento, reabertura da Nina, contas, RLS, WhatsApp, Shopify, chat-media, mensagens e histórico.
+
