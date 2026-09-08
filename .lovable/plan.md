@@ -77,11 +77,21 @@ Memória permanente da última atribuição: `conversation_handoff_events`, filt
 
 Contam tanto os handoffs de balanceamento normal / `dermoconsultora_request` quanto os casos clínicos sensíveis atribuídos diretamente à Laura — assim um caso sensível recente conta como atribuição recente dela nos empates futuros.
 
+Verificação já feita nos dados reais: existem 9 eventos `handoff_dermoconsultant` gravados; **6 já trazem `metadata.assigned_team_member_id`** e **0 estão marcados como sintéticos**. Os 3 eventos antigos sem esse campo simplesmente não participam da memória de recência — sem backfill nesta alteração.
+
 Escopo: uma única migration substituindo o corpo de `pick_next_dermoconsultora`. Nenhuma coluna nova, nenhuma tabela nova, nenhuma mudança em `pick_dermo_assignee` além da chamada já existente.
 
 ## 9. Validação (sem deixar dado de teste em produção)
 
-Simulação em transação com `BEGIN ... ROLLBACK`, inserindo eventos sintéticos temporários e chamando a função a cada rodada, cobrindo:
+Simulação em `BEGIN … ROLLBACK`, criando apenas os registros temporários necessários para simular handoffs **reais**:
+
+- os eventos criados no teste **não** levam `metadata.synthetic = true` — precisam participar da consulta de recência;
+- são identificados por IDs conhecidos apenas dentro da transação;
+- ao final, `ROLLBACK` obrigatório, então nada permanece no banco.
+
+A regra de produção continua igual: eventos realmente marcados com `metadata.synthetic = true` são ignorados pelo balanceamento.
+
+Casos cobertos:
 
 - rotação: cinco dermos com carga igual e sem histórico → sucessivas atribuições alternam (ex.: Barbara → Mylena → Talia → Laura → Cris → Barbara…), nenhuma vence todos os empates seguidos;
 - A) Mylena 0, Talia 0, Barbara 1, Laura 0 → Barbara não pode ser escolhida enquanto houver carga 0;
@@ -90,7 +100,7 @@ Simulação em transação com `BEGIN ... ROLLBACK`, inserindo eventos sintétic
 - D) caso sensível → Laura continua `sensitive_direct`, sem passar pelo balanceamento;
 - E) após Laura receber caso sensível, esse handoff conta como última atribuição dela em empates normais.
 
-Também será adicionado/rodado o conjunto de testes existente para garantir que nada de classificação mudou.
+Também será rodado o conjunto de testes existente para garantir que nada de classificação mudou.
 
 ## 10. Preservado (sem alteração)
 
