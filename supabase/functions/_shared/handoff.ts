@@ -392,6 +392,25 @@ export function detectHandoffTargetFromHistory(
 
 export type HandoffTarget = { reason: HandoffReason; destination: HandoffDestination };
 
+/**
+ * Espelha public.is_sensitive_dermo_reason: casos clínicos sensíveis que têm
+ * prioridade da dermoconsultora sênior. Mantido em sincronia com o SQL.
+ */
+const SENSITIVE_DERMO_REASONS = new Set([
+  "sensitive_case",
+  "pregnancy_breastfeeding",
+  "allergy",
+  "reaction",
+  "sensitized_or_injured_skin",
+  "contraindication",
+  "medication_or_dermatological_treatment",
+  "recent_procedure",
+]);
+
+export function isSensitiveDermoReason(reason?: string | null): boolean {
+  return SENSITIVE_DERMO_REASONS.has(String(reason ?? "").toLowerCase());
+}
+
 export function resolveHandoffDecision(params: {
   structuredReason?: string | null;
   agentContent?: string | null;
