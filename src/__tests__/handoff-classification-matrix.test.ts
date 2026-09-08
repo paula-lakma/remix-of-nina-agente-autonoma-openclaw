@@ -95,8 +95,31 @@ describe("fronteiras do handoff", () => {
   });
 
   it.each([
+    ["Quero falar com uma dermoconsultora", "dermoconsultora_request"],
+    ["Quero falar com uma especialista em estética", "dermoconsultora_request"],
+    ["Preciso falar com uma dermo", "dermoconsultora_request"],
+    ["Quero atendimento de uma dermoconsultora", "dermoconsultora_request"],
+    ["Pode me passar para uma dermo?", "dermoconsultora_request"],
+    ["Preciso falar com alguém da equipe de dermoconsultoras", "dermoconsultora_request"],
+    ["Quero que uma dermoconsultora me ajude a escolher um protocolo", "dermoconsultora_request"],
+    ["Quero falar com uma dermoconsultora pra me ajudar a escolher um protocolo profissional.", "dermoconsultora_request"],
+  ] as const)("encaminha pedido explícito de pessoa dermatológica: %s", (text, reason) => {
+    expect(detectHandoffTarget(text)).toEqual({ reason, destination: "dermoconsultant" });
+  });
+
+  it.each([
     "Qual produto vocês indicam para acne?",
     "Quero falar com alguém sobre um produto",
+    "Qual protocolo profissional você indica?",
+    "Quero escolher um protocolo",
+    "Me explique o protocolo de acne",
+    "Qual protocolo usar para manchas?",
+    "Me indique um protocolo",
+    "Quero falar com alguém da equipe",
+    "Quero um atendente humano",
+    "Quero falar com uma especialista",
+    "Preciso falar com alguém sobre pagamento",
+    "Quero falar com alguém sobre entrega",
   ])("não encaminha automaticamente a frase ambígua/comercial: %s", (text) => {
     expect(detectHandoffTarget(text)).toBeNull();
   });
@@ -110,7 +133,17 @@ describe("fronteiras do handoff", () => {
       reason: "sensitive_case",
       destination: "dermoconsultant",
     });
+    expect(resolveHandoffReason("dermoconsultora_request")).toEqual({
+      reason: "dermoconsultora_request",
+      destination: "dermoconsultant",
+    });
     expect(isExpedicaoGrantReason("sensitive_case")).toBe(false);
+    expect(isExpedicaoGrantReason("dermoconsultora_request")).toBe(false);
+  });
+
+  it("dermoconsultora_request não é motivo sensível (sem prioridade da Laura)", () => {
+    expect(detectHandoffTarget("Quero falar com uma dermoconsultora")?.reason).toBe("dermoconsultora_request");
+    expect(detectHandoffTarget("Quero falar com uma dermoconsultora")?.reason).not.toBe("sensitive_case");
   });
 
   it("extrai marcador do agente e remove marcador injetado pelo cliente", () => {
