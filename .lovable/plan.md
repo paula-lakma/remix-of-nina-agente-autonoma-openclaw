@@ -80,8 +80,8 @@ Sim. A distribuição continua sendo `pick_dermo_assignee` → `pick_next_dermoc
 **Arquivos tocados:** `supabase/functions/_shared/handoff.ts`, uma migração de uma linha em `is_dermo_handoff_reason`, e `src/__tests__/handoff-classification-matrix.test.ts`.
 
 **Testes a adicionar:**
-- encaminham com `dermoconsultora_request` / destino `dermoconsultant`: "quero falar com uma dermoconsultora", "quero falar com uma especialista", "preciso falar com uma dermo", "quero atendimento de uma dermoconsultora", "pode me passar para uma dermo?", "preciso falar com alguém da equipe de dermoconsultoras", "quero que uma dermoconsultora me ajude a escolher um protocolo" e a mensagem real do João;
-- **não** encaminham (retornam `null`): "qual protocolo profissional você indica?", "quero escolher um protocolo", "me explique o protocolo de acne", "qual protocolo usar para manchas?", "me indique um protocolo";
+- encaminham com `dermoconsultora_request` / destino `dermoconsultant`: "quero falar com uma dermoconsultora", "quero falar com uma especialista em estética", "preciso falar com uma dermo", "quero atendimento de uma dermoconsultora", "pode me passar para uma dermo?", "preciso falar com alguém da equipe de dermoconsultoras", "quero que uma dermoconsultora me ajude a escolher um protocolo" e a mensagem real do João;
+- **não** encaminham (retornam `null`): "qual protocolo profissional você indica?", "quero escolher um protocolo", "me explique o protocolo de acne", "qual protocolo usar para manchas?", "me indique um protocolo", "quero falar com alguém da equipe", "quero um atendente humano", "quero falar com uma especialista", "preciso falar com alguém sobre pagamento", "quero falar com alguém sobre entrega";
 - `dermoconsultora_request` **não** é motivo sensível (sem prioridade da Laura) e **não** está na allowlist da expedição;
 - confirmação textual: "Vou te encaminhar para a nossa dermoconsultora agora." → `true`; "Quer que eu te encaminhe para a dermoconsultora?" → `false`;
 - precedência preservada: "meu protocolo chegou atrasado" e "quando chega meu pedido?" continuam com a Leticia;
