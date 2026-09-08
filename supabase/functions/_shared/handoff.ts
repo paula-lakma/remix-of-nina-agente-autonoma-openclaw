@@ -246,6 +246,15 @@ const SENSITIVE_REASON_MATRIX: Array<{ reason: string; destination: HandoffDesti
   { reason: "duvida_tecnica", destination: "dermoconsultant", rx: /d[úu]vida t[ée]cnica|avalia[çc][ãa]o (t[ée]cnica|humana)|orienta[çc][ãa]o dermatol[óo]gica/i },
   { reason: "protocolo_nao_aprovado", destination: "dermoconsultant", rx: /protocolo n[ãa]o aprovado|protocolo n[ãa]o cadastr/i },
   { reason: "link_nao_localizado", destination: "dermoconsultant", rx: /link n[ãa]o (encontrad|localizad)|n[ãa]o (consegui|localizei) (o )?link|n[ãa]o encontrei o link/i },
+  // Pedido explícito de falar com uma dermoconsultora/pessoa dermatológica.
+  // Exige intenção de contato humano + alvo dermatológico/estético próximo no texto.
+  // Termos genéricos como "alguém da equipe", "atendente humano" ou "especialista"
+  // isolados NÃO disparam este motivo.
+  {
+    reason: "dermoconsultora_request",
+    destination: "dermoconsultant",
+    rx: /(?=[\s\S]{0,120}(?:\bdermoconsultora\b|\bdermo\s+consultora\b|\bdermo\b|\bespecialista\s+em\s+est[ée]tica\b|\bespecialista\s+da\s+pele\b|\bespecialista\s+em\s+protocolo\b|\balgu[ée]m\s+da\s+equipe\s+de\s+dermoconsultoras\b))(?=[\s\S]{0,120}(?:\b(?:quero|preciso|gostaria|poderia|desejo|quer|pode)\b[\s\S]{0,40})?\b(?:falar|conversar|atendimento|atender|passar|passa|transferir|transfere|chamar|ajudar|ajude|ajudaria|me\s+ajude|me\s+ajudaria)\b)/i,
+  },
 ];
 
 /**
