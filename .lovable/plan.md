@@ -60,7 +60,10 @@ A frase foi gerada apenas pelo modelo. O texto do agente é escrito **antes** de
 1. `supabase/functions/_shared/handoff.ts`
    - `REASON_DESTINATIONS`: adicionar `dermoconsultora_request: "dermoconsultant"`.
    - `REASON_ALIASES`: reapontar o alias legado `dermoconsultora` para `dermoconsultora_request` (hoje aponta para `sensitive_case`).
-   - `SENSITIVE_REASON_MATRIX`: nova entrada `dermoconsultora_request`, colocada **por último** na matriz, exigindo **intenção explícita de falar com pessoa**: verbo/pedido de contato humano (`falar com`, `atendimento de`, `me passa/passar para`, `me transfere`, `quero que ... me ajude`, `preciso de ajuda de`, `conversar com`, `chamar`) **combinado** com o alvo humano (`dermoconsultora`, `dermo consultora`, `dermo`, `especialista`, `alguém da equipe`, `atendente humano`). A palavra "protocolo" **não** participa do padrão.
+   - `SENSITIVE_REASON_MATRIX`: nova entrada `dermoconsultora_request`, colocada **por último** na matriz. O padrão exige **dois componentes simultâneos**:
+     1. **Intenção de contato humano**: `falar com`, `atendimento de`, `me passa/passar para`, `me transfere`, `quero que ... me ajude`, `preciso de ajuda de`, `conversar com`, `chamar`, `atender`.
+     2. **Alvo dermatológico/estético**: `dermoconsultora`, `dermo consultora`, `dermo`, `especialista em estética`, `especialista da pele`, `especialista em protocolo`, `alguém da equipe de dermoconsultoras`.
+     Termos genéricos como `alguém da equipe`, `atendente humano` ou `especialista` isolados **não** disparam `dermoconsultora_request`. A palavra "protocolo" **não** participa do padrão sozinha.
    - `isConfirmedHandoffResponse`: aceitar pronome entre verbo e complemento — `vou te encaminhar`, `vou te passar`, `vou te conectar`, `vou te deixar com`, `vou lhe passar`, `vou chamar a dermoconsultora`. Continua rejeitando perguntas/ofertas ("quer que eu encaminhe?", "posso te encaminhar?").
    - Bloco de prompt: instruir o marcador estruturado `[[HANDOFF:dermoconsultora_request]]` **apenas** quando o cliente pedir explicitamente uma pessoa/dermoconsultora, e reforçar que dúvida sobre protocolo, indicação ou explicação continua sendo respondida pela Nina com a base de conhecimento.
 
