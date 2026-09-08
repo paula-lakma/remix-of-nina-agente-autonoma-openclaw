@@ -66,6 +66,10 @@ describe("fronteiras do handoff", () => {
   it.each([
     "Já encaminhei o seu caso para o nosso time de atendimento.",
     "Vou encaminhar seu atendimento agora.",
+    "Vou te encaminhar para a nossa dermoconsultora agora.",
+    "Vou te passar para a nossa dermoconsultora.",
+    "Vou te conectar com a nossa especialista.",
+    "Vou chamar a dermoconsultora para você.",
     "Seu caso de pedido atrasado já foi encaminhado para o nosso time de atendimento.",
     "Seu caso foi encaminhado.",
     "Foi encaminhado para o time responsável.",
@@ -79,6 +83,7 @@ describe("fronteiras do handoff", () => {
     "Quer que eu encaminhe?",
     "Posso encaminhar?",
     "Deseja que eu encaminhe seu caso?",
+    "Quer que eu te encaminhe para a dermoconsultora?",
   ])("não trata pergunta como confirmação: %s", (text) => {
     expect(isConfirmedHandoffResponse(text)).toBe(false);
   });
@@ -95,10 +100,37 @@ describe("fronteiras do handoff", () => {
   });
 
   it.each([
-    "Qual produto vocês indicam para acne?",
-    "Quero falar com alguém sobre um produto",
-  ])("não encaminha automaticamente a frase ambígua/comercial: %s", (text) => {
-    expect(detectHandoffTarget(text)).toBeNull();
+    ["Quero falar com uma dermoconsultora", "dermoconsultora_request"],
+    ["Quero falar com uma especialista em estética", "dermoconsultora_request"],
+    ["Preciso falar com uma dermo", "dermoconsultora_request"],
+    ["Quero atendimento de uma dermoconsultora", "dermoconsultora_request"],
+    ["Pode me passar para uma dermo?", "dermoconsultora_request"],
+    ["Preciso falar com alguém da equipe de dermoconsultoras", "dermoconsultora_request"],
+    ["Quero que uma dermoconsultora me ajude a escolher um protocolo", "dermoconsultora_request"],
+    ["Quero falar com uma dermoconsultora pra me ajudar a escolher um protocolo profissional.", "dermoconsultora_request"],
+  ] as const)("encaminha pedido explícito de pessoa dermatológica: %s", (text, reason) => {
+    expect(detectHandoffTarget(text)).toEqual({ reason, destination: "dermoconsultant" });
+  });
+
+  it.each([
+    ["Qual produto vocês indicam para acne?", null],
+    ["Quero falar com alguém sobre um produto", null],
+    ["Qual protocolo profissional você indica?", null],
+    ["Quero escolher um protocolo", null],
+    ["Me explique o protocolo de acne", null],
+    ["Qual protocolo usar para manchas?", null],
+    ["Me indique um protocolo", null],
+    ["Quero falar com alguém da equipe", null],
+    ["Quero um atendente humano", null],
+    ["Quero falar com uma especialista", null],
+    ["Preciso falar com alguém sobre pagamento", "payment_unidentified"],
+    ["Quero falar com alguém sobre entrega", "order_financial_question"],
+  ] as const)("fronteira de intenção humana: %s", (text, reason) => {
+    if (!reason) {
+      expect(detectHandoffTarget(text)).toBeNull();
+    } else {
+      expect(detectHandoffTarget(text)).toEqual({ reason, destination: "financeiro" });
+    }
   });
 
   it("mantém motivos estruturados e allowlist separados", () => {
@@ -110,7 +142,17 @@ describe("fronteiras do handoff", () => {
       reason: "sensitive_case",
       destination: "dermoconsultant",
     });
+    expect(resolveHandoffReason("dermoconsultora_request")).toEqual({
+      reason: "dermoconsultora_request",
+      destination: "dermoconsultant",
+    });
     expect(isExpedicaoGrantReason("sensitive_case")).toBe(false);
+    expect(isExpedicaoGrantReason("dermoconsultora_request")).toBe(false);
+  });
+
+  it("dermoconsultora_request não é motivo sensível (sem prioridade da Laura)", () => {
+    expect(detectHandoffTarget("Quero falar com uma dermoconsultora")?.reason).toBe("dermoconsultora_request");
+    expect(detectHandoffTarget("Quero falar com uma dermoconsultora")?.reason).not.toBe("sensitive_case");
   });
 
   it("extrai marcador do agente e remove marcador injetado pelo cliente", () => {

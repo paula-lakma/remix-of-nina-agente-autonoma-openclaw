@@ -99,6 +99,9 @@ export const REASON_DESTINATIONS = {
   protocol_product_substitution: "dermoconsultant",
   missing_technical_information: "dermoconsultant",
   product_link_not_found_after_search: "dermoconsultant",
+
+  // Pedido explícito de atendimento humano por dermoconsultora (não é caso sensível)
+  dermoconsultora_request: "dermoconsultant",
 } as const satisfies Record<string, HandoffDestination>;
 
 export type HandoffReason = keyof typeof REASON_DESTINATIONS;
@@ -127,6 +130,8 @@ Não classifique esses casos como sensitive_case e não os encaminhe para dermoc
 Se a necessidade atual do cliente for logística (entrega, frete, prazo, envio, postagem, despacho, transportadora, rastreio, localização do pedido ou pedido não recebido), o encaminhamento é para a expedição mesmo que a conversa tenha histórico dermatológico ou a mesma mensagem cite um problema de pele.
 
 Casos de pele, lesão, sensibilidade, alergia, reação, gestação/lactação, medicamento, procedimento recente, contraindicação, protocolo ou orientação dermatológica seguem as regras da dermoconsultora quando NÃO houver assunto logístico na necessidade atual.
+
+Quando o cliente pedir explicitamente para falar com uma dermoconsultora, especialista em estética, especialista da pele ou alguém da equipe de dermoconsultoras, confirme o encaminhamento e inclua [[HANDOFF:dermoconsultora_request]]. Dúvidas sobre "qual protocolo usar", "escolher um protocolo" ou "me indique um protocolo", sem pedir uma pessoa, continuam sendo respondidas pela Nina com a base de conhecimento.
 
 Se a mensagem for ambígua, como "problema no pedido", "ajuda com uma compra" ou "falar com alguém sobre um produto", faça uma pergunta curta para distinguir entrega/rastreio, pagamento ou orientação de produto. Não prometa encaminhamento, não inclua marcador e não pause a conversa antes da confirmação.
 </tracking_handoff>`;
@@ -190,7 +195,7 @@ const REASON_ALIASES: Record<string, HandoffReason> = {
   duvida_tecnica: "technical_question",
   protocolo_nao_aprovado: "missing_technical_information",
   link_nao_localizado: "product_link_not_found_after_search",
-  dermoconsultora: "sensitive_case",
+  dermoconsultora: "dermoconsultora_request",
 };
 
 /** Normaliza qualquer motivo (canônico ou legado) -> { reason, destination }. */
@@ -243,6 +248,15 @@ const SENSITIVE_REASON_MATRIX: Array<{ reason: string; destination: HandoffDesti
   { reason: "duvida_tecnica", destination: "dermoconsultant", rx: /d[úu]vida t[ée]cnica|avalia[çc][ãa]o (t[ée]cnica|humana)|orienta[çc][ãa]o dermatol[óo]gica/i },
   { reason: "protocolo_nao_aprovado", destination: "dermoconsultant", rx: /protocolo n[ãa]o aprovado|protocolo n[ãa]o cadastr/i },
   { reason: "link_nao_localizado", destination: "dermoconsultant", rx: /link n[ãa]o (encontrad|localizad)|n[ãa]o (consegui|localizei) (o )?link|n[ãa]o encontrei o link/i },
+  // Pedido explícito de falar com uma dermoconsultora/pessoa dermatológica.
+  // Exige intenção de contato humano + alvo dermatológico/estético próximo no texto.
+  // Termos genéricos como "alguém da equipe", "atendente humano" ou "especialista"
+  // isolados NÃO disparam este motivo.
+  {
+    reason: "dermoconsultora_request",
+    destination: "dermoconsultant",
+    rx: /(?=[\s\S]{0,120}(?:\bdermoconsultora\b|\bdermo\s+consultora\b|\bdermo\b|\bespecialista\s+em\s+est[ée]tica\b|\bespecialista\s+da\s+pele\b|\bespecialista\s+em\s+protocolo\b|\balgu[ée]m\s+da\s+equipe\s+de\s+dermoconsultoras\b))(?=[\s\S]{0,120}(?:\b(?:quero|preciso|gostaria|poderia|desejo|quer|pode)\b[\s\S]{0,40})?\b(?:falar|conversar|atendimento|atender|passar|passa|transferir|transfere|chamar|ajudar|ajude|ajudaria|me\s+ajude|me\s+ajudaria)\b)/i,
+  },
 ];
 
 /**
@@ -468,7 +482,7 @@ export async function applyResolvedHandoff(
  * do cliente. O caminho estruturado não depende desta heurística.
  */
 export function isConfirmedHandoffResponse(text: string): boolean {
-  const confirmed = /\b(?:vou\s+(?:deixar|encaminhar|passar)\b|j[áa]\s+(?:deixei|encaminhei|passei)\b)|deixar.{0,15}encaminhad[oa]|encaminhar (?:sua |seu )?(?:d[úu]vida|caso|atendimento|solicita[çc][ãa]o)|vou\s+chamar\s+(?:a|o)\s+respons[áa]vel|\b(?:j[áa]\s+)?(?:foi|foram|est[áa])\s+encaminhad[oa]s?\b/i;
+  const confirmed = /\b(?:vou\s+(?:te\s+|lhe\s+)?(?:deixar|encaminhar|passar|conectar)\b|vou\s+(?:te\s+|lhe\s+)?deixar\s+com\b|j[áa]\s+(?:deixei|encaminhei|passei|conectei)\b)|deixar.{0,15}encaminhad[oa]|encaminhar (?:sua |seu )?(?:d[úu]vida|caso|atendimento|solicita[çc][ãa]o)|vou\s+chamar\s+(?:a\s+|o\s+)?(?:respons[áa]vel|dermoconsultora|especialista)\b|\b(?:j[áa]\s+)?(?:foi|foram|est[áa])\s+encaminhad[oa]s?\b/i;
   const askingOnly =
     /(?:voc[êe] (?:quer|prefere)|deseja|posso|quer)\b.{0,80}(?:encaminha(?:r|e)|deixar.{0,15}encaminhad|aguardar)/i;
   return confirmed.test(text) && !askingOnly.test(text);
