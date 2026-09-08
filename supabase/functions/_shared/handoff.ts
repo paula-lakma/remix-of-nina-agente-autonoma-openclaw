@@ -99,6 +99,9 @@ export const REASON_DESTINATIONS = {
   protocol_product_substitution: "dermoconsultant",
   missing_technical_information: "dermoconsultant",
   product_link_not_found_after_search: "dermoconsultant",
+
+  // Pedido explícito de atendimento humano por dermoconsultora (não é caso sensível)
+  dermoconsultora_request: "dermoconsultant",
 } as const satisfies Record<string, HandoffDestination>;
 
 export type HandoffReason = keyof typeof REASON_DESTINATIONS;
