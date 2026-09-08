@@ -193,7 +193,7 @@ const REASON_ALIASES: Record<string, HandoffReason> = {
   duvida_tecnica: "technical_question",
   protocolo_nao_aprovado: "missing_technical_information",
   link_nao_localizado: "product_link_not_found_after_search",
-  dermoconsultora: "sensitive_case",
+  dermoconsultora: "dermoconsultora_request",
 };
 
 /** Normaliza qualquer motivo (canônico ou legado) -> { reason, destination }. */
