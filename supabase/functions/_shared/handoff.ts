@@ -402,10 +402,13 @@ export function resolveHandoffDecision(params: {
   const structured = resolveHandoffReason(params.structuredReason) ?? marker.target;
   if (structured) return { target: structured, cleanedAgentContent: marker.cleaned, source: "structured" };
   const direct = detectHandoffTarget(stripHandoffMarkers(params.currentUserText));
-  // Determinístico: logística/financeiro (Leticia) e pedido explícito de
-  // dermoconsultora não dependem da frase que o modelo escolheu escrever.
+  // Determinístico: logística/financeiro (Leticia), pedido explícito de
+  // dermoconsultora e casos clinicamente sensíveis não dependem da frase que o
+  // modelo escolheu escrever.
   const deterministic =
-    direct?.destination === "financeiro" || direct?.reason === "dermoconsultora_request";
+    direct?.destination === "financeiro" ||
+    direct?.reason === "dermoconsultora_request" ||
+    isSensitiveDermoReason(direct?.reason);
   if (deterministic || (direct && isConfirmedHandoffResponse(params.agentContent ?? ""))) {
     return { target: direct, cleanedAgentContent: marker.cleaned, source: "customer_intent" };
   }
