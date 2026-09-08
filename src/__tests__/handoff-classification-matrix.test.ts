@@ -245,3 +245,58 @@ describe("pedido explícito de dermoconsultora é determinístico (caso real Jo�
     expect(decision.target).toBeNull();
   });
 });
+
+describe("reação adversa descrita em linguagem natural (prioridade da Laura)", () => {
+  const sensiveis = [
+    "Estou usando um ácido e minha pele ficou muito vermelha e ardendo. Posso continuar usando?",
+    "Meu rosto está queimando depois do peeling",
+    "Minha pele está coçando e descamando depois que usei o produto",
+    "Passei o ácido e minha pele ficou muito irritada",
+  ];
+
+  it.each(sensiveis)("classifica como reaction sensível: %s", (text) => {
+    const target = detectHandoffTarget(text);
+    expect(target).toEqual({ reason: "reaction", destination: "dermoconsultant" });
+    expect(isSensitiveDermoReason(target?.reason)).toBe(true);
+  });
+
+  it.each([
+    "Quais ácidos vocês têm?",
+    "Ácido pode deixar a pele vermelha?",
+    "Quero saber como usar o peeling",
+    "Qual ácido vocês indicam?",
+    "Ácido hialurônico serve para quê?",
+  ])("não classifica frase informativa/comercial: %s", (text) => {
+    expect(detectHandoffTarget(text)).toBeNull();
+  });
+
+  it("logística mantém precedência sobre a reação descrita", () => {
+    expect(
+      detectHandoffTarget("Minha pele ficou vermelha e ardendo e meu pedido ainda não chegou")?.destination,
+    ).toBe("financeiro");
+  });
+
+  it("caso clínico sensível é determinístico, sem depender da frase da Nina", () => {
+    const decision = resolveHandoffDecision({
+      agentContent: "Joao, entendi o que você está sentindo.",
+      currentUserText: sensiveis[0],
+      history: [],
+    });
+    expect(decision.target).toEqual({ reason: "reaction", destination: "dermoconsultant" });
+  });
+
+  it("aplica handoff com a frase real do teste (com 'agora' no meio)", () => {
+    const decision = resolveHandoffDecision({
+      agentContent:
+        "Joao, isso é um sinal importante que não deve ser ignorado. Vou te encaminhar agora para a nossa dermoconsultora para que ela te oriente com segurança.",
+      currentUserText: sensiveis[0],
+      history: [],
+    });
+    expect(decision.target?.reason).toBe("reaction");
+  });
+
+  it("dermoconsultora_request continua não sensível", () => {
+    expect(isSensitiveDermoReason("dermoconsultora_request")).toBe(false);
+    expect(isSensitiveDermoReason("where_is_my_order")).toBe(false);
+  });
+});
