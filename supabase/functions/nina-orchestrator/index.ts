@@ -11,6 +11,10 @@ import {
   detectHandoffTargetFromHistory,
   TRACKING_HANDOFF_PROMPT,
 } from "../_shared/handoff.ts";
+import {
+  buildAttendanceStateBlock,
+  buildHistoryText,
+} from "../_shared/conversation_context.ts";
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -497,11 +501,14 @@ async function processQueueItem(
     .limit(20);
 
   // Build conversation history for AI
-  const conversationHistory = (recentMessages || [])
-    .reverse()
+  const orderedMessages = (recentMessages || []).slice().reverse();
+  const conversationHistory = orderedMessages
     .map((msg: any) => ({
       role: msg.from_type === 'user' ? 'user' : 'assistant',
-      content: msg.content || '[media]'
+      // Mensagem escrita por uma pessoa da equipe não pode parecer escrita pela Nina.
+      content: msg.from_type === 'human'
+        ? `[Atendente humano] ${msg.content || '[media]'}`
+        : (msg.content || '[media]'),
     }));
 
   // A intenção operacional do cliente é decidida antes do provedor de IA. Para
@@ -566,9 +573,13 @@ async function processQueueItem(
     clientMemory
   );
 
+  // Estado atual do atendimento (humano encerrado x humano ativo) — condicional.
+  const attendanceStateBlock = buildAttendanceStateBlock(conversation, orderedMessages);
+
   // Process template variables ({{ data_hora }}, {{ dia_semana }}, etc.)
   const processedPrompt = processPromptTemplate(
-    `${enhancedSystemPrompt}\n\n${TRACKING_HANDOFF_PROMPT}`,
+    `${enhancedSystemPrompt}\n\n${TRACKING_HANDOFF_PROMPT}` +
+      (attendanceStateBlock ? `\n\n${attendanceStateBlock}` : ''),
     conversation.contact,
   );
 
@@ -618,9 +629,7 @@ async function processQueueItem(
 
     if (instance?.ingress_url && instance?.hooks_token) {
       const runId = crypto.randomUUID();
-      const historyText = conversationHistory
-        .map((m: any) => `${m.role === 'user' ? 'Lead' : 'Nina'}: ${m.content}`)
-        .join('\n');
+      const historyText = buildHistoryText(orderedMessages);
       const memoryText = clientMemory && Object.keys(clientMemory).length
         ? `\n\n## Memória do cliente\n${JSON.stringify(clientMemory)}`
         : '';
