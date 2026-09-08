@@ -113,20 +113,24 @@ describe("fronteiras do handoff", () => {
   });
 
   it.each([
-    "Qual produto vocês indicam para acne?",
-    "Quero falar com alguém sobre um produto",
-    "Qual protocolo profissional você indica?",
-    "Quero escolher um protocolo",
-    "Me explique o protocolo de acne",
-    "Qual protocolo usar para manchas?",
-    "Me indique um protocolo",
-    "Quero falar com alguém da equipe",
-    "Quero um atendente humano",
-    "Quero falar com uma especialista",
-    "Preciso falar com alguém sobre pagamento",
-    "Quero falar com alguém sobre entrega",
-  ])("não encaminha automaticamente a frase ambígua/comercial: %s", (text) => {
-    expect(detectHandoffTarget(text)).toBeNull();
+    ["Qual produto vocês indicam para acne?", null],
+    ["Quero falar com alguém sobre um produto", null],
+    ["Qual protocolo profissional você indica?", null],
+    ["Quero escolher um protocolo", null],
+    ["Me explique o protocolo de acne", null],
+    ["Qual protocolo usar para manchas?", null],
+    ["Me indique um protocolo", null],
+    ["Quero falar com alguém da equipe", null],
+    ["Quero um atendente humano", null],
+    ["Quero falar com uma especialista", null],
+    ["Preciso falar com alguém sobre pagamento", "payment_unidentified"],
+    ["Quero falar com alguém sobre entrega", "order_financial_question"],
+  ] as const)("fronteira de intenção humana: %s", (text, reason) => {
+    if (!reason) {
+      expect(detectHandoffTarget(text)).toBeNull();
+    } else {
+      expect(detectHandoffTarget(text)).toEqual({ reason, destination: "financeiro" });
+    }
   });
 
   it("mantém motivos estruturados e allowlist separados", () => {
