@@ -5,6 +5,7 @@ import {
   extractHandoffMarker,
   isConfirmedHandoffResponse,
   isExpedicaoGrantReason,
+  resolveHandoffDecision,
   resolveHandoffReason,
   stripHandoffMarkers,
 } from "../../supabase/functions/_shared/handoff";
