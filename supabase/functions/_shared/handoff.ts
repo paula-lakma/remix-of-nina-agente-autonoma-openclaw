@@ -131,6 +131,8 @@ Se a necessidade atual do cliente for logística (entrega, frete, prazo, envio, 
 
 Casos de pele, lesão, sensibilidade, alergia, reação, gestação/lactação, medicamento, procedimento recente, contraindicação, protocolo ou orientação dermatológica seguem as regras da dermoconsultora quando NÃO houver assunto logístico na necessidade atual.
 
+Quando o cliente pedir explicitamente para falar com uma dermoconsultora, especialista em estética, especialista da pele ou alguém da equipe de dermoconsultoras, confirme o encaminhamento e inclua [[HANDOFF:dermoconsultora_request]]. Dúvidas sobre "qual protocolo usar", "escolher um protocolo" ou "me indique um protocolo", sem pedir uma pessoa, continuam sendo respondidas pela Nina com a base de conhecimento.
+
 Se a mensagem for ambígua, como "problema no pedido", "ajuda com uma compra" ou "falar com alguém sobre um produto", faça uma pergunta curta para distinguir entrega/rastreio, pagamento ou orientação de produto. Não prometa encaminhamento, não inclua marcador e não pause a conversa antes da confirmação.
 </tracking_handoff>`;
 
