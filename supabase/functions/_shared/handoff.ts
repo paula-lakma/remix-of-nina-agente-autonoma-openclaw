@@ -239,11 +239,36 @@ const SENSITIVE_REASON_MATRIX: Array<{ reason: string; destination: HandoffDesti
   { reason: "gestante", destination: "dermoconsultant", rx: /gestante|gr[áa]vida|gesta(?:ç|c)[ãa]o/i },
   { reason: "lactante", destination: "dermoconsultant", rx: /lactante|amament/i },
   { reason: "alergia", destination: "dermoconsultant", rx: /alergi/i },
-  { reason: "reacao", destination: "dermoconsultant", rx: /rea[çc][ãa]o|reagiu|ard[êe]ncia forte|incha[çc]o/i },
   { reason: "pele_sensibilizada", destination: "dermoconsultant", rx: /sensibiliz|pele sens[íi]vel|lesionad/i },
   { reason: "contraindicacao", destination: "dermoconsultant", rx: /contraindic|contra-indic/i },
   { reason: "medicamento_dermatologico", destination: "dermoconsultant", rx: /medicament|roacutan|isotretino[íi]na|tratamento dermatol[óo]gico|dermatologista/i },
   { reason: "procedimento_recente", destination: "dermoconsultant", rx: /procedimento recente|f(?:ez|iz) (peeling|laser|microagulhamento)|p[óo]s[- ]procedimento/i },
+  // Avaliada depois dos motivos clínicos mais específicos para não roubar
+  // classificações como procedimento recente.
+  {
+    reason: "reacao",
+    destination: "dermoconsultant",
+    // Vocabulário técnico + descrição natural de reação adversa em curso.
+    // A parte natural exige sintoma em ESTADO atual/recente E contexto de pele/
+    // região do corpo ou de uso/aplicação de produto/procedimento. Palavras
+    // isoladas (ácido, peeling, vermelha, ardendo, coçando, descamando) não bastam.
+    rx: (() => {
+      // Contexto obrigatório: parte do corpo OU uso/aplicação de produto/procedimento.
+      const ctx =
+        "\\b(?:pele|rosto|face|pesco[çc]o|colo|m[ãa]os?|bra[çc]os?|pernas?|corpo|regi[ãa]o|usei|usando|apliquei|aplicando|passei|passando|ap[óo]s|depois)\\b";
+      // Sintoma em estado atual/recente (nunca a palavra solta).
+      const core =
+        "\\b(?:ficou|ficaram|fiquei|est[áa]|estou|t[áa]|continua|continuo|segue|amanheceu|amanheci|acordei)\\s+" +
+        "(?:muito\\s+|bem\\s+|toda\\s+|todo\\s+|super\\s+|meio\\s+|bastante\\s+|um\\s+pouco\\s+)*" +
+        "(?:vermelh[ao]s?|ardendo|ard[êe]ncia|queimando|queimou|irritad[ao]s?|irrita[çc][ãa]o|co[çc]ando|coceira|descamando|descama[çc][ãa]o|inchad[ao]s?|inchou|bolhas?|ferid[ao]s?|sensibilizad[ao]s?)\\b";
+      return new RegExp(
+        "rea[çc][ãa]o|reagiu|ard[êe]ncia forte|incha[çc]o" +
+          `|${ctx}[\\s\\S]{0,60}${core}` +
+          `|${core}[\\s\\S]{0,60}${ctx}`,
+        "i",
+      );
+    })(),
+  },
   { reason: "adaptacao_protocolo", destination: "dermoconsultant", rx: /adapta[çc][ãa]o.{0,15}protocolo|trocar.{0,10}produto.{0,10}protocolo/i },
   { reason: "duvida_tecnica", destination: "dermoconsultant", rx: /d[úu]vida t[ée]cnica|avalia[çc][ãa]o (t[ée]cnica|humana)|orienta[çc][ãa]o dermatol[óo]gica/i },
   { reason: "protocolo_nao_aprovado", destination: "dermoconsultant", rx: /protocolo n[ãa]o aprovado|protocolo n[ãa]o cadastr/i },
@@ -377,6 +402,25 @@ export function detectHandoffTargetFromHistory(
 
 export type HandoffTarget = { reason: HandoffReason; destination: HandoffDestination };
 
+/**
+ * Espelha public.is_sensitive_dermo_reason: casos clínicos sensíveis que têm
+ * prioridade da dermoconsultora sênior. Mantido em sincronia com o SQL.
+ */
+const SENSITIVE_DERMO_REASONS = new Set([
+  "sensitive_case",
+  "pregnancy_breastfeeding",
+  "allergy",
+  "reaction",
+  "sensitized_or_injured_skin",
+  "contraindication",
+  "medication_or_dermatological_treatment",
+  "recent_procedure",
+]);
+
+export function isSensitiveDermoReason(reason?: string | null): boolean {
+  return SENSITIVE_DERMO_REASONS.has(String(reason ?? "").toLowerCase());
+}
+
 export function resolveHandoffDecision(params: {
   structuredReason?: string | null;
   agentContent?: string | null;
@@ -387,10 +431,13 @@ export function resolveHandoffDecision(params: {
   const structured = resolveHandoffReason(params.structuredReason) ?? marker.target;
   if (structured) return { target: structured, cleanedAgentContent: marker.cleaned, source: "structured" };
   const direct = detectHandoffTarget(stripHandoffMarkers(params.currentUserText));
-  // Determinístico: logística/financeiro (Leticia) e pedido explícito de
-  // dermoconsultora não dependem da frase que o modelo escolheu escrever.
+  // Determinístico: logística/financeiro (Leticia), pedido explícito de
+  // dermoconsultora e casos clinicamente sensíveis não dependem da frase que o
+  // modelo escolheu escrever.
   const deterministic =
-    direct?.destination === "financeiro" || direct?.reason === "dermoconsultora_request";
+    direct?.destination === "financeiro" ||
+    direct?.reason === "dermoconsultora_request" ||
+    isSensitiveDermoReason(direct?.reason);
   if (deterministic || (direct && isConfirmedHandoffResponse(params.agentContent ?? ""))) {
     return { target: direct, cleanedAgentContent: marker.cleaned, source: "customer_intent" };
   }
