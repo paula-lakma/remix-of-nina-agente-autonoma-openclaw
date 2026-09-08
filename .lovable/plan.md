@@ -47,16 +47,25 @@ estruturado apontando Barbara como responsável.
 
 Somente no `nina-orchestrator`, na montagem do contexto (nada de banco, nada de trigger):
 
-1. **Rotular corretamente cada autor no histórico**: mensagens com `from_type = 'human'`
-   passam a aparecer como `Atendente humano (atendimento encerrado):` em vez de `Nina:`.
-   Mensagens `nina`/`ai` continuam `Nina:`; `user` continua `Lead:`.
+1. **Rotular corretamente cada autor no histórico** (rótulo neutro, sem misturar autor
+   com estado do atendimento):
+   - `from_type = 'user'` → `Lead:`
+   - `from_type = 'nina'` / `'ai'` → `Nina:`
+   - `from_type = 'human'` → `Atendente humano:`
 2. **Bloco de estado do atendimento** no prompt, curto e determinístico, calculado a
-   partir do estado real da conversa no momento da chamada:
-   - se `assigned_user_id` está vazio e a conversa está com a Nina →
-     "O atendimento humano anterior foi ENCERRADO. Você (Nina) é a única responsável agora.
-     Nunca diga que um profissional anterior está atendendo, nem prometa chamá-lo de volta,
-     a menos que um novo encaminhamento aconteça. Use o histórico apenas para entender o assunto.";
-   - se houver responsável humano atribuído, nenhum texto novo (fluxo atual intocado).
+   partir do estado real da conversa no momento da chamada. Exibir a instrução
+   "O atendimento humano anterior foi ENCERRADO..." **somente** quando **todas** as
+   condições forem verdadeiras:
+   - conversa atualmente sob controle da Nina (`status = 'nina'`);
+   - `assigned_user_id` está vazio;
+   - não há handoff humano ativo (`human_takeover_required = false`, `handoff_type` vazio);
+   - existe evidência de atendimento humano anterior no histórico relevante
+     (mensagem `from_type = 'human'` no histórico enviado ou evento/handoff anterior).
+   Texto do bloco: "O atendimento humano anterior foi ENCERRADO. Você (Nina) é a responsável
+   agora. Nunca diga que um profissional anterior está atendendo, nem prometa chamá-lo de
+   volta, a menos que um novo encaminhamento aconteça. Use o histórico apenas para entender
+   o assunto."
+   Se houver responsável humano ativo, nenhum texto novo é adicionado (fluxo atual intocado).
 3. Nenhuma mudança em: Finalizar atendimento, trigger de reabertura, handoff da Leticia,
    handoff/balanceamento das dermoconsultoras, prioridade da Laura, classificação logística,
    RLS, WhatsApp, Shopify, chat-media, mensagens ou histórico. Nada é apagado.
