@@ -52,19 +52,34 @@ Nina pausada, status correto, responsável e data preenchidos, `handoff_type = f
 motivo `order_financial_question`, concessão ativa criada, evento registrado e a conversa
 aparecendo no Chat ao Vivo dela. Confirmação curta na tela antes de aplicar.
 
+**Idempotência:** se a conversa já estiver corretamente encaminhada à Leticia (concessão ativa,
+mesmo motivo, responsável e tipo já corretos), a operação não faz nada — não cria concessão nem
+evento novo e não reescreve as datas. Só executa o encaminhamento quando o estado ainda não
+está completo.
+
 ## 7. Trocar a Leticia por outra pessoa
 
-Hoje a concessão dela continuaria ativa — ela seguiria vendo a conversa. Proposta: ao sair da
-Leticia, revogar as concessões ativas com `revoke_expedicao_access` (motivo `reassigned`) e
-limpar `handoff_type`/`handoff_reason`/`human_status`, mantendo a atribuição normal para a nova
-pessoa. Comportamento das demais (Mylena, Cris, Talia, Barbara, Laura, Paula, Carla) permanece
-idêntico ao de hoje.
+Ao escolher outra pessoa numa conversa em encaminhamento logístico ativo, na mesma operação:
+
+1. revogar todas as concessões logísticas ativas (motivo `reassigned`);
+2. limpar `handoff_type`, `handoff_reason`, `handoff_created_at` e `human_status`;
+3. `ai_paused = false`, `human_takeover_required = false`, `status = 'nina'` — ou seja, o mesmo
+   estado que uma atribuição manual comum produz hoje, sem resíduo do encaminhamento anterior;
+4. aplicar a atribuição normal (responsável + dono do negócio) para a nova pessoa.
+
+Comportamento das demais (Mylena, Cris, Talia, Barbara, Laura, Paula, Carla) permanece idêntico
+ao de hoje quando não há encaminhamento logístico ativo.
 
 ## 8. "Não atribuído" depois da Leticia
 
-Atual: só limparia o responsável, deixando concessão ativa e Nina pausada — estado residual.
-Recomendado (mais seguro): revogar as concessões, limpar os campos de encaminhamento e
-**perguntar** se a Nina deve voltar a responder, em vez de reativar silenciosamente.
+A tela pede confirmação explícita com duas opções:
+
+- **Desatribuir e reativar a Nina** — revoga as concessões, limpa responsável e data, limpa
+  tipo/motivo/`human_status`, `human_takeover_required = false`, `ai_paused = false`,
+  `status = 'nina'`; a conversa volta para a Nina.
+- **Cancelar** — nada é alterado.
+
+Não existe estado intermediário "sem responsável com a Nina pausada".
 
 ## 9. Riscos de acesso residual
 
