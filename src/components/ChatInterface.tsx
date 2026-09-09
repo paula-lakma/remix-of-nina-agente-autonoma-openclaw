@@ -31,6 +31,8 @@ const ChatInterface: React.FC = () => {
   const [availableTags, setAvailableTags] = useState<TagDefinition[]>([]);
   const [isTagSelectorOpen, setIsTagSelectorOpen] = useState(false);
   const [teamMembers, setTeamMembers] = useState<any[]>([]);
+  const [expedicaoMemberIds, setExpedicaoMemberIds] = useState<string[]>([]);
+  const [pendingUnassign, setPendingUnassign] = useState<string | null>(null);
   const [notesValue, setNotesValue] = useState('');
   const [isSavingNotes, setIsSavingNotes] = useState(false);
   
