@@ -89,21 +89,29 @@ então o acesso já cairia na prática — ainda assim a revogação explícita 
 ## 10. Plano mínimo de implementação
 
 Migração:
-- `admin_assign_expedicao(_conversation_id uuid, _reason text default 'order_financial_question')`
-  security definer, guarda `is_admin_or_manager`, delega a `apply_expedicao_handoff`, grant a `authenticated`.
-- `admin_clear_expedicao_assignment(_conversation_id uuid)` — revoga concessões e limpa campos de handoff.
+- `admin_assign_expedicao(_conversation_id uuid, _team_member_id uuid, _reason text default 'order_financial_question')`
+  security definer, guarda `is_admin_or_manager`, valida no backend que o membro indicado tem o
+  papel logístico (senão recusa), verifica se o estado já está completo (idempotência) e delega a
+  `apply_expedicao_handoff`; grant a `authenticated`.
+- `admin_clear_expedicao_assignment(_conversation_id uuid, _new_team_member_id uuid)` — revoga
+  concessões, limpa os campos de encaminhamento, reativa a Nina e aplica a nova atribuição
+  (ou deixa sem responsável quando não houver nova pessoa).
 
 Frontend:
-- `src/services/api.ts`: `assignConversation` passa a consultar o papel do membro escolhido e
-  rotear para a RPC certa; demais casos inalterados.
-- `src/components/ChatInterface.tsx`: confirmação e mensagem específica ao escolher a Leticia.
-- `src/hooks/useConversations.ts`: refletir estado (pausa/responsável) após a chamada.
+- `src/services/api.ts`: `assignConversation` consulta o papel do membro escolhido e roteia para a
+  RPC certa; demais casos inalterados.
+- `src/components/ChatInterface.tsx`: confirmação ao escolher a Leticia e diálogo de duas opções
+  ao escolher "Não atribuído" a partir dela.
+- `src/hooks/useConversations.ts`: refletir estado (pausa/responsável/encaminhamento) após a chamada.
 
 Testes:
 - membro comum → mesmo comportamento de hoje;
-- membro com papel logístico → encaminhamento completo, concessão e evento únicos, reexecução idempotente;
-- troca da Leticia por outra pessoa → nenhuma concessão ativa restante;
-- "Não atribuído" → sem concessão ativa e sem campos de handoff residuais.
+- Nina → escolher Leticia → encaminhamento completo, concessão e evento criados;
+- escolher Leticia duas vezes → nada duplicado, datas preservadas;
+- Leticia → outra pessoa → nenhuma concessão logística ativa e Nina sem pausa residual;
+- Leticia → "Não atribuído" → opção de reativar devolve a conversa à Nina, limpa tudo;
+- Leticia → "Não atribuído" → Cancelar mantém o estado intacto;
+- backend recusa a operação para membro sem o papel logístico.
 
 ## Preservado
 
