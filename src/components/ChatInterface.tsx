@@ -1177,6 +1177,34 @@ const ChatInterface: React.FC = () => {
           )}
         </DialogContent>
       </Dialog>
+
+      <Dialog open={!!pendingUnassign} onOpenChange={(open) => !open && setPendingUnassign(null)}>
+        <DialogContent className="max-w-md bg-slate-950 border-slate-800">
+          <DialogTitle className="text-slate-100">Remover a responsável?</DialogTitle>
+          <p className="text-sm text-slate-400">
+            Esta conversa está em atendimento com a responsável pelo pedido. Ao remover, o acesso
+            dela é encerrado e a assistente volta a responder ao cliente.
+          </p>
+          <div className="flex justify-end gap-2 pt-2">
+            <button
+              onClick={() => setPendingUnassign(null)}
+              className="px-3 py-2 text-sm rounded-lg bg-slate-800 text-slate-200 hover:bg-slate-700"
+            >
+              Cancelar
+            </button>
+            <button
+              onClick={() => {
+                const id = pendingUnassign;
+                setPendingUnassign(null);
+                if (id) clearExpedicaoAssignment(id, null).catch(() => {});
+              }}
+              className="px-3 py-2 text-sm rounded-lg bg-cyan-600 text-white hover:bg-cyan-500"
+            >
+              Desatribuir e reativar a assistente
+            </button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
