@@ -1014,6 +1014,25 @@ const ChatInterface: React.FC = () => {
                     value={activeChat.assignedUserId || ''}
                     onChange={(e) => {
                       const userId = e.target.value || null;
+                      const currentIsLogistic = !!activeChat.assignedUserId
+                        && expedicaoMemberIds.includes(activeChat.assignedUserId);
+                      const nextIsLogistic = !!userId && expedicaoMemberIds.includes(userId);
+
+                      if (nextIsLogistic) {
+                        assignToExpedicao(activeChat.id, userId!).catch(() => {});
+                        return;
+                      }
+
+                      if (currentIsLogistic && !userId) {
+                        setPendingUnassign(activeChat.id);
+                        return;
+                      }
+
+                      if (currentIsLogistic) {
+                        clearExpedicaoAssignment(activeChat.id, userId).catch(() => {});
+                        return;
+                      }
+
                       assignConversation(activeChat.id, userId);
                       toast.success('Conversa atribuída. Deal atualizado automaticamente.');
                     }}
