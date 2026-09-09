@@ -27,6 +27,10 @@ Não usar nome nem e-mail no frontend. A identificação correta é pelo **papel
 `user_id` tem `role = 'expedicao'` em `user_roles`. Hoje só a Leticia (`Financeiro`) tem esse
 papel. A regra fica automática se um dia outra pessoa assumir o papel.
 
+A escolha do frontend serve apenas para a experiência de uso. A decisão real é validada no
+backend: a função recusa a operação se o membro indicado não tiver o papel logístico, e a
+função existente já seleciona a pessoa correta pelo papel, não por informação enviada da tela.
+
 ## 4. Reuso de `apply_expedicao_handoff` (sem duplicar lógica)
 
 A função já existe e faz tudo (pausa, campos, concessão, evento, revogação da concessão
