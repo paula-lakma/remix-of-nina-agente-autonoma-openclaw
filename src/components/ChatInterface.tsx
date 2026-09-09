@@ -78,6 +78,10 @@ const ChatInterface: React.FC = () => {
     api.fetchTeam().then(setTeamMembers).catch(err => {
       console.error('Error loading team members:', err);
     });
+
+    api.listExpedicaoTeamMemberIds().then(setExpedicaoMemberIds).catch(err => {
+      console.error('Error loading logistic members:', err);
+    });
   }, []);
 
   // Auto-select first conversation or from URL param
