@@ -1491,7 +1491,7 @@ export const api = {
   ): Promise<void> => {
     const { error } = await supabase.rpc('admin_clear_expedicao_assignment', {
       _conversation_id: conversationId,
-      _new_team_member_id: newTeamMemberId,
+      _new_team_member_id: newTeamMemberId ?? undefined,
     });
 
     if (error) {
