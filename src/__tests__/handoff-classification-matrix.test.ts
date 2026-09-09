@@ -301,3 +301,54 @@ describe("reação adversa descrita em linguagem natural (prioridade da Laura)",
     expect(isSensitiveDermoReason("where_is_my_order")).toBe(false);
   });
 });
+
+describe("pós-compra: pedido do cliente vai para Leticia/financeiro", () => {
+  const encaminham = [
+    "Gostaria de saber sobre o meu pedido",
+    "Gostaria de saber sobre os meus produtos, porque ainda não chegaram",
+    "Gostaria de saber sobre os meus produtos, por que ainda não chegaram",
+    "meus produtos ainda não chegaram",
+    "meu pedido não chegou",
+    "ainda não recebi meu pedido",
+    "estou esperando meu pedido",
+    "quando meus produtos chegam?",
+    "cadê meu pedido?",
+    "meu pedido está demorando",
+    "não recebi a compra",
+    "Quero saber do meu pedido",
+    "Tenho uma dúvida sobre meu pedido",
+    "Preciso de informações sobre meu pedido",
+    "Quando meu pedido chega?",
+    "Estou esperando meus produtos",
+    "Não recebi minha compra",
+    "Quero saber do rastreio",
+    "Qual o prazo do meu pedido?",
+  ];
+
+  const naoEncaminham = [
+    "quero fazer um pedido",
+    "como faço para comprar?",
+    "como faço um pedido?",
+    "quais produtos vocês têm?",
+    "quanto custa esse produto?",
+    "quero comprar um kit",
+    "quero comprar produtos",
+  ];
+
+  it.each(encaminham)("encaminha para financeiro: %s", (text) => {
+    expect(detectHandoffTarget(text)?.destination).toBe("financeiro");
+  });
+
+  it.each(naoEncaminham)("não encaminha intenção comercial: %s", (text) => {
+    expect(detectHandoffTarget(text)).toBeNull();
+  });
+
+  it("handoff pós-compra é determinístico mesmo sem frase de confirmação", () => {
+    const decision = resolveHandoffDecision({
+      agentContent: "Certo, Brena!",
+      currentUserText: "Gostaria de saber sobre os meus produtos, por que ainda não chegaram",
+      history: [],
+    });
+    expect(decision.target?.destination).toBe("financeiro");
+  });
+});
