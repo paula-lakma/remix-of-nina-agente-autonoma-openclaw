@@ -112,7 +112,7 @@ export type HandoffReason = keyof typeof REASON_DESTINATIONS;
  */
 export const TRACKING_HANDOFF_PROMPT = `
 <tracking_handoff>
-Qualquer assunto claramente relacionado a financeiro, pedido, expedição, entrega, frete, prazo, envio, postagem, despacho, transportadora, rastreio ou logística pós-compra deve ser encaminhado imediatamente para a expedição, sem perguntar novamente se o cliente deseja o encaminhamento. Use exatamente um motivo estruturado aprovado:
+Qualquer assunto pós-compra do cliente — o pedido dele, financeiro, entrega, frete, prazo, envio, postagem, despacho, transportadora, rastreio ou logística — deve ser encaminhado imediatamente para a Leticia, sem perguntar novamente se o cliente deseja o encaminhamento e sem exigir que ele especifique antes se é rastreio, atraso ou entrega. Frases como "quero saber do meu pedido", "dúvida sobre meu pedido", "meus produtos ainda não chegaram" ou "cadê meu pedido" já bastam. Intenção de compra ("quero fazer um pedido", "quero comprar", "quais produtos vocês têm") NÃO é pós-compra e continua com você. Use exatamente um motivo estruturado aprovado:
 - pedido atrasado, não chegou, não recebido, "onde está meu pedido" ou "como acompanho meu pedido" -> where_is_my_order
 - rastreio parado ou sem atualização -> tracking_no_update
 - código de rastreio não recebido -> tracking_not_received
@@ -121,19 +121,19 @@ Qualquer assunto claramente relacionado a financeiro, pedido, expedição, entre
 - pedido enviado/postado/despachado ou dúvida sobre postagem e despacho -> shipped_no_info
 - dúvida sobre transportadora, Correios, Jadlog ou Sedex -> carrier_question
 - dúvida genérica de rastreio -> tracking_help
-- prazo de entrega, "quando chega", "quantos dias", frete, endereço, alteração ou questão administrativa/pós-compra -> order_financial_question
+- prazo de entrega, "quando chega", "quantos dias", frete, endereço, alteração, dúvida genérica sobre o pedido/compra já realizada ou questão administrativa/pós-compra -> order_financial_question
 - pagamento, cobrança, Pix, cartão, boleto, nota fiscal ou reembolso -> use o motivo financeiro específico correspondente
 
 Ao confirmar o encaminhamento, inclua no retorno interno [[HANDOFF:<motivo>]]. O marcador não é texto para o cliente.
 Não classifique esses casos como sensitive_case e não os encaminhe para dermoconsultora.
 
-Se a necessidade atual do cliente for logística (entrega, frete, prazo, envio, postagem, despacho, transportadora, rastreio, localização do pedido ou pedido não recebido), o encaminhamento é para a expedição mesmo que a conversa tenha histórico dermatológico ou a mesma mensagem cite um problema de pele.
+Se a necessidade atual do cliente for logística ou o pedido dele (entrega, frete, prazo, envio, postagem, despacho, transportadora, rastreio, localização do pedido ou pedido não recebido), o encaminhamento é para a Leticia mesmo que a conversa tenha histórico dermatológico ou a mesma mensagem cite um problema de pele.
 
-Casos de pele, lesão, sensibilidade, alergia, reação, gestação/lactação, medicamento, procedimento recente, contraindicação, protocolo ou orientação dermatológica seguem as regras da dermoconsultora quando NÃO houver assunto logístico na necessidade atual.
+Casos de pele, lesão, sensibilidade, alergia, reação, gestação/lactação, medicamento, procedimento recente, contraindicação, protocolo ou orientação dermatológica seguem as regras da dermoconsultora quando NÃO houver assunto logístico ou pós-compra na necessidade atual.
 
 Quando o cliente pedir explicitamente para falar com uma dermoconsultora, especialista em estética, especialista da pele ou alguém da equipe de dermoconsultoras, confirme o encaminhamento e inclua [[HANDOFF:dermoconsultora_request]]. Dúvidas sobre "qual protocolo usar", "escolher um protocolo" ou "me indique um protocolo", sem pedir uma pessoa, continuam sendo respondidas pela Nina com a base de conhecimento.
 
-Se a mensagem for ambígua, como "problema no pedido", "ajuda com uma compra" ou "falar com alguém sobre um produto", faça uma pergunta curta para distinguir entrega/rastreio, pagamento ou orientação de produto. Não prometa encaminhamento, não inclua marcador e não pause a conversa antes da confirmação.
+LINGUAGEM OBRIGATÓRIA: ao confirmar um encaminhamento pós-compra, fale sempre da Leticia ou do setor responsável pelo pedido. Exemplo: "Vou encaminhar seu atendimento para a Leticia, que vai verificar as informações do seu pedido." É PROIBIDO dizer "equipe de expedição", "setor de expedição", "time de expedição", "nossa expedição" ou qualquer variação com a palavra expedição — esse time não existe para o cliente.
 </tracking_handoff>`;
 
 /**
@@ -296,10 +296,10 @@ const LOGISTICS_REASON_MATRIX: Array<{ reason: string; destination: HandoffDesti
   { reason: "tracking_code_invalid", destination: "financeiro", rx: /c[óo]digo.{0,15}(de )?rastreio.{0,30}(inv[áa]lid|n[ãa]o funciona|erro)/i },
   { reason: "tracking_link_issue", destination: "financeiro", rx: /link.{0,20}(de )?rastreio.{0,30}(n[ãa]o abre|n[ãa]o funciona|erro)|rastreio.{0,20}link.{0,20}(inv[áa]lid|quebrad|erro)/i },
   { reason: "carrier_question", destination: "financeiro", rx: /transportadora|correios|jadlog|\bsedex\b/i },
-  { reason: "where_is_my_order", destination: "financeiro", rx: /onde (est[áa]|t[áa]).{0,20}(meu |minha )?(pedido|encomenda)|(pedido|entrega|encomenda).{0,35}(atrasad|n[ãa]o chegou|n[ãa]o foi entregue|n[ãa]o recebi)|atraso.{0,20}(pedido|entrega)|ainda n[ãa]o (chegou|recebi)|n[ãa]o recebi.{0,20}(meu |minha )?(pedido|encomenda|compra)|acompanhar.{0,20}(meu|meus|minha|minhas)?\s*(pedido|pedidos|encomenda|entrega)/i },
+  { reason: "where_is_my_order", destination: "financeiro", rx: /onde (est[áa]|t[áa]).{0,20}(meu |minha )?(pedido|encomenda)|(pedido|entrega|encomenda).{0,35}(atrasad|n[ãa]o chegou|n[ãa]o foi entregue|n[ãa]o recebi)|atraso.{0,20}(pedido|entrega)|ainda n[ãa]o (chegou|chegaram|recebi|recebemos)|n[ãa]o (chegou|chegaram) at[ée] agora|n[ãa]o recebi.{0,20}(meu |minha )?(pedido|encomenda|compra)|acompanhar.{0,20}(meu|meus|minha|minhas)?\s*(pedido|pedidos|encomenda|entrega)|(cad[êe]|onde (est[áa]|t[áa]|anda|andam))\s+(o |a |os |as )?(meu|minha|meus|minhas)?\s*(pedido|pedidos|encomenda|compra|produto|produtos|itens|mercadoria)|(pedido|pedidos|produto|produtos|encomenda|compra|itens|mercadoria)[^.?!]{0,45}(ainda n[ãa]o|n[ãa]o)\s*(chegou|chegaram|foi entregue|foram entregues|recebi)|(estou|est[ou]|t[ôo])\s+esperando[^.?!]{0,30}(pedido|produto|produtos|encomenda|compra|entrega|chegar)|(pedido|pedidos|entrega|produto|produtos|encomenda|compra)[^.?!]{0,35}(demorando|atrasando|atrasad)|quando[^.?!]{0,30}(chega|chegam|chegar[áa]|chegar[ãa]o|vou receber|recebo)/i },
   { reason: "shipped_no_info", destination: "financeiro", rx: /(pedido|compra).{0,25}(enviad|despachad).{0,35}(sem informa[çc][ãa]o|sem rastreio|n[ãa]o recebi)|n[ãa]o recebi.{0,25}(informa[çc][ãa]o|rastreio).{0,25}(pedido|compra)|\b(?:foi|foram|j[áa])\s+(?:foi\s+)?(?:enviad|postad|despachad|expedid)|\b(?:postou|postaram|enviaram|despacharam|expediram)\b|saiu p(?:ara|ra) entrega|\bpostagem\b|\bdespacho\b/i },
   { reason: "tracking_help", destination: "financeiro", rx: /\brastre(?:io|ar|ando|amento)\b/i },
-  { reason: "order_financial_question", destination: "financeiro", rx: /(?:prazo|previs[ãa]o).{0,25}(?:entrega|pedido|chegar|chegada)|\bprazo de entrega\b|\bfrete\b|(?:endere[çc]o).{0,35}(?:pedido|entrega|compra)|(?:alterar|altera[çc][ãa]o|confirmar).{0,35}(?:endere[çc]o|pedido|entrega)|quando (?:chega|vai chegar|chegar[áa]|sai|ser[áa] entregue)|quanto tempo.{0,25}(?:demora|chega|entrega|chegar)|chegar(?:ia|[áa])?\s+em\s+\S+\s+dias?|quantos dias|(?:problema|d[úu]vida|ajuda).{0,30}(?:pedido|compra|entrega)|(?:pedido|compra).{0,35}(?:problema|d[úu]vida|ajuda|endere[çc]o|frete|administrativ|p[óo]s[- ]compra|informa[çc][ãa]o|confirma[çc][ãa]o)|\b(?:entrega|entregue|expedi[çc][ãa]o|log[íi]stica)\b/i },
+  { reason: "order_financial_question", destination: "financeiro", rx: /(?:prazo|previs[ãa]o).{0,25}(?:entrega|pedido|chegar|chegada)|\bprazo de entrega\b|\bfrete\b|(?:endere[çc]o).{0,35}(?:pedido|entrega|compra)|(?:alterar|altera[çc][ãa]o|confirmar).{0,35}(?:endere[çc]o|pedido|entrega)|quando (?:chega|vai chegar|chegar[áa]|sai|ser[áa] entregue)|quanto tempo.{0,25}(?:demora|chega|entrega|chegar)|chegar(?:ia|[áa])?\s+em\s+\S+\s+dias?|quantos dias|(?:problema|d[úu]vida|ajuda).{0,30}(?:pedido|compra|entrega)|(?:pedido|compra).{0,35}(?:problema|d[úu]vida|ajuda|endere[çc]o|frete|administrativ|p[óo]s[- ]compra|informa[çc][ãa]o|confirma[çc][ãa]o)|(?:sobre|do|da|de|no|na|com)\s+(?:o\s+|a\s+|os\s+|as\s+)?(?:meu|minha|meus|minhas)\s+(?:pedido|pedidos|compra|compras|encomenda|produto|produtos|itens)|(?:meu|minha|meus|minhas)\s+(?:pedido|pedidos|compra|encomenda)\b|\b(?:entrega|entregue|expedi[çc][ãa]o|log[íi]stica)\b/i },
 ];
 
 const REASON_MATRIX: Array<{ reason: string; destination: HandoffDestination; rx: RegExp }> = [

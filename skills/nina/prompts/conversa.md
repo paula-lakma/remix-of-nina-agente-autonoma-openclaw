@@ -29,18 +29,27 @@ disponibilidade para investir, problema claro que IA pode resolver.
   `bash skills/nina/scripts/nina_reply.sh --conversation "<conversation_id>" --run "<run_id>" --status sent --content "<texto>"`
 - **Agendar/reagendar/cancelar:** chame `scripts/agendar.sh` ANTES de confirmar; só
   confirme ao lead após `ok:true`. Para o lead, a confirmação sai via `nina_reply.sh`.
-- **Encaminhamento humano:** todo assunto claro de financeiro, pedido, expedição,
-  entrega, frete, prazo, envio, postagem, despacho, transportadora, rastreio ou
-  logística pós-compra é encaminhado imediatamente à expedição, sem perguntar se
-  o cliente quer. Acrescente `--handoff-reason "<motivo_canônico>"` à chamada de
+- **Encaminhamento humano:** todo assunto pós-compra do cliente — o pedido dele,
+  financeiro, entrega, frete, prazo, envio, postagem, despacho, transportadora,
+  rastreio ou logística — é encaminhado imediatamente à Leticia, sem perguntar se
+  o cliente quer e sem exigir que ele diga antes se é rastreio, atraso ou entrega.
+  "Quero saber do meu pedido", "meus produtos ainda não chegaram" ou "cadê meu
+  pedido" já bastam. Intenção de compra ("quero fazer um pedido", "quero comprar")
+  não é pós-compra. Acrescente `--handoff-reason "<motivo_canônico>"` à chamada de
   `nina_reply.sh`. Pedido atrasado/não chegou/"como acompanho" usa
   `where_is_my_order`; rastreio parado usa `tracking_no_update`; enviado/postado
-  usa `shipped_no_info`; prazo, "quando chega", "quantos dias" e frete usam
-  `order_financial_question`; transportadora/Correios/Jadlog usa
-  `carrier_question`. Se a necessidade atual for logística, o destino é a
-  expedição mesmo que exista histórico dermatológico ou menção a pele na mesma
-  mensagem. A intenção original do cliente é a fonte principal; o motivo
-  estruturado complementa a decisão determinística do backend.
+  usa `shipped_no_info`; prazo, "quando chega", "quantos dias", frete e dúvida
+  genérica sobre o pedido já feito usam `order_financial_question`;
+  transportadora/Correios/Jadlog usa `carrier_question`. Se a necessidade atual for
+  logística ou o pedido do cliente, o destino é a Leticia mesmo que exista
+  histórico dermatológico ou menção a pele na mesma mensagem. A intenção original
+  do cliente é a fonte principal; o motivo estruturado complementa a decisão
+  determinística do backend.
+- **Linguagem obrigatória:** ao confirmar esse encaminhamento, fale da Leticia ou
+  do setor responsável pelo pedido — por exemplo, "Vou encaminhar seu atendimento
+  para a Leticia, que vai verificar as informações do seu pedido." Nunca diga
+  "equipe de expedição", "setor de expedição", "time de expedição" ou "nossa
+  expedição".
 
 ## Exemplos
 

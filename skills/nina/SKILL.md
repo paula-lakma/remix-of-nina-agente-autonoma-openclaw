@@ -56,18 +56,23 @@ conversa. Extraia e use:
    Só confirme o agendamento ao lead (via `nina_reply.sh`) após `ok:true`. Em
    `time_conflict`/`date_in_past`/`no_appointment_found`, ofereça alternativa —
    nunca exponha o erro técnico.
-4. **Para qualquer assunto claro de financeiro, pedido, expedição, entrega, frete, prazo, envio, postagem, despacho, transportadora, rastreio ou logística pós-compra**, encaminhe imediatamente, sem pedir nova confirmação, e passe o motivo canônico:
+4. **Para qualquer assunto pós-compra do cliente — o pedido dele, financeiro, entrega, frete, prazo, envio, postagem, despacho, transportadora, rastreio ou logística**, encaminhe imediatamente para a Leticia, sem pedir nova confirmação e sem exigir que o cliente diga antes se é rastreio, atraso ou entrega, e passe o motivo canônico:
    `--handoff-reason "<motivo>"`. Pedido atrasado/não chegou/"como acompanho meu
    pedido" usa `where_is_my_order`; rastreio sem atualização, `tracking_no_update`;
    código não recebido, `tracking_not_received`; código inválido,
    `tracking_code_invalid`; pedido enviado/postado/despachado, `shipped_no_info`;
-   prazo, "quando chega", "quantos dias" e frete, `order_financial_question`;
-   transportadora/Correios/Jadlog, `carrier_question`. Se a necessidade atual for
-   logística, o destino é a expedição mesmo com histórico dermatológico ou menção
-   a pele na mesma mensagem. Sem assunto logístico, dúvidas de pele, lesão,
-   sensibilidade, produtos e orientação dermatológica seguem as regras da
-   dermoconsultora. A decisão final também é aplicada pelo backend a partir da
+   prazo, "quando chega", "quantos dias", frete e dúvida genérica sobre o pedido já
+   feito, `order_financial_question`; transportadora/Correios/Jadlog,
+   `carrier_question`. Intenção de compra ("quero fazer um pedido", "quero
+   comprar") não é pós-compra e continua com você. Se a necessidade atual for
+   logística ou o pedido do cliente, o destino é a Leticia mesmo com histórico
+   dermatológico ou menção a pele na mesma mensagem. Sem esse assunto, dúvidas de
+   pele, lesão, sensibilidade, produtos e orientação dermatológica seguem as regras
+   da dermoconsultora. A decisão final também é aplicada pelo backend a partir da
    intenção original do cliente.
+   **Linguagem obrigatória:** fale sempre da Leticia ou do setor responsável pelo
+   pedido — nunca "equipe de expedição", "setor de expedição", "time de expedição"
+   ou "nossa expedição".
 
 ## Scripts da skill
 
