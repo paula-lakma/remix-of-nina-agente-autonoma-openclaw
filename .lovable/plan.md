@@ -27,6 +27,10 @@ Não usar nome nem e-mail no frontend. A identificação correta é pelo **papel
 `user_id` tem `role = 'expedicao'` em `user_roles`. Hoje só a Leticia (`Financeiro`) tem esse
 papel. A regra fica automática se um dia outra pessoa assumir o papel.
 
+A escolha do frontend serve apenas para a experiência de uso. A decisão real é validada no
+backend: a função recusa a operação se o membro indicado não tiver o papel logístico, e a
+função existente já seleciona a pessoa correta pelo papel, não por informação enviada da tela.
+
 ## 4. Reuso de `apply_expedicao_handoff` (sem duplicar lógica)
 
 A função já existe e faz tudo (pausa, campos, concessão, evento, revogação da concessão
@@ -48,19 +52,34 @@ Nina pausada, status correto, responsável e data preenchidos, `handoff_type = f
 motivo `order_financial_question`, concessão ativa criada, evento registrado e a conversa
 aparecendo no Chat ao Vivo dela. Confirmação curta na tela antes de aplicar.
 
+**Idempotência:** se a conversa já estiver corretamente encaminhada à Leticia (concessão ativa,
+mesmo motivo, responsável e tipo já corretos), a operação não faz nada — não cria concessão nem
+evento novo e não reescreve as datas. Só executa o encaminhamento quando o estado ainda não
+está completo.
+
 ## 7. Trocar a Leticia por outra pessoa
 
-Hoje a concessão dela continuaria ativa — ela seguiria vendo a conversa. Proposta: ao sair da
-Leticia, revogar as concessões ativas com `revoke_expedicao_access` (motivo `reassigned`) e
-limpar `handoff_type`/`handoff_reason`/`human_status`, mantendo a atribuição normal para a nova
-pessoa. Comportamento das demais (Mylena, Cris, Talia, Barbara, Laura, Paula, Carla) permanece
-idêntico ao de hoje.
+Ao escolher outra pessoa numa conversa em encaminhamento logístico ativo, na mesma operação:
+
+1. revogar todas as concessões logísticas ativas (motivo `reassigned`);
+2. limpar `handoff_type`, `handoff_reason`, `handoff_created_at` e `human_status`;
+3. `ai_paused = false`, `human_takeover_required = false`, `status = 'nina'` — ou seja, o mesmo
+   estado que uma atribuição manual comum produz hoje, sem resíduo do encaminhamento anterior;
+4. aplicar a atribuição normal (responsável + dono do negócio) para a nova pessoa.
+
+Comportamento das demais (Mylena, Cris, Talia, Barbara, Laura, Paula, Carla) permanece idêntico
+ao de hoje quando não há encaminhamento logístico ativo.
 
 ## 8. "Não atribuído" depois da Leticia
 
-Atual: só limparia o responsável, deixando concessão ativa e Nina pausada — estado residual.
-Recomendado (mais seguro): revogar as concessões, limpar os campos de encaminhamento e
-**perguntar** se a Nina deve voltar a responder, em vez de reativar silenciosamente.
+A tela pede confirmação explícita com duas opções:
+
+- **Desatribuir e reativar a Nina** — revoga as concessões, limpa responsável e data, limpa
+  tipo/motivo/`human_status`, `human_takeover_required = false`, `ai_paused = false`,
+  `status = 'nina'`; a conversa volta para a Nina.
+- **Cancelar** — nada é alterado.
+
+Não existe estado intermediário "sem responsável com a Nina pausada".
 
 ## 9. Riscos de acesso residual
 
@@ -70,21 +89,29 @@ então o acesso já cairia na prática — ainda assim a revogação explícita 
 ## 10. Plano mínimo de implementação
 
 Migração:
-- `admin_assign_expedicao(_conversation_id uuid, _reason text default 'order_financial_question')`
-  security definer, guarda `is_admin_or_manager`, delega a `apply_expedicao_handoff`, grant a `authenticated`.
-- `admin_clear_expedicao_assignment(_conversation_id uuid)` — revoga concessões e limpa campos de handoff.
+- `admin_assign_expedicao(_conversation_id uuid, _team_member_id uuid, _reason text default 'order_financial_question')`
+  security definer, guarda `is_admin_or_manager`, valida no backend que o membro indicado tem o
+  papel logístico (senão recusa), verifica se o estado já está completo (idempotência) e delega a
+  `apply_expedicao_handoff`; grant a `authenticated`.
+- `admin_clear_expedicao_assignment(_conversation_id uuid, _new_team_member_id uuid)` — revoga
+  concessões, limpa os campos de encaminhamento, reativa a Nina e aplica a nova atribuição
+  (ou deixa sem responsável quando não houver nova pessoa).
 
 Frontend:
-- `src/services/api.ts`: `assignConversation` passa a consultar o papel do membro escolhido e
-  rotear para a RPC certa; demais casos inalterados.
-- `src/components/ChatInterface.tsx`: confirmação e mensagem específica ao escolher a Leticia.
-- `src/hooks/useConversations.ts`: refletir estado (pausa/responsável) após a chamada.
+- `src/services/api.ts`: `assignConversation` consulta o papel do membro escolhido e roteia para a
+  RPC certa; demais casos inalterados.
+- `src/components/ChatInterface.tsx`: confirmação ao escolher a Leticia e diálogo de duas opções
+  ao escolher "Não atribuído" a partir dela.
+- `src/hooks/useConversations.ts`: refletir estado (pausa/responsável/encaminhamento) após a chamada.
 
 Testes:
 - membro comum → mesmo comportamento de hoje;
-- membro com papel logístico → encaminhamento completo, concessão e evento únicos, reexecução idempotente;
-- troca da Leticia por outra pessoa → nenhuma concessão ativa restante;
-- "Não atribuído" → sem concessão ativa e sem campos de handoff residuais.
+- Nina → escolher Leticia → encaminhamento completo, concessão e evento criados;
+- escolher Leticia duas vezes → nada duplicado, datas preservadas;
+- Leticia → outra pessoa → nenhuma concessão logística ativa e Nina sem pausa residual;
+- Leticia → "Não atribuído" → opção de reativar devolve a conversa à Nina, limpa tudo;
+- Leticia → "Não atribuído" → Cancelar mantém o estado intacto;
+- backend recusa a operação para membro sem o papel logístico.
 
 ## Preservado
 
