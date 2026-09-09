@@ -112,7 +112,7 @@ export type HandoffReason = keyof typeof REASON_DESTINATIONS;
  */
 export const TRACKING_HANDOFF_PROMPT = `
 <tracking_handoff>
-Qualquer assunto claramente relacionado a financeiro, pedido, expedição, entrega, frete, prazo, envio, postagem, despacho, transportadora, rastreio ou logística pós-compra deve ser encaminhado imediatamente para a expedição, sem perguntar novamente se o cliente deseja o encaminhamento. Use exatamente um motivo estruturado aprovado:
+Qualquer assunto pós-compra do cliente — o pedido dele, financeiro, entrega, frete, prazo, envio, postagem, despacho, transportadora, rastreio ou logística — deve ser encaminhado imediatamente para a Leticia, sem perguntar novamente se o cliente deseja o encaminhamento e sem exigir que ele especifique antes se é rastreio, atraso ou entrega. Frases como "quero saber do meu pedido", "dúvida sobre meu pedido", "meus produtos ainda não chegaram" ou "cadê meu pedido" já bastam. Intenção de compra ("quero fazer um pedido", "quero comprar", "quais produtos vocês têm") NÃO é pós-compra e continua com você. Use exatamente um motivo estruturado aprovado:
 - pedido atrasado, não chegou, não recebido, "onde está meu pedido" ou "como acompanho meu pedido" -> where_is_my_order
 - rastreio parado ou sem atualização -> tracking_no_update
 - código de rastreio não recebido -> tracking_not_received
@@ -121,7 +121,7 @@ Qualquer assunto claramente relacionado a financeiro, pedido, expedição, entre
 - pedido enviado/postado/despachado ou dúvida sobre postagem e despacho -> shipped_no_info
 - dúvida sobre transportadora, Correios, Jadlog ou Sedex -> carrier_question
 - dúvida genérica de rastreio -> tracking_help
-- prazo de entrega, "quando chega", "quantos dias", frete, endereço, alteração ou questão administrativa/pós-compra -> order_financial_question
+- prazo de entrega, "quando chega", "quantos dias", frete, endereço, alteração, dúvida genérica sobre o pedido/compra já realizada ou questão administrativa/pós-compra -> order_financial_question
 - pagamento, cobrança, Pix, cartão, boleto, nota fiscal ou reembolso -> use o motivo financeiro específico correspondente
 
 Ao confirmar o encaminhamento, inclua no retorno interno [[HANDOFF:<motivo>]]. O marcador não é texto para o cliente.
