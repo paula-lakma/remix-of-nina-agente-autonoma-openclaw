@@ -522,6 +522,64 @@ export function useConversations() {
     }
   }, [conversations]);
 
+  // Atribuição manual ao setor logístico/financeiro: handoff completo
+  const assignToExpedicao = useCallback(async (conversationId: string, teamMemberId: string) => {
+    const conv = conversations.find(c => c.id === conversationId);
+    if (!conv) return;
+    try {
+      const res = await api.assignConversationToExpedicao(conversationId, teamMemberId, conv.contactId);
+      setConversations(prev => prev.map(c => c.id === conversationId ? {
+        ...c,
+        assignedUserId: teamMemberId,
+        aiPaused: true,
+        humanTakeoverRequired: true,
+        status: 'paused' as const,
+        handoffType: 'financeiro',
+        humanStatus: 'aguardando_humano',
+        attendanceFinished: false,
+      } : c));
+      toast.success(res.alreadyAssigned
+        ? 'Conversa já estava encaminhada para esta pessoa.'
+        : 'Conversa encaminhada. A assistente foi pausada e a responsável já vê o atendimento.');
+    } catch (err) {
+      console.error('[useConversations] Error assigning to expedicao:', err);
+      toast.error('Não foi possível encaminhar a conversa');
+      throw err;
+    }
+  }, [conversations]);
+
+  // Sair do estado logístico: revoga acessos, limpa handoff e reativa a Nina
+  const clearExpedicaoAssignment = useCallback(async (
+    conversationId: string,
+    newTeamMemberId: string | null
+  ) => {
+    const conv = conversations.find(c => c.id === conversationId);
+    if (!conv) return;
+    try {
+      await api.clearExpedicaoAssignment(conversationId, newTeamMemberId, conv.contactId);
+      setConversations(prev => prev.map(c => c.id === conversationId ? {
+        ...c,
+        assignedUserId: newTeamMemberId,
+        aiPaused: false,
+        humanTakeoverRequired: false,
+        requiresDermoconsultant: false,
+        status: 'nina' as const,
+        handoffType: null,
+        handoffReason: null,
+        handoffCreatedAt: null,
+        humanStatus: null,
+        attendanceFinished: false,
+      } : c));
+      toast.success(newTeamMemberId
+        ? 'Responsável alterado. A assistente voltou a responder.'
+        : 'Conversa desatribuída e devolvida à assistente.');
+    } catch (err) {
+      console.error('[useConversations] Error clearing expedicao assignment:', err);
+      toast.error('Não foi possível alterar o responsável');
+      throw err;
+    }
+  }, [conversations]);
+
   // Delete conversation
   const deleteConversation = useCallback(async (conversationId: string) => {
     const snapshot = conversations;
@@ -547,6 +605,8 @@ export function useConversations() {
     updateStatus,
     markAsRead,
     assignConversation,
+    assignToExpedicao,
+    clearExpedicaoAssignment,
     deleteConversation,
     refetch: fetchConversations
   };

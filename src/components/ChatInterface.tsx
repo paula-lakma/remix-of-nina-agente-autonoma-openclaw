@@ -21,7 +21,7 @@ import { MediaUnavailable } from './MediaUnavailable';
 
 
 const ChatInterface: React.FC = () => {
-  const { conversations, loading, sendMessage, updateStatus, markAsRead, assignConversation, deleteConversation } = useConversations();
+  const { conversations, loading, sendMessage, updateStatus, markAsRead, assignConversation, assignToExpedicao, clearExpedicaoAssignment, deleteConversation } = useConversations();
   const { sdrName, companyName } = useCompanySettings();
   const [selectedChatId, setSelectedChatId] = useState<string | null>(null);
   const [inputText, setInputText] = useState('');
@@ -31,6 +31,8 @@ const ChatInterface: React.FC = () => {
   const [availableTags, setAvailableTags] = useState<TagDefinition[]>([]);
   const [isTagSelectorOpen, setIsTagSelectorOpen] = useState(false);
   const [teamMembers, setTeamMembers] = useState<any[]>([]);
+  const [expedicaoMemberIds, setExpedicaoMemberIds] = useState<string[]>([]);
+  const [pendingUnassign, setPendingUnassign] = useState<string | null>(null);
   const [notesValue, setNotesValue] = useState('');
   const [isSavingNotes, setIsSavingNotes] = useState(false);
   
@@ -75,6 +77,10 @@ const ChatInterface: React.FC = () => {
 
     api.fetchTeam().then(setTeamMembers).catch(err => {
       console.error('Error loading team members:', err);
+    });
+
+    api.listExpedicaoTeamMemberIds().then(setExpedicaoMemberIds).catch(err => {
+      console.error('Error loading logistic members:', err);
     });
   }, []);
 
@@ -1008,6 +1014,25 @@ const ChatInterface: React.FC = () => {
                     value={activeChat.assignedUserId || ''}
                     onChange={(e) => {
                       const userId = e.target.value || null;
+                      const currentIsLogistic = !!activeChat.assignedUserId
+                        && expedicaoMemberIds.includes(activeChat.assignedUserId);
+                      const nextIsLogistic = !!userId && expedicaoMemberIds.includes(userId);
+
+                      if (nextIsLogistic) {
+                        assignToExpedicao(activeChat.id, userId!).catch(() => {});
+                        return;
+                      }
+
+                      if (currentIsLogistic && !userId) {
+                        setPendingUnassign(activeChat.id);
+                        return;
+                      }
+
+                      if (currentIsLogistic) {
+                        clearExpedicaoAssignment(activeChat.id, userId).catch(() => {});
+                        return;
+                      }
+
                       assignConversation(activeChat.id, userId);
                       toast.success('Conversa atribuída. Deal atualizado automaticamente.');
                     }}
@@ -1150,6 +1175,34 @@ const ChatInterface: React.FC = () => {
               </div>
             </div>
           )}
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={!!pendingUnassign} onOpenChange={(open) => !open && setPendingUnassign(null)}>
+        <DialogContent className="max-w-md bg-slate-950 border-slate-800">
+          <DialogTitle className="text-slate-100">Remover a responsável?</DialogTitle>
+          <p className="text-sm text-slate-400">
+            Esta conversa está em atendimento com a responsável pelo pedido. Ao remover, o acesso
+            dela é encerrado e a assistente volta a responder ao cliente.
+          </p>
+          <div className="flex justify-end gap-2 pt-2">
+            <button
+              onClick={() => setPendingUnassign(null)}
+              className="px-3 py-2 text-sm rounded-lg bg-slate-800 text-slate-200 hover:bg-slate-700"
+            >
+              Cancelar
+            </button>
+            <button
+              onClick={() => {
+                const id = pendingUnassign;
+                setPendingUnassign(null);
+                if (id) clearExpedicaoAssignment(id, null).catch(() => {});
+              }}
+              className="px-3 py-2 text-sm rounded-lg bg-cyan-600 text-white hover:bg-cyan-500"
+            >
+              Desatribuir e reativar a assistente
+            </button>
+          </div>
         </DialogContent>
       </Dialog>
     </div>

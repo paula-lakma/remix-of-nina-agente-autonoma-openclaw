@@ -2410,6 +2410,18 @@ export type Database = {
         }
         Returns: Json
       }
+      admin_assign_expedicao: {
+        Args: {
+          _conversation_id: string
+          _reason?: string
+          _team_member_id: string
+        }
+        Returns: Json
+      }
+      admin_clear_expedicao_assignment: {
+        Args: { _conversation_id: string; _new_team_member_id?: string }
+        Returns: Json
+      }
       apply_expedicao_handoff: {
         Args: {
           _conversation_id: string
@@ -2617,6 +2629,12 @@ export type Database = {
       }
       is_operational_staff: { Args: { _user_id: string }; Returns: boolean }
       is_sensitive_dermo_reason: { Args: { _reason: string }; Returns: boolean }
+      list_expedicao_team_member_ids: {
+        Args: never
+        Returns: {
+          team_member_id: string
+        }[]
+      }
       list_my_dermo_conversations: {
         Args: never
         Returns: {
