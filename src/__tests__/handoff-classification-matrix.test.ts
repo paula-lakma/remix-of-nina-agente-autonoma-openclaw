@@ -174,7 +174,7 @@ describe("logística pós-compra tem precedência", () => {
     ["Como faço pra acompanhar meus pedidos", "where_is_my_order"],
     ["quantos dias ainda", "order_financial_question"],
     ["Qual o prazo de entrega?", "order_financial_question"],
-    ["Quando chega?", "order_financial_question"],
+    ["Quando chega?", "where_is_my_order"],
     ["Já postaram meu pedido?", "shipped_no_info"],
     ["Meu pedido ainda não chegou", "where_is_my_order"],
     ["Qual seria a transportadora?", "carrier_question"],
