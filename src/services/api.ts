@@ -1436,6 +1436,77 @@ export const api = {
   },
 
   /**
+   * IDs dos team_members que pertencem ao setor logístico/financeiro (role `expedicao`).
+   * Usado apenas para decidir a UX; a autorização real é validada no backend.
+   */
+  listExpedicaoTeamMemberIds: async (): Promise<string[]> => {
+    const { data, error } = await supabase.rpc('list_expedicao_team_member_ids');
+    if (error) {
+      console.error('[API] Error listing expedicao members:', error);
+      return [];
+    }
+    return (data ?? []).map((r: { team_member_id: string }) => r.team_member_id);
+  },
+
+  /**
+   * Atribuição manual para o setor logístico: executa o handoff completo
+   * reutilizando apply_expedicao_handoff (via wrapper com guarda de admin/manager).
+   * Idempotente: não duplica grant/evento se já estiver encaminhada.
+   */
+  assignConversationToExpedicao: async (
+    conversationId: string,
+    teamMemberId: string,
+    contactId: string,
+    reason = 'order_financial_question'
+  ): Promise<{ applied: boolean; alreadyAssigned: boolean }> => {
+    const { data, error } = await supabase.rpc('admin_assign_expedicao', {
+      _conversation_id: conversationId,
+      _team_member_id: teamMemberId,
+      _reason: reason,
+    });
+
+    if (error) {
+      console.error('[API] Error applying expedicao handoff:', error);
+      throw error;
+    }
+
+    const { error: dealError } = await supabase
+      .from('deals')
+      .update({ owner_id: teamMemberId })
+      .eq('contact_id', contactId);
+    if (dealError) console.error('[API] Error updating deal owner:', dealError);
+
+    const result = (data ?? {}) as { applied?: boolean; already_assigned?: boolean };
+    return { applied: !!result.applied, alreadyAssigned: !!result.already_assigned };
+  },
+
+  /**
+   * Remove o estado logístico da conversa (revoga grants, limpa handoff, reativa a Nina)
+   * e aplica a nova atribuição — ou deixa sem responsável.
+   */
+  clearExpedicaoAssignment: async (
+    conversationId: string,
+    newTeamMemberId: string | null,
+    contactId: string
+  ): Promise<void> => {
+    const { error } = await supabase.rpc('admin_clear_expedicao_assignment', {
+      _conversation_id: conversationId,
+      _new_team_member_id: newTeamMemberId,
+    });
+
+    if (error) {
+      console.error('[API] Error clearing expedicao assignment:', error);
+      throw error;
+    }
+
+    const { error: dealError } = await supabase
+      .from('deals')
+      .update({ owner_id: newTeamMemberId })
+      .eq('contact_id', contactId);
+    if (dealError) console.error('[API] Error updating deal owner:', dealError);
+  },
+
+  /**
    * Delete a conversation (cascades to messages, states and handoff events).
    */
   deleteConversation: async (conversationId: string): Promise<void> => {
