@@ -77,14 +77,14 @@ Cargas iguais, atendimentos sendo finalizados entre um lead e outro (cenário re
 
 Observação importante: com cinco profissionais a frequência natural da Talia já é 1 a cada 5. Qualquer N ≤ 5 (opção C) não muda nada. As opções A e B convergem no mesmo resultado prático: Talia com cerca de 10% dos atendimentos comuns, as outras quatro entre 20% e 25% cada, alternando normalmente entre si.
 
-**Recomendação: N = 8.** Talia recebe ~2 em cada 20, nunca fica zerada, e as outras quatro continuam rotacionando de forma justa.
+**Aprovado: N = 8** (`weight = 8` para a Talia). Ela recebe ~2 em cada 20, nunca fica zerada, e as outras quatro continuam rotacionando de forma justa.
 
 ## 4. Comportamento quando as cargas são diferentes
 
 - **Talia 0 e as outras 1** → a Talia continua fora, salvo se a cota (N) já venceu. É exatamente o que você pediu: ela não passa a receber tudo só por estar com carga 0.
 - **Todas em 0** → rotação normal entre as quatro; a Talia entra quando a cota vence.
 - **Uma prioritária muito sobrecarregada** → o least-loaded continua mandando entre as quatro; a sobrecarregada só volta a receber quando as outras alcançarem a carga dela.
-- **Todas as quatro prioritárias com carga alta ao mesmo tempo** (limite proposto: carga mínima entre elas ≥ 2) → a Talia volta ao pool imediatamente, ignorando a cota, para não sobrecarregar o time.
+- **Todas as quatro prioritárias com carga ativa ≥ 2 ao mesmo tempo** → a Talia volta ao pool imediatamente, ignorando a cota, para não sobrecarregar o time.
 - **Empate entre várias** → desempate por recência e depois id, sem mudança.
 
 ## 5. Impacto sobre o rodízio já corrigido
@@ -93,16 +93,13 @@ Nenhum. A cota apenas filtra o pool antes da ordenação; os três critérios co
 
 ## 6. Alteração mínima
 
-- Uma migration substituindo o corpo de `public.pick_next_dermoconsultora()`, acrescentando o filtro de pool por cota baseado em `team_members.weight` e no intervalo desde o último handoff dermo da profissional de peso reduzido.
-- Um `UPDATE` em `team_members` definindo o peso reduzido da Talia (dado de configuração, não de conversa).
-- Testes automatizados de distribuição (simulação isolada, sem gravar em produção).
+- Uma migration substituindo o corpo de `public.pick_next_dermoconsultora()`, acrescentando o filtro de pool descrito no item 2 (intervalo por `weight`, contagem de `dermo_mode = 'balanced'` não sintéticos, liberação por pool vazio ou por todas as demais com carga ≥ 2).
+- Um `UPDATE` em `team_members` gravando `weight = 8` para a Talia (dado de configuração).
+- Testes automatizados de distribuição (simulação isolada) e validação em transação com `ROLLBACK`, sem deixar dados de teste em produção.
 
-Sem tabela nova, sem coluna nova, sem alteração em `pick_dermo_assignee`.
+Sem tabela nova, sem coluna nova, sem alteração em `pick_dermo_assignee`, sem nome/e-mail/UUID dentro da função.
 
 ## 7. O que fica intacto
 
 `sensitive_direct` da Laura, detecção de `reaction` e casos clínicos, `dermoconsultora_request`, Leticia/logística, Finalizar atendimento, reabertura da Nina, histórico e `conversation_handoff_events`, contas e permissões, RLS, WhatsApp, Shopify, chat-media.
 
-## 8. Decisão pendente
-
-Confirmar N = 8 (recomendado) ou N = 9, e confirmar o gatilho de sobrecarga (carga mínima ≥ 2 entre as quatro prioritárias) que devolve a Talia ao rodízio.
