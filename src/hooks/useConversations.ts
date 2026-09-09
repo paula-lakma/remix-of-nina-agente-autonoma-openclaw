@@ -605,6 +605,8 @@ export function useConversations() {
     updateStatus,
     markAsRead,
     assignConversation,
+    assignToExpedicao,
+    clearExpedicaoAssignment,
     deleteConversation,
     refetch: fetchConversations
   };
