@@ -1,102 +1,76 @@
-# Chat ao Vivo: parar o "reload" a cada poucos segundos
+# Chat ao Vivo restrito: acabar com a piscada a cada atualização
 
-Auditoria somente leitura. Nada foi alterado no código nem no banco.
+Auditoria somente leitura concluída. Nada foi alterado no código nem no banco.
 
 ## 1. Onde está a atualização automática
 
-Existem duas telas de Chat ao Vivo:
+- **Tela restrita** — usada por Leticia **e por todas as dermoconsultoras** (Mylena, Cris, Talia,
+  Barbara, Laura). É o mesmo componente: `DermoChat` é apenas um invólucro de
+  `RestrictedHandoffChat`, em `src/components/ExpedicaoChat.tsx`.
+- **Tela completa** (admin/gestão/SDR): `ChatInterface.tsx` + `useConversations.ts`.
+  Usa tempo real; só faz atualização periódica de 10s quando o tempo real cai. **Fora do escopo
+  desta correção.**
 
-- **Tela restrita** — usada por Leticia (logística/financeiro) **e por todas as dermoconsultoras**
-  (Mylena, Cris, Talia, Barbara, Laura). É o mesmo componente: `DermoChat` é apenas um invólucro
-  de `RestrictedHandoffChat`, dentro de `src/components/ExpedicaoChat.tsx`.
-- **Tela completa** — usada por admin/gestão/SDR: `src/components/ChatInterface.tsx` com o hook
-  `src/hooks/useConversations.ts`.
+Atualização periódica da tela restrita: `setInterval` de **20 segundos**
+(`ExpedicaoChat.tsx:219-225`), que recarrega a lista e todas as mensagens da conversa aberta.
+Não há recarga de página — é refetch + redesenho.
 
-O comportamento relatado é o da **tela restrita**.
+## 2. Causa exata do problema
 
-## 2. Frequência exata e tipo de atualização
+A cada 20 segundos, na tela restrita:
 
-- Tela restrita: `setInterval` de **20 segundos** (`ExpedicaoChat.tsx:219-225`) que recarrega
-  a lista de atendimentos **e** todas as mensagens da conversa aberta.
-- Tela completa: **não tem** atualização periódica em operação normal. Usa Supabase Realtime
-  (mensagens e conversas). Só quando o Realtime cai/expira entra um `setInterval` de **10 segundos**
-  como plano B (`useConversations.ts:280` e `:293`).
+1. `loadMessages` liga o indicador de carregando e a conversa é substituída por um spinner;
+   ao voltar, a lista de mensagens é um array novo e o container é redesenhado do zero —
+   o scroll volta ao início.
+2. `loadList` liga o carregando da lista lateral e, se a conversa aberta não vier na resposta,
+   **descarta a seleção** e a atendente cai na tela vazia.
+3. O bloco de motivo, o histórico e os anexos são recalculados junto, ampliando a piscada.
 
-Em nenhum dos casos há recarga da página (`window.location.reload`). É refetch + re-render.
+O rascunho digitado não é apagado hoje; o que atrapalha é o salto visual em volta do campo.
 
-## 3. Causa exata da perda de posição
+## 3. O que será feito (somente `src/components/ExpedicaoChat.tsx`)
 
-Tela restrita, a cada 20 segundos:
+**A. Atualização silenciosa, mantendo os 20 segundos**
+- O intervalo continua em 20s.
+- A atualização automática **não** liga mais os indicadores de carregando. Eles aparecem apenas:
+  carregamento inicial, troca manual de conversa e botão de atualizar.
+- Os dados atuais permanecem visíveis enquanto a resposta não chega.
 
-1. `loadMessages` liga o estado de carregamento e a área de mensagens é substituída por um
-   indicador de carregando; ao voltar, a lista de mensagens é um array novo e o container é
-   redesenhado do zero — o scroll volta ao início.
-2. `loadList` liga o carregamento da lista lateral e reordena os atendimentos conforme o retorno
-   do servidor; se a conversa aberta não voltar na lista, a seleção é **descartada** e a atendente
-   é jogada para a tela vazia.
-3. O bloco "Ver conversa anterior" e a mídia são recalculados junto, aumentando o efeito de piscada.
+**B. Atualização de conteúdo sem desmontar o DOM**
+- Comparação por conteúdo real de cada mensagem (identificador, texto, tipo, mídia, autor,
+  data), não apenas quantidade/IDs.
+- Se nada mudou, o estado não é substituído. Se algo mudou, as mensagens existentes são
+  atualizadas no lugar, preservando a chave de cada item — o container não é remontado.
+- A lista lateral segue a mesma regra: atualização no lugar, sem redesenhar tudo.
 
-Tela completa: o scroll é forçado para o fim **sempre** que chega qualquer mensagem
-(`ChatInterface.tsx:140-142`), mesmo se a atendente estiver lendo mensagens antigas. Além disso,
-há uma seleção automática da primeira conversa quando nada está selecionado
-(`ChatInterface.tsx:93-98`).
+**C. Scroll**
+- Ao abrir uma conversa: ir ao fim **uma única vez**, sem animação.
+- Durante a atualização automática: posição preservada, sem scroll automático só porque o
+  array foi refetchado.
+- Mensagem nova com a atendente próxima do fim (~120px): acompanha.
+- Mensagem nova com a atendente lendo acima: não move e aparece um aviso discreto
+  "novas mensagens" que leva ao fim ao ser clicado.
 
-Campo de digitação: o rascunho fica em estado local que **não** é limpo pela atualização; ele não
-é apagado hoje. O que atrapalha é a piscada/salto do conteúdo ao redor, não a perda do texto.
+**D. Seleção**
+- A atualização automática nunca limpa a conversa selecionada.
+- A seleção só é limpa quando há confirmação real: atendimento finalizado, acesso revogado ou
+  a conversa realmente inacessível (erro de permissão ao carregar as mensagens).
 
-## 4. Já existe tempo real suficiente?
+## 4. Testes
 
-- Tela completa: sim, Realtime cobre novas mensagens, novas conversas e mudanças de status/handoff.
-  O intervalo de 10s só existe como plano B e deve permanecer.
-- Tela restrita: **não** há Realtime — todo acesso passa pela função de servidor que revalida papel
-  e concessão. Portanto a atualização periódica precisa continuar, mas de forma silenciosa.
+1. Leticia abre uma conversa, sobe no histórico e aguarda 2 ciclos de 20s: sem piscada, sem
+   mudança de scroll, conversa ainda selecionada.
+2. Uma dermoconsultora repete o mesmo teste (mesmo componente).
+3. Digitando durante a atualização: texto e foco preservados, sem piscada.
+4. Mensagem nova com a atendente no fim: acompanha normalmente.
+5. Mensagem nova com a atendente lendo acima: scroll parado + aviso de nova mensagem.
+6. Finalizar atendimento: continua removendo a conversa da lista.
+7. Perda real de acesso: a conversa deixa de ser acessível normalmente.
 
-## 5. Correção mínima proposta (vale para todas as atendentes)
+## 5. Fora de escopo / preservado
 
-Somente frontend, no código compartilhado. Sem identificar ninguém por nome ou e-mail.
-
-**A. Atualização silenciosa na tela restrita**
-- A atualização automática deixa de ligar os indicadores de carregamento: os dados atuais
-  permanecem na tela até a resposta chegar. O carregando continua aparecendo apenas na abertura
-  inicial, na troca de conversa e no botão manual de atualizar.
-- A lista de mensagens só é substituída quando o conteúdo realmente mudou (comparação por
-  identificadores/quantidade), evitando redesenho desnecessário.
-- A atualização automática nunca descarta a conversa selecionada; a seleção só é limpa em
-  ação explícita (finalizar atendimento ou perda real de acesso).
-- Intervalo passa de 20s para 30s.
-
-**B. Scroll respeitoso (nas duas telas)**
-- Ao abrir uma conversa: posicionar no fim, sem animação.
-- Chegando mensagem nova: só acompanha o fim se a atendente já estiver perto do fim
-  (margem de ~120px). Se estiver lendo acima, a posição é mantida e aparece um aviso discreto
-  "novas mensagens" que leva ao fim quando clicado.
-- Durante atualização automática, a posição de rolagem é preservada.
-
-**C. Lista lateral**
-- Preservar a rolagem da lista e a conversa selecionada entre atualizações; a ordem continua
-  seguindo a regra atual.
-
-## 6. Arquivos que precisariam ser alterados
-
-- `src/components/ExpedicaoChat.tsx` (beneficia Leticia e as cinco dermoconsultoras)
-- `src/components/ChatInterface.tsx` (scroll respeitoso na tela completa)
-- possivelmente um pequeno utilitário de rolagem compartilhado
-
-Nenhuma alteração em banco, migration, funções de servidor, permissões ou mensagens.
-
-## 7. Plano de testes
-
-1. Leticia: abrir um atendimento, rolar até o meio do histórico e aguardar 2 ciclos —
-   posição, seleção e rascunho intactos, sem piscada.
-2. Dermoconsultora (ex.: Cris): mesmo teste, confirmando que a correção é compartilhada.
-3. Mensagem nova enquanto a atendente está no fim: acompanha automaticamente.
-4. Mensagem nova enquanto lê mensagens antigas: não move; aviso de novas mensagens aparece.
-5. Digitar uma resposta longa e aguardar a atualização: texto e foco preservados.
-6. Finalizar atendimento: continua saindo da conversa normalmente.
-7. Admin: lista, seleção e envio seguem funcionando como hoje.
-
-## Preservado
-
-Handoff automático e manual da Leticia, concessões e permissões, Finalizar atendimento, retorno
-da Nina, dermoconsultoras, rodízio, `weight=8` da Talia, prioridade da Laura, casos sensíveis,
-classificação, WhatsApp, RLS, Shopify, chat-media, mensagens e histórico.
+`ChatInterface.tsx` (tela do admin) permanece intacto nesta correção. Nada de backend, banco,
+migrations, funções de servidor, handoffs automático e manual da Leticia, concessões/permissões,
+Finalizar atendimento, retorno da Nina, dermoconsultoras, rodízio, `weight=8` da Talia,
+prioridade da Laura, casos sensíveis, classificação, WhatsApp, RLS, Shopify, chat-media,
+mensagens e histórico.
