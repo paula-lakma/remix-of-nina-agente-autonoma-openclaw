@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { Loader2, MessageSquare, RefreshCw, CheckCircle2, Send, Bot, User, Headset, ChevronDown, ChevronRight, Info, FileText, Paperclip, X } from 'lucide-react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { Loader2, MessageSquare, RefreshCw, CheckCircle2, Send, Bot, User, Headset, ChevronDown, ChevronRight, Info, FileText, Paperclip, X, ArrowDown } from 'lucide-react';
 import { toast } from 'sonner';
 import { supabase } from '@/integrations/supabase/client';
 import { useSignedMedia } from '@/hooks/useSignedMediaUrls';
