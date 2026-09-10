@@ -497,7 +497,7 @@ export const RestrictedHandoffChat: React.FC<{ config: RestrictedChatConfig }> =
             <p className="text-xs text-muted-foreground">Atendimentos encaminhados para você</p>
           </div>
           <button
-            onClick={loadList}
+            onClick={() => loadList()}
             className="p-2 rounded-lg hover:bg-secondary/60 transition-colors"
             title="Atualizar"
           >
