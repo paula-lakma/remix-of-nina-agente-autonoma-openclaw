@@ -645,6 +645,15 @@ export const RestrictedHandoffChat: React.FC<{ config: RestrictedChatConfig }> =
               )}
             </div>
 
+            {hasNewBelow && (
+              <button
+                onClick={scrollToBottom}
+                className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-full bg-primary text-primary-foreground shadow-lg"
+              >
+                <ArrowDown className="w-3.5 h-3.5" /> Novas mensagens
+              </button>
+            )}
+            </div>
 
             <footer className="p-4 border-t border-border/50 flex items-center gap-2">
               <input
