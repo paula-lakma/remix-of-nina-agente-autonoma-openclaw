@@ -210,38 +210,54 @@ export const RestrictedHandoffChat: React.FC<{ config: RestrictedChatConfig }> =
   const [sending, setSending] = useState(false);
   const [showHistory, setShowHistory] = useState(false);
   const [lightboxUrl, setLightboxUrl] = useState<string | null>(null);
+  const [hasNewBelow, setHasNewBelow] = useState(false);
 
+  const messagesContainerRef = useRef<HTMLDivElement | null>(null);
+  const nearBottomRef = useRef(true);
+  const didInitialScrollRef = useRef(false);
+  const lastMessageIdRef = useRef<string | null>(null);
 
-  const loadList = useCallback(async () => {
-    setLoadingList(true);
+  const loadList = useCallback(async (opts?: { silent?: boolean }) => {
+    const silent = !!opts?.silent;
+    if (!silent) setLoadingList(true);
     try {
       const res = await callBackend<{ conversations: ExpedicaoConversation[] }>({ action: 'list' });
       const list = res.conversations ?? [];
-      setConversations(list);
-      setSelectedId((prev) => (prev && list.some((c) => c.conversation_id === prev) ? prev : null));
+      setConversations((prev) => (sameConversationList(prev, list) ? prev : list));
+      // A seleção só é descartada em atualização explícita; nunca no polling.
+      if (!silent) {
+        setSelectedId((prev) => (prev && list.some((c) => c.conversation_id === prev) ? prev : null));
+      }
     } catch (e) {
-      setConversations([]);
-      toast.error('Não foi possível carregar seus atendimentos');
+      if (!silent) {
+        setConversations([]);
+        toast.error('Não foi possível carregar seus atendimentos');
+      }
     } finally {
-      setLoadingList(false);
+      if (!silent) setLoadingList(false);
     }
   }, []);
 
-  const loadMessages = useCallback(async (conversationId: string) => {
-    setLoadingMessages(true);
+  const loadMessages = useCallback(async (conversationId: string, opts?: { silent?: boolean }) => {
+    const silent = !!opts?.silent;
+    if (!silent) setLoadingMessages(true);
     try {
       const res = await callBackend<{ messages: ExpedicaoMessage[] }>({
         action: 'messages',
         conversation_id: conversationId,
       });
-      setMessages(res.messages ?? []);
+      const next = res.messages ?? [];
+      setMessages((prev) => (sameMessageList(prev, next) ? prev : next));
     } catch (e) {
-      setMessages([]);
-      toast.error('Conversa indisponível ou sem permissão');
-      setSelectedId(null);
-      loadList();
+      // No polling, um erro passageiro não pode limpar a tela nem a seleção.
+      if (!silent || isAccessLoss(e)) {
+        setMessages([]);
+        toast.error('Conversa indisponível ou sem permissão');
+        setSelectedId(null);
+        loadList({ silent: true });
+      }
     } finally {
-      setLoadingMessages(false);
+      if (!silent) setLoadingMessages(false);
     }
   }, [loadList]);
 
@@ -249,19 +265,63 @@ export const RestrictedHandoffChat: React.FC<{ config: RestrictedChatConfig }> =
 
   useEffect(() => {
     setShowHistory(false);
+    setHasNewBelow(false);
+    didInitialScrollRef.current = false;
+    lastMessageIdRef.current = null;
+    nearBottomRef.current = true;
     if (!selectedId) { setMessages([]); return; }
 
     loadMessages(selectedId);
   }, [selectedId, loadMessages]);
 
-  // Atualização periódica leve (sem realtime direto em tabelas)
+  // Atualização periódica silenciosa (sem realtime direto em tabelas)
   useEffect(() => {
     const t = setInterval(() => {
-      loadList();
-      if (selectedId) loadMessages(selectedId);
+      loadList({ silent: true });
+      if (selectedId) loadMessages(selectedId, { silent: true });
     }, 20000);
     return () => clearInterval(t);
   }, [loadList, loadMessages, selectedId]);
+
+  const scrollToBottom = useCallback(() => {
+    const el = messagesContainerRef.current;
+    if (!el) return;
+    el.scrollTop = el.scrollHeight;
+    nearBottomRef.current = true;
+    setHasNewBelow(false);
+  }, []);
+
+  const handleMessagesScroll = useCallback(() => {
+    const el = messagesContainerRef.current;
+    if (!el) return;
+    const near = el.scrollHeight - el.scrollTop - el.clientHeight < 120;
+    nearBottomRef.current = near;
+    if (near) setHasNewBelow(false);
+  }, []);
+
+  // Rolagem: fim uma única vez ao abrir; depois só acompanha se já estiver no fim.
+  useEffect(() => {
+    if (!messages.length) return;
+    const el = messagesContainerRef.current;
+    if (!el) return;
+    const lastId = messages[messages.length - 1].id;
+
+    if (!didInitialScrollRef.current) {
+      didInitialScrollRef.current = true;
+      lastMessageIdRef.current = lastId;
+      el.scrollTop = el.scrollHeight;
+      return;
+    }
+
+    if (lastId === lastMessageIdRef.current) return;
+    lastMessageIdRef.current = lastId;
+
+    if (nearBottomRef.current) {
+      el.scrollTop = el.scrollHeight;
+    } else {
+      setHasNewBelow(true);
+    }
+  }, [messages]);
 
   const handleSend = async () => {
     const content = draft.trim();
