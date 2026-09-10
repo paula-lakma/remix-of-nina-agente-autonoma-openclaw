@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { Loader2, MessageSquare, RefreshCw, CheckCircle2, Send, Bot, User, Headset, ChevronDown, ChevronRight, Info, FileText, Paperclip, X } from 'lucide-react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { Loader2, MessageSquare, RefreshCw, CheckCircle2, Send, Bot, User, Headset, ChevronDown, ChevronRight, Info, FileText, Paperclip, X, ArrowDown } from 'lucide-react';
 import { toast } from 'sonner';
 import { supabase } from '@/integrations/supabase/client';
 import { useSignedMedia } from '@/hooks/useSignedMediaUrls';
@@ -158,6 +158,45 @@ async function callRestrictedChat<T>(edgeFunction: string, body: Record<string, 
   return data as T;
 }
 
+// Comparação por conteúdo real: evita substituir o estado (e remontar o DOM)
+// quando a atualização silenciosa traz exatamente os mesmos dados.
+const sameMessage = (a: ExpedicaoMessage, b: ExpedicaoMessage) =>
+  a.id === b.id &&
+  a.content === b.content &&
+  a.from_type === b.from_type &&
+  a.type === b.type &&
+  a.media_url === b.media_url &&
+  a.media_type === b.media_type &&
+  a.sent_at === b.sent_at;
+
+const sameMessageList = (a: ExpedicaoMessage[], b: ExpedicaoMessage[]) =>
+  a.length === b.length && a.every((m, i) => sameMessage(m, b[i]));
+
+const sameConversation = (a: ExpedicaoConversation, b: ExpedicaoConversation) =>
+  a.conversation_id === b.conversation_id &&
+  a.contact_name === b.contact_name &&
+  a.contact_phone_masked === b.contact_phone_masked &&
+  a.reason === b.reason &&
+  a.granted_at === b.granted_at &&
+  a.last_message_at === b.last_message_at &&
+  a.human_status === b.human_status &&
+  a.attendance_finished === b.attendance_finished &&
+  a.handoff_at === b.handoff_at &&
+  a.trigger_message_id === b.trigger_message_id &&
+  a.trigger_snippet === b.trigger_snippet;
+
+const sameConversationList = (a: ExpedicaoConversation[], b: ExpedicaoConversation[]) =>
+  a.length === b.length && a.every((c, i) => sameConversation(c, b[i]));
+
+// Erros que significam perda real de acesso (única situação em que a seleção
+// pode ser descartada automaticamente).
+const isAccessLoss = (e: unknown) => {
+  const msg = String((e as { message?: string })?.message ?? e ?? '').toLowerCase();
+  return ['forbidden', 'not_found', 'no_access', 'unauthorized', 'denied', 'permission'].some((k) =>
+    msg.includes(k),
+  );
+};
+
 export const RestrictedHandoffChat: React.FC<{ config: RestrictedChatConfig }> = ({ config }) => {
   const reasonLabel = (reason: string) =>
     config.reasonLabels[(reason || '').toLowerCase()] || config.fallbackReasonLabel;
@@ -171,38 +210,54 @@ export const RestrictedHandoffChat: React.FC<{ config: RestrictedChatConfig }> =
   const [sending, setSending] = useState(false);
   const [showHistory, setShowHistory] = useState(false);
   const [lightboxUrl, setLightboxUrl] = useState<string | null>(null);
+  const [hasNewBelow, setHasNewBelow] = useState(false);
 
+  const messagesContainerRef = useRef<HTMLDivElement | null>(null);
+  const nearBottomRef = useRef(true);
+  const didInitialScrollRef = useRef(false);
+  const lastMessageIdRef = useRef<string | null>(null);
 
-  const loadList = useCallback(async () => {
-    setLoadingList(true);
+  const loadList = useCallback(async (opts?: { silent?: boolean }) => {
+    const silent = !!opts?.silent;
+    if (!silent) setLoadingList(true);
     try {
       const res = await callBackend<{ conversations: ExpedicaoConversation[] }>({ action: 'list' });
       const list = res.conversations ?? [];
-      setConversations(list);
-      setSelectedId((prev) => (prev && list.some((c) => c.conversation_id === prev) ? prev : null));
+      setConversations((prev) => (sameConversationList(prev, list) ? prev : list));
+      // A seleção só é descartada em atualização explícita; nunca no polling.
+      if (!silent) {
+        setSelectedId((prev) => (prev && list.some((c) => c.conversation_id === prev) ? prev : null));
+      }
     } catch (e) {
-      setConversations([]);
-      toast.error('Não foi possível carregar seus atendimentos');
+      if (!silent) {
+        setConversations([]);
+        toast.error('Não foi possível carregar seus atendimentos');
+      }
     } finally {
-      setLoadingList(false);
+      if (!silent) setLoadingList(false);
     }
   }, []);
 
-  const loadMessages = useCallback(async (conversationId: string) => {
-    setLoadingMessages(true);
+  const loadMessages = useCallback(async (conversationId: string, opts?: { silent?: boolean }) => {
+    const silent = !!opts?.silent;
+    if (!silent) setLoadingMessages(true);
     try {
       const res = await callBackend<{ messages: ExpedicaoMessage[] }>({
         action: 'messages',
         conversation_id: conversationId,
       });
-      setMessages(res.messages ?? []);
+      const next = res.messages ?? [];
+      setMessages((prev) => (sameMessageList(prev, next) ? prev : next));
     } catch (e) {
-      setMessages([]);
-      toast.error('Conversa indisponível ou sem permissão');
-      setSelectedId(null);
-      loadList();
+      // No polling, um erro passageiro não pode limpar a tela nem a seleção.
+      if (!silent || isAccessLoss(e)) {
+        setMessages([]);
+        toast.error('Conversa indisponível ou sem permissão');
+        setSelectedId(null);
+        loadList({ silent: true });
+      }
     } finally {
-      setLoadingMessages(false);
+      if (!silent) setLoadingMessages(false);
     }
   }, [loadList]);
 
@@ -210,19 +265,63 @@ export const RestrictedHandoffChat: React.FC<{ config: RestrictedChatConfig }> =
 
   useEffect(() => {
     setShowHistory(false);
+    setHasNewBelow(false);
+    didInitialScrollRef.current = false;
+    lastMessageIdRef.current = null;
+    nearBottomRef.current = true;
     if (!selectedId) { setMessages([]); return; }
 
     loadMessages(selectedId);
   }, [selectedId, loadMessages]);
 
-  // Atualização periódica leve (sem realtime direto em tabelas)
+  // Atualização periódica silenciosa (sem realtime direto em tabelas)
   useEffect(() => {
     const t = setInterval(() => {
-      loadList();
-      if (selectedId) loadMessages(selectedId);
+      loadList({ silent: true });
+      if (selectedId) loadMessages(selectedId, { silent: true });
     }, 20000);
     return () => clearInterval(t);
   }, [loadList, loadMessages, selectedId]);
+
+  const scrollToBottom = useCallback(() => {
+    const el = messagesContainerRef.current;
+    if (!el) return;
+    el.scrollTop = el.scrollHeight;
+    nearBottomRef.current = true;
+    setHasNewBelow(false);
+  }, []);
+
+  const handleMessagesScroll = useCallback(() => {
+    const el = messagesContainerRef.current;
+    if (!el) return;
+    const near = el.scrollHeight - el.scrollTop - el.clientHeight < 120;
+    nearBottomRef.current = near;
+    if (near) setHasNewBelow(false);
+  }, []);
+
+  // Rolagem: fim uma única vez ao abrir; depois só acompanha se já estiver no fim.
+  useEffect(() => {
+    if (!messages.length) return;
+    const el = messagesContainerRef.current;
+    if (!el) return;
+    const lastId = messages[messages.length - 1].id;
+
+    if (!didInitialScrollRef.current) {
+      didInitialScrollRef.current = true;
+      lastMessageIdRef.current = lastId;
+      el.scrollTop = el.scrollHeight;
+      return;
+    }
+
+    if (lastId === lastMessageIdRef.current) return;
+    lastMessageIdRef.current = lastId;
+
+    if (nearBottomRef.current) {
+      el.scrollTop = el.scrollHeight;
+    } else {
+      setHasNewBelow(true);
+    }
+  }, [messages]);
 
   const handleSend = async () => {
     const content = draft.trim();
@@ -398,7 +497,7 @@ export const RestrictedHandoffChat: React.FC<{ config: RestrictedChatConfig }> =
             <p className="text-xs text-muted-foreground">Atendimentos encaminhados para você</p>
           </div>
           <button
-            onClick={loadList}
+            onClick={() => loadList()}
             className="p-2 rounded-lg hover:bg-secondary/60 transition-colors"
             title="Atualizar"
           >
@@ -456,7 +555,12 @@ export const RestrictedHandoffChat: React.FC<{ config: RestrictedChatConfig }> =
               </button>
             </header>
 
-            <div className="flex-1 overflow-y-auto p-4 space-y-3">
+            <div className="flex-1 relative min-h-0">
+            <div
+              ref={messagesContainerRef}
+              onScroll={handleMessagesScroll}
+              className="absolute inset-0 overflow-y-auto p-4 space-y-3"
+            >
               {loadingMessages ? (
                 <div className="flex items-center justify-center py-10">
                   <Loader2 className="w-5 h-5 animate-spin text-primary" />
@@ -541,6 +645,15 @@ export const RestrictedHandoffChat: React.FC<{ config: RestrictedChatConfig }> =
               )}
             </div>
 
+            {hasNewBelow && (
+              <button
+                onClick={scrollToBottom}
+                className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-full bg-primary text-primary-foreground shadow-lg"
+              >
+                <ArrowDown className="w-3.5 h-3.5" /> Novas mensagens
+              </button>
+            )}
+            </div>
 
             <footer className="p-4 border-t border-border/50 flex items-center gap-2">
               <input
