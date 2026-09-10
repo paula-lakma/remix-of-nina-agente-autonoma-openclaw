@@ -158,6 +158,45 @@ async function callRestrictedChat<T>(edgeFunction: string, body: Record<string, 
   return data as T;
 }
 
+// Comparação por conteúdo real: evita substituir o estado (e remontar o DOM)
+// quando a atualização silenciosa traz exatamente os mesmos dados.
+const sameMessage = (a: ExpedicaoMessage, b: ExpedicaoMessage) =>
+  a.id === b.id &&
+  a.content === b.content &&
+  a.from_type === b.from_type &&
+  a.type === b.type &&
+  a.media_url === b.media_url &&
+  a.media_type === b.media_type &&
+  a.sent_at === b.sent_at;
+
+const sameMessageList = (a: ExpedicaoMessage[], b: ExpedicaoMessage[]) =>
+  a.length === b.length && a.every((m, i) => sameMessage(m, b[i]));
+
+const sameConversation = (a: ExpedicaoConversation, b: ExpedicaoConversation) =>
+  a.conversation_id === b.conversation_id &&
+  a.contact_name === b.contact_name &&
+  a.contact_phone_masked === b.contact_phone_masked &&
+  a.reason === b.reason &&
+  a.granted_at === b.granted_at &&
+  a.last_message_at === b.last_message_at &&
+  a.human_status === b.human_status &&
+  a.attendance_finished === b.attendance_finished &&
+  a.handoff_at === b.handoff_at &&
+  a.trigger_message_id === b.trigger_message_id &&
+  a.trigger_snippet === b.trigger_snippet;
+
+const sameConversationList = (a: ExpedicaoConversation[], b: ExpedicaoConversation[]) =>
+  a.length === b.length && a.every((c, i) => sameConversation(c, b[i]));
+
+// Erros que significam perda real de acesso (única situação em que a seleção
+// pode ser descartada automaticamente).
+const isAccessLoss = (e: unknown) => {
+  const msg = String((e as { message?: string })?.message ?? e ?? '').toLowerCase();
+  return ['forbidden', 'not_found', 'no_access', 'unauthorized', 'denied', 'permission'].some((k) =>
+    msg.includes(k),
+  );
+};
+
 export const RestrictedHandoffChat: React.FC<{ config: RestrictedChatConfig }> = ({ config }) => {
   const reasonLabel = (reason: string) =>
     config.reasonLabels[(reason || '').toLowerCase()] || config.fallbackReasonLabel;
