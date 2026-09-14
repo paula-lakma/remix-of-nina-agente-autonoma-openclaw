@@ -38,46 +38,46 @@ Falta: detecção de distribuidor/representação; precedência do reembolso sob
 determinismo para distribuidor, influenciadora e reembolso; linguagem citando Paula e Carla;
 e a troca de "Ana Carla" por "Carla".
 
-## 5. Matriz recomendada
+## 5. Matriz final (decisões fechadas)
 
-- **Leticia** — entrega, frete, prazo, rastreio, postagem, transportadora, pedido não recebido,
-  informações operacionais do pedido, pagamento/cobrança/Pix/boleto/nota fiscal. Inalterado.
-- **Paula Rodrigues** — distribuição, revenda, representação, parceria comercial de canal; e
-  casos escalados: **reembolso e estorno** (confirmado pela regra de negócio).
-- **Carla** — influenciadora, criadora de conteúdo, collab, divulgação, parceria de conteúdo.
+- **Leticia** — onde está o pedido, rastreio, entrega, frete, prazo, postagem, despacho,
+  transportadora, pedido não recebido, dúvidas operacionais pós-compra e dúvidas de pagamento
+  do pedido. Inalterado, **salvo** quando houver pedido explícito de reembolso, estorno ou
+  contestação.
+- **Paula Rodrigues** —
+  1. distribuição/comercial estratégico: ser distribuidor, revenda, representação da marca,
+     parceria comercial como canal de venda;
+  2. casos complexos/escalados: reembolso, estorno, cancelamento com devolução de valor,
+     contestação de cobrança/chargeback, troca, devolução, produto avariado, item faltando,
+     reclamação/SAC que exija intervenção humana.
+- **Carla** — exclusivamente influenciadora, criadora de conteúdo, collab, parceria de
+  divulgação e relacionamento com influenciadoras. Nunca "Ana Carla".
 
-**Precedência:** casos escalados (reembolso/estorno) e intenções de distribuição/influenciadora
-passam a ser avaliados **antes** da matriz logística. Assim "reembolso do meu pedido" vai para a
-Paula mesmo contendo a palavra "pedido".
+**Precedência:** casos escalados e distribuição/influenciadora são avaliados **antes** da matriz
+logística. "Quero reembolso do meu pedido", "quero cancelar e receber meu dinheiro de volta",
+"quero contestar essa cobrança", "meu produto chegou avariado" e "faltou um produto no meu
+pedido" vão para a Paula. "Onde está meu pedido", "preciso do código de rastreio" e "meu pedido
+ainda não chegou" continuam com a Leticia.
 
-## 6. Casos que ainda dependem de decisão sua
+## 6. Handoff determinístico e obrigatório
 
-Hoje já vão para a **Paula** (comercial) e continuariam iguais: troca, devolução, produto
-avariado, item faltando, reclamação/SAC. Não estão confirmados como "escalados com devolução de
-valor": **cancelamento com devolução de valor** e **contestação/chargeback**. Recomendação
-segura: tratar como reembolso (Paula) somente quando houver menção explícita a devolução de
-dinheiro; caso contrário permanecem como estão. Confirme antes da implementação.
+Distribuidor, influenciadora e casos escalados seguem o mesmo princípio já usado para logística
+e dermoconsultora: o backend atribui a conversa imediatamente à responsável correta, com base na
+intenção do cliente, independentemente da frase que a Nina escrever.
 
-## 7. Handoff determinístico
+## 7. Como Paula e Carla recebem e acessam
 
-Sim — distribuidor, influenciadora e reembolso passam a seguir o mesmo princípio já usado para
-logística e dermoconsultora: o backend executa o encaminhamento pela intenção do cliente,
-independentemente da frase que a Nina escrever.
+Ambas permanecem com o papel atual e as permissões atuais — nada de restrição de Chat ao Vivo
+nesta implementação. Hoje elas já enxergam as conversas no Chat ao Vivo completo, então a
+conversa aparece assim que for atribuída.
 
-## 8. Como Paula e Carla recebem e acessam
+## 8. Agendamento
 
-Ambas são `sdr` e o acesso atual permite **ver todas as conversas** no Chat ao Vivo completo
-(regra `is_operational_staff` cobre admin, gestão e sdr). Portanto elas **não precisam** de
-concessão de acesso: assim que a conversa for atribuída a elas, já aparece. Limitar cada uma a
-ver somente os próprios atendimentos seria uma mudança de permissão maior, fora deste escopo —
-proposta apenas se você pedir.
+O agendamento existente (distribuição → Paula, influenciadora → Carla) continua como recurso
+complementar. **Nunca é pré-condição do encaminhamento:** falha ou ausência de agenda não impede
+a atribuição. Nenhuma integração nova de agenda, nenhum horário inventado. Única mudança: a
+validação passa a aceitar "Carla".
 
-## 9. Agendamento
-
-Existe **handoff + agendamento parcial**: a Nina pode criar compromissos para os fluxos
-"distribuicao → Paula" e "influenciadora → Ana Carla". Não há link de agenda nem verificação de
-disponibilidade das responsáveis. **Recomendação mínima agora: somente handoff**, mantendo o
-agendamento existente funcionando e apenas trocando "Ana Carla" por "Carla" na validação.
 
 ## 10. Referências a "Ana Carla"
 
