@@ -79,44 +79,50 @@ a atribuição. Nenhuma integração nova de agenda, nenhum horário inventado. 
 validação passa a aceitar "Carla".
 
 
-## 10. Referências a "Ana Carla"
+## 9. Referências a "Ana Carla"
 
 - `supabase/functions/_shared/appointments.ts` — validação do responsável do agendamento.
 - Uma migration antiga de prompt (histórico, não será reescrita).
 Nenhuma mensagem já enviada será alterada.
 
-## 11. Plano mínimo de implementação
+## 10. Plano mínimo de implementação
 
 1. `supabase/functions/_shared/handoff.ts`
-   - nova matriz de **casos escalados** (reembolso/estorno) avaliada antes da logística, com
-     destino comercial;
-   - `refund_request` passa a comercial; criar motivo de estorno equivalente;
+   - nova matriz de **casos escalados** avaliada antes da logística, destino Paula: reembolso,
+     estorno, cancelamento com devolução de valor, contestação/chargeback, troca, devolução,
+     produto avariado, item faltando, reclamação/SAC;
+   - `refund_request` deixa de ir para a Leticia e passa para a Paula;
    - novas regras de **distribuição/representação** (`distribution_handoff`);
-   - reforçar influenciadora/parceria sem capturar frases genéricas ("gosto da marca",
+   - influenciadora/parceria reforçada, sem capturar frases genéricas ("gosto da marca",
      "posso marcar vocês");
-   - tornar determinísticos os destinos comercial e parcerias para esses motivos;
-   - proteção contra falso positivo comercial ("quero comprar", "quanto custa", "em quantidade").
-2. `supabase/functions/_shared/appointments.ts` — aceitar "Carla".
+   - encaminhamento determinístico e imediato para Paula e Carla nesses motivos;
+   - proteção contra falso positivo comercial ("quero comprar", "quanto custa", "em quantidade",
+     "tem desconto para profissional").
+2. `supabase/functions/_shared/appointments.ts` — aceitar "Carla" (agenda continua opcional).
 3. Instruções da Nina (`brain-build`, `skills/nina/SKILL.md`, `prompts/conversa.md`): citar Paula
    Rodrigues e Carla pelo nome real; proibir "setor de reembolso", "equipe de parcerias" etc.
 4. Testes automatizados na matriz de classificação.
 
 Nenhuma migration, nenhuma alteração de conta, papel, RLS ou conversa real.
 
-## 12. Publicação / runtime
+## 11. Publicação / runtime
 
 Publicar `nina-orchestrator`, `nina-reply`, `nina-tools` e `brain-build`; depois **reconstruir o
 cérebro em /cerebro** (necessário, senão a VPS continua com o texto antigo) e aguardar o sync.
 
-## 13. Testes
+## 12. Testes
 
-- "Quero ser distribuidor da Lakma" → Paula, encaminhamento real.
-- "Sou influenciadora e queria parceria" → Carla, encaminhamento real.
-- "Quero solicitar o reembolso do meu pedido" → Paula, não Leticia.
-- "Meu pedido não chegou" / "quero o código de rastreio" → continua Leticia.
+- "Quero ser distribuidor da Lakma" → Paula, atribuição imediata.
+- "Sou influenciadora e queria parceria" → Carla, atribuição imediata.
+- "Quero reembolso do meu pedido" / "quero cancelar e receber meu dinheiro de volta" /
+  "quero contestar essa cobrança" → Paula.
+- "Meu produto chegou avariado" / "faltou um produto no meu pedido" → Paula.
+- "Onde está meu pedido" / "preciso do código de rastreio" / "meu pedido ainda não chegou" /
+  "dúvida sobre o pagamento do meu pedido" → continua Leticia.
 - "Quero comprar em quantidade", "tem desconto para profissional?", "posso marcar vocês?" →
   continua com a Nina.
 - Casos clínicos, sensíveis e rodízio das dermoconsultoras: inalterados.
+
 
 ## Preservado
 
