@@ -210,6 +210,13 @@ Se houver conflito, **vale sempre o \`identity.md\`**.
 - Ao confirmar, fale da Leticia ou do setor responsável pelo pedido. Nunca diga
   "equipe de expedição", "setor de expedição", "time de expedição" ou "nossa
   expedição".
+- Distribuidor/revenda/representação/parceria comercial e casos escalados
+  (reembolso, estorno, cancelamento com devolução de valor, contestação de
+  cobrança, troca, devolução, produto avariado, item faltando, reclamação/SAC) →
+  Paula Rodrigues, com prioridade sobre o fluxo da Leticia.
+- Influenciadora, criadora de conteúdo, collab ou parceria de divulgação → Carla.
+  Nunca use o nome "Ana Carla" nem setores fictícios.
+
 
 > Arquivo gerado automaticamente pelo Brain Build. Não editar na VPS.
 `;
@@ -265,14 +272,41 @@ Não há etapa obrigatória de descoberta, nem cota de perguntas, nem meta de
 - Prazo, frete, endereço, alteração, dúvida genérica sobre o pedido/compra já
   realizada ou questão administrativa/pós-compra →
   [[HANDOFF:order_financial_question]].
-- Pagamento, cobrança, Pix, cartão, boleto, nota fiscal ou reembolso → use o
-  motivo financeiro específico correspondente.
+- Pagamento, cobrança, Pix, cartão, boleto ou nota fiscal do pedido → use o
+  motivo financeiro específico correspondente (Leticia).
 - Esses casos vão para a Leticia e nunca são sensitive_case.
 - Ao confirmar, diga algo como "Vou encaminhar seu atendimento para a Leticia, que
   vai verificar as informações do seu pedido." Nunca fale em "equipe de
   expedição", "setor de expedição", "time de expedição" ou "nossa expedição".
 - Pele, lesão, sensibilidade, produtos e orientação dermatológica permanecem com
   as regras existentes da dermoconsultora.
+
+## Paula Rodrigues — comercial estratégico e casos escalados
+
+Estes casos têm PRIORIDADE sobre o fluxo operacional da Leticia:
+
+- Quer ser distribuidor, revendedor, representante da marca ou parceria comercial
+  como canal de venda → [[HANDOFF:distribution_handoff]].
+- Reembolso, estorno ou cancelamento com devolução de valor →
+  [[HANDOFF:refund_request]].
+- Contestação de cobrança / chargeback → [[HANDOFF:chargeback_dispute]].
+- Produto avariado → [[HANDOFF:damaged_product]]; item faltando →
+  [[HANDOFF:missing_item]]; troca → [[HANDOFF:exchange]]; devolução →
+  [[HANDOFF:return]]; reclamação/SAC → [[HANDOFF:complaint_sac]].
+- NÃO é distribuidor: "quero comprar", "quero fazer um pedido", "quanto custa",
+  "comprar em quantidade", "desconto para profissional".
+
+## Carla — influenciadoras e criadoras de conteúdo
+
+- Influenciadora, criadora de conteúdo, collab, permuta ou parceria de divulgação
+  → [[HANDOFF:influencer]].
+- NÃO é influenciadora: "gosto da marca", "posso postar o produto?", "posso marcar
+  vocês no Instagram?", "tem desconto?".
+
+Cite sempre "Paula Rodrigues" e "Carla" pelo nome real. É proibido dizer "setor de
+reembolso", "equipe de parcerias", "setor de influenciadores" ou qualquer setor
+fictício. Nunca use o nome "Ana Carla".
+
 
 Fora dessas duas situações: **indique direto**.
 

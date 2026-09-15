@@ -48,12 +48,18 @@ export const REASON_DESTINATIONS = {
   cart_error: "comercial",
   checkout_error: "comercial",
   distribution_handoff: "comercial",
+  brand_representation: "comercial",
+  // Casos escalados com devolução de valor / contestação (Paula Rodrigues)
+  refund_request: "comercial",
+  chargeback_dispute: "comercial",
 
-  // Carla (cupom / parcerias)
+  // Carla (cupom / parcerias / influenciadoras)
   coupon_issue: "parcerias",
   partnership: "parcerias",
   influencer: "parcerias",
   collab: "parcerias",
+  content_creator: "parcerias",
+
 
   // Leticia (financeiro)
   payment: "financeiro",
@@ -72,7 +78,7 @@ export const REASON_DESTINATIONS = {
   card_issue: "financeiro",
   payment_receipt: "financeiro",
   invoice_request: "financeiro",
-  refund_request: "financeiro",
+  
   order_financial_question: "financeiro",
 
   // ── Motivos canônicos NOVOS (Fase A) — rastreio / expedição ──────────────
@@ -122,7 +128,10 @@ Qualquer assunto pós-compra do cliente — o pedido dele, financeiro, entrega, 
 - dúvida sobre transportadora, Correios, Jadlog ou Sedex -> carrier_question
 - dúvida genérica de rastreio -> tracking_help
 - prazo de entrega, "quando chega", "quantos dias", frete, endereço, alteração, dúvida genérica sobre o pedido/compra já realizada ou questão administrativa/pós-compra -> order_financial_question
-- pagamento, cobrança, Pix, cartão, boleto, nota fiscal ou reembolso -> use o motivo financeiro específico correspondente
+- pagamento, cobrança, Pix, cartão, boleto ou nota fiscal do pedido -> use o motivo financeiro específico correspondente (Leticia)
+- reembolso, estorno, cancelamento com devolução de valor ou contestação de cobrança -> refund_request / chargeback_dispute (Paula Rodrigues, NÃO Leticia)
+- produto avariado, item faltando, troca, devolução ou reclamação/SAC -> Paula Rodrigues
+
 
 Ao confirmar o encaminhamento, inclua no retorno interno [[HANDOFF:<motivo>]]. O marcador não é texto para o cliente.
 Não classifique esses casos como sensitive_case e não os encaminhe para dermoconsultora.
@@ -134,7 +143,19 @@ Casos de pele, lesão, sensibilidade, alergia, reação, gestação/lactação, 
 Quando o cliente pedir explicitamente para falar com uma dermoconsultora, especialista em estética, especialista da pele ou alguém da equipe de dermoconsultoras, confirme o encaminhamento e inclua [[HANDOFF:dermoconsultora_request]]. Dúvidas sobre "qual protocolo usar", "escolher um protocolo" ou "me indique um protocolo", sem pedir uma pessoa, continuam sendo respondidas pela Nina com a base de conhecimento.
 
 LINGUAGEM OBRIGATÓRIA: ao confirmar um encaminhamento pós-compra, fale sempre da Leticia ou do setor responsável pelo pedido. Exemplo: "Vou encaminhar seu atendimento para a Leticia, que vai verificar as informações do seu pedido." É PROIBIDO dizer "equipe de expedição", "setor de expedição", "time de expedição", "nossa expedição" ou qualquer variação com a palavra expedição — esse time não existe para o cliente.
+
+ENCAMINHAMENTOS PARA PAULA RODRIGUES (comercial estratégico e casos escalados):
+- quer ser distribuidor, revendedor, representante da marca ou parceria comercial como canal de venda -> [[HANDOFF:distribution_handoff]]
+- reembolso, estorno, cancelamento com devolução de valor, contestação de cobrança/chargeback, troca, devolução, produto avariado, item faltando ou reclamação/SAC -> motivo correspondente (refund_request, chargeback_dispute, exchange, return, damaged_product, missing_item, complaint_sac)
+Esses casos têm prioridade sobre o fluxo operacional da Leticia quando houver conflito.
+
+ENCAMINHAMENTOS PARA CARLA (influenciadoras):
+- influenciadora, criadora de conteúdo, collab, permuta, parceria de divulgação -> [[HANDOFF:influencer]]
+
+LINGUAGEM: cite sempre "Paula Rodrigues" e "Carla" pelo nome real. É PROIBIDO dizer "setor de reembolso", "equipe de parcerias", "setor de influenciadores", "departamento comercial" ou qualquer setor fictício. Nunca use o nome "Ana Carla".
+NÃO trate como distribuidor: "quero comprar", "quero fazer um pedido", "quanto custa", "comprar em quantidade", "desconto para profissional". NÃO trate como influenciadora: "gosto da marca", "posso postar o produto?", "posso marcar vocês no Instagram?", "tem desconto?".
 </tracking_handoff>`;
+
 
 /**
  * Allowlist FECHADA de motivos que concedem acesso da expedição ao Chat ao Vivo.
@@ -181,6 +202,14 @@ const REASON_ALIASES: Record<string, HandoffReason> = {
   parceria: "partnership",
   influenciadora: "influencer",
   collab: "collab",
+  criadora_conteudo: "content_creator",
+  distribuidor: "distribution_handoff",
+  distribuicao: "distribution_handoff",
+  representacao: "brand_representation",
+  reembolso: "refund_request",
+  estorno: "refund_request",
+  contestacao_cobranca: "chargeback_dispute",
+
   pagamento: "payment_unidentified",
   nota_fiscal: "invoice_request",
   gestante: "pregnancy_breastfeeding",
@@ -285,6 +314,59 @@ const SENSITIVE_REASON_MATRIX: Array<{ reason: string; destination: HandoffDesti
 ];
 
 /**
+ * ── CASOS ESCALADOS + DISTRIBUIÇÃO + INFLUENCIADORAS — PRECEDÊNCIA ABSOLUTA ──
+ * Avaliada ANTES da logística e da matriz dermatológica.
+ * comercial  -> Paula Rodrigues   |   parcerias -> Carla
+ */
+const PRIORITY_REASON_MATRIX: Array<{ reason: string; destination: HandoffDestination; rx: RegExp }> = [
+  // Reembolso / estorno / cancelamento com devolução de valor -> Paula
+  {
+    reason: "refund_request",
+    destination: "comercial",
+    rx: /\breembols\w*|\bestorn\w*|\bressarci\w*|\brestitui[çc][ãa]o\b|dinheiro de volta|(?:devolver|devolu[çc][ãa]o|receber|quero|queria)\s+(?:o\s+|meu\s+|do\s+)?(?:dinheiro|valor pago|valor da compra)/i,
+  },
+  // Contestação de cobrança / chargeback -> Paula
+  {
+    reason: "chargeback_dispute",
+    destination: "comercial",
+    rx: /\bchargeback\b|contest(?:ar|a[çc][ãa]o|ando)\s+(?:essa\s+|esta\s+|a\s+|uma\s+)?(?:cobran[çc]a|compra|pagamento|transa[çc][ãa]o)|disputa\s+de\s+cobran[çc]a/i,
+  },
+  // Produto avariado / item faltando / troca / devolução / SAC -> Paula
+  { reason: "produto_avariado", destination: "comercial", rx: /avariad|danificad|quebrad|vazand|amassad|chegou\s+(?:todo\s+)?(?:estragad|derramad)/i },
+  { reason: "produto_faltando", destination: "comercial", rx: /faltando|faltou|veio incompleto|item a menos|n[ãa]o veio\s+(?:o\s+|um\s+)?(?:produto|item)/i },
+  { reason: "troca", destination: "comercial", rx: /\btroca(?:r)?\b/i },
+  { reason: "devolucao", destination: "comercial", rx: /devolu[çc][ãa]o|devolver\s+(?:o\s+|os\s+)?(?:produto|produtos|pedido|item)/i },
+  { reason: "reclamacao_sac", destination: "comercial", rx: /reclama[çc][ãa]o|\bsac\b|procon/i },
+
+  // Distribuição / revenda / representação / parceria comercial de canal -> Paula
+  {
+    reason: "distribuidor",
+    destination: "comercial",
+    rx: /\bdistribuidor(?:a|es|as)?\b|\bdistribui[çc][ãa]o\b|\bdistribuir\s+(?:a\s+|os\s+|as\s+)?(?:marca|produtos?)\b|\brevend\w*|\batacadista\b|\batacado\b/i,
+  },
+  {
+    reason: "representacao",
+    destination: "comercial",
+    rx: /\brepresentante\b|\brepresenta[çc][ãa]o\b|representar\s+(?:a\s+)?(?:marca|lakma)|parceria comercial|canal de vendas?|\bfornecedor\b/i,
+  },
+
+  // Influenciadora / criadora de conteúdo / collab / divulgação -> Carla
+  {
+    reason: "influenciadora",
+    destination: "parcerias",
+    rx: /\binfluenciador(?:a|es|as)?\b|\binfluencer\b|\bugc\b|criador(?:a|es|as)?\s+de\s+conte[úu]do|\bcollab\b|\bpermuta\b|parceria\s+(?:de\s+)?(?:divulga[çc][ãa]o|conte[úu]do|com\s+influenciador\w*)|divulga[çc][ãa]o\s+(?:da\s+marca|dos\s+produtos)|criar\s+conte[úu]do\s+(?:para|pra|com)\s+(?:a\s+)?(?:marca|voc[êe]s|lakma)/i,
+  },
+];
+
+/**
+ * Frases de intenção de compra que NÃO podem ser lidas como distribuição
+ * nem como parceria de conteúdo.
+ */
+const COMMERCIAL_FALSE_POSITIVE_RX =
+  /^(?:[^.?!]{0,120})?(?:quero comprar|gostaria de comprar|quero fazer um pedido|quanto custa|qual o pre[çc]o|voc[êe]s vendem para profissional|comprar em (?:maior )?quantidade|desconto para profissional|posso (?:postar|marcar) (?:o produto|voc[êe]s)|gosto da marca|tem desconto)/i;
+
+
+/**
  * ── LOGÍSTICA PÓS-COMPRA (Leticia) — PRECEDÊNCIA MÁXIMA ─────────────────────
  * Avaliada ANTES da matriz dermatológica: entrega, frete, prazo, envio,
  * postagem, despacho, transportadora, rastreio, localização do pedido ou
@@ -316,7 +398,7 @@ const REASON_MATRIX: Array<{ reason: string; destination: HandoffDestination; rx
   { reason: "pix_issue", destination: "financeiro", rx: /\bpix\b/i },
   { reason: "card_issue", destination: "financeiro", rx: /cart[ãa]o.{0,30}(erro|problema|n[ãa]o passa|falh)/i },
   { reason: "invoice_request", destination: "financeiro", rx: /nota fiscal|\bnfe?\b|danfe/i },
-  { reason: "refund_request", destination: "financeiro", rx: /reembolso|estorno/i },
+  { reason: "refund_request", destination: "comercial", rx: /reembolso|estorno/i },
   { reason: "charge_issue", destination: "financeiro", rx: /cobran[çc]a|valor cobrado/i },
   { reason: "payment_unidentified", destination: "financeiro", rx: /pagamento|pagar/i },
 
@@ -343,6 +425,15 @@ const REASON_MATRIX: Array<{ reason: string; destination: HandoffDestination; rx
 
 ];
 
+/** Termos fortes de distribuição/influência: anulam o filtro de falso positivo. */
+const STRONG_COMMERCIAL_INTENT_RX =
+  /\bdistribuidor\w*|\bdistribui[çc][ãa]o\b|\brevend\w*|\brepresentante\b|\brepresenta[çc][ãa]o\b|parceria comercial|canal de vendas?|\binfluenciador\w*|\binfluencer\b|criador\w*\s+de\s+conte[úu]do|\bcollab\b|\bpermuta\b|\batacado\b|\batacadista\b/i;
+
+/** Frase puramente de compra, sem intenção real de distribuição/parceria. */
+export function isCommercialFalsePositive(text: string): boolean {
+  return COMMERCIAL_FALSE_POSITIVE_RX.test(text) && !STRONG_COMMERCIAL_INTENT_RX.test(text);
+}
+
 /**
  * ⚠️ LEGADO — fallback. Detecta motivo a partir do texto natural e o converte
  * para o motivo canônico estruturado. Retorna null se nada casar.
@@ -350,8 +441,16 @@ const REASON_MATRIX: Array<{ reason: string; destination: HandoffDestination; rx
 export function detectHandoffTarget(
   text: string,
 ): { reason: HandoffReason; destination: HandoffDestination } | null {
-  // Logística pós-compra tem precedência: a necessidade atual de entrega/frete/
-  // prazo/envio/rastreio pertence à expedição mesmo com contexto dermatológico.
+  // Casos escalados (reembolso, estorno, contestação, avaria, item faltando,
+  // troca, devolução, SAC), distribuição/representação e influenciadoras têm
+  // precedência sobre a logística: são atendidos por Paula Rodrigues e Carla.
+  if (!isCommercialFalsePositive(text)) {
+    for (const entry of PRIORITY_REASON_MATRIX) {
+      if (entry.rx.test(text)) return resolveHandoffReason(entry.reason);
+    }
+  }
+  // Logística pós-compra tem precedência sobre o clínico: a necessidade atual de
+  // entrega/frete/prazo/envio/rastreio pertence à expedição.
   for (const entry of LOGISTICS_REASON_MATRIX) {
     if (entry.rx.test(text)) return resolveHandoffReason(entry.reason);
   }
@@ -364,6 +463,16 @@ export function detectHandoffTarget(
   }
   return null;
 }
+
+/** Motivos com encaminhamento determinístico para Paula Rodrigues / Carla. */
+const DETERMINISTIC_PRIORITY_REASONS: ReadonlySet<string> = new Set(
+  PRIORITY_REASON_MATRIX.map((entry) => resolveHandoffReason(entry.reason)?.reason).filter(Boolean) as string[],
+);
+
+export function isDeterministicPriorityReason(reason?: string | null): boolean {
+  return DETERMINISTIC_PRIORITY_REASONS.has(String(reason ?? "").toLowerCase());
+}
+
 
 export type HandoffHistoryMessage = { from_type?: string; role?: string; content?: string | null };
 
@@ -431,19 +540,23 @@ export function resolveHandoffDecision(params: {
   const structured = resolveHandoffReason(params.structuredReason) ?? marker.target;
   if (structured) return { target: structured, cleanedAgentContent: marker.cleaned, source: "structured" };
   const direct = detectHandoffTarget(stripHandoffMarkers(params.currentUserText));
-  // Determinístico: logística/financeiro (Leticia), pedido explícito de
+  // Determinístico: logística/financeiro (Leticia), casos escalados e
+  // distribuição (Paula Rodrigues), influenciadoras (Carla), pedido explícito de
   // dermoconsultora e casos clinicamente sensíveis não dependem da frase que o
   // modelo escolheu escrever.
   const deterministic =
     direct?.destination === "financeiro" ||
+    isDeterministicPriorityReason(direct?.reason) ||
     direct?.reason === "dermoconsultora_request" ||
     isSensitiveDermoReason(direct?.reason);
   if (deterministic || (direct && isConfirmedHandoffResponse(params.agentContent ?? ""))) {
     return { target: direct, cleanedAgentContent: marker.cleaned, source: "customer_intent" };
   }
   const contextual = detectHandoffTargetFromHistory(params.currentUserText, params.history ?? []);
-  const eligibleContext = contextual?.destination === "financeiro" ? contextual : null;
+  const eligibleContext =
+    contextual?.destination === "financeiro" || isDeterministicPriorityReason(contextual?.reason) ? contextual : null;
   return { target: eligibleContext, cleanedAgentContent: marker.cleaned, source: eligibleContext ? "context" : "customer_intent" };
+
 }
 
 export async function applyResolvedHandoff(
