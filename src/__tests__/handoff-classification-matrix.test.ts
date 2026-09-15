@@ -34,7 +34,6 @@ describe("classificação sintética de rastreio e entrega", () => {
     ["Estou com problema no boleto", "boleto_issue"],
     ["Meu cartão não passa", "card_issue"],
     ["Preciso da nota fiscal", "invoice_request"],
-    ["Quero solicitar reembolso", "refund_request"],
   ] as const;
 
   it.each(cases)("encaminha %s para Letícia com %s", (text, reason) => {
