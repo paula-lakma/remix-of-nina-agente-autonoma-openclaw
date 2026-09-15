@@ -517,40 +517,62 @@ async function transcribeAudio(audioBuffer: ArrayBuffer, lovableApiKey: string):
   }
 }
 
-// Schedule next processing if there are pending messages with future process_after
+// Schedule next processing. Covers BOTH future process_after AND already-due
+// unclaimed entries (the blind window that left a real message unanswered).
 async function scheduleNextProcessing(
   supabase: any,
   supabaseUrl: string,
   supabaseServiceKey: string
 ): Promise<void> {
   try {
-    // Check for pending messages with future process_after
-    const { data: pendingMessages, error } = await supabase
+    const nowIso = new Date().toISOString();
+
+    // 1) Already due and still unclaimed (or with an expired lease) -> run again right away
+    const { data: dueMessages, error: dueError } = await supabase
       .from('message_grouping_queue')
-      .select('id, process_after')
+      .select('id')
       .eq('processed', false)
-      .gt('process_after', new Date().toISOString())
-      .order('process_after', { ascending: true })
+      .is('skipped_at', null)
+      .lte('process_after', nowIso)
+      .or(`claim_expires_at.is.null,claim_expires_at.lt.${nowIso}`)
       .limit(1);
 
-    if (error) {
-      console.error('[MessageGrouper] Error checking pending messages:', error);
-      return;
+    if (dueError) {
+      console.error('[MessageGrouper] Error checking due messages:', dueError);
     }
 
-    if (!pendingMessages || pendingMessages.length === 0) {
-      console.log('[MessageGrouper] No pending messages to schedule');
-      return;
+    let cappedDelayMs: number | null = null;
+
+    if (dueMessages && dueMessages.length > 0) {
+      console.log('[MessageGrouper] Due unclaimed messages remain, re-invoking immediately');
+      cappedDelayMs = 1000;
+    } else {
+      // 2) Pending messages with future process_after
+      const { data: pendingMessages, error } = await supabase
+        .from('message_grouping_queue')
+        .select('id, process_after')
+        .eq('processed', false)
+        .is('skipped_at', null)
+        .gt('process_after', nowIso)
+        .order('process_after', { ascending: true })
+        .limit(1);
+
+      if (error) {
+        console.error('[MessageGrouper] Error checking pending messages:', error);
+        return;
+      }
+
+      if (!pendingMessages || pendingMessages.length === 0) {
+        console.log('[MessageGrouper] No pending messages to schedule (cron safety net still covers strays)');
+        return;
+      }
+
+      const nextProcessAt = new Date(pendingMessages[0].process_after);
+      const delayMs = Math.max(nextProcessAt.getTime() - Date.now() + 500, 1000); // +500ms buffer, min 1s
+      // Cap delay at 30 seconds to prevent edge function timeout issues
+      cappedDelayMs = Math.min(delayMs, 30000);
+      console.log(`[MessageGrouper] Scheduling self-invocation in ${cappedDelayMs}ms for pending message ${pendingMessages[0].id}`);
     }
-
-    const nextProcessAt = new Date(pendingMessages[0].process_after);
-    const now = Date.now();
-    const delayMs = Math.max(nextProcessAt.getTime() - now + 500, 1000); // +500ms buffer, min 1s
-    
-    // Cap delay at 30 seconds to prevent edge function timeout issues
-    const cappedDelayMs = Math.min(delayMs, 30000);
-
-    console.log(`[MessageGrouper] Scheduling self-invocation in ${cappedDelayMs}ms for pending message ${pendingMessages[0].id}`);
 
     // Use EdgeRuntime.waitUntil for background task
     (globalThis as any).EdgeRuntime?.waitUntil?.(
