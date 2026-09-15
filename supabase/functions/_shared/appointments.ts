@@ -24,7 +24,7 @@ export async function createAppointmentFromAI(
     description?: string;
     // NINA — fluxos aprovados de agendamento (distribuição / influenciadora).
     interest_type?: 'distribuicao' | 'influenciadora' | string;
-    responsible?: 'Paula Rodrigues' | 'Ana Carla' | string;
+    responsible?: 'Paula Rodrigues' | 'Carla' | string;
     contact_name?: string;
     contact_phone?: string;
     attendees?: string[];
