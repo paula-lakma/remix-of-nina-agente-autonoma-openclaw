@@ -39,7 +39,7 @@ export async function createAppointmentFromAI(
     const interest = (args.interest_type || '').toLowerCase();
     const resp = (args.responsible || '').toLowerCase();
     const distribuicaoOk = interest === 'distribuicao' && resp.includes('paula');
-    const influencerOk = interest === 'influenciadora' && resp.includes('ana carla');
+    const influencerOk = interest === 'influenciadora' && resp.includes('carla');
     if (!distribuicaoOk && !influencerOk) {
       console.warn('[Nina] Agendamento bloqueado: interest_type/responsible fora do permitido', { interest, resp });
       return { error: 'unauthorized_appointment_flow' };
