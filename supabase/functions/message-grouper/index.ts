@@ -3,7 +3,7 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type, x-panel-token',
 };
 
 const LOVABLE_AI_URL = "https://ai.gateway.lovable.dev/v1/audio/transcriptions";
@@ -13,9 +13,18 @@ serve(async (req) => {
     return new Response(null, { headers: corsHeaders });
   }
 
-  const { requireAuth } = await import("../_shared/auth.ts");
-  const authFail = await requireAuth(req, corsHeaders);
-  if (authFail) return authFail;
+  // Auth: service-role/user JWT OR X-Panel-Token (used by the pg_cron safety net)
+  const panelToken = req.headers.get('x-panel-token');
+  let panelOk = false;
+  if (panelToken) {
+    const { validatePanelToken } = await import("../_shared/panel.ts");
+    panelOk = await validatePanelToken(req);
+  }
+  if (!panelOk) {
+    const { requireAuth } = await import("../_shared/auth.ts");
+    const authFail = await requireAuth(req, corsHeaders);
+    if (authFail) return authFail;
+  }
 
   const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
   const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
@@ -25,40 +34,35 @@ serve(async (req) => {
   try {
     console.log('[MessageGrouper] Starting message grouping...');
 
-    // Fetch messages ready to process (timer expired and not processed)
+    // Messages that blew past the 2h recovery window: flagged as expired (never "processed")
+    const { data: expiredCount, error: expireError } = await supabase.rpc('expire_stale_message_grouping');
+    if (expireError) {
+      console.error('[MessageGrouper] Error expiring stale messages:', expireError);
+    } else if (expiredCount) {
+      console.log(`[MessageGrouper] Expired ${expiredCount} stale queue entries (no client message sent)`);
+    }
+
+    // ATOMIC CLAIM (lease-based). processed stays false until the work really succeeds.
     const { data: readyMessages, error: fetchError } = await supabase
-      .from('message_grouping_queue')
-      .select('*')
-      .eq('processed', false)
-      .lte('process_after', new Date().toISOString())
-      .order('created_at', { ascending: true });
+      .rpc('claim_message_grouping_batch', { p_limit: 50 });
 
     if (fetchError) {
-      console.error('[MessageGrouper] Error fetching messages:', fetchError);
+      console.error('[MessageGrouper] Error claiming messages:', fetchError);
       throw fetchError;
     }
 
     if (!readyMessages || readyMessages.length === 0) {
-      console.log('[MessageGrouper] No messages ready to process');
-      
-      // Check if there are pending messages with future process_after and schedule re-invocation
+      console.log('[MessageGrouper] No messages claimed');
+
+      // Check pending messages (future OR already due but unclaimed) and schedule re-invocation
       await scheduleNextProcessing(supabase, supabaseUrl, supabaseServiceKey);
-      
+
       return new Response(JSON.stringify({ processed: 0, groups: 0 }), {
         headers: { ...corsHeaders, 'Content-Type': 'application/json' }
       });
     }
 
-    console.log(`[MessageGrouper] Found ${readyMessages.length} messages ready to process`);
-
-    // IMMEDIATELY mark all ready messages as processed to prevent duplicates
-    const readyIds = readyMessages.map(m => m.id);
-    await supabase
-      .from('message_grouping_queue')
-      .update({ processed: true })
-      .in('id', readyIds);
-
-    console.log(`[MessageGrouper] Marked ${readyIds.length} messages as processed`);
+    console.log(`[MessageGrouper] Claimed ${readyMessages.length} messages`);
 
     // Group messages by phone number
     const grouped: Record<string, typeof readyMessages> = {};
@@ -73,6 +77,16 @@ serve(async (req) => {
     console.log(`[MessageGrouper] Grouped into ${groupCount} phone numbers`);
 
     let processedCount = 0;
+
+    // Marks queue rows as truly processed (only after the group succeeded)
+    const markProcessed = async (rows: any[]) => {
+      const ids = rows.map((m) => m.id);
+      if (ids.length === 0) return;
+      await supabase
+        .from('message_grouping_queue')
+        .update({ processed: true })
+        .in('id', ids);
+    };
 
     // Process each group
     for (const [phoneNumber, messages] of Object.entries(grouped)) {
@@ -94,6 +108,8 @@ serve(async (req) => {
         
         if (messageIds.length === 0) {
           console.log(`[MessageGrouper] No message_ids found for group ${phoneNumber}, skipping`);
+          // Nothing to forward: close these entries so they don't loop forever
+          await markProcessed(messages);
           continue;
         }
 
@@ -161,54 +177,50 @@ serve(async (req) => {
           console.log(`[MessageGrouper] Updated audio message with transcription`);
         }
 
-        // If conversation is handled by Nina, queue for AI processing
+        // If conversation is handled by Nina, queue for AI processing.
+        // Idempotent at the DB level: unique index on nina_processing_queue(message_id).
         if (conversation.status === 'nina') {
-          // Check if already in queue to avoid duplicates
-          const { data: existingQueue } = await supabase
+          const { error: ninaQueueError } = await supabase
             .from('nina_processing_queue')
-            .select('id')
-            .eq('message_id', lastDbMessage.id)
-            .maybeSingle();
+            .upsert({
+              message_id: lastDbMessage.id,
+              conversation_id: conversationId,
+              contact_id: conversation.contact_id,
+              priority: 1,
+              context_data: {
+                phone_number_id: phoneNumberId,
+                contact_name: conversation.contacts?.name || conversation.contacts?.call_name,
+                message_type: lastDbMessage.type,
+                grouped_count: messageIds.length,
+                combined_content: combinedContent
+              }
+            }, { onConflict: 'message_id', ignoreDuplicates: true });
 
-          if (!existingQueue) {
-            const { error: ninaQueueError } = await supabase
-              .from('nina_processing_queue')
-              .insert({
-                message_id: lastDbMessage.id,
-                conversation_id: conversationId,
-                contact_id: conversation.contact_id,
-                priority: 1,
-                context_data: {
-                  phone_number_id: phoneNumberId,
-                  contact_name: conversation.contacts?.name || conversation.contacts?.call_name,
-                  message_type: lastDbMessage.type,
-                  grouped_count: messageIds.length,
-                  combined_content: combinedContent
-                }
-              });
-
-            if (ninaQueueError) {
-              console.error('[MessageGrouper] Error queuing for Nina:', ninaQueueError);
-            } else {
-              console.log('[MessageGrouper] Message queued for Nina processing');
-              
-              // Trigger nina-orchestrator
-              fetch(`${supabaseUrl}/functions/v1/nina-orchestrator`, {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json',
-                  'Authorization': `Bearer ${supabaseServiceKey}`
-                },
-                body: JSON.stringify({ triggered_by: 'message-grouper' })
-              }).catch(err => console.error('[MessageGrouper] Error triggering nina-orchestrator:', err));
-            }
-          } else {
-            console.log('[MessageGrouper] Message already in Nina queue, skipping');
+          if (ninaQueueError) {
+            // Do NOT mark as processed: the lease expires and the message is retried.
+            console.error('[MessageGrouper] Error queuing for Nina:', ninaQueueError);
+            continue;
           }
+
+          console.log('[MessageGrouper] Message queued for Nina processing');
+
+          // Trigger nina-orchestrator
+          fetch(`${supabaseUrl}/functions/v1/nina-orchestrator`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${supabaseServiceKey}`
+            },
+            body: JSON.stringify({ triggered_by: 'message-grouper' })
+          }).catch(err => console.error('[MessageGrouper] Error triggering nina-orchestrator:', err));
         }
+
+        // Only now the entries are truly processed
+        await markProcessed(messages);
 
         processedCount += messages.length;
         console.log(`[MessageGrouper] Group ${phoneNumber} processed successfully`);
+
 
       } catch (groupError) {
         console.error(`[MessageGrouper] Error processing group ${phoneNumber}:`, groupError);
@@ -505,40 +517,62 @@ async function transcribeAudio(audioBuffer: ArrayBuffer, lovableApiKey: string):
   }
 }
 
-// Schedule next processing if there are pending messages with future process_after
+// Schedule next processing. Covers BOTH future process_after AND already-due
+// unclaimed entries (the blind window that left a real message unanswered).
 async function scheduleNextProcessing(
   supabase: any,
   supabaseUrl: string,
   supabaseServiceKey: string
 ): Promise<void> {
   try {
-    // Check for pending messages with future process_after
-    const { data: pendingMessages, error } = await supabase
+    const nowIso = new Date().toISOString();
+
+    // 1) Already due and still unclaimed (or with an expired lease) -> run again right away
+    const { data: dueMessages, error: dueError } = await supabase
       .from('message_grouping_queue')
-      .select('id, process_after')
+      .select('id')
       .eq('processed', false)
-      .gt('process_after', new Date().toISOString())
-      .order('process_after', { ascending: true })
+      .is('skipped_at', null)
+      .lte('process_after', nowIso)
+      .or(`claim_expires_at.is.null,claim_expires_at.lt.${nowIso}`)
       .limit(1);
 
-    if (error) {
-      console.error('[MessageGrouper] Error checking pending messages:', error);
-      return;
+    if (dueError) {
+      console.error('[MessageGrouper] Error checking due messages:', dueError);
     }
 
-    if (!pendingMessages || pendingMessages.length === 0) {
-      console.log('[MessageGrouper] No pending messages to schedule');
-      return;
+    let cappedDelayMs: number | null = null;
+
+    if (dueMessages && dueMessages.length > 0) {
+      console.log('[MessageGrouper] Due unclaimed messages remain, re-invoking immediately');
+      cappedDelayMs = 1000;
+    } else {
+      // 2) Pending messages with future process_after
+      const { data: pendingMessages, error } = await supabase
+        .from('message_grouping_queue')
+        .select('id, process_after')
+        .eq('processed', false)
+        .is('skipped_at', null)
+        .gt('process_after', nowIso)
+        .order('process_after', { ascending: true })
+        .limit(1);
+
+      if (error) {
+        console.error('[MessageGrouper] Error checking pending messages:', error);
+        return;
+      }
+
+      if (!pendingMessages || pendingMessages.length === 0) {
+        console.log('[MessageGrouper] No pending messages to schedule (cron safety net still covers strays)');
+        return;
+      }
+
+      const nextProcessAt = new Date(pendingMessages[0].process_after);
+      const delayMs = Math.max(nextProcessAt.getTime() - Date.now() + 500, 1000); // +500ms buffer, min 1s
+      // Cap delay at 30 seconds to prevent edge function timeout issues
+      cappedDelayMs = Math.min(delayMs, 30000);
+      console.log(`[MessageGrouper] Scheduling self-invocation in ${cappedDelayMs}ms for pending message ${pendingMessages[0].id}`);
     }
-
-    const nextProcessAt = new Date(pendingMessages[0].process_after);
-    const now = Date.now();
-    const delayMs = Math.max(nextProcessAt.getTime() - now + 500, 1000); // +500ms buffer, min 1s
-    
-    // Cap delay at 30 seconds to prevent edge function timeout issues
-    const cappedDelayMs = Math.min(delayMs, 30000);
-
-    console.log(`[MessageGrouper] Scheduling self-invocation in ${cappedDelayMs}ms for pending message ${pendingMessages[0].id}`);
 
     // Use EdgeRuntime.waitUntil for background task
     (globalThis as any).EdgeRuntime?.waitUntil?.(
@@ -559,7 +593,7 @@ async function scheduleNextProcessing(
             console.error('[MessageGrouper] Self-reschedule error:', err);
           }
           resolve();
-        }, cappedDelayMs);
+        }, cappedDelayMs ?? 1000);
       })
     );
   } catch (error) {
