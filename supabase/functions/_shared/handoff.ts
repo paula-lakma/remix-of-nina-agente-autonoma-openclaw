@@ -128,7 +128,10 @@ Qualquer assunto pós-compra do cliente — o pedido dele, financeiro, entrega, 
 - dúvida sobre transportadora, Correios, Jadlog ou Sedex -> carrier_question
 - dúvida genérica de rastreio -> tracking_help
 - prazo de entrega, "quando chega", "quantos dias", frete, endereço, alteração, dúvida genérica sobre o pedido/compra já realizada ou questão administrativa/pós-compra -> order_financial_question
-- pagamento, cobrança, Pix, cartão, boleto, nota fiscal ou reembolso -> use o motivo financeiro específico correspondente
+- pagamento, cobrança, Pix, cartão, boleto ou nota fiscal do pedido -> use o motivo financeiro específico correspondente (Leticia)
+- reembolso, estorno, cancelamento com devolução de valor ou contestação de cobrança -> refund_request / chargeback_dispute (Paula Rodrigues, NÃO Leticia)
+- produto avariado, item faltando, troca, devolução ou reclamação/SAC -> Paula Rodrigues
+
 
 Ao confirmar o encaminhamento, inclua no retorno interno [[HANDOFF:<motivo>]]. O marcador não é texto para o cliente.
 Não classifique esses casos como sensitive_case e não os encaminhe para dermoconsultora.
