@@ -175,54 +175,50 @@ serve(async (req) => {
           console.log(`[MessageGrouper] Updated audio message with transcription`);
         }
 
-        // If conversation is handled by Nina, queue for AI processing
+        // If conversation is handled by Nina, queue for AI processing.
+        // Idempotent at the DB level: unique index on nina_processing_queue(message_id).
         if (conversation.status === 'nina') {
-          // Check if already in queue to avoid duplicates
-          const { data: existingQueue } = await supabase
+          const { error: ninaQueueError } = await supabase
             .from('nina_processing_queue')
-            .select('id')
-            .eq('message_id', lastDbMessage.id)
-            .maybeSingle();
+            .upsert({
+              message_id: lastDbMessage.id,
+              conversation_id: conversationId,
+              contact_id: conversation.contact_id,
+              priority: 1,
+              context_data: {
+                phone_number_id: phoneNumberId,
+                contact_name: conversation.contacts?.name || conversation.contacts?.call_name,
+                message_type: lastDbMessage.type,
+                grouped_count: messageIds.length,
+                combined_content: combinedContent
+              }
+            }, { onConflict: 'message_id', ignoreDuplicates: true });
 
-          if (!existingQueue) {
-            const { error: ninaQueueError } = await supabase
-              .from('nina_processing_queue')
-              .insert({
-                message_id: lastDbMessage.id,
-                conversation_id: conversationId,
-                contact_id: conversation.contact_id,
-                priority: 1,
-                context_data: {
-                  phone_number_id: phoneNumberId,
-                  contact_name: conversation.contacts?.name || conversation.contacts?.call_name,
-                  message_type: lastDbMessage.type,
-                  grouped_count: messageIds.length,
-                  combined_content: combinedContent
-                }
-              });
-
-            if (ninaQueueError) {
-              console.error('[MessageGrouper] Error queuing for Nina:', ninaQueueError);
-            } else {
-              console.log('[MessageGrouper] Message queued for Nina processing');
-              
-              // Trigger nina-orchestrator
-              fetch(`${supabaseUrl}/functions/v1/nina-orchestrator`, {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json',
-                  'Authorization': `Bearer ${supabaseServiceKey}`
-                },
-                body: JSON.stringify({ triggered_by: 'message-grouper' })
-              }).catch(err => console.error('[MessageGrouper] Error triggering nina-orchestrator:', err));
-            }
-          } else {
-            console.log('[MessageGrouper] Message already in Nina queue, skipping');
+          if (ninaQueueError) {
+            // Do NOT mark as processed: the lease expires and the message is retried.
+            console.error('[MessageGrouper] Error queuing for Nina:', ninaQueueError);
+            continue;
           }
+
+          console.log('[MessageGrouper] Message queued for Nina processing');
+
+          // Trigger nina-orchestrator
+          fetch(`${supabaseUrl}/functions/v1/nina-orchestrator`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${supabaseServiceKey}`
+            },
+            body: JSON.stringify({ triggered_by: 'message-grouper' })
+          }).catch(err => console.error('[MessageGrouper] Error triggering nina-orchestrator:', err));
         }
+
+        // Only now the entries are truly processed
+        await markProcessed(messages);
 
         processedCount += messages.length;
         console.log(`[MessageGrouper] Group ${phoneNumber} processed successfully`);
+
 
       } catch (groupError) {
         console.error(`[MessageGrouper] Error processing group ${phoneNumber}:`, groupError);
