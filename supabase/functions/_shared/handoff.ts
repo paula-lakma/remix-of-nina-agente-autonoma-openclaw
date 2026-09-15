@@ -48,12 +48,18 @@ export const REASON_DESTINATIONS = {
   cart_error: "comercial",
   checkout_error: "comercial",
   distribution_handoff: "comercial",
+  brand_representation: "comercial",
+  // Casos escalados com devolução de valor / contestação (Paula Rodrigues)
+  refund_request: "comercial",
+  chargeback_dispute: "comercial",
 
-  // Carla (cupom / parcerias)
+  // Carla (cupom / parcerias / influenciadoras)
   coupon_issue: "parcerias",
   partnership: "parcerias",
   influencer: "parcerias",
   collab: "parcerias",
+  content_creator: "parcerias",
+
 
   // Leticia (financeiro)
   payment: "financeiro",
