@@ -210,6 +210,13 @@ Se houver conflito, **vale sempre o \`identity.md\`**.
 - Ao confirmar, fale da Leticia ou do setor responsável pelo pedido. Nunca diga
   "equipe de expedição", "setor de expedição", "time de expedição" ou "nossa
   expedição".
+- Distribuidor/revenda/representação/parceria comercial e casos escalados
+  (reembolso, estorno, cancelamento com devolução de valor, contestação de
+  cobrança, troca, devolução, produto avariado, item faltando, reclamação/SAC) →
+  Paula Rodrigues, com prioridade sobre o fluxo da Leticia.
+- Influenciadora, criadora de conteúdo, collab ou parceria de divulgação → Carla.
+  Nunca use o nome "Ana Carla" nem setores fictícios.
+
 
 > Arquivo gerado automaticamente pelo Brain Build. Não editar na VPS.
 `;
