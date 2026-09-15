@@ -32,12 +32,32 @@ Execuções simultâneas são seguras pelo claim atômico.
 Cadência: 1.440 execuções por dia. É o mínimo para que nenhuma mensagem de cliente fique parada
 mais de ~1 minuto; em troca, o banco é acordado com essa frequência, o que tem custo recorrente.
 
-## 3. Claim atômico
+## 3. Claim atômico com prazo de validade (lease)
 
-Nova função `claim_message_grouping_batch(p_limit)` no mesmo padrão de
-`claim_nina_processing_batch`: CTE com `SELECT ... FOR UPDATE SKIP LOCKED` seguido de
-`UPDATE ... RETURNING`, em uma única operação. Acaba o "ler depois marcar". Uma mensagem só pode
-ser reivindicada por uma execução: sem resposta dupla, handoff duplo ou envio duplicado.
+`message_grouping_queue` hoje só tem `processed` (sim/não) — não serve como "em processamento".
+As outras filas usam `status` + `updated_at`; aqui a menor alteração equivalente é acrescentar
+duas colunas: **`claimed_at`** e **`claim_expires_at`**. `processed` não é usado para reivindicar.
+
+Nova função `claim_message_grouping_batch(p_limit)`: uma única operação, CTE com
+`SELECT ... FOR UPDATE SKIP LOCKED` seguido de `UPDATE ... RETURNING`.
+
+1. **Campo que identifica a reivindicação:** `claimed_at` preenchido e `claim_expires_at` no
+   futuro. São elegíveis as linhas com `processed = false`, `skipped_at` nulo, já vencidas e
+   com `claim_expires_at` nulo ou já no passado.
+2. **Validade do claim:** 5 minutos (`claim_expires_at = agora + 5 min`), folga confortável
+   sobre o tempo normal de processamento, que é de segundos.
+3. **Worker que morre ou falha:** nada precisa ser desfeito. Passados os 5 minutos o claim
+   expira sozinho e a linha volta a ser elegível na execução seguinte.
+4. **Quando `processed` vira true:** somente depois de a mensagem ter sido efetivamente
+   agrupada e inserida na fila da Nina (ou quando a conversa não está com a Nina e não há nada
+   a enfileirar). Continua significando exclusivamente "encaminhada com sucesso".
+5. **Duas execuções simultâneas:** o `SKIP LOCKED` faz a segunda execução pular a linha já
+   travada; ao confirmar, ela já não atende à condição de elegibilidade. Uma linha por execução.
+6. **Claims abandonados:** a rotina de 1 minuto usa exatamente a mesma função de claim, então
+   recolhe naturalmente qualquer linha com claim expirado, dentro da janela de 2 horas.
+7. **Falha entre o claim e a inserção na fila da Nina:** a mensagem **não desaparece** — segue
+   com `processed = false` e é recuperada assim que o claim expira. A inserção idempotente
+   (`ON CONFLICT DO NOTHING` sobre o índice único) garante que a repetição não crie duplicata.
 
 ## 4. Janela cega fechada
 
