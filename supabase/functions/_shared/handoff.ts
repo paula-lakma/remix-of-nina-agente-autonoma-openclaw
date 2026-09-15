@@ -383,7 +383,7 @@ const REASON_MATRIX: Array<{ reason: string; destination: HandoffDestination; rx
   { reason: "pix_issue", destination: "financeiro", rx: /\bpix\b/i },
   { reason: "card_issue", destination: "financeiro", rx: /cart[ãa]o.{0,30}(erro|problema|n[ãa]o passa|falh)/i },
   { reason: "invoice_request", destination: "financeiro", rx: /nota fiscal|\bnfe?\b|danfe/i },
-  { reason: "refund_request", destination: "financeiro", rx: /reembolso|estorno/i },
+  { reason: "refund_request", destination: "comercial", rx: /reembolso|estorno/i },
   { reason: "charge_issue", destination: "financeiro", rx: /cobran[çc]a|valor cobrado/i },
   { reason: "payment_unidentified", destination: "financeiro", rx: /pagamento|pagar/i },
 
