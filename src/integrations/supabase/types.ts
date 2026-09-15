@@ -1244,6 +1244,8 @@ export type Database = {
       }
       message_grouping_queue: {
         Row: {
+          claim_expires_at: string | null
+          claimed_at: string | null
           contacts_data: Json | null
           created_at: string
           id: string
@@ -1252,9 +1254,13 @@ export type Database = {
           phone_number_id: string
           process_after: string | null
           processed: boolean
+          skip_reason: string | null
+          skipped_at: string | null
           whatsapp_message_id: string
         }
         Insert: {
+          claim_expires_at?: string | null
+          claimed_at?: string | null
           contacts_data?: Json | null
           created_at?: string
           id?: string
@@ -1263,9 +1269,13 @@ export type Database = {
           phone_number_id: string
           process_after?: string | null
           processed?: boolean
+          skip_reason?: string | null
+          skipped_at?: string | null
           whatsapp_message_id: string
         }
         Update: {
+          claim_expires_at?: string | null
+          claimed_at?: string | null
           contacts_data?: Json | null
           created_at?: string
           id?: string
@@ -1274,6 +1284,8 @@ export type Database = {
           phone_number_id?: string
           process_after?: string | null
           processed?: boolean
+          skip_reason?: string | null
+          skipped_at?: string | null
           whatsapp_message_id?: string
         }
         Relationships: [
@@ -2441,6 +2453,30 @@ export type Database = {
         }
         Returns: Json
       }
+      claim_message_grouping_batch: {
+        Args: { p_limit?: number }
+        Returns: {
+          claim_expires_at: string | null
+          claimed_at: string | null
+          contacts_data: Json | null
+          created_at: string
+          id: string
+          message_data: Json
+          message_id: string | null
+          phone_number_id: string
+          process_after: string | null
+          processed: boolean
+          skip_reason: string | null
+          skipped_at: string | null
+          whatsapp_message_id: string
+        }[]
+        SetofOptions: {
+          from: "*"
+          to: "message_grouping_queue"
+          isOneToOne: false
+          isSetofReturn: true
+        }
+      }
       claim_message_processing_batch: {
         Args: { p_limit?: number }
         Returns: {
@@ -2543,6 +2579,7 @@ export type Database = {
         Args: { _content: string; _conversation_id: string }
         Returns: string
       }
+      expire_stale_message_grouping: { Args: never; Returns: number }
       get_auth_user_id: { Args: never; Returns: string }
       get_my_dermo_messages: {
         Args: { _conversation_id: string }
@@ -2698,6 +2735,7 @@ export type Database = {
         Args: { secret_name: string; secret_value: string }
         Returns: undefined
       }
+      trigger_message_grouper: { Args: never; Returns: undefined }
       trigger_reaper: { Args: never; Returns: undefined }
       trigger_stale_leads: { Args: never; Returns: undefined }
       update_client_memory: {
