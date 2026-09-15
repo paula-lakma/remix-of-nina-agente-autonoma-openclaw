@@ -593,7 +593,7 @@ async function scheduleNextProcessing(
             console.error('[MessageGrouper] Self-reschedule error:', err);
           }
           resolve();
-        }, cappedDelayMs);
+        }, cappedDelayMs ?? 1000);
       })
     );
   } catch (error) {
