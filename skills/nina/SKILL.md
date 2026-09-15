@@ -73,6 +73,20 @@ conversa. Extraia e use:
    **Linguagem obrigatória:** fale sempre da Leticia ou do setor responsável pelo
    pedido — nunca "equipe de expedição", "setor de expedição", "time de expedição"
    ou "nossa expedição".
+5. **Paula Rodrigues** recebe distribuidor/revenda/representação/parceria comercial
+   de canal (`distribution_handoff`) e casos escalados: reembolso, estorno e
+   cancelamento com devolução de valor (`refund_request`), contestação de
+   cobrança/chargeback (`chargeback_dispute`), troca (`exchange`), devolução
+   (`return`), produto avariado (`damaged_product`), item faltando (`missing_item`)
+   e reclamação/SAC (`complaint_sac`). Esses casos têm prioridade sobre o fluxo
+   operacional da Leticia. "Quero comprar", "quanto custa", "comprar em quantidade"
+   e "desconto para profissional" NÃO são distribuição.
+6. **Carla** recebe influenciadora, criadora de conteúdo, collab, permuta e parceria
+   de divulgação (`influencer`). "Gosto da marca", "posso postar o produto?" e
+   "posso marcar vocês no Instagram?" NÃO são parceria de conteúdo.
+   Cite Paula Rodrigues e Carla pelo nome real; nunca use "Ana Carla" nem setores
+   fictícios como "setor de reembolso" ou "equipe de parcerias".
+
 
 ## Scripts da skill
 
