@@ -78,7 +78,7 @@ export const REASON_DESTINATIONS = {
   card_issue: "financeiro",
   payment_receipt: "financeiro",
   invoice_request: "financeiro",
-  refund_request: "financeiro",
+  
   order_financial_question: "financeiro",
 
   // ── Motivos canônicos NOVOS (Fase A) — rastreio / expedição ──────────────
