@@ -525,19 +525,23 @@ export function resolveHandoffDecision(params: {
   const structured = resolveHandoffReason(params.structuredReason) ?? marker.target;
   if (structured) return { target: structured, cleanedAgentContent: marker.cleaned, source: "structured" };
   const direct = detectHandoffTarget(stripHandoffMarkers(params.currentUserText));
-  // Determinístico: logística/financeiro (Leticia), pedido explícito de
+  // Determinístico: logística/financeiro (Leticia), casos escalados e
+  // distribuição (Paula Rodrigues), influenciadoras (Carla), pedido explícito de
   // dermoconsultora e casos clinicamente sensíveis não dependem da frase que o
   // modelo escolheu escrever.
   const deterministic =
     direct?.destination === "financeiro" ||
+    isDeterministicPriorityReason(direct?.reason) ||
     direct?.reason === "dermoconsultora_request" ||
     isSensitiveDermoReason(direct?.reason);
   if (deterministic || (direct && isConfirmedHandoffResponse(params.agentContent ?? ""))) {
     return { target: direct, cleanedAgentContent: marker.cleaned, source: "customer_intent" };
   }
   const contextual = detectHandoffTargetFromHistory(params.currentUserText, params.history ?? []);
-  const eligibleContext = contextual?.destination === "financeiro" ? contextual : null;
+  const eligibleContext =
+    contextual?.destination === "financeiro" || isDeterministicPriorityReason(contextual?.reason) ? contextual : null;
   return { target: eligibleContext, cleanedAgentContent: marker.cleaned, source: eligibleContext ? "context" : "customer_intent" };
+
 }
 
 export async function applyResolvedHandoff(
