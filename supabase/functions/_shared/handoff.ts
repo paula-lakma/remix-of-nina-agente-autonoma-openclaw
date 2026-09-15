@@ -299,6 +299,59 @@ const SENSITIVE_REASON_MATRIX: Array<{ reason: string; destination: HandoffDesti
 ];
 
 /**
+ * ── CASOS ESCALADOS + DISTRIBUIÇÃO + INFLUENCIADORAS — PRECEDÊNCIA ABSOLUTA ──
+ * Avaliada ANTES da logística e da matriz dermatológica.
+ * comercial  -> Paula Rodrigues   |   parcerias -> Carla
+ */
+const PRIORITY_REASON_MATRIX: Array<{ reason: string; destination: HandoffDestination; rx: RegExp }> = [
+  // Reembolso / estorno / cancelamento com devolução de valor -> Paula
+  {
+    reason: "refund_request",
+    destination: "comercial",
+    rx: /\breembols\w*|\bestorn\w*|\bressarci\w*|\brestitui[çc][ãa]o\b|dinheiro de volta|(?:devolver|devolu[çc][ãa]o|receber|quero|queria)\s+(?:o\s+|meu\s+|do\s+)?(?:dinheiro|valor pago|valor da compra)/i,
+  },
+  // Contestação de cobrança / chargeback -> Paula
+  {
+    reason: "chargeback_dispute",
+    destination: "comercial",
+    rx: /\bchargeback\b|contest(?:ar|a[çc][ãa]o|ando)\s+(?:essa\s+|esta\s+|a\s+|uma\s+)?(?:cobran[çc]a|compra|pagamento|transa[çc][ãa]o)|disputa\s+de\s+cobran[çc]a/i,
+  },
+  // Produto avariado / item faltando / troca / devolução / SAC -> Paula
+  { reason: "produto_avariado", destination: "comercial", rx: /avariad|danificad|quebrad|vazand|amassad|chegou\s+(?:todo\s+)?(?:estragad|derramad)/i },
+  { reason: "produto_faltando", destination: "comercial", rx: /faltando|faltou|veio incompleto|item a menos|n[ãa]o veio\s+(?:o\s+|um\s+)?(?:produto|item)/i },
+  { reason: "troca", destination: "comercial", rx: /\btroca(?:r)?\b/i },
+  { reason: "devolucao", destination: "comercial", rx: /devolu[çc][ãa]o|devolver\s+(?:o\s+|os\s+)?(?:produto|produtos|pedido|item)/i },
+  { reason: "reclamacao_sac", destination: "comercial", rx: /reclama[çc][ãa]o|\bsac\b|procon/i },
+
+  // Distribuição / revenda / representação / parceria comercial de canal -> Paula
+  {
+    reason: "distribuidor",
+    destination: "comercial",
+    rx: /\bdistribuidor(?:a|es|as)?\b|\bdistribui[çc][ãa]o\b|\bdistribuir\s+(?:a\s+|os\s+|as\s+)?(?:marca|produtos?)\b|\brevend\w*|\batacadista\b|\batacado\b/i,
+  },
+  {
+    reason: "representacao",
+    destination: "comercial",
+    rx: /\brepresentante\b|\brepresenta[çc][ãa]o\b|representar\s+(?:a\s+)?(?:marca|lakma)|parceria comercial|canal de vendas?|\bfornecedor\b/i,
+  },
+
+  // Influenciadora / criadora de conteúdo / collab / divulgação -> Carla
+  {
+    reason: "influenciadora",
+    destination: "parcerias",
+    rx: /\binfluenciador(?:a|es|as)?\b|\binfluencer\b|\bugc\b|criador(?:a|es|as)?\s+de\s+conte[úu]do|\bcollab\b|\bpermuta\b|parceria\s+(?:de\s+)?(?:divulga[çc][ãa]o|conte[úu]do|com\s+influenciador\w*)|divulga[çc][ãa]o\s+(?:da\s+marca|dos\s+produtos)|criar\s+conte[úu]do\s+(?:para|pra|com)\s+(?:a\s+)?(?:marca|voc[êe]s|lakma)/i,
+  },
+];
+
+/**
+ * Frases de intenção de compra que NÃO podem ser lidas como distribuição
+ * nem como parceria de conteúdo.
+ */
+const COMMERCIAL_FALSE_POSITIVE_RX =
+  /^(?:[^.?!]{0,120})?(?:quero comprar|gostaria de comprar|quero fazer um pedido|quanto custa|qual o pre[çc]o|voc[êe]s vendem para profissional|comprar em (?:maior )?quantidade|desconto para profissional|posso (?:postar|marcar) (?:o produto|voc[êe]s)|gosto da marca|tem desconto)/i;
+
+
+/**
  * ── LOGÍSTICA PÓS-COMPRA (Leticia) — PRECEDÊNCIA MÁXIMA ─────────────────────
  * Avaliada ANTES da matriz dermatológica: entrega, frete, prazo, envio,
  * postagem, despacho, transportadora, rastreio, localização do pedido ou
