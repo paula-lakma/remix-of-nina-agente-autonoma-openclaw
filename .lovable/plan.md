@@ -1,23 +1,14 @@
-# Influenciadora sem resposta — diagnóstico e correção (Carla Marketing, 15/09 10:05)
+# Influenciadora sem resposta — plano final (Carla Marketing, 15/09 10:05)
 
 Diagnóstico read-only concluído. Nada foi alterado ainda.
 
-## 1. Classificação da frase
+## 1. Causa raiz
 
-"Sou influenciadora e queria fazer parceria" **é classificada corretamente** pelo código atual:
-motivo `influencer`, destino parcerias (Carla), já na lista de motivos determinísticos.
-O roteamento não é o problema.
-
-## 2. Causa raiz confirmada
-
-A mensagem entrou no banco (13:05:27.84 UTC, id `f8739016-…`) e na fila de agrupamento
-(`message_grouping_queue`), mas **essa entrada continua marcada como não processada**. Por isso:
-
-- nunca entrou na fila da Nina (`nina_processing_queue` sem registro dessa mensagem);
-- a Nina nunca foi acionada — sem classificação, sem encaminhamento, sem resposta;
-- a conversa segue com a Nina, sem responsável e sem evento de encaminhamento.
-
-Corrida exata registrada nos logs:
+"Sou influenciadora e queria fazer parceria" **é classificada corretamente** (motivo `influencer`,
+destino Carla, já determinístico). O problema é anterior: a mensagem entrou no banco
+(13:05:27.84 UTC, id `f8739016-…`) e na fila de agrupamento, mas **a entrada continua não
+processada** — nunca chegou à fila da Nina, então não houve classificação, encaminhamento nem
+resposta. A conversa segue com a Nina, sem responsável.
 
 ```text
 13:05:28.10  influenciadora  -> liberar em 13:05:37.608
@@ -26,87 +17,86 @@ Corrida exata registrada nos logs:
 13:05:37/38  "No pending messages to schedule"  <- a influenciadora ficou órfã
 ```
 
-O agrupador só se reagenda por auto-chamada em memória e só olha mensagens com liberação
-**futura**. A mensagem caiu na janela cega entre "ainda não venceu" e "já venceu", e não há
-nenhuma rotina periódica de retomada (nenhum agendamento ativo hoje).
+O agrupador só se reagenda por auto-chamada em memória e só olha mensagens com liberação futura.
+Não há rotina periódica de retomada. Não houve erro, timeout, lock, run preso, nem qualquer
+chamada de agenda ou "Ana Carla".
 
-## 3. O que NÃO causou
+## 2. Rotina de recuperação — pg_cron + pg_net (1 minuto)
 
-Não foi classificação, nem handoff determinístico, nem a Carla, nem agendamento/"Ana Carla"
-(nenhuma ferramenta de agenda foi chamada), nem erro, timeout, lock ou run preso. Nenhuma
-resposta chegou a ser criada — não há envio pendente nem com erro.
+`pg_cron` já está instalado (hoje sem tarefas) e o projeto já usa `pg_net` em `trigger_reaper()`.
+Será criada `trigger_message_grouper()`, agendada a cada minuto, que **apenas aciona** o agrupador
+existente — nenhuma lógica duplicada. Recupera somente mensagens não processadas, já vencidas,
+vencidas há no máximo 2 horas, sem `skipped_at` e ainda sem entrada na fila da Nina.
+Execuções simultâneas são seguras pelo claim atômico.
 
-## 4. Diferença para o distribuidor
+Cadência: 1.440 execuções por dia. É o mínimo para que nenhuma mensagem de cliente fique parada
+mais de ~1 minuto; em troca, o banco é acordado com essa frequência, o que tem custo recorrente.
 
-O distribuidor venceu ~0,9s antes e foi capturado; a influenciadora venceu depois e nenhuma
-execução posterior a buscou.
+## 3. Claim atômico
 
-## 5. Correção — decisões técnicas fechadas
+Nova função `claim_message_grouping_batch(p_limit)` no mesmo padrão de
+`claim_nina_processing_batch`: CTE com `SELECT ... FOR UPDATE SKIP LOCKED` seguido de
+`UPDATE ... RETURNING`, em uma única operação. Acaba o "ler depois marcar". Uma mensagem só pode
+ser reivindicada por uma execução: sem resposta dupla, handoff duplo ou envio duplicado.
 
-### 5.1 Mecanismo da rotina de 1 minuto — pg_cron + pg_net
-A extensão `pg_cron` já está instalada no projeto (hoje sem nenhuma tarefa ativa) e já existe o
-padrão de acionamento por `pg_net` usado por `trigger_reaper()`. Será criada uma função
-equivalente, `trigger_message_grouper()`, agendada a cada 1 minuto, que apenas **aciona** o
-agrupador existente. Nenhuma lógica de processamento é duplicada: a rotina não lê, não agrupa e
-não classifica — só chama a função que já faz isso. Execuções simultâneas são seguras porque a
-captura passa a ser atômica (5.2).
+## 4. Janela cega fechada
 
-### 5.2 Captura atômica (uma execução por mensagem)
-Nova função no mesmo padrão de `claim_nina_processing_batch` / `claim_send_queue_batch`:
-`claim_message_grouping_batch(p_limit)` — CTE com `SELECT ... FOR UPDATE SKIP LOCKED` seguido de
-`UPDATE ... RETURNING`, em uma única operação transacional. O agrupador deixa de fazer
-"ler depois marcar". Uma mensagem só pode ser reivindicada por uma execução: sem resposta dupla,
-handoff duplo, entrada duplicada na fila da Nina ou envio duplicado no WhatsApp.
-
-### 5.3 Fechar a janela cega
-Ao final de cada execução o agrupador reconsulta **também** as mensagens já vencidas e ainda não
+Ao final de cada execução o agrupador reconsulta também as mensagens já vencidas e ainda não
 reivindicadas; se houver, processa ou garante nova execução. A rotina de 1 minuto é a rede final.
 
-### 5.4 Idempotência entre filas — auditoria feita
-`nina_processing_queue` tem 400 linhas para 393 mensagens distintas: **7 duplicatas históricas**,
-todas em pares criados com milissegundos de diferença e **todas já concluídas** (junho a 08/09).
-A arquitetura exige no máximo uma entrada por mensagem: o agrupamento de várias mensagens
-já é representado por uma única linha, referente à última mensagem do grupo, com o conteúdo
-combinado — não depende de múltiplas linhas com o mesmo `message_id`.
+## 5. Duplicidades em nina_processing_queue — as 7 ocorrências
 
-Como há duplicatas, o índice único não pode ser criado sem tratá-las. Nada será apagado em
-silêncio. Duas opções, **preciso da sua escolha**:
+Todas são pares criados com milissegundos de diferença, **todas concluídas**, nenhuma pendente,
+nenhuma com envio pendente, ambas as linhas de cada par pertencem à mesma conversa e à mesma
+mensagem de cliente. Nenhuma tabela referencia `nina_processing_queue` (não há chave estrangeira
+apontando para ela) e ela não é fonte de auditoria — o histórico do atendimento vive em
+`messages`, `conversation_handoff_events` e `send_queue`, que não são tocados.
 
-- **A (recomendada):** remover as 7 linhas extras — todas já concluídas, nenhuma gera envio ao
-  cliente — e criar índice único em `message_id`, com inserção `ON CONFLICT DO NOTHING`.
-  Listo os 7 ids antes de executar.
-- **B:** manter todo o histórico e não criar índice único; a proteção fica apenas na captura
-  atômica (5.2) mais a verificação antes de inserir. Protege daqui para frente, mas sem garantia
-  no nível do banco.
+| # | message_id | linha mantida (criada em) | linha removida (criada em) |
+|---|---|---|---|
+| 1 | 69cecc91… | `e1d693a7…` 07/09 11:30:53.551 (conclusão limpa) | `6a596a35…` 07/09 11:30:53.459 (registrou "ai_paused") |
+| 2 | 6b912ae0… | `162301b2…` 18/08 12:25:34.030 (mais antiga) | `6720927f…` 18/08 12:25:34.082 |
+| 3 | 741630e7… | `75e792f8…` 26/06 12:14:22.349 (mais antiga) | `b56f0ccc…` 26/06 12:14:22.353 |
+| 4 | 8b68e443… | `52e4537a…` 02/09 15:26:05.238 (mais antiga) | `1f375f76…` 02/09 15:26:05.277 |
+| 5 | 939c4110… | `53cd1115…` 26/06 12:14:31.120 (mais antiga) | `00afe588…` 26/06 12:14:31.148 |
+| 6 | a5f1cb1d… | `c9054c2a…` 26/06 12:05:25.853 (mais antiga) | `d2a99550…` 26/06 12:05:25.885 |
+| 7 | da369e03… | `d709cfd2…` 08/09 17:35:10.535 (conclusão limpa) | `37c58b91…` 08/09 17:35:10.400 (registrou "ai_paused") |
 
-### 5.5 Mensagens vencidas há mais de 2 horas
-Auditoria dos campos existentes em `message_grouping_queue`: só há `processed` (sim/não),
-`process_after`, `created_at` e os dados da mensagem. **Não existe** campo de erro, expiração,
-ignorada ou motivo. Marcar como `processed` seria mentir — pareceria que a Nina respondeu.
+Critério aplicado: nos casos 1 e 7 fica a linha que representa a execução concluída sem
+ocorrência registrada; nos demais, ambas são equivalentes e fica a original mais antiga. Nunca
+as duas são removidas — sempre sobra exatamente uma linha por mensagem.
 
-Menor solução necessária: duas colunas novas, `skipped_at` e `skip_reason`. A rotina periódica
-só recupera mensagens vencidas nas últimas 2 horas; as mais antigas recebem
-`skipped_at = agora` e `skip_reason = 'expired_recovery_window'`, ficam fora da busca das
-próximas execuções (não voltam a cada minuto), não geram nenhum envio ao cliente e deixam
-rastro auditável de que expiraram sem resposta.
+Limpeza e índice na **mesma migration**: remoção das 7 linhas excedentes seguida imediatamente
+de `CREATE UNIQUE INDEX` em `message_id`, sem janela para novas duplicatas. A inserção passa a
+usar `ON CONFLICT DO NOTHING`.
 
-### 5.6 Mensagem real da Carla Marketing
-Depois da correção, reprocessar **somente** `f8739016-…`, e apenas após reconfirmar que continua
-órfã: não processada, sem resposta posterior, sem encaminhamento aplicado e sem registro na fila
-da Nina. Se qualquer um desses pontos já tiver ocorrido, não reprocessar. Resultado esperado:
-motivo `influencer`, responsável Carla, Nina pausada, uma única resposta.
+## 6. Mensagens vencidas há mais de 2 horas
 
-## 6. Testes
+`message_grouping_queue` só tem `processed`, `process_after`, `created_at` e os dados da mensagem
+— não há campo de erro, expiração ou motivo. Serão criadas duas colunas: `skipped_at` e
+`skip_reason`. Mensagens vencidas há mais de 2 horas recebem `skipped_at = agora` e
+`skip_reason = 'expired_recovery_window'`: ficam fora das buscas seguintes (não reaparecem a cada
+minuto), nada é enviado ao cliente e fica o rastro de que expiraram sem resposta. `processed`
+continua significando apenas "processada de verdade".
+
+## 7. Mensagem da Carla Marketing
+
+Depois da correção, reprocessar **somente** `f8739016-…`, após reconfirmar que continua
+totalmente órfã: não processada, sem resposta posterior, sem encaminhamento aplicado e sem
+registro na fila da Nina. Qualquer um desses pontos já resolvido → não reprocessar.
+Esperado: motivo `influencer`, responsável Carla, Nina pausada, uma única resposta.
+
+## 8. Testes
 
 - duas mensagens vencendo com diferença de milissegundos → ambas processadas;
-- auto-chamada e rotina periódica simultâneas → uma única execução por mensagem;
-- mensagem já processada → ignorada;
-- mensagem já na fila da Nina → não duplicada;
+- auto-chamada e rotina periódica simultâneas → uma execução por mensagem;
+- mensagem já processada ou já marcada como expirada → ignorada;
+- mensagem já na fila da Nina → não duplicada (bloqueio no banco);
 - fila vazia → nenhuma ação;
-- mensagem vencida há mais de 2 horas → marcada como expirada, nada enviado, não reaparece;
+- mensagem vencida há mais de 2 horas → expirada, nada enviado, não reaparece;
 - influenciadora → Carla; distribuidor → Paula; nenhum WhatsApp duplicado.
 
-## 7. Preservado
+## 9. Preservado
 
 Classificação Paula/Carla/Leticia, dermoconsultoras, Laura, Talia, rodízio, handoffs manuais e
 automáticos, RLS, Shopify, WhatsApp, chat-media, mensagens e histórico.
