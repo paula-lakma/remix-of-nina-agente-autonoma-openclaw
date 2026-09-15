@@ -108,6 +108,8 @@ serve(async (req) => {
         
         if (messageIds.length === 0) {
           console.log(`[MessageGrouper] No message_ids found for group ${phoneNumber}, skipping`);
+          // Nothing to forward: close these entries so they don't loop forever
+          await markProcessed(messages);
           continue;
         }
 
