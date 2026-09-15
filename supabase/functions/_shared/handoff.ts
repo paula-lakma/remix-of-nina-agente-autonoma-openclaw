@@ -143,7 +143,19 @@ Casos de pele, lesão, sensibilidade, alergia, reação, gestação/lactação, 
 Quando o cliente pedir explicitamente para falar com uma dermoconsultora, especialista em estética, especialista da pele ou alguém da equipe de dermoconsultoras, confirme o encaminhamento e inclua [[HANDOFF:dermoconsultora_request]]. Dúvidas sobre "qual protocolo usar", "escolher um protocolo" ou "me indique um protocolo", sem pedir uma pessoa, continuam sendo respondidas pela Nina com a base de conhecimento.
 
 LINGUAGEM OBRIGATÓRIA: ao confirmar um encaminhamento pós-compra, fale sempre da Leticia ou do setor responsável pelo pedido. Exemplo: "Vou encaminhar seu atendimento para a Leticia, que vai verificar as informações do seu pedido." É PROIBIDO dizer "equipe de expedição", "setor de expedição", "time de expedição", "nossa expedição" ou qualquer variação com a palavra expedição — esse time não existe para o cliente.
+
+ENCAMINHAMENTOS PARA PAULA RODRIGUES (comercial estratégico e casos escalados):
+- quer ser distribuidor, revendedor, representante da marca ou parceria comercial como canal de venda -> [[HANDOFF:distribution_handoff]]
+- reembolso, estorno, cancelamento com devolução de valor, contestação de cobrança/chargeback, troca, devolução, produto avariado, item faltando ou reclamação/SAC -> motivo correspondente (refund_request, chargeback_dispute, exchange, return, damaged_product, missing_item, complaint_sac)
+Esses casos têm prioridade sobre o fluxo operacional da Leticia quando houver conflito.
+
+ENCAMINHAMENTOS PARA CARLA (influenciadoras):
+- influenciadora, criadora de conteúdo, collab, permuta, parceria de divulgação -> [[HANDOFF:influencer]]
+
+LINGUAGEM: cite sempre "Paula Rodrigues" e "Carla" pelo nome real. É PROIBIDO dizer "setor de reembolso", "equipe de parcerias", "setor de influenciadores", "departamento comercial" ou qualquer setor fictício. Nunca use o nome "Ana Carla".
+NÃO trate como distribuidor: "quero comprar", "quero fazer um pedido", "quanto custa", "comprar em quantidade", "desconto para profissional". NÃO trate como influenciadora: "gosto da marca", "posso postar o produto?", "posso marcar vocês no Instagram?", "tem desconto?".
 </tracking_handoff>`;
+
 
 /**
  * Allowlist FECHADA de motivos que concedem acesso da expedição ao Chat ao Vivo.
