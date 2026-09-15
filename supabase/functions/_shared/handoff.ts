@@ -410,6 +410,15 @@ const REASON_MATRIX: Array<{ reason: string; destination: HandoffDestination; rx
 
 ];
 
+/** Termos fortes de distribuição/influência: anulam o filtro de falso positivo. */
+const STRONG_COMMERCIAL_INTENT_RX =
+  /\bdistribuidor\w*|\bdistribui[çc][ãa]o\b|\brevend\w*|\brepresentante\b|\brepresenta[çc][ãa]o\b|parceria comercial|canal de vendas?|\binfluenciador\w*|\binfluencer\b|criador\w*\s+de\s+conte[úu]do|\bcollab\b|\bpermuta\b|\batacado\b|\batacadista\b/i;
+
+/** Frase puramente de compra, sem intenção real de distribuição/parceria. */
+export function isCommercialFalsePositive(text: string): boolean {
+  return COMMERCIAL_FALSE_POSITIVE_RX.test(text) && !STRONG_COMMERCIAL_INTENT_RX.test(text);
+}
+
 /**
  * ⚠️ LEGADO — fallback. Detecta motivo a partir do texto natural e o converte
  * para o motivo canônico estruturado. Retorna null se nada casar.
@@ -417,8 +426,16 @@ const REASON_MATRIX: Array<{ reason: string; destination: HandoffDestination; rx
 export function detectHandoffTarget(
   text: string,
 ): { reason: HandoffReason; destination: HandoffDestination } | null {
-  // Logística pós-compra tem precedência: a necessidade atual de entrega/frete/
-  // prazo/envio/rastreio pertence à expedição mesmo com contexto dermatológico.
+  // Casos escalados (reembolso, estorno, contestação, avaria, item faltando,
+  // troca, devolução, SAC), distribuição/representação e influenciadoras têm
+  // precedência sobre a logística: são atendidos por Paula Rodrigues e Carla.
+  if (!isCommercialFalsePositive(text)) {
+    for (const entry of PRIORITY_REASON_MATRIX) {
+      if (entry.rx.test(text)) return resolveHandoffReason(entry.reason);
+    }
+  }
+  // Logística pós-compra tem precedência sobre o clínico: a necessidade atual de
+  // entrega/frete/prazo/envio/rastreio pertence à expedição.
   for (const entry of LOGISTICS_REASON_MATRIX) {
     if (entry.rx.test(text)) return resolveHandoffReason(entry.reason);
   }
@@ -431,6 +448,16 @@ export function detectHandoffTarget(
   }
   return null;
 }
+
+/** Motivos com encaminhamento determinístico para Paula Rodrigues / Carla. */
+const DETERMINISTIC_PRIORITY_REASONS: ReadonlySet<string> = new Set(
+  PRIORITY_REASON_MATRIX.map((entry) => resolveHandoffReason(entry.reason)?.reason).filter(Boolean) as string[],
+);
+
+export function isDeterministicPriorityReason(reason?: string | null): boolean {
+  return DETERMINISTIC_PRIORITY_REASONS.has(String(reason ?? "").toLowerCase());
+}
+
 
 export type HandoffHistoryMessage = { from_type?: string; role?: string; content?: string | null };
 
