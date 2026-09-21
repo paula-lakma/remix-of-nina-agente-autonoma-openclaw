@@ -55,7 +55,8 @@ Paula Rodrigues continua `sdr` e sem nenhuma alteração.
 - Encaminhamento de influenciadora cria atribuição + concessão e a conversa aparece para a Carla.
 - Carla não enxerga conversas da Nina, da Leticia, das dermoconsultoras nem da Paula.
 - Carla responde e finaliza atendimento; conversa finalizada some da lista.
-- Reabertura por nova mensagem devolve a conversa para ela.
+- Após finalizar, nova mensagem reativa a Nina e remove a conversa da lista da Carla; se a nova mensagem gerar novamente intenção de parcerias, um novo encaminhamento para a Carla é criado.
+- "Meu cupom de desconto não funciona" não vai para a Carla; "Sou influenciadora e meu cupom não está funcionando" vai.
 - Paula (`sdr`) continua com acesso completo; Leticia e dermoconsultoras inalteradas.
 - Bateria automatizada atual (210 testes) e verificação de tipos.
 
