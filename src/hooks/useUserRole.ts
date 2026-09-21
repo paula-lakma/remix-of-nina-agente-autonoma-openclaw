@@ -2,7 +2,11 @@ import { useEffect, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 
-export type AppRole = 'admin' | 'manager' | 'sdr' | 'user' | 'moderator' | 'expedicao' | 'dermo' | 'parcerias';
+export type AppRole = 'admin' | 'manager' | 'sdr' | 'user' | 'moderator' | 'expedicao' | 'dermo' | 'parcerias' | 'minimal';
+
+// Papel de segurança usado quando nenhum papel conhecido é encontrado (papel novo
+// ainda não reconhecido por esta versão do app). Acesso mínimo: só o chat.
+export const MINIMAL_ROLE: AppRole = 'minimal';
 
 // Permissões por área (rota base)
 const ROLE_PERMISSIONS: Record<AppRole, string[]> = {
