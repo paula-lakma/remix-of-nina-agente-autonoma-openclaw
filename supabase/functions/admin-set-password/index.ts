@@ -23,8 +23,12 @@ Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
   if (req.method !== "POST") return json({ error: "method_not_allowed" }, 405);
 
-  const denied = requireServiceRole(req, corsHeaders);
-  if (denied) return denied;
+  const opToken = Deno.env.get("ADMIN_SET_PASSWORD_TOKEN");
+  const provided = req.headers.get("x-admin-token");
+  if (!opToken || provided !== opToken) {
+    const denied = requireServiceRole(req, corsHeaders);
+    if (denied) return denied;
+  }
 
   let body: { user_id?: string; password?: string } = {};
   try {
