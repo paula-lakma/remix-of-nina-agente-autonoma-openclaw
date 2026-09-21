@@ -2609,6 +2609,20 @@ export type Database = {
           type: Database["public"]["Enums"]["message_type"]
         }[]
       }
+      get_my_parcerias_messages: {
+        Args: { _conversation_id: string }
+        Returns: {
+          content: string
+          conversation_id: string
+          from_type: Database["public"]["Enums"]["message_from"]
+          id: string
+          media_type: string
+          media_url: string
+          sent_at: string
+          status: Database["public"]["Enums"]["message_status"]
+          type: Database["public"]["Enums"]["message_type"]
+        }[]
+      }
       get_or_create_conversation_state: {
         Args: { p_conversation_id: string }
         Returns: {
@@ -2658,6 +2672,17 @@ export type Database = {
         }
         Returns: Json
       }
+      internal_grant_parcerias_access: {
+        Args: {
+          _conversation_id: string
+          _origin?: string
+          _reason: string
+          _team_member_id: string
+          _trigger_message_id?: string
+          _trigger_snippet?: string
+        }
+        Returns: Json
+      }
       is_admin_or_manager: { Args: { _user_id: string }; Returns: boolean }
       is_dermo_handoff_reason: { Args: { _reason: string }; Returns: boolean }
       is_expedicao_handoff_reason: {
@@ -2665,6 +2690,10 @@ export type Database = {
         Returns: boolean
       }
       is_operational_staff: { Args: { _user_id: string }; Returns: boolean }
+      is_parcerias_handoff_reason: {
+        Args: { _reason: string }
+        Returns: boolean
+      }
       is_sensitive_dermo_reason: { Args: { _reason: string }; Returns: boolean }
       list_expedicao_team_member_ids: {
         Args: never
@@ -2704,7 +2733,35 @@ export type Database = {
           trigger_snippet: string
         }[]
       }
+      list_my_parcerias_conversations: {
+        Args: never
+        Returns: {
+          attendance_finished: boolean
+          contact_name: string
+          contact_phone_masked: string
+          conversation_id: string
+          granted_at: string
+          handoff_at: string
+          human_status: string
+          last_message_at: string
+          reason: string
+          trigger_message_id: string
+          trigger_snippet: string
+        }[]
+      }
       normalize_tracking_code: { Args: { p_code: string }; Returns: string }
+      parcerias_can_access_conversation: {
+        Args: { _conversation_id: string }
+        Returns: boolean
+      }
+      parcerias_finish_conversation: {
+        Args: { _conversation_id: string }
+        Returns: boolean
+      }
+      parcerias_reply: {
+        Args: { _content: string; _conversation_id: string }
+        Returns: string
+      }
       pick_dermo_assignee: { Args: { _reason: string }; Returns: Json }
       pick_next_dermoconsultora: { Args: never; Returns: string }
       release_shopify_tracking_locks: {

@@ -1,0 +1,178 @@
+-- Motivos válidos de parcerias (fluxo da Carla). Cupom genérico NÃO entra.
+CREATE OR REPLACE FUNCTION public.is_parcerias_handoff_reason(_reason text)
+RETURNS boolean
+LANGUAGE sql
+IMMUTABLE
+SET search_path TO 'public'
+AS $$
+  SELECT lower(coalesce(_reason,'')) IN (
+    'influencer','influenciadora','content_creator','criadora_conteudo',
+    'collab','partnership','parceria','parceria_divulgacao','permuta',
+    'relacionamento_influenciadoras'
+  )
+$$;
+
+-- Acesso por conversa: papel parcerias + concessão ativa + conversa atribuída
+CREATE OR REPLACE FUNCTION public.parcerias_can_access_conversation(_conversation_id uuid)
+RETURNS boolean
+LANGUAGE sql
+STABLE
+SECURITY DEFINER
+SET search_path TO 'public'
+AS $$
+  SELECT public.has_role(auth.uid(), 'parcerias')
+     AND EXISTS (
+       SELECT 1
+       FROM public.conversation_access_grants g
+       JOIN public.conversations c ON c.id = g.conversation_id
+       WHERE g.conversation_id = _conversation_id
+         AND g.is_active
+         AND g.team_member_id = public.current_team_member_id()
+         AND c.assigned_user_id = g.team_member_id
+         AND public.is_parcerias_handoff_reason(g.reason)
+     )
+$$;
+
+CREATE OR REPLACE FUNCTION public.list_my_parcerias_conversations()
+RETURNS TABLE(conversation_id uuid, contact_name text, contact_phone_masked text, reason text, granted_at timestamp with time zone, last_message_at timestamp with time zone, human_status text, attendance_finished boolean, handoff_at timestamp with time zone, trigger_message_id uuid, trigger_snippet text)
+LANGUAGE sql
+STABLE
+SECURITY DEFINER
+SET search_path TO 'public'
+AS $$
+  SELECT c.id,
+         coalesce(ct.call_name, ct.name, 'Cliente'),
+         CASE WHEN ct.phone_number IS NULL THEN NULL
+              ELSE regexp_replace(ct.phone_number, '^(.{0,4}).*(.{4})$', '\1****\2') END,
+         g.reason, g.created_at, c.last_message_at, c.human_status, c.attendance_finished,
+         coalesce(c.handoff_created_at, g.created_at), g.trigger_message_id, g.trigger_snippet
+  FROM public.conversation_access_grants g
+  JOIN public.conversations c ON c.id = g.conversation_id
+  LEFT JOIN public.contacts ct ON ct.id = c.contact_id
+  WHERE g.is_active
+    AND g.team_member_id = public.current_team_member_id()
+    AND c.assigned_user_id = g.team_member_id
+    AND public.has_role(auth.uid(), 'parcerias')
+    AND public.is_parcerias_handoff_reason(g.reason)
+  ORDER BY c.last_message_at DESC
+$$;
+
+CREATE OR REPLACE FUNCTION public.get_my_parcerias_messages(_conversation_id uuid)
+RETURNS TABLE(id uuid, conversation_id uuid, content text, type message_type, from_type message_from, media_url text, media_type text, status message_status, sent_at timestamp with time zone)
+LANGUAGE sql
+STABLE
+SECURITY DEFINER
+SET search_path TO 'public'
+AS $$
+  SELECT m.id, m.conversation_id, m.content, m.type, m.from_type,
+         m.media_url, m.media_type, m.status, m.sent_at
+  FROM public.messages m
+  WHERE m.conversation_id = _conversation_id
+    AND public.parcerias_can_access_conversation(_conversation_id)
+  ORDER BY m.sent_at ASC
+$$;
+
+CREATE OR REPLACE FUNCTION public.parcerias_reply(_conversation_id uuid, _content text)
+RETURNS uuid
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path TO 'public'
+AS $$
+DECLARE v_contact_id uuid; v_message_id uuid; v_text text := btrim(coalesce(_content,''));
+BEGIN
+  IF auth.uid() IS NULL THEN RAISE EXCEPTION 'unauthorized'; END IF;
+  IF v_text = '' THEN RAISE EXCEPTION 'empty message'; END IF;
+  IF length(v_text) > 4000 THEN RAISE EXCEPTION 'message too long'; END IF;
+  IF NOT public.parcerias_can_access_conversation(_conversation_id) THEN RAISE EXCEPTION 'forbidden'; END IF;
+  SELECT c.contact_id INTO v_contact_id FROM public.conversations c WHERE c.id = _conversation_id FOR UPDATE;
+  INSERT INTO public.messages (conversation_id, content, type, from_type, status, sent_at)
+  VALUES (_conversation_id, v_text, 'text', 'human', 'processing', now())
+  RETURNING id INTO v_message_id;
+  INSERT INTO public.send_queue (conversation_id, contact_id, content, from_type, message_type, priority, message_id, metadata)
+  VALUES (_conversation_id, v_contact_id, v_text, 'human', 'text', 2, v_message_id,
+          jsonb_build_object('source','parcerias_chat'));
+  INSERT INTO public.conversation_handoff_events (conversation_id, event_type, actor_user_id, handoff_reason, metadata)
+  VALUES (_conversation_id, 'parcerias_reply', auth.uid(), NULL, jsonb_build_object('message_id', v_message_id));
+  RETURN v_message_id;
+END;
+$$;
+
+CREATE OR REPLACE FUNCTION public.parcerias_finish_conversation(_conversation_id uuid)
+RETURNS boolean
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path TO 'public'
+AS $$
+BEGIN
+  IF auth.uid() IS NULL THEN RAISE EXCEPTION 'unauthorized'; END IF;
+  IF NOT public.parcerias_can_access_conversation(_conversation_id) THEN RAISE EXCEPTION 'forbidden'; END IF;
+  UPDATE public.conversations
+     SET attendance_finished = true, attendance_finished_at = now(),
+         attendance_finished_by = auth.uid(), human_status = 'finalizado', updated_at = now()
+   WHERE id = _conversation_id;
+  INSERT INTO public.conversation_handoff_events (conversation_id, event_type, actor_user_id, handoff_reason, metadata)
+  VALUES (_conversation_id, 'attendance_finished', auth.uid(), 'finalizado_por_parcerias',
+          jsonb_build_object('source','parcerias_chat'));
+  RETURN true;
+END;
+$$;
+
+CREATE OR REPLACE FUNCTION public.internal_grant_parcerias_access(_conversation_id uuid, _team_member_id uuid, _reason text, _origin text DEFAULT 'nina'::text, _trigger_message_id uuid DEFAULT NULL::uuid, _trigger_snippet text DEFAULT NULL::text)
+RETURNS jsonb
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path TO 'public'
+AS $$
+DECLARE v_grant_id uuid;
+BEGIN
+  IF NOT public.is_parcerias_handoff_reason(_reason) THEN
+    RETURN jsonb_build_object('granted', false, 'reason', 'reason_not_allowed');
+  END IF;
+  PERFORM 1 FROM public.conversations WHERE id = _conversation_id FOR UPDATE;
+  UPDATE public.conversation_access_grants
+     SET is_active = false, revoked_at = now(), revoke_reason = 'superseded'
+   WHERE conversation_id = _conversation_id AND is_active
+     AND team_member_id IS DISTINCT FROM _team_member_id;
+  IF EXISTS (SELECT 1 FROM public.conversation_access_grants
+             WHERE conversation_id = _conversation_id AND is_active AND team_member_id = _team_member_id) THEN
+    RETURN jsonb_build_object('granted', true, 'already_active', true);
+  END IF;
+  INSERT INTO public.conversation_access_grants
+    (conversation_id, team_member_id, reason, origin, trigger_message_id, trigger_snippet, created_by)
+  VALUES (_conversation_id, _team_member_id, lower(_reason), _origin, _trigger_message_id,
+          left(coalesce(_trigger_snippet,''), 500), auth.uid())
+  RETURNING id INTO v_grant_id;
+  RETURN jsonb_build_object('granted', true, 'grant_id', v_grant_id);
+END;
+$$;
+
+-- Motivos de parcerias passam a ser aceitos pela validação de concessões
+CREATE OR REPLACE FUNCTION public.validate_access_grant_reason()
+RETURNS trigger
+LANGUAGE plpgsql
+SET search_path TO 'public'
+AS $$
+BEGIN
+  IF NOT public.is_expedicao_handoff_reason(NEW.reason)
+     AND NOT public.is_dermo_handoff_reason(NEW.reason)
+     AND NOT public.is_parcerias_handoff_reason(NEW.reason) THEN
+    RAISE EXCEPTION 'reason not allowed for access grant: %', NEW.reason;
+  END IF;
+  RETURN NEW;
+END;
+$$;
+
+-- Leitura restrita das conversas concedidas
+DROP POLICY IF EXISTS conversations_select_parcerias ON public.conversations;
+CREATE POLICY conversations_select_parcerias ON public.conversations
+  FOR SELECT TO authenticated
+  USING (public.parcerias_can_access_conversation(id));
+
+REVOKE ALL ON FUNCTION public.internal_grant_parcerias_access(uuid, uuid, text, text, uuid, text) FROM PUBLIC, anon, authenticated;
+GRANT EXECUTE ON FUNCTION public.internal_grant_parcerias_access(uuid, uuid, text, text, uuid, text) TO service_role;
+GRANT EXECUTE ON FUNCTION public.is_parcerias_handoff_reason(text) TO authenticated, service_role;
+GRANT EXECUTE ON FUNCTION public.parcerias_can_access_conversation(uuid) TO authenticated, service_role;
+GRANT EXECUTE ON FUNCTION public.list_my_parcerias_conversations() TO authenticated, service_role;
+GRANT EXECUTE ON FUNCTION public.get_my_parcerias_messages(uuid) TO authenticated, service_role;
+GRANT EXECUTE ON FUNCTION public.parcerias_reply(uuid, text) TO authenticated, service_role;
+GRANT EXECUTE ON FUNCTION public.parcerias_finish_conversation(uuid) TO authenticated, service_role;
