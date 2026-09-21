@@ -766,6 +766,20 @@ export async function applyHandoff(
     else console.log(`[handoff] dermo grant: ${JSON.stringify(grantRes)}`);
   }
 
+  // Concessão de acesso da Carla (parcerias / influenciadoras): mesmo modelo.
+  if (params.destination === "parcerias" && assignee.team_member_id) {
+    const { data: grantRes, error: grantErr } = await admin.rpc("internal_grant_parcerias_access", {
+      _conversation_id: params.conversationId,
+      _team_member_id: assignee.team_member_id,
+      _reason: params.reason,
+      _origin: "nina",
+      _trigger_message_id: params.triggerMessageId ?? null,
+      _trigger_snippet: params.snippet ?? null,
+    });
+    if (grantErr) console.error("[handoff] internal_grant_parcerias_access error:", grantErr);
+    else console.log(`[handoff] parcerias grant: ${JSON.stringify(grantRes)}`);
+  }
+
   await admin.from("conversation_handoff_events").insert({
     conversation_id: params.conversationId,
     event_type: isDermo ? "handoff_dermoconsultant" : `handoff_${params.destination}`,
