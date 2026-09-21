@@ -61,7 +61,10 @@ export function useUserRole() {
       const roles = (data || []).map((r) => r.role as AppRole);
       // prioridade: admin > manager > moderator > sdr > expedicao > dermo > parcerias > user
       const priority: AppRole[] = ['admin', 'manager', 'moderator', 'sdr', 'expedicao', 'dermo', 'parcerias', 'user'];
-      const resolved = priority.find((p) => roles.includes(p)) || 'sdr';
+      // Papel desconhecido / versão desatualizada do app: acesso mínimo (somente o
+      // Chat ao Vivo restrito). Nunca assumir `sdr`, que abriria Pipeline,
+      // Contatos e Agendamentos indevidamente.
+      const resolved = priority.find((p) => roles.includes(p)) || MINIMAL_ROLE;
 
       setRole(resolved);
       setLoading(false);
