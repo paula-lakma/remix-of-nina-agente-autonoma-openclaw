@@ -417,8 +417,10 @@ const REASON_MATRIX: Array<{ reason: string; destination: HandoffDestination; rx
   { reason: "erro_carrinho", destination: "comercial", rx: /carrinho/i },
   { reason: "erro_checkout", destination: "comercial", rx: /checkout|finalizar (a )?compra n[ãa]o/i },
 
-  // ── Carla (cupom / parcerias) ────────────────────────────────────────────
-  { reason: "problema_cupom", destination: "parcerias", rx: /cupom (n[ãa]o|inv[áa]lido|expirad|com problema)|problema com (o )?cupom/i },
+  // ── Carla (parcerias / influenciadoras) ──────────────────────────────────
+  // Cupom só é assunto da Carla com contexto explícito de influenciadora/parceria.
+  // "Meu cupom de desconto não funciona" NÃO é encaminhado aqui.
+  { reason: "problema_cupom", destination: "parcerias", rx: /(?=.*(?:influenciador\w*|influencer|criador\w*\s+de\s+conte[úu]do|\bcollab\b|\bugc\b|permuta|parceria))(?=.*cupom).*/i },
   { reason: "parceria", destination: "parcerias", rx: /parceria/i },
   { reason: "influenciadora", destination: "parcerias", rx: /influencia(dora)?|influencer/i },
   { reason: "collab", destination: "parcerias", rx: /collab/i },
