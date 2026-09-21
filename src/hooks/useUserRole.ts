@@ -22,6 +22,8 @@ const ROLE_PERMISSIONS: Record<AppRole, string[]> = {
   dermo:     ['chat'],
   // Parcerias (Carla): somente o Chat ao Vivo restrito (backend `parcerias-chat`).
   parcerias: ['chat'],
+  // Papel desconhecido por esta versão: acesso mínimo, somente o chat.
+  minimal:   ['chat'],
 };
 
 // Rota inicial por papel (usada em "/" e no fallback de acesso negado)
@@ -34,6 +36,7 @@ const ROLE_HOME: Record<AppRole, string> = {
   expedicao: '/tracking',
   dermo: '/chat',
   parcerias: '/chat',
+  minimal: '/chat',
 };
 
 export function homeRouteForRole(role: AppRole | null): string {
