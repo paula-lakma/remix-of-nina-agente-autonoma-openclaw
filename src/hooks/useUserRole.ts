@@ -29,6 +29,7 @@ const ROLE_HOME: Record<AppRole, string> = {
   user: '/chat',
   expedicao: '/tracking',
   dermo: '/chat',
+  parcerias: '/chat',
 };
 
 export function homeRouteForRole(role: AppRole | null): string {
