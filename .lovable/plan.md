@@ -23,7 +23,7 @@ O encaminhamento de influenciadora/collab/parceria já atribui a conversa à Car
 
 ## 4. Plano de implementação
 
-1. Novo papel `parcerias` e função que define os motivos válidos (influenciadora, criadora de conteúdo, collab, permuta, parceria de divulgação, problema de cupom).
+1. Novo papel `parcerias` e função que define os motivos válidos, restritos ao fluxo da Carla: influenciadora, criadora de conteúdo, collab, parceria de divulgação e relacionamento com influenciadoras. "Permuta" só entra quando vier em contexto claro de influenciadora/criadora/divulgação. Problema de cupom **não** é motivo de parcerias: "meu cupom não funciona" segue o fluxo atual; só vai para a Carla quando a mensagem trouxer contexto explícito de influenciadora/parceria. A matriz atual não é ampliada além disso.
 2. Nova regra de leitura de conversas para esse papel: só conversa com concessão ativa e atribuída a ela. As regras atuais de `sdr`, expedição, dermo, Paula e Leticia ficam intactas.
 3. Funções de servidor espelhando as da expedição: listar minhas conversas, ler histórico, responder, finalizar atendimento.
 4. Encaminhamento de parcerias passa a criar a concessão (mesmo mecanismo do dermo), mantendo atribuição, eventos de handoff, pausa da Nina e agendamento como estão.
