@@ -1,65 +1,60 @@
-# Carla não recebe o e-mail de redefinição de senha — auditoria read-only
+# Acesso restrito da Carla ao Chat ao Vivo
 
-Nada foi alterado: nenhuma senha, conta, e-mail, papel, permissão ou configuração de envio.
+## 1. Causa exata do acesso amplo
 
-## 1. Conta da Carla — íntegra
+A Carla tem papel `sdr`. A regra de leitura das conversas (`conversations_select_staff`) libera tudo para quem é `admin`, `manager` ou `sdr` (função `is_operational_staff`). Ou seja: hoje qualquer pessoa com papel `sdr` enxerga o Chat ao Vivo inteiro — não é um problema específico da conta dela.
 
-- Usuário: `carla@lakma.com.br`, id `b2e23817-2e1c-4547-9e27-fc668660f8cb`
-- Criada em 07/08/2026 15:08, e-mail confirmado no mesmo instante
-- Último login em 07/08/2026 15:09; não está banida nem excluída
-- Provedor: e-mail/senha (um único, correto)
-- Papel `sdr`; equipe: "Carla", ativa, vinculada ao mesmo usuário; perfil com o mesmo e-mail
-- Nenhuma conta duplicada ou variação de e-mail
+No frontend, `ChatRouteSwitch` só entrega a tela restrita para os papéis `expedicao` e `dermo`; todos os outros recebem o chat completo.
 
-## 2. A tentativa chega ao sistema e o link é gerado
+## 2. Modelo restrito já existente (reutilizável)
 
-A tela de login chama a recuperação padrão de senha com retorno para `/reset-password`
-do mesmo domínio em que a pessoa está, e mostra erro quando há erro (não esconde falha).
+Leticia (expedição) e as dermoconsultoras já usam exatamente o padrão desejado:
 
-O registro da conta mostra **recuperação gerada hoje, 21/09 às 16:05 (horário de SP)** —
-exatamente a tentativa dela. Ou seja: o pedido chega, é aceito e o link é criado.
-O problema está **depois disso, na entrega do e-mail**.
+- papel próprio (`expedicao` / `dermo`);
+- concessão de acesso por conversa (`conversation_access_grants`) criada no encaminhamento automático;
+- leitura, resposta e "Finalizar atendimento" passando por funções de servidor que revalidam sessão, papel e concessão ativa;
+- uma tela única compartilhada (`RestrictedHandoffChat`), com `DermoChat` sendo apenas um invólucro de 15 linhas.
 
-## 3. Por que não chega
+Portanto a menor mudança segura é **replicar esse modelo para parcerias** (opção B+C do seu questionamento), e não criar uma exceção só para o e-mail da Carla. Uma regra "somente Carla" ficaria hardcoded e frágil.
 
-O projeto **não tem nenhum domínio de envio de e-mail configurado**. Sem isso, os
-e-mails de autenticação saem pelo remetente compartilhado padrão, que tem limite baixo
-por hora e reputação compartilhada — provedores corporativos como o de `lakma.com.br`
-costumam descartar ou reter essas mensagens em filtro, sem retorno visível.
+## 3. O que falta hoje
 
-Não há registros de entrega/bounce disponíveis para inspeção neste ambiente, então não
-é possível provar "caixa X rejeitou"; o que está confirmado é: geração ok, envio pelo
-remetente padrão, ausência de domínio verificado.
+O encaminhamento de influenciadora/collab/parceria já atribui a conversa à Carla, mas **não cria concessão de acesso** — só expedição e dermo criam. Sem isso, ao restringir a Carla ela não veria nada. A criação da concessão faz parte desta implementação.
 
-## 4. Comparação com Talia, Barbara e Laura
+## 4. Plano de implementação
 
-As três **nunca usaram recuperação de senha** (nenhuma recuperação registrada nas contas
-delas). Foram provisionadas com senha definida pelo administrador e entraram direto.
-Portanto elas não comprovam que a entrega de e-mail funciona — não existe hoje nenhum
-caso de e-mail de recuperação comprovadamente recebido.
+1. Novo papel `parcerias` e função que define os motivos válidos (influenciadora, criadora de conteúdo, collab, permuta, parceria de divulgação, problema de cupom).
+2. Nova regra de leitura de conversas para esse papel: só conversa com concessão ativa e atribuída a ela. As regras atuais de `sdr`, expedição, dermo, Paula e Leticia ficam intactas.
+3. Funções de servidor espelhando as da expedição: listar minhas conversas, ler histórico, responder, finalizar atendimento.
+4. Encaminhamento de parcerias passa a criar a concessão (mesmo mecanismo do dermo), mantendo atribuição, eventos de handoff, pausa da Nina e agendamento como estão.
+5. Nova função de servidor `parcerias-chat` e tela `ParceriasChat` reutilizando `RestrictedHandoffChat`; `ChatRouteSwitch` passa a direcionar o papel `parcerias`; o papel ganha acesso apenas à área de chat.
+6. Migração da conta da Carla de `sdr` para `parcerias` (mesma conta, mesmo e-mail, mesmo id, mesmo cadastro de equipe).
+7. Concessões retroativas para as conversas de parceria já atribuídas a ela, para não perder o que já está em atendimento.
 
-Diferença real: caixa corporativa própria (`@lakma.com.br`) versus `@outlook.com`, e
-Carla é a única que depende do e-mail chegar.
+Paula Rodrigues continua `sdr` e sem nenhuma alteração.
 
-## 5. Causa raiz
+## 5. Impactos
 
-Falta de domínio de envio verificado. A recuperação é gerada, mas a mensagem sai por um
-remetente genérico e não chega à caixa corporativa da Carla.
+- A Carla deixa de ver painel, contatos, campanhas e o histórico geral; passa a ver apenas a lista restrita.
+- Continua conseguindo: abrir a conversa atribuída, ler o histórico completo dela, responder, finalizar atendimento e receber novos encaminhamentos de influenciadora automaticamente.
+- Conversa finalizada ou retirada dela desaparece da lista (mesma regra já usada por Leticia e dermoconsultoras).
+- Sem impacto em: Paula, Leticia, dermoconsultoras, Laura, Talia, rodízio, agendamento, WhatsApp, Shopify, mensagens e histórico.
 
-## 6. Correção mínima recomendada (a decidir)
+## 6. Arquivos e objetos afetados
 
-**Imediato (desbloqueia a Carla hoje):** o administrador define uma senha provisória para
-ela e ela troca depois de entrar. Não mexe em conta, e-mail, papel nem permissões.
+- Migração: papel `parcerias`, função de motivos, regra de leitura, funções de listar/ler/responder/finalizar, concessões retroativas, papel da Carla.
+- `supabase/functions/_shared/handoff.ts` (criar concessão no destino parcerias), nova função `supabase/functions/parcerias-chat`.
+- `src/components/ParceriasChat.tsx` (novo, invólucro), `src/components/ChatRouteSwitch.tsx`, `src/hooks/useUserRole.ts`.
 
-**Definitivo:** configurar um domínio de envio próprio para os e-mails do sistema, para
-que recuperação de senha e demais avisos passem a chegar de forma confiável. Exige
-alguns registros no DNS do domínio.
+## 7. Testes
 
-Também é possível verificar antes se a mensagem caiu em spam/quarentena da caixa dela —
-é o teste mais barato e pode confirmar o diagnóstico sem nenhuma alteração.
+- Encaminhamento de influenciadora cria atribuição + concessão e a conversa aparece para a Carla.
+- Carla não enxerga conversas da Nina, da Leticia, das dermoconsultoras nem da Paula.
+- Carla responde e finaliza atendimento; conversa finalizada some da lista.
+- Reabertura por nova mensagem devolve a conversa para ela.
+- Paula (`sdr`) continua com acesso completo; Leticia e dermoconsultoras inalteradas.
+- Bateria automatizada atual (210 testes) e verificação de tipos.
 
-## 7. Preservado
+## 8. Publicação
 
-Nada alterado. Contas, e-mails, papéis, vínculos de equipe, RLS, permissões,
-classificação Paula/Carla/Leticia, dermoconsultoras, rodízio, WhatsApp, Shopify e
-histórico permanecem exatamente como estão.
+Publicar `parcerias-chat`, `nina-orchestrator`, `nina-reply` e `nina-tools` após a implementação. Não é necessário reconstruir o cérebro (as instruções da Nina não mudam).
