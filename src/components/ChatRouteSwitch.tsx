@@ -4,6 +4,7 @@ import { useUserRole } from '@/hooks/useUserRole';
 import ChatInterface from './ChatInterface';
 import ExpedicaoChat from './ExpedicaoChat';
 import DermoChat from './DermoChat';
+import ParceriasChat from './ParceriasChat';
 
 // Seleciona a interface de chat conforme o papel: `expedicao` e `dermo` usam
 // versões restritas (backends `expedicao-chat` / `dermo-chat`); demais papéis
@@ -21,6 +22,7 @@ const ChatRouteSwitch: React.FC = () => {
 
   if (role === 'expedicao') return <ExpedicaoChat />;
   if (role === 'dermo') return <DermoChat />;
+  if (role === 'parcerias') return <ParceriasChat />;
   return <ChatInterface />;
 };
 

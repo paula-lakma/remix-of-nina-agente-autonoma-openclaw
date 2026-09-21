@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 
-export type AppRole = 'admin' | 'manager' | 'sdr' | 'user' | 'moderator' | 'expedicao' | 'dermo';
+export type AppRole = 'admin' | 'manager' | 'sdr' | 'user' | 'moderator' | 'expedicao' | 'dermo' | 'parcerias';
 
 // Permissões por área (rota base)
 const ROLE_PERMISSIONS: Record<AppRole, string[]> = {
@@ -16,6 +16,8 @@ const ROLE_PERMISSIONS: Record<AppRole, string[]> = {
   expedicao: ['tracking', 'chat'],
   // Dermoconsultora: somente o Chat ao Vivo restrito (backend `dermo-chat`).
   dermo:     ['chat'],
+  // Parcerias (Carla): somente o Chat ao Vivo restrito (backend `parcerias-chat`).
+  parcerias: ['chat'],
 };
 
 // Rota inicial por papel (usada em "/" e no fallback de acesso negado)
@@ -27,6 +29,7 @@ const ROLE_HOME: Record<AppRole, string> = {
   user: '/chat',
   expedicao: '/tracking',
   dermo: '/chat',
+  parcerias: '/chat',
 };
 
 export function homeRouteForRole(role: AppRole | null): string {
@@ -56,8 +59,8 @@ export function useUserRole() {
         .order('role', { ascending: true });
       if (!active) return;
       const roles = (data || []).map((r) => r.role as AppRole);
-      // prioridade: admin > manager > moderator > sdr > expedicao > dermo > user
-      const priority: AppRole[] = ['admin', 'manager', 'moderator', 'sdr', 'expedicao', 'dermo', 'user'];
+      // prioridade: admin > manager > moderator > sdr > expedicao > dermo > parcerias > user
+      const priority: AppRole[] = ['admin', 'manager', 'moderator', 'sdr', 'expedicao', 'dermo', 'parcerias', 'user'];
       const resolved = priority.find((p) => roles.includes(p)) || 'sdr';
 
       setRole(resolved);

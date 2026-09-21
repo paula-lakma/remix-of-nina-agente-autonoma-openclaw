@@ -417,8 +417,10 @@ const REASON_MATRIX: Array<{ reason: string; destination: HandoffDestination; rx
   { reason: "erro_carrinho", destination: "comercial", rx: /carrinho/i },
   { reason: "erro_checkout", destination: "comercial", rx: /checkout|finalizar (a )?compra n[ãa]o/i },
 
-  // ── Carla (cupom / parcerias) ────────────────────────────────────────────
-  { reason: "problema_cupom", destination: "parcerias", rx: /cupom (n[ãa]o|inv[áa]lido|expirad|com problema)|problema com (o )?cupom/i },
+  // ── Carla (parcerias / influenciadoras) ──────────────────────────────────
+  // Cupom só é assunto da Carla com contexto explícito de influenciadora/parceria.
+  // "Meu cupom de desconto não funciona" NÃO é encaminhado aqui.
+  { reason: "problema_cupom", destination: "parcerias", rx: /(?=.*(?:influenciador\w*|influencer|criador\w*\s+de\s+conte[úu]do|\bcollab\b|\bugc\b|permuta|parceria))(?=.*cupom).*/i },
   { reason: "parceria", destination: "parcerias", rx: /parceria/i },
   { reason: "influenciadora", destination: "parcerias", rx: /influencia(dora)?|influencer/i },
   { reason: "collab", destination: "parcerias", rx: /collab/i },
@@ -762,6 +764,20 @@ export async function applyHandoff(
     });
     if (grantErr) console.error("[handoff] internal_grant_dermo_access error:", grantErr);
     else console.log(`[handoff] dermo grant: ${JSON.stringify(grantRes)}`);
+  }
+
+  // Concessão de acesso da Carla (parcerias / influenciadoras): mesmo modelo.
+  if (params.destination === "parcerias" && assignee.team_member_id) {
+    const { data: grantRes, error: grantErr } = await admin.rpc("internal_grant_parcerias_access", {
+      _conversation_id: params.conversationId,
+      _team_member_id: assignee.team_member_id,
+      _reason: params.reason,
+      _origin: "nina",
+      _trigger_message_id: params.triggerMessageId ?? null,
+      _trigger_snippet: params.snippet ?? null,
+    });
+    if (grantErr) console.error("[handoff] internal_grant_parcerias_access error:", grantErr);
+    else console.log(`[handoff] parcerias grant: ${JSON.stringify(grantRes)}`);
   }
 
   await admin.from("conversation_handoff_events").insert({
