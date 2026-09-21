@@ -29,7 +29,11 @@ O encaminhamento de influenciadora/collab/parceria já atribui a conversa à Car
 4. Encaminhamento de parcerias passa a criar a concessão (mesmo mecanismo do dermo), mantendo atribuição, eventos de handoff, pausa da Nina e agendamento como estão.
 5. Nova função de servidor `parcerias-chat` e tela `ParceriasChat` reutilizando `RestrictedHandoffChat`; `ChatRouteSwitch` passa a direcionar o papel `parcerias`; o papel ganha acesso apenas à área de chat.
 6. Migração da conta da Carla de `sdr` para `parcerias` (mesma conta, mesmo e-mail, mesmo id, mesmo cadastro de equipe).
-7. Concessões retroativas para as conversas de parceria já atribuídas a ela, para não perder o que já está em atendimento.
+7. Concessões retroativas apenas para conversas de parceria atualmente atribuídas à Carla e ainda em atendimento (não finalizadas). Históricos já encerrados não são reabertos nem liberados.
+
+## 4.1 Reabertura após finalização (regra preservada)
+
+Quando a Carla finaliza o atendimento, a conversa fica finalizada. Se o cliente escrever depois: a Nina é reativada, o responsável é limpo, as concessões antigas deixam de dar visibilidade e a conversa volta ao fluxo normal. A conversa não retorna para a Carla só porque ela atendeu antes. Se a nova mensagem trouxer novamente intenção de influenciadora/parceria, o classificador faz um novo encaminhamento, com nova atribuição e nova concessão.
 
 Paula Rodrigues continua `sdr` e sem nenhuma alteração.
 
