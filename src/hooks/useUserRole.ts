@@ -2,7 +2,11 @@ import { useEffect, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 
-export type AppRole = 'admin' | 'manager' | 'sdr' | 'user' | 'moderator' | 'expedicao' | 'dermo' | 'parcerias';
+export type AppRole = 'admin' | 'manager' | 'sdr' | 'user' | 'moderator' | 'expedicao' | 'dermo' | 'parcerias' | 'minimal';
+
+// Papel de segurança usado quando nenhum papel conhecido é encontrado (papel novo
+// ainda não reconhecido por esta versão do app). Acesso mínimo: só o chat.
+export const MINIMAL_ROLE: AppRole = 'minimal';
 
 // Permissões por área (rota base)
 const ROLE_PERMISSIONS: Record<AppRole, string[]> = {
@@ -18,6 +22,8 @@ const ROLE_PERMISSIONS: Record<AppRole, string[]> = {
   dermo:     ['chat'],
   // Parcerias (Carla): somente o Chat ao Vivo restrito (backend `parcerias-chat`).
   parcerias: ['chat'],
+  // Papel desconhecido por esta versão: acesso mínimo, somente o chat.
+  minimal:   ['chat'],
 };
 
 // Rota inicial por papel (usada em "/" e no fallback de acesso negado)
@@ -30,6 +36,7 @@ const ROLE_HOME: Record<AppRole, string> = {
   expedicao: '/tracking',
   dermo: '/chat',
   parcerias: '/chat',
+  minimal: '/chat',
 };
 
 export function homeRouteForRole(role: AppRole | null): string {
@@ -61,7 +68,10 @@ export function useUserRole() {
       const roles = (data || []).map((r) => r.role as AppRole);
       // prioridade: admin > manager > moderator > sdr > expedicao > dermo > parcerias > user
       const priority: AppRole[] = ['admin', 'manager', 'moderator', 'sdr', 'expedicao', 'dermo', 'parcerias', 'user'];
-      const resolved = priority.find((p) => roles.includes(p)) || 'sdr';
+      // Papel desconhecido / versão desatualizada do app: acesso mínimo (somente o
+      // Chat ao Vivo restrito). Nunca assumir `sdr`, que abriria Pipeline,
+      // Contatos e Agendamentos indevidamente.
+      const resolved = priority.find((p) => roles.includes(p)) || MINIMAL_ROLE;
 
       setRole(resolved);
       setLoading(false);
