@@ -11,6 +11,7 @@ import {
   Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
 } from '@/components/ui/select';
 import { useManualTracking } from '@/hooks/useManualTracking';
+import { useUserRole } from '@/hooks/useUserRole';
 import {
   CARRIERS, buildTemplatePreview, normalizePhoneClient, validateTrackingForm,
   type Carrier, type CarrierSelection, type ManualTrackingForm, type ManualTrackingInput,
@@ -36,7 +37,8 @@ const statusMeta: Record<string, { label: string; icon: React.ElementType; class
 };
 
 const TrackingSend: React.FC = () => {
-  const { logs, loading, sending, sendingEnabled, send } = useManualTracking();
+  const { role } = useUserRole();
+  const { logs, loading, sending, sendingEnabled, send } = useManualTracking(role === 'rastreio');
   const [form, setForm] = useState<ManualTrackingForm>(EMPTY);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [confirmOpen, setConfirmOpen] = useState(false);
@@ -200,7 +202,7 @@ const TrackingSend: React.FC = () => {
                   <div key={l.id} className="flex items-center justify-between py-3 text-sm">
                     <div>
                       <p className="text-foreground font-medium">
-                        #{l.order_number} · {l.customer_name}
+                        #{l.order_number}{l.customer_name ? ` · ${l.customer_name}` : ''}
                       </p>
                       <p className="text-xs text-muted-foreground font-mono">
                         {l.carrier} · {l.tracking_number}

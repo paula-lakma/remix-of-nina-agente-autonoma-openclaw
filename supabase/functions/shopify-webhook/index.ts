@@ -149,6 +149,14 @@ async function process(supabase: Any, topic: string, body: Any) {
     return await fail("no_tracking", "Evento de envio sem código de rastreio");
   }
 
+  // Transportadora não identificada com segurança: não envia e registra.
+  if (n.event_kind === "order_shipped" && n.tracking_company !== "correios" && n.tracking_company !== "jadlog") {
+    return await fail(
+      "skipped_carrier_unknown",
+      `Transportadora indeterminada (origem: ${n.tracking_company_raw ?? "vazio"}); aviso não enviado`,
+    );
+  }
+
   const msg = buildTemplateMessage(n);
   if (!msg) return await fail("no_template", "Sem template para este evento");
 

@@ -21,7 +21,8 @@ import { MediaUnavailable } from './MediaUnavailable';
 
 
 const ChatInterface: React.FC = () => {
-  const { conversations, loading, sendMessage, updateStatus, markAsRead, assignConversation, assignToExpedicao, clearExpedicaoAssignment, deleteConversation } = useConversations();
+  const { conversations, loading, sendMessage, updateStatus, markAsRead, assignConversation, assignToExpedicao, clearExpedicaoAssignment, deleteConversation, hasMore, loadMore, applySearch, applyAssignedFilter, assignedFilter, loadOlderMessages } = useConversations();
+  const [loadingOlder, setLoadingOlder] = useState(false);
   const { sdrName, companyName } = useCompanySettings();
   const [selectedChatId, setSelectedChatId] = useState<string | null>(null);
   const [inputText, setInputText] = useState('');
@@ -137,9 +138,17 @@ const ChatInterface: React.FC = () => {
     }
   }, [activeChat?.id, selectedChatId]); 
 
+  // Rola ao fim só quando chega mensagem nova (não ao carregar anteriores).
+  const lastMessageId = activeChat?.messages[activeChat.messages.length - 1]?.id;
   useEffect(() => {
     scrollToBottom();
-  }, [activeChat?.messages]);
+  }, [lastMessageId]);
+
+  // Busca no servidor (nome/telefone) com pequena espera após digitar.
+  useEffect(() => {
+    const t = setTimeout(() => applySearch(searchQuery), 400);
+    return () => clearTimeout(t);
+  }, [searchQuery, applySearch]);
 
   const handleToggleTag = async (tagKey: string) => {
     if (!activeChat) return;
@@ -469,7 +478,9 @@ const ChatInterface: React.FC = () => {
     return <p className="leading-relaxed whitespace-pre-wrap">{msg.content}</p>;
   };
 
-  if (loading) {
+  // Tela de carregamento só na primeira carga; busca/filtro/"carregar mais"
+  // não apagam a lista nem tiram o foco da busca.
+  if (loading && conversations.length === 0 && !searchQuery && !assignedFilter) {
     return (
       <div className="flex h-full bg-slate-950 items-center justify-center">
         <div className="flex flex-col items-center gap-4">
@@ -498,6 +509,17 @@ const ChatInterface: React.FC = () => {
               className="w-full pl-9 pr-4 py-2.5 bg-slate-950/50 border border-slate-800 rounded-xl text-sm focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 outline-none text-slate-200 placeholder:text-slate-600 transition-all"
             />
           </div>
+          <select
+            value={assignedFilter ?? ''}
+            onChange={(e) => applyAssignedFilter(e.target.value || null)}
+            className="mt-3 w-full px-3 py-2 bg-slate-950/50 border border-slate-800 rounded-xl text-xs text-slate-300 outline-none"
+            aria-label="Filtrar por responsável"
+          >
+            <option value="">Todos os responsáveis</option>
+            {teamMembers.map((m) => (
+              <option key={m.id} value={m.id}>{m.name}</option>
+            ))}
+          </select>
           {/* Filter chips */}
           {(() => {
             const dermoCount = conversations.filter(c => c.requiresDermoconsultant && c.humanTakeoverRequired && c.handoffType === 'dermoconsultant').length;
@@ -535,7 +557,7 @@ const ChatInterface: React.FC = () => {
               <p className="text-xs mt-1 opacity-70">As conversas aparecerão aqui quando receberem mensagens</p>
             </div>
           ) : (
-            filteredConversations.map((chat) => (
+            [...filteredConversations.map((chat) => (
               <div 
                 key={chat.id}
                 onClick={() => setSelectedChatId(chat.id)}
@@ -607,7 +629,18 @@ const ChatInterface: React.FC = () => {
                   </div>
                 </div>
               </div>
-            ))
+            )),
+            hasMore && (
+              <div key="__load_more" className="p-4 flex justify-center">
+                <button
+                  onClick={loadMore}
+                  disabled={loading}
+                  className="px-4 py-2 text-xs font-medium rounded-full bg-slate-800/80 border border-slate-700 text-slate-300 hover:bg-slate-700 disabled:opacity-50"
+                >
+                  {loading ? 'Carregando...' : 'Carregar mais conversas'}
+                </button>
+              </div>
+            )]
           )}
         </div>
       </div>
@@ -800,6 +833,22 @@ const ChatInterface: React.FC = () => {
                 </div>
               ) : (
                 <>
+                  {activeChat.hasOlderMessages && (
+                    <div className="flex justify-center my-2">
+                      <button
+                        onClick={async () => {
+                          setLoadingOlder(true);
+                          try { await loadOlderMessages(activeChat.id); }
+                          catch { toast.error('Erro ao carregar mensagens anteriores'); }
+                          finally { setLoadingOlder(false); }
+                        }}
+                        disabled={loadingOlder}
+                        className="px-4 py-1.5 bg-slate-800/80 border border-slate-700 text-slate-300 text-xs font-medium rounded-full hover:bg-slate-700 disabled:opacity-50"
+                      >
+                        {loadingOlder ? 'Carregando...' : 'Carregar mensagens anteriores'}
+                      </button>
+                    </div>
+                  )}
                   <div className="flex justify-center my-6">
                     <span className="px-4 py-1.5 bg-slate-800/80 border border-slate-700 text-slate-400 text-xs font-medium rounded-full shadow-sm backdrop-blur-sm">Hoje</span>
                   </div>

@@ -317,6 +317,8 @@ export interface UIConversation {
   lastMessageAtRaw?: string;
   attendanceFinished?: boolean;
   attendanceFinishedAt?: string | null;
+  /** Há mensagens anteriores às carregadas. */
+  hasOlderMessages?: boolean;
 }
 
 export interface UIMessage {
@@ -329,6 +331,8 @@ export interface UIMessage {
   fromType: MessageFromType;
   mediaUrl: string | null;
   whatsappMessageId: string | null;
+  /** Data/hora original (ISO) — usada para paginar mensagens anteriores. */
+  sentAtRaw?: string;
 }
 
 // ============= Utility Functions =============
@@ -388,7 +392,8 @@ export function transformDBToUIMessage(msg: DBMessage): UIMessage {
     status: mapDBMessageStatus(msg.status),
     fromType: msg.from_type,
     mediaUrl: msg.media_url,
-    whatsappMessageId: msg.whatsapp_message_id
+    whatsappMessageId: msg.whatsapp_message_id,
+    sentAtRaw: msg.sent_at,
   };
 }
 
