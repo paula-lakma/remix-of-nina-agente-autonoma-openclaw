@@ -1,29 +1,27 @@
-# Auditoria (somente leitura): acesso da conta de rastreio
+# Auditoria (somente leitura) — conversa da Duda com "Nina" + responsável Leticia
 
-Nada foi alterado.
+Nada foi alterado. Abaixo o resultado e a correção mínima proposta, que só será feita com aprovação.
 
-## 1. Papel real da conta
-- `expedicaolakma@outlook.com`, id `4de47db6-519f-4442-9754-c6b5d01db2c1`, conta liberada.
-- `user_roles`: somente `rastreio`. Sem `sdr`, `expedicao`, `dermo`, `parcerias` ou qualquer papel residual. Sem membro de equipe.
-- A regra de leitura permite que o próprio usuário leia o seu papel, então o site consegue identificar `rastreio`.
+## Resultado
 
-## 2. `rastreio` no frontend atual
-Sim. Código atual: permissões `rastreio: ['tracking']`, página inicial `/tracking`, menu mostra só "Envio de rastreio", guarda de rota redireciona tudo para `/tracking`.
+1. **Conversa:** `a0f2aaa4-9baf-4a4c-93fe-ebf99cb00a79` (contato `0874b621-437f-4dd8-920c-7a716febcd3c`, telefone 553791052046). Criada 02/09 15:24; última mensagem 02/09 15:27:45; última alteração 03/09 11:35:37.
+2. **Estado atual:** status = nina; ai_paused = false; human_takeover_required = false; assigned_user_id = `22222222-0000-4000-a000-000000000004`; assigned_at, handoff_type, handoff_reason, handoff_created_at = vazios; attendance_finished = false (sem data/autor); human_status = vazio.
+3. **Leticia:** o valor aponta para o cadastro de equipe da Leticia (financeiro@lakma.com.br). Não existe nenhuma permissão de acesso (grant) para ela nesta conversa — nem ativa nem antiga. Por isso ela **não vê** essa conversa no chat dela; só o admin vê o nome "Leticia" no campo Responsável.
+4. **Histórico de encaminhamento:** **nenhum registro**. A Nina disse "vou encaminhar para a equipe", mas nenhum encaminhamento foi criado (sem evento, sem pausa, sem grant). Não houve finalização nem reabertura.
+5. **Quando "voltou" para Nina:** nunca saiu da Nina. O único campo fora do padrão é o responsável, gravado sozinho em 03/09 11:35, cerca de 20h após a última mensagem, sem nenhum outro campo junto.
+6. **Estado correto hoje:** cenário B (Nina ativa, sem responsável). Não há atendimento humano ativo com a Leticia.
+7. **Grant residual:** não existe.
+8. **Caso isolado:** sim. Das conversas ativas, esta é a **única** com Nina ativa + responsável humano preenchido.
+9. **Outras no mesmo estado:** 0.
 
-## 3. Fallback para o Chat
-Com o código atual, **não** cai no fallback. O que aparece no seu print (só "Chat ao Vivo" + "Aguardando dermoconsultora") é exatamente o que aconteceria com uma **versão anterior** do site, que não conhecia `rastreio`: papel desconhecido -> acesso mínimo -> `/chat`. O acesso mínimo abre a tela de chat completa (sem dados, bloqueada pelo banco), e é dela o texto "Aguardando dermoconsultora".
+## Causa (provável, não 100% confirmada)
 
-## 4. Último deploy
-O site publicado em project-perfection-guide.lovable.app, baixado agora, **contém** a implementação: `rastreio:["tracking"]`, `rastreio:"/tracking"`, `rastreio` na prioridade de papéis e a tela de histórico mínimo. Código, pré-visualização e produção estão alinhados neste momento.
+O responsável foi preenchido isoladamente em 03/09 11:35, sem pausar a Nina, sem criar encaminhamento e sem grant. Esse padrão corresponde à troca manual no seletor "Responsável" da versão anterior a 09/09 (antes da correção que passou a fazer o encaminhamento completo ao escolher a Leticia), ou a um ajuste manual naquela data. O sistema não guarda autor dessa alteração, por isso a origem exata não pode ser provada.
 
-## 5. Rota que deveria abrir
-`/tracking` (Envio de rastreio). Pela lógica atual: início -> `/tracking`; `/tracking` liberado; `/chat` e `/pipeline` -> redirecionam para `/tracking`.
+Problema secundário real: a Nina prometeu encaminhar e o encaminhamento não aconteceu em 02/09 (reclamação de produto faltante). Não investigado a fundo aqui.
 
-## 6. Causa raiz (mais provável)
-A sessão do print carregou uma versão antiga do site, de antes de o deploy com `rastreio` terminar (a aba ficou aberta ou o login foi feito logo depois de publicar). O código e os dados de hoje não geram esse comportamento. Não há como confirmar pelo servidor qual versão aquele navegador carregou.
+## Correção mínima proposta (aguarda aprovação)
 
-## 7. Correção mínima
-- Sem alteração de código ou dados: sair, fechar a aba, abrir o site de novo com atualização forçada (Ctrl+Shift+R) e entrar. Deve abrir direto em Envio de rastreio.
-- Proteção opcional, se aprovada: fazer o acesso mínimo mostrar só um aviso "Acesso ainda não configurado" em vez da tela completa do chat. Assim, uma versão desatualizada nunca mostra a tela do chat para um papel novo. Alteração só na tela que escolhe qual chat mostrar; chats restritos, Leticia, Carla, dermoconsultoras e banco ficam iguais.
+Uma única alteração de dados só nesta conversa: limpar o responsável (assigned_user_id = vazio). Nada mais muda — Nina segue ativa, sem grant, sem evento, sem mensagem. Efeito: some do grupo "atendimentos humanos" na lista do admin e o filtro "Leticia" passa a mostrar 20 conversas.
 
-Aguardando sua validação e aprovação antes de qualquer mudança.
+Alternativa, se a reclamação da Duda ainda estiver pendente: em vez de limpar, fazer o encaminhamento completo para a Leticia pelo seletor atual (pausa a Nina e cria o acesso dela).
