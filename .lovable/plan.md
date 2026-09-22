@@ -1,48 +1,77 @@
-# Auditoria do papel `parcerias` da Carla (read-only)
+# Auditoria dos 2 alertas críticos — listas de contatos e campanhas
 
-Nada foi alterado. Somente leitura de banco e código.
+Auditoria somente de leitura. Nada foi alterado: sem migration, sem mudança de papel, conta ou frontend.
 
-## 1. Papel no banco — correto
+## 1. Causa de cada alerta
 
-- `user_roles`: um único papel, `parcerias` (user id `b2e23817-…8fb`, `carla@lakma.com.br`). Não sobrou `sdr`.
-- `team_members`: mesma pessoa, id `22222222-0000-4000-a000-000000000002`, ativa.
-- Regra de leitura `conversations_select_parcerias` ativa e funcionando.
+Ambos os alertas têm a mesma causa: as tabelas foram criadas na migration inicial com uma única regra ampla `FOR ALL TO authenticated` cuja condição é apenas `auth.role() = 'authenticated'`. Ou seja, **qualquer pessoa logada** — inclusive Carla (parcerias), Leticia (expedicao) e as dermoconsultoras — pode ler, criar, alterar e apagar esses registros direto do banco.
 
-Conclusão: a restrição de dados **foi aplicada corretamente**. Ela já não enxerga as conversas das outras áreas.
+Isso contrasta com `contacts`, que já foi corrigida: lá as regras usam `is_operational_staff(auth.uid())` (admin/gestor/sdr) mais um caso específico das dermoconsultoras.
 
-## 2. As duas conversas "Desconhecido / Sem mensagens" são reais
+## 2. Regras responsáveis (verificadas agora)
 
-| Conversa | Contato | Motivo | Mensagens | Situação |
-|---|---|---|---|---|
-| `82face21-…820b` | Vanessa Reis | parceria de divulgação | 10 | em atendimento, Nina pausada, responsável Carla, concessão ativa |
-| `632eeef4-…5d7ee` | Carla Marketing (influenciadora) | influenciadora | 86 | em atendimento, Nina pausada, responsável Carla, concessão ativa |
+| Tabela | Regra | Comando | Condição |
+|---|---|---|---|
+| contact_lists | Authenticated access contact_lists | ALL | auth.role() = 'authenticated' |
+| contact_list_members | Authenticated access contact_list_members | ALL | auth.role() = 'authenticated' |
+| broadcast_campaigns | Authenticated access broadcast_campaigns | ALL | auth.role() = 'authenticated' |
+| broadcast_recipients | Authenticated access broadcast_recipients | ALL | auth.role() = 'authenticated' |
+| message_templates | Authenticated access message_templates | ALL | auth.role() = 'authenticated' |
+| meta_templates | Authenticated access meta_templates | ALL | auth.role() = 'authenticated' |
 
-Não são registros órfãos nem de teste. **Devem mesmo aparecer** para ela: atribuídas a ela, concessão ativa, atendimento não finalizado, motivo válido de parcerias. A conversa real de influenciadora (item 4 do pedido) é justamente a segunda — ela está na lista, com as 86 mensagens no banco.
+As duas últimas não estão entre os alertas críticos (são aviso), mas têm exatamente o mesmo defeito e entram na mesma correção.
 
-As funções de servidor de parcerias devolvem corretamente nome do contato, telefone mascarado, motivo e data — testadas e idênticas às das dermoconsultoras.
+Além disso, o papel público `anon` ainda tem privilégios diretos concedidos nessas seis tabelas (herança da migration inicial). Hoje a regra exige sessão, então não há leitura anônima efetiva, mas o privilégio não deveria existir.
 
-## 3. Causa raiz de tudo o que está errado na tela: ela está usando a versão antiga do site
+Não existe nenhuma função de servidor (RPC) que exponha listas ou campanhas — a exposição é apenas por consulta direta.
 
-Os três sintomas (nome "Desconhecido", "Sem mensagens", e os menus Pipeline/Contatos/Agendamentos) vêm todos da mesma origem: o navegador dela ainda está carregando a versão publicada **antes** desta alteração.
+## 3. Dados expostos
 
-Como isso se encaixa exatamente:
+- **Listas de contatos**: nome da lista, origem, e o vínculo lista↔contato (permitindo montar grupos de clientes).
+- **Campanhas**: nome, texto da mensagem, mídias, cadência de disparo, status e contadores.
+- **Destinatários de campanha**: **número de telefone** de cada destinatário e variáveis personalizadas — este é o dado sensível mais grave.
+- **Modelos/HSM**: conteúdo dos modelos e identificadores da Meta.
 
-- Na versão antiga o papel `parcerias` não existe; o código não reconhece o papel e assume `sdr` como padrão. Papel `sdr` mostra exatamente Pipeline, Chat ao Vivo, Contatos e Agendamentos — o que ela relatou.
-- Pelo mesmo motivo, ela recebe a tela de chat completa (a antiga), e não a tela restrita nova.
-- A tela antiga lê conversas, contatos e mensagens diretamente. Como no banco ela já é `parcerias`, ela só consegue ler as duas conversas liberadas — mas **não** tem permissão de leitura direta de `contacts` nem de `messages` (confirmado: só existem regras dessas duas tabelas para admin/gestor/sdr, expedição e dermo). Resultado: as duas conversas aparecem sem nome ("Desconhecido") e sem mensagens.
+Volume atual: listas, membros, campanhas e destinatários estão **vazios** (0 registros); há 19 modelos da Meta. O risco hoje é de exposição futura, assim que a funcionalidade de campanhas for usada.
 
-A tela restrita nova não sofre disso, porque lê tudo por funções de servidor que já revalidam sessão, papel e concessão.
+## 4. Papéis afetados
 
-## 4. Correção mínima
+Papéis existentes hoje: 1 admin, 2 sdr, 5 dermo, 1 expedicao, 1 parcerias. Não há nenhum `manager`.
 
-1. **Publicar o site** e pedir para a Carla sair, recarregar com atualização forçada e entrar de novo. Isso resolve, de uma vez: menus extras, nome do contato, mensagens e a tela restrita correta.
-2. **Proteção contra repetição** (uma linha de código): quando o papel do usuário não for reconhecido pela versão carregada, não assumir mais `sdr`; tratar como acesso mínimo (somente Chat ao Vivo). Assim uma versão desatualizada nunca mais concede menus a mais.
+Todos eles, mais qualquer conta nova autenticada, conseguem ler e escrever nas seis tabelas atualmente. Carla, Leticia e as dermoconsultoras não deveriam ter nenhum acesso.
 
-Nada de migração, nada de mudança de conta, papel, concessões ou fluxo da Nina. As duas conversas ficam como estão.
+## 5. Correção mínima proposta
 
-## 5. Verificação após publicar
+Trocar as seis regras amplas por regras baseadas em papel, reaproveitando as funções que já existem — sem criar nada novo e sem tocar em frontend:
 
-- Carla vê apenas as duas conversas, com nome do contato e histórico completo (10 e 86 mensagens).
-- Menu lateral mostra somente Chat ao Vivo.
-- Ela responde e finaliza atendimento normalmente; ao finalizar, a conversa sai da lista.
-- Paula Rodrigues, Leticia, dermoconsultoras e administradores inalterados.
+- **contact_lists, contact_list_members, broadcast_campaigns, broadcast_recipients**: acesso (ler/criar/alterar/apagar) somente para `is_operational_staff(auth.uid())` → admin, gestor e sdr. Mantém Paula Rodrigues funcionando normalmente.
+- **message_templates, meta_templates**: leitura e escrita somente para `is_admin_or_manager(auth.uid())` → admin e gestor, que são justamente os papéis que enxergam a tela de Modelos no menu.
+- **Revogar os privilégios diretos de `anon`** nessas seis tabelas.
+- `service_role` permanece intacto — as funções de servidor (processador de campanhas, envio, Shopify, WhatsApp) ignoram essas regras e continuam funcionando sem alteração.
+
+Efeito prático: Carla, Leticia e as dermoconsultoras deixam de enxergar listas, campanhas, destinatários e modelos, mesmo consultando o banco diretamente. Proteção no banco, não só no menu.
+
+## 6. Objetos que mudam
+
+Uma única migration:
+
+- remove 6 regras amplas;
+- cria 24 regras (4 comandos × 6 tabelas), todas para usuários autenticados, com as condições acima;
+- revoga privilégios de `anon` nas 6 tabelas.
+
+Nenhum arquivo de frontend, nenhuma função de servidor e nenhuma conta são alterados.
+
+## 7. Impacto nas áreas existentes
+
+Sem impacto em: Chat ao Vivo (normal e restrito), encaminhamentos, responsável, histórico, pipeline, agendamentos, Shopify e WhatsApp — nenhuma dessas áreas lê as seis tabelas pelo navegador.
+
+Impacto esperado e desejado: as telas de Campanhas e Modelos passam a funcionar apenas para admin/gestor (Modelos) e admin/gestor/sdr (Campanhas), que já são os únicos papéis com esses itens no menu.
+
+## 8. Testes após a implementação
+
+- Simular no banco cada papel (admin, sdr, dermo, expedicao, parcerias, autenticado sem papel, anônimo) e confirmar permitido/bloqueado em cada comando das seis tabelas.
+- Confirmar que o processador de campanhas e o envio por WhatsApp continuam operando (service_role).
+- Abrir como admin as telas de Campanhas e Modelos: listar, criar e excluir.
+- Entrar como Carla e confirmar que só o Chat ao Vivo restrito aparece e funciona.
+- Conferir Chat ao Vivo, pipeline, contatos e agendamentos com um sdr.
+- Rodar a bateria de testes e o verificador de segurança novamente.
