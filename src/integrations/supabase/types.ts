@@ -2749,6 +2749,18 @@ export type Database = {
           trigger_snippet: string
         }[]
       }
+      list_my_tracking_sends: {
+        Args: { p_limit?: number }
+        Returns: {
+          carrier: string
+          created_at: string
+          id: string
+          order_number: string
+          sent_at: string
+          status: string
+          tracking_number: string
+        }[]
+      }
       normalize_tracking_code: { Args: { p_code: string }; Returns: string }
       parcerias_can_access_conversation: {
         Args: { _conversation_id: string }
@@ -2833,6 +2845,7 @@ export type Database = {
         | "expedicao"
         | "dermo"
         | "parcerias"
+        | "rastreio"
       appointment_type: "demo" | "meeting" | "support" | "followup"
       conversation_status: "nina" | "human" | "paused"
       member_role: "admin" | "manager" | "agent"
@@ -2977,6 +2990,7 @@ export const Constants = {
         "expedicao",
         "dermo",
         "parcerias",
+        "rastreio",
       ],
       appointment_type: ["demo", "meeting", "support", "followup"],
       conversation_status: ["nina", "human", "paused"],
