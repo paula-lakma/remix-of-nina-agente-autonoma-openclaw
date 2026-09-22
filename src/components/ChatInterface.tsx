@@ -627,7 +627,18 @@ const ChatInterface: React.FC = () => {
                   </div>
                 </div>
               </div>
-            ))
+            )),
+            hasMore && (
+              <div key="__load_more" className="p-4 flex justify-center">
+                <button
+                  onClick={loadMore}
+                  disabled={loading}
+                  className="px-4 py-2 text-xs font-medium rounded-full bg-slate-800/80 border border-slate-700 text-slate-300 hover:bg-slate-700 disabled:opacity-50"
+                >
+                  {loading ? 'Carregando...' : 'Carregar mais conversas'}
+                </button>
+              </div>
+            )]
           )}
         </div>
       </div>
