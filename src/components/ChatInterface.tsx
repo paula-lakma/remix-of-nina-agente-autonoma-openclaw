@@ -478,7 +478,9 @@ const ChatInterface: React.FC = () => {
     return <p className="leading-relaxed whitespace-pre-wrap">{msg.content}</p>;
   };
 
-  if (loading) {
+  // Tela de carregamento só na primeira carga; busca/filtro/"carregar mais"
+  // não apagam a lista nem tiram o foco da busca.
+  if (loading && conversations.length === 0 && !searchQuery && !assignedFilter) {
     return (
       <div className="flex h-full bg-slate-950 items-center justify-center">
         <div className="flex flex-col items-center gap-4">
