@@ -18,6 +18,8 @@ export function useConversations() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [realtimeConnected, setRealtimeConnected] = useState(true);
+  const conversationsRef = useRef<UIConversation[]>([]);
+  conversationsRef.current = conversations;
   
   // Track processed message IDs to prevent duplicates across re-renders
   const processedMessageIds = useRef(new Set<string>());
