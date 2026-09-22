@@ -1235,54 +1235,96 @@ export const api = {
   /**
    * Fetch conversations with messages from database
    */
-  fetchConversations: async (): Promise<UIConversation[]> => {
-    console.log('[API] Fetching conversations from Supabase...');
-    
-    // Fetch active conversations with contact data
-    const { data: conversations, error: convError } = await supabase
+  fetchConversations: async (
+    opts: { limit?: number; search?: string; assignedUserId?: string | null } = {},
+  ): Promise<UIConversation[]> => {
+    const limit = Math.max(1, Math.min(opts.limit ?? 50, 1000));
+    const search = (opts.search ?? '').trim();
+
+    let query = supabase
       .from('conversations')
       .select(`
         *,
         contact:contacts(*)
       `)
-      .eq('is_active', true)
+      .eq('is_active', true);
+
+    if (opts.assignedUserId) {
+      query = query.eq('assigned_user_id', opts.assignedUserId);
+    }
+
+    // Busca no servidor por nome/telefone em TODAS as conversas ativas.
+    if (search) {
+      const safe = search.replace(/[%,()]/g, ' ').trim();
+      const digits = safe.replace(/\D/g, '');
+      const orParts = [`name.ilike.%${safe}%`, `call_name.ilike.%${safe}%`];
+      if (digits.length >= 3) orParts.push(`phone_number.ilike.%${digits}%`);
+      const { data: contactRows } = await supabase
+        .from('contacts')
+        .select('id')
+        .or(orParts.join(','))
+        .limit(500);
+      const ids = (contactRows || []).map((c) => c.id);
+      if (ids.length === 0) return [];
+      query = query.in('contact_id', ids);
+    }
+
+    const { data: conversations, error: convError } = await query
       .order('last_message_at', { ascending: false })
-      .limit(50);
+      .limit(limit);
 
     if (convError) {
       console.error('[API] Error fetching conversations:', convError);
       throw convError;
     }
 
-    if (!conversations || conversations.length === 0) {
-      console.log('[API] No conversations found');
-      return [];
-    }
+    if (!conversations || conversations.length === 0) return [];
 
-    console.log(`[API] Found ${conversations.length} conversations`);
-
-    // Fetch messages for each conversation
+    // Mensagens: as 100 MAIS RECENTES de cada conversa (exibidas em ordem
+    // cronológica). Anteriores via fetchOlderMessages.
     const conversationsWithMessages: UIConversation[] = await Promise.all(
       conversations.map(async (conv) => {
         const { data: messages, error: msgError } = await supabase
           .from('messages')
           .select('*')
           .eq('conversation_id', conv.id)
-          .order('sent_at', { ascending: true })
+          .order('sent_at', { ascending: false })
           .limit(100);
 
         if (msgError) {
           console.error(`[API] Error fetching messages for ${conv.id}:`, msgError);
         }
 
-        return transformDBToUIConversation(
+        const ui = transformDBToUIConversation(
           conv as unknown as DBConversation,
-          (messages || []) as unknown as DBMessage[]
+          ((messages || []).slice().reverse()) as unknown as DBMessage[]
         );
+        return { ...ui, hasOlderMessages: (messages || []).length >= 100 };
       })
     );
 
     return conversationsWithMessages;
+  },
+
+  /** Mensagens anteriores a `beforeSentAt` (página de 100, ordem cronológica). */
+  fetchOlderMessages: async (
+    conversationId: string,
+    beforeSentAt: string,
+  ): Promise<{ messages: UIConversation['messages']; hasMore: boolean }> => {
+    const { data, error } = await supabase
+      .from('messages')
+      .select('*')
+      .eq('conversation_id', conversationId)
+      .lt('sent_at', beforeSentAt)
+      .order('sent_at', { ascending: false })
+      .limit(100);
+    if (error) throw error;
+    const rows = (data || []).slice().reverse();
+    const conv = transformDBToUIConversation(
+      { id: conversationId, contact: null } as unknown as DBConversation,
+      rows as unknown as DBMessage[],
+    );
+    return { messages: conv.messages, hasMore: (data || []).length >= 100 };
   },
 
   /**
