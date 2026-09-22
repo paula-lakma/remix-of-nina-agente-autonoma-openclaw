@@ -1319,12 +1319,8 @@ export const api = {
       .order('sent_at', { ascending: false })
       .limit(100);
     if (error) throw error;
-    const rows = (data || []).slice().reverse();
-    const conv = transformDBToUIConversation(
-      { id: conversationId, contact: null } as unknown as DBConversation,
-      rows as unknown as DBMessage[],
-    );
-    return { messages: conv.messages, hasMore: (data || []).length >= 100 };
+    const rows = ((data || []).slice().reverse()) as unknown as DBMessage[];
+    return { messages: rows.map(transformDBToUIMessage), hasMore: (data || []).length >= 100 };
   },
 
   /**
