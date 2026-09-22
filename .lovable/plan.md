@@ -1,28 +1,35 @@
-# Acesso MASTER + correção dos alertas de listas, campanhas e modelos
+# Acesso MASTER — listas, campanhas e modelos restritos a admin/gestão
 
-Plano final, ainda não implementado. Auditoria concluída somente com leitura.
+Plano final, ainda não implementado. Auditoria feita somente com leitura.
 
-## 0. Confirmação de identidade (verificado agora no banco)
-
-Contas com papel hoje:
+## 0. Confirmação de identidade (verificado no banco)
 
 | Papel | Conta |
 |---|---|
-| admin | paula@lakma.com.br (Paula Simionato Tondato) — **única conta MASTER** |
-| sdr | comerciallakma0@gmail.com (Paula Rodrigues) · joaofelipemolero@outlook.com |
+| admin | paula@lakma.com.br (Paula Simionato Tondato) — **única conta MASTER hoje** |
+| sdr | comerciallakma0@gmail.com (Paula Rodrigues) · joaofelipemolero@outlook.com (João Felipe) |
 | parcerias | carla@lakma.com.br (Carla) |
 | expedicao | financeiro@lakma.com.br (Leticia) |
 | dermo | mylenalakma, barbaralakma, lauralakma, talialakma, atendimento3 |
 
-Não existe nenhuma conta `manager`. Confirmado: **Paula Rodrigues permanece apenas `sdr`** e não terá MASTER.
+Não existe nenhuma conta `manager`. Paula Rodrigues permanece apenas `sdr`.
 
-## 1. Causa dos alertas
+## 1. Confirmação pedida: nenhuma tela de sdr depende dessas tabelas
 
-As seis tabelas foram criadas com uma única regra ampla `FOR ALL TO authenticated` cuja condição é apenas `auth.role() = 'authenticated'`. Qualquer pessoa logada — inclusive Carla, Leticia e as dermoconsultoras — pode ler, criar, alterar e apagar esses registros direto do banco. Ocultar o menu não protege nada.
+Verificado no código:
 
-## 2. Regras responsáveis (verificadas)
+- `contact_lists` e `contact_list_members` **não são usadas em nenhuma tela** — nem por sdr nem por admin; aparecem apenas na criação original do banco.
+- `broadcast_campaigns` e `broadcast_recipients` são usadas somente pela tela de Campanhas.
+- `meta_templates` é usada pela tela de Modelos e pela tela de Campanhas (para escolher um modelo aprovado). `message_templates` não é usada em nenhuma tela.
+- As áreas Campanhas e Modelos só aparecem para admin e gestão. O papel sdr tem apenas Pipeline, Chat ao Vivo, Contatos e Agendamentos.
 
-| Tabela | Regra | Comando | Condição |
+Conclusão: **nada do que Paula Rodrigues e João Felipe usam hoje depende das seis tabelas.** Restringir a admin/gestão não quebra nenhuma tela deles.
+
+## 2. Causa do alerta de segurança
+
+As seis tabelas foram criadas com uma única regra ampla `FOR ALL TO authenticated` cuja condição é só `auth.role() = 'authenticated'`. Qualquer pessoa logada — Carla, Leticia, dermoconsultoras, qualquer conta nova — pode ler, criar, alterar e apagar esses registros direto do banco. Esconder o menu não protege.
+
+| Tabela | Regra atual | Comando | Condição |
 |---|---|---|---|
 | contact_lists | Authenticated access contact_lists | ALL | auth.role() = 'authenticated' |
 | contact_list_members | Authenticated access contact_list_members | ALL | auth.role() = 'authenticated' |
@@ -31,50 +38,46 @@ As seis tabelas foram criadas com uma única regra ampla `FOR ALL TO authenticat
 | message_templates | Authenticated access message_templates | ALL | auth.role() = 'authenticated' |
 | meta_templates | Authenticated access meta_templates | ALL | auth.role() = 'authenticated' |
 
-`anon` ainda tem privilégios diretos concedidos nas seis tabelas. Não existe nenhuma função de servidor expondo listas, campanhas ou modelos — a exposição é apenas por consulta direta.
+`anon` ainda tem privilégios diretos nas seis tabelas. Não existe nenhuma função de servidor expondo esses dados — a exposição é só por consulta direta.
 
-## 3. Dados expostos
+## 3. Dados expostos hoje
 
 - Listas: nome, origem e o vínculo lista↔contato.
 - Campanhas: nome, texto, mídias, cadência, status e contadores.
-- Destinatários: **telefone** de cada destinatário e variáveis personalizadas (dado mais sensível).
+- Destinatários: **telefone** e variáveis personalizadas (dado mais sensível).
 - Modelos: conteúdo e identificadores da Meta.
 
 Volume atual: listas, membros, campanhas e destinatários com 0 registros; 19 modelos da Meta.
 
-## 4. Regra final aprovada
+## 4. Regra final a implementar
 
-**MASTER (modelos/templates)** — `message_templates` e `meta_templates`: ler, criar, alterar e apagar somente com `is_admin_or_manager(auth.uid())`. Sem SELECT para sdr.
+Nas seis tabelas — `contact_lists`, `contact_list_members`, `broadcast_campaigns`, `broadcast_recipients`, `message_templates`, `meta_templates`:
 
-**Campanhas e listas** — `contact_lists`, `contact_list_members`, `broadcast_campaigns`, `broadcast_recipients`: acesso somente com `is_operational_staff(auth.uid())` (admin/manager/sdr).
+- ler, criar, alterar e apagar somente com `is_admin_or_manager(auth.uid())`;
+- privilégios diretos de `anon` revogados;
+- `service_role` intacto — processadores de campanha, WhatsApp, Shopify e demais fluxos de servidor seguem funcionando.
 
-**anon**: privilégios diretos revogados nas seis tabelas. **service_role**: intacto.
-
-### Nenhuma funcionalidade de sdr quebra
-
-Verificado: a tela de Campanhas lê modelos aprovados da Meta para montar a mensagem. Porém as áreas "Campanhas" e "Templates" só aparecem para admin e manager — o papel `sdr` tem acesso apenas a Pipeline, Chat ao Vivo, Contatos e Agendamentos. Portanto nenhum sdr usa hoje Campanhas nem Modelos, e negar SELECT de modelos a sdr não quebra nada. Não é preciso ampliar permissão nem criar alternativa.
+Na prática, hoje só paula@lakma.com.br terá esse acesso. Carla, Leticia, dermoconsultoras e os dois sdr ficam sem acesso direto.
 
 ## 5. Objetos que mudam
 
 Uma única migration:
 
 - remove as 6 regras amplas;
-- cria 24 regras (4 comandos × 6 tabelas), todas para usuários autenticados: 16 com `is_operational_staff`, 8 com `is_admin_or_manager`;
+- cria 24 regras (4 comandos × 6 tabelas), todas para usuários autenticados, com `is_admin_or_manager(auth.uid())`;
 - revoga privilégios diretos de `anon` nas 6 tabelas.
 
-Nenhum arquivo de frontend, nenhuma função de servidor, nenhuma conta, papel, concessão ou conversa é alterado.
+Nenhum arquivo de frontend, função de servidor, conta, papel, concessão ou conversa é alterado.
 
-## 6. Impacto nas áreas existentes
+## 6. Impacto nas demais áreas
 
-Sem impacto em: Chat ao Vivo (normal e restrito), encaminhamentos, responsável, histórico, pipeline, agendamentos, Shopify e WhatsApp — nenhuma dessas áreas lê as seis tabelas pelo navegador; o processamento de campanhas e o envio rodam pelo servidor, que não é afetado.
-
-Mudança desejada: Carla, Leticia e as dermoconsultoras deixam de enxergar listas, campanhas, destinatários e modelos mesmo consultando o banco diretamente; Paula Rodrigues segue com Pipeline, Chat, Contatos e Agendamentos exatamente como hoje.
+Sem impacto em: Chat ao Vivo (normal e restrito), encaminhamentos, responsável, histórico, pipeline, agendamentos, Shopify e WhatsApp.
 
 ## 7. Testes após a implementação
 
 - Simular no banco cada papel (admin, sdr, dermo, expedicao, parcerias, autenticado sem papel, anônimo) e conferir permitido/bloqueado em cada comando das seis tabelas.
 - Confirmar que o processamento de campanhas e o envio por WhatsApp continuam operando pelo servidor.
 - Como admin: abrir Campanhas e Modelos, listar, criar e excluir.
-- Como Paula Rodrigues (sdr): Pipeline, Chat, Contatos e Agendamentos funcionando; sem acesso a modelos.
+- Como Paula Rodrigues (sdr): Pipeline, Chat, Contatos e Agendamentos funcionando normalmente.
 - Como Carla: apenas o Chat ao Vivo restrito, respondendo e finalizando.
 - Rodar a bateria de testes e o verificador de segurança novamente.
