@@ -1242,18 +1242,7 @@ export const api = {
     const limit = Math.max(1, Math.min(opts.limit ?? 50, 1000));
     const search = (opts.search ?? '').trim();
 
-    let query = supabase
-      .from('conversations')
-      .select(`
-        *,
-        contact:contacts(*)
-      `)
-      .eq('is_active', true);
-
-    if (opts.assignedUserId) {
-      query = query.eq('assigned_user_id', opts.assignedUserId);
-    }
-
+    let contactIds: string[] | null = null;
     // Busca no servidor por nome/telefone em TODAS as conversas ativas.
     if (search) {
       const safe = search.replace(/[%,()]/g, ' ').trim();
@@ -1265,21 +1254,41 @@ export const api = {
         .select('id')
         .or(orParts.join(','))
         .limit(500);
-      const ids = (contactRows || []).map((c) => c.id);
-      if (ids.length === 0) return [];
-      query = query.in('contact_id', ids);
+      contactIds = (contactRows || []).map((c) => c.id);
+      if (contactIds.length === 0) return [];
     }
 
-    const { data: conversations, error: convError } = await query
-      .order('last_message_at', { ascending: false })
-      .limit(limit);
+    const base = () => {
+      let q = supabase
+        .from('conversations')
+        .select(`*, contact:contacts(*)`)
+        .eq('is_active', true);
+      if (opts.assignedUserId) q = q.eq('assigned_user_id', opts.assignedUserId);
+      if (contactIds) q = q.in('contact_id', contactIds);
+      return q;
+    };
 
+    // A) TODAS as conversas ativas atribuídas a humano (sem limite de página).
+    // B) Demais conversas paginadas por recência. C) União sem duplicidade.
+    const [assignedRes, pagedRes] = await Promise.all([
+      base().not('assigned_user_id', 'is', null)
+        .order('last_message_at', { ascending: false }).limit(1000),
+      opts.assignedUserId
+        ? Promise.resolve({ data: [] as any[], error: null })
+        : base().order('last_message_at', { ascending: false }).limit(limit),
+    ]);
+    const convError = assignedRes.error || pagedRes.error;
     if (convError) {
       console.error('[API] Error fetching conversations:', convError);
       throw convError;
     }
+    const seen = new Set<string>();
+    const conversations = [...(assignedRes.data || []), ...(pagedRes.data || [])]
+      .filter((c: any) => (seen.has(c.id) ? false : (seen.add(c.id), true)))
+      .sort((a: any, b: any) =>
+        String(b.last_message_at ?? '').localeCompare(String(a.last_message_at ?? '')));
 
-    if (!conversations || conversations.length === 0) return [];
+    if (conversations.length === 0) return [];
 
     // Mensagens: as 100 MAIS RECENTES de cada conversa (exibidas em ordem
     // cronológica). Anteriores via fetchOlderMessages.
