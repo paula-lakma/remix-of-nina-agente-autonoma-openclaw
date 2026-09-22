@@ -1,107 +1,123 @@
-# Auditoria das 3 mudanças — rastreio, chat do admin e novo acesso de expedição
+# Plano final (v2) — rastreio, chat do admin e novo acesso de expedição
 
-Auditoria somente de leitura. Nada foi alterado. O plano dos 6 alertas de segurança (equipe, times, funções, etiquetas, etapas do funil e pacotes) continua pausado.
-
----
-
-## A. Transportadora errada no rastreio
-
-### Causa (verificada nos dados reais)
-
-O aviso automático de envio (Shopify) repassa ao cliente, sem nenhuma tradução, o nome que vem da loja. Contagem real dos eventos recebidos: Correios 313, **Other 192**, **Frenet 137**, Outra 2, UPS 1. O texto enviado monta a frase com esse nome direto ("foi enviado pela Frenet").
-
-O envio manual (tela da Leticia) **não tem esse problema**: só aceita Correios ou Jadlog, e o banco tem trava que impede qualquer outro valor.
-
-### Como identificar a transportadora com segurança
-
-Os dados reais permitem decidir sem adivinhar:
-
-| Sinal no evento | Transportadora | Exemplo real |
-|---|---|---|
-| Link de rastreio contém `frenet.com.br/JAD/` | Jadlog | Frenet e Other, todos |
-| Código no formato duas letras + 9 dígitos + BR | Correios | AP434990101BR |
-| Código só numérico de 9 dígitos | Jadlog | 622119559 |
-| Link dos Correios | Correios | correios.com.br/rastreamento |
-
-Todos os 137 "Frenet" e todos os "Other" com link são, de fato, Jadlog. Os "Other" sem link (62) são códigos numéricos de 9 dígitos — também Jadlog pelo formato.
-
-### Correção mínima
-
-1. Uma única função compartilhada de normalização (`resolveCarrier`), usada pelo aviso automático e pelo envio manual, decidindo por link → formato do código → nome informado.
-2. Quando nem link nem formato nem nome permitirem decidir: **não inventar**. A mensagem passa a falar apenas "foi enviado" e mostra código e link genérico, sem nome de transportadora, e o evento fica registrado como indeterminado para conferência.
-3. Nunca escrever "Frenet", "Other", "Outra" ou "transportadora" como nome ao cliente.
-
-Arquivos: `supabase/functions/_shared/shopify.ts` (nova função + montagem da mensagem), `supabase/functions/shopify-webhook/index.ts` (grava a transportadora já normalizada), `src/lib/trackingForm.ts` (reaproveita a mesma regra). Mensagens já enviadas não são reescritas.
-
-Testes: casos reais de Frenet, Other com link, Other sem link, Correios e caso indeterminado; simulação do webhook sem enviar WhatsApp.
+Atualização do plano anterior. As conclusões já confirmadas seguem válidas. Nada foi alterado; nada será criado ou enviado antes da aprovação. O plano dos 6 alertas de segurança continua pausado.
 
 ---
 
-## B. Admin não enxerga todas as conversas da Leticia
+## 1. Modelo de mensagem atual da Meta (verificado)
 
-### Causa exata (verificada)
+O aviso automático usa hoje o modelo **`pedido_enviado`** — Utilidade, pt_BR, **aprovado**:
 
-O Chat completo do admin busca **as 50 conversas mais recentes** de um total de **430 ativas**. A tela restrita da Leticia não tem esse limite: lista todas as conversas concedidas a ela.
+> Boa notícia, {{1}}! Seu pedido {{2}} foi enviado pela {{3}}. Código de rastreio: {{4}}. Você já pode acompanhar a entrega pelo site da transportadora.
 
-Leticia tem 19 conversas ativas. Destas, apenas as 5 mais recentes entram nas 50 mais recentes do sistema:
+| Variável | Conteúdo |
+|---|---|
+| {{1}} | nome do cliente |
+| {{2}} | número do pedido |
+| {{3}} | **transportadora** |
+| {{4}} | código de rastreio |
+| link | não existe variável de link |
 
-| Conversa | Última mensagem | Aparece para o admin |
-|---|---|---|
-| Bianca Ramos | 19/09 | sim |
-| Andressa Alessandra | 19/09 | sim |
-| Nayane | 18/09 | sim |
-| Mônica Amaral | 17/09 | sim |
-| Camila Tinoco | 15/09 | sim |
-| Luciana, Selma, Larissa, Bruna, Stefanie, Débora, Angélica, Brena, Rosana, Sheila, Amanda, Thais, Anny, Aline | 15/09 a 17/08 | **não** |
+"Frenet" e "Other" entram como **valor da variável {{3}}**; nenhum nome está fixo no texto.
 
-Não é permissão, filtro de status, finalização, cache nem RLS: é puramente o corte de 50 por recência. Vanessa Reis (Carla) aparece para o admin porque é recente — está correto, o admin tem visão global.
+Já existem mais dois modelos aprovados, com o nome e o link corretos fixos no texto:
 
-Efeito secundário verificado: dentro de cada conversa o admin carrega só as **100 primeiras** mensagens (mais antigas), então conversas longas mostram histórico truncado.
+- `pedido_enviado_correios` — "...foi enviado pelos Correios. Código: {{3}}. Acompanhe em rastreamento.correios.com.br" (3 variáveis: nome, pedido, código).
+- `pedido_enviado_jadlog` — "...foi enviado pela Jadlog. Código: {{3}}. Acompanhe em jadlog.com.br/jadlog/rastreie" (3 variáveis: nome, pedido, código).
 
-### Correção mínima
+## 2. Precisa de modelo novo?
 
-- Carregamento por páginas no Chat completo: primeira carga de 50 e botão/rolagem para carregar mais, em vez de corte fixo.
-- Busca por nome/telefone feita no servidor, para achar qualquer conversa mesmo fora da página atual.
-- Filtro por responsável (Leticia, Carla, dermoconsultoras, Nina) na lista do admin.
-- Mensagens: carregar as **mais recentes** primeiro, com opção de carregar histórico anterior.
+- **Correios e Jadlog: não.** O aviso automático passa a usar os dois modelos específicos já aprovados, com gramática certa ("pelos Correios") e link oficial. `pedido_enviado` deixa de ser usado pelo aviso automático (continua aprovado, sem alteração).
+- **Indeterminado: sim, seria preciso um modelo de reserva.** O `pedido_enviado` obriga um nome em "foi enviado pela {{3}}" e não há como usá-lo sem afirmar uma transportadora. Até existir um modelo de reserva aprovado, o evento indeterminado **não gera mensagem automática**: fica registrado como indeterminado para a equipe conferir. Nenhum modelo será criado ou enviado à Meta agora — texto sugerido para depois: "Seu pedido {{2}} foi enviado. Código de rastreio: {{3}}."
 
-Arquivos: `src/services/api.ts` (`fetchConversations`), `src/hooks/useConversations.ts`, `src/components/ChatInterface.tsx`. Sem migration. Chats restritos de Leticia, Carla e dermoconsultoras não são tocados; finalização e reabertura ficam como estão.
+## 3. Onde fica `resolveCarrier`
 
-Testes: admin encontra as 19 da Leticia; busca por "Aline" e "Anny"; conversa longa abre no fim; telas restritas inalteradas.
+- Arquivo: `supabase/functions/_shared/shopify.ts`, função exportada `resolveCarrier(trackingUrl, trackingNumber, trackingCompany)` → `'correios' | 'jadlog' | 'indeterminado'`.
+- Ordem de decisão: link (`frenet.com.br/JAD/` ou link Jadlog → Jadlog; link dos Correios → Correios) → formato do código (AA123456789BR → Correios; 9 dígitos numéricos → Jadlog) → nome recebido **somente** se já for Correios/Jadlog. Frenet, Other, Outra, UPS ou vazio nunca decidem sozinhos.
+- Quem usa: `normalizeShopifyPayload` (em `shopify.ts`) grava o resultado; `buildTemplateMessage` escolhe o modelo; `shopify-webhook/index.ts` usa a transportadora resolvida na trava anti-duplicidade.
+- Banco após a normalização:
+  - `shopify_events.normalized.tracking_company` = `correios`, `jadlog` ou `indeterminado`; valor original preservado em `normalized.tracking_company_raw` (auditoria). `raw_payload` intacto.
+  - `tracking_send_locks.carrier` = `correios` / `jadlog` (indeterminado não adquire trava porque não envia).
+  - `shopify_events.send_status` = `skipped_carrier_unknown` para os indeterminados.
+- Tela manual: continua obrigando Correios/Jadlog e não recebe a lógica de inferência.
 
----
+## 4. Comportamento final
 
-## C. Novo acesso só para envio de rastreio
+| Caso | Mensagem ao cliente |
+|---|---|
+| Correios | `pedido_enviado_correios` |
+| Jadlog (inclui Frenet/Other com link Jadlog ou código de 9 dígitos) | `pedido_enviado_jadlog` |
+| Indeterminado | nenhuma mensagem automática; registro interno como indeterminado |
 
-### Situação atual auditada
-
-A tela "Envio de rastreio" usa o formulário próprio (nome, telefone, pedido, código, transportadora Correios/Jadlog), lê o histórico de envios e chama a função de servidor `send-manual-tracking`, que revalida sessão e papel (hoje: admin, gestão, expedicao), confere o modelo aprovado, adquire trava anti-duplicidade e envia pelo WhatsApp. O envio real continua desligado pelo interruptor de segurança.
-
-Reutilizar o papel `expedicao` daria ao novo funcionário o Chat restrito da Leticia — não serve.
-
-### Arquitetura recomendada: novo papel `rastreio`
-
-Menor mudança segura e sem tocar na Leticia:
-
-- Novo papel `rastreio` na lista de papéis do sistema.
-- Menu e rotas: somente "Envio de rastreio"; nada de Chat, Pipeline, Contatos, Agendamentos, Campanhas, Templates, Equipe, Cérebro ou Configurações.
-- Servidor: `send-manual-tracking` passa a aceitar também `rastreio`; nada mais muda.
-- Banco: leitura do histórico de envios liberada para `rastreio` (hoje admin/gestão/expedicao). Nenhum acesso a conversas, mensagens, contatos, negócios, campanhas, modelos ou configurações — as regras atuais já bloqueiam tudo isso para papéis fora de admin/gestão/sdr.
-- O modelo aprovado é conferido pelo servidor com chave de serviço, então o novo papel não precisa ler a tabela de modelos (que já é restrita a admin/gestão).
-- Leticia continua exatamente igual: Chat restrito + Envio de rastreio + handoffs.
-
-Contas continuam sendo criadas por administrador; nenhum cadastro público. Nenhuma conta é criada agora.
-
-Sem conflito com o plano de segurança pausado: aquele plano restringe equipe, times, etiquetas e etapas do funil a admin/gestão/sdr, e o papel `rastreio` não usa nenhuma dessas telas.
-
-Testes: entrar com o novo papel e ver só "Envio de rastreio"; tentativa direta de abrir as outras páginas é negada; leitura direta de conversas, contatos e campanhas bloqueada; envio manual valida campos e respeita o interruptor; Leticia e demais papéis sem alteração.
+Mensagens já enviadas e eventos antigos não são alterados.
 
 ---
 
-## Resumo de execução (quando aprovado)
+## B. Chat do admin x Leticia
 
-- Migrations: 1 — novo papel `rastreio` e leitura do histórico de envios para ele.
-- Funções de servidor a publicar: `shopify-webhook`, `send-manual-tracking`.
-- Publicar o site: sim (menu, rotas e paginação do chat).
-- Reconstruir o Cérebro: não é necessário.
-- Riscos de regressão: baixos e isolados — texto do aviso de envio, lista de conversas do admin, e um papel novo sem efeito sobre os existentes. Mensagens já enviadas, handoffs, rodízio, Shopify, WhatsApp e históricos ficam intactos.
+Diagnóstico e solução mantidos integralmente:
+
+- Admin com visão global; primeira página com 50 conversas, "carregar mais", busca no servidor por nome/telefone em todas as conversas e filtro opcional por responsável. Nenhuma conversa fica invisível por estar fora das 50 mais recentes.
+- Mensagens: carregar as mais recentes primeiro, abrir no fim da conversa e permitir carregar as anteriores, sem limite fixo de 100.
+- Vanessa Reis/Carla aparecer para o admin continua correto.
+- Chats restritos de Leticia, Carla e dermoconsultoras não são tocados.
+
+---
+
+## C. Papel `rastreio`
+
+### 5. Histórico mínimo
+
+A tela hoje mostra: pedido, nome do cliente, transportadora, código, status e data; o telefone é carregado mas não exibido.
+
+Para `rastreio`: somente **os próprios envios**, com **pedido, código, transportadora, status e data** — sem nome e sem telefone. Entregue por uma função de servidor dedicada (`list_my_tracking_sends`), sem leitura direta da tabela. Duplicidade continua bloqueada no servidor pela trava atual, com aviso "código já enviado", independentemente do histórico. Leticia, admin e gestão continuam vendo o histórico completo como hoje.
+
+### 6. Arquitetura final
+
+- Novo papel `rastreio`.
+- Menu e rotas: somente "Envio de rastreio" (página inicial dele); qualquer outra rota volta para ela.
+- `send-manual-tracking`: passa a aceitar `rastreio` além de admin, gestão e expedicao; mantém validação de sessão, campos, modelo aprovado, trava e interruptor de envio.
+- Banco: nenhuma regra nova de leitura em conversas, mensagens, contatos, negócios, campanhas, modelos, equipe ou configurações — as regras atuais já negam tudo isso para papéis fora de admin/gestão/sdr. Sem Chat, handoff, rodízio, concessões ou responsável.
+- Leticia continua `expedicao`, com Chat restrito, handoffs e Envio de rastreio.
+- Plano pausado de segurança: `rastreio` não depende de equipe, times, funções, etiquetas, etapas do funil nem pacotes, e continuará bloqueado quando aquele plano for aplicado.
+
+### 7. Criação da conta
+
+- Nome **Expedicao**, e-mail **expedicaolakma@outlook.com** — verificado agora: **ainda não existe**. Será verificado de novo antes de criar.
+- Criação pela função existente `admin-create-user` (API administrativa oficial, idempotente, sem cadastro público).
+- Ponto de atenção verificado: o gatilho de criação de conta dá `sdr` automaticamente a toda conta nova. Logo após a criação, o `sdr` é trocado por `rastreio` numa única operação, e confirmo que ficou **somente** `rastreio`. A conta não é usada antes disso.
+
+### 8. Precisa de membro da equipe?
+
+**Não.** A trava de envio registra quem enviou pelo usuário da sessão, não pelo membro da equipe; membro de equipe só é necessário para Chat restrito, concessões e rodízio, que esse papel não tem. Não será criado — assim ele também não aparece como responsável.
+
+### 9. Senha temporária
+
+- `admin-create-user` ganha uma opção para devolver a senha temporária **uma única vez** na resposta ao administrador; não é gravada em tabela, metadados, perfil, código nem logs, e não é enviada por e-mail.
+- Eu repasso a senha a você no chat após a criação, para enviar por canal privado.
+- Hoje não existe tela para o usuário logado trocar a própria senha (só o fluxo de "Esqueci minha senha", que não está confiável). Fica para a futura funcionalidade "Alterar senha".
+
+---
+
+## Resumo técnico
+
+**Migrations (1):** adicionar `rastreio` aos papéis; função `list_my_tracking_sends` (acesso somente `rastreio`, próprios envios, campos mínimos). Troca de papel da conta nova é operação de dados, fora da migration.
+
+**Frontend:** `src/hooks/useUserRole.ts` (papel, permissão e página inicial), `src/hooks/useManualTracking.ts` e `src/pages/TrackingSend.tsx` (histórico mínimo para `rastreio`), `src/services/api.ts`, `src/hooks/useConversations.ts`, `src/components/ChatInterface.tsx` (paginação, busca, filtro e mensagens recentes do admin).
+
+**Funções de servidor a publicar:** `shopify-webhook` (com `_shared/shopify.ts`), `send-manual-tracking`, `admin-create-user`.
+
+**Publicar o site:** sim. **Reconstruir o Cérebro:** não.
+
+**Testes finais:**
+- `resolveCarrier` com casos reais: Frenet com link Jadlog, Other com link, Other sem link com 9 dígitos, Correios, e indeterminado; escolha do modelo correto; indeterminado não envia.
+- Simulação do webhook sem disparar WhatsApp.
+- Admin encontra as 19 conversas da Leticia, busca "Aline"/"Anny", conversa longa abre no fim e carrega anteriores.
+- Conta `rastreio`: só vê Envio de rastreio; rotas diretas negadas; leitura direta de conversas, contatos, campanhas e equipe bloqueada; histórico só com os campos mínimos; duplicidade bloqueada; interruptor respeitado.
+- Leticia, Carla, dermoconsultoras, Paula Rodrigues e João Felipe sem alteração.
+- Bateria de testes completa e verificador de segurança.
+
+**Riscos de regressão:**
+- Aviso automático passa a usar outros dois modelos já aprovados — risco baixo; eventos indeterminados deixam de receber aviso até existir o modelo de reserva.
+- Janela curta em que a conta nova nasce `sdr` antes da troca para `rastreio` — mitigada por trocar imediatamente e não entregar a senha antes da confirmação.
+- Lista do admin muda de carga fixa para paginada — isolada da tela das contas restritas.
