@@ -32,7 +32,8 @@ function buildPreview(carrier: CarrierKey, vars: string[]): string {
   return `Boa notícia, ${vars[0]}! Seu pedido ${vars[1]} foi enviado ${via}.\n\nCódigo de rastreio: ${vars[2]}\n\nAcompanhe sua entrega em:\n${TRACK_LINK[carrier]}`;
 }
 
-const ALLOWED_ROLES = ["admin", "manager", "expedicao"];
+// `rastreio`: funcionário da expedição cuja única função é enviar rastreio.
+const ALLOWED_ROLES = ["admin", "manager", "expedicao", "rastreio"];
 
 const json = (body: unknown, status = 200) =>
   new Response(JSON.stringify(body), {
