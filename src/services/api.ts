@@ -8,7 +8,8 @@ import {
   DBConversation,
   DBMessage,
   UIConversation,
-  transformDBToUIConversation
+  transformDBToUIConversation,
+  transformDBToUIMessage
 } from '../types';
 import { MOCK_CONTACTS, MOCK_TEAM, MOCK_APPOINTMENTS, MOCK_DEALS } from '../constants';
 

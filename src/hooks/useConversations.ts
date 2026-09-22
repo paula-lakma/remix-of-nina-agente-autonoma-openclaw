@@ -87,12 +87,26 @@ export function useConversations() {
     }
   }, []);
 
-  // Initial fetch
+  // Paginação/busca/filtro do Chat completo (admin/gestão/sdr).
+  const PAGE = 50;
+  const [pageSize, setPageSize] = useState(PAGE);
+  const [serverSearch, setServerSearch] = useState('');
+  const [assignedFilter, setAssignedFilter] = useState<string | null>(null);
+  const [hasMore, setHasMore] = useState(false);
+  const paramsRef = useRef({ pageSize: PAGE, serverSearch: '', assignedFilter: null as string | null });
+  paramsRef.current = { pageSize, serverSearch, assignedFilter };
+
   const fetchConversations = useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
-      const data = await api.fetchConversations();
+      const p = paramsRef.current;
+      const data = await api.fetchConversations({
+        limit: p.pageSize,
+        search: p.serverSearch,
+        assignedUserId: p.assignedFilter,
+      });
+      setHasMore(data.length >= p.pageSize);
       
       // Reset processed IDs on fresh fetch and populate with existing messages
       processedMessageIds.current.clear();
@@ -110,6 +124,30 @@ export function useConversations() {
     } finally {
       setLoading(false);
     }
+  }, []);
+
+  // Recarrega ao mudar página, busca ou filtro (não refaz as inscrições realtime).
+  const firstParamsRun = useRef(true);
+  useEffect(() => {
+    if (firstParamsRun.current) { firstParamsRun.current = false; return; }
+    fetchConversations();
+  }, [pageSize, serverSearch, assignedFilter, fetchConversations]);
+
+  const loadMore = useCallback(() => setPageSize((n) => n + PAGE), []);
+  const applySearch = useCallback((q: string) => { setPageSize(PAGE); setServerSearch(q.trim()); }, []);
+  const applyAssignedFilter = useCallback((id: string | null) => { setPageSize(PAGE); setAssignedFilter(id); }, []);
+
+  const loadOlderMessages = useCallback(async (conversationId: string) => {
+    const conv = conversationsRef.current.find((c) => c.id === conversationId);
+    const oldest = conv?.messages[0]?.sentAtRaw;
+    if (!conv || !oldest) return;
+    const { messages, hasMore: more } = await api.fetchOlderMessages(conversationId, oldest);
+    messages.forEach((m) => processedMessageIds.current.add(m.id));
+    setConversations((prev) => prev.map((c) => {
+      if (c.id !== conversationId) return c;
+      const known = new Set(c.messages.map((m) => m.id));
+      return { ...c, messages: [...messages.filter((m) => !known.has(m.id)), ...c.messages], hasOlderMessages: more };
+    }));
   }, []);
 
   // Set up real-time subscription
