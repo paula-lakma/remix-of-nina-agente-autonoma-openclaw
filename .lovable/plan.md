@@ -119,5 +119,37 @@ Para `rastreio`: somente **os próprios envios**, com **pedido, código, transpo
 
 **Riscos de regressão:**
 - Aviso automático passa a usar outros dois modelos já aprovados — risco baixo; eventos indeterminados deixam de receber aviso até existir o modelo de reserva.
-- Janela curta em que a conta nova nasce `sdr` antes da troca para `rastreio` — mitigada por trocar imediatamente e não entregar a senha antes da confirmação.
+- Conta nova nasce `sdr` pelo gatilho de cadastro — eliminado na prática: a conta nasce bloqueada para login e só é liberada depois de confirmado que tem somente `rastreio` (garantia G1).
+
+---
+
+## Garantias finais antes da implementação
+
+### G1. Conta nunca utilizável como `sdr`
+
+O gatilho de cadastro dá `sdr` a toda conta nova, e o Auth não permite criar a conta sem disparar esse gatilho. Por isso `admin-create-user` passa a aceitar um papel final explícito (só admin pode pedir; lista permitida nesta etapa: `rastreio`) e segue esta ordem:
+
+1. Cria a conta **já bloqueada para login** (bloqueio oficial do Auth) — ninguém consegue entrar com ela, nem como `sdr`.
+2. Remove `sdr` e atribui `rastreio`.
+3. Relê os papéis e confirma que existe **somente** `rastreio`.
+4. Só então desbloqueia a conta e devolve a senha.
+
+Se qualquer passo falhar: a conta continua bloqueada, nenhuma senha é devolvida, a resposta é erro e a conta não é considerada pronta. Sem papel explícito, a função se comporta exatamente como hoje. Gatilho de cadastro e contas existentes não mudam.
+
+### G2. Aviso de rastreio continua com envio único
+
+Verificado no banco e no código:
+
+- Trava principal: chave única = **código de rastreio normalizado** (só letras e números, maiúsculo). A transportadora **não faz parte** da chave.
+- Segunda trava dos avisos Shopify: único por **fulfillment + código de rastreio**. Transportadora também fora.
+- A transportadora é gravada apenas como informação.
+
+Portanto um evento antigo "Frenet / 622119559" e o mesmo evento chegando depois como "jadlog / 622119559" caem na mesma chave e são recusados como duplicados. Repetições de atualização do mesmo envio seguem idempotentes. Eventos históricos Frenet/Other já registrados nas travas não são reenviados; nenhum evento antigo é reprocessado e nenhuma mensagem antiga é alterada. Teste incluído: reenviar um evento histórico Frenet após a mudança e confirmar que nada é enviado.
+
+### G3. Senha temporária
+
+- Gerada dentro da função com gerador criptográfico (forte, aleatória).
+- Não é gravada em banco, metadados, perfil, código nem segredos; a função não registra a senha em log (hoje só registra a mensagem de erro de criação, que não contém a senha).
+- Devolvida **uma única vez**, somente depois da confirmação de G1; não há como consultá-la depois.
+- Forma de entrega: não existe hoje no projeto uma tela de "revelar uma vez" para o administrador. A única opção disponível é o retorno único da função, que chega a mim e eu repasso a você **numa única mensagem**, sem repetir depois. Se preferir não ver a senha no chat, alternativa: crio a conta bloqueada e sem senha entregue, e a senha é definida depois quando existir a tela "Alterar senha"/"Definir senha pelo administrador".
 - Lista do admin muda de carga fixa para paginada — isolada da tela das contas restritas.
