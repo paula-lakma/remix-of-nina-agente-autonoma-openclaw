@@ -63,7 +63,10 @@ export interface NormalizedShopify {
   currency: string | null;
   financial_status: string | null;
   fulfillment_status: string | null;
+  /** Transportadora resolvida: correios | jadlog | indeterminado. */
   tracking_company: string | null;
+  /** Valor original recebido da Shopify (auditoria; nunca exibido ao cliente). */
+  tracking_company_raw: string | null;
   tracking_number: string | null;
   tracking_url: string | null;
 }
@@ -155,10 +158,47 @@ export function normalizeShopifyPayload(topic: string, body: Any): NormalizedSho
     currency: (pick(body, ["currency", "order.currency"]) as string) ?? null,
     financial_status: financial ? String(financial) : null,
     fulfillment_status: fulfillment ? String(fulfillment) : null,
-    tracking_company: trackingCompany ? String(trackingCompany) : null,
+    tracking_company: (trackingNumber || trackingUrl || trackingCompany)
+      ? resolveCarrier(
+          trackingUrl ? String(trackingUrl) : null,
+          trackingNumber ? String(trackingNumber) : null,
+          trackingCompany ? String(trackingCompany) : null,
+        )
+      : null,
+    tracking_company_raw: trackingCompany ? String(trackingCompany) : null,
     tracking_number: trackingNumber ? String(trackingNumber) : null,
     tracking_url: trackingUrl ? String(trackingUrl) : null,
   };
+}
+
+export type ResolvedCarrier = "correios" | "jadlog" | "indeterminado";
+
+/**
+ * Fonte única de verdade da transportadora nos eventos automáticos.
+ * A Lakma trabalha SOMENTE com Correios e Jadlog. Ordem:
+ *   1. link de rastreio; 2. formato do código; 3. nome recebido apenas se já
+ *   for Correios/Jadlog. Frenet/Other/Outra/UPS nunca decidem sozinhos.
+ * Sem certeza → "indeterminado" (não inventa transportadora).
+ */
+export function resolveCarrier(
+  trackingUrl: string | null | undefined,
+  trackingNumber: string | null | undefined,
+  trackingCompany: string | null | undefined,
+): ResolvedCarrier {
+  const url = String(trackingUrl ?? "").toLowerCase();
+  if (url) {
+    if (/frenet\.com\.br\/jad\b|frenet\.com\.br\/jad\//.test(url) || url.includes("jadlog")) return "jadlog";
+    if (url.includes("correios.com.br") || url.includes("rastreamento.correios")) return "correios";
+  }
+  const code = String(trackingNumber ?? "").replace(/[^A-Za-z0-9]/g, "").toUpperCase();
+  if (code) {
+    if (/^[A-Z]{2}\d{9}BR$/.test(code)) return "correios";
+    if (/^\d{9}$/.test(code)) return "jadlog";
+  }
+  const name = String(trackingCompany ?? "").trim().toLowerCase();
+  if (name === "correios" || name.startsWith("correios")) return "correios";
+  if (name === "jadlog" || name.startsWith("jadlog")) return "jadlog";
+  return "indeterminado";
 }
 
 /** Template + variáveis (body) para cada tipo de evento. */
@@ -188,14 +228,27 @@ export function buildTemplateMessage(n: NormalizedShopify, couponFreeText?: stri
   }
 
   if (n.event_kind === "order_shipped") {
-    const company = n.tracking_company || "transportadora";
+    // Transportadora já resolvida por resolveCarrier (somente correios/jadlog).
+    // Indeterminado NÃO gera mensagem: nunca afirmar transportadora nem mostrar
+    // Frenet/Other ao cliente.
     const code = n.tracking_number || "-";
-    return {
-      template_name: "pedido_enviado",
-      template_language: "pt_BR",
-      variables: [first, order, company, code],
-      preview: `Boa notícia, ${first}! Seu pedido ${order} foi enviado pela ${company}. Código de rastreio: ${code}. Você já pode acompanhar a entrega pelo site da transportadora.${n.tracking_url ? ` ${n.tracking_url}` : ""}`,
-    };
+    if (n.tracking_company === "correios") {
+      return {
+        template_name: "pedido_enviado_correios",
+        template_language: "pt_BR",
+        variables: [first, order, code],
+        preview: `Boa notícia, ${first}! Seu pedido ${order} foi enviado pelos Correios.\n\nCódigo de rastreio: ${code}\n\nAcompanhe sua entrega em:\nhttps://rastreamento.correios.com.br/`,
+      };
+    }
+    if (n.tracking_company === "jadlog") {
+      return {
+        template_name: "pedido_enviado_jadlog",
+        template_language: "pt_BR",
+        variables: [first, order, code],
+        preview: `Boa notícia, ${first}! Seu pedido ${order} foi enviado pela Jadlog.\n\nCódigo de rastreio: ${code}\n\nAcompanhe sua entrega em:\nhttps://www.jadlog.com.br/jadlog/rastreie`,
+      };
+    }
+    return null;
   }
 
   return couponFreeText ? null : null;
