@@ -31,7 +31,7 @@ export interface ManualTrackingLog {
 
 
 
-export function useManualTracking() {
+export function useManualTracking(minimalHistory = false) {
   const [logs, setLogs] = useState<ManualTrackingLog[]>([]);
   const [loading, setLoading] = useState(true);
   const [sending, setSending] = useState(false);
@@ -39,6 +39,14 @@ export function useManualTracking() {
 
   const fetchLogs = useCallback(async () => {
     setLoading(true);
+    if (minimalHistory) {
+      // Papel `rastreio`: somente os próprios envios, sem nome e sem telefone.
+      const { data } = await supabase.rpc('list_my_tracking_sends', { p_limit: 50 });
+      setLogs(((data as Omit<ManualTrackingLog, 'customer_name' | 'phone_number' | 'error_message'>[]) || [])
+        .map((r) => ({ ...r, customer_name: '', phone_number: '', error_message: null })));
+      setLoading(false);
+      return;
+    }
     const { data } = await supabase
       .from('manual_tracking_logs')
       .select('id, tracking_number, carrier, order_number, phone_number, customer_name, status, error_message, created_at, sent_at')
@@ -46,7 +54,7 @@ export function useManualTracking() {
       .limit(50);
     setLogs((data as ManualTrackingLog[]) || []);
     setLoading(false);
-  }, []);
+  }, [minimalHistory]);
 
   useEffect(() => {
     fetchLogs();
