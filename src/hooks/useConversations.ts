@@ -648,7 +648,13 @@ export function useConversations() {
     assignToExpedicao,
     clearExpedicaoAssignment,
     deleteConversation,
-    refetch: fetchConversations
+    refetch: fetchConversations,
+    hasMore,
+    loadMore,
+    applySearch,
+    applyAssignedFilter,
+    assignedFilter,
+    loadOlderMessages,
   };
 }
 
