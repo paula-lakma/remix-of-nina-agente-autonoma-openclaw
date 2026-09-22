@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 
-export type AppRole = 'admin' | 'manager' | 'sdr' | 'user' | 'moderator' | 'expedicao' | 'dermo' | 'parcerias' | 'minimal';
+export type AppRole = 'admin' | 'manager' | 'sdr' | 'user' | 'moderator' | 'expedicao' | 'dermo' | 'parcerias' | 'rastreio' | 'minimal';
 
 // Papel de segurança usado quando nenhum papel conhecido é encontrado (papel novo
 // ainda não reconhecido por esta versão do app). Acesso mínimo: só o chat.
@@ -22,6 +22,8 @@ const ROLE_PERMISSIONS: Record<AppRole, string[]> = {
   dermo:     ['chat'],
   // Parcerias (Carla): somente o Chat ao Vivo restrito (backend `parcerias-chat`).
   parcerias: ['chat'],
+  // Funcionário da expedição: somente Envio de rastreio (sem chat).
+  rastreio:  ['tracking'],
   // Papel desconhecido por esta versão: acesso mínimo, somente o chat.
   minimal:   ['chat'],
 };
@@ -36,6 +38,7 @@ const ROLE_HOME: Record<AppRole, string> = {
   expedicao: '/tracking',
   dermo: '/chat',
   parcerias: '/chat',
+  rastreio: '/tracking',
   minimal: '/chat',
 };
 
@@ -67,7 +70,7 @@ export function useUserRole() {
       if (!active) return;
       const roles = (data || []).map((r) => r.role as AppRole);
       // prioridade: admin > manager > moderator > sdr > expedicao > dermo > parcerias > user
-      const priority: AppRole[] = ['admin', 'manager', 'moderator', 'sdr', 'expedicao', 'dermo', 'parcerias', 'user'];
+      const priority: AppRole[] = ['admin', 'manager', 'moderator', 'sdr', 'expedicao', 'dermo', 'parcerias', 'rastreio', 'user'];
       // Papel desconhecido / versão desatualizada do app: acesso mínimo (somente o
       // Chat ao Vivo restrito). Nunca assumir `sdr`, que abriria Pipeline,
       // Contatos e Agendamentos indevidamente.
