@@ -1,74 +1,59 @@
-# Auditoria do Dashboard e do Pipeline (somente leitura)
+# Dashboard MASTER V1 — plano final (aguardando aprovação)
 
-Nada foi alterado. Abaixo o que encontrei e a proposta de Dashboard MASTER V1.
+Baseado na auditoria aprovada. Não usa o Pipeline. Nada é implementado até você aprovar.
 
-## 1. Indicadores do Dashboard hoje
+## 1. KPIs da visão geral (filtros Hoje / 7 dias / 30 dias)
 
-| Indicador | Fonte | Funciona? | Por que aparece zerado |
-|---|---|---|---|
-| Atendimentos (Hoje/7/30) | conversas com última mensagem no período | Sim | Hoje só 1 conversa teve mensagem; o volume real é baixo por dia (43 mensagens nas últimas 24h) |
-| Conversões | negócios "ganhos" + agendamentos | Não | Nunca houve negócio marcado como ganho (0 de 934) e não existe nenhum agendamento. Sempre será 0 |
-| Tempo Médio | campo de tempo de resposta nas mensagens | Não | Só 19 mensagens em 1.282 têm esse tempo, e a última é de 07/07. O caminho atual da Nina não grava mais esse dado |
-| Novos Leads | contatos criados no período | Sim | 31 contatos nas últimas 24h; funciona |
-| Volume de Atendimentos (gráfico) | mensagens por dia | Sim | Funciona |
-| Conversões (barras) | mesma fonte quebrada acima | Não | Sempre 0 |
+| Card | Definição exata | Fonte |
+|---|---|---|
+| Conversas recebidas no período | conversas com mensagem do cliente no período (contagem de conversas distintas) | mensagens |
+| Conversas com a Nina agora | conversas ativas, sem responsável humano e com a Nina ligada | conversas |
+| Atendimentos humanos ativos agora | conversas ativas com responsável atribuído e atendimento não finalizado | conversas |
+| Encaminhamentos no período | eventos de encaminhamento (logística, dermoconsultora, parcerias, comercial) criados no período; reativações e respostas não contam | eventos de encaminhamento |
+| Atendimentos finalizados no período | eventos de finalização criados no período | eventos de encaminhamento |
+| Novos leads no período | contatos criados no período | contatos |
 
-Resumo: metade do painel é interface sem dado confiável.
+Removidos da V1: Conversões e Tempo Médio (sem dado confiável). Gráfico de volume por dia continua, alimentado pelas mensagens.
 
-## 2. Status do Sistema
+## 2. Atendimentos por responsável
 
-A verificação roda 8 itens e calcula uma única porcentagem. O ElevenLabs entra como "aviso" quando não tem chave, e isso derruba a porcentagem geral e pinta o cartão de amarelo, mesmo com tudo essencial certo.
+Tabela com uma linha por pessoa (Leticia, Carla, Paula Rodrigues, Cris, Barbara, Mylena, Talia, Laura e demais responsáveis válidos):
 
-Menor alteração proposta (não aplicada): marcar o ElevenLabs como opcional na verificação e mostrar duas linhas — "Essenciais: X% configurados" e, abaixo, "Opcionais: ElevenLabs não configurado". A porcentagem e a cor passam a considerar só os essenciais; o ElevenLabs continua visível na lista de detalhes.
+- **Ativos agora**: conversas ativas atribuídas à pessoa, com atendimento humano ainda em aberto.
+- **Recebidos no período**: eventos de encaminhamento no período em que a pessoa foi a destinatária. Cada evento conta uma vez; reativações da Nina, respostas e reaberturas não contam.
+- **Finalizados no período**: eventos de finalização no período feitos pela pessoa.
 
-## 3. Pipeline: não é fonte confiável hoje
+Linhas com tudo zerado aparecem com traço, para deixar claro que a pessoa não tem movimento no período.
 
-- Cada contato novo cria negócio automaticamente — mas existem **dois gatilhos duplicados** fazendo isso. Resultado: 934 negócios para 467 contatos, ou seja, **todos os 467 contatos têm card duplicado**.
-- Distribuição: Novo lead 747, Qualificando 143, Encaminhado para humano 22, Atendimento concluído 15, Link do site 6, Indicação enviada 1, Sem resposta 0.
-- 421 cards sem qualquer movimentação há mais de 30 dias; 12 cards sem conversa correspondente.
-- Quem move o card: o encaminhamento para humano move para "Encaminhado para humano" (funciona). As demais etapas dependiam de uma análise automática por IA que **não é mais chamada por nenhum fluxo ativo** — logo, quase nada avança sozinho. "Sem resposta" nunca é usada.
-- Valores R$ 0,00: nenhum negócio tem valor preenchido. Campo não utilizado.
+## 3. Fila de atenção — "Atendimentos que precisam de atenção"
 
-Conclusão: o Pipeline serve como quadro manual, mas não deve alimentar métricas.
+Somente atendimentos humanos ativos, com: cliente, responsável, motivo do encaminhamento, última atividade, tempo parado e status. Ordenados do mais parado para o mais recente, com faixas de destaque: até 30 min, 30 min–1h, 1h–4h, 4h–24h, mais de 24h.
 
-## 4. O que dá para medir com confiança hoje
+## 4. Bloco de rastreio (no período)
 
-Direto das conversas, mensagens, eventos de encaminhamento e rastreio (confiáveis):
+Total enviado, Correios, Jadlog, automático Shopify, manual, sucesso, falha, bloqueados por duplicidade e indeterminados. Envios manuais por usuário quando houver identificação do solicitante. A origem já é gravada como "shopify" ou "manual", então acrescentar "Frenet" no futuro é só um novo valor — nenhuma mudança agora.
 
-- conversas recebidas hoje; conversas com a Nina agora; atendimentos humanos ativos (24 agora)
-- encaminhamentos por dia e por tipo (116 registros: logística, dermoconsultora, parcerias, comercial, reativação da Nina, atendimento finalizado, reabertura)
-- atendimentos finalizados por dia (pelos eventos — 11 até hoje)
-- novos leads por dia
-- por responsável: ativos agora, recebidos no período, finalizados no período
-- fila de atenção: cliente, responsável, motivo, hora da última mensagem, tempo parado, status
-- rastreio: total enviado, Correios x Jadlog, manual x automático, sucesso, bloqueado por duplicidade, falha, indeterminado, por usuário da expedição (298 travas + 10 envios manuais)
+## 5. Status do Sistema
 
-Não dá para medir com confiança hoje:
+Passa a ter dois blocos: **Essenciais** (identidade, WhatsApp, agente, horário, Lovable AI, perfil, configurações) com a porcentagem e a cor do cartão, e **Opcionais** (ElevenLabs), exibido separadamente e sem afetar a porcentagem. O ElevenLabs continua visível nos detalhes como integração opcional não configurada.
 
-- conversões / vendas (nenhum dado real)
-- tempo médio de resposta da Nina (parou de ser gravado em julho)
-- "conversas resolvidas sem humano" (só por aproximação; hoje nenhuma conversa tem a marca de finalizada no campo próprio — só nos eventos)
-- qualquer métrica baseada em etapa do funil
+## 6. Acesso
 
-## 5. Proposta de Dashboard MASTER V1 (só para admin)
+Todo o painel novo é exclusivo do admin (paula@lakma.com.br). sdr, parcerias, expedicao, rastreio e dermo não ganham nada — a rota do Dashboard já é restrita a admin.
 
-1. **Visão geral do dia**: conversas recebidas, com a Nina agora, atendimentos humanos ativos, encaminhamentos hoje, finalizados hoje, novos leads.
-2. **Por responsável**: tabela com ativos agora, recebidos e finalizados no período (Leticia, Carla, Paula Rodrigues, Cris, Barbara, Mylena, Talia, Laura e demais).
-3. **Fila de atenção**: atendimentos humanos ativos ordenados por tempo parado, com destaque para os mais antigos.
-4. **Rastreio**: enviados no período, por transportadora, manual x automático, bloqueados e falhas.
-5. **Status do Sistema**: mantido, com essenciais e opcionais separados.
-6. Filtros Hoje / 7 dias / 30 dias mantidos. Cards sem dado confiável (Conversões, Tempo Médio) saem do painel, em vez de mostrar zero.
+## 7. Detalhes técnicos
 
-## 6. O que precisa ser corrigido antes
+- **Sem RPC e sem migration.** Verifiquei as permissões: o admin já lê conversas, mensagens, contatos, eventos de encaminhamento, travas de rastreio e histórico manual diretamente. Os volumes são pequenos (1.282 mensagens, 934 registros de rastreio), então as contagens podem ser feitas por consultas de contagem no próprio cliente, em paralelo.
+- Consultas usam `count` sem trazer linhas, exceto a fila de atenção e a tabela por responsável, que trazem poucas linhas.
+- Arquivos afetados: `src/services/api.ts` (novas funções de métricas, removendo as quebradas), `src/components/Dashboard.tsx` (novos cards, tabela por responsável, fila de atenção, bloco de rastreio), novos componentes em `src/components/dashboard/`, `src/components/SystemHealthCard.tsx` e `supabase/functions/validate-setup/index.ts` (separação essenciais/opcionais).
+- Testes: novos testes unitários para o cálculo das faixas de tempo parado, para a contagem por responsável (não contar reatribuição/resposta/reabertura) e para o cálculo de essenciais x opcionais. Suíte atual (224 testes) deve continuar verde.
+- Performance: cerca de 10 consultas leves em paralelo por carregamento, mesma ordem de grandeza do painel atual.
+- Publicação: só a interface do painel e a função de verificação do sistema; nada de banco.
 
-- Remover o gatilho duplicado de criação de card e limpar os duplicados já existentes (só com sua aprovação; mexe no Pipeline).
-- Decidir se o campo "atendimento finalizado" deve ser corrigido ou se as métricas usam apenas os eventos de encaminhamento (recomendo os eventos, sem mexer em dados).
-- Decidir se o tempo de resposta da Nina volta a ser gravado (mudança no fluxo da Nina; fora do escopo deste painel).
+## 8. Confirmações
 
-## Detalhes técnicos
-
-- Dados vêm de `conversations`, `messages`, `contacts`, `conversation_handoff_events`, `tracking_send_locks`, `manual_tracking_logs`.
-- Arquivos envolvidos: `src/components/Dashboard.tsx`, `src/services/api.ts` (`fetchDashboardMetrics`, `fetchChartData`), `src/components/SystemHealthCard.tsx`, `supabase/functions/validate-setup/index.ts`.
-- Métricas por responsável e fila de atenção pedem uma consulta agregada; como só o admin vê, pode ser feita no cliente com as políticas atuais, ou via função no banco (mais rápida) — decidir na implementação.
-- Migrations necessárias: nenhuma para o painel. Apenas se aprovarmos a limpeza dos cards duplicados (remoção de um gatilho + deduplicação).
-- Riscos: a deduplicação de cards altera o Pipeline; nada mais toca chats, encaminhamentos, papéis, RLS, Shopify, WhatsApp ou contas. Plano dos 6 alertas de segurança segue pausado.
+- **Pipeline fica fora desta implementação.** Fica registrado: dois gatilhos criam cards, 467 contatos geraram 934 cards, duplicação sistemática, etapas automáticas parcialmente inativas, Pipeline não é fonte de métricas. Correção em etapa separada.
+- **`attendance_finished` não será corrigido nem preenchido retroativamente**; a métrica usa os eventos reais.
+- **Tempo médio da Nina não entra na V1**; a Nina não é reinstrumentada.
+- **Os 6 alertas de segurança continuam pausados.**
+- Nada de chats, encaminhamentos, rodízio, rastreio, Shopify, WhatsApp, papéis, RLS ou contas é alterado.
