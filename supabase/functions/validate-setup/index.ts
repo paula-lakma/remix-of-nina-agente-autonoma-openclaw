@@ -11,7 +11,11 @@ interface ValidationResult {
   status: 'ok' | 'warning' | 'error';
   message: string;
   details?: string;
+  optional?: boolean;
 }
+
+/** Integrações opcionais: não afetam a porcentagem nem o status geral. */
+const OPTIONAL_COMPONENTS = ['elevenlabs'];
 
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
@@ -162,7 +166,7 @@ serve(async (req) => {
         });
       }
 
-      // Check ElevenLabs (optional)
+      // Check ElevenLabs (integração OPCIONAL)
       if (settings.elevenlabs_api_key) {
         try {
           const elResponse = await fetch('https://api.elevenlabs.io/v1/user', {
