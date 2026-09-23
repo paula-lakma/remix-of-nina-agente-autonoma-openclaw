@@ -2,58 +2,90 @@
 
 Baseado na auditoria aprovada. Não usa o Pipeline. Nada é implementado até você aprovar.
 
+## 0. Definição de "atendimento humano realmente ativo" (fechada)
+
+Condição única, usada nos três lugares (card, tabela por responsável e fila de atenção). Uma conversa conta quando **todas** são verdadeiras:
+
+1. conversa ativa;
+2. tem responsável atribuído;
+3. atendimento não finalizado;
+4. **e** apresenta pelo menos um sinal real de atendimento humano: Nina pausada, takeover humano marcado ou tipo de encaminhamento preenchido.
+
+O item 4 é o que exclui o caso residual que você citou (status Nina, sem pausa, sem takeover, mas com responsável antigo). Verifiquei agora: com a regra completa dá **24 conversas** e **nenhuma** atribuição residual — ou seja, a regra não quebra nenhum fluxo (Leticia, Carla, Paula Rodrigues, dermoconsultoras). Das 24, 23 também têm permissão de acesso ativa; a exceção é uma atribuição feita direto pelo admin, que é legítima — por isso a permissão de acesso entra como reforço, não como exigência.
+
+Quando uma conversa volta para a Nina (permissão revogada e marcas de encaminhamento limpas), ela deixa de contar automaticamente.
+
 ## 1. KPIs da visão geral (filtros Hoje / 7 dias / 30 dias)
 
 | Card | Definição exata | Fonte |
 |---|---|---|
-| Conversas recebidas no período | conversas com mensagem do cliente no período (contagem de conversas distintas) | mensagens |
-| Conversas com a Nina agora | conversas ativas, sem responsável humano e com a Nina ligada | conversas |
-| Atendimentos humanos ativos agora | conversas ativas com responsável atribuído e atendimento não finalizado | conversas |
-| Encaminhamentos no período | eventos de encaminhamento (logística, dermoconsultora, parcerias, comercial) criados no período; reativações e respostas não contam | eventos de encaminhamento |
+| Conversas recebidas no período | conversas distintas com mensagem do cliente no período | mensagens |
+| Conversas com a Nina agora | conversas ativas, sem atendimento humano ativo (regra acima) e com a Nina ligada | conversas |
+| Atendimentos humanos ativos agora | regra do item 0 | conversas |
+| Encaminhamentos no período | eventos de encaminhamento (logística, dermoconsultora, parcerias, comercial) criados no período; reativação, resposta e reabertura não contam | eventos de encaminhamento |
 | Atendimentos finalizados no período | eventos de finalização criados no período | eventos de encaminhamento |
 | Novos leads no período | contatos criados no período | contatos |
 
-Removidos da V1: Conversões e Tempo Médio (sem dado confiável). Gráfico de volume por dia continua, alimentado pelas mensagens.
+Removidos da V1: Conversões e Tempo Médio. Gráfico de volume por dia continua, alimentado pelas mensagens.
 
 ## 2. Atendimentos por responsável
 
-Tabela com uma linha por pessoa (Leticia, Carla, Paula Rodrigues, Cris, Barbara, Mylena, Talia, Laura e demais responsáveis válidos):
+Uma linha por pessoa (Leticia, Carla, Paula Rodrigues, Cris, Barbara, Mylena, Talia, Laura e demais válidos):
 
-- **Ativos agora**: conversas ativas atribuídas à pessoa, com atendimento humano ainda em aberto.
-- **Recebidos no período**: eventos de encaminhamento no período em que a pessoa foi a destinatária. Cada evento conta uma vez; reativações da Nina, respostas e reaberturas não contam.
+- **Ativos agora**: conversas que atendem à regra do item 0 e estão atribuídas à pessoa.
+- **Recebidos no período**: eventos de encaminhamento no período em que a pessoa foi a destinatária; cada evento conta uma vez.
 - **Finalizados no período**: eventos de finalização no período feitos pela pessoa.
 
-Linhas com tudo zerado aparecem com traço, para deixar claro que a pessoa não tem movimento no período.
+Linhas zeradas aparecem com traço.
 
 ## 3. Fila de atenção — "Atendimentos que precisam de atenção"
 
-Somente atendimentos humanos ativos, com: cliente, responsável, motivo do encaminhamento, última atividade, tempo parado e status. Ordenados do mais parado para o mais recente, com faixas de destaque: até 30 min, 30 min–1h, 1h–4h, 4h–24h, mais de 24h.
+Somente atendimentos da regra do item 0, com cliente, responsável, motivo, última atividade, tempo parado e status. Ordem do mais parado para o mais recente, com faixas: até 30 min, 30 min–1h, 1h–4h, 4h–24h, mais de 24h.
 
-## 4. Bloco de rastreio (no período)
+## 4. Bloco de rastreio — fonte de verdade por número (fechada)
 
-Total enviado, Correios, Jadlog, automático Shopify, manual, sucesso, falha, bloqueados por duplicidade e indeterminados. Envios manuais por usuário quando houver identificação do solicitante. A origem já é gravada como "shopify" ou "manual", então acrescentar "Frenet" no futuro é só um novo valor — nenhuma mudança agora.
+**Fonte principal: as travas de envio de rastreio.** Toda origem passa por ela (automático e manual), então ela evita dupla contagem; o histórico manual serve apenas para o que não existe na trava.
+
+| Número | Critério | Fonte |
+|---|---|---|
+| Enviados com sucesso ("Total enviado") | travas com resultado de envio concluído no período | travas de rastreio |
+| Correios / Jadlog | mesmos envios concluídos, agrupados por transportadora | travas de rastreio |
+| Automático Shopify | envios concluídos com origem Shopify | travas de rastreio |
+| Manual | envios concluídos com origem manual | travas de rastreio |
+| Bloqueados por duplicidade | tentativas manuais recusadas por duplicidade + eventos da Shopify ignorados por duplicidade | histórico manual + eventos Shopify |
+| Falhas | travas com resultado de falha + tentativas manuais com falha | travas + histórico manual |
+| Indeterminados | eventos da Shopify sem transportadora reconhecida ou sem código, que não geraram envio | eventos Shopify |
+| Envios manuais por usuário | envios concluídos de origem manual, agrupados por quem solicitou | histórico manual |
+
+Total enviado nunca inclui duplicidade, falha, indeterminado ou tentativa não enviada.
+
+Dois pontos reais dos dados de hoje, que o painel vai tratar na exibição (sem alterar nada no banco):
+
+- há registros antigos com transportadora gravada como "Frenet" (11), "Other" (83) e maiúsculas/minúsculas misturadas; o painel normaliza para Correios/Jadlog pela mesma regra do backend e mostra o que não for reconhecido como "Outros (histórico antigo)";
+- há 56 registros de origem "shopify_seed" (carga antiga, sem transportadora); entram como histórico antigo, fora de Correios/Jadlog.
+
+A separação por origem já existe como campo, então acrescentar "Frenet" no futuro é apenas um novo valor — nada é implementado agora.
 
 ## 5. Status do Sistema
 
-Passa a ter dois blocos: **Essenciais** (identidade, WhatsApp, agente, horário, Lovable AI, perfil, configurações) com a porcentagem e a cor do cartão, e **Opcionais** (ElevenLabs), exibido separadamente e sem afetar a porcentagem. O ElevenLabs continua visível nos detalhes como integração opcional não configurada.
+Dois blocos: **Essenciais** (identidade, WhatsApp, agente, horário, Lovable AI, perfil, configurações) definindo a porcentagem e a cor; **Opcionais** (ElevenLabs) exibido separadamente, sem afetar a porcentagem e ainda visível nos detalhes.
 
 ## 6. Acesso
 
-Todo o painel novo é exclusivo do admin (paula@lakma.com.br). sdr, parcerias, expedicao, rastreio e dermo não ganham nada — a rota do Dashboard já é restrita a admin.
+Exclusivo do admin (paula@lakma.com.br). sdr, parcerias, expedicao, rastreio e dermo não ganham nada.
 
 ## 7. Detalhes técnicos
 
-- **Sem RPC e sem migration.** Verifiquei as permissões: o admin já lê conversas, mensagens, contatos, eventos de encaminhamento, travas de rastreio e histórico manual diretamente. Os volumes são pequenos (1.282 mensagens, 934 registros de rastreio), então as contagens podem ser feitas por consultas de contagem no próprio cliente, em paralelo.
-- Consultas usam `count` sem trazer linhas, exceto a fila de atenção e a tabela por responsável, que trazem poucas linhas.
-- Arquivos afetados: `src/services/api.ts` (novas funções de métricas, removendo as quebradas), `src/components/Dashboard.tsx` (novos cards, tabela por responsável, fila de atenção, bloco de rastreio), novos componentes em `src/components/dashboard/`, `src/components/SystemHealthCard.tsx` e `supabase/functions/validate-setup/index.ts` (separação essenciais/opcionais).
-- Testes: novos testes unitários para o cálculo das faixas de tempo parado, para a contagem por responsável (não contar reatribuição/resposta/reabertura) e para o cálculo de essenciais x opcionais. Suíte atual (224 testes) deve continuar verde.
-- Performance: cerca de 10 consultas leves em paralelo por carregamento, mesma ordem de grandeza do painel atual.
-- Publicação: só a interface do painel e a função de verificação do sistema; nada de banco.
+- **Sem RPC e sem migration.** O admin já lê conversas, mensagens, contatos, eventos de encaminhamento, travas de rastreio, histórico manual e eventos da Shopify pelas permissões atuais. Volumes pequenos (1.282 mensagens, ~300 travas), então contagens diretas bastam.
+- Arquivos afetados: `src/services/api.ts` (novas funções de métricas, removendo as quebradas), `src/components/Dashboard.tsx`, novos componentes em `src/components/dashboard/`, `src/components/SystemHealthCard.tsx` e `supabase/functions/validate-setup/index.ts`.
+- Testes: regra de atendimento humano ativo (inclui o caso residual que não deve contar), faixas de tempo parado, contagem por responsável sem contar reatribuição/resposta/reabertura, normalização de transportadora no painel e separação essenciais x opcionais. Suíte atual (224 testes) deve continuar verde.
+- Performance: cerca de 12 consultas leves em paralelo por carregamento.
+- Publicação: interface do painel e função de verificação do sistema; nada de banco.
 
 ## 8. Confirmações
 
-- **Pipeline fica fora desta implementação.** Fica registrado: dois gatilhos criam cards, 467 contatos geraram 934 cards, duplicação sistemática, etapas automáticas parcialmente inativas, Pipeline não é fonte de métricas. Correção em etapa separada.
-- **`attendance_finished` não será corrigido nem preenchido retroativamente**; a métrica usa os eventos reais.
-- **Tempo médio da Nina não entra na V1**; a Nina não é reinstrumentada.
+- **Pipeline fora desta implementação.** Registrado: dois gatilhos criam cards, 467 contatos geraram 934 cards, duplicação sistemática, etapas automáticas parcialmente inativas, Pipeline não é fonte de métricas.
+- **`attendance_finished` não é corrigido nem preenchido retroativamente**; finalizações vêm dos eventos.
+- **Tempo médio da Nina fora da V1**; a Nina não é reinstrumentada.
 - **Os 6 alertas de segurança continuam pausados.**
 - Nada de chats, encaminhamentos, rodízio, rastreio, Shopify, WhatsApp, papéis, RLS ou contas é alterado.
