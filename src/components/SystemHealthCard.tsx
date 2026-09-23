@@ -224,6 +224,7 @@ export const SystemHealthCard: React.FC = () => {
               <div className="flex-1 min-w-0">
                 <p className="text-xs font-medium truncate">
                   {componentLabels[result.component] || result.component}
+                  {result.optional ? ' (opcional)' : ''}
                 </p>
                 <p className="text-[10px] opacity-70 truncate">{result.message}</p>
               </div>
