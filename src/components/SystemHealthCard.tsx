@@ -23,6 +23,7 @@ interface ValidationResult {
   status: 'ok' | 'warning' | 'error';
   message: string;
   details?: string;
+  optional?: boolean;
 }
 
 interface HealthData {
@@ -32,6 +33,11 @@ interface HealthData {
     ok: number;
     total: number;
     percentage: number;
+  };
+  optionalSummary?: {
+    ok: number;
+    total: number;
+    pending: string[];
   };
   message: string;
 }
@@ -149,7 +155,7 @@ export const SystemHealthCard: React.FC = () => {
         </div>
         <div className="flex items-center gap-2">
           <div className={`px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(healthData.overallStatus)}`}>
-            {healthData.summary.percentage}% OK
+            Essenciais: {healthData.summary.percentage}% configurados
           </div>
           <button
             onClick={fetchHealth}
@@ -176,6 +182,17 @@ export const SystemHealthCard: React.FC = () => {
           }`}
         />
       </div>
+
+      {/* Integrações opcionais */}
+      {healthData.optionalSummary && healthData.optionalSummary.total > 0 && (
+        <p className="text-xs text-slate-400 mb-1">
+          {healthData.optionalSummary.pending.length === 0
+            ? 'Opcionais: todas as integrações opcionais configuradas'
+            : `Opcionais: ${healthData.optionalSummary.pending
+                .map((c) => componentLabels[c] || c)
+                .join(', ')} não configurado(s) — não afeta a operação`}
+        </p>
+      )}
 
       {/* Expandable Details */}
       <button
@@ -207,6 +224,7 @@ export const SystemHealthCard: React.FC = () => {
               <div className="flex-1 min-w-0">
                 <p className="text-xs font-medium truncate">
                   {componentLabels[result.component] || result.component}
+                  {result.optional ? ' (opcional)' : ''}
                 </p>
                 <p className="text-[10px] opacity-70 truncate">{result.message}</p>
               </div>
