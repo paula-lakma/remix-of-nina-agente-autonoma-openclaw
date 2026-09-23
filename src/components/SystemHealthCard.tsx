@@ -183,6 +183,17 @@ export const SystemHealthCard: React.FC = () => {
         />
       </div>
 
+      {/* Integrações opcionais */}
+      {healthData.optionalSummary && healthData.optionalSummary.total > 0 && (
+        <p className="text-xs text-slate-400 mb-1">
+          {healthData.optionalSummary.pending.length === 0
+            ? 'Opcionais: todas as integrações opcionais configuradas'
+            : `Opcionais: ${healthData.optionalSummary.pending
+                .map((c) => componentLabels[c] || c)
+                .join(', ')} não configurado(s) — não afeta a operação`}
+        </p>
+      )}
+
       {/* Expandable Details */}
       <button
         onClick={() => setExpanded(!expanded)}
