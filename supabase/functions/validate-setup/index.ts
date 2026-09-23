@@ -286,14 +286,25 @@ serve(async (req) => {
       });
     }
 
-    // Calculate overall status
-    const hasErrors = results.some(r => r.status === 'error');
-    const hasWarnings = results.some(r => r.status === 'warning');
+    // Marca integrações opcionais
+    for (const r of results) {
+      if (OPTIONAL_COMPONENTS.includes(r.component)) r.optional = true;
+    }
+
+    const essentials = results.filter(r => !r.optional);
+    const optionals = results.filter(r => r.optional);
+
+    // Status geral considera SOMENTE os essenciais
+    const hasErrors = essentials.some(r => r.status === 'error');
+    const hasWarnings = essentials.some(r => r.status === 'warning');
     const overallStatus = hasErrors ? 'error' : hasWarnings ? 'warning' : 'ok';
 
-    // Count by status
-    const okCount = results.filter(r => r.status === 'ok').length;
-    const totalCount = results.length;
+    const okCount = essentials.filter(r => r.status === 'ok').length;
+    const totalCount = essentials.length;
+    const optionalsOk = optionals.filter(r => r.status === 'ok').length;
+    const optionalsPending = optionals
+      .filter(r => r.status !== 'ok')
+      .map(r => r.component);
 
     return new Response(JSON.stringify({
       results,
@@ -301,13 +312,18 @@ serve(async (req) => {
       summary: {
         ok: okCount,
         total: totalCount,
-        percentage: Math.round((okCount / totalCount) * 100),
+        percentage: totalCount > 0 ? Math.round((okCount / totalCount) * 100) : 100,
       },
-      message: overallStatus === 'ok' 
-        ? '✅ Tudo configurado corretamente!' 
+      optionalSummary: {
+        ok: optionalsOk,
+        total: optionals.length,
+        pending: optionalsPending,
+      },
+      message: overallStatus === 'ok'
+        ? '✅ Essenciais configurados corretamente'
         : overallStatus === 'warning'
-        ? '⚠️ Sistema funcional, mas há itens opcionais pendentes'
-        : '❌ Há configurações obrigatórias pendentes',
+        ? '⚠️ Há itens essenciais pendentes de configuração'
+        : '❌ Há configurações essenciais obrigatórias pendentes',
     }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
     });
