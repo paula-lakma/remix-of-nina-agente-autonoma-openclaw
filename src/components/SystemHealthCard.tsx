@@ -23,6 +23,7 @@ interface ValidationResult {
   status: 'ok' | 'warning' | 'error';
   message: string;
   details?: string;
+  optional?: boolean;
 }
 
 interface HealthData {
@@ -32,6 +33,11 @@ interface HealthData {
     ok: number;
     total: number;
     percentage: number;
+  };
+  optionalSummary?: {
+    ok: number;
+    total: number;
+    pending: string[];
   };
   message: string;
 }
