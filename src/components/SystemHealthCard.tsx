@@ -155,7 +155,7 @@ export const SystemHealthCard: React.FC = () => {
         </div>
         <div className="flex items-center gap-2">
           <div className={`px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(healthData.overallStatus)}`}>
-            {healthData.summary.percentage}% OK
+            Essenciais: {healthData.summary.percentage}% configurados
           </div>
           <button
             onClick={fetchHealth}
