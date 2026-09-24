@@ -220,12 +220,17 @@ export const CreateDealModal: React.FC<CreateDealModalProps> = ({
         : [];
 
       // Criar o deal
+      // Etapa canônica "Novo lead" (chave 'new') resolvida pela função oficial do banco
+      const { data: newStageId, error: stageError } = await supabase.rpc('pipeline_stage_id', { _key: 'new' });
+      if (stageError || !newStageId) throw stageError ?? new Error('Etapa Novo lead não encontrada');
+
       await api.createDeal({
         contact_id: contactId,
         title: data.title,
         company: data.company,
         value: data.value,
         stage: 'new',
+        stage_id: newStageId as string,
         priority: data.priority,
         tags: tagsArray,
         due_date: data.due_date ? format(data.due_date, 'yyyy-MM-dd') : undefined,
