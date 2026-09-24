@@ -2776,6 +2776,7 @@ export type Database = {
       }
       pick_dermo_assignee: { Args: { _reason: string }; Returns: Json }
       pick_next_dermoconsultora: { Args: never; Returns: string }
+      pipeline_stage_id: { Args: { _key: string }; Returns: string }
       release_shopify_tracking_locks: {
         Args: {
           p_error_message?: string
