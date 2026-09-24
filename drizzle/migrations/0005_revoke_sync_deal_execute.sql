@@ -1,0 +1,1 @@
+REVOKE EXECUTE ON FUNCTION public.sync_deal_from_handoff_event() FROM PUBLIC, anon, authenticated;

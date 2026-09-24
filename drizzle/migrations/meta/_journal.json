@@ -36,6 +36,13 @@
       "when": 1790275412023,
       "tag": "0004_pipeline_dedupe_and_event_sync",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1790275494139,
+      "tag": "0005_revoke_sync_deal_execute",
+      "breakpoints": true
     }
   ]
 }
