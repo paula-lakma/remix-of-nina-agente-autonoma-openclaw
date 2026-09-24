@@ -100,3 +100,30 @@ Depois da migração (código): analyze-conversation, handoff.ts, Reativar Nina 
 - Remoção de cards e zeragem das etapas da IA: reversível só pelo backup (criado no mesmo passo).
 - Índice único impede criar 2º card manual para o mesmo contato (tratado com aviso no modal).
 - Nada toca Dashboard MASTER, chats, rastreio, Shopify, WhatsApp, papéis, RLS ou contas. Os 6 alertas de segurança continuam pausados.
+
+## Ajustes finais incorporados
+
+### A. Backup protegido (sem exposição pela API)
+- Criado num schema privado `pipeline_backup` (não exposto pela API do app): tabela `pipeline_backup.deals_20260924` = cópia completa de todas as colunas dos 1.048 cards (id original, contact_id, stage_id, stage, owner_id, created_at, updated_at, valor, notas, tags etc.) + coluna `kept` (se ficou como canônico).
+- `REVOKE ALL` no schema e na tabela para anon e authenticated; acesso só para service_role. RLS habilitada mesmo assim.
+- Validação pós-migração: consulta como usuário comum falha; linter de segurança rodado para confirmar que nenhum alerta novo apareceu. Os 6 alertas existentes seguem pausados.
+- Rollback: reinserir as linhas de `kept = false` e restaurar etapa/responsável dos canônicos a partir do backup.
+
+### B. Reativar Nina (regra fechada)
+- Sempre limpa o responsável do card.
+- Se o card estiver em Encaminhado para humano **ou** Atendimento concluído → Novo lead.
+- Qualificando / Indicação / Link do site ficam como estão.
+- Reabertura por nova mensagem: Atendimento concluído → Novo lead (e Encaminhado → Novo lead se não houver atendimento humano ativo).
+
+### C. Identificação das etapas por chave, não por texto
+O quadro usa `stage_id` como fonte de verdade; o campo texto `stage` hoje está inconsistente (ex.: "Encaminhado" aparece como `human_handoff` e também como o título).
+- Nova função `pipeline_stage_id(key)` com mapeamento fixo pelos ids atuais:
+  - `new` → Novo lead (0b66348b…)
+  - `human_handoff` → Encaminhado para humano (5bcf84cf…)
+  - `attendance_finished` → Atendimento concluído (d690781b…)
+- Toda automação nova (dedupe, finalizar, reativar, reabrir, handoff.ts) grava **juntos** `stage_id` e `stage` com a chave canônica (`new` / `human_handoff` / `attendance_finished`); o handoff deixa de buscar a etapa pelo título.
+- Na deduplicação, o campo `stage` dos cards canônicos é normalizado para a chave da etapa final, sem nenhum card com os dois campos divergentes.
+- Nenhuma etapa criada ou renomeada.
+
+### Retorno após implementar
+Contagem antes/depois; local e proteção do backup; 524 contatos = 524 cards; 0 contatos com mais de 1 card ativo; distribuição por etapa; teste de criação concorrente; testes de handoff, Finalizar, Reativar Nina, reabertura; confirmação de que resposta da Nina não muda etapa; total da suíte de testes; confirmação de nenhum alerta crítico novo.
