@@ -982,6 +982,9 @@ export const api = {
 
     if (error) {
       console.error('[API] Error creating deal:', error);
+      if ((error as any).code === '23505') {
+        throw new Error('Este contato já possui um card ativo no Pipeline.');
+      }
       throw error;
     }
 

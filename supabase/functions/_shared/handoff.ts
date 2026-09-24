@@ -800,12 +800,13 @@ export async function applyHandoff(
 
   // Pipeline: reutiliza a etapa existente (nome inalterado).
   if (params.contactId) {
-    const { data: stage } = await admin
-      .from("pipeline_stages").select("id").eq("title", "Encaminhado para humano").maybeSingle();
-    if (stage?.id) {
-      await admin.from("deals")
-        .update({ stage_id: stage.id, stage: "human_handoff" })
-        .eq("contact_id", params.contactId);
+    // Etapa por chave canônica (não pelo título) + responsável = destinatário.
+    const { data: stageId } = await admin.rpc("pipeline_stage_id", { _key: "human_handoff" });
+    if (stageId) {
+      const dealUpdate: Record<string, unknown> = { stage_id: stageId, stage: "human_handoff" };
+      if (assignee.team_member_id) dealUpdate.owner_id = assignee.team_member_id;
+      await admin.from("deals").update(dealUpdate)
+        .eq("contact_id", params.contactId).is("won_at", null).is("lost_at", null);
     }
   }
 

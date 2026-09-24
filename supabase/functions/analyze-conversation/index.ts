@@ -84,7 +84,8 @@ serve(async (req) => {
       .limit(1)
       .maybeSingle();
 
-    const hasAiManagedStages = stages && stages.length > 0;
+    // 2026-09-24: IA não move mais etapas do Pipeline (só memória do cliente).
+    const hasAiManagedStages = false && !!stages && stages.length > 0;
     
     if (!hasAiManagedStages) {
       console.log('[Analyze] ⏭️ No AI-managed stages with criteria - skipping stage determination');
@@ -303,7 +304,7 @@ ESTÁGIO ATUAL DO DEAL: ${currentDeal?.stage || 'Sem estágio'}` : ''}
 
     // Move deal if confidence > 70% and stage is different
     let dealMoved = false;
-    if (stageResult && currentDeal && stageResult.suggested_stage_id !== currentDeal.stage_id && stageResult.confidence > 70) {
+    if (false && stageResult && currentDeal) { // desativado: Pipeline só muda por eventos reais
       const newStage = stages?.find(s => s.id === stageResult.suggested_stage_id);
       
       if (newStage) {
