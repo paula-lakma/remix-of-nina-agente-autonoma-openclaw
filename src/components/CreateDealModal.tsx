@@ -239,7 +239,8 @@ export const CreateDealModal: React.FC<CreateDealModalProps> = ({
       onDealCreated();
     } catch (error) {
       console.error('Error creating deal:', error);
-      toast.error('Erro ao criar deal');
+      const msg = error instanceof Error && error.message.includes('card ativo') ? error.message : 'Erro ao criar deal';
+      toast.error(msg);
     } finally {
       setIsSubmitting(false);
     }
