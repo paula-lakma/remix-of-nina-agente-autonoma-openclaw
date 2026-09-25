@@ -73,3 +73,49 @@ Abas:
 - Backend: nenhuma função nova necessária na V1 (leituras com as regras atuais de admin/sdr).
 - Riscos: confundir sugestão da IA com dado confirmado (mitigado pela separação visual e confirmação manual); contatos antigos sem origem; SDR ver notas de todos (igual hoje em contatos).
 - Preservado: Chat, Nina, encaminhamentos, rodízio, Talia, Laura, Leticia, Carla, Paula Rodrigues, Pipeline corrigido, rastreio, Shopify, papéis, RLS, contas. 6 alertas de segurança seguem pausados.
+
+---
+
+# Fechamento técnico do CRM V1 (aguardando aprovação)
+
+## A. Identificador de usuário — conta de login (auth user id) em todos os campos
+- Conferido: a admin Paula Simionato **não tem cadastro de equipe**; as 8 pessoas da equipe têm cadastro ligado a uma conta de login. Usar o cadastro de equipe deixaria a admin sem poder ser autora/responsável. Por isso todos os campos usam o id da conta de login.
+- Diferença assumida: o responsável da **conversa** usa o cadastro de equipe; o responsável do **follow-up** usa a conta de login. A tela converte pelo vínculo cadastro de equipe → conta (existe para os 8).
+- Nomes exibidos vêm de `profiles.full_name` (com e-mail como alternativa).
+- FKs: `author_user_id`, `assigned_user_id`, `created_by`, `completed_by` → `profiles(user_id)` ON DELETE RESTRICT (a unicidade de `profiles.user_id` é conferida antes da migration; se não houver, usamos um índice único). `contact_id` → `contacts(id)` ON DELETE CASCADE.
+
+## B. Acesso — somente admin, manager, sdr
+- Conferido: `is_operational_staff` = exatamente admin, manager, sdr (sem dermo, expedicao, parcerias, rastreio). Será usada; `is_admin_or_manager` = admin, manager.
+- Policies (só usuários logados, nada para visitantes):
+
+| Tabela | Ver | Criar | Editar | Apagar |
+|---|---|---|---|---|
+| crm_notes | staff, sem deleted_at | staff, autor = eu | autor ou admin/manager | sem DELETE físico; "apagar" = preencher deleted_at (autor ou admin/manager) |
+| crm_followups | staff | staff, created_by = eu | staff (concluir/cancelar/reagendar) | sem DELETE; usa status cancelado |
+| crm_contact_interests | staff | staff, created_by = eu | nenhuma | staff (desmarcar interesse = apagar a linha) |
+- Carla, Leticia, dermoconsultoras e rastreio: sem acesso. Nenhuma policy de conversas/mensagens/chat muda.
+
+## C. Tabelas, regras e índices
+- `crm_notes`: id, contact_id, content (não vazio, até 5.000 caracteres), author_user_id, created_at, updated_at, deleted_at, deleted_by.
+- `crm_followups`: id, contact_id, assigned_user_id, due_at, has_time, reason (não vazio), notes, status (`open`/`done`/`canceled`), created_by, created_at, updated_at, completed_at, completed_by, canceled_at.
+- `crm_contact_interests`: id, contact_id, interest_key, created_by, created_at; **UNIQUE(contact_id, interest_key)**. Lista fixa simples via CHECK: manchas, acne, peeling, rejuvenescimento, limpeza_de_pele, corporal, outro. Nomes bonitos só no código. Sem catálogo.
+- `contacts.contact_type` (novo, opcional): profissional_estetica, cliente_final, distribuidor, influenciador, outro, vazio.
+- Índices: notas (contact_id, created_at); follow-ups (contact_id), (assigned_user_id, status, due_at), (status, due_at); interesses (pela UNIQUE). Busca em contatos: índices de texto (trigram) em nome, apelido e e-mail; telefone já tem índice.
+- Único gatilho: atualizar updated_at dentro das próprias tabelas.
+
+## D. Comportamento
+- **Notas:** só internas; nunca viram mensagem, nunca vão ao WhatsApp, nunca aparecem no Chat. Autor obrigatório gravado pelo banco.
+- **Follow-ups:** criar, concluir, cancelar e reagendar só mudam o próprio follow-up. Sem gatilho que toque conversas, mensagens, Nina pausada, responsável da conversa, encaminhamentos, acessos, cards, Pipeline, WhatsApp. Nenhuma mensagem automática.
+- **Interesses:** só entram por clique humano. A Nina/memória **não grava** no CRM (nenhuma função da Nina ganha acesso a essas tabelas). Na tela: "Interesses confirmados" separado de "Sugestões da Nina" (lido de client_memory, com botão "confirmar").
+- **Novo contato:** continua desativado na V1.
+- **Lista:** busca e filtros no servidor sobre todos os contatos, 50 por página, nome/apelido/telefone/e-mail; filtros tipo, responsável, etapa, próxima ação. "Lead Qualificado" sai sem substituto.
+- **Conversas na ficha:** histórico só leitura das mensagens existentes + "Abrir no Chat Ao Vivo". Sem envio.
+- **Linha do tempo:** contato criado + eventos de encaminhamento + notas + follow-ups. Troca manual de responsável e de etapa não aparecem (V2), sem invenção.
+
+## E. Arquivos, migration e testes
+- 1 migration: 3 tabelas + GRANT (authenticated e service_role, sem visitantes) + RLS + policies + índices + contact_type + índices de busca.
+- Frontend: `Contacts.tsx` (lista), novo `src/components/crm/ContactProfile.tsx` com abas (Resumo, Conversas, Comercial, Histórico, Notas), `src/services/crm.ts`, `src/lib/crmInterests.ts`. Chat, Pipeline, Nina e funções do backend não mudam.
+- Testes: rótulos de interesses e tipos; montagem da linha do tempo; filtros/paginação; no banco, conferir que dermo/parcerias/expedicao/rastreio não leem nada, sdr lê, UNIQUE barra interesse repetido, nota não sai do contato; suíte completa.
+
+## F. Chat/Nina fora do caminho
+Nenhum gatilho, função ou dependência do CRM em mensagens, conversas, encaminhamentos, fila da Nina ou WhatsApp. Se as tabelas do CRM falharem, só a ficha mostra erro. Pipeline, papéis, contas e os 6 alertas pausados seguem intocados.
