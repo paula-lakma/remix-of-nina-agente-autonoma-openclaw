@@ -870,6 +870,247 @@ export type Database = {
           },
         ]
       }
+      crm_contact_interests: {
+        Row: {
+          contact_id: string
+          created_at: string
+          created_by: string
+          id: string
+          interest_key: string
+        }
+        Insert: {
+          contact_id: string
+          created_at?: string
+          created_by?: string
+          id?: string
+          interest_key: string
+        }
+        Update: {
+          contact_id?: string
+          created_at?: string
+          created_by?: string
+          id?: string
+          interest_key?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "crm_contact_interests_contact_id_fkey"
+            columns: ["contact_id"]
+            isOneToOne: false
+            referencedRelation: "contacts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "crm_contact_interests_contact_id_fkey"
+            columns: ["contact_id"]
+            isOneToOne: false
+            referencedRelation: "contacts_with_stats"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "crm_contact_interests_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["user_id"]
+          },
+        ]
+      }
+      crm_contact_profiles: {
+        Row: {
+          contact_id: string
+          contact_type: string | null
+          created_at: string
+          updated_at: string
+          updated_by: string
+        }
+        Insert: {
+          contact_id: string
+          contact_type?: string | null
+          created_at?: string
+          updated_at?: string
+          updated_by?: string
+        }
+        Update: {
+          contact_id?: string
+          contact_type?: string | null
+          created_at?: string
+          updated_at?: string
+          updated_by?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "crm_contact_profiles_contact_id_fkey"
+            columns: ["contact_id"]
+            isOneToOne: true
+            referencedRelation: "contacts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "crm_contact_profiles_contact_id_fkey"
+            columns: ["contact_id"]
+            isOneToOne: true
+            referencedRelation: "contacts_with_stats"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "crm_contact_profiles_updated_by_fkey"
+            columns: ["updated_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["user_id"]
+          },
+        ]
+      }
+      crm_followups: {
+        Row: {
+          assigned_user_id: string
+          canceled_at: string | null
+          completed_at: string | null
+          completed_by: string | null
+          contact_id: string
+          created_at: string
+          created_by: string
+          due_at: string
+          has_time: boolean
+          id: string
+          notes: string | null
+          reason: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          assigned_user_id: string
+          canceled_at?: string | null
+          completed_at?: string | null
+          completed_by?: string | null
+          contact_id: string
+          created_at?: string
+          created_by?: string
+          due_at: string
+          has_time?: boolean
+          id?: string
+          notes?: string | null
+          reason: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          assigned_user_id?: string
+          canceled_at?: string | null
+          completed_at?: string | null
+          completed_by?: string | null
+          contact_id?: string
+          created_at?: string
+          created_by?: string
+          due_at?: string
+          has_time?: boolean
+          id?: string
+          notes?: string | null
+          reason?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "crm_followups_assigned_user_id_fkey"
+            columns: ["assigned_user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["user_id"]
+          },
+          {
+            foreignKeyName: "crm_followups_completed_by_fkey"
+            columns: ["completed_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["user_id"]
+          },
+          {
+            foreignKeyName: "crm_followups_contact_id_fkey"
+            columns: ["contact_id"]
+            isOneToOne: false
+            referencedRelation: "contacts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "crm_followups_contact_id_fkey"
+            columns: ["contact_id"]
+            isOneToOne: false
+            referencedRelation: "contacts_with_stats"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "crm_followups_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["user_id"]
+          },
+        ]
+      }
+      crm_notes: {
+        Row: {
+          author_user_id: string
+          contact_id: string
+          content: string
+          created_at: string
+          deleted_at: string | null
+          deleted_by: string | null
+          id: string
+          updated_at: string
+        }
+        Insert: {
+          author_user_id?: string
+          contact_id: string
+          content: string
+          created_at?: string
+          deleted_at?: string | null
+          deleted_by?: string | null
+          id?: string
+          updated_at?: string
+        }
+        Update: {
+          author_user_id?: string
+          contact_id?: string
+          content?: string
+          created_at?: string
+          deleted_at?: string | null
+          deleted_by?: string | null
+          id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "crm_notes_author_user_id_fkey"
+            columns: ["author_user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["user_id"]
+          },
+          {
+            foreignKeyName: "crm_notes_contact_id_fkey"
+            columns: ["contact_id"]
+            isOneToOne: false
+            referencedRelation: "contacts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "crm_notes_contact_id_fkey"
+            columns: ["contact_id"]
+            isOneToOne: false
+            referencedRelation: "contacts_with_stats"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "crm_notes_deleted_by_fkey"
+            columns: ["deleted_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["user_id"]
+          },
+        ]
+      }
       custom_knowledge_skills: {
         Row: {
           content: string
