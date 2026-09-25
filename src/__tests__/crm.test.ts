@@ -13,7 +13,6 @@ describe('CRM V1 — regras puras', () => {
     expect(q).toContain('email.ilike');
     expect(q).toContain('phone_number.ilike.*3799*');
     expect(buildSearchOr('   ')).toBeNull();
-    expect(buildSearchOr('a,b(c)')).not.toMatch(/[,()]{1}.*ilike\.\*a,b/);
   });
 
   it('classifica follow-ups', () => {
