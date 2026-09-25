@@ -1,200 +1,208 @@
-import React, { useEffect, useState } from 'react';
-import { Search, Filter, MoreHorizontal, UserPlus, MessageSquare, Loader2, Mail, Phone, Users, Upload } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { Search, UserPlus, Loader2, Users, Upload, ChevronLeft, ChevronRight, CalendarClock, Contact as ContactIcon } from 'lucide-react';
 import { Button } from './Button';
-import { api } from '../services/api';
-import { Contact } from '../types';
 import ImportContactsModal from './ImportContactsModal';
+import ContactProfile from './crm/ContactProfile';
+import CrmReturns from './crm/CrmReturns';
+import {
+  CRM_PAGE_SIZE, listContacts, listStages, listTeamMembers,
+  type CrmListFilters, type CrmListRow, type NextActionFilter,
+} from '@/services/crm';
+import { CONTACT_TYPES, CONTACT_TYPE_LABEL, followupBucket, FOLLOWUP_BUCKET_LABEL, type ContactType } from '@/lib/crm';
+
+const selectCls = 'px-3 py-2.5 rounded-lg bg-slate-950 border border-slate-800 text-sm text-slate-200 focus:outline-none focus:ring-2 focus:ring-cyan-500/50';
 
 const Contacts: React.FC = () => {
-  const [contacts, setContacts] = useState<Contact[]>([]);
+  const [view, setView] = useState<'contacts' | 'returns'>('contacts');
+  const [rows, setRows] = useState<CrmListRow[]>([]);
+  const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [error, setError] = useState<string | null>(null);
+  const [searchInput, setSearchInput] = useState('');
+  const [filters, setFilters] = useState<CrmListFilters>({
+    page: 0, search: '', contactType: '', assignedTeamMemberId: '', stageId: '', nextAction: '',
+  });
+  const [team, setTeam] = useState<{ id: string; name: string }[]>([]);
+  const [stages, setStages] = useState<{ id: string; title: string }[]>([]);
   const [showImport, setShowImport] = useState(false);
-  const navigate = useNavigate();
+  const [openId, setOpenId] = useState<string | null>(null);
 
   useEffect(() => {
-    const loadContacts = async () => {
-      try {
-        const data = await api.fetchContacts();
-        setContacts(data);
-      } catch (error) {
-        console.error("Erro ao carregar contatos", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    loadContacts();
+    listTeamMembers().then(setTeam).catch(() => {});
+    listStages().then(setStages).catch(() => {});
   }, []);
 
-  const filteredContacts = contacts.filter(c => {
-    const term = searchTerm.toLowerCase();
-    return (
-      (c.name?.toLowerCase() || '').includes(term) ||
-      (c.phone || '').includes(term) ||
-      (c.email?.toLowerCase() || '').includes(term)
-    );
-  });
+  // Busca com espera de 400ms, sempre no servidor
+  useEffect(() => {
+    const t = setTimeout(() => setFilters((f) => (f.search === searchInput ? f : { ...f, search: searchInput, page: 0 })), 400);
+    return () => clearTimeout(t);
+  }, [searchInput]);
 
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'customer': return 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20';
-      case 'lead': return 'bg-cyan-500/10 text-cyan-400 border-cyan-500/20';
-      case 'churned': return 'bg-slate-800 text-slate-400 border-slate-700';
-      default: return 'bg-slate-800 text-slate-400';
+  const reqId = useRef(0);
+  const load = useCallback(async () => {
+    const my = ++reqId.current;
+    setLoading(true);
+    setError(null);
+    try {
+      const r = await listContacts(filters);
+      if (my !== reqId.current) return; // resposta antiga: ignora
+      setRows(r.rows);
+      setTotal(r.total);
+    } catch (e: any) {
+      if (my !== reqId.current) return;
+      setError('Não foi possível carregar os contatos.');
+      console.error('[CRM] listContacts', e);
+    } finally {
+      if (my === reqId.current) setLoading(false);
     }
-  };
+  }, [filters]);
 
-  const handleStartConversation = (contact: Contact) => {
-    navigate(`/chat?contact=${encodeURIComponent(contact.phone)}`);
-  };
+  useEffect(() => { load(); }, [load]);
+
+  const setF = (patch: Partial<CrmListFilters>) => setFilters((f) => ({ ...f, ...patch, page: 0 }));
+  const pages = Math.max(1, Math.ceil(total / CRM_PAGE_SIZE));
 
   return (
     <div className="p-8 h-full overflow-y-auto bg-slate-950 text-slate-50">
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-8 gap-4">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 gap-4">
         <div>
           <h2 className="text-3xl font-bold tracking-tight text-white">Contatos</h2>
-          <p className="text-sm text-slate-400 mt-1">Gerencie sua base de leads e clientes com inteligência.</p>
+          <p className="text-sm text-slate-400 mt-1">Ficha de relacionamento de cada pessoa, notas internas e retornos.</p>
         </div>
         <div className="flex gap-2">
           <Button variant="outline" onClick={() => setShowImport(true)}>
             <Upload className="w-4 h-4 mr-2" /> Importar CSV
           </Button>
-          <Button
-            className="shadow-lg shadow-cyan-500/20 opacity-50 cursor-not-allowed"
-            disabled
-            title="Em breve: Adicionar contato"
-          >
-            <UserPlus className="w-4 h-4 mr-2" />
-            Novo Contato
+          <Button className="opacity-50 cursor-not-allowed" disabled title="Em breve: Adicionar contato">
+            <UserPlus className="w-4 h-4 mr-2" /> Novo Contato
           </Button>
         </div>
       </div>
 
-      <ImportContactsModal
-        isOpen={showImport}
-        onClose={() => setShowImport(false)}
-        onImported={async () => { const d = await api.fetchContacts(); setContacts(d); }}
-      />
-
-      {/* Filters Bar */}
-      <div className="flex flex-col sm:flex-row items-center gap-4 mb-8 bg-slate-900/50 p-2 rounded-xl border border-slate-800">
-        <div className="relative flex-1 w-full">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-500" />
-          <input 
-            type="text" 
-            placeholder="Buscar por nome, email ou telefone"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-9 pr-4 py-2.5 rounded-lg bg-slate-950 border border-slate-800 text-sm text-slate-200 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 placeholder:text-slate-600 transition-all"
-          />
-        </div>
-        <Button 
-          variant="outline" 
-          className="w-full sm:w-auto bg-slate-950 border-slate-800 text-slate-500 cursor-not-allowed opacity-50"
-          disabled
-          title="Em breve: Filtros avançados"
-        >
-          <Filter className="w-4 h-4 mr-2" />
-          Filtros Avançados
+      <div className="flex gap-2 mb-6">
+        <Button variant={view === 'contacts' ? 'secondary' : 'ghost'} size="sm" onClick={() => setView('contacts')}>
+          <ContactIcon className="w-4 h-4 mr-2" /> Contatos
+        </Button>
+        <Button variant={view === 'returns' ? 'secondary' : 'ghost'} size="sm" onClick={() => setView('returns')}>
+          <CalendarClock className="w-4 h-4 mr-2" /> Retornos
         </Button>
       </div>
 
-      {/* Table */}
-      <div className="rounded-2xl border border-slate-800 bg-slate-900/40 backdrop-blur-sm shadow-xl overflow-hidden min-h-[400px]">
-        {loading ? (
-           <div className="flex flex-col items-center justify-center h-80">
-             <Loader2 className="h-10 w-10 animate-spin text-cyan-500 mb-3" />
-             <span className="text-sm text-slate-400 animate-pulse">Carregando base de dados...</span>
-           </div>
-        ) : filteredContacts.length === 0 ? (
-          <div className="flex flex-col items-center justify-center h-80 text-slate-400">
-            <Users className="w-12 h-12 mb-4 opacity-50" />
-            <p className="text-lg font-medium">Nenhum contato encontrado</p>
-            <p className="text-sm text-slate-500 mt-1">
-              {searchTerm ? 'Tente buscar por outro termo' : 'Os contatos aparecerão aqui'}
-            </p>
+      <ImportContactsModal isOpen={showImport} onClose={() => setShowImport(false)} onImported={load} />
+
+      {view === 'returns' ? (
+        <CrmReturns onOpenContact={setOpenId} />
+      ) : (
+        <>
+          <div className="flex flex-col lg:flex-row gap-3 mb-6 bg-slate-900/50 p-2 rounded-xl border border-slate-800">
+            <div className="relative flex-1">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-500" />
+              <input
+                type="text"
+                placeholder="Buscar por nome, apelido, e-mail ou telefone (todos os contatos)"
+                value={searchInput}
+                onChange={(e) => setSearchInput(e.target.value)}
+                className="w-full pl-9 pr-4 py-2.5 rounded-lg bg-slate-950 border border-slate-800 text-sm text-slate-200 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 placeholder:text-slate-600"
+              />
+            </div>
+            <select aria-label="Tipo" className={selectCls} value={filters.contactType} onChange={(e) => setF({ contactType: e.target.value as '' | ContactType })}>
+              <option value="">Todos os tipos</option>
+              {CONTACT_TYPES.map((t) => <option key={t} value={t}>{CONTACT_TYPE_LABEL[t]}</option>)}
+            </select>
+            <select aria-label="Responsável" className={selectCls} value={filters.assignedTeamMemberId} onChange={(e) => setF({ assignedTeamMemberId: e.target.value })}>
+              <option value="">Todos os responsáveis</option>
+              {team.map((t) => <option key={t.id} value={t.id}>{t.name}</option>)}
+            </select>
+            <select aria-label="Etapa" className={selectCls} value={filters.stageId} onChange={(e) => setF({ stageId: e.target.value })}>
+              <option value="">Todas as etapas</option>
+              {stages.map((s) => <option key={s.id} value={s.id}>{s.title}</option>)}
+            </select>
+            <select aria-label="Próxima ação" className={selectCls} value={filters.nextAction} onChange={(e) => setF({ nextAction: e.target.value as NextActionFilter })}>
+              <option value="">Qualquer próxima ação</option>
+              <option value="any">Com retorno em aberto</option>
+              <option value="overdue">Retorno vencido</option>
+              <option value="today">Retorno hoje</option>
+              <option value="week">Retorno em 7 dias</option>
+            </select>
           </div>
-        ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm text-left">
-              <thead className="bg-slate-900/80 text-slate-400 border-b border-slate-800 font-medium text-xs uppercase tracking-wider">
-                <tr>
-                  <th className="px-6 py-4">Nome / Telefone</th>
-                  <th className="px-6 py-4">Status</th>
-                  <th className="px-6 py-4">Canais</th>
-                  <th className="px-6 py-4">Última Interação</th>
-                  <th className="px-6 py-4 text-right">Ações</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-slate-800/50">
-                {filteredContacts.map((contact) => (
-                  <tr key={contact.id} className="hover:bg-slate-800/40 transition-colors group">
-                    <td className="px-6 py-4">
-                      <div className="flex items-center gap-4">
-                        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-slate-700 to-slate-800 border border-slate-700 flex items-center justify-center text-sm font-bold text-cyan-400 shadow-inner">
-                          {(contact.name || contact.phone || '?').substring(0, 2).toUpperCase()}
-                        </div>
-                        <div>
-                            <div className="font-semibold text-slate-200 group-hover:text-cyan-400 transition-colors">
-                              {contact.name || 'Sem nome'}
-                            </div>
-                            <div className="text-xs text-slate-500">{contact.phone}</div>
-                        </div>
-                      </div>
-                    </td>
-                    <td className="px-6 py-4">
-                      <span className={`px-2.5 py-1 rounded-md text-xs font-semibold border ${getStatusColor(contact.status)}`}>
-                        {contact.status === 'customer' ? 'Cliente Ativo' : contact.status === 'lead' ? 'Lead Qualificado' : 'Churned'}
-                      </span>
-                    </td>
-                    <td className="px-6 py-4">
-                      <div className="flex flex-col gap-1">
-                        {contact.email && (
-                          <div className="flex items-center gap-2 text-slate-400 text-xs">
-                              <Mail className="w-3.5 h-3.5" />
-                              {contact.email}
-                          </div>
-                        )}
-                        <div className="flex items-center gap-2 text-slate-400 text-xs">
-                            <Phone className="w-3.5 h-3.5" />
-                            {contact.phone}
-                        </div>
-                      </div>
-                    </td>
-                    <td className="px-6 py-4">
-                       <span className="text-slate-400">{new Date(contact.lastContact).toLocaleDateString('pt-BR')}</span>
-                       <div className="text-[10px] text-slate-600">via WhatsApp</div>
-                    </td>
-                    <td className="px-6 py-4 text-right">
-                      <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-all transform translate-x-2 group-hover:translate-x-0">
-                        <Button 
-                          size="sm" 
-                          variant="primary" 
-                          className="h-8 w-8 p-0 rounded-lg shadow-none" 
-                          title="Iniciar Conversa"
-                          onClick={() => handleStartConversation(contact)}
-                        >
-                          <MessageSquare className="w-4 h-4" />
-                        </Button>
-                        <Button 
-                          size="sm" 
-                          variant="ghost" 
-                          className="h-8 w-8 p-0 rounded-lg text-slate-500 cursor-not-allowed opacity-50"
-                          disabled
-                          title="Em breve: Mais opções"
-                        >
-                          <MoreHorizontal className="w-4 h-4" />
-                        </Button>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+
+          <div className="rounded-2xl border border-slate-800 bg-slate-900/40 shadow-xl overflow-hidden min-h-[400px]">
+            {loading ? (
+              <div className="flex flex-col items-center justify-center h-80">
+                <Loader2 className="h-10 w-10 animate-spin text-cyan-500 mb-3" />
+                <span className="text-sm text-slate-400">Carregando contatos...</span>
+              </div>
+            ) : error ? (
+              <div className="flex items-center justify-center h-80 text-red-400 text-sm">{error}</div>
+            ) : rows.length === 0 ? (
+              <div className="flex flex-col items-center justify-center h-80 text-slate-400">
+                <Users className="w-12 h-12 mb-4 opacity-50" />
+                <p className="text-lg font-medium">Nenhum contato encontrado</p>
+              </div>
+            ) : (
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm text-left">
+                  <thead className="bg-slate-900/80 text-slate-400 border-b border-slate-800 text-xs uppercase tracking-wider">
+                    <tr>
+                      <th className="px-5 py-3">Nome / Telefone</th>
+                      <th className="px-5 py-3">Tipo</th>
+                      <th className="px-5 py-3">Responsável</th>
+                      <th className="px-5 py-3">Etapa</th>
+                      <th className="px-5 py-3">Última interação</th>
+                      <th className="px-5 py-3">Próxima ação</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-800/50">
+                    {rows.map((c) => {
+                      const bucket = c.nextFollowup ? followupBucket({ status: 'open', ...c.nextFollowup }) : null;
+                      return (
+                        <tr key={c.id} onClick={() => setOpenId(c.id)} className="hover:bg-slate-800/40 cursor-pointer">
+                          <td className="px-5 py-3">
+                            <div className="font-semibold text-slate-200">{c.name || 'Sem nome'}</div>
+                            <div className="text-xs text-slate-500">{c.phone}{c.email ? ` · ${c.email}` : ''}</div>
+                          </td>
+                          <td className="px-5 py-3 text-slate-300">{c.contactType ? CONTACT_TYPE_LABEL[c.contactType] : <span className="text-slate-600">—</span>}</td>
+                          <td className="px-5 py-3">
+                            {c.responsibleName ? (
+                              <span className="text-slate-300">{c.responsibleName}{c.humanActive ? '' : <span className="text-xs text-slate-500"> (inativo)</span>}</span>
+                            ) : <span className="text-slate-500">Nina</span>}
+                          </td>
+                          <td className="px-5 py-3 text-slate-300">{c.stageTitle ?? <span className="text-slate-600">—</span>}</td>
+                          <td className="px-5 py-3 text-slate-400">{new Date(c.lastActivity).toLocaleDateString('pt-BR')}</td>
+                          <td className="px-5 py-3">
+                            {c.nextFollowup ? (
+                              <div>
+                                <div className={bucket === 'overdue' ? 'text-red-400' : bucket === 'today' ? 'text-amber-400' : 'text-slate-300'}>
+                                  {new Date(c.nextFollowup.due_at).toLocaleDateString('pt-BR')} · {FOLLOWUP_BUCKET_LABEL[bucket!]}
+                                </div>
+                                <div className="text-xs text-slate-500 truncate max-w-[220px]">{c.nextFollowup.reason}</div>
+                              </div>
+                            ) : <span className="text-slate-600">—</span>}
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            )}
           </div>
-        )}
-      </div>
+
+          <div className="flex items-center justify-between mt-4 text-sm text-slate-400">
+            <span>{total} contato(s) · página {filters.page + 1} de {pages}</span>
+            <div className="flex gap-2">
+              <Button variant="outline" size="sm" disabled={filters.page === 0 || loading} onClick={() => setFilters((f) => ({ ...f, page: f.page - 1 }))}>
+                <ChevronLeft className="w-4 h-4" /> Anterior
+              </Button>
+              <Button variant="outline" size="sm" disabled={filters.page + 1 >= pages || loading} onClick={() => setFilters((f) => ({ ...f, page: f.page + 1 }))}>
+                Próxima <ChevronRight className="w-4 h-4" />
+              </Button>
+            </div>
+          </div>
+        </>
+      )}
+
+      {openId && <ContactProfile contactId={openId} onClose={() => setOpenId(null)} onChanged={load} />}
     </div>
   );
 };
