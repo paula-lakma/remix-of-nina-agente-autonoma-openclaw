@@ -26,6 +26,7 @@ export interface CrmListRow {
   contactType: ContactType | null;
   responsibleName: string | null;
   humanActive: boolean;
+  attendanceFinished: boolean;
   stageTitle: string | null;
   stageColor: string | null;
   nextFollowup: { due_at: string; has_time: boolean; reason: string } | null;
@@ -129,6 +130,7 @@ export async function listContacts(f: CrmListFilters): Promise<{ rows: CrmListRo
       contactType: (typeBy.get(c.id) as ContactType) ?? null,
       responsibleName: conv?.assigned_user_id ? teamName.get(conv.assigned_user_id) ?? null : null,
       humanActive: conv ? isActiveHumanAttendance(conv) : false,
+      attendanceFinished: !!conv?.attendance_finished,
       stageTitle: st?.title ?? null,
       stageColor: st?.color ?? null,
       nextFollowup: fupBy.get(c.id) ?? null,

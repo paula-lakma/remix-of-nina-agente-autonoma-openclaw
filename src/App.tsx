@@ -115,7 +115,7 @@ const App: React.FC = () => {
               <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
             <Toaster
-              position="top-right"
+              position="bottom-right"
               richColors
               theme="dark"
             />

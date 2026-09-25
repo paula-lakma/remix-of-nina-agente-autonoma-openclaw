@@ -119,7 +119,7 @@ const ChatInterface: React.FC = () => {
     setIsSavingNotes(true);
     try {
       await api.updateContactNotes(activeChat.contactId, notesValue);
-      toast.success('Notas salvas');
+      toast.success('Notas do atendimento salvas');
     } catch (error) {
       console.error('Error saving notes:', error);
       toast.error('Erro ao salvar notas');
@@ -1150,7 +1150,7 @@ const ChatInterface: React.FC = () => {
                 {/* Notes Area */}
                 <div className="space-y-3">
                   <h4 className="text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-2">
-                    Notas Internas
+                    Notas internas do atendimento
                     {isSavingNotes && <Loader2 className="w-3 h-3 animate-spin text-cyan-500" />}
                   </h4>
                   <textarea 

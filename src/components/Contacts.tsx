@@ -110,7 +110,7 @@ const Contacts: React.FC = () => {
               {CONTACT_TYPES.map((t) => <option key={t} value={t}>{CONTACT_TYPE_LABEL[t]}</option>)}
             </select>
             <select aria-label="Responsável" className={selectCls} value={filters.assignedTeamMemberId} onChange={(e) => setF({ assignedTeamMemberId: e.target.value })}>
-              <option value="">Todos os responsáveis</option>
+              <option value="">Responsável registrado (ativo ou encerrado)</option>
               {team.map((t) => <option key={t.id} value={t.id}>{t.name}</option>)}
             </select>
             <select aria-label="Etapa" className={selectCls} value={filters.stageId} onChange={(e) => setF({ stageId: e.target.value })}>
@@ -164,7 +164,7 @@ const Contacts: React.FC = () => {
                           <td className="px-5 py-3 text-slate-300">{c.contactType ? CONTACT_TYPE_LABEL[c.contactType] : <span className="text-slate-600">—</span>}</td>
                           <td className="px-5 py-3">
                             {c.responsibleName ? (
-                              <span className="text-slate-300">{c.responsibleName}{c.humanActive ? '' : <span className="text-xs text-slate-500"> (inativo)</span>}</span>
+                              <span className="text-slate-300">{c.responsibleName}{c.humanActive ? '' : <span className="text-xs text-slate-500">{c.attendanceFinished ? ' (atendimento encerrado)' : ' (com a Nina)'}</span>}</span>
                             ) : <span className="text-slate-500">Nina</span>}
                           </td>
                           <td className="px-5 py-3 text-slate-300">{c.stageTitle ?? <span className="text-slate-600">—</span>}</td>
