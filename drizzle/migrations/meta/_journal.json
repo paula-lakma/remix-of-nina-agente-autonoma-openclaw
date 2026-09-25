@@ -50,6 +50,13 @@
       "when": 1790349747858,
       "tag": "0006_crm_v1",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1790349764875,
+      "tag": "0007_crm_notes_select_softdelete",
+      "breakpoints": true
     }
   ]
 }
