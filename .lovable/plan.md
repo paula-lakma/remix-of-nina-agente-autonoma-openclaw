@@ -1,44 +1,32 @@
-# CRM V1 — validação final de acesso (read-only)
+# CRM V1 — teste transacional final das permissões
 
-Nada foi alterado. Nenhum dado temporário foi criado. Tudo abaixo vem da leitura do código e do banco feita agora.
+Nada é gravado de forma permanente. Cada papel roda num único bloco que começa com BEGIN e termina sempre com ROLLBACK.
 
-## Resultado por papel
+## Método de simulação
+Dentro de cada bloco:
+- `SET LOCAL ROLE authenticated;` (mesmo papel do app logado, com RLS ativo)
+- `SELECT set_config('request.jwt.claims', '{"sub":"<uuid>","role":"authenticated"}', true);` fazendo `auth.uid()` devolver o usuário de referência
+- Nenhum login, senha, sessão, token ou conta é usado ou alterado. Só o ID do usuário, e apenas durante a transação.
 
-| Papel | Menu Contatos | /contacts | Leitura CRM | Escrita CRM | crm_list_staff | crm_user_names | Resultado |
-|---|---|---|---|---|---|---|---|
-| admin | sim | liberado | sim | sim (nota de outro autor: sim) | dados | dados | OK |
-| manager | sim | liberado | sim | sim (nota de outro autor: sim) | dados | dados | OK (sem usuário real para testar) |
-| sdr | sim | liberado | sim | sim, só a própria nota | dados | dados | OK |
-| dermo | não | redireciona para /chat | 0 linhas | recusada | 0 linhas | 0 linhas | Bloqueado |
-| expedicao | não | redireciona para /tracking | 0 linhas | recusada | 0 linhas | 0 linhas | Bloqueado |
-| parcerias | não | redireciona para /chat | 0 linhas | recusada | 0 linhas | 0 linhas | Bloqueado |
-| rastreio | não | redireciona para /tracking | 0 linhas | recusada | 0 linhas | 0 linhas | Bloqueado |
-| user | não | redireciona para /chat | 0 linhas | recusada | 0 linhas | 0 linhas | Bloqueado (sem usuário real) |
-| moderator | não | redireciona para /dashboard | 0 linhas | recusada | 0 linhas | 0 linhas | Bloqueado (sem usuário real) |
-| anon | não entra (login) | vai para /auth | 0 linhas | recusada | sem permissão | sem permissão | Bloqueado |
+## Usuários de referência (1 por papel, só o ID)
+admin, sdr (2 contas: A cria a nota, B tenta editar), dermo, expedicao, parcerias, rastreio. No resultado, só nome/e-mail e papel.
+Contato de referência: 1 contato real existente, usado só como alvo das linhas temporárias do CRM (o contato em si não muda).
 
-## Respostas 1 a 15
+## Roteiro por papel
+Cada operação fica isolada por SAVEPOINT, para um erro esperado não interromper o resto. Todos os resultados vão para uma tabela temporária do bloco (apagada no ROLLBACK).
+1. crm_notes: SELECT (contagem), INSERT da própria nota, UPDATE da própria nota, UPDATE de nota de outro autor, soft-delete.
+2. crm_followups: SELECT, INSERT (open), reagendar, concluir, cancelar; CHECKs: `done` sem completed_at/by, `canceled` sem canceled_at, `open` com dados de conclusão (todos devem falhar).
+3. crm_contact_interests: SELECT, INSERT, INSERT repetido (deve dar 23505 pelo UNIQUE), DELETE.
+4. crm_contact_profiles: SELECT, INSERT/upsert, UPDATE. Para dermo: confirmar que ela lê o contato em `contacts` mas 0 linhas em crm_contact_profiles.
+5. crm_list_staff() e crm_user_names(array com IDs reais): contagem de linhas.
+6. Papéis bloqueados: esperado 0 linhas nos SELECTs, recusa (42501) nos INSERTs, 0 linhas afetadas nos UPDATE/DELETE.
 
-1. admin/manager/sdr: corretos. Todas as regras de leitura e escrita das 4 tabelas usam "é admin, manager ou sdr", verificado pelo usuário logado.
-2 a 7. dermo, expedicao, parcerias, rastreio, user e moderator: bloqueados no menu, na rota e no banco. O menu e a rota usam a mesma lista de permissões; nenhum desses papéis tem "contacts".
-8. anon: bloqueado. Não executa as duas funções, e todas as regras das tabelas valem só para usuário logado, então anon recebe 0 linhas e não grava.
-9. Frontend e backend coerentes: os mesmos 3 papéis nos dois lados.
-10. As duas funções continuam seguras: SECURITY DEFINER, search_path fixo em `public`, checagem por `is_operational_staff(auth.uid())`. Não existe parâmetro que troque o usuário checado. Elas devolvem só nome (e-mail apenas se não houver nome) e, na lista de equipe, o papel.
-11. Divergências (apenas observações, sem correção):
-   - As 4 tabelas crm_* têm permissão técnica concedida também para anon (herdada do padrão do banco). Na prática, não há efeito: sem regra para anon, nada é lido nem gravado. Vale limpar numa próxima rodada, se quiser.
-   - Não existem usuários manager, user ou moderator hoje. Esses papéis foram validados pelas regras, não por login real.
-   - Tabela contacts não é CRM: a dermo pode continuar lendo os contatos que já lê hoje, mas as 4 tabelas crm_* checam o papel, não o contato. Separação confirmada.
-12. Nenhum dado temporário criado.
-13. Nenhum código, banco ou configuração alterado.
-14. Os 2 avisos 0029 (funções do CRM executáveis por usuário logado) continuam conhecidos e aceitos; a checagem interna segue correta.
-15. Os 6 alertas antigos continuam pausados e intocados. Não rodei uma nova varredura de segurança.
+## Não impacto
+Antes e depois: contagem das 4 tabelas crm_*, messages, conversations, conversation_handoff_events, deals, nina_settings e updated_at máximos. Devem ficar idênticos. Nenhuma mensagem, conversa, handoff, card, Nina, senha ou conta tocada. Grants técnicos de anon, os 2 avisos 0029 e os 6 alertas antigos ficam como estão.
 
-## Próximo passo opcional (se aprovar)
-
-Simular cada papel no banco dentro de uma transação desfeita no final (ROLLBACK), com usuário real de cada papel existente: SELECT/INSERT/UPDATE nas 4 tabelas e chamada das 2 funções. Nada fica gravado, sem mensagens, conversas, handoffs, Pipeline ou Nina. Também posso abrir /contacts na Preview como sdr e como dermo.
+## Retorno
+Tabela por papel (notes SELECT/INSERT/UPDATE, followups, interests, profiles, list_staff, user_names, resultado) e as respostas 1 a 12 do pedido, incluindo se as permissões podem ser consideradas validadas para o Publish.
 
 ## Detalhes técnicos
-- Frontend: `useUserRole.ts` (ROLE_PERMISSIONS: contacts só em admin/manager/sdr), `Sidebar.tsx` filtra por `can(item.id)`, rota `/contacts` com `RoleGate area="contacts"`.
-- RLS ativo nas 4 tabelas; policies TO authenticated; crm_notes UPDATE: autor ou admin/manager; sem DELETE em notes/followups/profiles; DELETE em interests para staff.
-- `has_function_privilege`: anon = false, authenticated = true nas duas funções.
-- Papéis existentes: admin 1, sdr 2, dermo 5, expedicao 1, parcerias 1, rastreio 1.
+- Execução pela ferramenta de SQL do backend (a leitura via psql do sandbox não pode trocar de papel nem executar funções). Cada bloco: `BEGIN; SET LOCAL ROLE authenticated; set_config(...); ... ROLLBACK;` Se a ferramenta não aceitar ROLLBACK explícito, o bloco termina com `RAISE EXCEPTION` intencional em `DO $$...$$`, que também desfaz tudo; os resultados são devolvidos na mensagem da exceção.
+- Se nenhum dos dois meios garantir o desfazer, paro e aviso sem executar.
