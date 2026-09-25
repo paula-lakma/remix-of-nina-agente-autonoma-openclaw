@@ -2795,6 +2795,21 @@ export type Database = {
       }
       cleanup_processed_message_queue: { Args: never; Returns: undefined }
       cleanup_processed_queues: { Args: never; Returns: undefined }
+      crm_list_staff: {
+        Args: never
+        Returns: {
+          display_name: string
+          role: string
+          user_id: string
+        }[]
+      }
+      crm_user_names: {
+        Args: { _ids: string[] }
+        Returns: {
+          display_name: string
+          user_id: string
+        }[]
+      }
       current_team_member_id: { Args: never; Returns: string }
       dermo_can_access_conversation: {
         Args: { _conversation_id: string }
