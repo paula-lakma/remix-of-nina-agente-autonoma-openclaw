@@ -17,7 +17,7 @@ import {
 type Tab = 'resumo' | 'conversas' | 'comercial' | 'historico' | 'notas';
 const TABS: { key: Tab; label: string }[] = [
   { key: 'resumo', label: 'Resumo' }, { key: 'conversas', label: 'Conversas' }, { key: 'comercial', label: 'Comercial' },
-  { key: 'historico', label: 'Histórico' }, { key: 'notas', label: 'Notas' },
+  { key: 'historico', label: 'Histórico' }, { key: 'notas', label: 'Notas do CRM' },
 ];
 
 const fmt = (s: string) => new Date(s).toLocaleString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });

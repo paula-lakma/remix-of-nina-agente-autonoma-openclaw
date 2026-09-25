@@ -13,8 +13,8 @@ const ROLE_PERMISSIONS: Record<AppRole, string[]> = {
   admin:     ['dashboard', 'pipeline', 'chat', 'contacts', 'scheduling', 'campaigns', 'templates', 'team', 'cerebro', 'settings', 'tracking'],
   manager:   ['dashboard', 'pipeline', 'chat', 'contacts', 'scheduling', 'campaigns', 'templates', 'tracking'],
   sdr:       ['pipeline', 'chat', 'contacts', 'scheduling'],
-  user:      ['pipeline', 'chat', 'contacts', 'scheduling'], // legado = SDR
-  moderator: ['dashboard', 'pipeline', 'chat', 'contacts', 'scheduling'],
+  user:      ['pipeline', 'chat', 'scheduling'], // legado (sem CRM)
+  moderator: ['dashboard', 'pipeline', 'chat', 'scheduling'],
   // Fase B1: expedição passa a ver o Chat ao Vivo restrito (somente conversas
   // com concessão ativa, via backend `expedicao-chat`). Home continua /tracking.
   expedicao: ['tracking', 'chat'],
