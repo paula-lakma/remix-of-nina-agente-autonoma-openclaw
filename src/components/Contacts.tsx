@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Search, UserPlus, Loader2, Users, Upload, ChevronLeft, ChevronRight, CalendarClock, Contact as ContactIcon } from 'lucide-react';
 import { Button } from './Button';
 import ImportContactsModal from './ImportContactsModal';
@@ -38,18 +38,22 @@ const Contacts: React.FC = () => {
     return () => clearTimeout(t);
   }, [searchInput]);
 
+  const reqId = useRef(0);
   const load = useCallback(async () => {
+    const my = ++reqId.current;
     setLoading(true);
     setError(null);
     try {
       const r = await listContacts(filters);
+      if (my !== reqId.current) return; // resposta antiga: ignora
       setRows(r.rows);
       setTotal(r.total);
     } catch (e: any) {
+      if (my !== reqId.current) return;
       setError('Não foi possível carregar os contatos.');
       console.error('[CRM] listContacts', e);
     } finally {
-      setLoading(false);
+      if (my === reqId.current) setLoading(false);
     }
   }, [filters]);
 
