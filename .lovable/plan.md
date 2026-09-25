@@ -99,8 +99,8 @@ Abas:
 - `crm_notes`: id, contact_id, content (não vazio, até 5.000 caracteres), author_user_id, created_at, updated_at, deleted_at, deleted_by.
 - `crm_followups`: id, contact_id, assigned_user_id, due_at, has_time, reason (não vazio), notes, status (`open`/`done`/`canceled`), created_by, created_at, updated_at, completed_at, completed_by, canceled_at.
 - `crm_contact_interests`: id, contact_id, interest_key, created_by, created_at; **UNIQUE(contact_id, interest_key)**. Lista fixa simples via CHECK: manchas, acne, peeling, rejuvenescimento, limpeza_de_pele, corporal, outro. Nomes bonitos só no código. Sem catálogo.
-- `contacts.contact_type` (novo, opcional): profissional_estetica, cliente_final, distribuidor, influenciador, outro, vazio.
-- Índices: notas (contact_id, created_at); follow-ups (contact_id), (assigned_user_id, status, due_at), (status, due_at); interesses (pela UNIQUE). Busca em contatos: índices de texto (trigram) em nome, apelido e e-mail; telefone já tem índice.
+- **Tipo de contato em tabela própria** `crm_contact_profiles`: contact_id (chave, FK contacts ON DELETE CASCADE), contact_type (CHECK: profissional_estetica, cliente_final, distribuidor, influenciador, outro), updated_by → profiles(user_id), created_at, updated_at. Mesmas policies do CRM (admin/manager/sdr). `contacts` não ganha coluna nova.
+- Índices: notas (contact_id, created_at); follow-ups (contact_id), (assigned_user_id, status, due_at), (status, due_at); interesses (pela UNIQUE). Busca em contatos: habilitar `pg_trgm` (hoje **não** habilitada, mas disponível) no schema `extensions` e criar índices trigram em nome, apelido e e-mail; telefone já tem índice. Impacto: só adiciona funções de busca e índices; nenhuma tabela, dado ou fluxo muda; criação instantânea em 580 contatos.
 - Único gatilho: atualizar updated_at dentro das próprias tabelas.
 
 ## D. Comportamento
@@ -113,9 +113,14 @@ Abas:
 - **Linha do tempo:** contato criado + eventos de encaminhamento + notas + follow-ups. Troca manual de responsável e de etapa não aparecem (V2), sem invenção.
 
 ## E. Arquivos, migration e testes
-- 1 migration: 3 tabelas + GRANT (authenticated e service_role, sem visitantes) + RLS + policies + índices + contact_type + índices de busca.
+- 1 migration: extensão pg_trgm + 4 tabelas (notas, follow-ups, interesses, perfil do contato) + GRANT (authenticated e service_role, sem visitantes) + RLS + policies + índices. Em `contacts`: só índices de busca; policies dela intactas.
 - Frontend: `Contacts.tsx` (lista), novo `src/components/crm/ContactProfile.tsx` com abas (Resumo, Conversas, Comercial, Histórico, Notas), `src/services/crm.ts`, `src/lib/crmInterests.ts`. Chat, Pipeline, Nina e funções do backend não mudam.
 - Testes: rótulos de interesses e tipos; montagem da linha do tempo; filtros/paginação; no banco, conferir que dermo/parcerias/expedicao/rastreio não leem nada, sdr lê, UNIQUE barra interesse repetido, nota não sai do contato; suíte completa.
 
 ## F. Chat/Nina fora do caminho
 Nenhum gatilho, função ou dependência do CRM em mensagens, conversas, encaminhamentos, fila da Nina ou WhatsApp. Se as tabelas do CRM falharem, só a ficha mostra erro. Pipeline, papéis, contas e os 6 alertas pausados seguem intocados.
+
+## G. Validação final
+- **contact_type em contacts exporia o dado: SIM.** As regras de `contacts` liberam a linha inteira; a dermo que já lê um contato leria também o tipo. Solução: tabela própria `crm_contact_profiles`, só admin/manager/sdr. Policies de `contacts` não mudam.
+- **pg_trgm:** não habilitada hoje; habilitada na mesma migration (baixo impacto).
+- Confirmados: `crm_notes.deleted_by` e todos os campos de usuário → `profiles(user_id)` (já único no banco); CHECKs dos follow-ups (done exige completed_at/by; canceled exige canceled_at; open sem ambos); UNIQUE(contact_id, interest_key); client_memory nunca grava no CRM; Chat/Nina/Pipeline independentes do CRM; Novo contato desativado; conversas na ficha só leitura; 6 alertas pausados.
