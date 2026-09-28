@@ -18,7 +18,11 @@ Rota `/ecommerce`, item "Vendas" no menu, logo abaixo do Dashboard.
 
 ## 3. Acesso
 
-Admin e manager. SDR fica de fora na V1: vê pedidos no CRM, mas faturamento consolidado é informação gerencial. Se você quiser incluir SDR, as permissões do banco já permitem, e a mudança fica só no menu. Dermo, expedição, parcerias e rastreio: bloqueados. As permissões atuais do banco continuam como estão; as funções novas repetem a mesma checagem.
+Build V1: admin e manager. A decisão sobre SDR fica em aberto; ela não é excluída de forma definitiva.
+
+- No app, o acesso é controlado pela área `ecommerce` em `useUserRole.ts`, que decide menu e rota. Liberar SDR depois é só acrescentar `'ecommerce'` à lista do SDR, sem migration e sem mexer nas funções SQL.
+- No banco, as funções exigem os mesmos papéis que já leem `orders`/`order_items` (admin, manager e sdr, via `is_operational_staff`). Assim ficam alinhadas às permissões atuais e não precisam mudar se o SDR for liberado. As policies de `orders`/`order_items` não são alteradas.
+- Dermo, expedição, parcerias e rastreio: bloqueados no app e no banco.
 
 ## 4. Definições oficiais (valem para Dashboard, RFV, recompra e relatórios)
 
@@ -32,9 +36,12 @@ Admin e manager. SDR fica de fora na V1: vê pedidos no CRM, mas faturamento con
 | Valor total dos pedidos | `SUM(total_amount)` (produtos + frete), exibido só como informação secundária |
 | Ticket médio | receita de produtos ÷ pedidos válidos |
 | Cliente | chave `contact_id`; se vazio, telefone normalizado; se vazio, `shopify_customer_id`. Escolhido porque o contato já une as compras da mesma pessoa. Há 3 casos em que um mesmo cliente Shopify aparece ligado a contatos diferentes (e o inverso); ficam como limitação, sem nova resolução de identidade |
-| Cliente novo (no período) | primeira compra válida **dentro do histórico disponível** ocorreu no período |
-| Cliente recorrente (base) | 2 ou mais pedidos válidos no histórico |
-| Recompra no período | cliente com pedido válido no período e com outro pedido válido anterior a ele |
+| Classificação de clientes | O filtro escolhe **quais clientes aparecem**: os que têm pedido válido no período. A classificação de cada um olha **todo o histórico válido até o fim do período**, desde 28/07/2026, e não só os pedidos dentro do filtro |
+| Primeira compra conhecida | primeiro pedido válido do cliente em todo o histórico disponível |
+| Cliente novo (no período) | primeira compra conhecida está dentro do período |
+| Recompra no período | cliente com pedido válido no período e primeira compra conhecida **antes** do início do período (ex.: comprou em agosto e em setembro, filtro de setembro, entra aqui), ou com 2+ pedidos dentro do período |
+| Cliente recorrente (no período) | cliente do período com 2+ pedidos válidos no histórico até o fim do período |
+| Cliente recorrente (base) | 2 ou mais pedidos válidos em todo o histórico |
 | Segunda compra | 2º pedido válido por data comercial; intervalo = data do 2º menos data do 1º |
 | Cupom | cada código em `coupon_codes` (maiúsculas). Pedido com 2 cupons conta nos dois; hoje há 0 casos assim |
 | Produto vendido | linha de `order_items` de pedido válido. Identificado por `shopify_product_id` e, na falta dele, pelo nome; exibido com o nome mais recente; quantidade = `current_quantity` (ou `quantity`); receita = `line_total` |
@@ -69,7 +76,7 @@ Admin e manager. SDR fica de fora na V1: vê pedidos no CRM, mas faturamento con
 **Blocos:**
 - Top produtos (10): produto, quantidade, pedidos, receita; opção de ordenar por quantidade ou por receita
 - Top cupons (10): cupom, pedidos, receita, ticket médio, mais uma linha "Sem cupom"
-- Clientes no período: 1 pedido x 2+ pedidos, com recompras do período e o aviso de histórico
+- Clientes no período: novos x recorrentes, mais o número de recompras do período, classificados pelo histórico até o fim do período (seção 4), com o aviso "Baseado no histórico disponível desde 28/07/2026."
 - Situação dos pedidos: pendentes, cancelados/anulados, testes. Esses números aparecem separados e não entram nas métricas principais
 
 **Pedidos recentes:** fora da V1. Fica para uma futura página "Pedidos", onde entram número do pedido, data, primeiro nome, valores, cupom, status e link para o contato, sem telefone e sem e-mail. A V1 exibe apenas dados agregados.
@@ -83,7 +90,7 @@ RFV, LTV 180/365, margem, lucro, categorias, profissional x cliente final, distr
 ## 9. Detalhes técnicos
 
 - **Consultas:** agregação no banco, nunca no navegador. Uma migration com 4 funções SQL de leitura (`SECURITY DEFINER`, `search_path=public`, checagem de admin/manager, execução só por `authenticated`), todas recebendo início, fim e fuso:
-  - `ecom_summary(p_from, p_to)`: KPIs do período e do período anterior, primeira data disponível e contagem de situação
+  - `ecom_summary(p_from, p_to)`: KPIs do período e do período anterior, primeira data disponível, contagem de situação e clientes novos/recorrentes/recompras. A classificação usa a primeira compra e a contagem de pedidos calculadas sobre os pedidos válidos com data até `p_to`, sem se limitar à janela do filtro
   - `ecom_timeseries(p_from, p_to, p_bucket)`: série por hora, dia ou semana
   - `ecom_top_products(p_from, p_to, p_order, p_limit)`
   - `ecom_top_coupons(p_from, p_to, p_limit)`
@@ -91,7 +98,7 @@ RFV, LTV 180/365, margem, lucro, categorias, profissional x cliente final, distr
 - **Views:** não usar, porque as views herdariam permissões de forma menos controlada. Nenhuma tabela, gatilho ou RLS é alterado.
 - **Índices:** `orders(created_at_source) WHERE valid_order` e `order_items(order_id)`, se ainda não existir. Com isso cada função faz 1 varredura por período, sem consultas repetidas por item, e escala bem até centenas de milhares de pedidos. Para volumes muito maiores, o próximo passo seria uma tabela diária resumida (V2).
 - **Atualização:** consulta ao abrir a página, cache de 5 minutos no navegador (react-query) e botão Atualizar; sem tempo real.
-- **Riscos de interpretação:** pendentes podem virar pagos depois, então a receita de dias recentes pode subir; "novo" é relativo ao histórico; cupons de influenciadoras concentram 94% da receita; há 3 conflitos de identidade de cliente.
+- **Riscos de interpretação:** pendentes podem virar pagos depois, então a receita de dias recentes pode subir; "novo" é relativo ao histórico; cerca de 95% da receita atual veio de pedidos com algum cupom, mas não dá para saber a origem de cada cupom (influenciadora ou não) sem uma tabela de mapeamento de cupons, que fica para a V2; há 3 conflitos de identidade de cliente.
 - **Arquivos do Build:** novos `src/pages/Ecommerce.tsx`, `src/components/ecommerce/*` (KpiCards, SalesChart, TopProducts, TopCoupons, CustomersBlock, OrderStatusBlock, PeriodFilter), `src/services/ecommerceMetrics.ts`, `src/lib/ecommercePeriod.ts` (períodos, período anterior, agrupamento), `src/__tests__/ecommerce-metrics.test.ts`; alterações só em `src/App.tsx` (rota), `src/components/Sidebar.tsx` (item "Vendas") e `src/hooks/useUserRole.ts` (área `ecommerce` para admin e manager). Nenhum arquivo do Dashboard atual é tocado.
 - **Etapas:** (1) migration com funções e índice; (2) validar no banco com os números da seção 5 e testar papéis em transação desfeita ao final; (3) serviço e cálculo de períodos com testes; (4) componentes e página; (5) conferência visual em desktop e celular; (6) suíte completa.
 - **Testes:** período anterior e bloqueio antes de 28/07; comparação omitida sem base; agrupamento por hora, dia ou semana; fuso de SP na virada do dia; totais iguais aos da seção 5; recusa das funções para sdr, dermo, expedição, parcerias e rastreio; pedido com 2 cupons contado nos dois; suíte atual verde.
