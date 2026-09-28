@@ -1992,6 +1992,192 @@ export type Database = {
         }
         Relationships: []
       }
+      order_items: {
+        Row: {
+          created_at: string
+          current_quantity: number | null
+          discount_amount: number | null
+          id: string
+          line_total: number | null
+          order_id: string
+          product_name: string | null
+          quantity: number
+          shopify_product_id: string | null
+          shopify_variant_id: string | null
+          sku: string | null
+          source_line_item_id: string
+          unit_price: number | null
+          updated_at: string
+          variant_name: string | null
+        }
+        Insert: {
+          created_at?: string
+          current_quantity?: number | null
+          discount_amount?: number | null
+          id?: string
+          line_total?: number | null
+          order_id: string
+          product_name?: string | null
+          quantity?: number
+          shopify_product_id?: string | null
+          shopify_variant_id?: string | null
+          sku?: string | null
+          source_line_item_id: string
+          unit_price?: number | null
+          updated_at?: string
+          variant_name?: string | null
+        }
+        Update: {
+          created_at?: string
+          current_quantity?: number | null
+          discount_amount?: number | null
+          id?: string
+          line_total?: number | null
+          order_id?: string
+          product_name?: string | null
+          quantity?: number
+          shopify_product_id?: string | null
+          shopify_variant_id?: string | null
+          sku?: string | null
+          source_line_item_id?: string
+          unit_price?: number | null
+          updated_at?: string
+          variant_name?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "order_items_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      orders: {
+        Row: {
+          cancelled_at: string | null
+          contact_id: string | null
+          contact_match_status: string
+          coupon_codes: string[]
+          created_at: string
+          created_at_source: string | null
+          currency: string | null
+          current_subtotal: number | null
+          customer_email: string | null
+          customer_name: string | null
+          customer_phone_normalized: string | null
+          customer_phone_raw: string | null
+          delivered_at: string | null
+          financial_status: string | null
+          fulfillment_status: string | null
+          id: string
+          is_test: boolean
+          net_product_revenue: number | null
+          order_number: string | null
+          processed_at_source: string | null
+          shipping_amount: number | null
+          shopify_customer_id: string | null
+          source: string
+          source_event_id: string | null
+          source_order_id: string
+          subtotal: number | null
+          total_amount: number | null
+          total_discount: number | null
+          updated_at: string
+          updated_at_source: string | null
+          valid_order: boolean
+        }
+        Insert: {
+          cancelled_at?: string | null
+          contact_id?: string | null
+          contact_match_status?: string
+          coupon_codes?: string[]
+          created_at?: string
+          created_at_source?: string | null
+          currency?: string | null
+          current_subtotal?: number | null
+          customer_email?: string | null
+          customer_name?: string | null
+          customer_phone_normalized?: string | null
+          customer_phone_raw?: string | null
+          delivered_at?: string | null
+          financial_status?: string | null
+          fulfillment_status?: string | null
+          id?: string
+          is_test?: boolean
+          net_product_revenue?: number | null
+          order_number?: string | null
+          processed_at_source?: string | null
+          shipping_amount?: number | null
+          shopify_customer_id?: string | null
+          source?: string
+          source_event_id?: string | null
+          source_order_id: string
+          subtotal?: number | null
+          total_amount?: number | null
+          total_discount?: number | null
+          updated_at?: string
+          updated_at_source?: string | null
+          valid_order?: boolean
+        }
+        Update: {
+          cancelled_at?: string | null
+          contact_id?: string | null
+          contact_match_status?: string
+          coupon_codes?: string[]
+          created_at?: string
+          created_at_source?: string | null
+          currency?: string | null
+          current_subtotal?: number | null
+          customer_email?: string | null
+          customer_name?: string | null
+          customer_phone_normalized?: string | null
+          customer_phone_raw?: string | null
+          delivered_at?: string | null
+          financial_status?: string | null
+          fulfillment_status?: string | null
+          id?: string
+          is_test?: boolean
+          net_product_revenue?: number | null
+          order_number?: string | null
+          processed_at_source?: string | null
+          shipping_amount?: number | null
+          shopify_customer_id?: string | null
+          source?: string
+          source_event_id?: string | null
+          source_order_id?: string
+          subtotal?: number | null
+          total_amount?: number | null
+          total_discount?: number | null
+          updated_at?: string
+          updated_at_source?: string | null
+          valid_order?: boolean
+        }
+        Relationships: [
+          {
+            foreignKeyName: "orders_contact_id_fkey"
+            columns: ["contact_id"]
+            isOneToOne: false
+            referencedRelation: "contacts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "orders_contact_id_fkey"
+            columns: ["contact_id"]
+            isOneToOne: false
+            referencedRelation: "contacts_with_stats"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "orders_source_event_id_fkey"
+            columns: ["source_event_id"]
+            isOneToOne: false
+            referencedRelation: "shopify_events"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       pipeline_stages: {
         Row: {
           ai_trigger_criteria: string | null
@@ -3017,6 +3203,7 @@ export type Database = {
           tracking_number: string
         }[]
       }
+      normalize_br_phone: { Args: { p: string }; Returns: string }
       normalize_tracking_code: { Args: { p_code: string }; Returns: string }
       parcerias_can_access_conversation: {
         Args: { _conversation_id: string }
@@ -3061,6 +3248,11 @@ export type Database = {
         Args: { secret_name: string; secret_value: string }
         Returns: undefined
       }
+      sync_shopify_order_payload: {
+        Args: { p: Json; p_event_id: string }
+        Returns: string
+      }
+      sync_shopify_orders: { Args: { p_since?: string }; Returns: Json }
       trigger_message_grouper: { Args: never; Returns: undefined }
       trigger_reaper: { Args: never; Returns: undefined }
       trigger_stale_leads: { Args: never; Returns: undefined }
