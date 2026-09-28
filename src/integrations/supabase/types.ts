@@ -3009,6 +3009,50 @@ export type Database = {
         Args: { _content: string; _conversation_id: string }
         Returns: string
       }
+      ecom_assert_access: { Args: never; Returns: undefined }
+      ecom_customer_key: {
+        Args: {
+          _contact_id: string
+          _order_id: string
+          _phone: string
+          _shopify_customer_id: string
+        }
+        Returns: string
+      }
+      ecom_summary: { Args: { p_from: string; p_to: string }; Returns: Json }
+      ecom_timeseries: {
+        Args: { p_bucket: string; p_from: string; p_to: string; p_tz?: string }
+        Returns: {
+          bucket_start: string
+          orders: number
+          revenue: number
+        }[]
+      }
+      ecom_top_coupons: {
+        Args: { p_from: string; p_limit?: number; p_to: string }
+        Returns: {
+          avg_ticket: number
+          coupon: string
+          is_no_coupon: boolean
+          orders: number
+          revenue: number
+        }[]
+      }
+      ecom_top_products: {
+        Args: {
+          p_from: string
+          p_limit?: number
+          p_order?: string
+          p_to: string
+        }
+        Returns: {
+          orders: number
+          product_key: string
+          product_name: string
+          quantity: number
+          revenue: number
+        }[]
+      }
       expedicao_can_access_conversation: {
         Args: { _conversation_id: string }
         Returns: boolean
