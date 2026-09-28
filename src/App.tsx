@@ -14,6 +14,7 @@ import ResetPassword from './pages/ResetPassword';
 import Campaigns from './pages/Campaigns';
 import Templates from './pages/Templates';
 import TrackingSend from './pages/TrackingSend';
+import Ecommerce from './pages/Ecommerce';
 
 import ProtectedRoute from './components/ProtectedRoute';
 import RoleGate from './components/RoleGate';
@@ -97,6 +98,7 @@ const App: React.FC = () => {
               }>
                 <Route path="/" element={<HomeRedirect />} />
                 <Route path="/dashboard" element={<RoleGate area="dashboard"><Dashboard /></RoleGate>} />
+                <Route path="/ecommerce" element={<RoleGate area="ecommerce"><Ecommerce /></RoleGate>} />
                 <Route path="/pipeline" element={<RoleGate area="pipeline"><Kanban /></RoleGate>} />
                 <Route path="/chat" element={<RoleGate area="chat"><ChatRouteSwitch /></RoleGate>} />
                 <Route path="/contacts" element={<RoleGate area="contacts"><Contacts /></RoleGate>} />
