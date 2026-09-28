@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { LayoutDashboard, MessageSquare, Users, Settings as SettingsIcon, LogOut, ShieldCheck, Calendar, Kanban, BrainCircuit, Megaphone, FileText, Truck } from 'lucide-react';
+import { LayoutDashboard, MessageSquare, Users, Settings as SettingsIcon, LogOut, ShieldCheck, Calendar, Kanban, BrainCircuit, Megaphone, FileText, Truck, ShoppingBag } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useCompanySettings } from '@/hooks/useCompanySettings';
 import { useAuth } from '@/hooks/useAuth';
@@ -13,6 +13,7 @@ import viaLogoWhite from '@/assets/logo-via-white.png';
 
 const menuItems = [
   { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
+  { id: 'ecommerce', label: 'Vendas', icon: ShoppingBag },
   { id: 'pipeline', label: 'Pipeline', icon: Kanban },
   { id: 'chat', label: 'Chat Ao Vivo', icon: MessageSquare },
   { id: 'contacts', label: 'Contatos', icon: Users },
