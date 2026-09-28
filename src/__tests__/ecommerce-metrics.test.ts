@@ -21,10 +21,11 @@ describe('períodos de vendas', () => {
     expect(resolvePeriod('30days', { now }).days).toBe(30);
   });
 
-  it('90 dias não passa de 28/07/2026 e agrupa por dia após o corte', () => {
+  it('90 dias não passa de 28/07/2026 (63 dias, por semana)', () => {
     const p = resolvePeriod('90days', { now, historyStart: '2026-07-28' });
     expect(p.fromDay).toBe('2026-07-28');
     expect(p.clampedToHistory).toBe(true);
+    expect(p.bucket).toBe('week');
   });
 
   it('personalizado usa intervalo anterior de mesma duração', () => {
