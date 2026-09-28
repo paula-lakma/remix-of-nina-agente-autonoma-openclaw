@@ -9,7 +9,7 @@ export type AppRole = 'admin' | 'manager' | 'sdr' | 'user' | 'moderator' | 'expe
 export const MINIMAL_ROLE: AppRole = 'minimal';
 
 // Permissões por área (rota base)
-const ROLE_PERMISSIONS: Record<AppRole, string[]> = {
+export const ROLE_PERMISSIONS: Record<AppRole, string[]> = {
   admin:     ['dashboard', 'ecommerce', 'pipeline', 'chat', 'contacts', 'scheduling', 'campaigns', 'templates', 'team', 'cerebro', 'settings', 'tracking'],
   manager:   ['dashboard', 'ecommerce', 'pipeline', 'chat', 'contacts', 'scheduling', 'campaigns', 'templates', 'tracking'],
   // Vendas (ecommerce): o banco já permite sdr; liberar na interface = acrescentar 'ecommerce' aqui.
