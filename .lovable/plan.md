@@ -40,7 +40,7 @@ Os segredos nunca aparecem no código, em `VITE_*`, em respostas, em tabelas ou 
 ## 4. Consulta GraphQL Admin API (somente leitura, não executada)
 
 ```graphql
-query ReconcileOrder($id: ID!) {
+query ReconcileOrder($id: ID!, $cursor: String) {
   order(id: $id) {
     id legacyResourceId name updatedAt createdAt test
     displayFinancialStatus displayFulfillmentStatus
@@ -56,10 +56,19 @@ query ReconcileOrder($id: ID!) {
 }
 ```
 
-- **Endpoint:** `POST /admin/api/2026-07/graphql.json` (versão estável, a mesma configurada no app `crm-eccomerce`), com `$id = "gid://shopify/Order/<orders.source_order_id>"` e `$cursor` opcional.
-- **Paginação dos itens:** enquanto `hasNextPage = true`, a consulta se repete com `after = endCursor` até obter todos os itens. A comparação só acontece com a lista completa. Se a paginação falhar no meio, o pedido é classificado como **"consulta incompleta"** e não é reconciliado.
+- **Endpoint:** `POST /admin/api/2026-07/graphql.json` (versão estável, a mesma configurada no app `crm-eccomerce`), com `$id = "gid://shopify/Order/<orders.source_order_id>"`.
+- **Paginação dos itens:** a primeira chamada vai com `cursor = null`. Enquanto `hasNextPage = true`, a consulta se repete com `cursor = endCursor` até obter todos os itens. A comparação só acontece com a lista completa. Se a paginação falhar no meio, o pedido é classificado como **"consulta incompleta"** e não é reconciliado. Hoje, o pedido com mais itens tem 12.
 - **Campos comparados com o banco:** status financeiro, cancelamento, `updatedAt`, subtotal atual, total atual, valor reembolsado e quantidades de todos os itens.
 - `displayFulfillmentStatus` é lido só para o relatório. Ele não é gravado.
+
+**Chave de comparação dos itens (conferida nos dados reais):**
+
+- No payload base, cada `line_items[]` traz `id` numérico e `admin_graphql_api_id` (GID).
+- O `id` numérico **perdeu precisão** ao ser salvo. Exemplo: o GID termina em `...766439020` e o `id` salvo ficou `...766439000`. Por isso ele **não serve** para comparar.
+- A chave é o **GID exato**: `line_items[].admin_graphql_api_id` do payload base contra o `lineItems.nodes[].id` do GraphQL. Os dois vêm no mesmo formato `gid://shopify/LineItem/<n>`, comparados como texto e sem conversão numérica.
+- Se algum item do payload base não tiver `admin_graphql_api_id`, o pedido vira "consulta incompleta". Ele **não** é marcado como divergência e não é reconciliado.
+- "Divergência de itens" só é marcada depois dessa comparação. Ela significa: conjunto de GIDs diferente, ou `quantity`/`current_quantity` diferente para o mesmo GID.
+- A perda de precisão do `id` numérico não afeta a reconciliação, porque `order_items` é gravado com a mesma chave de antes. Ela fica registrada apenas como observação para uma etapa futura, sem correção agora.
 
 ## 5. Payload para a normalização (adaptação mínima)
 
