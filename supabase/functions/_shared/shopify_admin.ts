@@ -137,3 +137,22 @@ export function classifyOrder(i: ClassifyInput): { cls: DryRunClass; eligible: b
   if (i.items === "divergente") return { cls: "divergencia_itens", eligible: false, reason: "itens divergentes" };
   return { cls: "paid", eligible: true, reason: null };
 }
+
+// ================= Etapa 2: piloto (payload do evento técnico orders/reconciled) =================
+
+export function reconciledEventKey(gid: string, updatedAt: string): string {
+  return `orders/reconciled:${gid}:${updatedAt}`;
+}
+
+/** Payload base do webhook + somente os campos aprovados. fulfillment_status do base é preservado. */
+export function buildReconciledPayload(base: Any, o: Any): Any {
+  const money = (s: Any) => s?.shopMoney?.amount ?? null;
+  const out = { ...base };
+  out.financial_status = String(o.displayFinancialStatus).toLowerCase();
+  out.cancelled_at = o.cancelledAt ?? null;
+  out.cancel_reason = o.cancelReason ?? null;
+  out.updated_at = o.updatedAt;
+  const cs = money(o.currentSubtotalPriceSet); if (cs != null) out.current_subtotal_price = String(cs);
+  const ct = money(o.currentTotalPriceSet); if (ct != null) out.current_total_price = String(ct);
+  return out;
+}

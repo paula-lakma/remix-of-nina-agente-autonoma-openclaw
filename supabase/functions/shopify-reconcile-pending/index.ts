@@ -1,13 +1,13 @@
 /**
  * POST /shopify-reconcile-pending — somente leitura.
  * Modos: "auth_check" (Etapa 0, 1 pedido) e "dry_run" (Etapa 1, simulação).
- * NENHUM modo grava em tabela: só SELECT em orders/shopify_events e leitura na Shopify.
+ * auth_check/dry_run não gravam. pilot grava SOMENTE 1 evento orders/reconciled por pedido elegível.
  * Acesso: somente admin. Nunca retorna/registra segredos ou token.
  */
 import { corsHeaders, errorResponse, jsonResponse, adminClient } from "../_shared/panel.ts";
 import { getJwtUser } from "../_shared/userauth.ts";
 import {
-  classifyOrder, compareLineItems, fetchOrderWithAllItems, getAccessToken, orderGid, SHOPIFY_API_VERSION,
+  buildReconciledPayload, classifyOrder, compareLineItems, reconciledEventKey, fetchOrderWithAllItems, getAccessToken, orderGid, SHOPIFY_API_VERSION,
 } from "../_shared/shopify_admin.ts";
 
 // deno-lint-ignore no-explicit-any
@@ -23,10 +23,16 @@ Deno.serve(async (req: Request) => {
   const { data: isAdmin } = await db.rpc("has_role", { _user_id: user.id, _role: "admin" });
   if (!isAdmin) return errorResponse("Somente admin", 403);
 
-  let body: { mode?: string; source_order_id?: string };
+  let body: { mode?: string; source_order_id?: string; source_order_ids?: string[] };
   try { body = await req.json(); } catch { return errorResponse("Body JSON inválido", 400); }
-  if (body.mode !== "auth_check" && body.mode !== "dry_run") {
-    return errorResponse("Somente mode=auth_check ou mode=dry_run estão habilitados", 400);
+  if (body.mode !== "auth_check" && body.mode !== "dry_run" && body.mode !== "pilot") {
+    return errorResponse("Modos habilitados: auth_check, dry_run, pilot", 400);
+  }
+  if (body.mode === "pilot") {
+    const ids = body.source_order_ids;
+    if (!Array.isArray(ids) || ids.length < 1 || ids.length > 3 || !ids.every((x) => /^\d{6,20}$/.test(String(x)))) {
+      return errorResponse("pilot exige 1 a 3 source_order_ids numéricos", 400);
+    }
   }
   if (body.mode === "auth_check" && (!body.source_order_id || !/^\d{6,20}$/.test(String(body.source_order_id)))) {
     return errorResponse("source_order_id numérico obrigatório", 400);
@@ -43,6 +49,48 @@ Deno.serve(async (req: Request) => {
     token = await getAccessToken(shop, clientId, clientSecret);
   } catch (e) {
     return jsonResponse({ ok: false, stage: "auth", secrets, error: (e as Error).message }, 200);
+  }
+
+
+  if (body.mode === "pilot") {
+    const results: Any[] = [];
+    for (const sid of body.source_order_ids!) {
+      const r: Any = { source_order_id: sid };
+      const { data: ord } = await db.from("orders")
+        .select("order_number, financial_status, source_event_id").eq("source", "shopify").eq("source_order_id", sid).maybeSingle();
+      if (!ord) { results.push({ ...r, result: "stopped", reason: "pedido não existe no banco" }); continue; }
+      r.order_number = ord.order_number;
+      if (ord.financial_status !== "pending") { results.push({ ...r, result: "stopped", reason: `banco não está pending (${ord.financial_status})` }); continue; }
+      const { data: ev } = await db.from("shopify_events").select("raw_payload").eq("id", ord.source_event_id).maybeSingle();
+      const basePayload = (ev as Any)?.raw_payload;
+      if (!basePayload?.line_items) { results.push({ ...r, result: "stopped", reason: "payload base ausente" }); continue; }
+      const gid = orderGid(sid);
+      let f;
+      try { f = await fetchOrderWithAllItems(shop, token, gid); }
+      catch (e) { results.push({ ...r, result: "stopped", reason: `erro Shopify: ${(e as Error).message}` }); continue; }
+      const items = f.found && f.complete ? compareLineItems(basePayload.line_items, f.lineItems.map((l) => l.id)) : undefined;
+      const c = classifyOrder({ found: f.found, complete: f.complete, financial: f.order?.displayFinancialStatus, cancelledAt: f.order?.cancelledAt, items });
+      const upd = f.order?.updatedAt;
+      const updOk = typeof upd === "string" && !isNaN(Date.parse(upd)) &&
+        (!basePayload.updated_at || Date.parse(upd) >= Date.parse(basePayload.updated_at));
+      r.shopify = { financial: f.order?.displayFinancialStatus, cancelledAt: f.order?.cancelledAt ?? null, updatedAt: upd, line_items: f.lineItems.length, items_compare: items, complete: f.complete };
+      if (!c.eligible) { results.push({ ...r, result: "stopped", reason: c.reason }); continue; }
+      if (!updOk) { results.push({ ...r, result: "stopped", reason: "updatedAt inválido para normalização" }); continue; }
+      const key = reconciledEventKey(gid, upd);
+      const payload = buildReconciledPayload(basePayload, f.order);
+      // Única gravação permitida: evento técnico; o gatilho existente chama sync_shopify_order_payload.
+      const { data: ins, error: insErr } = await db.from("shopify_events").insert({
+        topic: "orders/reconciled", send_status: "reconciled", shopify_event_id: key,
+        order_number: ord.order_number, raw_payload: payload,
+        normalized: { reconciled: true, source: "shopify-reconcile-pending", mode: "pilot" },
+      }).select("id").maybeSingle();
+      if (insErr) {
+        results.push({ ...r, event_key: key, result: insErr.code === "23505" ? "already_reconciled" : "insert_error", reason: insErr.code === "23505" ? "evento já existe (idempotente)" : insErr.code });
+        continue;
+      }
+      results.push({ ...r, event_key: key, event_id: (ins as Any)?.id, result: "reconciled" });
+    }
+    return jsonResponse({ ok: true, mode: "pilot", api_version: SHOPIFY_API_VERSION, results });
   }
 
   if (body.mode === "dry_run") {
