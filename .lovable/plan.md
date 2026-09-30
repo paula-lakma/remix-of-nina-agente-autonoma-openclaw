@@ -30,24 +30,31 @@ key = <topic>:<id>[:<tracking_number>]
 
 Como o tópico faz parte da chave, é possível isolar a mudança em `orders/updated`.
 
-## 4. Identificador nativo da Shopify
+## 4. Chave decidida: Webhook ID da Shopify
 
-- A Shopify envia os headers `X-Shopify-Webhook-Id` (igual em retries da mesma entrega) e `X-Shopify-Event-Id` (mesmo evento).
-- O endpoint recebe os headers, mas **não os salva** em lugar nenhum. Por isso não dá para confirmar com os dados reais como eles se comportam em retries ou em eventos diferentes.
-- **Recomendação:** usar `updated_at`, que foi validado nos dados. O ID nativo pode ser registrado depois só para auditoria.
+A chave principal de `orders/updated` passa a ser o header `X-Shopify-Webhook-Id`:
 
-## 5. Chave proposta com `updated_at`
+```text
+orders/updated:<X-Shopify-Webhook-Id>
+```
+
+- Um retry da mesma entrega mantém o mesmo Webhook ID e é descartado.
+- Uma atualização real posterior do mesmo pedido chega com outro Webhook ID e é aceita.
+- O header é lido em `index.ts` (hoje disponível via `req.headers`, mas não salvo) e repassado à normalização.
+- A coluna `shopify_events.shopify_event_id` é do tipo `text` e o índice único continua valendo. Não precisa de migration.
+
+## 5. Alternativa (somente sem o header)
+
+Se `X-Shopify-Webhook-Id` estiver ausente ou vazio no request:
 
 ```text
 orders/updated:<gid do pedido>:<updated_at bruto do payload>
 ```
 
 - Nos 767 eventos: todos têm `updated_at` e há 767 combinações distintas de pedido + `updated_at`. Não há nenhuma colisão.
-- Nos pares reais `pending -> paid` (2257, 2269 e outros), o `updated_at` mudou entre os dois eventos.
-- Um retry idêntico reenvia o mesmo corpo, com o mesmo `updated_at`, e continua sendo descartado.
-- Duas mudanças reais com o mesmo `updated_at` (mesmo segundo) não foram observadas. Mesmo que ocorram, o efeito é só perder uma versão intermediária; a seguinte corrige.
-- O formato usa o texto ISO com fuso exatamente como vem da Shopify e tem prefixo fixo por tópico, então não colide com outros tópicos.
-- O sufixo do rastreio deixa de ser necessário em `orders/updated`, porque `updated_at` já muda quando o rastreio entra.
+- Nos pares reais `pending -> paid`, o `updated_at` mudou entre os dois eventos. Um retry idêntico repete o `updated_at`.
+- O sufixo do rastreio deixa de ser usado em `orders/updated`.
+- `fulfillments/create` e `fulfillments/update` mantêm exatamente a lógica atual (`<topic>:<id>[:<rastreio>]`) e ignoram o header.
 
 ## 6. Impacto no rastreio e no WhatsApp
 
@@ -62,39 +69,39 @@ orders/updated:<gid do pedido>:<updated_at bruto do payload>
 - `order_items` usa upsert por `(order_id, source_line_item_id)` e remove itens que saíram do pedido, sem duplicar.
 - `valid_order` é recalculado a cada upsert: com `paid`, sem cancelamento e sem teste, passa a `true`.
 
-## 8. Cenários simulados (com a chave proposta)
+## 8. Cenários simulados (com a chave decidida)
 
 | Cenário | Chave | Aceito? | shopify_events | orders | WhatsApp/rastreio |
 |---|---|---|---|---|---|
-| A. pending sem rastreio, depois paid sem rastreio | `...:<upd1>` e `...:<upd2>` | ambos | 2 linhas, ignored | mesma linha passa a paid e válida | nada |
-| B. retry do mesmo pending | `...:<upd1>` repetido | descartado | nada novo | nada | nada |
-| C. retry do mesmo paid | `...:<upd2>` repetido | descartado | nada novo | nada | nada |
-| D. paid sem rastreio, depois paid com rastreio | `...:<upd2>` e `...:<upd3>` | ambos | 2 linhas, ignored | mesma linha, com status de envio atualizado | nada vindo de `orders/updated`; o aviso sai do `fulfillments/*` |
-| E. rastreio repetido (`fulfillments/*`) | chave de fulfillment inalterada | descartado (ou `skipped_duplicate` pelas travas) | no máximo 1 linha a mais | a reconciliação não altera | sem envio duplicado |
+| A. pending, depois paid (Webhook IDs diferentes) | `orders/updated:<wid1>` e `orders/updated:<wid2>` | ambos | 2 linhas, ignored | mesma linha passa a paid e válida | nada |
+| B. retry do mesmo pending | `<wid1>` repetido | descartado | nada novo | nada | nada |
+| C. retry do mesmo paid | `<wid2>` repetido | descartado | nada novo | nada | nada |
+| D. paid sem rastreio, depois paid com rastreio | `<wid2>` e `<wid3>` | ambos | 2 linhas, ignored | mesma linha | o aviso sai só de `fulfillments/*` |
+| E. rastreio repetido (`fulfillments/*`) | chave de fulfillment atual | descartado (ou `skipped_duplicate`) | no máximo 1 linha a mais | a reconciliação não altera | sem envio duplicado |
+| F. sem header | `orders/updated:<gid>:<updated_at>` | conforme `updated_at` | idem A/B/C | idem | nada |
 
 ## 9. Arquivos, migration e rollback
 
-- **Arquivo alterado:** somente `supabase/functions/_shared/shopify.ts` (o `event_id` quando o tópico for `orders/updated`).
-- **Testes:** um arquivo novo, `src/__tests__/shopify-orders-updated-idempotency.test.ts`.
-- `index.ts` do webhook fica intocado.
-- Depois da alteração, as funções que usam esse arquivo (`shopify-webhook`) são republicadas.
-- **Migration:** nenhuma. Banco, índices, `orders` e as funções SQL ficam como estão.
-- **Rollback:** reverter as linhas em `shopify.ts` e republicar a função. Não precisa desfazer nada no banco: os eventos extras gravados são inofensivos (`ignored`) e continuam válidos para a reconciliação.
+- `supabase/functions/_shared/shopify.ts`: `normalizeShopifyPayload` recebe um `webhookId` opcional. Em `orders/updated`, monta a chave pelo Webhook ID ou pela alternativa. Os demais tópicos ficam sem mudança.
+- `supabase/functions/shopify-webhook/index.ts`: apenas lê `X-Shopify-Webhook-Id` e o repassa em `process` e em `normalizeShopifyPayload`. O resto do fluxo não muda.
+- Testes: um arquivo novo, `src/__tests__/shopify-orders-updated-idempotency.test.ts`.
+- Depois da alteração, `shopify-webhook` é republicada.
+- **Migration:** nenhuma.
+- **Rollback:** reverter os dois arquivos e republicar a função. Não precisa desfazer nada no banco: os eventos extras são `ignored` e inofensivos.
 
 ## 10. Riscos residuais
 
-- Na primeira hora após a publicação, um retry de um evento antigo chega com a chave nova e é gravado uma vez. Esse evento é `ignored`, e a versão antiga é descartada em `orders`. Não há efeito visível.
-- `shopify_events` cresce um pouco mais (uma linha por atualização real de pedido).
-- Os pedidos que já estão `pending` com pagamento perdido **não se corrigem sozinhos**. Eles só se atualizam na próxima alteração do pedido. A recuperação é uma etapa separada, que precisa de aprovação.
-- Os headers nativos seguem sem registro.
+- Logo após a publicação, um retry de um evento antigo chega com a chave nova e é gravado uma vez. Esse evento é `ignored` e a versão antiga é descartada em `orders`, sem efeito visível.
+- `shopify_events` cresce um pouco mais (uma linha por atualização real).
+- Os pedidos já `pending` com pagamento perdido não se corrigem sozinhos. A recuperação é uma etapa separada, que precisa de aprovação.
 
 ## 11. Testes exatos do futuro Build
 
-1. `orders/updated` pending e paid do mesmo pedido, com `updated_at` diferentes, geram chaves diferentes.
-2. O mesmo payload enviado duas vezes gera a mesma chave.
-3. `orders/updated` com rastreio gera chave baseada em `updated_at`, sem depender do rastreio.
-4. As chaves de `fulfillments/create` e `fulfillments/update` ficam idênticas às atuais (teste de regressão).
-5. Um tópico sem id continua com `event_id = null`.
+1. `orders/updated` pending e paid do mesmo pedido com Webhook IDs diferentes: chaves diferentes, ambos aceitos.
+2. Retry do mesmo pending com o mesmo Webhook ID: mesma chave, descartado.
+3. Retry do mesmo paid com o mesmo Webhook ID: mesma chave, descartado.
+4. Sem o header: a chave usa `order_id` + `updated_at`, e muda quando o `updated_at` muda.
+5. As chaves de `fulfillments/create` e `fulfillments/update` ficam idênticas às atuais, com ou sem header.
 6. `orders/updated` continua com `event_kind = unknown`, ou seja, sem envio.
 7. Suíte completa e typecheck.
 8. Depois de publicar: acompanhar o próximo `pending -> paid` real e confirmar 2 eventos e `valid_order = true` no mesmo pedido.
