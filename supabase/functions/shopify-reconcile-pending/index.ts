@@ -1,12 +1,17 @@
 /**
- * POST /shopify-reconcile-pending — ETAPA 0 (somente auth_check).
- * Valida client credentials + read_orders consultando 1 pedido. Não grava nada.
+ * POST /shopify-reconcile-pending — somente leitura.
+ * Modos: "auth_check" (Etapa 0, 1 pedido) e "dry_run" (Etapa 1, simulação).
+ * NENHUM modo grava em tabela: só SELECT em orders/shopify_events e leitura na Shopify.
  * Acesso: somente admin. Nunca retorna/registra segredos ou token.
- * Body: { mode: "auth_check", source_order_id: "<id numérico Shopify>" }
  */
 import { corsHeaders, errorResponse, jsonResponse, adminClient } from "../_shared/panel.ts";
 import { getJwtUser } from "../_shared/userauth.ts";
-import { fetchOrderWithAllItems, getAccessToken, orderGid, SHOPIFY_API_VERSION } from "../_shared/shopify_admin.ts";
+import {
+  classifyOrder, compareLineItems, fetchOrderWithAllItems, getAccessToken, orderGid, SHOPIFY_API_VERSION,
+} from "../_shared/shopify_admin.ts";
+
+// deno-lint-ignore no-explicit-any
+type Any = any;
 
 Deno.serve(async (req: Request) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
@@ -14,13 +19,16 @@ Deno.serve(async (req: Request) => {
 
   const user = await getJwtUser(req);
   if (!user) return errorResponse("JWT inválido", 401);
-  const { data: isAdmin } = await adminClient().rpc("has_role", { _user_id: user.id, _role: "admin" });
+  const db = adminClient();
+  const { data: isAdmin } = await db.rpc("has_role", { _user_id: user.id, _role: "admin" });
   if (!isAdmin) return errorResponse("Somente admin", 403);
 
   let body: { mode?: string; source_order_id?: string };
   try { body = await req.json(); } catch { return errorResponse("Body JSON inválido", 400); }
-  if (body.mode !== "auth_check") return errorResponse("Somente mode=auth_check está habilitado nesta etapa", 400);
-  if (!body.source_order_id || !/^\d{6,20}$/.test(String(body.source_order_id))) {
+  if (body.mode !== "auth_check" && body.mode !== "dry_run") {
+    return errorResponse("Somente mode=auth_check ou mode=dry_run estão habilitados", 400);
+  }
+  if (body.mode === "auth_check" && (!body.source_order_id || !/^\d{6,20}$/.test(String(body.source_order_id)))) {
     return errorResponse("source_order_id numérico obrigatório", 400);
   }
 
@@ -35,6 +43,51 @@ Deno.serve(async (req: Request) => {
     token = await getAccessToken(shop, clientId, clientSecret);
   } catch (e) {
     return jsonResponse({ ok: false, stage: "auth", secrets, error: (e as Error).message }, 200);
+  }
+
+  if (body.mode === "dry_run") {
+    // Somente SELECT.
+    const { data: rows, error } = await db
+      .from("orders")
+      .select("source_order_id, order_number, created_at_source, financial_status, fulfillment_status, current_subtotal, total_amount, net_product_revenue, source_event_id")
+      .eq("financial_status", "pending")
+      .order("created_at_source", { ascending: true })
+      .limit(500);
+    if (error) return errorResponse("Falha ao ler pedidos pending", 500);
+    const evIds = (rows || []).map((r: Any) => r.source_event_id).filter(Boolean);
+    const base = new Map<string, Any[]>();
+    for (let i = 0; i < evIds.length; i += 100) {
+      const { data: evs } = await db.from("shopify_events").select("id, raw_payload->line_items").in("id", evIds.slice(i, i + 100));
+      for (const e of evs || []) base.set((e as Any).id, (e as Any).line_items);
+    }
+
+    const results: Any[] = [];
+    for (const r of rows || []) {
+      let out: Any = {
+        order_number: r.order_number, source_order_id: r.source_order_id,
+        created_at_source: r.created_at_source, db_status: r.financial_status,
+        db_fulfillment: r.fulfillment_status, net_product_revenue: r.net_product_revenue, total_amount: r.total_amount,
+      };
+      try {
+        const f = await fetchOrderWithAllItems(shop, token, orderGid(String(r.source_order_id)));
+        const items = f.found && f.complete ? compareLineItems(base.get(r.source_event_id), f.lineItems.map((l) => l.id)) : undefined;
+        const c = classifyOrder({ found: f.found, complete: f.complete, financial: f.order?.displayFinancialStatus, cancelledAt: f.order?.cancelledAt, items });
+        out = { ...out,
+          shopify_financial: f.order?.displayFinancialStatus ?? null, cancelled: !!f.order?.cancelledAt,
+          shopify_fulfillment: f.order?.displayFulfillmentStatus ?? null, shopify_updated_at: f.order?.updatedAt ?? null,
+          line_items: f.lineItems.length, items_compare: items ?? null, classification: c.cls, eligible: c.eligible, reason: c.reason };
+      } catch (e) {
+        const c = classifyOrder({ found: false, complete: false, error: (e as Error).message });
+        out = { ...out, classification: c.cls, eligible: false, reason: `${c.reason}: ${(e as Error).message}` };
+      }
+      results.push(out);
+      await new Promise((res) => setTimeout(res, 250));
+    }
+    const counts: Record<string, number> = {};
+    for (const x of results) counts[x.classification] = (counts[x.classification] || 0) + 1;
+    return jsonResponse({ ok: true, mode: "dry_run", api_version: SHOPIFY_API_VERSION, writes: 0,
+      pending_in_db: rows?.length ?? 0, consulted: results.length, counts,
+      eligible: results.filter((x) => x.eligible).length, results });
   }
 
   try {

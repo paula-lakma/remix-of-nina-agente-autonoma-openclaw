@@ -91,3 +91,49 @@ export async function fetchOrderWithAllItems(
   }
   return { found: true, order, lineItems, pages, complete: false };
 }
+
+// ================= Etapa 1: dry_run (classificação pura, sem escrita) =================
+
+export type DryRunClass =
+  | "pending" | "paid" | "cancelled" | "refunded" | "partially_refunded"
+  | "outro" | "divergencia_itens" | "consulta_incompleta" | "nao_encontrado" | "erro";
+
+/** Compara pelo GID exato: payload base line_items[].admin_graphql_api_id x lineItems.nodes[].id. */
+export function compareLineItems(
+  baseLineItems: Any[] | null | undefined, shopifyIds: string[],
+): "ok" | "divergente" | "base_sem_gid" {
+  const base = Array.isArray(baseLineItems) ? baseLineItems : [];
+  const baseIds: string[] = [];
+  for (const li of base) {
+    const g = li?.admin_graphql_api_id;
+    if (typeof g !== "string" || !g.startsWith("gid://shopify/LineItem/")) return "base_sem_gid";
+    baseIds.push(g);
+  }
+  const a = [...baseIds].sort(), b = [...shopifyIds].sort();
+  if (a.length !== b.length) return "divergente";
+  return a.every((x, i) => x === b[i]) ? "ok" : "divergente";
+}
+
+export interface ClassifyInput {
+  found: boolean;
+  complete: boolean;
+  error?: string | null;
+  financial?: string | null;
+  cancelledAt?: string | null;
+  items?: "ok" | "divergente" | "base_sem_gid";
+}
+
+export function classifyOrder(i: ClassifyInput): { cls: DryRunClass; eligible: boolean; reason: string | null } {
+  if (i.error) return { cls: "erro", eligible: false, reason: "erro na consulta" };
+  if (!i.found) return { cls: "nao_encontrado", eligible: false, reason: "pedido não encontrado na Shopify" };
+  if (!i.complete) return { cls: "consulta_incompleta", eligible: false, reason: "paginação de itens incompleta" };
+  if (i.items === "base_sem_gid") return { cls: "consulta_incompleta", eligible: false, reason: "item sem GID no payload base" };
+  if (i.cancelledAt) return { cls: "cancelled", eligible: false, reason: "cancelado na Shopify" };
+  const f = String(i.financial || "").toUpperCase();
+  if (f === "REFUNDED") return { cls: "refunded", eligible: false, reason: "reembolsado" };
+  if (f === "PARTIALLY_REFUNDED") return { cls: "partially_refunded", eligible: false, reason: "reembolso parcial" };
+  if (f === "PENDING") return { cls: "pending", eligible: false, reason: "ainda pending na Shopify" };
+  if (f !== "PAID") return { cls: "outro", eligible: false, reason: `status ${f || "desconhecido"}` };
+  if (i.items === "divergente") return { cls: "divergencia_itens", eligible: false, reason: "itens divergentes" };
+  return { cls: "paid", eligible: true, reason: null };
+}
