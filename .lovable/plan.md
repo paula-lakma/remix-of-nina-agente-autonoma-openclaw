@@ -48,13 +48,18 @@ query ReconcileOrder($id: ID!) {
     currentSubtotalPriceSet { shopMoney { amount } }
     currentTotalPriceSet { shopMoney { amount } }
     totalRefundedSet { shopMoney { amount } }
-    lineItems(first: 50) { nodes { id quantity currentQuantity } }
+    lineItems(first: 50, after: $cursor) {
+      nodes { id quantity currentQuantity }
+      pageInfo { hasNextPage endCursor }
+    }
   }
 }
 ```
 
-- **Endpoint:** `POST /admin/api/2025-07/graphql.json`, com `$id = "gid://shopify/Order/<orders.source_order_id>"`.
-- **Campos comparados com o banco:** status financeiro, cancelamento, `updatedAt`, subtotal atual, total atual, valor reembolsado e quantidades dos itens.
+- **Endpoint:** `POST /admin/api/2026-07/graphql.json` (versão estável, a mesma configurada no app `crm-eccomerce`), com `$id = "gid://shopify/Order/<orders.source_order_id>"` e `$cursor` opcional.
+- **Paginação dos itens:** enquanto `hasNextPage = true`, a consulta se repete com `after = endCursor` até obter todos os itens. A comparação só acontece com a lista completa. Se a paginação falhar no meio, o pedido é classificado como **"consulta incompleta"** e não é reconciliado.
+- **Campos comparados com o banco:** status financeiro, cancelamento, `updatedAt`, subtotal atual, total atual, valor reembolsado e quantidades de todos os itens.
+- `displayFulfillmentStatus` é lido só para o relatório. Ele não é gravado.
 
 ## 5. Payload para a normalização (adaptação mínima)
 
@@ -65,7 +70,7 @@ A normalização oficial (`sync_shopify_order_payload`) espera o formato do webh
   - `financial_status` = `displayFinancialStatus` em minúsculas;
   - `cancelled_at` e `cancel_reason`;
   - `updated_at`;
-  - `fulfillment_status` (quando houver);
+  - `fulfillment_status` **não** é sobrescrito: fica o do payload base, porque o valor de exibição do GraphQL não equivale ao campo do webhook e não há mapeamento validado. O objetivo desta recuperação é só o status financeiro perdido;
   - `current_subtotal_price` e `current_total_price`.
 - **Proteção:** se os itens ou quantidades da Shopify forem diferentes dos do payload base (pedido editado), o pedido é classificado como **"divergência de itens"**. Ele **não** é reconciliado automaticamente e vai para o relatório.
 
@@ -85,11 +90,19 @@ Conferido no banco:
 **Etapa 1: dry run, sem gravar nada.** Consultar os pedidos pending em lotes lentos e classificar cada um:
 
 - pending, paid, cancelled, refunded, partially_refunded;
-- outro status, divergência de itens, não encontrado ou erro.
+- outro status, divergência de itens, consulta incompleta, não encontrado ou erro.
 
 O relatório sai por data (destaque para 28 e 29/09) e com o impacto simulado no Dashboard: pedidos válidos, receita, ticket e setembro. **Pausa para aprovação.**
 
-**Etapa 2: piloto.** De 1 a 3 pedidos que estejam pending no banco e pagos na Shopify. Conferir:
+**Regra de elegibilidade (piloto e primeiro apply):** só é reconciliado automaticamente o pedido que atende às três condições:
+
+- está pending no banco;
+- está `PAID` na Shopify;
+- não tem divergência de itens e teve a consulta completa.
+
+Pedidos cancelled, refunded, partially_refunded, com outro status, com divergência ou com consulta incompleta aparecem no relatório, mas **não são alterados**. Esses casos serão analisados à parte.
+
+**Etapa 2: piloto.** De 1 a 3 pedidos elegíveis. Conferir:
 
 - mesma linha em `orders`, com status e `valid_order` corretos;
 - itens sem duplicação;
@@ -98,7 +111,7 @@ O relatório sai por data (destaque para 28 e 29/09) e com o impacto simulado no
 
 **Pausa para aprovação.**
 
-**Etapa 3: aplicação total.** Reconciliar os demais divergentes em lotes pequenos. Pedidos que continuam pending na Shopify não são tocados.
+**Etapa 3: primeiro apply.** Reconciliar em lotes pequenos somente os demais pedidos elegíveis (pending no banco, `PAID` na Shopify, sem divergência). Todos os outros casos não são tocados.
 
 **Evento técnico gravado nas etapas 2 e 3:**
 
@@ -131,13 +144,15 @@ Rodar de novo é inofensivo: conflitos são ignorados e pedidos já corrigidos n
 
 ## 11. Testes do futuro Build
 
-1. Montagem do payload: base mais campos da Shopify; `PAID` vira `paid`; cancelamento e datas são copiados.
+1. Montagem do payload: base mais campos da Shopify; `PAID` vira `paid`; cancelamento e datas são copiados; `fulfillment_status` do payload base fica igual.
 2. A chave é `orders/reconciled:<gid>:<updatedAt>` e é estável em nova execução.
-3. Classificação de todos os status, incluindo divergência de itens, não encontrado e erro.
-4. O dry run não chama nenhuma gravação.
-5. O piloto e o apply só gravam pedidos pending no banco e diferentes de pending na Shopify.
-6. Os segredos não aparecem em nenhuma resposta ou log (conferido nos testes).
-7. Suíte completa e typecheck.
-8. No banco, durante o piloto: 1 linha em `orders`, itens iguais, zero `send_queue` e zero travas de rastreio novas.
+3. Classificação de todos os status, incluindo divergência de itens, consulta incompleta, não encontrado e erro.
+4. Paginação: um pedido com mais de 50 itens busca todas as páginas antes de comparar; uma falha no meio vira "consulta incompleta" e não é reconciliado.
+5. O dry run não chama nenhuma gravação.
+6. O piloto e o apply só gravam pedidos pending no banco, `PAID` na Shopify e sem divergência. Cancelled, refunded, partially_refunded, outro status e divergência não são gravados.
+7. A consulta usa o endpoint `2026-07`.
+8. Os segredos não aparecem em nenhuma resposta ou log (conferido nos testes).
+9. Suíte completa e typecheck.
+10. No banco, durante o piloto: 1 linha em `orders`, itens iguais, zero `send_queue` e zero travas de rastreio novas.
 
 Aguardando a sua aprovação. Nada será implementado antes disso.
