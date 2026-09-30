@@ -1,119 +1,143 @@
-# Recuperação dos pedidos `pending` históricos (read-only)
+# Recuperação dos pedidos `pending` históricos (plano atualizado, read-only)
 
-Nada foi alterado. Os números abaixo vêm do banco em 30/09/2026, às 15:11 (horário de São Paulo).
+Nada foi implementado. Os números do banco são de 30/09/2026, às 15:11 (horário de São Paulo).
 
-## 1. Pedidos pending no banco hoje
+## 1. Estado da integração com a Shopify
 
-- **Total:** 65 pedidos. Nenhum é teste ou cancelado.
-- **Período:** de 16/08 a 30/09. Agosto tem 18 pedidos e setembro, 47.
-- **Rastreio:** nenhum dos 65 tem despacho ou rastreio. Todos têm um único evento salvo, o `pending` inicial.
-- **Contato no Chat:** 28 dos 65 têm contato vinculado.
+- **App:** `crm-eccomerce` (reaproveitado), versão `crm-eccomerce-2-read-orders`, instalada na loja com **somente** a permissão `read_orders`.
+- **Loja:** `lakma-wig.myshopify.com`.
+- **Não é preciso outro app.**
+- **Webhooks:** os de pedido e de processamento continuam cadastrados à parte e apontam para o `shopify-webhook`. Não serão alterados.
+- **Janela de 60 dias:** os 65 pedidos pending vão de 16/08 a 30/09, todos dentro da janela. `read_orders` basta, e `read_all_orders` fica para uma etapa futura, se um dia for necessário.
 
-| Dias | Pedidos | Valor total (R$) |
-|---|---|---|
-| 16/08 a 31/08 (12 dias com pedidos) | 18 | 10.527 |
-| 01/09 a 27/09 (19 dias com pedidos) | 31 | 11.923 |
-| 28/09 | 5 | 1.659,86 |
-| 29/09 | 4 | 768,07 |
-| 30/09 (hoje) | 7 | 2.327,05 |
+## 2. Pedidos pending no banco
 
-- Desde ontem, 28/09 caiu de 11 para 5 pedidos pending e 29/09 caiu de 8 para 4. Esses pedidos foram despachados e o status "pago" chegou junto.
-- Os 7 de hoje já entram pela correção nova.
+Total de 65 (18 em agosto e 47 em setembro). Nenhum é teste ou cancelado, nenhum tem rastreio, e cada um tem um único evento salvo (o pending inicial). Os mais afetados estão em 28/09 (5), 29/09 (4) e 30/09 (7).
 
-## 2. Acesso de leitura à Shopify
+Teto de impacto, se todos estivessem pagos:
 
-**Não existe hoje.** O projeto só tem o segredo de assinatura do webhook (`SHOPIFY_WEBHOOK_SECRET`). Não há token da Admin API, domínio da loja nem permissão `read_orders`.
+- **Setembro:** +47 pedidos e +R$ 14.961,18. Hoje setembro tem 222 pedidos e R$ 61.621,47.
+- **Agosto:** +18 pedidos e +R$ 10.237,80.
 
-Por isso **não foi possível** fazer as comparações das seções 3 e 4:
+O número real sai do dry run.
 
-- quantos continuam pending, pagos, cancelados, reembolsados ou não encontrados;
-- a separação por data.
+## 3. Autenticação (client credentials, server-side)
 
-**O que é preciso da Lakma (bloqueio):**
+**Segredos**, guardados somente nos segredos das funções:
 
-1. Na Shopify, criar um app personalizado com **somente** a permissão `read_orders`.
-2. Se houver pedidos com mais de 60 dias, liberar também o acesso a pedidos antigos (`read_all_orders`). Com o histórico atual, só alguns pedidos de meados de agosto passam de 60 dias.
-3. Informar o token de acesso e o domínio `.myshopify.com`. Eles seriam guardados como segredos do projeto.
+- `SHOPIFY_SHOP_DOMAIN` = `lakma-wig.myshopify.com`;
+- `SHOPIFY_CLIENT_ID`;
+- `SHOPIFY_CLIENT_SECRET`.
 
-Com isso, as consultas usam a Admin API (REST 2025-07, `GET /orders/{id}.json`), que devolve o pedido no mesmo formato do webhook.
+**Fluxo:**
 
-## 3. O que se sabe sem a Shopify
+1. A função faz `POST https://<SHOP_DOMAIN>/admin/oauth/access_token`, com `grant_type=client_credentials`, `client_id` e `client_secret`.
+2. Recebe um token temporário (cerca de 24 horas).
+3. O token fica só em memória, durante a execução. Não é gravado em banco, não aparece em logs e não volta ao app.
 
-- Nenhum dos 65 recebeu depois qualquer evento salvo. Por isso, é impossível dizer pelo banco quais foram pagos.
-- Muitos devem ser Pix ou cartão não concluídos: 30 dos pedidos de setembro não têm despacho há mais de 7 dias.
-- O lote suspeito de pagamento perdido está entre os mais recentes: 28 a 30/09 e alguns de 23 a 26/09.
+Os segredos nunca aparecem no código, em `VITE_*`, em respostas, em tabelas ou em arquivos versionados.
 
-## 4. Impacto máximo no Dashboard (teto, se todos estivessem pagos)
+## 4. Consulta GraphQL Admin API (somente leitura, não executada)
 
-- **Setembro hoje:** 222 pedidos válidos e R$ 61.621,47 de receita.
-- **Teto em setembro:** +47 pedidos e +R$ 14.961,18.
-- **Teto em agosto:** +18 pedidos e +R$ 10.237,80.
-- **28/09:** até +5 pedidos. **29/09:** até +4 pedidos.
+```graphql
+query ReconcileOrder($id: ID!) {
+  order(id: $id) {
+    id legacyResourceId name updatedAt createdAt test
+    displayFinancialStatus displayFulfillmentStatus
+    cancelledAt cancelReason
+    currentSubtotalPriceSet { shopMoney { amount } }
+    currentTotalPriceSet { shopMoney { amount } }
+    totalRefundedSet { shopMoney { amount } }
+    lineItems(first: 50) { nodes { id quantity currentQuantity } }
+  }
+}
+```
 
-O impacto real só será conhecido depois da consulta à Shopify. Ele deve ser bem menor que o teto.
+- **Endpoint:** `POST /admin/api/2025-07/graphql.json`, com `$id = "gid://shopify/Order/<orders.source_order_id>"`.
+- **Campos comparados com o banco:** status financeiro, cancelamento, `updatedAt`, subtotal atual, total atual, valor reembolsado e quantidades dos itens.
 
-## 5. Método recomendado
+## 5. Payload para a normalização (adaptação mínima)
 
-Seguir o mesmo caminho oficial: payload atual da Shopify -> `shopify_events` -> gatilho -> `sync_shopify_order_payload` -> `orders`/`order_items`.
+A normalização oficial (`sync_shopify_order_payload`) espera o formato do webhook: `line_items`, `financial_status` em minúsculas, e assim por diante. O GraphQL devolve outro formato. Para não criar uma lógica paralela:
 
-- Uma nova função `shopify-reconcile-pending`, acionada só manualmente por um admin, lê a lista de pedidos pending e consulta cada um na Shopify.
-- A função **só grava** quando o status atual na Shopify for diferente de pending. Nesse caso, insere um evento técnico em `shopify_events`:
-  - `topic = 'orders/reconciled'`;
-  - `send_status = 'reconciled'`;
-  - o payload completo da Shopify.
-- O gatilho existente já dispara para `orders/%` e chama `sync_shopify_order_payload`.
+- **Base:** o último payload do webhook já salvo para o pedido, que é confiável e contém itens, cliente e cupons.
+- **Por cima**, só os campos confirmados pela Shopify:
+  - `financial_status` = `displayFinancialStatus` em minúsculas;
+  - `cancelled_at` e `cancel_reason`;
+  - `updated_at`;
+  - `fulfillment_status` (quando houver);
+  - `current_subtotal_price` e `current_total_price`.
+- **Proteção:** se os itens ou quantidades da Shopify forem diferentes dos do payload base (pedido editado), o pedido é classificado como **"divergência de itens"**. Ele **não** é reconciliado automaticamente e vai para o relatório.
 
-**Por que o evento técnico (opção A):**
+## 6. `orders/reconciled` aciona só a normalização
 
-- Preserva a auditoria: fica registrado que a correção veio de uma reconciliação, quando e com qual payload.
-- A reconciliação diária também passa a enxergar esse evento.
-- A opção B, atualizar `orders` direto, criaria uma lógica paralela e perderia o rastro.
+Conferido no banco:
 
-## 6. Garantias contra efeitos colaterais
+- O único gatilho de inserção em `shopify_events` é `shopify_events_sync_order_trg` (`AFTER INSERT ... WHEN topic LIKE 'orders/%'`). Ele chama apenas `sync_shopify_order_payload`, então dispara para `orders/reconciled`.
+- A reconciliação diária também considera `orders/%`.
+- O evento é inserido direto pela função nova e não passa pelo `shopify-webhook`. Assim, não gera mensagem, conversa, `send_queue`, trava de rastreio, WhatsApp nem handoff.
+- `orders`: upsert pela chave única, sem duplicar. `order_items`: upsert por item, sem duplicar. Versões antigas são ignoradas.
 
-- O evento é inserido direto no banco pela função nova e **não passa pelo `shopify-webhook`**. Assim, não aciona contato, conversa, `send_queue`, travas de rastreio, WhatsApp ou handoff. O gatilho só chama a sincronização de pedidos.
-- `orders`: upsert por `(source, source_order_id)`. Não duplica e mantém a mesma linha.
-- `order_items`: upsert por `(order_id, source_line_item_id)`. Não duplica.
-- Versões antigas são ignoradas (`skipped_older`).
-- A função só considera pedidos pending no banco e só grava se a Shopify disser outra coisa. Pedidos corretos não são tocados.
-- O despacho só muda se a Shopify já mostrar o pedido despachado, que é o dado real.
+## 7. Etapas do futuro Build (com pausas)
 
-## 7. Idempotência
+**Etapa 0: teste de acesso, sem gravar nada.** Obter o token e consultar **1** pedido conhecido. Se a autenticação ou a leitura falhar, parar e avisar.
 
-- **Chave:** `shopify_event_id = 'orders/reconciled:<gid do pedido>:<updated_at da Shopify>'`, protegida pelo índice único atual.
-- Rodar de novo com o pedido inalterado dá conflito, que é ignorado. Pedido já reconciliado não aparece mais como pending e sai da seleção.
+**Etapa 1: dry run, sem gravar nada.** Consultar os pedidos pending em lotes lentos e classificar cada um:
 
-## 8. Piloto
+- pending, paid, cancelled, refunded, partially_refunded;
+- outro status, divergência de itens, não encontrado ou erro.
 
-1. **Primeira rodada, sem gravar nada:** consultar os 65, devolver a classificação (pending, pago, cancelado, reembolsado, não encontrado ou erro) e a simulação do Dashboard, e então pedir aprovação.
-2. **Piloto:** reconciliar de 1 a 3 pedidos que estejam pending no banco e pagos na Shopify. Conferir:
-   - 1 linha em `orders`, paga e válida;
-   - itens sem duplicação;
-   - zero novos itens em `send_queue` e em travas de rastreio;
-   - Dashboard contando os pedidos.
-3. **Depois da aprovação:** rodar para todos, em lotes pequenos (por exemplo, 2 consultas por segundo, dentro do limite da Shopify).
+O relatório sai por data (destaque para 28 e 29/09) e com o impacto simulado no Dashboard: pedidos válidos, receita, ticket e setembro. **Pausa para aprovação.**
 
-## 9. Riscos
+**Etapa 2: piloto.** De 1 a 3 pedidos que estejam pending no banco e pagos na Shopify. Conferir:
 
-- Um token com permissões demais: usar só `read_orders`.
-- Limite de consultas da Shopify: lotes lentos.
-- Pedidos com mais de 60 dias sem `read_all_orders`: aparecem como "não encontrado" e ficam fora.
-- Mudança de `total_amount` por reembolso parcial: vem da própria Shopify, e é o dado correto.
+- mesma linha em `orders`, com status e `valid_order` corretos;
+- itens sem duplicação;
+- zero novos itens em `send_queue`, travas de rastreio ou mensagens;
+- o Dashboard passa a contar os pedidos.
 
-## 10. Arquivos e migration
+**Pausa para aprovação.**
 
-- **Novo:** `supabase/functions/shopify-reconcile-pending/index.ts`. Exige usuário admin e tem os modos `dry_run` (padrão), `pilot` com lista de IDs e `apply`.
-- **Novo:** testes em `src/__tests__/shopify-reconcile.test.ts`, cobrindo chave, filtro e classificação.
-- **Novos segredos:** `SHOPIFY_ADMIN_TOKEN` e `SHOPIFY_SHOP_DOMAIN`.
-- **Sem migration.** `send_status` e `topic` são texto, e o gatilho e o índice já existem.
-- Não serão alterados: `shopify-webhook`, `_shared/shopify.ts`, `sync_shopify_order_payload`, Dashboard, rastreio, WhatsApp, Chat, Nina, CRM e Pipeline.
+**Etapa 3: aplicação total.** Reconciliar os demais divergentes em lotes pequenos. Pedidos que continuam pending na Shopify não são tocados.
 
-## 11. Plano exato do futuro Build
+**Evento técnico gravado nas etapas 2 e 3:**
 
-1. Receber da Lakma o token (somente leitura de pedidos) e o domínio da loja, e guardá-los como segredos.
-2. Criar a função com modo de simulação e publicá-la.
-3. Rodar a simulação: relatório por status e data, e impacto no Dashboard. Pausa para aprovação.
-4. Piloto de 1 a 3 pedidos e verificações. Pausa para aprovação.
-5. Aplicar a todos os divergentes e reconferir os números de Vendas.
+- `topic = 'orders/reconciled'`;
+- `send_status = 'reconciled'`;
+- chave `shopify_event_id = 'orders/reconciled:<gid do pedido>:<updatedAt da Shopify>'`, protegida pelo índice único atual.
 
-Aguardando a sua aprovação e o token de leitura da Shopify.
+Rodar de novo é inofensivo: conflitos são ignorados e pedidos já corrigidos não são mais selecionados.
+
+## 8. Arquivos, segredos e migration
+
+- **Novo:** `supabase/functions/shopify-reconcile-pending/index.ts`, só para admin. Modos: `auth_check`, `dry_run` (padrão), `pilot` com lista de IDs e `apply`.
+- **Novo:** `supabase/functions/_shared/shopify_admin.ts`, com o token por client credentials, a consulta GraphQL e a montagem do payload.
+- **Novo:** `src/__tests__/shopify-reconcile.test.ts`.
+- **Segredos:** `SHOPIFY_SHOP_DOMAIN`, `SHOPIFY_CLIENT_ID` e `SHOPIFY_CLIENT_SECRET`, pedidos pelo formulário seguro.
+- **Sem migration.**
+- Não serão alterados: `shopify-webhook`, `_shared/shopify.ts`, `sync_shopify_order_payload`, os webhooks da Shopify, o Dashboard, rastreio, WhatsApp, Chat, Nina, CRM e Pipeline.
+
+## 9. Riscos residuais
+
+- A adaptação do payload depende do payload base. Pedidos editados na Shopify ficam de fora de propósito ("divergência de itens").
+- Limites de consulta da Shopify: lotes lentos, com uma nova tentativa quando houver limitação.
+- O `updatedAt` da Shopify precisa ser maior que o salvo. Se não for, a normalização ignora o evento, o que é um comportamento seguro.
+- Se a Lakma revogar ou trocar o segredo do app, a função falha sem gravar nada.
+
+## 10. Rollback
+
+- **Código:** remover a função nova. Não há mudança em nada existente.
+- **Dados:** os eventos `orders/reconciled` ficam identificados. Para reverter um pedido, basta reprocessar o evento anterior do webhook na normalização, desde que tenha aprovação específica. Nenhuma tabela ou estrutura muda.
+
+## 11. Testes do futuro Build
+
+1. Montagem do payload: base mais campos da Shopify; `PAID` vira `paid`; cancelamento e datas são copiados.
+2. A chave é `orders/reconciled:<gid>:<updatedAt>` e é estável em nova execução.
+3. Classificação de todos os status, incluindo divergência de itens, não encontrado e erro.
+4. O dry run não chama nenhuma gravação.
+5. O piloto e o apply só gravam pedidos pending no banco e diferentes de pending na Shopify.
+6. Os segredos não aparecem em nenhuma resposta ou log (conferido nos testes).
+7. Suíte completa e typecheck.
+8. No banco, durante o piloto: 1 linha em `orders`, itens iguais, zero `send_queue` e zero travas de rastreio novas.
+
+Aguardando a sua aprovação. Nada será implementado antes disso.
