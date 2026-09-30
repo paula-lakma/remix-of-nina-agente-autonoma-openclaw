@@ -41,9 +41,14 @@ describe('dry_run — comparação por GID exato', () => {
 
 describe('dry_run — sem escrita e sem segredos', () => {
   const src = readFileSync('supabase/functions/shopify-reconcile-pending/index.ts', 'utf8');
-  it('função não contém operações de escrita', () => {
+  it('dry_run não contém escrita; única escrita do arquivo é o evento do piloto', () => {
+    const dry = src.slice(src.indexOf('if (body.mode === "dry_run") {'), src.indexOf('try {\n    const r = await fetchOrderWithAllItems'));
+    expect(dry).not.toMatch(/\.(insert|update|upsert|delete)\(/);
     expect(src).not.toMatch(/\.(insert|update|upsert|delete)\(/);
-    expect(src).not.toMatch(/orders\/reconciled/);
+    expect(src.match(/method: "POST"/g)).toHaveLength(1);
+    expect(src).toMatch(/rest\/v1\/shopify_events/);
+    expect(src).toMatch(/topic: "orders\/reconciled", send_status: "reconciled"/);
+    expect(src).not.toMatch(/from\("(orders|order_items|send_queue|tracking_send_locks|messages)"\)\.(insert|update|upsert)/);
   });
   it('não registra nem retorna segredo/token', () => {
     expect(src).not.toMatch(/console\.(log|error|warn)/);
