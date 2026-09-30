@@ -9,4 +9,5 @@
 - [x] Correção: atualizações de pagamento (pending -> paid) da Shopify deixam de ser descartadas.
 - Pendente (aguarda aprovação): recuperar pedidos antigos que ficaram "pending" com pagamento perdido.
 - [x] Recuperação dos pedidos pending — Etapa 0 (teste de acesso à Shopify) concluída.
-- Pendente (aguarda aprovação): Etapa 1, dry run dos 65 pedidos, sem gravar nada.
+- [x] Etapa 1 dry run concluída (19 elegíveis).
+- Pendente (aguarda aprovação): piloto com 1–3 pedidos elegíveis.
