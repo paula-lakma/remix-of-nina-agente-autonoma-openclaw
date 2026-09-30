@@ -12,8 +12,6 @@ describe('JSON sem perda de precisão', () => {
     for (const id of [LI, PR, VA]) expect(out).toContain(`:${id}`);
     expect(out).toContain(`"gid://shopify/LineItem/${LI}"`);
     expect(out).toContain('12345678901234567"}'); // número dentro de string intocado
-    expect(out).toBe(JSON.stringify(JSON.parse(raw)).replace(/:[0-9.e+]{16,}/g, '')
-      .length ? out : out);
   });
   it('payload final da reconciliação mantém identificadores e quantidade de itens', () => {
     const base = losslessParse(raw);
