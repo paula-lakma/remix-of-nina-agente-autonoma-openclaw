@@ -156,3 +156,36 @@ export function buildReconciledPayload(base: Any, o: Any): Any {
   const ct = money(o.currentTotalPriceSet); if (ct != null) out.current_total_price = String(ct);
   return out;
 }
+
+// ================= JSON sem perda de precisão (código local, sem dependência externa) =================
+// Inteiros com 16+ dígitos fora de strings viram marcadores de texto no parse e voltam idênticos no stringify.
+const BIG_MARK = "__lakma_bigint__:";
+
+export function losslessParse(text: string): Any {
+  let out = "";
+  let i = 0;
+  const n = text.length;
+  while (i < n) {
+    const ch = text[i];
+    if (ch === '"') {
+      let j = i + 1;
+      while (j < n && text[j] !== '"') j += text[j] === "\\" ? 2 : 1;
+      const s = text.slice(i, j + 1);
+      if (s.includes(BIG_MARK)) throw new Error("payload contém marcador reservado");
+      out += s; i = j + 1; continue;
+    }
+    if (ch === "-" || (ch >= "0" && ch <= "9")) {
+      let j = i + 1;
+      while (j < n && /[0-9eE.+\-]/.test(text[j])) j++;
+      const tok = text.slice(i, j);
+      out += /^-?\d{16,}$/.test(tok) ? `"${BIG_MARK}${tok}"` : tok;
+      i = j; continue;
+    }
+    out += ch; i++;
+  }
+  return JSON.parse(out);
+}
+
+export function losslessStringify(v: Any): string {
+  return JSON.stringify(v).replace(new RegExp(`"${BIG_MARK}(-?\\d+)"`, "g"), "$1");
+}

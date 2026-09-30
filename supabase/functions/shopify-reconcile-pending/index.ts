@@ -6,9 +6,8 @@
  */
 import { corsHeaders, errorResponse, jsonResponse, adminClient } from "../_shared/panel.ts";
 import { getJwtUser } from "../_shared/userauth.ts";
-import { parse as losslessParse, stringify as losslessStringify } from "npm:lossless-json@4.0.2";
 import {
-  buildReconciledPayload, classifyOrder, compareLineItems, reconciledEventKey, fetchOrderWithAllItems, getAccessToken, orderGid, SHOPIFY_API_VERSION,
+  losslessParse, losslessStringify, buildReconciledPayload, classifyOrder, compareLineItems, reconciledEventKey, fetchOrderWithAllItems, getAccessToken, orderGid, SHOPIFY_API_VERSION,
 } from "../_shared/shopify_admin.ts";
 
 // deno-lint-ignore no-explicit-any
@@ -86,7 +85,7 @@ Deno.serve(async (req: Request) => {
         topic: "orders/reconciled", send_status: "reconciled", shopify_event_id: key,
         order_number: ord.order_number, raw_payload: payload,
         normalized: { reconciled: true, source: "shopify-reconcile-pending", mode: "pilot" },
-      }) as string;
+      });
       // Proteção: os IDs dos itens no texto final devem ser idênticos aos do payload base.
       const idsOf = (t: string) => (t.match(/"line_items":\[.*\]/s)?.[0].match(/"id":\d+/g) || []).join(",");
       if (idsOf(bodyText) !== idsOf((ev as Any).raw_text.replace(/": /g, '":').replace(/, "/g, ',"'))) {
