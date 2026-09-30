@@ -6,3 +6,5 @@
 ## Vendas (Dashboard E-commerce)
 - [x] V1 na Preview (admin/manager).
 - Pendente (aguarda decisão): no celular (390px) o conteúdo de todas as páginas fica com largura zero ao lado do menu — problema já existente do layout geral, não corrigido nesta etapa.
+- [x] Correção: atualizações de pagamento (pending -> paid) da Shopify deixam de ser descartadas.
+- Pendente (aguarda aprovação): recuperar pedidos antigos que ficaram "pending" com pagamento perdido.

@@ -85,7 +85,7 @@ export function cleanOrderNumber(raw: unknown): string | null {
   return s || null;
 }
 
-export function normalizeShopifyPayload(topic: string, body: Any): NormalizedShopify {
+export function normalizeShopifyPayload(topic: string, body: Any, webhookId?: string | null): NormalizedShopify {
   const t = (topic || "").toLowerCase();
 
   // Em eventos de fulfillment o "name" da raiz é o do processamento (ex.: #1885.1),
@@ -136,12 +136,24 @@ export function normalizeShopifyPayload(topic: string, body: Any): NormalizedSho
   if (SHIP_TOPICS.includes(t) || (trackingNumber && t.startsWith("fulfillments"))) kind = "order_shipped";
   else if (CONFIRM_TOPICS.includes(t)) kind = "order_confirmed";
 
+  const baseId = pick(body, ["admin_graphql_api_id", "id", "order.id"]);
+  let eventId: string | null;
+  if (t === "orders/updated") {
+    // Idempotência por entrega: X-Shopify-Webhook-Id (igual em retries, novo a cada atualização real).
+    // Fallback sem header: pedido + updated_at. Rastreio não entra na chave.
+    const wid = typeof webhookId === "string" ? webhookId.trim() : "";
+    const upd = pick(body, ["updated_at"]);
+    eventId = wid
+      ? `${t}:${wid}`
+      : baseId != null ? `${t}:${baseId}${upd != null ? `:${upd}` : ""}` : null;
+  } else {
+    eventId = baseId != null ? `${t}:${baseId}${trackingNumber ? `:${trackingNumber}` : ""}` : null;
+  }
+
   return {
     topic: t || "unknown",
     event_kind: kind,
-    event_id: pick(body, ["admin_graphql_api_id", "id", "order.id"]) != null
-      ? `${t}:${pick(body, ["admin_graphql_api_id", "id", "order.id"])}${trackingNumber ? `:${trackingNumber}` : ""}`
-      : null,
+    event_id: eventId,
     order_number: cleanOrderNumber(orderNumber),
     order_id: pick(body, ["order_id", "id", "order.id"]) != null ? String(pick(body, ["order_id", "id", "order.id"])) : null,
     fulfillment_id: (() => {

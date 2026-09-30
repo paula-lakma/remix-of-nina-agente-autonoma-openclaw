@@ -92,7 +92,9 @@ Deno.serve(async (req: Request) => {
     Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,
   );
 
-  const work = process(supabase, topic, body).catch((e) =>
+  const webhookId = req.headers.get("x-shopify-webhook-id");
+
+  const work = process(supabase, topic, body, webhookId).catch((e) =>
     console.error("[shopify-webhook] erro no processamento:", e)
   );
   if (typeof EdgeRuntime !== "undefined") EdgeRuntime.waitUntil(work);
@@ -101,8 +103,8 @@ Deno.serve(async (req: Request) => {
   return json({ received: true });
 });
 
-async function process(supabase: Any, topic: string, body: Any) {
-  const n = normalizeShopifyPayload(topic, body);
+async function process(supabase: Any, topic: string, body: Any, webhookId: string | null = null) {
+  const n = normalizeShopifyPayload(topic, body, webhookId);
   console.log("[shopify-webhook] topic:", n.topic, "kind:", n.event_kind, "order:", n.order_number);
 
   // Dedup por evento
