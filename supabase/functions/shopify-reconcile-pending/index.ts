@@ -25,8 +25,8 @@ Deno.serve(async (req: Request) => {
 
   let body: { mode?: string; source_order_id?: string; source_order_ids?: string[] };
   try { body = await req.json(); } catch { return errorResponse("Body JSON inválido", 400); }
-  if (body.mode !== "auth_check" && body.mode !== "dry_run" && body.mode !== "pilot") {
-    return errorResponse("Modos habilitados: auth_check, dry_run, pilot", 400);
+  if (!["auth_check", "dry_run", "pilot", "precision_check"].includes(String(body.mode))) {
+    return errorResponse("Modos habilitados: auth_check, dry_run, pilot, precision_check", 400);
   }
   if (body.mode === "pilot") {
     const ids = body.source_order_ids;
@@ -34,7 +34,7 @@ Deno.serve(async (req: Request) => {
       return errorResponse("pilot exige 1 a 3 source_order_ids numéricos", 400);
     }
   }
-  if (body.mode === "auth_check" && (!body.source_order_id || !/^\d{6,20}$/.test(String(body.source_order_id)))) {
+  if ((body.mode === "auth_check" || body.mode === "precision_check") && (!body.source_order_id || !/^\d{6,20}$/.test(String(body.source_order_id)))) {
     return errorResponse("source_order_id numérico obrigatório", 400);
   }
 
@@ -107,6 +107,38 @@ Deno.serve(async (req: Request) => {
       results.push({ ...r, event_key: key, event_id: (ins as Any)?.id, result: "reconciled" });
     }
     return jsonResponse({ ok: true, mode: "pilot", api_version: SHOPIFY_API_VERSION, results });
+  }
+
+  if (body.mode === "precision_check") {
+    // SOMENTE LEITURA: monta o payload que seria gravado e compara IDs; nunca grava.
+    const sid = String(body.source_order_id);
+    const { data: ord } = await db.from("orders").select("order_number, financial_status, source_event_id")
+      .eq("source", "shopify").eq("source_order_id", sid).maybeSingle();
+    if (!ord) return jsonResponse({ ok: false, writes: 0, reason: "pedido não existe no banco" });
+    const { data: ev } = await db.from("shopify_events").select("raw_text:raw_payload::text").eq("id", ord.source_event_id).maybeSingle();
+    const rawText: string = (ev as Any)?.raw_text || "";
+    const basePayload: Any = rawText ? losslessParse(rawText) : null;
+    const gid = orderGid(sid);
+    const f = await fetchOrderWithAllItems(shop, token, gid);
+    const items = f.found && f.complete ? compareLineItems(basePayload?.line_items, f.lineItems.map((l) => l.id)) : undefined;
+    const c = classifyOrder({ found: f.found, complete: f.complete, financial: f.order?.displayFinancialStatus, cancelledAt: f.order?.cancelledAt, items });
+    const payload = f.order ? buildReconciledPayload(basePayload, f.order) : null;
+    const bodyText = payload ? losslessStringify({ raw_payload: payload }) : "";
+    const pick = (t: string) => {
+      const li = t.match(/"line_items":\s*\[.*\]/s)?.[0] || "";
+      return {
+        id: (li.match(/"id":\s*(\d+)/g) || []).map((x) => x.replace(/\D/g, "")),
+        product_id: (li.match(/"product_id":\s*(\d+)/g) || []).map((x) => x.replace(/\D/g, "")),
+        variant_id: (li.match(/"variant_id":\s*(\d+)/g) || []).map((x) => x.replace(/\D/g, "")),
+        gid: li.match(/gid:\/\/shopify\/LineItem\/\d+/g) || [],
+      };
+    };
+    const before = pick(rawText), after = pick(bodyText);
+    const identical = JSON.stringify(before) === JSON.stringify(after);
+    return jsonResponse({ ok: true, mode: "precision_check", writes: 0, api_version: SHOPIFY_API_VERSION,
+      order_number: ord.order_number, db_status: ord.financial_status, found: f.found, complete: f.complete,
+      financial: f.order?.displayFinancialStatus, line_items: f.lineItems.length, shopify_gids: f.lineItems.map((l) => l.id),
+      items_compare: items, classification: c.cls, eligible: c.eligible, before, after, identical });
   }
 
   if (body.mode === "dry_run") {
