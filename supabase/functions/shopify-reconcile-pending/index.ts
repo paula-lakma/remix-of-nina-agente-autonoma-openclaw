@@ -6,6 +6,7 @@
  */
 import { corsHeaders, errorResponse, jsonResponse, adminClient } from "../_shared/panel.ts";
 import { getJwtUser } from "../_shared/userauth.ts";
+import { parse as losslessParse, stringify as losslessStringify } from "npm:lossless-json@4.0.2";
 import {
   buildReconciledPayload, classifyOrder, compareLineItems, reconciledEventKey, fetchOrderWithAllItems, getAccessToken, orderGid, SHOPIFY_API_VERSION,
 } from "../_shared/shopify_admin.ts";
@@ -61,8 +62,10 @@ Deno.serve(async (req: Request) => {
       if (!ord) { results.push({ ...r, result: "stopped", reason: "pedido não existe no banco" }); continue; }
       r.order_number = ord.order_number;
       if (ord.financial_status !== "pending") { results.push({ ...r, result: "stopped", reason: `banco não está pending (${ord.financial_status})` }); continue; }
-      const { data: ev } = await db.from("shopify_events").select("raw_payload").eq("id", ord.source_event_id).maybeSingle();
-      const basePayload = (ev as Any)?.raw_payload;
+      // Lido como texto e parseado sem perda: IDs numéricos grandes (itens, produto, variante) não podem ser arredondados.
+      const { data: ev } = await db.from("shopify_events").select("raw_text:raw_payload::text").eq("id", ord.source_event_id).maybeSingle();
+      let basePayload: Any = null;
+      try { basePayload = (ev as Any)?.raw_text ? losslessParse((ev as Any).raw_text) : null; } catch { basePayload = null; }
       if (!basePayload?.line_items) { results.push({ ...r, result: "stopped", reason: "payload base ausente" }); continue; }
       const gid = orderGid(sid);
       let f;
@@ -72,22 +75,36 @@ Deno.serve(async (req: Request) => {
       const c = classifyOrder({ found: f.found, complete: f.complete, financial: f.order?.displayFinancialStatus, cancelledAt: f.order?.cancelledAt, items });
       const upd = f.order?.updatedAt;
       const updOk = typeof upd === "string" && !isNaN(Date.parse(upd)) &&
-        (!basePayload.updated_at || Date.parse(upd) >= Date.parse(basePayload.updated_at));
+        (!basePayload.updated_at || Date.parse(upd) >= Date.parse(String(basePayload.updated_at)));
       r.shopify = { financial: f.order?.displayFinancialStatus, cancelledAt: f.order?.cancelledAt ?? null, updatedAt: upd, line_items: f.lineItems.length, items_compare: items, complete: f.complete };
       if (!c.eligible) { results.push({ ...r, result: "stopped", reason: c.reason }); continue; }
       if (!updOk) { results.push({ ...r, result: "stopped", reason: "updatedAt inválido para normalização" }); continue; }
       const key = reconciledEventKey(gid, upd);
       const payload = buildReconciledPayload(basePayload, f.order);
       // Única gravação permitida: evento técnico; o gatilho existente chama sync_shopify_order_payload.
-      const { data: ins, error: insErr } = await db.from("shopify_events").insert({
+      const bodyText = losslessStringify({
         topic: "orders/reconciled", send_status: "reconciled", shopify_event_id: key,
         order_number: ord.order_number, raw_payload: payload,
         normalized: { reconciled: true, source: "shopify-reconcile-pending", mode: "pilot" },
-      }).select("id").maybeSingle();
-      if (insErr) {
-        results.push({ ...r, event_key: key, result: insErr.code === "23505" ? "already_reconciled" : "insert_error", reason: insErr.code === "23505" ? "evento já existe (idempotente)" : insErr.code });
+      }) as string;
+      // Proteção: os IDs dos itens no texto final devem ser idênticos aos do payload base.
+      const idsOf = (t: string) => (t.match(/"line_items":\[.*\]/s)?.[0].match(/"id":\d+/g) || []).join(",");
+      if (idsOf(bodyText) !== idsOf((ev as Any).raw_text.replace(/": /g, '":').replace(/, "/g, ',"'))) {
+        results.push({ ...r, result: "stopped", reason: "IDs dos itens mudariam; nada gravado" }); continue;
+      }
+      const res = await fetch(`${Deno.env.get("SUPABASE_URL")}/rest/v1/shopify_events?select=id`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Prefer: "return=representation",
+          apikey: Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!, Authorization: `Bearer ${Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")}` },
+        body: bodyText,
+      });
+      const resJson: Any = await res.json().catch(() => null);
+      if (!res.ok) {
+        const code = resJson?.code;
+        results.push({ ...r, event_key: key, result: code === "23505" ? "already_reconciled" : "insert_error", reason: code === "23505" ? "evento já existe (idempotente)" : String(code || res.status) });
         continue;
       }
+      const ins = Array.isArray(resJson) ? resJson[0] : null;
       results.push({ ...r, event_key: key, event_id: (ins as Any)?.id, result: "reconciled" });
     }
     return jsonResponse({ ok: true, mode: "pilot", api_version: SHOPIFY_API_VERSION, results });

@@ -44,8 +44,10 @@ describe('dry_run — sem escrita e sem segredos', () => {
   it('dry_run não contém escrita; única escrita do arquivo é o evento do piloto', () => {
     const dry = src.slice(src.indexOf('if (body.mode === "dry_run") {'), src.indexOf('try {\n    const r = await fetchOrderWithAllItems'));
     expect(dry).not.toMatch(/\.(insert|update|upsert|delete)\(/);
-    expect(src.match(/\.(insert|update|upsert|delete)\(/g)).toEqual(['.insert(']);
-    expect(src).toMatch(/from\("shopify_events"\)\.insert\(\{\s*topic: "orders\/reconciled", send_status: "reconciled"/);
+    expect(src).not.toMatch(/\.(insert|update|upsert|delete)\(/);
+    expect(src.match(/method: "POST"/g)).toHaveLength(1);
+    expect(src).toMatch(/rest\/v1\/shopify_events/);
+    expect(src).toMatch(/topic: "orders\/reconciled", send_status: "reconciled"/);
     expect(src).not.toMatch(/from\("(orders|order_items|send_queue|tracking_send_locks|messages)"\)\.(insert|update|upsert)/);
   });
   it('não registra nem retorna segredo/token', () => {
