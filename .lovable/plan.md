@@ -156,7 +156,8 @@ Rodar de novo é inofensivo: conflitos são ignorados e pedidos já corrigidos n
 1. Montagem do payload: base mais campos da Shopify; `PAID` vira `paid`; cancelamento e datas são copiados; `fulfillment_status` do payload base fica igual.
 2. A chave é `orders/reconciled:<gid>:<updatedAt>` e é estável em nova execução.
 3. Classificação de todos os status, incluindo divergência de itens, consulta incompleta, não encontrado e erro.
-4. Paginação: um pedido com mais de 50 itens busca todas as páginas antes de comparar; uma falha no meio vira "consulta incompleta" e não é reconciliado.
+4. Paginação: a primeira chamada vai com `cursor = null` e as seguintes com `endCursor`; um pedido com mais de 50 itens busca todas as páginas antes de comparar; uma falha no meio vira "consulta incompleta" e não é reconciliado.
+4b. Itens: a comparação usa o GID exato (`admin_graphql_api_id`) e nunca o `id` numérico. Itens iguais com `id` numérico arredondado não geram divergência (teste contra falso positivo). Item sem GID vira "consulta incompleta".
 5. O dry run não chama nenhuma gravação.
 6. O piloto e o apply só gravam pedidos pending no banco, `PAID` na Shopify e sem divergência. Cancelled, refunded, partially_refunded, outro status e divergência não são gravados.
 7. A consulta usa o endpoint `2026-07`.
