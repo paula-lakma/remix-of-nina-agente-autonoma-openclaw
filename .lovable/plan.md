@@ -111,7 +111,7 @@ Pedidos cancelled, refunded, partially_refunded, com outro status, com divergên
 
 **Pausa para aprovação.**
 
-**Etapa 3: aplicação total.** Reconciliar os demais divergentes em lotes pequenos. Pedidos que continuam pending na Shopify não são tocados.
+**Etapa 3: primeiro apply.** Reconciliar em lotes pequenos somente os demais pedidos elegíveis (pending no banco, `PAID` na Shopify, sem divergência). Todos os outros casos não são tocados.
 
 **Evento técnico gravado nas etapas 2 e 3:**
 
@@ -144,13 +144,15 @@ Rodar de novo é inofensivo: conflitos são ignorados e pedidos já corrigidos n
 
 ## 11. Testes do futuro Build
 
-1. Montagem do payload: base mais campos da Shopify; `PAID` vira `paid`; cancelamento e datas são copiados.
+1. Montagem do payload: base mais campos da Shopify; `PAID` vira `paid`; cancelamento e datas são copiados; `fulfillment_status` do payload base fica igual.
 2. A chave é `orders/reconciled:<gid>:<updatedAt>` e é estável em nova execução.
-3. Classificação de todos os status, incluindo divergência de itens, não encontrado e erro.
-4. O dry run não chama nenhuma gravação.
-5. O piloto e o apply só gravam pedidos pending no banco e diferentes de pending na Shopify.
-6. Os segredos não aparecem em nenhuma resposta ou log (conferido nos testes).
-7. Suíte completa e typecheck.
-8. No banco, durante o piloto: 1 linha em `orders`, itens iguais, zero `send_queue` e zero travas de rastreio novas.
+3. Classificação de todos os status, incluindo divergência de itens, consulta incompleta, não encontrado e erro.
+4. Paginação: um pedido com mais de 50 itens busca todas as páginas antes de comparar; uma falha no meio vira "consulta incompleta" e não é reconciliado.
+5. O dry run não chama nenhuma gravação.
+6. O piloto e o apply só gravam pedidos pending no banco, `PAID` na Shopify e sem divergência. Cancelled, refunded, partially_refunded, outro status e divergência não são gravados.
+7. A consulta usa o endpoint `2026-07`.
+8. Os segredos não aparecem em nenhuma resposta ou log (conferido nos testes).
+9. Suíte completa e typecheck.
+10. No banco, durante o piloto: 1 linha em `orders`, itens iguais, zero `send_queue` e zero travas de rastreio novas.
 
 Aguardando a sua aprovação. Nada será implementado antes disso.
