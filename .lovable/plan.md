@@ -148,8 +148,8 @@ Rodar de novo é inofensivo: conflitos são ignorados e pedidos já corrigidos n
 
 ## 10. Rollback
 
-- **Código:** remover a função nova. Não há mudança em nada existente.
-- **Dados:** os eventos `orders/reconciled` ficam identificados. Para reverter um pedido, basta reprocessar o evento anterior do webhook na normalização, desde que tenha aprovação específica. Nenhuma tabela ou estrutura muda.
+- **Código:** remover ou reverter a função nova e o arquivo auxiliar. É simples, não precisa de migration e não afeta nada existente.
+- **Dados:** **não há rollback automático.** Reprocessar o evento antigo do webhook não reverte o pedido: a normalização recusa versões mais antigas (`skipped_older`, por `updated_at_source`). Se algum pedido precisar ser revertido, isso exige uma operação corretiva específica e aprovada, baseada de novo no estado atual da Shopify. Nenhum mecanismo de rollback de dados será criado agora. Os eventos `orders/reconciled` ficam identificados para auditoria.
 
 ## 11. Testes do futuro Build
 
