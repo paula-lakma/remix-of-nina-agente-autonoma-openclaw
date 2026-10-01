@@ -240,9 +240,7 @@ export function losslessStringify(v: Any): string {
 
 // ================= refund_audit (SOMENTE LEITURA; allowlist fixa) =================
 
-export const REFUND_AUDIT_ALLOWLIST: Record<string, string> = {
-  "2009": "", "2036": "", "2107": "",
-};
+export const REFUND_AUDIT_ALLOWLIST = ["2009", "2036", "2107"] as const;
 
 const M = "shopMoney { amount currencyCode }";
 const TX = `id kind status gateway processedAt amountSet { ${M} } parentTransaction { id }`;
