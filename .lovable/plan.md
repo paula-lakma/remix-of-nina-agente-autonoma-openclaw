@@ -34,7 +34,7 @@ Nenhuma parte da operação usa esse campo: WhatsApp, rastreio, Chat, Nina, CRM,
 - `total_received`, `total_refunded`, `refunded_shipping`, `net_payment`, exatamente como a Shopify informa.
 
 **Receita de produtos** (Vendas), modelada à parte:
-- **Receita bruta de produtos:** receita de produto no momento da venda (subtotal após descontos, sem frete), nos pedidos pagos.
+- **Receita bruta de produtos:** receita de produto no momento da venda (subtotal após descontos, sem frete), nos pedidos pagos. Usa a coluna existente `subtotal`.
 - **Reembolso de produto identificado:** soma dos valores dos itens reembolsados (`refundLineItems`), quando existirem.
 - **Reembolso não alocado:** valor do reembolso que não pode ser atribuído a itens, por exemplo um reembolso só financeiro, sem itens. Fica explícito em vez de ser distribuído entre produtos.
   - Não se presume que `total_refunded − refunded_shipping` seja igual ao reembolso de produto, porque o reembolso pode envolver outros componentes.
@@ -149,35 +149,106 @@ Fase 6  Validação completa e eventual aposentadoria da V1.                    
 
 ## Detalhes técnicos
 
-### Migration da Fase 1 (somente estrutura, sem backfill)
+### Verificações finais (feitas no banco)
 
-- **`public.order_refunds`:**
-  - `id uuid pk default gen_random_uuid()`
-  - `order_id uuid not null references orders(id) on delete cascade`
-  - `source text not null default 'shopify'`
-  - `shopify_refund_id text not null`
-  - `created_at_source timestamptz`, `processed_at timestamptz`, `updated_at_source timestamptz`
-  - `total_amount numeric`, `shipping_amount numeric`, `currency text`, `note text`
-  - `transactions jsonb not null default '[]'` (snapshot com id, kind, status, gateway, amount, currency, processed_at, parent)
-  - `line_items jsonb not null default '[]'` (line_item_gid, quantity, subtotal)
-  - `refunded_product_amount numeric` (soma atribuível aos itens)
-  - `unallocated_amount numeric` (parte não atribuível)
-  - `financial_status text` (success, pending, failed ou mixed, derivado do snapshot)
-  - `webhook_payload jsonb` (auditoria, opcional)
-  - `last_verified_at timestamptz`
-  - `created_at timestamptz not null default now()`, `updated_at timestamptz not null default now()`, com o trigger `update_updated_at_column` já existente
-  - Restrição `UNIQUE (source, shopify_refund_id)`; índices `(order_id)` e `(processed_at)`
-  - GRANT `select` para authenticated e `all` para service_role
-  - RLS ligado, com política de leitura `is_admin_or_manager(auth.uid()) OR has_role(auth.uid(),'sdr')`, igual a `orders`. Sem política de escrita: só o backend grava.
-- **Colunas novas em `orders`, todas anuláveis ou com default neutro, sem preencher nada:**
-  - Financeiras: `total_received`, `total_refunded`, `refunded_shipping`, `net_payment numeric`.
-  - Pagamento: `paid_at timestamptz`, `is_paid boolean` (anulável; null = ainda não verificado).
-  - Reembolsos: `refund_count int`, `first_refunded_at`, `last_refunded_at timestamptz`.
-  - Produto: `gross_product_revenue`, `refunded_product_amount`, `unallocated_refund_amount numeric`.
-  - Controle: `financials_verified_at timestamptz`.
-  - Índice `(is_paid, created_at_source)`.
-- **Não muda:** `sync_shopify_order_payload`, as funções `ecom_*`, o webhook e os triggers existentes. Nenhum UPDATE em dados.
-- **Conferência pós-migration:** contagens e somas de `orders` e `order_items`, e Vendas idênticas antes e depois.
+**1. `gross_product_revenue` é redundante e não será criada.**
+
+| Coluna existente | Origem (`sync_shopify_order_payload`) | Significado | Uso em Vendas |
+|---|---|---|---|
+| `subtotal` | `subtotal_price` | receita de produto **original**, após descontos e sem frete | nenhum |
+| `current_subtotal` | `current_subtotal_price` | receita de produto **atual**; a Shopify reduz quando há edição ou reembolso de itens | nenhum |
+| `net_product_revenue` | `current_subtotal_price` (igual a `current_subtotal`) | o mesmo valor atual | `ecom_summary` (receita, receita com cupom, período anterior), `ecom_timeseries`, `ecom_top_coupons` |
+
+- `ecom_top_products` usa `order_items.line_total`, e não essas colunas.
+- Hoje `subtotal` e `net_product_revenue` só diferem em 1 pedido de 464.
+- A proposta de `gross_product_revenue` ("receita de produto no momento da venda, após descontos, sem frete") tem **exatamente** o significado de `subtotal`.
+- **Receita bruta V2 = `subtotal`**, sem coluna nova.
+- **Cuidado para a Fase 4:** `net_product_revenue` pode já vir reduzida por reembolso de itens. Por isso a V2 calcula a líquida como `subtotal − refunded_product_amount`, e nunca subtrai o reembolso de `net_product_revenue`, para não descontar duas vezes.
+
+**2. RLS de `order_refunds`:**
+- Leitura (SELECT): só admin e manager, pela política `USING (public.is_admin_or_manager(auth.uid()))`. A função já existe e verifica os papéis admin/manager em `user_roles`.
+- SDR e demais papéis: nenhuma linha visível.
+- Escrita: só o backend (service_role). Nenhuma política de INSERT, UPDATE ou DELETE para usuários.
+- Anon: sem GRANT.
+- Sobre o `GRANT SELECT` para authenticated: ele só habilita a tabela na API. Com RLS ligada, quem não é admin ou manager recebe zero linhas, porque não existe política que o libere. Sem esse GRANT, nem admin ou manager conseguiriam ler pelo app.
+- É compatível com o modelo atual: `orders` usa `is_operational_staff` (admin/manager/sdr). As funções de Vendas são SECURITY DEFINER e podem entregar ao SDR só números agregados no futuro.
+- As colunas novas em `orders` seguem a política atual de `orders` (admin/manager/sdr). São só totais por pedido, sem transações, gateway ou notas.
+
+**3. Constraints:**
+- **Checks:** todos os pedidos foram incluídos, valendo só para valor não nulo.
+- **`net_payment` sem check:** a Shopify pode retornar posição líquida negativa, por exemplo quando o reembolso supera o recebido por devolução manual ou ajuste no gateway. Um check aqui poderia rejeitar dado verdadeiro.
+- **`is_paid`:** anulável e sem default (null = não verificado).
+- **`refund_count`:** sem default.
+- **Demais colunas novas:** sem default.
+
+### Migration da Fase 1 (schema final exato)
+
+```sql
+CREATE TABLE public.order_refunds (
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  order_id uuid NOT NULL REFERENCES public.orders(id) ON DELETE CASCADE,
+  source text NOT NULL DEFAULT 'shopify',
+  shopify_refund_id text NOT NULL,
+  created_at_source timestamptz,
+  processed_at timestamptz,
+  updated_at_source timestamptz,
+  total_amount numeric CHECK (total_amount IS NULL OR total_amount >= 0),
+  shipping_amount numeric CHECK (shipping_amount IS NULL OR shipping_amount >= 0),
+  refunded_product_amount numeric CHECK (refunded_product_amount IS NULL OR refunded_product_amount >= 0),
+  unallocated_amount numeric CHECK (unallocated_amount IS NULL OR unallocated_amount >= 0),
+  currency text,
+  note text,
+  transactions jsonb NOT NULL DEFAULT '[]'::jsonb,
+  line_items jsonb NOT NULL DEFAULT '[]'::jsonb,
+  financial_status text CHECK (financial_status IS NULL OR financial_status IN ('success','pending','failed','mixed')),
+  webhook_payload jsonb,
+  last_verified_at timestamptz,
+  created_at timestamptz NOT NULL DEFAULT now(),
+  updated_at timestamptz NOT NULL DEFAULT now(),
+  CONSTRAINT order_refunds_source_refund_key UNIQUE (source, shopify_refund_id)
+);
+
+GRANT SELECT ON public.order_refunds TO authenticated;
+GRANT ALL ON public.order_refunds TO service_role;
+
+ALTER TABLE public.order_refunds ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY order_refunds_select_admin_manager ON public.order_refunds
+  FOR SELECT TO authenticated
+  USING (public.is_admin_or_manager(auth.uid()));
+
+CREATE INDEX order_refunds_order_id_idx ON public.order_refunds (order_id);
+CREATE INDEX order_refunds_processed_at_idx ON public.order_refunds (processed_at);
+
+CREATE TRIGGER update_order_refunds_updated_at
+  BEFORE UPDATE ON public.order_refunds
+  FOR EACH ROW EXECUTE FUNCTION public.update_updated_at_column();
+
+ALTER TABLE public.orders
+  ADD COLUMN total_received numeric CONSTRAINT orders_total_received_chk CHECK (total_received IS NULL OR total_received >= 0),
+  ADD COLUMN total_refunded numeric CONSTRAINT orders_total_refunded_chk CHECK (total_refunded IS NULL OR total_refunded >= 0),
+  ADD COLUMN refunded_shipping numeric CONSTRAINT orders_refunded_shipping_chk CHECK (refunded_shipping IS NULL OR refunded_shipping >= 0),
+  ADD COLUMN net_payment numeric,
+  ADD COLUMN paid_at timestamptz,
+  ADD COLUMN is_paid boolean,
+  ADD COLUMN refund_count integer CONSTRAINT orders_refund_count_chk CHECK (refund_count IS NULL OR refund_count >= 0),
+  ADD COLUMN first_refunded_at timestamptz,
+  ADD COLUMN last_refunded_at timestamptz,
+  ADD COLUMN refunded_product_amount numeric CONSTRAINT orders_refunded_product_amount_chk CHECK (refunded_product_amount IS NULL OR refunded_product_amount >= 0),
+  ADD COLUMN unallocated_refund_amount numeric CONSTRAINT orders_unallocated_refund_amount_chk CHECK (unallocated_refund_amount IS NULL OR unallocated_refund_amount >= 0),
+  ADD COLUMN financials_verified_at timestamptz;
+
+CREATE INDEX orders_is_paid_created_idx ON public.orders (is_paid, created_at_source);
+```
+
+**Zero UPDATE e zero backfill:**
+- As colunas novas nascem todas nulas, sem default, e a tabela nasce vazia.
+- Os checks valem só para valor não nulo, então todas as linhas existentes continuam válidas.
+- `sync_shopify_order_payload`, as funções `ecom_*`, os webhooks, os triggers existentes e a página Vendas ficam intocados.
+- **Conferência antes e depois:**
+  - contagens e somas de `orders` e `order_items`, e os números de Vendas, idênticos;
+  - colunas novas 100% nulas e `order_refunds` com 0 linhas;
+  - teste de leitura de `order_refunds` com um usuário SDR, que deve retornar 0 linhas mesmo depois que a tabela tiver dados (verificado na Fase 2).
 
 ### Fases seguintes (sem migration agora)
 
