@@ -2523,6 +2523,54 @@ export type Database = {
           },
         ]
       }
+      shopify_financial_inbox: {
+        Row: {
+          attempts: number
+          claimed_at: string | null
+          created_at: string
+          id: string
+          last_error: string | null
+          next_attempt_at: string
+          payload: Json
+          shopify_order_id: string
+          shopify_refund_id: string | null
+          status: string
+          topic: string
+          updated_at: string
+          webhook_id: string
+        }
+        Insert: {
+          attempts?: number
+          claimed_at?: string | null
+          created_at?: string
+          id?: string
+          last_error?: string | null
+          next_attempt_at?: string
+          payload: Json
+          shopify_order_id: string
+          shopify_refund_id?: string | null
+          status?: string
+          topic: string
+          updated_at?: string
+          webhook_id: string
+        }
+        Update: {
+          attempts?: number
+          claimed_at?: string | null
+          created_at?: string
+          id?: string
+          last_error?: string | null
+          next_attempt_at?: string
+          payload?: Json
+          shopify_order_id?: string
+          shopify_refund_id?: string | null
+          status?: string
+          topic?: string
+          updated_at?: string
+          webhook_id?: string
+        }
+        Relationships: []
+      }
       shopify_shipment_notifications: {
         Row: {
           created_at: string
@@ -2985,6 +3033,10 @@ export type Database = {
         }
         Returns: Json
       }
+      apply_order_financials: {
+        Args: { p_order_id: string; p_refunds: Json; p_summary: Json }
+        Returns: Json
+      }
       assign_conversation_to_expedicao: {
         Args: {
           _conversation_id: string
@@ -3088,6 +3140,30 @@ export type Database = {
         SetofOptions: {
           from: "*"
           to: "send_queue"
+          isOneToOne: false
+          isSetofReturn: true
+        }
+      }
+      claim_shopify_financial_inbox: {
+        Args: { p_limit?: number }
+        Returns: {
+          attempts: number
+          claimed_at: string | null
+          created_at: string
+          id: string
+          last_error: string | null
+          next_attempt_at: string
+          payload: Json
+          shopify_order_id: string
+          shopify_refund_id: string | null
+          status: string
+          topic: string
+          updated_at: string
+          webhook_id: string
+        }[]
+        SetofOptions: {
+          from: "*"
+          to: "shopify_financial_inbox"
           isOneToOne: false
           isSetofReturn: true
         }

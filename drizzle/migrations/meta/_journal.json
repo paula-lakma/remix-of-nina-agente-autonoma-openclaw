@@ -92,6 +92,13 @@
       "when": 1790873074135,
       "tag": "0012_vendas_v2_fase1_order_refunds_tighten_grants",
       "breakpoints": true
+    },
+    {
+      "idx": 13,
+      "version": "7",
+      "when": 1790885087764,
+      "tag": "0013_vendas_v2_fase2_inbox_and_apply",
+      "breakpoints": true
     }
   ]
 }
