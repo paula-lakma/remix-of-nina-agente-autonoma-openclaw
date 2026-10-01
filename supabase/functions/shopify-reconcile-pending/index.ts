@@ -9,7 +9,7 @@ import { getJwtUser } from "../_shared/userauth.ts";
 import {
   losslessParse, losslessStringify, buildReconciledPayload, classifyOrder, compareLineItems, reconciledEventKey, fetchOrderWithAllItems, getAccessToken, orderGid, SHOPIFY_API_VERSION,
   classifyStatusPilot, buildStatusPayload, REFUND_AUDIT_ALLOWLIST, fetchRefundAudit, summarizeRefundAudit, validateFullRefund, reconciledStatusEventKey, lineItemSignature,
-  fetchAccessScopes, fetchOrderRawDiag,
+  fetchAccessScopes, fetchOrderRawDiag, fetchOrderFinancials, computeOrderFinancials,
 } from "../_shared/shopify_admin.ts";
 
 // deno-lint-ignore no-explicit-any
@@ -27,8 +27,8 @@ Deno.serve(async (req: Request) => {
 
   let body: { mode?: string; source_order_id?: string; source_order_ids?: string[] };
   try { body = await req.json(); } catch { return errorResponse("Body JSON inválido", 400); }
-  if (!["auth_check", "dry_run", "pilot", "precision_check", "status_pilot", "refund_audit", "scope_check"].includes(String(body.mode))) {
-    return errorResponse("Modos habilitados: auth_check, dry_run, pilot, precision_check, status_pilot, refund_audit, scope_check", 400);
+  if (!["auth_check", "dry_run", "pilot", "precision_check", "status_pilot", "refund_audit", "scope_check", "financials_dry_run"].includes(String(body.mode))) {
+    return errorResponse("Modos habilitados: auth_check, dry_run, pilot, precision_check, status_pilot, refund_audit, scope_check, financials_dry_run", 400);
   }
   if (body.mode === "pilot" || body.mode === "status_pilot") {
     const ids = body.source_order_ids;
@@ -53,6 +53,32 @@ Deno.serve(async (req: Request) => {
     return jsonResponse({ ok: false, stage: "auth", secrets, error: (e as Error).message }, 200);
   }
 
+
+  if (body.mode === "financials_dry_run") {
+    // SOMENTE LEITURA: exatamente 3 pedidos (#2009 + pago recente + outro recente). Nada é gravado.
+    const { data: a } = await db.from("orders").select("order_number, source_order_id, financial_status, valid_order, created_at_source")
+      .eq("source", "shopify").eq("order_number", "2009").maybeSingle();
+    const { data: recent } = await db.from("orders").select("order_number, source_order_id, financial_status, valid_order, created_at_source")
+      .eq("source", "shopify").neq("order_number", "2009").order("created_at_source", { ascending: false }).limit(10);
+    const b = (recent || []).find((x: Any) => x.valid_order === true && x.financial_status === "paid") || null;
+    const c = (recent || []).find((x: Any) => x.order_number !== b?.order_number) || null;
+    const picks = [{ role: "A_2009", ord: a }, { role: "B_pago_sem_refund", ord: b }, { role: "C_recente", ord: c }];
+    const results: Any[] = [];
+    for (const p of picks) {
+      if (!p.ord) { results.push({ role: p.role, error: "pedido não encontrado no banco" }); continue; }
+      const sel = { order_number: p.ord.order_number, source_order_id: String(p.ord.source_order_id), db_status: p.ord.financial_status,
+        db_valid: p.ord.valid_order, created_at_source: p.ord.created_at_source };
+      try {
+        const f = await fetchOrderFinancials(shop, token, orderGid(String(p.ord.source_order_id)));
+        if (!f.found) { results.push({ role: p.role, selected: sel, found: false, issues: f.issues }); continue; }
+        results.push({ role: p.role, selected: sel, found: true, complete: f.complete, issues: f.issues,
+          financials: computeOrderFinancials(f.order, f.complete, f.fetched_at) });
+      } catch (e) {
+        results.push({ role: p.role, selected: sel, error: (e as Error).message, financials: null });
+      }
+    }
+    return jsonResponse({ ok: true, mode: "financials_dry_run", writes: 0, api_version: SHOPIFY_API_VERSION, results });
+  }
 
   if (body.mode === "scope_check") {
     // SOMENTE LEITURA: lê escopos concedidos; só se read_all_orders existir, lê 1 pedido de julho/2026. Nenhuma gravação.
