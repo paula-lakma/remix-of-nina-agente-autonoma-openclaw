@@ -15,3 +15,4 @@
 
 - [x] Auditoria read-only refund_audit dos 3 REFUNDED (#2009, #2036, #2107) — sem reconciliar
 - [x] #2009, #2036, #2107 corrigidos para refunded (reembolso total auditado).
+- [ ] Vendas V2 Fase 1: estrutura order_refunds + colunas em orders (sem dados)
