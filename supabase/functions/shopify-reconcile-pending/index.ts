@@ -8,7 +8,7 @@ import { corsHeaders, errorResponse, jsonResponse, adminClient } from "../_share
 import { getJwtUser } from "../_shared/userauth.ts";
 import {
   losslessParse, losslessStringify, buildReconciledPayload, classifyOrder, compareLineItems, reconciledEventKey, fetchOrderWithAllItems, getAccessToken, orderGid, SHOPIFY_API_VERSION,
-  classifyStatusPilot, buildStatusPayload, reconciledStatusEventKey, lineItemSignature,
+  classifyStatusPilot, buildStatusPayload, REFUND_AUDIT_ALLOWLIST, fetchRefundAudit, summarizeRefundAudit, reconciledStatusEventKey, lineItemSignature,
 } from "../_shared/shopify_admin.ts";
 
 // deno-lint-ignore no-explicit-any
@@ -26,8 +26,8 @@ Deno.serve(async (req: Request) => {
 
   let body: { mode?: string; source_order_id?: string; source_order_ids?: string[] };
   try { body = await req.json(); } catch { return errorResponse("Body JSON inválido", 400); }
-  if (!["auth_check", "dry_run", "pilot", "precision_check", "status_pilot"].includes(String(body.mode))) {
-    return errorResponse("Modos habilitados: auth_check, dry_run, pilot, precision_check, status_pilot", 400);
+  if (!["auth_check", "dry_run", "pilot", "precision_check", "status_pilot", "refund_audit"].includes(String(body.mode))) {
+    return errorResponse("Modos habilitados: auth_check, dry_run, pilot, precision_check, status_pilot, refund_audit", 400);
   }
   if (body.mode === "pilot" || body.mode === "status_pilot") {
     const ids = body.source_order_ids;
@@ -52,6 +52,25 @@ Deno.serve(async (req: Request) => {
     return jsonResponse({ ok: false, stage: "auth", secrets, error: (e as Error).message }, 200);
   }
 
+
+  if (body.mode === "refund_audit") {
+    // SOMENTE LEITURA: allowlist fixa, nenhuma gravação.
+    const { data: ords } = await db.from("orders").select("order_number, source_order_id, financial_status")
+      .eq("source", "shopify").in("order_number", [...REFUND_AUDIT_ALLOWLIST]);
+    const results: Any[] = [];
+    for (const num of REFUND_AUDIT_ALLOWLIST) {
+      const ord = (ords || []).find((x: Any) => x.order_number === num);
+      if (!ord) { results.push({ order_number: num, error: "pedido não existe no banco" }); continue; }
+      try {
+        const a = await fetchRefundAudit(shop, token, orderGid(String(ord.source_order_id)));
+        results.push({ order_number: num, db_status: ord.financial_status, found: a.found, issues: a.issues,
+          audit: a.order ? summarizeRefundAudit(a.order, a.complete) : null });
+      } catch (e) {
+        results.push({ order_number: num, db_status: ord.financial_status, error: (e as Error).message, audit: null });
+      }
+    }
+    return jsonResponse({ ok: true, mode: "refund_audit", writes: 0, api_version: SHOPIFY_API_VERSION, results });
+  }
 
   if (body.mode === "status_pilot") {
     const results: Any[] = [];
