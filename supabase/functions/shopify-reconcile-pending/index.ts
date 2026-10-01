@@ -60,10 +60,7 @@ Deno.serve(async (req: Request) => {
     try { scopes = await fetchAccessScopes(shop, token); }
     catch (e) { return jsonResponse({ ok: false, mode: "scope_check", stage: "scopes", writes: 0, error: (e as Error).message }, 200); }
     const has = { read_orders: scopes.includes("read_orders"), read_all_orders: scopes.includes("read_all_orders") };
-    if (!has.read_all_orders) {
-      return jsonResponse({ ok: true, mode: "scope_check", writes: 0, api_version: SHOPIFY_API_VERSION, scopes, has,
-        stopped: "read_all_orders declarado na versão, mas não concedido à instalação" });
-    }
+    // App merchant-owned: read_all_orders ausente NÃO interrompe; testa empiricamente o histórico com read_orders.
     const { data: ord } = await db.from("orders").select("id, order_number, source_order_id, created_at_source")
       .eq("source", "shopify").eq("valid_order", true)
       .gte("created_at_source", "2026-07-01T03:00:00Z").lt("created_at_source", "2026-08-01T03:00:00Z")
@@ -71,18 +68,35 @@ Deno.serve(async (req: Request) => {
     if (!ord) return jsonResponse({ ok: true, mode: "scope_check", writes: 0, scopes, has, july_order: null, note: "nenhum pedido válido de julho no banco" });
     const { data: items } = await db.from("order_items").select("source_line_item_id, quantity").eq("order_id", ord.id);
     const gid = orderGid(String(ord.source_order_id));
+    const july_order = { order_number: ord.order_number, source_order_id: String(ord.source_order_id), gid,
+      created_at_source: ord.created_at_source, db_items: (items || []).length };
+    // Diagnóstico bruto (somente leitura) quando a leitura falha: status HTTP, x-request-id, corpo.
+    const rawDiag = async () => {
+      try {
+        const r = await fetch(`https://${shop}/admin/api/${SHOPIFY_API_VERSION}/graphql.json`, {
+          method: "POST", headers: { "Content-Type": "application/json", "X-Shopify-Access-Token": token },
+          body: JSON.stringify({ query: `query($id: ID!){ order(id: $id){ id name } }`, variables: { id: gid } }),
+        });
+        return { http_status: r.status, x_request_id: r.headers.get("x-request-id"), body: (await r.text()).slice(0, 4000) };
+      } catch (e) { return { error: (e as Error).message }; }
+    };
     try {
       const f = await fetchOrderWithAllItems(shop, token, gid);
+      if (!f.found) {
+        return jsonResponse({ ok: true, mode: "scope_check", writes: 0, scopes, has, july_order, historical_access: false,
+          read: { found: false }, diagnostic: await rawDiag() });
+      }
       const shopIds = f.lineItems.map((l) => String(l.id).replace("gid://shopify/LineItem/", "")).sort();
       const dbIds = (items || []).map((i: Any) => String(i.source_line_item_id)).sort();
-      return jsonResponse({ ok: true, mode: "scope_check", writes: 0, api_version: SHOPIFY_API_VERSION, scopes, has,
-        july_order: { order_number: ord.order_number, source_order_id: String(ord.source_order_id), gid, created_at_source: ord.created_at_source },
-        read: { found: f.found, gid_match: f.order?.id === gid, complete: f.complete, pages: f.pages,
-          financial: f.order?.displayFinancialStatus ?? null, shopify_items: f.lineItems.length, db_items: dbIds.length,
+      return jsonResponse({ ok: true, mode: "scope_check", writes: 0, api_version: SHOPIFY_API_VERSION, scopes, has, july_order,
+        historical_access: true,
+        read: { found: true, gid: f.order?.id ?? null, gid_match: f.order?.id === gid, name: f.order?.name ?? null,
+          complete: f.complete, pages: f.pages, financial: f.order?.displayFinancialStatus ?? null,
+          shopify_items: f.lineItems.length, db_items: dbIds.length,
           items_match: JSON.stringify(shopIds) === JSON.stringify(dbIds), shopify_item_ids: shopIds, db_item_ids: dbIds } });
     } catch (e) {
-      return jsonResponse({ ok: false, mode: "scope_check", writes: 0, scopes, has, stage: "july_read",
-        july_order: { order_number: ord.order_number, gid }, error: (e as Error).message }, 200);
+      return jsonResponse({ ok: false, mode: "scope_check", writes: 0, scopes, has, stage: "july_read", july_order,
+        historical_access: false, error: (e as Error).message, diagnostic: await rawDiag() }, 200);
     }
   }
 
