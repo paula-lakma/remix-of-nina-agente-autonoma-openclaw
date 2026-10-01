@@ -28,40 +28,40 @@ Nenhuma parte da operação usa esse campo: WhatsApp, rastreio, Chat, Nina, CRM,
 - Reembolso parcial: o pedido passa a `partially_refunded`, sai de `valid_order` e **desaparece inteiro**, embora parte da venda continue valendo.
 - Sem métrica de reembolsos, taxa de reembolso ou receita líquida.
 
-## 4. Definições recomendadas
+## 4. Definições e métricas
 
-- **Pedido pago:** teve pagamento confirmado (alguma transação SALE/CAPTURE com SUCCESS, ou `totalReceived > 0`), não é teste e não foi cancelado antes de pagar. Continua pago mesmo se depois houver reembolso.
-- **Receita bruta de produtos:** receita de produto do pedido no momento da venda (subtotal original após descontos, sem frete), somada nos pedidos pagos.
-- **Reembolsos:** soma das transações REFUND com SUCCESS (`totalRefunded`), contadas na **data do reembolso**. Como métrica secundária, mostrar também a parte que é frete.
-- **Receita líquida:** receita bruta − reembolsos de produto (reembolso total − frete reembolsado).
-- **Pedidos com reembolso:** pagos com reembolso > 0. **Total:** reembolsado = recebido. **Parcial:** 0 < reembolsado < recebido.
-- **Taxa de reembolso:** reembolsos / receita bruta, em valor. Como secundária, a taxa por número de pedidos.
-- **Ticket médio principal:** receita líquida / pedidos pagos, porque reflete o que fica no caixa. Secundário: receita bruta / pedidos pagos.
+**Fluxo financeiro do pedido** (pagamento; não é receita de produto):
+- `total_received`, `total_refunded`, `refunded_shipping`, `net_payment`, exatamente como a Shopify informa.
 
-**Data de referência:** venda pela data do pedido (como hoje), reembolso pela data em que aconteceu. Assim, um mês já fechado não muda quando chega um reembolso depois. A alternativa é atribuir o reembolso à data da venda (visão de "qualidade da venda"); isso precisa da sua decisão.
+**Receita de produtos** (Vendas), modelada à parte:
+- **Receita bruta de produtos:** receita de produto no momento da venda (subtotal após descontos, sem frete), nos pedidos pagos.
+- **Reembolso de produto identificado:** soma dos valores dos itens reembolsados (`refundLineItems`), quando existirem.
+- **Reembolso não alocado:** valor do reembolso que não pode ser atribuído a itens, por exemplo um reembolso só financeiro, sem itens. Fica explícito em vez de ser distribuído entre produtos.
+  - Não se presume que `total_refunded − refunded_shipping` seja igual ao reembolso de produto, porque o reembolso pode envolver outros componentes.
+  - Os 3 casos históricos ficam auditáveis como "não alocado".
 
-## 5. Opções de modelagem
+**Outras definições:**
+- **Pedido pago:** pagamento confirmado (transação SALE/CAPTURE com SUCCESS, ou `totalReceived > 0`), não é teste. Continua pago mesmo se depois houver reembolso.
+- **Pedidos com reembolso:** reembolso > 0. **Total:** reembolsado = recebido. **Parcial:** 0 < reembolsado < recebido.
+- **Data de referência:** venda na data do pedido; reembolso na data em que ocorreu, não na data da venda, salvo decisão posterior.
 
-| Critério | A — colunas em `orders` | B — tabela `order_refunds` (+ resumo em `orders`) |
-|---|---|---|
-| Auditoria | só totais | cada reembolso e transação |
-| Vários reembolsos | só soma | sim, um por linha |
-| Parcial | soma | sim, com itens e frete |
-| Idempotência | sobrescreve | chave única por reembolso da Shopify |
-| Reembolso por data | não (só último) | sim |
-| Facilidade nas funções de Vendas | alta | média |
-| Complexidade e backfill | baixa | média |
+Ficam disponíveis separadamente: receita bruta de produtos, reembolsos de produto identificados, reembolsos não alocados, total reembolsado financeiro e posição líquida financeira. Quais delas viram cards principais, e a regra do ticket médio, ficam para as Fases 4/5. A Fase 1 não depende disso.
 
-**Recomendação:** B + resumo.
-- Tabela `order_refunds`, com uma linha por reembolso da Shopify e as transações dentro.
-- Colunas-resumo em `orders` (`total_received`, `total_refunded`, `refunded_shipping`, `net_payment`, `paid_at`, `refund_count`, `first_refunded_at`, `last_refunded_at`, `is_paid`), recalculadas a partir dela.
-- Assim, as funções de Vendas continuam rápidas e o detalhe fica auditável.
+## 5. Modelagem recomendada
+
+- **Tabela `order_refunds`:** uma linha por Refund da Shopify, com chave única `(source, shopify_refund_id)`.
+- **`transactions` (jsonb):** snapshot normalizado da situação **atual** daquele Refund, com os IDs das transações preservados para auditoria.
+  - Uma nova consulta do mesmo Refund atualiza ou substitui o snapshot.
+  - Não há idempotência por transação no banco, só por Refund.
+- **Totais do pedido:** recalculados a partir do estado autoritativo de todos os seus refunds, nunca somando de novo o mesmo refund.
+- **Auditoria linha a linha por transação:** se for preciso no futuro, cria-se `order_refund_transactions` em outra versão. Ela não será criada agora.
+- **Colunas-resumo em `orders`:** financeiras e de produto, separadas (ver Detalhes técnicos).
 
 ## 6. Reembolso total e parcial (exemplos)
 
-- **R$500 pago, R$100 reembolsado:** pago sim; bruta R$500; reembolso R$100 (na data dele); líquida R$400; com reembolso, parcial. O pedido **continua** nas vendas.
-- **R$500 pago, R$500 reembolsado:** pago sim; bruta R$500; reembolso R$500; líquida R$0; reembolso total. Entra em pedidos pagos e na bruta, e se anula na líquida.
-- `valid_order` não muda, para não mexer em nada existente. Surge uma nova regra de venda: `is_paid AND NOT is_test AND (cancelado só se não pago)`.
+- **R$500 pago, R$100 reembolsado:** pago sim; bruta R$500; reembolso R$100 (na data dele); o pedido **continua** nas vendas.
+- **R$500 pago, R$500 reembolsado:** pago sim; bruta R$500; reembolso R$500; efeito líquido zero; reembolso total.
+- `valid_order` não muda. A regra de venda da V2 será definida na Fase 4.
 
 ## 7. Clientes e recompra (opções para sua decisão)
 
@@ -69,79 +69,119 @@ Nenhuma parte da operação usa esse campo: WhatsApp, rastreio, Chat, Nina, CRM,
 |---|---|---|
 | Pago sem reembolso | conta (igual a hoje) | — |
 | Parcial | **recomendo contar** (houve venda) | — |
-| Total | conta como cliente, mas pode inflar "novos" | **recomendo não contar** para novo, recorrente e recompra (venda desfeita) |
-
-Clientes únicos no card: só pedidos pagos que não foram totalmente reembolsados.
+| Total | conta, mas pode inflar "novos" | **recomendo não contar** para novo, recorrente e recompra |
 
 ## 8. Produtos e cupons
 
-- **Produtos:** quando o reembolso traz itens, desconta unidades e valor do produto. Quando é só financeiro, sem itens (os 3 casos históricos), não dá para atribuir a um produto.
-  - Recomendação: Top Produtos mostra unidades e receita **bruta**, com uma linha "reembolsos sem item identificado" no total.
-  - Limitação a declarar na tela.
-- **Cupons:** pedidos e receita bruta por cupom; reembolso atribuído ao cupom do pedido (todo reembolso é ligado a um pedido); líquida por cupom = bruta − reembolsos. Taxa de reembolso por cupom como métrica extra opcional.
+- **Produtos:**
+  - Com itens no reembolso: desconta unidades e valor dos produtos.
+  - Sem itens: fica em "reembolso não alocado", fora do ranking por produto, com a limitação declarada na tela.
+- **Cupons:**
+  - Reembolso atribuído ao cupom do pedido (todo reembolso tem pedido).
+  - Por cupom: bruta, reembolsos e líquida.
 
 ## 9. Sincronização futura (Shopify como fonte)
 
-- `orders/updated` dispara quando há reembolso, mas o payload não garante os detalhes. Na nossa amostra a lista veio vazia.
-- Recomendação (E, combinação):
-  1. Assinar o webhook **`refunds/create`**, que traz o reembolso completo com transações, itens e frete.
-  2. Manter `orders/updated` para o status.
-  3. Rodar uma **reconciliação diária** read-only pela API (`totalReceived`/`totalRefunded`/`refunds`) dos pedidos alterados nas últimas 48–72h, para cobrir evento perdido.
-- **Idempotência:** chave única = ID do reembolso na Shopify; transações por ID da transação. Refund com transação FAILURE/PENDING é guardado, mas não soma até virar SUCCESS.
-- A página Vendas continua lendo só o banco, sem consultar a Shopify em tempo real.
-- Um eventual `refunds/create` seria tratado num caminho **analítico separado** (função nova ou ramo isolado e tolerante a falha), sem tocar no fluxo de WhatsApp e rastreio do `shopify-webhook`.
+- O webhook `refunds/create` existe, e o escopo `read_orders` basta para assiná-lo.
+- Ele dispara quando um Refund é **criado**, mas não garante que o dinheiro já voltou. O payload pode ser salvo para auditoria, mas **não** vale sozinho como confirmação de reembolso.
+- **Fluxo:**
+```text
+refunds/create -> validar assinatura -> obter refund/order ID
+  -> consultar GraphQL Admin (estado autoritativo do pedido e do refund)
+  -> verificar transactions/status
+  -> só então atualizar a camada analítica
+```
+- **Reconciliação periódica:** read-only, nos pedidos alterados nas últimas 48–72h. Cobre webhook perdido e transação que começou PENDING e depois virou SUCCESS ou FAILURE.
+- **Isolamento:** tudo roda em caminho analítico separado do `shopify-webhook`, sem tocar em WhatsApp ou rastreio. A página Vendas lê só o banco.
 
-## 10. Backfill histórico
+## 10. Janela de 60 dias e backfill histórico
 
-- **Universo:** todos os pedidos com histórico (desde 28/07/2026), status paid, refunded e partially_refunded. Hoje são ~418, e a lista é fechada no dry-run. Expired, pending e voided não precisam.
-- Não há como descobrir reembolsos antigos pelo banco, então é preciso consultar a Shopify pedido a pedido (leitura já validada no `refund_audit`), ou filtrar por `financial_status` na busca da Shopify.
+- Com só `read_orders`, a Shopify devolve os pedidos dos **últimos 60 dias**. Hoje (01/10/2026) a janela começa em ~02/08/2026, então os pedidos de 28/07 a ~01/08 ficam fora. Esse corte avança a cada dia.
+- **Decisão antes do backfill:**
+  - A (preferida): adicionar o escopo `read_all_orders` ao app crm-eccomerce, mantendo `read_orders`.
+  - B: aceitar um backfill incompleto, limitado ao período acessível.
+- **Quando:** na Fase 2 (pedido e validação da permissão, com um teste de leitura em um pedido de julho), antes da Fase 3. O app não muda agora.
+- **Dry-run** (só leitura) informa:
+  - pedidos consultáveis e pedidos bloqueados pela janela;
+  - total recebido e total reembolsado;
+  - refunds encontrados: totais, parciais e sem itens;
+  - divergências e erros.
+- Os R$1.519,04 dos 3 refunds auditados são **uma referência conhecida, não um limite**. O valor real sai do dry-run.
 - **Etapas:**
-  1. Dry-run: só leitura; relatório de totais por pedido e soma geral.
-  2. Piloto: os 3 refunded + 2 pagos.
-  3. Apply em lotes, com conferência das tabelas protegidas depois de cada lote.
-- **Validação:** soma de recebido e reembolsado igual à Shopify; receita bruta igual à atual mais os R$1.519,04; zero efeito operacional.
+  1. Dry-run.
+  2. Validação do relatório por você.
+  3. Piloto.
+  4. Apply em lotes, com conferência das tabelas protegidas depois de cada lote.
+  Nenhum apply antes de você aprovar o relatório.
 
-## 11. Proposta de UI (incremental)
+## 11. Proposta de UI (incremental, decisão nas Fases 4/5)
 
-- **Cards:** Receita líquida (destaque) · Receita bruta · Reembolsos · Pedidos pagos · Ticket médio (líquido; bruto em texto menor) · Clientes.
-- **Gráfico:** bruta e líquida (reembolsos como barra negativa opcional).
-- **"Situação dos pedidos":** ganha pedidos com reembolso, totais, parciais e taxa de reembolso.
-- Restante igual.
-- **Destaque na receita líquida:** é o dinheiro que fica; a bruta e os reembolsos explicam a diferença.
+- **Cards candidatos:** Receita líquida, Receita bruta, Reembolsos, Pedidos pagos, Ticket médio, Clientes.
+- **Indicadores secundários:** pedidos com reembolso, totais, parciais, taxa de reembolso e reembolsos não alocados.
+- O resto da página continua familiar.
 
 ## 12. Fases com pausa obrigatória
 
 ```text
-Fase 1  Modelo de dados (migration): tabela order_refunds + colunas-resumo + RLS. Sem uso ainda.        -> pausa
-Fase 2  Captura futura: refunds/create + reconciliação diária, isoladas da operação.                    -> pausa
-Fase 3  Backfill: dry-run -> piloto -> apply em lotes.                                                   -> pausa
-Fase 4  Funções de Vendas V2 (novas, em paralelo às atuais), com testes de totais.                       -> pausa
-Fase 5  UI Vendas V2 (troca dos cards e blocos).                                                         -> pausa
-Fase 6  Validação completa contra a Shopify e desligamento das funções V1 se aprovado.                   -> pausa
+Fase 1  SOMENTE estrutura: tabela, colunas, índices, constraints, RLS, grants.
+        Nenhum dado preenchido. sync_shopify_order_payload intocada. Nenhum dado atual muda.   -> pausa
+Fase 2  Captura futura: refunds/create -> GraphQL -> validação -> camada analítica;
+        reconciliação periódica; resolver/validar read_all_orders para o histórico.             -> pausa
+Fase 3  Backfill: dry-run -> validação -> piloto -> apply em lotes.                             -> pausa
+Fase 4  Funções de Vendas V2 em paralelo às V1 (com testes de totais).                          -> pausa
+Fase 5  UI Vendas V2.                                                                           -> pausa
+Fase 6  Validação completa e eventual aposentadoria da V1.                                      -> pausa
 ```
 
 ## Riscos e rollback
 
-- **Riscos:** dupla contagem de reembolsos (mitigado pela chave única); mudança de números já reportados (mitigado ao mostrar V2 em paralelo); webhook novo afetar a operação (mitigado com função separada); fuso das datas de reembolso (usar São Paulo).
+- **Riscos e mitigação:**
+  - Contar o mesmo reembolso duas vezes: chave por Refund e recálculo pelo snapshot.
+  - Tratar refund criado como dinheiro devolvido: confirmação pela GraphQL.
+  - Histórico incompleto pela janela de 60 dias: decisão sobre `read_all_orders`.
+  - Webhook novo afetar a operação: função separada.
+  - Fuso das datas: usar São Paulo.
 - **Rollback:**
-  - Fase 1: remover tabela e colunas (ainda não usadas).
-  - Fase 2: desligar o webhook novo e a rotina.
-  - Fase 3: os dados ficam só na camada analítica; dá para limpar.
-  - Fases 4 e 5: as funções V1 continuam existindo; volta só a UI.
+  - Fase 1: tabela e colunas ficam sem uso; podem ser ignoradas ou removidas depois.
+  - Fase 2: desligar o webhook e a rotina.
+  - Fase 3: dados só na camada analítica, dá para limpar.
+  - Fases 4 e 5: funções V1 intactas; volta só a UI.
 
 ## Detalhes técnicos
 
-- **Tabela `public.order_refunds`:**
-  - Campos: `id uuid pk`, `order_id uuid fk orders on delete cascade`, `source text default 'shopify'`, `shopify_refund_id text`, `processed_at timestamptz`, `created_at_source timestamptz`, `total_amount numeric`, `shipping_amount numeric`, `currency text`, `note text`, `transactions jsonb` (kind, status, gateway, amount, processed_at, parent), `line_items jsonb` (line_item_gid, quantity, subtotal), `status text` (success/pending/failed), `source_event_id uuid`, `created_at`, `updated_at`.
-  - Restrição: `UNIQUE(source, shopify_refund_id)`.
-  - Índices: `(order_id)` e `(processed_at)`.
-  - Acesso: GRANT select para authenticated e all para service_role; RLS de leitura para admin/manager/sdr, igual a `orders`; escrita só pelo backend.
-- **Colunas novas em `orders`:** `total_received`, `total_refunded`, `refunded_shipping`, `net_payment numeric`, `paid_at timestamptz`, `refund_count int default 0`, `first_refunded_at`, `last_refunded_at timestamptz`, `is_paid boolean default false`. Índice `(is_paid, created_at_source)`.
-- **Funções SQL:**
-  - `sync_shopify_order_payload`: na Fase 1 só preenche `paid_at`/`is_paid` quando o payload tiver isso; o resto fica com a função nova `sync_order_refund(...)`.
-  - Novas `ecom_summary_v2`, `ecom_timeseries_v2`, `ecom_top_products_v2`, `ecom_top_coupons_v2`.
-  - As V1 ficam intactas até a Fase 6.
-- **Edge Functions:** nova `shopify-refunds-webhook` (ou rota isolada); novo modo de backfill em `shopify-reconcile-pending` (reaproveitando `fetchRefundAudit`); rotina diária de reconciliação de reembolsos.
-- **Webhook novo na Shopify:** `refunds/create`, cadastrado pelo app que já temos. É preciso confirmar se o escopo `read_orders` basta para ele.
-- **Arquivos de front (Fase 5):** `src/services/ecommerceMetrics.ts`, `src/pages/Ecommerce.tsx`, `src/components/ecommerce/*` e os testes correspondentes.
-- **Migrations:** Fase 1 (tabela e colunas) e Fase 4 (funções V2). Fases 2, 3 e 5 não precisam de migration.
+### Migration da Fase 1 (somente estrutura, sem backfill)
+
+- **`public.order_refunds`:**
+  - `id uuid pk default gen_random_uuid()`
+  - `order_id uuid not null references orders(id) on delete cascade`
+  - `source text not null default 'shopify'`
+  - `shopify_refund_id text not null`
+  - `created_at_source timestamptz`, `processed_at timestamptz`, `updated_at_source timestamptz`
+  - `total_amount numeric`, `shipping_amount numeric`, `currency text`, `note text`
+  - `transactions jsonb not null default '[]'` (snapshot com id, kind, status, gateway, amount, currency, processed_at, parent)
+  - `line_items jsonb not null default '[]'` (line_item_gid, quantity, subtotal)
+  - `refunded_product_amount numeric` (soma atribuível aos itens)
+  - `unallocated_amount numeric` (parte não atribuível)
+  - `financial_status text` (success, pending, failed ou mixed, derivado do snapshot)
+  - `webhook_payload jsonb` (auditoria, opcional)
+  - `last_verified_at timestamptz`
+  - `created_at timestamptz not null default now()`, `updated_at timestamptz not null default now()`, com o trigger `update_updated_at_column` já existente
+  - Restrição `UNIQUE (source, shopify_refund_id)`; índices `(order_id)` e `(processed_at)`
+  - GRANT `select` para authenticated e `all` para service_role
+  - RLS ligado, com política de leitura `is_admin_or_manager(auth.uid()) OR has_role(auth.uid(),'sdr')`, igual a `orders`. Sem política de escrita: só o backend grava.
+- **Colunas novas em `orders`, todas anuláveis ou com default neutro, sem preencher nada:**
+  - Financeiras: `total_received`, `total_refunded`, `refunded_shipping`, `net_payment numeric`.
+  - Pagamento: `paid_at timestamptz`, `is_paid boolean` (anulável; null = ainda não verificado).
+  - Reembolsos: `refund_count int`, `first_refunded_at`, `last_refunded_at timestamptz`.
+  - Produto: `gross_product_revenue`, `refunded_product_amount`, `unallocated_refund_amount numeric`.
+  - Controle: `financials_verified_at timestamptz`.
+  - Índice `(is_paid, created_at_source)`.
+- **Não muda:** `sync_shopify_order_payload`, as funções `ecom_*`, o webhook e os triggers existentes. Nenhum UPDATE em dados.
+- **Conferência pós-migration:** contagens e somas de `orders` e `order_items`, e Vendas idênticas antes e depois.
+
+### Fases seguintes (sem migration agora)
+
+- **Fase 2:** Edge Function nova `shopify-refunds-webhook`, que valida HMAC, consulta GraphQL e faz upsert por `shopify_refund_id`, recalculando o resumo do pedido. Reconciliação periódica reaproveitando `fetchRefundAudit`. O webhook `refunds/create` é cadastrado no app.
+- **Fase 3:** modo de backfill em `shopify-reconcile-pending`.
+- **Fase 4:** migration com `ecom_summary_v2`, `ecom_timeseries_v2`, `ecom_top_products_v2` e `ecom_top_coupons_v2`; as V1 ficam intactas.
+- **Fase 5:** `src/services/ecommerceMetrics.ts`, `src/pages/Ecommerce.tsx`, `src/components/ecommerce/*` e os testes correspondentes.
