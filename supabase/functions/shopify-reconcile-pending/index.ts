@@ -8,7 +8,7 @@ import { corsHeaders, errorResponse, jsonResponse, adminClient } from "../_share
 import { getJwtUser } from "../_shared/userauth.ts";
 import {
   losslessParse, losslessStringify, buildReconciledPayload, classifyOrder, compareLineItems, reconciledEventKey, fetchOrderWithAllItems, getAccessToken, orderGid, SHOPIFY_API_VERSION,
-  classifyStatusPilot, buildStatusPayload, REFUND_AUDIT_ALLOWLIST, fetchRefundAudit, summarizeRefundAudit, reconciledStatusEventKey, lineItemSignature,
+  classifyStatusPilot, buildStatusPayload, REFUND_AUDIT_ALLOWLIST, fetchRefundAudit, summarizeRefundAudit, validateFullRefund, reconciledStatusEventKey, lineItemSignature,
 } from "../_shared/shopify_admin.ts";
 
 // deno-lint-ignore no-explicit-any
@@ -97,16 +97,25 @@ Deno.serve(async (req: Request) => {
       const upd = f.order?.updatedAt;
       const c = classifyStatusPilot({ dbStatus: ord.financial_status, found: f.found, complete: f.complete,
         financial: f.order?.displayFinancialStatus, cancelledAt: f.order?.cancelledAt, items: items === "ok" && !qtyOk ? "divergente" : items,
-        shopifyUpdatedAt: upd, baseUpdatedAt: basePayload.updated_at });
+        shopifyUpdatedAt: upd, baseUpdatedAt: basePayload.updated_at },
+        (REFUND_AUDIT_ALLOWLIST as readonly string[]).includes(String(ord.order_number)));
       r.shopify = { financial: f.order?.displayFinancialStatus, cancelledAt: f.order?.cancelledAt ?? null, updatedAt: upd,
         base_updated_at: basePayload.updated_at, line_items: f.lineItems.length, items_compare: items, quantities_ok: qtyOk, complete: f.complete };
       if (!c.eligible) { results.push({ ...r, result: "stopped", reason: c.reason }); continue; }
+      if (String(f.order.displayFinancialStatus).toUpperCase() === "REFUNDED") {
+        let fin: Any = null;
+        try { const a = await fetchRefundAudit(shop, token, gid); fin = a.order ? summarizeRefundAudit(a.order, a.complete) : null; }
+        catch (e) { results.push({ ...r, result: "stopped", reason: `erro auditoria financeira: ${(e as Error).message}` }); continue; }
+        r.financial = fin && { received: fin.received, refunded: fin.refunded, net_payment: fin.net_payment, transactions: fin.transactions };
+        const v = validateFullRefund(fin);
+        if (!v.ok) { results.push({ ...r, result: "stopped", reason: v.reason }); continue; }
+      }
       const key = reconciledStatusEventKey(gid, upd);
       const payload = buildStatusPayload(basePayload, f.order.displayFinancialStatus, upd);
       const bodyText = losslessStringify({
         topic: "orders/reconciled_status", send_status: "reconciled", shopify_event_id: key,
         order_number: ord.order_number, raw_payload: payload,
-        normalized: { reconciled: true, source: "shopify-reconcile-pending", mode: "status_pilot", status: "expired" },
+        normalized: { reconciled: true, source: "shopify-reconcile-pending", mode: "status_pilot", status: String(f.order.displayFinancialStatus).toLowerCase() },
       });
       if (lineItemSignature(bodyText) !== lineItemSignature(rawText)) {
         results.push({ ...r, result: "stopped", reason: "IDs/quantidades dos itens mudariam; nada gravado" }); continue;

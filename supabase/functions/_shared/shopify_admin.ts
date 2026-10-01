@@ -177,13 +177,14 @@ export interface StatusPilotInput {
 }
 
 /** Validação separada da regra PAID: só aceita pending local + EXPIRED na Shopify. */
-export function classifyStatusPilot(i: StatusPilotInput): { eligible: boolean; reason: string | null } {
+export function classifyStatusPilot(i: StatusPilotInput, allowRefunded = false): { eligible: boolean; reason: string | null } {
   if (i.dbStatus !== "pending") return { eligible: false, reason: `banco não está pending (${i.dbStatus})` };
   if (!i.found) return { eligible: false, reason: "pedido não encontrado na Shopify" };
   if (!i.complete) return { eligible: false, reason: "paginação de itens incompleta" };
   if (i.cancelledAt) return { eligible: false, reason: "cancelado na Shopify" };
   const f = String(i.financial || "").toUpperCase();
-  if (!(STATUS_PILOT_ALLOWED as readonly string[]).includes(f)) return { eligible: false, reason: `status ${f || "desconhecido"} não habilitado neste modo` };
+  const allowed: string[] = [...STATUS_PILOT_ALLOWED, ...(allowRefunded ? ["REFUNDED"] : [])];
+  if (!allowed.includes(f)) return { eligible: false, reason: `status ${f || "desconhecido"} não habilitado neste modo` };
   if (i.items !== "ok") return { eligible: false, reason: i.items === "base_sem_gid" ? "item sem GID no payload base" : "itens divergentes" };
   const su = i.shopifyUpdatedAt ? Date.parse(i.shopifyUpdatedAt) : NaN;
   if (isNaN(su)) return { eligible: false, reason: "updatedAt da Shopify inválido" };
@@ -346,4 +347,26 @@ export function summarizeRefundAudit(o: Any, complete: boolean): Any {
     net_payment: amt(o.netPaymentSet), currency: o.totalPriceSet?.shopMoney?.currencyCode ?? null,
     complete, refund_type, refunds_count: refunds.length, transactions: txs, refunds,
   };
+}
+
+/** REFUNDED só com reembolso TOTAL confirmado por valores do Order e transações SUCCESS. Sem parcial. */
+export function validateFullRefund(a: Any): { ok: boolean; reason: string | null } {
+  if (!a) return { ok: false, reason: "auditoria financeira ausente" };
+  if (!a.complete) return { ok: false, reason: "auditoria financeira incompleta" };
+  if (String(a.financial).toUpperCase() !== "REFUNDED") return { ok: false, reason: `status ${a.financial} não é REFUNDED` };
+  if (a.cancelledAt) return { ok: false, reason: "cancelado na Shopify" };
+  const c = (x: Any) => Math.round(Number(x) * 100);
+  const rec = c(a.received), ref = c(a.refunded), net = c(a.net_payment);
+  if (![rec, ref, net].every(Number.isFinite)) return { ok: false, reason: "valores financeiros ausentes" };
+  if (!(rec > 0)) return { ok: false, reason: "nenhum valor recebido" };
+  if (ref !== rec) return { ok: false, reason: "reembolso não é total" };
+  if (net !== 0) return { ok: false, reason: "posição líquida diferente de zero" };
+  const txs: Any[] = a.transactions || [];
+  const pays = txs.filter((t) => ["SALE", "CAPTURE"].includes(t.kind) && t.status === "SUCCESS");
+  if (!pays.length) return { ok: false, reason: "sem pagamento SUCCESS" };
+  const refs = txs.filter((t) => t.kind === "REFUND");
+  if (!refs.length || refs.some((t) => t.status !== "SUCCESS")) return { ok: false, reason: "transação de reembolso ausente ou não SUCCESS" };
+  const parentIds = new Set(txs.filter((t) => ["SALE", "CAPTURE", "AUTHORIZATION"].includes(t.kind)).map((t) => t.id));
+  if (refs.some((t) => t.parent && !parentIds.has(t.parent))) return { ok: false, reason: "reembolso não ligado ao pagamento" };
+  return { ok: true, reason: null };
 }
