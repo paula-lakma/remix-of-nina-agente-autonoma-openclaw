@@ -92,6 +92,29 @@ export async function fetchOrderWithAllItems(
   return { found: true, order, lineItems, pages, complete: false };
 }
 
+// ================= Fase 2 Passo 1: scope_check (somente leitura) =================
+
+export const ACCESS_SCOPES_QUERY = `query { currentAppInstallation { accessScopes { handle } } }`;
+
+/** Escopos efetivamente concedidos à instalação (não a configuração declarada). */
+export async function fetchAccessScopes(shop: string, token: string, fetchFn: FetchFn = fetch): Promise<string[]> {
+  const res = await fetchFn(`https://${shop}/admin/api/${SHOPIFY_API_VERSION}/graphql.json`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", "X-Shopify-Access-Token": token },
+    body: JSON.stringify({ query: ACCESS_SCOPES_QUERY }),
+  });
+  const text = await res.text();
+  if (!res.ok) throw new Error(`graphql_http_${res.status}`);
+  let json: Any;
+  try { json = JSON.parse(text); } catch { throw new Error("graphql_invalid_response"); }
+  if (json.errors?.length) {
+    throw new Error(`graphql_errors:${json.errors.map((e: Any) => e?.extensions?.code || e?.message).join(",")}`);
+  }
+  const list = json.data?.currentAppInstallation?.accessScopes;
+  if (!Array.isArray(list)) throw new Error("scopes_missing");
+  return list.map((s: Any) => String(s?.handle)).filter(Boolean).sort();
+}
+
 // ================= Etapa 1: dry_run (classificação pura, sem escrita) =================
 
 export type DryRunClass =

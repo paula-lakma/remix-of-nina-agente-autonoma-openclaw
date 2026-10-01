@@ -9,6 +9,7 @@ import { getJwtUser } from "../_shared/userauth.ts";
 import {
   losslessParse, losslessStringify, buildReconciledPayload, classifyOrder, compareLineItems, reconciledEventKey, fetchOrderWithAllItems, getAccessToken, orderGid, SHOPIFY_API_VERSION,
   classifyStatusPilot, buildStatusPayload, REFUND_AUDIT_ALLOWLIST, fetchRefundAudit, summarizeRefundAudit, validateFullRefund, reconciledStatusEventKey, lineItemSignature,
+  fetchAccessScopes,
 } from "../_shared/shopify_admin.ts";
 
 // deno-lint-ignore no-explicit-any
@@ -26,8 +27,8 @@ Deno.serve(async (req: Request) => {
 
   let body: { mode?: string; source_order_id?: string; source_order_ids?: string[] };
   try { body = await req.json(); } catch { return errorResponse("Body JSON inválido", 400); }
-  if (!["auth_check", "dry_run", "pilot", "precision_check", "status_pilot", "refund_audit"].includes(String(body.mode))) {
-    return errorResponse("Modos habilitados: auth_check, dry_run, pilot, precision_check, status_pilot, refund_audit", 400);
+  if (!["auth_check", "dry_run", "pilot", "precision_check", "status_pilot", "refund_audit", "scope_check"].includes(String(body.mode))) {
+    return errorResponse("Modos habilitados: auth_check, dry_run, pilot, precision_check, status_pilot, refund_audit, scope_check", 400);
   }
   if (body.mode === "pilot" || body.mode === "status_pilot") {
     const ids = body.source_order_ids;
