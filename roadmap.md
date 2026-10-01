@@ -17,4 +17,4 @@
 - [x] #2009, #2036, #2107 corrigidos para refunded (reembolso total auditado).
 - [x] Vendas V2 Fase 1: estrutura order_refunds + colunas em orders (sem dados)
 - Pendente (aguarda aprovação): Vendas V2 Fase 2 (captura de reembolsos futuros; decidir read_all_orders).
-- [ ] Vendas V2 Fase 2 Passo 1: read_all_orders NÃO concedido à instalação — aguarda o usuário aprovar a atualização na loja; depois repetir scope_check
+- [ ] Vendas V2 Fase 2 Passo 1: read_orders NÃO lê pedido de julho (#1781 voltou null) — aguarda nova análise do usuário

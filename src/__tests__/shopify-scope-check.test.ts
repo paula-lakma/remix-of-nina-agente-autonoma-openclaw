@@ -28,13 +28,15 @@ describe('Fase 2 Passo 1 — scope_check', () => {
     await expect(fetchAccessScopes(SHOP, 't', async () => resp({ data: {} }))).rejects.toThrow(/scopes_missing/);
   });
 
-  it('modo scope_check não grava nada e para sem read_all_orders', () => {
+  it('modo scope_check não grava nada e não para por falta de read_all_orders', () => {
     const src = readFileSync('supabase/functions/shopify-reconcile-pending/index.ts', 'utf8');
     const start = src.indexOf('if (body.mode === "scope_check")');
     const block = src.slice(start, src.indexOf('if (body.mode === "refund_audit")'));
     expect(start).toBeGreaterThan(0);
     expect(block).not.toMatch(/\.(insert|update|upsert|delete)\(|\.rpc\(/);
-    expect(block).toMatch(/if \(!has\.read_all_orders\)/);
-    expect(block.indexOf('!has.read_all_orders')).toBeLessThan(block.indexOf('fetchOrderWithAllItems'));
+    expect(block).not.toMatch(/mutation/i);
+    expect(block).not.toMatch(/if \(!has\.read_all_orders\)/);
+    expect(block).toContain('fetchOrderWithAllItems');
+    expect(block).toContain('fetchOrderRawDiag');
   });
 });
