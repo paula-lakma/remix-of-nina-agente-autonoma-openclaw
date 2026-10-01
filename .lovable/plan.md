@@ -47,23 +47,42 @@ Isso é uma mudança de código. A mudança não grava nada, mas preciso da sua 
 
 ## Detalhes técnicos
 
-Consulta proposta (GraphQL Admin 2026-07, `read_orders`):
+Consulta proposta (GraphQL Admin 2026-07, `read_orders`, somente query). `Order.transactions` e `Order.refunds` são listas, não connections; dentro de cada Refund, `refundLineItems`, `refundShippingLines` e `transactions` são connections paginadas.
 
 ```text
 order(id) {
   name createdAt updatedAt displayFinancialStatus cancelledAt
   totalPriceSet subtotalPriceSet totalDiscountsSet totalShippingPriceSet
-  totalReceivedSet totalRefundedSet totalRefundedShippingSet netPaymentSet
-  transactions(first:50) { id kind status gateway processedAt amountSet{shopMoney{amount currencyCode}} parentTransaction{id} }
-  refunds(first:20) {
-    id createdAt note totalRefundedSet
-    refundLineItems(first:50){ nodes{ quantity lineItem{id} subtotalSet } }
-    refundShippingLines(first:10){ nodes{ subtotalAmountSet } }
-    transactions(first:20){ nodes{ kind status gateway processedAt amountSet{shopMoney{amount}} } }
+  totalReceivedSet totalRefundedSet totalRefundedShippingSet netPaymentSet   (shopMoney { amount currencyCode })
+  transactions {
+    id kind status gateway processedAt
+    amountSet { shopMoney { amount currencyCode } }
+    parentTransaction { id }
+  }
+  refunds {
+    id createdAt processedAt updatedAt note
+    totalRefundedSet { shopMoney { amount currencyCode } }
+    refundLineItems(first: 50, after: $c1) {
+      nodes { quantity lineItem { id } subtotalSet { shopMoney { amount currencyCode } } }
+      pageInfo { hasNextPage endCursor }
+    }
+    refundShippingLines(first: 10, after: $c2) {
+      nodes { subtotalAmountSet { shopMoney { amount currencyCode } } }
+      pageInfo { hasNextPage endCursor }
+    }
+    transactions(first: 20, after: $c3) {
+      nodes { id kind status gateway processedAt
+              amountSet { shopMoney { amount currencyCode } } parentTransaction { id } }
+      pageInfo { hasNextPage endCursor }
+    }
   }
 }
 ```
 
-- Arquivos: `supabase/functions/shopify-reconcile-pending/index.ts` (modo novo) e `supabase/functions/_shared/shopify_admin.ts` (consulta e resumo), mais um teste que garante que o modo não grava.
+- **Valores de referência:** vêm dos campos do pedido: total recebido (`totalReceivedSet`), total reembolsado (`totalRefundedSet`), posição líquida (`netPaymentSet`), mais total, subtotal, descontos, frete e frete reembolsado. O valor pago **não** é calculado somando as transações.
+- **Transações:** usadas só para reconstruir SALE/CAPTURE e REFUND, datas, gateway e o vínculo entre elas (`parentTransaction`).
+- **Reembolsos:** `processedAt` dá a data efetiva e `updatedAt` a última atualização.
+- **Paginação:** se alguma connection tiver `hasNextPage=true`, pagino até o fim, buscando por refund (`refund(id)`) com o cursor. Se a paginação falhar, a auditoria daquele pedido é marcada como **incompleta** e nenhum valor é inferido.
 - Se algum campo não existir na versão 2026-07 ou for negado, isso entra no relatório. Não vou tentar contornar.
+- **Segurança:** zero mutations, inserts, updates ou `orders/reconciled`. Nenhum segredo ou token em resposta ou log.
 - Sem migration. Não toco no webhook, no Dashboard, em `sync_shopify_order_payload` nem nos pedidos novos (#2317, #2333).
