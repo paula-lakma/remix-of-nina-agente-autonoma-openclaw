@@ -393,3 +393,14 @@ export function validateFullRefund(a: Any): { ok: boolean; reason: string | null
   if (refs.some((t) => t.parent && !parentIds.has(t.parent))) return { ok: false, reason: "reembolso não ligado ao pagamento" };
   return { ok: true, reason: null };
 }
+
+/** Diagnóstico bruto e somente leitura de um pedido: status HTTP, x-request-id e corpo (truncado). */
+export async function fetchOrderRawDiag(shop: string, token: string, gid: string, fetchFn: FetchFn = fetch): Promise<Any> {
+  try {
+    const r = await fetchFn(`https://${shop}/admin/api/${SHOPIFY_API_VERSION}/graphql.json`, {
+      method: "POST", headers: { "Content-Type": "application/json", "X-Shopify-Access-Token": token },
+      body: JSON.stringify({ query: `query($id: ID!){ order(id: $id){ id name } }`, variables: { id: gid } }),
+    });
+    return { http_status: r.status, x_request_id: r.headers.get("x-request-id"), body: (await r.text()).slice(0, 4000) };
+  } catch (e) { return { error: (e as Error).message }; }
+}

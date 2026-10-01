@@ -37,6 +37,6 @@ describe('Fase 2 Passo 1 — scope_check', () => {
     expect(block).not.toMatch(/mutation/i);
     expect(block).not.toMatch(/if \(!has\.read_all_orders\)/);
     expect(block).toContain('fetchOrderWithAllItems');
-    expect(block).toContain('x_request_id');
+    expect(block).toContain('fetchOrderRawDiag');
   });
 });

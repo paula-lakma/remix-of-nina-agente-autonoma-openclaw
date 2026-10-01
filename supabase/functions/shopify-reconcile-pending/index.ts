@@ -9,7 +9,7 @@ import { getJwtUser } from "../_shared/userauth.ts";
 import {
   losslessParse, losslessStringify, buildReconciledPayload, classifyOrder, compareLineItems, reconciledEventKey, fetchOrderWithAllItems, getAccessToken, orderGid, SHOPIFY_API_VERSION,
   classifyStatusPilot, buildStatusPayload, REFUND_AUDIT_ALLOWLIST, fetchRefundAudit, summarizeRefundAudit, validateFullRefund, reconciledStatusEventKey, lineItemSignature,
-  fetchAccessScopes,
+  fetchAccessScopes, fetchOrderRawDiag,
 } from "../_shared/shopify_admin.ts";
 
 // deno-lint-ignore no-explicit-any
@@ -71,15 +71,7 @@ Deno.serve(async (req: Request) => {
     const july_order = { order_number: ord.order_number, source_order_id: String(ord.source_order_id), gid,
       created_at_source: ord.created_at_source, db_items: (items || []).length };
     // Diagnóstico bruto (somente leitura) quando a leitura falha: status HTTP, x-request-id, corpo.
-    const rawDiag = async () => {
-      try {
-        const r = await fetch(`https://${shop}/admin/api/${SHOPIFY_API_VERSION}/graphql.json`, {
-          method: "POST", headers: { "Content-Type": "application/json", "X-Shopify-Access-Token": token },
-          body: JSON.stringify({ query: `query($id: ID!){ order(id: $id){ id name } }`, variables: { id: gid } }),
-        });
-        return { http_status: r.status, x_request_id: r.headers.get("x-request-id"), body: (await r.text()).slice(0, 4000) };
-      } catch (e) { return { error: (e as Error).message }; }
-    };
+    const rawDiag = () => fetchOrderRawDiag(shop, token, gid);
     try {
       const f = await fetchOrderWithAllItems(shop, token, gid);
       if (!f.found) {
