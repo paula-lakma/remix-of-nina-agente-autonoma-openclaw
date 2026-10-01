@@ -8,6 +8,7 @@ import { corsHeaders, errorResponse, jsonResponse, adminClient } from "../_share
 import { getJwtUser } from "../_shared/userauth.ts";
 import {
   losslessParse, losslessStringify, buildReconciledPayload, classifyOrder, compareLineItems, reconciledEventKey, fetchOrderWithAllItems, getAccessToken, orderGid, SHOPIFY_API_VERSION,
+  classifyStatusPilot, buildStatusPayload, reconciledStatusEventKey, lineItemSignature,
 } from "../_shared/shopify_admin.ts";
 
 // deno-lint-ignore no-explicit-any
@@ -25,13 +26,13 @@ Deno.serve(async (req: Request) => {
 
   let body: { mode?: string; source_order_id?: string; source_order_ids?: string[] };
   try { body = await req.json(); } catch { return errorResponse("Body JSON inválido", 400); }
-  if (!["auth_check", "dry_run", "pilot", "precision_check"].includes(String(body.mode))) {
-    return errorResponse("Modos habilitados: auth_check, dry_run, pilot, precision_check", 400);
+  if (!["auth_check", "dry_run", "pilot", "precision_check", "status_pilot"].includes(String(body.mode))) {
+    return errorResponse("Modos habilitados: auth_check, dry_run, pilot, precision_check, status_pilot", 400);
   }
-  if (body.mode === "pilot") {
+  if (body.mode === "pilot" || body.mode === "status_pilot") {
     const ids = body.source_order_ids;
     if (!Array.isArray(ids) || ids.length < 1 || ids.length > 3 || !ids.every((x) => /^\d{6,20}$/.test(String(x)))) {
-      return errorResponse("pilot exige 1 a 3 source_order_ids numéricos", 400);
+      return errorResponse(`${body.mode} exige 1 a 3 source_order_ids numéricos`, 400);
     }
   }
   if ((body.mode === "auth_check" || body.mode === "precision_check") && (!body.source_order_id || !/^\d{6,20}$/.test(String(body.source_order_id)))) {
@@ -51,6 +52,63 @@ Deno.serve(async (req: Request) => {
     return jsonResponse({ ok: false, stage: "auth", secrets, error: (e as Error).message }, 200);
   }
 
+
+  if (body.mode === "status_pilot") {
+    const results: Any[] = [];
+    for (const sid of body.source_order_ids!) {
+      const r: Any = { source_order_id: sid };
+      const { data: ord } = await db.from("orders")
+        .select("order_number, financial_status, source_event_id").eq("source", "shopify").eq("source_order_id", sid).maybeSingle();
+      if (!ord) { results.push({ ...r, result: "stopped", reason: "pedido não existe no banco" }); continue; }
+      r.order_number = ord.order_number;
+      if (ord.financial_status !== "pending") { results.push({ ...r, result: "stopped", reason: `banco não está pending (${ord.financial_status})` }); continue; }
+      const { data: ev } = await db.from("shopify_events").select("raw_text:raw_payload::text").eq("id", ord.source_event_id).maybeSingle();
+      const rawText: string = (ev as Any)?.raw_text || "";
+      let basePayload: Any = null;
+      try { basePayload = rawText ? losslessParse(rawText) : null; } catch { basePayload = null; }
+      if (!basePayload?.line_items) { results.push({ ...r, result: "stopped", reason: "payload base ausente" }); continue; }
+      const gid = orderGid(sid);
+      let f;
+      try { f = await fetchOrderWithAllItems(shop, token, gid); }
+      catch (e) { results.push({ ...r, result: "stopped", reason: `erro Shopify: ${(e as Error).message}` }); continue; }
+      const items = f.found && f.complete ? compareLineItems(basePayload.line_items, f.lineItems.map((l) => l.id)) : undefined;
+      // Quantidades: base x Shopify por GID.
+      const shopQty = new Map(f.lineItems.map((l) => [l.id, l.quantity]));
+      const qtyOk = items === "ok" && (basePayload.line_items as Any[]).every((li) => Number(li.quantity) === shopQty.get(li.admin_graphql_api_id));
+      const upd = f.order?.updatedAt;
+      const c = classifyStatusPilot({ dbStatus: ord.financial_status, found: f.found, complete: f.complete,
+        financial: f.order?.displayFinancialStatus, cancelledAt: f.order?.cancelledAt, items: items === "ok" && !qtyOk ? "divergente" : items,
+        shopifyUpdatedAt: upd, baseUpdatedAt: basePayload.updated_at });
+      r.shopify = { financial: f.order?.displayFinancialStatus, cancelledAt: f.order?.cancelledAt ?? null, updatedAt: upd,
+        base_updated_at: basePayload.updated_at, line_items: f.lineItems.length, items_compare: items, quantities_ok: qtyOk, complete: f.complete };
+      if (!c.eligible) { results.push({ ...r, result: "stopped", reason: c.reason }); continue; }
+      const key = reconciledStatusEventKey(gid, upd);
+      const payload = buildStatusPayload(basePayload, f.order.displayFinancialStatus, upd);
+      const bodyText = losslessStringify({
+        topic: "orders/reconciled_status", send_status: "reconciled", shopify_event_id: key,
+        order_number: ord.order_number, raw_payload: payload,
+        normalized: { reconciled: true, source: "shopify-reconcile-pending", mode: "status_pilot", status: "expired" },
+      });
+      if (lineItemSignature(bodyText) !== lineItemSignature(rawText)) {
+        results.push({ ...r, result: "stopped", reason: "IDs/quantidades dos itens mudariam; nada gravado" }); continue;
+      }
+      const res = await fetch(`${Deno.env.get("SUPABASE_URL")}/rest/v1/shopify_events?select=id`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Prefer: "return=representation",
+          apikey: Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!, Authorization: `Bearer ${Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")}` },
+        body: bodyText,
+      });
+      const resJson: Any = await res.json().catch(() => null);
+      if (!res.ok) {
+        const code = resJson?.code;
+        results.push({ ...r, event_key: key, result: code === "23505" ? "already_reconciled" : "insert_error", reason: code === "23505" ? "evento já existe (idempotente)" : String(code || res.status) });
+        continue;
+      }
+      const ins = Array.isArray(resJson) ? resJson[0] : null;
+      results.push({ ...r, event_key: key, event_id: (ins as Any)?.id, result: "reconciled" });
+    }
+    return jsonResponse({ ok: true, mode: "status_pilot", api_version: SHOPIFY_API_VERSION, results });
+  }
 
   if (body.mode === "pilot") {
     const results: Any[] = [];
