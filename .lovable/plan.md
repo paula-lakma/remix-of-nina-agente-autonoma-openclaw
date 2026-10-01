@@ -4,17 +4,16 @@ Nada é implementado nesta etapa. Sem migration, sem mudança no app Shopify, se
 
 ## 1. read_all_orders (itens 1–3, 22)
 
-Hoje a função `shopify-reconcile-pending` pega token via client credentials do app `crm-eccomerce-2-read-orders` (secrets SHOPIFY_SHOP_DOMAIN / CLIENT_ID / CLIENT_SECRET). `read_orders` só enxerga os últimos 60 dias. `read_all_orders` é um escopo protegido e **pode exigir aprovação da Shopify**; o fluxo exato só se confirma no painel.
+A função `shopify-reconcile-pending` pega o token via client credentials do app (secrets SHOPIFY_SHOP_DOMAIN / CLIENT_ID / CLIENT_SECRET). `read_orders` só enxerga os últimos 60 dias.
 
-Fluxo, nesta ordem (passos manuais seus marcados com "você"):
-1. Você abre o Dev Dashboard do app `crm-eccomerce` e verifica qual fluxo aparece para `read_all_orders` (por exemplo "Request access", formulário de justificativa, ou adição direta). **Nenhum escopo é alterado nesta verificação.** Você me conta o que apareceu.
-2. Se houver "Request access"/aprovação: você segue esse fluxo (justificativa sugerida: "análise histórica de vendas e reembolsos da própria loja") e aguarda a Shopify aprovar.
-3. Só depois: você adiciona `read_all_orders` aos escopos de uma nova versão, mantendo `read_orders` e sem mudar nenhuma outra permissão; lança a versão.
-4. Se a loja lakma-wig pedir, você aprova a atualização de permissões.
-5. Eu rodo `scope_check` (só leitura): `currentAppInstallation { accessScopes { handle } }` deve listar `read_orders` e `read_all_orders`.
-6. Eu leio 1 pedido de julho (o primeiro pedido válido de julho no banco, informado no relatório) com `fetchOrderWithAllItems`: sucesso = encontrado, consulta completa, itens batendo pelo GID. Antes da liberação, o mesmo teste deve falhar (registrado como prova). Zero gravações, contagens antes/depois.
+Status: **configuração manual concluída.** Você criou e lançou a versão `crm-eccomerce-3` ("crm-eccomerce-3-read-all-orders"), com os escopos `read_orders` e `read_all_orders`. Ela aparece como ATIVA, e não apareceu pedido de acesso, justificativa nem bloqueio.
 
-Ainda a verificar manualmente: se o painel exige aprovação, quanto tempo leva, se a mudança gera nova versão e se a loja precisa reaprovar. Os webhooks manuais (Configurações > Notificações > Webhooks) não pertencem ao app e não são tocados. Secrets não mudam.
+Isso ainda **não comprova** que `read_all_orders` foi concedido à instalação na loja. Próximos passos, só leitura e sem nenhuma nova alteração manual na Shopify antes deles:
+1. Eu rodo `scope_check`: `currentAppInstallation { accessScopes { handle } }` deve listar `read_orders` e `read_all_orders`.
+2. Só se `read_all_orders` estiver de fato concedido: eu leio 1 pedido de julho (o primeiro pedido válido de julho no banco, informado no relatório) com `fetchOrderWithAllItems`. Sucesso = pedido encontrado, consulta completa, itens batendo pelo GID. Zero gravações, contagens antes/depois.
+3. Se o escopo não aparecer: paro e relato. A próxima ação manual seria decidida depois disso (por exemplo, aprovar a atualização na loja).
+
+Os webhooks manuais (Configurações > Notificações > Webhooks) não pertencem ao app e não são tocados. Secrets não mudam.
 
 ## 2. Arquitetura do refunds/create com resposta rápida (itens 4–6)
 
@@ -91,7 +90,7 @@ Por Refund, `financial_status` = status das transações REFUND dele:
 - todas SUCCESS -> `success` (soma nos totais);
 - todas PENDING -> `pending` (guardado, não soma);
 - todas FAILURE/ERROR -> `failed` (guardado, não soma);
-- mistura -> `mixed`: soma só o valor das transações SUCCESS desse Refund.
+- mistura -> `mixed`: o valor devolvido é só a soma das transações SUCCESS desse Refund. Enquanto estiver `mixed`, os itens e o frete desse Refund **não** são atribuídos (contam 0), porque não há garantia de qual parte foi concluída; o valor SUCCESS fica em `unallocated_refund_amount`. Quando o Refund virar `success` completo, a consulta recalcula tudo do zero e aí itens e frete são atribuídos normalmente. Nunca há distribuição proporcional.
 A modelagem da Fase 1 é suficiente; nenhuma coluna nova. `ERROR` da Shopify é tratado como `failed`.
 
 ## 5. Idempotência e upsert (itens 9–10)
@@ -107,14 +106,14 @@ A modelagem da Fase 1 é suficiente; nenhuma coluna nova. `ERROR` da Shopify é 
 |---|---|
 | total_received | `order.totalReceivedSet` |
 | total_refunded | soma dos refunds `success` + parte SUCCESS dos `mixed` (conferida contra `totalRefundedSet`; divergência = não grava, vai para relatório) |
-| refunded_shipping | soma de `refundShippingLines` dos refunds contabilizados |
+| refunded_shipping | soma de `refundShippingLines` só dos refunds `success` (refund `mixed` contribui 0) |
 | net_payment | `order.netPaymentSet` |
 | paid_at | `processedAt` da primeira transação SALE/CAPTURE SUCCESS |
 | is_paid | true se existe SALE/CAPTURE SUCCESS; false se não existe; nunca volta a false por causa de refund |
 | refund_count | nº de refunds contabilizados (success/mixed) |
 | first_refunded_at / last_refunded_at | menor/maior `processedAt` (ou `createdAt`) desses refunds |
-| refunded_product_amount | soma de `refundLineItems.subtotalSet` dos refunds contabilizados |
-| unallocated_refund_amount | total_refunded − refunded_product_amount − refunded_shipping (mínimo 0) |
+| refunded_product_amount | soma de `refundLineItems.subtotalSet` só dos refunds `success` (refund `mixed` contribui 0) |
+| unallocated_refund_amount | total_refunded − refunded_product_amount − refunded_shipping (mínimo 0); inclui todo o valor SUCCESS dos refunds `mixed` |
 | financials_verified_at | horário da consulta bem-sucedida |
 
 Nada toca `subtotal`, `current_subtotal`, `net_product_revenue`, `financial_status` ou `valid_order`.
@@ -177,7 +176,12 @@ Arquivos (item 20):
 
 Migrations (item 21), ambas aditivas, nenhuma alteração em tabelas existentes:
 1. Tabela técnica `shopify_financial_inbox` (caixa de entrada durável): `webhook_id` único (cabeçalho `X-Shopify-Webhook-Id`), `topic`, `shopify_order_id` e `shopify_refund_id` como texto, `payload` jsonb, `status` (pending/processing/done/failed/skipped), `attempts`, `next_attempt_at`, `claimed_at`, `last_error`, datas. RLS ligada sem política para usuários; acesso só do backend. Função de "pegar lote" com `FOR UPDATE SKIP LOCKED` (mesmo padrão das filas já usadas no projeto).
-2. Função `apply_order_financials(order_id, refunds jsonb, summary jsonb)` (security definer, executável só pelo backend) que faz o upsert dos refunds e o resumo em `orders` numa transação.
+2. Função `public.apply_order_financials(order_id, refunds jsonb, summary jsonb)` que faz o upsert dos refunds e o resumo em `orders` numa única transação. Por ser SECURITY DEFINER:
+   - `SET search_path = pg_catalog, public` fixo na definição;
+   - todas as referências com schema (`public.order_refunds`, `public.orders`, etc.);
+   - `REVOKE EXECUTE ... FROM PUBLIC`, `FROM anon` e `FROM authenticated`;
+   - `GRANT EXECUTE ... TO service_role` apenas;
+   - nenhuma política ou grant que permita chamada direta pelo app.
 
 Riscos (item 23): chave HMAC errada (mitigado: teste com webhook de teste da Shopify antes de ligar); acesso a `read_all_orders` negado ou demorado pela Shopify (o fluxo do webhook e da reconciliação de 72 h funciona com `read_orders`; só o backfill da Fase 3 depende dele); limite de custo do GraphQL; refund PENDING por muito tempo (reconciliação revisa); divergência de centavos entre soma e totalRefundedSet (não grava, vai para relatório); caixa de entrada acumulando falhas (limite de tentativas + relatório).
 
@@ -185,7 +189,7 @@ Rollback (item 24): desligar o webhook na Shopify, parar o agendamento e apagar 
 
 ## Passos do Build, cada um com pausa para aprovação (item 25)
 
-1. Você verifica no Dev Dashboard o fluxo de `read_all_orders` (seção 1) e me conta o que apareceu; segue o fluxo indicado; eu rodo `scope_check` + leitura de 1 pedido de julho (só leitura). Pode correr em paralelo aos passos 2–4.
+1. Eu rodo `scope_check` (só leitura). Só se `read_all_orders` estiver concedido, leio 1 pedido de julho. Nenhuma ação sua na Shopify antes disso. Pode correr em paralelo aos passos 2–4.
 2. Código: consulta financeira corrigida + cálculo + testes; `financials_dry_run` em 3 pedidos conhecidos (#2009 reembolsado, 1 pago sem refund, 1 recente) — só relatório.
 3. Migrations (caixa de entrada + função de gravação) + piloto nesses 3 pedidos; conferir Vendas V1 idêntica e zero efeito operacional.
 4. Publicar `shopify-refunds-webhook` e o worker; testar HMAC inválido, duplicado e o "Enviar notificação de teste" da Shopify (pedido fictício -> entra na caixa, worker marca `skipped`, nada gravado em pedidos).
