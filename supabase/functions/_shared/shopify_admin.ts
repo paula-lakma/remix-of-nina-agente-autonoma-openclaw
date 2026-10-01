@@ -237,3 +237,115 @@ export function losslessParse(text: string): Any {
 export function losslessStringify(v: Any): string {
   return JSON.stringify(v).replace(new RegExp(`"${BIG_MARK}(-?\\d+)"`, "g"), "$1");
 }
+
+// ================= refund_audit (SOMENTE LEITURA; allowlist fixa) =================
+
+export const REFUND_AUDIT_ALLOWLIST: Record<string, string> = {
+  "2009": "", "2036": "", "2107": "",
+};
+
+const M = "shopMoney { amount currencyCode }";
+const TX = `id kind status gateway processedAt amountSet { ${M} } parentTransaction { id }`;
+const RLI = `nodes { quantity lineItem { id } subtotalSet { ${M} } } pageInfo { hasNextPage endCursor }`;
+const RSL = `nodes { subtotalAmountSet { ${M} } } pageInfo { hasNextPage endCursor }`;
+const RTX = `nodes { ${TX} } pageInfo { hasNextPage endCursor }`;
+
+export const REFUND_AUDIT_QUERY = `query RefundAudit($id: ID!) {
+  order(id: $id) {
+    id name createdAt updatedAt displayFinancialStatus cancelledAt
+    totalPriceSet { ${M} }
+    subtotalPriceSet { ${M} }
+    totalDiscountsSet { ${M} }
+    totalShippingPriceSet { ${M} }
+    totalReceivedSet { ${M} }
+    totalRefundedSet { ${M} }
+    totalRefundedShippingSet { ${M} }
+    netPaymentSet { ${M} }
+    transactions { ${TX} }
+    refunds {
+      id createdAt processedAt updatedAt note
+      totalRefundedSet { ${M} }
+      refundLineItems(first: 50) { ${RLI} }
+      refundShippingLines(first: 10) { ${RSL} }
+      transactions(first: 20) { ${RTX} }
+    }
+  }
+}`;
+
+const PAGE_QUERIES: Record<string, string> = {
+  refundLineItems: `query P($id: ID!, $c: String) { node(id: $id) { ... on Refund { refundLineItems(first: 50, after: $c) { ${RLI} } } } }`,
+  refundShippingLines: `query P($id: ID!, $c: String) { node(id: $id) { ... on Refund { refundShippingLines(first: 10, after: $c) { ${RSL} } } } }`,
+  transactions: `query P($id: ID!, $c: String) { node(id: $id) { ... on Refund { transactions(first: 20, after: $c) { ${RTX} } } } }`,
+};
+
+async function gql(shop: string, token: string, query: string, variables: Any, fetchFn: FetchFn): Promise<Any> {
+  const res = await fetchFn(`https://${shop}/admin/api/${SHOPIFY_API_VERSION}/graphql.json`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", "X-Shopify-Access-Token": token },
+    body: JSON.stringify({ query, variables }),
+  });
+  const text = await res.text();
+  if (!res.ok) throw new Error(`graphql_http_${res.status}`);
+  const json: Any = JSON.parse(text);
+  if (json.errors?.length) throw new Error(`graphql_errors:${json.errors.map((e: Any) => e?.extensions?.code || e?.message).join(",")}`);
+  return json.data;
+}
+
+/** Lê pedido + refunds e pagina todas as connections de cada Refund. Falha de paginação => complete=false. */
+export async function fetchRefundAudit(
+  shop: string, token: string, gid: string, fetchFn: FetchFn = fetch, maxPages = 20,
+): Promise<{ found: boolean; complete: boolean; order: Any | null; issues: string[] }> {
+  const data = await gql(shop, token, REFUND_AUDIT_QUERY, { id: gid }, fetchFn);
+  const o = data?.order;
+  if (!o) return { found: false, complete: true, order: null, issues: [] };
+  const issues: string[] = [];
+  for (const r of o.refunds || []) {
+    for (const k of Object.keys(PAGE_QUERIES)) {
+      let conn = r[k];
+      let pages = 0;
+      while (conn?.pageInfo?.hasNextPage) {
+        if (++pages > maxPages) { issues.push(`${r.id}:${k}:max_pages`); break; }
+        try {
+          const d = await gql(shop, token, PAGE_QUERIES[k], { id: r.id, c: conn.pageInfo.endCursor }, fetchFn);
+          const next = d?.node?.[k];
+          if (!next) { issues.push(`${r.id}:${k}:sem_dados`); break; }
+          r[k].nodes.push(...(next.nodes || []));
+          r[k].pageInfo = next.pageInfo;
+          conn = next;
+        } catch (e) { issues.push(`${r.id}:${k}:${(e as Error).message}`); break; }
+      }
+    }
+  }
+  return { found: true, complete: issues.length === 0, order: o, issues };
+}
+
+const amt = (s: Any) => s?.shopMoney?.amount ?? null;
+
+/** Resumo: valores do pedido vêm dos campos do Order; transações só reconstroem o histórico. */
+export function summarizeRefundAudit(o: Any, complete: boolean): Any {
+  const tx = (t: Any) => ({ id: t.id, kind: t.kind, status: t.status, gateway: t.gateway, processedAt: t.processedAt,
+    amount: amt(t.amountSet), currency: t.amountSet?.shopMoney?.currencyCode ?? null, parent: t.parentTransaction?.id ?? null });
+  const txs = (o.transactions || []).map(tx);
+  const refunds = (o.refunds || []).map((r: Any) => ({
+    id: r.id, createdAt: r.createdAt, processedAt: r.processedAt, updatedAt: r.updatedAt, note: r.note ?? null,
+    total: amt(r.totalRefundedSet),
+    line_items: (r.refundLineItems?.nodes || []).map((n: Any) => ({ line_item: n.lineItem?.id ?? null, quantity: n.quantity, subtotal: amt(n.subtotalSet) })),
+    shipping: (r.refundShippingLines?.nodes || []).map((n: Any) => amt(n.subtotalAmountSet)),
+    transactions: (r.transactions?.nodes || []).map(tx),
+  }));
+  const total = Number(amt(o.totalPriceSet) ?? NaN);
+  const received = Number(amt(o.totalReceivedSet) ?? NaN);
+  const refunded = Number(amt(o.totalRefundedSet) ?? NaN);
+  let refund_type: string;
+  if (!complete) refund_type = "auditoria_incompleta";
+  else if (!(refunded > 0)) refund_type = "sem_reembolso";
+  else if (received > 0 && Math.abs(refunded - received) < 0.005) refund_type = "total";
+  else refund_type = "parcial";
+  return {
+    name: o.name, createdAt: o.createdAt, updatedAt: o.updatedAt, financial: o.displayFinancialStatus, cancelledAt: o.cancelledAt ?? null,
+    total: amt(o.totalPriceSet), subtotal: amt(o.subtotalPriceSet), discounts: amt(o.totalDiscountsSet), shipping: amt(o.totalShippingPriceSet),
+    received: amt(o.totalReceivedSet), refunded: amt(o.totalRefundedSet), refunded_shipping: amt(o.totalRefundedShippingSet),
+    net_payment: amt(o.netPaymentSet), currency: o.totalPriceSet?.shopMoney?.currencyCode ?? null,
+    complete, refund_type, refunds_count: refunds.length, transactions: txs, refunds,
+  };
+}
