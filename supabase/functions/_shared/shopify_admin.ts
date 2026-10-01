@@ -157,6 +157,54 @@ export function buildReconciledPayload(base: Any, o: Any): Any {
   return out;
 }
 
+// ================= status_pilot (status histórico não pago; hoje SOMENTE EXPIRED) =================
+
+export const STATUS_PILOT_ALLOWED = ["EXPIRED"] as const;
+
+export function reconciledStatusEventKey(gid: string, updatedAt: string): string {
+  return `orders/reconciled_status:${gid}:${updatedAt}`;
+}
+
+export interface StatusPilotInput {
+  dbStatus: string | null | undefined;
+  found: boolean;
+  complete: boolean;
+  financial?: string | null;
+  cancelledAt?: string | null;
+  items?: "ok" | "divergente" | "base_sem_gid";
+  shopifyUpdatedAt?: string | null;
+  baseUpdatedAt?: string | null;
+}
+
+/** Validação separada da regra PAID: só aceita pending local + EXPIRED na Shopify. */
+export function classifyStatusPilot(i: StatusPilotInput): { eligible: boolean; reason: string | null } {
+  if (i.dbStatus !== "pending") return { eligible: false, reason: `banco não está pending (${i.dbStatus})` };
+  if (!i.found) return { eligible: false, reason: "pedido não encontrado na Shopify" };
+  if (!i.complete) return { eligible: false, reason: "paginação de itens incompleta" };
+  if (i.cancelledAt) return { eligible: false, reason: "cancelado na Shopify" };
+  const f = String(i.financial || "").toUpperCase();
+  if (!(STATUS_PILOT_ALLOWED as readonly string[]).includes(f)) return { eligible: false, reason: `status ${f || "desconhecido"} não habilitado neste modo` };
+  if (i.items !== "ok") return { eligible: false, reason: i.items === "base_sem_gid" ? "item sem GID no payload base" : "itens divergentes" };
+  const su = i.shopifyUpdatedAt ? Date.parse(i.shopifyUpdatedAt) : NaN;
+  if (isNaN(su)) return { eligible: false, reason: "updatedAt da Shopify inválido" };
+  const bu = i.baseUpdatedAt ? Date.parse(String(i.baseUpdatedAt)) : NaN;
+  if (isNaN(bu) || !(su > bu)) return { eligible: false, reason: "updatedAt da Shopify não é posterior ao evento salvo" };
+  return { eligible: true, reason: null };
+}
+
+/** Payload base + somente financial_status e updated_at. Nada mais muda (valores, itens, fulfillment, cliente, cupons, datas). */
+export function buildStatusPayload(base: Any, financial: string, updatedAt: string): Any {
+  return { ...base, financial_status: String(financial).toLowerCase(), updated_at: updatedAt };
+}
+
+/** Assinatura dos itens (id, product_id, variant_id, quantity, GID) extraída do texto bruto, sem parse numérico. */
+export function lineItemSignature(text: string): string {
+  const li = text.match(/"line_items":\s*\[.*\]/s)?.[0] || "";
+  const grab = (k: string) => (li.match(new RegExp(`"${k}":\\s*(\\d+)`, "g")) || []).map((x) => x.replace(/^.*:\s*/, ""));
+  return JSON.stringify({ id: grab("id"), product_id: grab("product_id"), variant_id: grab("variant_id"),
+    quantity: grab("quantity"), gid: li.match(/gid:\/\/shopify\/LineItem\/\d+/g) || [] });
+}
+
 // ================= JSON sem perda de precisão (código local, sem dependência externa) =================
 // Inteiros com 16+ dígitos fora de strings viram marcadores de texto no parse e voltam idênticos no stringify.
 const BIG_MARK = "__lakma_bigint__:";
