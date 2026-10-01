@@ -12,3 +12,5 @@
 - [x] Etapa 1 dry run concluída (19 elegíveis).
 - [x] Etapa 2 piloto #2272 concluído.
 - Pendente (aguarda aprovação): reconciliar os outros 18 elegíveis.
+
+- [ ] Auditoria read-only refund_audit dos 3 REFUNDED (#2009, #2036, #2107) — sem reconciliar
