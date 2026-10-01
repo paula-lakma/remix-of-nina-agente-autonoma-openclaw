@@ -45,9 +45,11 @@ describe('dry_run — sem escrita e sem segredos', () => {
     const dry = src.slice(src.indexOf('if (body.mode === "dry_run") {'), src.indexOf('try {\n    const r = await fetchOrderWithAllItems'));
     expect(dry).not.toMatch(/\.(insert|update|upsert|delete)\(/);
     expect(src).not.toMatch(/\.(insert|update|upsert|delete)\(/);
-    expect(src.match(/method: "POST"/g)).toHaveLength(1);
-    expect(src).toMatch(/rest\/v1\/shopify_events/);
+    // Duas escritas: evento do piloto PAID e evento do status_pilot (EXPIRED), ambos só em shopify_events.
+    expect(src.match(/method: "POST"/g)).toHaveLength(2);
+    expect(src.match(/rest\/v1\/shopify_events/g)).toHaveLength(2);
     expect(src).toMatch(/topic: "orders\/reconciled", send_status: "reconciled"/);
+    expect(src).toMatch(/topic: "orders\/reconciled_status", send_status: "reconciled"/);
     expect(src).not.toMatch(/from\("(orders|order_items|send_queue|tracking_send_locks|messages)"\)\.(insert|update|upsert)/);
   });
   it('não registra nem retorna segredo/token', () => {
