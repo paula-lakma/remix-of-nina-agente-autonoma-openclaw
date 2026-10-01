@@ -2054,6 +2054,83 @@ export type Database = {
           },
         ]
       }
+      order_refunds: {
+        Row: {
+          created_at: string
+          created_at_source: string | null
+          currency: string | null
+          financial_status: string | null
+          id: string
+          last_verified_at: string | null
+          line_items: Json
+          note: string | null
+          order_id: string
+          processed_at: string | null
+          refunded_product_amount: number | null
+          shipping_amount: number | null
+          shopify_refund_id: string
+          source: string
+          total_amount: number | null
+          transactions: Json
+          unallocated_amount: number | null
+          updated_at: string
+          updated_at_source: string | null
+          webhook_payload: Json | null
+        }
+        Insert: {
+          created_at?: string
+          created_at_source?: string | null
+          currency?: string | null
+          financial_status?: string | null
+          id?: string
+          last_verified_at?: string | null
+          line_items?: Json
+          note?: string | null
+          order_id: string
+          processed_at?: string | null
+          refunded_product_amount?: number | null
+          shipping_amount?: number | null
+          shopify_refund_id: string
+          source?: string
+          total_amount?: number | null
+          transactions?: Json
+          unallocated_amount?: number | null
+          updated_at?: string
+          updated_at_source?: string | null
+          webhook_payload?: Json | null
+        }
+        Update: {
+          created_at?: string
+          created_at_source?: string | null
+          currency?: string | null
+          financial_status?: string | null
+          id?: string
+          last_verified_at?: string | null
+          line_items?: Json
+          note?: string | null
+          order_id?: string
+          processed_at?: string | null
+          refunded_product_amount?: number | null
+          shipping_amount?: number | null
+          shopify_refund_id?: string
+          source?: string
+          total_amount?: number | null
+          transactions?: Json
+          unallocated_amount?: number | null
+          updated_at?: string
+          updated_at_source?: string | null
+          webhook_payload?: Json | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "order_refunds_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       orders: {
         Row: {
           cancelled_at: string | null
@@ -2070,12 +2147,21 @@ export type Database = {
           customer_phone_raw: string | null
           delivered_at: string | null
           financial_status: string | null
+          financials_verified_at: string | null
+          first_refunded_at: string | null
           fulfillment_status: string | null
           id: string
+          is_paid: boolean | null
           is_test: boolean
+          last_refunded_at: string | null
+          net_payment: number | null
           net_product_revenue: number | null
           order_number: string | null
+          paid_at: string | null
           processed_at_source: string | null
+          refund_count: number | null
+          refunded_product_amount: number | null
+          refunded_shipping: number | null
           shipping_amount: number | null
           shopify_customer_id: string | null
           source: string
@@ -2084,6 +2170,9 @@ export type Database = {
           subtotal: number | null
           total_amount: number | null
           total_discount: number | null
+          total_received: number | null
+          total_refunded: number | null
+          unallocated_refund_amount: number | null
           updated_at: string
           updated_at_source: string | null
           valid_order: boolean
@@ -2103,12 +2192,21 @@ export type Database = {
           customer_phone_raw?: string | null
           delivered_at?: string | null
           financial_status?: string | null
+          financials_verified_at?: string | null
+          first_refunded_at?: string | null
           fulfillment_status?: string | null
           id?: string
+          is_paid?: boolean | null
           is_test?: boolean
+          last_refunded_at?: string | null
+          net_payment?: number | null
           net_product_revenue?: number | null
           order_number?: string | null
+          paid_at?: string | null
           processed_at_source?: string | null
+          refund_count?: number | null
+          refunded_product_amount?: number | null
+          refunded_shipping?: number | null
           shipping_amount?: number | null
           shopify_customer_id?: string | null
           source?: string
@@ -2117,6 +2215,9 @@ export type Database = {
           subtotal?: number | null
           total_amount?: number | null
           total_discount?: number | null
+          total_received?: number | null
+          total_refunded?: number | null
+          unallocated_refund_amount?: number | null
           updated_at?: string
           updated_at_source?: string | null
           valid_order?: boolean
@@ -2136,12 +2237,21 @@ export type Database = {
           customer_phone_raw?: string | null
           delivered_at?: string | null
           financial_status?: string | null
+          financials_verified_at?: string | null
+          first_refunded_at?: string | null
           fulfillment_status?: string | null
           id?: string
+          is_paid?: boolean | null
           is_test?: boolean
+          last_refunded_at?: string | null
+          net_payment?: number | null
           net_product_revenue?: number | null
           order_number?: string | null
+          paid_at?: string | null
           processed_at_source?: string | null
+          refund_count?: number | null
+          refunded_product_amount?: number | null
+          refunded_shipping?: number | null
           shipping_amount?: number | null
           shopify_customer_id?: string | null
           source?: string
@@ -2150,6 +2260,9 @@ export type Database = {
           subtotal?: number | null
           total_amount?: number | null
           total_discount?: number | null
+          total_received?: number | null
+          total_refunded?: number | null
+          unallocated_refund_amount?: number | null
           updated_at?: string
           updated_at_source?: string | null
           valid_order?: boolean
