@@ -404,3 +404,172 @@ export async function fetchOrderRawDiag(shop: string, token: string, gid: string
     return { http_status: r.status, x_request_id: r.headers.get("x-request-id"), body: (await r.text()).slice(0, 4000) };
   } catch (e) { return { error: (e as Error).message }; }
 }
+
+// ================= Vendas V2 Fase 2 Passo 2: leitura + cálculo financeiro (SOMENTE LEITURA) =================
+
+export const FIN_TX = `id kind status gateway processedAt amountSet { ${M} } parentTransaction { id }`;
+const FRLI = `nodes { id quantity lineItem { id } subtotalSet { ${M} } } pageInfo { hasNextPage endCursor }`;
+const FRSL = `nodes { id subtotalAmountSet { ${M} } } pageInfo { hasNextPage endCursor }`;
+const FRTX = `nodes { ${FIN_TX} } pageInfo { hasNextPage endCursor }`;
+
+export const FINANCIALS_QUERY = `query OrderFinancials($id: ID!) {
+  order(id: $id) {
+    id name createdAt updatedAt processedAt cancelledAt test displayFinancialStatus
+    totalReceivedSet { ${M} }
+    totalRefundedSet { ${M} }
+    totalRefundedShippingSet { ${M} }
+    netPaymentSet { ${M} }
+    transactions { ${FIN_TX} }
+    refunds {
+      id createdAt processedAt updatedAt note
+      totalRefundedSet { ${M} }
+      refundLineItems(first: 50) { ${FRLI} }
+      refundShippingLines(first: 10) { ${FRSL} }
+      transactions(first: 20) { ${FRTX} }
+    }
+  }
+}`;
+
+export const FINANCIALS_PAGE_QUERIES: Record<string, string> = {
+  refundLineItems: `query P($id: ID!, $c: String) { node(id: $id) { ... on Refund { refundLineItems(first: 50, after: $c) { ${FRLI} } } } }`,
+  refundShippingLines: `query P($id: ID!, $c: String) { node(id: $id) { ... on Refund { refundShippingLines(first: 10, after: $c) { ${FRSL} } } } }`,
+  transactions: `query P($id: ID!, $c: String) { node(id: $id) { ... on Refund { transactions(first: 20, after: $c) { ${FRTX} } } } }`,
+};
+
+async function gqlLossless(shop: string, token: string, query: string, variables: Any, fetchFn: FetchFn): Promise<Any> {
+  const res = await fetchFn(`https://${shop}/admin/api/${SHOPIFY_API_VERSION}/graphql.json`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", "X-Shopify-Access-Token": token },
+    body: JSON.stringify({ query, variables }),
+  });
+  const text = await res.text();
+  if (!res.ok) throw new Error(`graphql_http_${res.status}`);
+  const json: Any = losslessParse(text);
+  if (json.errors?.length) throw new Error(`graphql_errors:${json.errors.map((e: Any) => e?.extensions?.code || e?.message).join(",")}`);
+  return json.data;
+}
+
+/** Lê o pedido financeiro e pagina todas as connections de cada Refund. Qualquer falha => complete=false. */
+export async function fetchOrderFinancials(
+  shop: string, token: string, gid: string, fetchFn: FetchFn = fetch, maxPages = 20,
+): Promise<{ found: boolean; complete: boolean; order: Any | null; issues: string[]; fetched_at: string }> {
+  const data = await gqlLossless(shop, token, FINANCIALS_QUERY, { id: gid }, fetchFn);
+  const o = data?.order;
+  if (!o) return { found: false, complete: false, order: null, issues: ["order_null"], fetched_at: new Date().toISOString() };
+  const issues: string[] = [];
+  for (const r of o.refunds || []) {
+    for (const k of Object.keys(FINANCIALS_PAGE_QUERIES)) {
+      if (!r[k] || !Array.isArray(r[k].nodes)) { issues.push(`${r.id}:${k}:ausente`); continue; }
+      let conn = r[k];
+      let pages = 0;
+      while (conn?.pageInfo?.hasNextPage) {
+        if (++pages > maxPages) { issues.push(`${r.id}:${k}:max_pages`); break; }
+        try {
+          const d = await gqlLossless(shop, token, FINANCIALS_PAGE_QUERIES[k], { id: r.id, c: conn.pageInfo.endCursor }, fetchFn);
+          const next = d?.node?.[k];
+          if (!next || !Array.isArray(next.nodes)) { issues.push(`${r.id}:${k}:sem_dados`); break; }
+          r[k].nodes.push(...next.nodes);
+          r[k].pageInfo = next.pageInfo;
+          conn = next;
+        } catch (e) { issues.push(`${r.id}:${k}:${(e as Error).message}`); break; }
+      }
+    }
+  }
+  return { found: true, complete: issues.length === 0, order: o, issues, fetched_at: new Date().toISOString() };
+}
+
+/** Valor monetário -> centavos inteiros (sem float). null se ausente/inválido. */
+export function toCents(v: Any): number | null {
+  if (v === null || v === undefined || v === "") return null;
+  const s = String(v).trim();
+  const m = /^(-)?(\d+)(?:\.(\d+))?$/.exec(s);
+  if (!m) return null;
+  const frac = ((m[3] || "") + "00");
+  let c = Number(m[2]) * 100 + Number(frac.slice(0, 2));
+  if (Number(frac[2] || "0") >= 5) c += 1;
+  return m[1] ? -c : c;
+}
+export const centsToStr = (c: number | null) => c === null ? null : `${c < 0 ? "-" : ""}${Math.floor(Math.abs(c) / 100)}.${String(Math.abs(c) % 100).padStart(2, "0")}`;
+
+export type RefundFinStatus = "success" | "pending" | "failed" | "mixed" | "no_transactions";
+
+/** Status do Refund pelas transações: todas SUCCESS / todas PENDING / todas FAILURE|ERROR / misto. */
+export function refundStatus(txs: Any[]): RefundFinStatus {
+  if (!txs.length) return "no_transactions";
+  const st = txs.map((t) => String(t.status).toUpperCase());
+  if (st.every((s) => s === "SUCCESS")) return "success";
+  if (st.every((s) => s === "PENDING")) return "pending";
+  if (st.every((s) => s === "FAILURE" || s === "ERROR")) return "failed";
+  return "mixed";
+}
+
+const mAmt = (s: Any) => s?.shopMoney?.amount ?? null;
+const sumC = (xs: (number | null)[]) => xs.reduce<number>((a, b) => a + (b ?? 0), 0);
+
+/** Cálculo em memória. Nunca distribui proporcionalmente. Divergência com totalRefundedSet => valid=false. */
+export function computeOrderFinancials(o: Any, complete: boolean, fetchedAt: string): Any {
+  const tx = (t: Any) => ({ id: t.id, kind: t.kind, status: t.status, gateway: t.gateway ?? null, amount: mAmt(t.amountSet),
+    processedAt: t.processedAt ?? null, parentTransaction: t.parentTransaction?.id ?? null });
+  const orderTxs = (o.transactions || []).map(tx);
+  const pays = orderTxs.filter((t: Any) => ["SALE", "CAPTURE"].includes(String(t.kind).toUpperCase()) && String(t.status).toUpperCase() === "SUCCESS")
+    .sort((a: Any, b: Any) => String(a.processedAt).localeCompare(String(b.processedAt)));
+
+  let totalRef = 0, refShip = 0, refProd = 0, count = 0;
+  const dates: string[] = [];
+  const refunds = (o.refunds || []).map((r: Any) => {
+    const rtx = (r.transactions?.nodes || []).map(tx);
+    const status = refundStatus(rtx);
+    const refundTxs = rtx.filter((t: Any) => String(t.kind).toUpperCase() === "REFUND");
+    const successC = sumC(refundTxs.filter((t: Any) => String(t.status).toUpperCase() === "SUCCESS").map((t: Any) => toCents(t.amount)));
+    const lines = r.refundLineItems?.nodes || [];
+    const ships = r.refundShippingLines?.nodes || [];
+    let prod = 0, ship = 0, counted = false;
+    if (status === "success") {
+      prod = sumC(lines.map((n: Any) => toCents(mAmt(n.subtotalSet))));
+      ship = sumC(ships.map((n: Any) => toCents(mAmt(n.subtotalAmountSet))));
+      counted = true;
+    } else if (status === "mixed" && successC > 0) {
+      counted = true; // só SUCCESS conta; item/frete = 0
+    }
+    const contributes = counted ? successC : 0;
+    if (counted) { totalRef += contributes; refProd += prod; refShip += ship; count++; dates.push(r.processedAt || r.createdAt); }
+    return {
+      id: r.id, status, createdAt: r.createdAt, processedAt: r.processedAt ?? null, updatedAt: r.updatedAt ?? null, note: r.note ?? null,
+      total: mAmt(r.totalRefundedSet), refund_line_items_count: lines.length, refund_shipping_lines_count: ships.length,
+      transactions: rtx, success_amount: centsToStr(successC), counted,
+      refunded_product_amount: centsToStr(prod), refunded_shipping: centsToStr(ship),
+      unallocated: centsToStr(counted ? Math.max(0, contributes - prod - ship) : 0),
+    };
+  });
+  dates.sort();
+  const shopRefunded = toCents(mAmt(o.totalRefundedSet));
+  const divergence = shopRefunded === null ? null : totalRef - shopRefunded;
+  const issues: string[] = [];
+  if (!complete) issues.push("consulta_incompleta");
+  if (shopRefunded === null) issues.push("totalRefundedSet_ausente");
+  else if (divergence !== 0) issues.push(`divergencia_total_refunded:${centsToStr(divergence)}${Math.abs(divergence!) <= 2 ? "(centavos)" : ""}`);
+  const valid = issues.length === 0;
+  return {
+    name: o.name, gid: o.id, createdAt: o.createdAt ?? null, processedAt: o.processedAt ?? null, updatedAt: o.updatedAt ?? null,
+    cancelledAt: o.cancelledAt ?? null, test: o.test ?? null, displayFinancialStatus: o.displayFinancialStatus,
+    totalReceivedSet: mAmt(o.totalReceivedSet), totalRefundedSet: mAmt(o.totalRefundedSet),
+    totalRefundedShippingSet: mAmt(o.totalRefundedShippingSet), netPaymentSet: mAmt(o.netPaymentSet),
+    transactions: orderTxs, refunds,
+    consistency: { calculated_total_refunded: centsToStr(totalRef), shopify_total_refunded: mAmt(o.totalRefundedSet),
+      difference: centsToStr(divergence), valid, issues },
+    summary: valid ? {
+      total_received: centsToStr(toCents(mAmt(o.totalReceivedSet))),
+      total_refunded: centsToStr(totalRef),
+      refunded_shipping: centsToStr(refShip),
+      net_payment: centsToStr(toCents(mAmt(o.netPaymentSet))),
+      paid_at: pays[0]?.processedAt ?? null,
+      is_paid: pays.length > 0,
+      refund_count: count,
+      first_refunded_at: dates[0] ?? null,
+      last_refunded_at: dates[dates.length - 1] ?? null,
+      refunded_product_amount: centsToStr(refProd),
+      unallocated_refund_amount: centsToStr(Math.max(0, totalRef - refProd - refShip)),
+      financials_verified_at: fetchedAt,
+    } : null,
+  };
+}
