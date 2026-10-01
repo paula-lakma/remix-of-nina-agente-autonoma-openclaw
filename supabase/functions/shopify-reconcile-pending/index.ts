@@ -9,7 +9,7 @@ import { getJwtUser } from "../_shared/userauth.ts";
 import {
   losslessParse, losslessStringify, buildReconciledPayload, classifyOrder, compareLineItems, reconciledEventKey, fetchOrderWithAllItems, getAccessToken, orderGid, SHOPIFY_API_VERSION,
   classifyStatusPilot, buildStatusPayload, REFUND_AUDIT_ALLOWLIST, fetchRefundAudit, summarizeRefundAudit, validateFullRefund, reconciledStatusEventKey, lineItemSignature,
-  fetchAccessScopes, fetchOrderRawDiag, fetchOrderFinancials, computeOrderFinancials,
+  fetchAccessScopes, fetchOrderRawDiag, fetchOrderFinancials, computeOrderFinancials, FINANCIALS_PILOT_ALLOWLIST, buildFinancialsApplyPayload,
 } from "../_shared/shopify_admin.ts";
 
 // deno-lint-ignore no-explicit-any
@@ -27,8 +27,8 @@ Deno.serve(async (req: Request) => {
 
   let body: { mode?: string; source_order_id?: string; source_order_ids?: string[] };
   try { body = await req.json(); } catch { return errorResponse("Body JSON inválido", 400); }
-  if (!["auth_check", "dry_run", "pilot", "precision_check", "status_pilot", "refund_audit", "scope_check", "financials_dry_run"].includes(String(body.mode))) {
-    return errorResponse("Modos habilitados: auth_check, dry_run, pilot, precision_check, status_pilot, refund_audit, scope_check, financials_dry_run", 400);
+  if (!["auth_check", "dry_run", "pilot", "precision_check", "status_pilot", "refund_audit", "scope_check", "financials_dry_run", "financials_pilot"].includes(String(body.mode))) {
+    return errorResponse("Modos habilitados: auth_check, dry_run, pilot, precision_check, status_pilot, refund_audit, scope_check, financials_dry_run, financials_pilot", 400);
   }
   if (body.mode === "pilot" || body.mode === "status_pilot") {
     const ids = body.source_order_ids;
@@ -53,6 +53,30 @@ Deno.serve(async (req: Request) => {
     return jsonResponse({ ok: false, stage: "auth", secrets, error: (e as Error).message }, 200);
   }
 
+
+  if (body.mode === "financials_pilot") {
+    // ESCRITA RESTRITA: 1 pedido por chamada, só os 3 auditados. Reconsulta, recalcula e só grava se consistente.
+    const sid = String(body.source_order_id || "");
+    if (!Object.prototype.hasOwnProperty.call(FINANCIALS_PILOT_ALLOWLIST, sid)) {
+      return errorResponse("financials_pilot: pedido fora da allowlist (#2009, #2336, #2337)", 400);
+    }
+    const { data: ord } = await db.from("orders").select("id, order_number, source_order_id")
+      .eq("source", "shopify").eq("source_order_id", sid).maybeSingle();
+    if (!ord || ord.order_number !== FINANCIALS_PILOT_ALLOWLIST[sid]) {
+      return jsonResponse({ ok: false, mode: "financials_pilot", writes: 0, error: "pedido local não confere com a allowlist" }, 200);
+    }
+    let f;
+    try { f = await fetchOrderFinancials(shop, token, orderGid(sid)); }
+    catch (e) { return jsonResponse({ ok: false, mode: "financials_pilot", writes: 0, error: (e as Error).message }, 200); }
+    if (!f.found || !f.complete) return jsonResponse({ ok: false, mode: "financials_pilot", writes: 0, found: f.found, issues: f.issues }, 200);
+    const computed = computeOrderFinancials(f.order, f.complete, f.fetched_at);
+    const payload = buildFinancialsApplyPayload(f.order, computed);
+    if (!payload.ok) return jsonResponse({ ok: false, mode: "financials_pilot", writes: 0, reason: payload.reason, financials: computed }, 200);
+    const { data: applied, error } = await db.rpc("apply_order_financials", { p_order_id: ord.id, p_refunds: payload.refunds, p_summary: payload.summary });
+    if (error) return jsonResponse({ ok: false, mode: "financials_pilot", writes: 0, error: error.message, financials: computed }, 200);
+    return jsonResponse({ ok: true, mode: "financials_pilot", order_number: ord.order_number, applied, summary: payload.summary,
+      refunds: payload.refunds.map((r: Any) => ({ id: r.shopify_refund_id, status: r.financial_status, total: r.total_amount, unallocated: r.unallocated_amount })) });
+  }
 
   if (body.mode === "financials_dry_run") {
     // SOMENTE LEITURA: exatamente 3 pedidos (#2009 + pago recente + outro recente). Nada é gravado.

@@ -573,3 +573,51 @@ export function computeOrderFinancials(o: Any, complete: boolean, fetchedAt: str
     } : null,
   };
 }
+
+// ================= Vendas V2 Fase 2 Passo 3: financials_pilot (escrita restrita a 3 pedidos auditados) =================
+
+/** Allowlist fixa do piloto: #2009, #2336, #2337 (source_order_id -> GID). */
+export const FINANCIALS_PILOT_ALLOWLIST: Record<string, string> = {
+  "7042665873546": "2009",
+  "7114950672522": "2336",
+  "7115282907274": "2337",
+};
+
+const WRITABLE_REFUND_STATUS = new Set(["success", "pending", "failed", "mixed"]);
+
+/**
+ * Monta os parâmetros de apply_order_financials a partir do pedido bruto + cálculo validado.
+ * Recusa (ok=false) se a consulta estiver incompleta, houver divergência ou status não gravável.
+ */
+export function buildFinancialsApplyPayload(o: Any, computed: Any): { ok: boolean; reason: string | null; refunds: Any[]; summary: Any | null } {
+  if (!computed?.consistency?.valid || !computed.summary) {
+    return { ok: false, reason: `inconsistente:${(computed?.consistency?.issues || []).join(",")}`, refunds: [], summary: null };
+  }
+  const raw: Any[] = o.refunds || [];
+  if (raw.length !== computed.refunds.length) return { ok: false, reason: "refunds_desalinhados", refunds: [], summary: null };
+  const verifiedAt = computed.summary.financials_verified_at;
+  const refunds: Any[] = [];
+  for (let i = 0; i < raw.length; i++) {
+    const r = raw[i], c = computed.refunds[i];
+    if (r.id !== c.id) return { ok: false, reason: "refunds_desalinhados", refunds: [], summary: null };
+    if (!WRITABLE_REFUND_STATUS.has(c.status)) return { ok: false, reason: `status_nao_gravavel:${c.status}:${c.id}`, refunds: [], summary: null };
+    refunds.push({
+      shopify_refund_id: String(r.id),
+      created_at_source: r.createdAt ?? null,
+      processed_at: r.processedAt ?? null,
+      updated_at_source: r.updatedAt ?? null,
+      total_amount: centsToStr(toCents(mAmt(r.totalRefundedSet))),
+      shipping_amount: c.refunded_shipping,
+      refunded_product_amount: c.refunded_product_amount,
+      unallocated_amount: c.unallocated,
+      currency: r.totalRefundedSet?.shopMoney?.currencyCode ?? null,
+      note: r.note ?? null,
+      transactions: c.transactions,
+      line_items: (r.refundLineItems?.nodes || []).map((n: Any) => ({ id: n.id ?? null, line_item: n.lineItem?.id ?? null,
+        quantity: n.quantity ?? null, subtotal: mAmt(n.subtotalSet) })),
+      financial_status: c.status,
+      last_verified_at: verifiedAt,
+    });
+  }
+  return { ok: true, reason: null, refunds, summary: { ...computed.summary } };
+}
