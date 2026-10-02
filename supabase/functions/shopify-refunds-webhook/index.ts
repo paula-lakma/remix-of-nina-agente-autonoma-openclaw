@@ -38,7 +38,8 @@ Deno.serve(async (req: Request) => {
   }
   const duplicate = !data || data.length === 0;
 
-  if (!duplicate) {
+  // Linhas do autoteste fictício não acordam o worker (o teste roda o worker manualmente).
+  if (!duplicate && !webhookId.startsWith("lakma-selftest-")) {
     // Melhor esforço: acorda o worker. A garantia é a linha pending na caixa de entrada.
     const url = Deno.env.get("SUPABASE_URL");
     const key = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
