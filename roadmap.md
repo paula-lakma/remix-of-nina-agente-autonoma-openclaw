@@ -18,3 +18,7 @@
 - [x] Vendas V2 Fase 1: estrutura order_refunds + colunas em orders (sem dados)
 - Pendente (aguarda aprovação): Vendas V2 Fase 2 (captura de reembolsos futuros; decidir read_all_orders).
 - [ ] Vendas V2 Fase 2 Passo 1: read_orders NÃO lê pedido de julho (#1781 voltou null) — aguarda nova análise do usuário
+- [x] Vendas V2 Passo 6 Etapa A: estrutura (0015) + dry-run sem escrita.
+- [ ] Passo 6 Etapa B (apply manual ≤5 pedidos) — aguarda aprovação.
+- [ ] Passo 6 Etapa C (limpar teste da Shopify + worker a cada 15 min) — aguarda aprovação.
+- [ ] Passo 6 Etapa D (reconciliação a cada 6h) — aguarda aprovação.

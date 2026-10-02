@@ -1296,6 +1296,87 @@ export type Database = {
           },
         ]
       }
+      financial_job_runs: {
+        Row: {
+          counters: Json
+          created_at: string
+          errors: Json
+          finished_at: string | null
+          id: string
+          job_name: string
+          mode: string
+          run_id: string
+          started_at: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          counters?: Json
+          created_at?: string
+          errors?: Json
+          finished_at?: string | null
+          id?: string
+          job_name: string
+          mode: string
+          run_id: string
+          started_at?: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          counters?: Json
+          created_at?: string
+          errors?: Json
+          finished_at?: string | null
+          id?: string
+          job_name?: string
+          mode?: string
+          run_id?: string
+          started_at?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      financial_job_state: {
+        Row: {
+          cursor: string | null
+          job_name: string
+          last_completed_window_end: string | null
+          locked_at: string | null
+          locked_by: string | null
+          locked_until: string | null
+          status: string
+          updated_at: string
+          window_end: string | null
+          window_start: string | null
+        }
+        Insert: {
+          cursor?: string | null
+          job_name: string
+          last_completed_window_end?: string | null
+          locked_at?: string | null
+          locked_by?: string | null
+          locked_until?: string | null
+          status?: string
+          updated_at?: string
+          window_end?: string | null
+          window_start?: string | null
+        }
+        Update: {
+          cursor?: string | null
+          job_name?: string
+          last_completed_window_end?: string | null
+          locked_at?: string | null
+          locked_by?: string | null
+          locked_until?: string | null
+          status?: string
+          updated_at?: string
+          window_end?: string | null
+          window_start?: string | null
+        }
+        Relationships: []
+      }
       installed_packs: {
         Row: {
           config: Json
@@ -2981,6 +3062,10 @@ export type Database = {
       }
     }
     Functions: {
+      acquire_financial_job_lease: {
+        Args: { p_job_name: string; p_run_id: string; p_ttl_seconds?: number }
+        Returns: boolean
+      }
       acquire_shopify_tracking_locks: {
         Args: {
           p_carrier?: string
@@ -3453,6 +3538,10 @@ export type Database = {
       pick_dermo_assignee: { Args: { _reason: string }; Returns: Json }
       pick_next_dermoconsultora: { Args: never; Returns: string }
       pipeline_stage_id: { Args: { _key: string }; Returns: string }
+      release_financial_job_lease: {
+        Args: { p_job_name: string; p_run_id: string }
+        Returns: boolean
+      }
       release_shopify_tracking_locks: {
         Args: {
           p_error_message?: string
@@ -3473,6 +3562,10 @@ export type Database = {
         }
         Returns: Json
       }
+      renew_financial_job_lease: {
+        Args: { p_job_name: string; p_run_id: string; p_ttl_seconds?: number }
+        Returns: boolean
+      }
       revoke_expedicao_access: {
         Args: { _conversation_id: string; _reason?: string }
         Returns: boolean
@@ -3486,6 +3579,8 @@ export type Database = {
         Returns: string
       }
       sync_shopify_orders: { Args: { p_since?: string }; Returns: Json }
+      trigger_financials_reconcile: { Args: never; Returns: undefined }
+      trigger_financials_worker: { Args: never; Returns: undefined }
       trigger_message_grouper: { Args: never; Returns: undefined }
       trigger_reaper: { Args: never; Returns: undefined }
       trigger_stale_leads: { Args: never; Returns: undefined }
