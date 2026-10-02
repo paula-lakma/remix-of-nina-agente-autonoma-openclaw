@@ -8,3 +8,6 @@ verify_jwt = false
 
 [functions.shopify-financials-worker]
 verify_jwt = false
+
+[functions.shopify-financials-reconcile]
+verify_jwt = false
