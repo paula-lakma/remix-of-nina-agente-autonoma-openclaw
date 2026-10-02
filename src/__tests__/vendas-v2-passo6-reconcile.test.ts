@@ -6,8 +6,8 @@ import {
 } from "../../supabase/functions/_shared/financial_reconcile";
 
 const mig = readFileSync("drizzle/migrations/0015_vendas_v2_financial_reconcile_structure.sql", "utf8");
-const fn = readFileSync("supabase/functions/shopify-financials-reconcile/index.ts", "utf8");
-const lib = readFileSync("supabase/functions/_shared/financial_reconcile.ts", "utf8");
+const fn = readFileSync("supabase/functions/shopify-financials-reconcile/index.ts", "utf8").replace(/\/\*\*[^]*?\*\//, "");
+const lib = readFileSync("supabase/functions/_shared/financial_reconcile.ts", "utf8").replace(/^\/\/.*$/gm, "");
 const NOW = new Date("2026-10-02T18:00:00.500Z");
 const gid = (n: number) => `gid://shopify/Order/${n}`;
 const L = (id: string, sid: string, ver: string | null = null): LocalOrder => ({ id, order_number: id, source_order_id: sid, financial_status: "paid", financials_verified_at: ver });
