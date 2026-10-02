@@ -70,7 +70,7 @@ describe("janela fixa e paginação", () => {
   it("cursor repetido e cursor vazio param", async () => {
     const a = [page([1], "c1"), page([2], "c1")];
     expect((await listWindow("q", { ...noSleep, gql: async () => a.shift()! })).error).toBe("cursor_repetido");
-    expect((await listWindow("q", { ...noSleep, gql: async () => page([1], "") })).error).toBe("cursor_vazio_com_proxima_pagina");
+    expect((await listWindow("q", { ...noSleep, gql: async () => { const p = page([1], null); p.data.orders.pageInfo = { hasNextPage: true, endCursor: "" } as never; return p; } })).error).toBe("cursor_vazio_com_proxima_pagina");
   });
   it("throttling: espera e repete 1x; 2º throttled encerra limpo", async () => {
     let n = 0;
