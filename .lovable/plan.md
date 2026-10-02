@@ -95,7 +95,7 @@ A linha guarda só IDs dos pedidos, nunca dados pessoais.
 Todas as falhas são tratadas pedido a pedido; erro em um não afeta os demais.
 - Shopify fora do ar, erro HTTP ou erro GraphQL na listagem: a execução encerra sem gravar e registra o motivo; a próxima execução tenta de novo.
 - Página incompleta, divergência de `total_refunded` ou falha do apply: o pedido é registrado como erro e não grava nada, porque o apply é atômico; segue para o próximo pedido.
-- Execução interrompida: o que já foi aplicado está consistente, e o restante é refeito na próxima, porque a janela se sobrepõe. Lote parcial é tratado do mesmo jeito.
+- **Execução interrompida ou lote parcial:** o que já foi aplicado está consistente, porque o apply é atômico. O cursor salvo aponta para a última página totalmente processada. O lease expira e a próxima execução retoma dali; pedidos já verificados nessa página são pulados.
 - **Contra execuções simultâneas, lease durável no banco** (no lugar do advisory lock). Campos `locked_by` (run_id), `locked_at` e `locked_until` na linha do trabalho em `financial_job_state`.
   - **Aquisição atômica:** `acquire_financial_job_lease(job, run_id, ttl)` faz um único UPDATE que só pega o lease se `locked_until` for nulo ou já tiver passado, e devolve se conseguiu. Duas Edge Functions ao mesmo tempo: só uma consegue; a outra sai imediatamente e registra "ocupado".
   - **Prazo:** `ttl` de 10 minutos, bem acima da execução esperada (de 50 s a alguns minutos).
@@ -146,6 +146,8 @@ Depois conferir que a caixa de entrada ficou com 0 linhas. Nenhuma outra linha �
   - sem `read_all_orders`, pedidos com mais de 60 dias ficam fora do alcance, o que não afeta a janela de 72 horas.
 - **Como desfazer:**
   - `cron.unschedule` dos 2 agendamentos;
+  - um lease ou uma continuação presos podem ser liberados à mão com `release_financial_job_lease`, ou com a volta de `financial_job_state` para `idle`;
+  - risco extra: cursor expirado. Nesse caso a janela recomeça com os mesmos limites, sem gravar de novo os pedidos já verificados;
   - as colunas financeiras não afetam a V1, então não precisam ser revertidas;
   - as funções novas podem ficar paradas sem efeito nenhum.
 
