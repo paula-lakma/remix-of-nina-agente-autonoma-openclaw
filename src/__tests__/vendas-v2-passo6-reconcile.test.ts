@@ -27,7 +27,8 @@ describe("migration 0015 – estrutura e segurança", () => {
       expect(mig).toContain(`GRANT ALL ON public.${t} TO service_role`);
     }
     expect(mig).not.toMatch(/CREATE POLICY/);
-    expect(mig).not.toMatch(/INSERT INTO public\.financial_job_(runs|state)\s*\(/i.source.replace("AS s ", "") ? /INSERT INTO public\.financial_job_runs/ : /x^/);
+    expect(mig).not.toMatch(/INSERT INTO public\.financial_job_runs/);
+    expect(mig.match(/INSERT INTO public\.financial_job_state/g)?.length).toBe(1); // só dentro do acquire
     expect(mig).toMatch(/job_name text PRIMARY KEY/);
     for (const c of ["window_start", "window_end", "cursor", "last_completed_window_end", "locked_by", "locked_at", "locked_until"]) expect(mig).toContain(c);
   });
