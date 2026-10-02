@@ -2,3 +2,9 @@ project_id = "bfuuucuzebtkregbycqd"
 
 [functions.shopify-webhook]
 verify_jwt = false
+
+[functions.shopify-refunds-webhook]
+verify_jwt = false
+
+[functions.shopify-financials-worker]
+verify_jwt = false

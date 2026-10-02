@@ -11,6 +11,7 @@ import {
   classifyStatusPilot, buildStatusPayload, REFUND_AUDIT_ALLOWLIST, fetchRefundAudit, summarizeRefundAudit, validateFullRefund, reconciledStatusEventKey, lineItemSignature,
   fetchAccessScopes, fetchOrderRawDiag, fetchOrderFinancials, computeOrderFinancials, FINANCIALS_PILOT_ALLOWLIST, buildFinancialsApplyPayload,
 } from "../_shared/shopify_admin.ts";
+import { signShopifyHmac } from "../_shared/shopify_financial_inbox.ts";
 
 // deno-lint-ignore no-explicit-any
 type Any = any;
@@ -27,8 +28,8 @@ Deno.serve(async (req: Request) => {
 
   let body: { mode?: string; source_order_id?: string; source_order_ids?: string[] };
   try { body = await req.json(); } catch { return errorResponse("Body JSON inválido", 400); }
-  if (!["auth_check", "dry_run", "pilot", "precision_check", "status_pilot", "refund_audit", "scope_check", "financials_dry_run", "financials_pilot"].includes(String(body.mode))) {
-    return errorResponse("Modos habilitados: auth_check, dry_run, pilot, precision_check, status_pilot, refund_audit, scope_check, financials_dry_run, financials_pilot", 400);
+  if (!["auth_check", "dry_run", "pilot", "precision_check", "status_pilot", "refund_audit", "scope_check", "financials_dry_run", "financials_pilot", "refunds_webhook_selftest"].includes(String(body.mode))) {
+    return errorResponse("Modos habilitados: auth_check, dry_run, pilot, precision_check, status_pilot, refund_audit, scope_check, financials_dry_run, financials_pilot, refunds_webhook_selftest", 400);
   }
   if (body.mode === "pilot" || body.mode === "status_pilot") {
     const ids = body.source_order_ids;
@@ -53,6 +54,29 @@ Deno.serve(async (req: Request) => {
     return jsonResponse({ ok: false, stage: "auth", secrets, error: (e as Error).message }, 200);
   }
 
+
+  if (body.mode === "refunds_webhook_selftest") {
+    // Teste controlado do shopify-refunds-webhook com IDs FICTÍCIOS fixos. Assina com o secret do ambiente sem expô-lo.
+    // Só toca a caixa de entrada (1 linha fictícia, depois removida manualmente). Nada em orders/order_refunds.
+    const secret = Deno.env.get("SHOPIFY_WEBHOOK_SECRET") || "";
+    if (!secret) return jsonResponse({ ok: false, mode: "refunds_webhook_selftest", error: "secret ausente" }, 200);
+    const url = `${Deno.env.get("SUPABASE_URL")}/functions/v1/shopify-refunds-webhook`;
+    const raw = '{"id":999000000000001,"order_id":999000000000002,"created_at":"2026-10-02T00:00:00Z","note":"LAKMA SELFTEST - ficticio","transactions":[],"refund_line_items":[]}';
+    const webhookId = "lakma-selftest-0000-ficticio";
+    const send = async (hmac: string | null, topic = "refunds/create") => {
+      const h: Record<string, string> = { "Content-Type": "application/json", "X-Shopify-Topic": topic, "X-Shopify-Webhook-Id": webhookId };
+      if (hmac !== null) h["X-Shopify-Hmac-Sha256"] = hmac;
+      const r = await fetch(url, { method: "POST", headers: h, body: raw });
+      return { status: r.status, body: await r.text() };
+    };
+    const valid = await signShopifyHmac(secret, raw);
+    const invalid = await send("aW52YWxpZG8taG1hYy10ZXN0ZQ==");
+    const missing = await send(null);
+    const wrongTopic = await send(await signShopifyHmac(secret, raw), "orders/create");
+    const first = await send(valid);
+    const duplicate = await send(valid);
+    return jsonResponse({ ok: true, mode: "refunds_webhook_selftest", webhook_id: webhookId, invalid, missing, wrongTopic, first, duplicate });
+  }
 
   if (body.mode === "financials_pilot") {
     // ESCRITA RESTRITA: 1 pedido por chamada, só os 3 auditados. Reconsulta, recalcula e só grava se consistente.
