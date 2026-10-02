@@ -99,6 +99,13 @@
       "when": 1790885087764,
       "tag": "0013_vendas_v2_fase2_inbox_and_apply",
       "breakpoints": true
+    },
+    {
+      "idx": 14,
+      "version": "7",
+      "when": 1790946536680,
+      "tag": "0014_vendas_v2_inbox_stale_recovery",
+      "breakpoints": true
     }
   ]
 }
