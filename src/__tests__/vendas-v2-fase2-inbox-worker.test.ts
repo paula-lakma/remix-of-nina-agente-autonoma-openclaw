@@ -4,7 +4,7 @@ import {
   verifyShopifyHmac, signShopifyHmac, parseRefundWebhook, nextAttemptAt, processInboxItem, MAX_ATTEMPTS, BACKOFF_MINUTES, REFUNDS_TOPIC,
 } from '../../supabase/functions/_shared/shopify_financial_inbox';
 
-const webhookSrc = readFileSync('supabase/functions/shopify-refunds-webhook/index.ts', 'utf8');
+const webhookSrc = readFileSync('supabase/functions/shopify-refunds-webhook/index.ts', 'utf8').replace(/\/\*\*[^]*?\*\//, '');
 const workerSrc = readFileSync('supabase/functions/shopify-financials-worker/index.ts', 'utf8');
 const sharedSrc = readFileSync('supabase/functions/_shared/shopify_financial_inbox.ts', 'utf8');
 const NOW = new Date('2026-10-02T12:00:00Z');
