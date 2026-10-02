@@ -46,7 +46,9 @@ describe('dry_run — sem escrita e sem segredos', () => {
     expect(dry).not.toMatch(/\.(insert|update|upsert|delete)\(/);
     expect(src).not.toMatch(/\.(insert|update|upsert|delete)\(/);
     // Duas escritas: evento do piloto PAID e evento do status_pilot (EXPIRED), ambos só em shopify_events.
-    expect(src.match(/method: "POST"/g)).toHaveLength(2);
+    // + 1 POST do autoteste fictício, que chama só o shopify-refunds-webhook (caixa de entrada).
+    expect(src.match(/method: "POST"/g)).toHaveLength(3);
+    expect(src.match(/functions\/v1\/shopify-refunds-webhook/g)).toHaveLength(1);
     expect(src.match(/rest\/v1\/shopify_events/g)).toHaveLength(2);
     expect(src).toMatch(/topic: "orders\/reconciled", send_status: "reconciled"/);
     expect(src).toMatch(/topic: "orders\/reconciled_status", send_status: "reconciled"/);
