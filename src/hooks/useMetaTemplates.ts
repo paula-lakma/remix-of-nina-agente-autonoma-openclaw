@@ -16,6 +16,24 @@ export interface MetaTemplate {
   updated_at: string;
 }
 
+const FN_ERROR_TEXT: Record<string, string> = {
+  unauthorized: "Sessão inválida. Entre novamente.",
+  forbidden: "Somente admin ou gerente pode gerenciar templates.",
+};
+
+/** Lê o corpo de respostas 4xx/5xx das funções para mostrar o motivo real. */
+async function readFnError(error: unknown, fallback: string): Promise<string> {
+  const ctx = (error as { context?: Response })?.context;
+  if (ctx && typeof ctx.json === "function") {
+    try {
+      const b = await ctx.clone().json();
+      const code = String(b?.error ?? "");
+      return FN_ERROR_TEXT[code] || b?.message || (b?.hint ? `${code} — ${b.hint}` : code) || fallback;
+    } catch { /* corpo não-JSON */ }
+  }
+  return (error as Error)?.message || fallback;
+}
+
 export function useMetaTemplates() {
   const [templates, setTemplates] = useState<MetaTemplate[]>([]);
   const [loading, setLoading] = useState(true);
@@ -39,8 +57,8 @@ export function useMetaTemplates() {
     const { data, error } = await supabase.functions.invoke("submit-template", {
       body: { templateData, ...opts },
     });
-    if (error) throw error;
-    if ((data as any)?.error) throw new Error((data as any).error);
+    if (error) throw new Error(await readFnError(error, "Erro ao submeter template"));
+    if ((data as any)?.error) throw new Error((data as any).message || (data as any).error);
     await fetch();
     return data;
   };
@@ -49,7 +67,7 @@ export function useMetaTemplates() {
     const { data, error } = await supabase.functions.invoke("sync-template-status", {
       body: { dryRun: opts?.dryRun ?? false },
     });
-    if (error) throw error;
+    if (error) throw new Error(await readFnError(error, "Falha ao sincronizar com a Meta."));
     const res = data as {
       ok?: boolean;
       error?: string;
