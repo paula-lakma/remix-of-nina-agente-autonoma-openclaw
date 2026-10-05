@@ -6,6 +6,8 @@ import { useSignedMedia } from '@/hooks/useSignedMediaUrls';
 import { MediaUnavailable } from './MediaUnavailable';
 import { formatBubbleTime, formatDayLabel, daySeparatorIndexes } from '@/lib/chatTime';
 import { useMinuteTick } from '@/hooks/useMinuteTick';
+import { resolveComposerWindow, isWindowClosedError, WINDOW_CLOSED_TITLE, WINDOW_CLOSED_BODY, type ServerRefusal } from '@/lib/whatsappWindow';
+import { WindowClosedNotice, WindowOpenHint } from './WindowClosedNotice';
 
 
 // Chat ao Vivo restrito do papel `expedicao`.
@@ -695,22 +697,29 @@ export const RestrictedHandoffChat: React.FC<{ config: RestrictedChatConfig }> =
             )}
             </div>
 
-            <footer className="p-4 border-t border-border/50 flex items-center gap-2">
+            <footer className="p-4 border-t border-border/50 space-y-2">
+              {composer.canSendFreeform
+                ? <WindowOpenHint until={composer.freeform_safe_until} now={nowTick} />
+                : <WindowClosedNotice />}
+              <div className="flex items-center gap-2">
               <input
                 value={draft}
                 onChange={(e) => setDraft(e.target.value)}
                 onKeyDown={(e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSend(); } }}
-                placeholder="Escreva sua resposta..."
-                className="flex-1 bg-secondary/40 border border-border/50 rounded-xl px-4 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/40"
+                disabled={!composer.canSendFreeform}
+                aria-disabled={!composer.canSendFreeform}
+                placeholder={composer.canSendFreeform ? 'Escreva sua resposta...' : 'Texto livre indisponível: janela encerrada'}
+                className="flex-1 bg-secondary/40 border border-border/50 rounded-xl px-4 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/40 disabled:opacity-60 disabled:cursor-not-allowed"
               />
               <button
                 onClick={handleSend}
-                disabled={!draft.trim() || sending}
+                disabled={!draft.trim() || sending || !composer.canSendFreeform}
                 className="p-2.5 rounded-xl bg-primary/80 hover:bg-primary disabled:opacity-40 transition-colors"
                 title="Enviar"
               >
                 {sending ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
               </button>
+              </div>
             </footer>
           </>
         )}
