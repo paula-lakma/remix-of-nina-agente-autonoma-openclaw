@@ -20,6 +20,8 @@ import { useSignedMedia } from '@/hooks/useSignedMediaUrls';
 import { MediaUnavailable } from './MediaUnavailable';
 import { formatBubbleTime, formatDayLabel, formatSidebarTime, latestTimestamp, daySeparatorIndexes } from '@/lib/chatTime';
 import { useMinuteTick } from '@/hooks/useMinuteTick';
+import { useUserRole } from '@/hooks/useUserRole';
+import { useLeticiaExceptions } from '@/hooks/useLeticiaExceptions';
 
 
 const ChatInterface: React.FC = () => {
@@ -34,6 +36,10 @@ const ChatInterface: React.FC = () => {
   // na meia-noite de São Paulo. Não consulta o banco.
   const nowTick = useMinuteTick();
   const [dermoFilter, setDermoFilter] = useState(false);
+  const { role } = useUserRole();
+  const canSeeLeticiaExceptions = role === 'admin' || role === 'manager';
+  const [leticiaFilter, setLeticiaFilter] = useState(false);
+  const leticiaExceptions = useLeticiaExceptions(canSeeLeticiaExceptions, conversations);
   const [availableTags, setAvailableTags] = useState<TagDefinition[]>([]);
   const [isTagSelectorOpen, setIsTagSelectorOpen] = useState(false);
   const [teamMembers, setTeamMembers] = useState<any[]>([]);
@@ -550,6 +556,20 @@ const ChatInterface: React.FC = () => {
                     </span>
                   )}
                 </button>
+                {canSeeLeticiaExceptions && (
+                  <button
+                    onClick={() => setLeticiaFilter(v => !v)}
+                    className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-medium border transition-all ${
+                      leticiaFilter
+                        ? 'bg-amber-500/20 border-amber-500/50 text-amber-300'
+                        : 'bg-slate-800/60 border-slate-700 text-slate-400 hover:text-slate-200'
+                    }`}
+                    title="Nina prometeu a Letícia, mas a conversa não chegou até ela"
+                  >
+                    <ShieldAlert className="w-3 h-3" />
+                    Exceções Letícia ({leticiaExceptions.length})
+                  </button>
+                )}
               </div>
             );
           })()}
@@ -558,7 +578,25 @@ const ChatInterface: React.FC = () => {
 
         {/* Conversation List */}
         <div className="flex-1 overflow-y-auto custom-scrollbar">
-          {filteredConversations.length === 0 ? (
+          {leticiaFilter && canSeeLeticiaExceptions ? (
+            leticiaExceptions.length === 0 ? (
+              <div className="p-8 text-center text-sm text-slate-500">Nenhuma exceção no momento.</div>
+            ) : leticiaExceptions.map((ex) => {
+              const owner = teamMembers.find((m) => m.id === ex.assignedUserId)?.name ?? 'Sem responsável';
+              const mins = Math.max(0, Math.floor((nowTick - new Date(ex.promiseAt).getTime()) / 60000));
+              const ago = mins < 60 ? `${mins} min` : mins < 1440 ? `${Math.floor(mins / 60)} h` : `${Math.floor(mins / 1440)} dias`;
+              return (
+                <div key={ex.conversationId} onClick={() => setSelectedChatId(ex.conversationId)}
+                  className="p-4 border-b border-slate-800/30 border-l-4 border-l-amber-500 cursor-pointer hover:bg-slate-800/50">
+                  <div className="text-[11px] font-semibold text-amber-300">Prometido à Letícia — sem atribuição</div>
+                  <div className="text-sm text-slate-200 mt-1">{ex.contactName || 'Contato sem nome'} <span className="text-[10px] text-slate-500">#{ex.conversationId.slice(0, 8)}</span></div>
+                  <div className="text-[11px] text-slate-400 mt-1">{formatBubbleTime(ex.promiseAt, nowTick)} · há {ago}</div>
+                  <div className="text-xs text-slate-400 mt-1 italic line-clamp-2">“{ex.snippet}”</div>
+                  <div className="text-[11px] text-slate-500 mt-1">Responsável: {owner} · Status: {ex.status ?? '—'}{ex.reason ? ` · Motivo: ${ex.reason}` : ''}</div>
+                </div>
+              );
+            })
+          ) : filteredConversations.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-full text-slate-500 p-8 text-center">
               <MessageSquare className="w-12 h-12 mb-4 opacity-50" />
               <p className="text-sm">Nenhuma conversa encontrada</p>
