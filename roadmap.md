@@ -28,3 +28,4 @@
 - [x] Leticia: 4 conversas históricas encaminhadas (aprovado)
 - [x] Leticia Passo C: cálculo de prioridade (sem visual)
 - Falhas de envio do WhatsApp: Passo A (salvar o motivo da Meta) feito; Passos B–E aguardam aprovação
+- [x] WhatsApp: ordem dos status (83 antigos intactos; correção deles aguarda decisão)
