@@ -30,4 +30,5 @@
 - Falhas de envio do WhatsApp: Passo A (salvar o motivo da Meta) feito; Passos B–E aguardam aprovação
 - [x] WhatsApp: ordem dos status (83 antigos intactos; correção deles aguarda decisão)
 - [x] Janela 24h: etapas 1 e 2 (regra + bloqueio no servidor)
-- Janela 24h: etapa 3 (aviso na tela) e template de retomada — aguardam aprovação
+- Janela 24h: etapa 3 feita; template `retomada_atendimento_lakma` submetido (PENDING na Meta) — aguarda aprovação da Meta, depois botão nos chats (aguarda usuário)
+- Aba Templates: excluir só apaga localmente e volta na sincronização (pendência separada)
