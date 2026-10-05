@@ -378,9 +378,11 @@ const LOGISTICS_REASON_MATRIX: Array<{ reason: string; destination: HandoffDesti
   { reason: "tracking_code_invalid", destination: "financeiro", rx: /c[óo]digo.{0,15}(de )?rastreio.{0,30}(inv[áa]lid|n[ãa]o funciona|erro)/i },
   { reason: "tracking_link_issue", destination: "financeiro", rx: /link.{0,20}(de )?rastreio.{0,30}(n[ãa]o abre|n[ãa]o funciona|erro)|rastreio.{0,20}link.{0,20}(inv[áa]lid|quebrad|erro)/i },
   { reason: "carrier_question", destination: "financeiro", rx: /transportadora|correios|jadlog|\bsedex\b/i },
-  { reason: "where_is_my_order", destination: "financeiro", rx: /onde (est[áa]|t[áa]).{0,20}(meu |minha )?(pedido|encomenda)|(pedido|entrega|encomenda).{0,35}(atrasad|n[ãa]o chegou|n[ãa]o foi entregue|n[ãa]o recebi)|atraso.{0,20}(pedido|entrega)|ainda n[ãa]o (chegou|chegaram|recebi|recebemos)|n[ãa]o (chegou|chegaram) at[ée] agora|n[ãa]o recebi.{0,20}(meu |minha )?(pedido|encomenda|compra)|acompanhar.{0,20}(meu|meus|minha|minhas)?\s*(pedido|pedidos|encomenda|entrega)|(cad[êe]|onde (est[áa]|t[áa]|anda|andam))\s+(o |a |os |as )?(meu|minha|meus|minhas)?\s*(pedido|pedidos|encomenda|compra|produto|produtos|itens|mercadoria)|(pedido|pedidos|produto|produtos|encomenda|compra|itens|mercadoria)[^.?!]{0,45}(ainda n[ãa]o|n[ãa]o)\s*(chegou|chegaram|foi entregue|foram entregues|recebi)|(estou|est[ou]|t[ôo])\s+esperando[^.?!]{0,30}(pedido|produto|produtos|encomenda|compra|entrega|chegar)|(pedido|pedidos|entrega|produto|produtos|encomenda|compra)[^.?!]{0,35}(demorando|atrasando|atrasad)|quando[^.?!]{0,30}(chega|chegam|chegar[áa]|chegar[ãa]o|vou receber|recebo)/i },
+  { reason: "where_is_my_order", destination: "financeiro", rx: /onde (est[áa]|t[áa]).{0,20}(meu |minha )?(pedido|encomenda)|(pedido|entrega|encomenda).{0,35}(atrasad|n[ãa]o chegou|n[ãa]o foi entregue|n[ãa]o recebi)|atraso.{0,20}(pedido|entrega)|ainda n[ãa]o (chegou|chegaram|recebi|recebemos)|n[ãa]o (chegou|chegaram) at[ée] agora|n[ãa]o recebi.{0,20}(meu |minha )?(pedido|encomenda|compra)|acompanhar.{0,20}(meu|meus|minha|minhas)?\s*(pedido|pedidos|encomenda|entrega)|(cad[êe]|onde (est[áa]|t[áa]|anda|andam))\s+(o |a |os |as )?(meu|minha|meus|minhas)?\s*(pedido|pedidos|encomenda|compra|produto|produtos|itens|mercadoria)|(pedido|pedidos|produto|produtos|encomenda|compra|itens|mercadoria)[^.?!]{0,45}(ainda n[ãa]o|n[ãa]o)\s*(chegou|chegaram|foi entregue|foram entregues|recebi)|(estou|est[ou]|t[ôo])\s+esperando[^.?!]{0,30}(pedido|produto|produtos|encomenda|compra|entrega|chegar)|(pedido|pedidos|entrega|produto|produtos|encomenda|compra)[^.?!]{0,35}(demorando|atrasando|atrasad)|quando[^.?!]{0,30}(chega|chegam|chegar[áa]|chegar[ãa]o|vou receber|recebo)|\bn[ãa]o\s+(?:me\s+)?entregaram\b/i },
   { reason: "shipped_no_info", destination: "financeiro", rx: /(pedido|compra).{0,25}(enviad|despachad).{0,35}(sem informa[çc][ãa]o|sem rastreio|n[ãa]o recebi)|n[ãa]o recebi.{0,25}(informa[çc][ãa]o|rastreio).{0,25}(pedido|compra)|\b(?:foi|foram|j[áa])\s+(?:foi\s+)?(?:enviad|postad|despachad|expedid)|\b(?:postou|postaram|enviaram|despacharam|expediram)\b|saiu p(?:ara|ra) entrega|\bpostagem\b|\bdespacho\b/i },
-  { reason: "tracking_help", destination: "financeiro", rx: /\brastre(?:io|ar|ando|amento)\b/i },
+  // Código de rastreio no formato Correios (ex.: AP123456789BR), sozinho ou
+  // dentro da frase. Só o formato exato: 2 letras + 9 dígitos + 2 letras.
+  { reason: "tracking_help", destination: "financeiro", rx: /\brastre(?:io|ar|ando|amento)\b|(?:^|[^a-z0-9])[a-z]{2}\d{9}[a-z]{2}(?![a-z0-9])/i },
   { reason: "order_financial_question", destination: "financeiro", rx: /(?:prazo|previs[ãa]o).{0,25}(?:entrega|pedido|chegar|chegada)|\bprazo de entrega\b|\bfrete\b|(?:endere[çc]o).{0,35}(?:pedido|entrega|compra)|(?:alterar|altera[çc][ãa]o|confirmar).{0,35}(?:endere[çc]o|pedido|entrega)|quando (?:chega|vai chegar|chegar[áa]|sai|ser[áa] entregue)|quanto tempo.{0,25}(?:demora|chega|entrega|chegar)|chegar(?:ia|[áa])?\s+em\s+\S+\s+dias?|quantos dias|(?:problema|d[úu]vida|ajuda).{0,30}(?:pedido|compra|entrega)|(?:pedido|compra).{0,35}(?:problema|d[úu]vida|ajuda|endere[çc]o|frete|administrativ|p[óo]s[- ]compra|informa[çc][ãa]o|confirma[çc][ãa]o)|(?:sobre|do|da|de|no|na|com)\s+(?:o\s+|a\s+|os\s+|as\s+)?(?:meu|minha|meus|minhas)\s+(?:pedido|pedidos|compra|compras|encomenda|produto|produtos|itens)|(?:meu|minha|meus|minhas)\s+(?:pedido|pedidos|compra|encomenda)\b|\b(?:entrega|entregue|expedi[çc][ãa]o|log[íi]stica)\b/i },
 ];
 
@@ -537,7 +539,7 @@ export function resolveHandoffDecision(params: {
   agentContent?: string | null;
   currentUserText: string;
   history?: HandoffHistoryMessage[];
-}): { target: HandoffTarget | null; cleanedAgentContent: string; source: "structured" | "customer_intent" | "context" } {
+}): { target: HandoffTarget | null; cleanedAgentContent: string; source: "structured" | "customer_intent" | "context" | "agent_promise" } {
   const marker = extractHandoffMarker(params.agentContent ?? "");
   const structured = resolveHandoffReason(params.structuredReason) ?? marker.target;
   if (structured) return { target: structured, cleanedAgentContent: marker.cleaned, source: "structured" };
@@ -557,8 +559,48 @@ export function resolveHandoffDecision(params: {
   const contextual = detectHandoffTargetFromHistory(params.currentUserText, params.history ?? []);
   const eligibleContext =
     contextual?.destination === "financeiro" || isDeterministicPriorityReason(contextual?.reason) ? contextual : null;
-  return { target: eligibleContext, cleanedAgentContent: marker.cleaned, source: eligibleContext ? "context" : "customer_intent" };
+  if (eligibleContext) return { target: eligibleContext, cleanedAgentContent: marker.cleaned, source: "context" };
+  // Rede de segurança: nenhuma regra decidiu, mas a Nina afirmou ao cliente que
+  // vai encaminhar para a Leticia. Só entra quando NÃO há outro destino detectado
+  // na mensagem atual (Paula/Carla/dermo continuam com precedência).
+  if (!direct && isLeticiaPromise(marker.cleaned)) {
+    return { target: leticiaTargetFromHistory(params.history ?? []), cleanedAgentContent: marker.cleaned, source: "agent_promise" };
+  }
+  return { target: null, cleanedAgentContent: marker.cleaned, source: "customer_intent" };
+}
 
+/**
+ * Promessa INEQUÍVOCA da Nina de que a Leticia vai receber o atendimento.
+ * Avaliada frase a frase: perguntas, ofertas ("posso", "quer que eu") e
+ * condicionais ("se precisar", "qualquer dúvida") não contam.
+ */
+export function isLeticiaPromise(text: string | null | undefined): boolean {
+  if (!text) return false;
+  const sentences = String(text).match(/[^.!?\n]+[.!?]*/g) ?? [];
+  const LET = "let[íi]cia";
+  const positive = new RegExp(
+    String.raw`\b(?:vou|irei|vamos)\s+(?:te\s+|lhe\s+|o\s+|a\s+|voc[êe]\s+)?(?:encaminhar|passar|repassar|direcionar|transferir|conectar|chamar)\b[^.!?]{0,80}\b${LET}\b` +
+      String.raw`|\bj[áa]\s+(?:te\s+|lhe\s+)?(?:encaminhei|passei|repassei|direcionei|transferi|conectei|chamei)\b[^.!?]{0,80}\b${LET}\b` +
+      String.raw`|\b${LET}\b[^.!?]{0,30}\b(?:vai|ir[áa])\s+(?:continuar|assumir|entrar em contato|verificar|te atender|atender|falar|cuidar)`,
+    "i",
+  );
+  const offer = /\b(?:posso|podemos|pode|quer|quiser|deseja|prefere|gostaria)\b|\b(?:se|caso)\s+(?:voc[êe]\s+)?(?:precisar|tiver|quiser|houver|necess)|qualquer\s+(?:d[úu]vida|coisa|problema)/i;
+  return sentences.some((s) => positive.test(s) && !s.trim().endsWith("?") && !offer.test(s));
+}
+
+/** Motivo da Leticia a partir do assunto recente do cliente; genérico se não houver. */
+function leticiaTargetFromHistory(history: HandoffHistoryMessage[]): HandoffTarget {
+  const userTexts = history
+    .filter((e) => (e.from_type ?? e.role) === "user")
+    .map((e) => stripHandoffMarkers(e.content))
+    .filter(Boolean)
+    .slice(-5)
+    .reverse();
+  for (const t of userTexts) {
+    const found = detectHandoffTarget(t);
+    if (found?.destination === "financeiro" && isExpedicaoGrantReason(found.reason)) return found;
+  }
+  return { reason: "order_financial_question" as HandoffReason, destination: "financeiro" };
 }
 
 export async function applyResolvedHandoff(
@@ -567,7 +609,7 @@ export async function applyResolvedHandoff(
     conversationId: string;
     contactId?: string | null;
     target: HandoffTarget;
-    source: "structured" | "customer_intent" | "context" | "reaper";
+    source: "structured" | "customer_intent" | "context" | "reaper" | "agent_promise";
     runId?: string | null;
     triggerMessageId?: string | null;
     triggerSnippet?: string | null;
@@ -616,6 +658,19 @@ export async function applyResolvedHandoff(
       _trigger_snippet: params.triggerSnippet?.slice(0, 500) ?? null,
     });
     if (error) throw error;
+    // Garantia: só considera aplicado se a Leticia ficou com acesso ativo.
+    // Evita o estado "Nina prometeu Leticia" + "Leticia sem acesso".
+    const { data: grantCheck, error: grantErr } = await admin
+      .from("conversation_access_grants")
+      .select("id")
+      .eq("conversation_id", params.conversationId)
+      .eq("is_active", true)
+      .limit(1)
+      .maybeSingle();
+    if (grantErr || !grantCheck?.id) {
+      console.error(`[handoff] FALHA: encaminhamento sem acesso ativo conv=${params.conversationId} motivo=${target.reason} source=${params.source}`);
+      throw new Error("handoff_grant_missing");
+    }
     console.log(`[handoff] expedição aplicada source=${params.source}:`, JSON.stringify(data));
     return { applied: true, destination: target.destination };
   }

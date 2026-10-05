@@ -9,6 +9,8 @@ import {
 import {
   applyResolvedHandoff,
   detectHandoffTargetFromHistory,
+  isLeticiaPromise,
+  resolveHandoffDecision,
   TRACKING_HANDOFF_PROMPT,
 } from "../_shared/handoff.ts";
 import {
@@ -931,6 +933,28 @@ async function processQueueItem(
   }
 
   console.log('[Nina] Final response length:', aiContent.length);
+
+  // Garantia promessa -> encaminhamento (caminho de resposta gerada aqui): se a
+  // resposta afirma que a Leticia vai assumir, aplica o encaminhamento ANTES de
+  // enfileirar. Se falhar, lança erro e a mensagem não é enviada.
+  if (isLeticiaPromise(aiContent)) {
+    const promiseDecision = resolveHandoffDecision({
+      agentContent: aiContent,
+      currentUserText: message.content ?? "",
+      history: orderedMessages,
+    });
+    if (promiseDecision.target) {
+      await applyResolvedHandoff(supabase, {
+        conversationId: conversation.id,
+        contactId: conversation.contact_id,
+        target: promiseDecision.target,
+        source: promiseDecision.source,
+        runId: `orchestrator-${item.id}`,
+        triggerMessageId: message.id,
+        triggerSnippet: message.content ?? "",
+      });
+    }
+  }
 
   // Calculate response time
   const responseTime = Date.now() - new Date(message.sent_at).getTime();
