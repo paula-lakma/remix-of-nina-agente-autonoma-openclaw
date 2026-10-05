@@ -12,6 +12,7 @@ import {
   MessageType
 } from '@/types';
 import { toast } from 'sonner';
+import { isWindowClosedError, WINDOW_CLOSED_TITLE, WINDOW_CLOSED_BODY } from '@/lib/whatsappWindow';
 
 export function useConversations() {
   const [conversations, setConversations] = useState<UIConversation[]>([]);
@@ -462,10 +463,13 @@ export function useConversations() {
     try {
       // The realtime handler will detect and replace the temp message automatically
       await api.sendMessage(conversationId, content);
+      return 'ok' as const;
     } catch (err) {
       console.error('[useConversations] Error sending message:', err);
-      toast.error('Erro ao enviar mensagem');
-      
+      const windowClosed = isWindowClosedError(err);
+      if (windowClosed) toast.error(WINDOW_CLOSED_TITLE, { description: WINDOW_CLOSED_BODY });
+      else toast.error('Erro ao enviar mensagem');
+
       // Remove optimistic message on error
       setConversations(prev => {
         return prev.map(conv => {
@@ -478,6 +482,7 @@ export function useConversations() {
           return conv;
         });
       });
+      return windowClosed ? ('window_closed' as const) : ('error' as const);
     }
   }, []);
 

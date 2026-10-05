@@ -6,6 +6,8 @@ import { useSignedMedia } from '@/hooks/useSignedMediaUrls';
 import { MediaUnavailable } from './MediaUnavailable';
 import { formatBubbleTime, formatDayLabel, daySeparatorIndexes } from '@/lib/chatTime';
 import { useMinuteTick } from '@/hooks/useMinuteTick';
+import { resolveComposerWindow, isWindowClosedError, WINDOW_CLOSED_TITLE, WINDOW_CLOSED_BODY, type ServerRefusal } from '@/lib/whatsappWindow';
+import { WindowClosedNotice, WindowOpenHint } from './WindowClosedNotice';
 
 
 // Chat ao Vivo restrito do papel `expedicao`.
@@ -153,7 +155,19 @@ const MediaBlock: React.FC<{
 
 async function callRestrictedChat<T>(edgeFunction: string, body: Record<string, unknown>): Promise<T> {
   const { data, error } = await supabase.functions.invoke(edgeFunction, { body });
-  if (error) throw error;
+  if (error) {
+    // Respostas 4xx: lê o corpo para preservar o código do erro (ex.: whatsapp_window_closed).
+    const ctx = (error as { context?: Response }).context;
+    if (ctx && typeof ctx.json === 'function') {
+      try {
+        const b = await ctx.clone().json();
+        if (b?.error) throw new Error(String(b.error));
+      } catch (inner) {
+        if (inner instanceof Error && inner.message && !(inner instanceof SyntaxError)) throw inner;
+      }
+    }
+    throw error;
+  }
   if (data && (data as { error?: string }).error) {
     throw new Error((data as { error: string }).error);
   }
@@ -326,16 +340,24 @@ export const RestrictedHandoffChat: React.FC<{ config: RestrictedChatConfig }> =
     }
   }, [messages]);
 
+  const [refusal, setRefusal] = useState<ServerRefusal | null>(null);
+  const composer = resolveComposerWindow(selectedId, messages, nowTick, refusal);
+
   const handleSend = async () => {
     const content = draft.trim();
-    if (!content || !selectedId || sending) return;
+    if (!content || !selectedId || sending || !composer.canSendFreeform) return;
     setSending(true);
     try {
       await callBackend({ action: 'reply', conversation_id: selectedId, content });
       setDraft('');
       await loadMessages(selectedId);
     } catch (e) {
-      toast.error('Não foi possível enviar a mensagem');
+      if (isWindowClosedError(e)) {
+        setRefusal({ conversationId: selectedId, lastCustomerAt: composer.last_customer_message_at });
+        toast.error(WINDOW_CLOSED_TITLE, { description: WINDOW_CLOSED_BODY });
+      } else {
+        toast.error('Não foi possível enviar a mensagem');
+      }
     } finally {
       setSending(false);
     }
@@ -675,22 +697,29 @@ export const RestrictedHandoffChat: React.FC<{ config: RestrictedChatConfig }> =
             )}
             </div>
 
-            <footer className="p-4 border-t border-border/50 flex items-center gap-2">
+            <footer className="p-4 border-t border-border/50 space-y-2">
+              {composer.canSendFreeform
+                ? <WindowOpenHint until={composer.freeform_safe_until} now={nowTick} />
+                : <WindowClosedNotice />}
+              <div className="flex items-center gap-2">
               <input
                 value={draft}
                 onChange={(e) => setDraft(e.target.value)}
                 onKeyDown={(e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSend(); } }}
-                placeholder="Escreva sua resposta..."
-                className="flex-1 bg-secondary/40 border border-border/50 rounded-xl px-4 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/40"
+                disabled={!composer.canSendFreeform}
+                aria-disabled={!composer.canSendFreeform}
+                placeholder={composer.canSendFreeform ? 'Escreva sua resposta...' : 'Texto livre indisponível: janela encerrada'}
+                className="flex-1 bg-secondary/40 border border-border/50 rounded-xl px-4 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/40 disabled:opacity-60 disabled:cursor-not-allowed"
               />
               <button
                 onClick={handleSend}
-                disabled={!draft.trim() || sending}
+                disabled={!draft.trim() || sending || !composer.canSendFreeform}
                 className="p-2.5 rounded-xl bg-primary/80 hover:bg-primary disabled:opacity-40 transition-colors"
                 title="Enviar"
               >
                 {sending ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
               </button>
+              </div>
             </footer>
           </>
         )}

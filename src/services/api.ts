@@ -1373,6 +1373,7 @@ export const api = {
 
     if (msgError || !msgData) {
       console.error('[API] Error creating message record:', msgError);
+      if (msgError?.message === 'whatsapp_window_closed') throw new Error('whatsapp_window_closed');
       throw new Error('Failed to create message record');
     }
 
