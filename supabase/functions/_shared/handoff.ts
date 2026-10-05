@@ -539,7 +539,7 @@ export function resolveHandoffDecision(params: {
   agentContent?: string | null;
   currentUserText: string;
   history?: HandoffHistoryMessage[];
-}): { target: HandoffTarget | null; cleanedAgentContent: string; source: "structured" | "customer_intent" | "context" } {
+}): { target: HandoffTarget | null; cleanedAgentContent: string; source: "structured" | "customer_intent" | "context" | "agent_promise" } {
   const marker = extractHandoffMarker(params.agentContent ?? "");
   const structured = resolveHandoffReason(params.structuredReason) ?? marker.target;
   if (structured) return { target: structured, cleanedAgentContent: marker.cleaned, source: "structured" };
