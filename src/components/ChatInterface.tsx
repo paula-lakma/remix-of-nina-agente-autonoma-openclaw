@@ -52,6 +52,9 @@ const ChatInterface: React.FC = () => {
   const [lightboxUrl, setLightboxUrl] = useState<string | null>(null);
   
   const activeChat = conversations.find(c => c.id === selectedChatId);
+  // Separador de dia onde a data (São Paulo) muda; recalculado sobre a lista
+  // inteira, então páginas antigas do mesmo dia não duplicam separador.
+  const separatorIdx = daySeparatorIndexes((activeChat?.messages ?? []).map((m) => m.sentAtRaw));
 
   // URLs assinadas frescas (bucket privado) para as mídias da conversa aberta
   const { urls: signedMedia, statuses: mediaStatuses } = useSignedMedia(
