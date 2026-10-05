@@ -4,6 +4,8 @@ import { toast } from 'sonner';
 import { supabase } from '@/integrations/supabase/client';
 import { useSignedMedia } from '@/hooks/useSignedMediaUrls';
 import { MediaUnavailable } from './MediaUnavailable';
+import { formatBubbleTime, formatDayLabel, daySeparatorIndexes } from '@/lib/chatTime';
+import { useMinuteTick } from '@/hooks/useMinuteTick';
 
 
 // Chat ao Vivo restrito do papel `expedicao`.
@@ -198,6 +200,7 @@ const isAccessLoss = (e: unknown) => {
 };
 
 export const RestrictedHandoffChat: React.FC<{ config: RestrictedChatConfig }> = ({ config }) => {
+  const nowTick = useMinuteTick();
   const reasonLabel = (reason: string) =>
     config.reasonLabels[(reason || '').toLowerCase()] || config.fallbackReasonLabel;
   const callBackend = <T,>(body: Record<string, unknown>) => callRestrictedChat<T>(config.edgeFunction, body);
@@ -444,6 +447,23 @@ export const RestrictedHandoffChat: React.FC<{ config: RestrictedChatConfig }> =
 
   const historyMediaCount = useMemo(() => history.filter(isMediaMessage).length, [history]);
 
+  // Mensagens em ordem com separador de dia (São Paulo) onde a data muda.
+  const renderWithDays = (list: ExpedicaoMessage[]) => {
+    const seps = daySeparatorIndexes(list.map((m) => m.sent_at));
+    return list.map((m, i) => (
+      <React.Fragment key={m.id}>
+        {seps.has(i) && (
+          <div className="flex justify-center my-3" role="separator" aria-label={formatDayLabel(m.sent_at, nowTick)}>
+            <span className="px-3 py-1 rounded-full border border-border/50 bg-secondary/40 text-[11px] text-muted-foreground">
+              {formatDayLabel(m.sent_at, nowTick)}
+            </span>
+          </div>
+        )}
+        {renderMessage(m)}
+      </React.Fragment>
+    ));
+  };
+
   const renderMessage = (m: ExpedicaoMessage) => {
     const author = authorOf(m.from_type);
     const meta = {
@@ -479,7 +499,7 @@ export const RestrictedHandoffChat: React.FC<{ config: RestrictedChatConfig }> =
           )}
           {m.content && <p className="whitespace-pre-wrap break-words">{m.content}</p>}
           <span className="block mt-1 text-[10px] text-muted-foreground">
-            {new Date(m.sent_at).toLocaleString('pt-BR')}
+            {formatBubbleTime(m.sent_at, nowTick)}
           </span>
         </div>
       </div>
@@ -618,7 +638,7 @@ export const RestrictedHandoffChat: React.FC<{ config: RestrictedChatConfig }> =
                       </button>
                       {showHistory && (
                         <div className="px-4 pb-4 space-y-3">
-                          {history.map(renderMessage)}
+                          {renderWithDays(history)}
                         </div>
                       )}
                     </div>
@@ -640,7 +660,7 @@ export const RestrictedHandoffChat: React.FC<{ config: RestrictedChatConfig }> =
                     </div>
                   )}
 
-                  {current.map(renderMessage)}
+                  {renderWithDays(current)}
                 </>
               )}
             </div>

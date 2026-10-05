@@ -433,7 +433,10 @@ export function useConversations() {
     const tempMessage: UIMessage = {
       id: tempId,
       content,
-      timestamp: new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }),
+      // Horário PROVISÓRIO até o registro real chegar pelo realtime, que
+      // substitui esta mensagem pela gravada (com o sent_at persistido).
+      timestamp: new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit', timeZone: 'America/Sao_Paulo' }),
+      sentAtRaw: new Date().toISOString(),
       direction: MessageDirection.OUTGOING,
       type: MessageType.TEXT,
       status: 'sent',
