@@ -3,7 +3,7 @@ import { useMetaTemplates } from "@/hooks/useMetaTemplates";
 import { Button } from "@/components/Button";
 import { FileText, Plus, RefreshCw, Trash2, Loader2, X, CheckCircle2, Clock, XCircle } from "lucide-react";
 import { toast } from "sonner";
-import { templateStatusLabel, categoryChange, CATEGORY_LABEL } from "../../supabase/functions/_shared/templateRules";
+import { templateStatusLabel, categoryChange, CATEGORY_LABEL, templateReview } from "../../supabase/functions/_shared/templateRules";
 
 const statusStyle: Record<string, { color: string; icon: React.ReactNode }> = {
   APPROVED: { color: "bg-emerald-500/20 text-emerald-300 border-emerald-500/30", icon: <CheckCircle2 className="w-3 h-3" /> },
@@ -66,9 +66,9 @@ const Templates: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {templates.map((t) => {
             const s = statusStyle[t.status] || { color: "bg-slate-700 text-slate-200", icon: null };
-            const labels = (t.labels && typeof t.labels === "object" ? t.labels : {}) as Record<string, unknown>;
-            const reason = typeof labels.rejected_reason === "string" ? labels.rejected_reason : null;
-            const catChange = categoryChange(t.labels, t.category);
+            const review = templateReview(t.samples);
+            const reason = typeof review.rejected_reason === "string" ? review.rejected_reason : null;
+            const catChange = categoryChange(review, t.category);
             return (
               <div key={t.id} className="bg-slate-900/60 border border-slate-800 rounded-2xl p-5">
                 <div className="flex items-start justify-between mb-2">

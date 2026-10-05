@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { readFileSync } from "node:fs";
 import {
-  templateStatusLabel, isMetaDuplicateNameError, mergeTemplateLabels, categoryChange, canManageTemplates,
+  templateStatusLabel, isMetaDuplicateNameError, mergeTemplateLabels, mergeTemplateReview, templateReview, categoryChange, canManageTemplates,
 } from "../../supabase/functions/_shared/templateRules";
 
 const submitSrc = readFileSync("supabase/functions/submit-template/index.ts", "utf8");
@@ -57,6 +57,23 @@ describe("rejected_reason e labels", () => {
     expect(categoryChange({ requested_category: "UTILITY" }, "MARKETING")).toEqual({ requested: "UTILITY", current: "MARKETING" });
     expect(categoryChange({ requested_category: "UTILITY" }, "UTILITY")).toBeNull();
     expect(categoryChange(null, "MARKETING")).toBeNull();
+  });
+});
+
+describe("revisão guardada em samples (labels é text[])", () => {
+  it("preserva bodySamples e grava review", () => {
+    const s = mergeTemplateReview({ bodySamples: ["Maria"] }, { requested_category: "UTILITY", status: "PENDING" });
+    expect(s).toEqual({ bodySamples: ["Maria"], review: { requested_category: "UTILITY" } });
+    const s2 = mergeTemplateReview(s, { rejected_reason: "TAG_CONTENT_MISMATCH", status: "REJECTED" });
+    expect(templateReview(s2)).toEqual({ requested_category: "UTILITY", rejected_reason: "TAG_CONTENT_MISMATCH" });
+    expect(s2.bodySamples).toEqual(["Maria"]);
+  });
+  it("sem nada a guardar não cria review", () => {
+    expect(mergeTemplateReview(null, { status: "APPROVED" })).toEqual({});
+  });
+  it("funções não gravam objeto em labels", () => {
+    expect(submitSrc).not.toContain("labels: mergedLabels");
+    expect(syncSrc).not.toMatch(/row = \{\s*labels/);
   });
 });
 
