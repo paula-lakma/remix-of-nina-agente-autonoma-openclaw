@@ -18,6 +18,8 @@ import { FileText, Download, ExternalLink } from 'lucide-react';
 import { MessageActions } from './MessageActions';
 import { useSignedMedia } from '@/hooks/useSignedMediaUrls';
 import { MediaUnavailable } from './MediaUnavailable';
+import { formatBubbleTime, formatDayLabel, formatSidebarTime, latestTimestamp, daySeparatorIndexes } from '@/lib/chatTime';
+import { useMinuteTick } from '@/hooks/useMinuteTick';
 
 
 const ChatInterface: React.FC = () => {
@@ -28,6 +30,9 @@ const ChatInterface: React.FC = () => {
   const [inputText, setInputText] = useState('');
   const [showProfileInfo, setShowProfileInfo] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
+  // Relógio só de exibição: re-renderiza 1x/min para "Hoje/Ontem" virarem
+  // na meia-noite de São Paulo. Não consulta o banco.
+  const nowTick = useMinuteTick();
   const [dermoFilter, setDermoFilter] = useState(false);
   const [availableTags, setAvailableTags] = useState<TagDefinition[]>([]);
   const [isTagSelectorOpen, setIsTagSelectorOpen] = useState(false);
@@ -589,7 +594,7 @@ const ChatInterface: React.FC = () => {
                     <h3 className={`text-sm font-semibold truncate ${selectedChatId === chat.id ? 'text-white' : 'text-slate-300'}`}>
                       {chat.contactName}
                     </h3>
-                    <span className="text-[10px] text-slate-500 font-medium">{chat.lastMessageTime}</span>
+                    <span className="text-[10px] text-slate-500 font-medium shrink-0 ml-2">{formatSidebarTime(latestTimestamp(chat.lastMessageAtRaw, chat.messages[chat.messages.length - 1]?.sentAtRaw), nowTick) || chat.lastMessageTime}</span>
                   </div>
                   <p className="text-xs text-slate-500 truncate">
                     {chat.messages[chat.messages.length - 1]?.type === MessageType.IMAGE ? '📷 Imagem' : 
@@ -849,14 +854,16 @@ const ChatInterface: React.FC = () => {
                       </button>
                     </div>
                   )}
-                  <div className="flex justify-center my-6">
-                    <span className="px-4 py-1.5 bg-slate-800/80 border border-slate-700 text-slate-400 text-xs font-medium rounded-full shadow-sm backdrop-blur-sm">Hoje</span>
-                  </div>
-
-                  {activeChat.messages.map((msg) => {
+                  {activeChat.messages.map((msg, idx) => {
                     const isOutgoing = msg.direction === MessageDirection.OUTGOING;
                     return (
-                      <div key={msg.id} className={`flex ${isOutgoing ? 'justify-end' : 'justify-start'} group animate-in fade-in slide-in-from-bottom-2 duration-300`}>
+                      <React.Fragment key={msg.id}>
+                      {separatorIdx.has(idx) && (
+                        <div className="flex justify-center my-6" role="separator" aria-label={formatDayLabel(msg.sentAtRaw, nowTick)}>
+                          <span className="px-4 py-1.5 bg-slate-800/80 border border-slate-700 text-slate-400 text-xs font-medium rounded-full shadow-sm backdrop-blur-sm">{formatDayLabel(msg.sentAtRaw, nowTick)}</span>
+                        </div>
+                      )}
+                      <div className={`flex ${isOutgoing ? 'justify-end' : 'justify-start'} group animate-in fade-in slide-in-from-bottom-2 duration-300`}>
                         <div className={`flex flex-col max-w-[75%] ${isOutgoing ? 'items-end' : 'items-start'}`}>
                           <div 
                             className={`px-5 py-3 rounded-2xl shadow-md relative text-sm leading-relaxed ${
@@ -879,7 +886,7 @@ const ChatInterface: React.FC = () => {
                             {isOutgoing && msg.fromType === 'human' && (
                               <User className="w-3 h-3 text-cyan-400" />
                             )}
-                            <span className="text-[10px] text-slate-500 font-medium">{msg.timestamp}</span>
+                            <span className="text-[10px] text-slate-500 font-medium">{msg.sentAtRaw ? formatBubbleTime(msg.sentAtRaw, nowTick) : msg.timestamp}</span>
                             {isOutgoing && (
                               msg.status === 'read' ? <CheckCheck className="w-3.5 h-3.5 text-cyan-500" /> : 
                               msg.status === 'delivered' ? <CheckCheck className="w-3.5 h-3.5 text-slate-500" /> :
@@ -888,6 +895,7 @@ const ChatInterface: React.FC = () => {
                           </div>
                         </div>
                       </div>
+                      </React.Fragment>
                     );
                   })}
                 </>
