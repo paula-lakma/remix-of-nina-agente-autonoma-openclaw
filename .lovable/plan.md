@@ -1,77 +1,67 @@
-# Auditoria: mensagens da equipe com falha no envio (somente leitura)
+# Auditoria: ordem dos status das mensagens do WhatsApp (somente leitura)
 
-Data: 05/10/2026. Nada foi alterado, reenviado ou publicado.
+Data: 05/10/2026. Nada foi alterado.
 
-## 1-4. Números
-- Total failed (humanas): **27** em **25 conversas**.
-- Por origem:
-  - Letícia / expedição (evento `expedicao_reply`): **12** mensagens, **9** conversas.
-  - Parcerias (`parcerias_reply`): **1**.
-  - Dermoconsultora: **0**.
-  - Chat completo/admin (texto livre): **0**.
-  - Aviso automático de rastreio (envio manual, template `pedido_enviado_correios` 9 / `pedido_enviado_jadlog` 5): **14** — não são respostas.
-- Das 9 conversas da Letícia, **7** continuam com acesso ativo dela: c1752737, 908c93e1, d552ad3d (2 falhas), a4803156, e8b9dbe0, 0f032230, 256c1034. As outras 2 (120573eb, 3 falhas; c6e8d6da) já voltaram para a Nina, sem acesso.
+## 1. Comportamento atual do webhook
+Para cada item de `statuses[]`, a função que recebe os avisos do WhatsApp faz uma única atualização em `messages`, buscando pela `whatsapp_message_id`:
+- `sent`: grava `status='sent'`.
+- `delivered`: grava `status='delivered'` + `delivered_at = agora` (hora do servidor).
+- `read`: grava `status='read'` + `read_at = agora`.
+- `failed`: grava `status='failed'` (e, desde o Passo A, `metadata.whatsapp_failure`).
+Não lê o status atual, não compara horários e não usa o horário da Meta: **o último aviso a chegar sempre ganha**. Se o aviso chegar antes da mensagem estar gravada, ele é perdido sem erro.
 
-## 5. Fluxo técnico atual
-```text
-Letícia responde -> expedicao-chat (expedicao_reply) -> grava em messages (from_type=human)
-  -> send_queue -> whatsapp-sender -> Meta aceita e devolve ID (whatsapp_message_id)
-  -> send_queue = completed, retry 0
-  -> minutos depois Meta manda aviso de status "failed" -> whatsapp-webhook
-  -> apenas troca messages.status para failed (o motivo do erro é descartado)
-```
-- Retry do sender: só existe para erro na hora do envio (Meta recusou na chamada). Falha assíncrona da Meta não gera retry.
+## 2-3. Horário do evento da Meta
+- Pela documentação da Meta, cada item de `statuses[]` traz `timestamp` (segundos Unix, em texto). O código não usa esse campo e **não o salva**. O aviso completo só vai para o log da função, que é temporário.
+- Esse horário serviria para rejeitar avisos antigos, mas tem precisão de segundos: `sent` e `delivered` costumam ter o mesmo segundo. Por isso o desempate precisa usar também a ordem natural (sent < delivered < read).
 
-## 6. Significado de failed
-Nas 27: **a Meta aceitou a mensagem e depois informou que não conseguiu entregar** (opção A — recusa definitiva do WhatsApp, após aceite). Não é erro interno nem retry esgotado: todas têm ID da Meta e fila `completed` com 0 tentativas extras. Uma mensagem failed não vira entregue depois (a Meta não reverte), salvo aviso fora de ordem — nenhum caso com delivered/read registrado.
+## 4. Casos reais fora de ordem (mensagens enviadas pela loja/Nina)
+| Situação | Quantidade | Explicação provável |
+|---|---|---|
+| Status `sent`, mas com `delivered_at`/`read_at` preenchido | **73** (68 Nina, 5 equipe; 19 com leitura) | Um `sent` atrasado chegou depois do `delivered`/`read` e rebaixou a mensagem |
+| Status `delivered`, mas com `read_at` preenchido | **10** | Um `delivered` atrasado chegou depois do `read` e rebaixou a mensagem; em 9 delas o `delivered_at` ficou depois do `read_at`, pois foi regravado |
+| Status `failed` com `delivered_at`/`read_at` | **0** | — |
+| Status `delivered`/`read` com `whatsapp_failure` | **0** | O registro só existe desde o Passo A |
+| `read_at` antes de `delivered_at` | 9 (as mesmas acima) | Mesma causa |
+Total confirmado: **83 mensagens rebaixadas**. Nenhum caso envolve `failed`.
 
-## 7-8. Causas
-- **CAUSA NÃO REGISTRADA em todas as 27**: o webhook não salva o código/descrição do erro da Meta.
-- Evidência forte (não confirmada pelo código de erro):
-  - **13 respostas de texto livre** (12 Letícia + 1 parcerias): todas enviadas **mais de 24 h depois da última mensagem do cliente** (de 24,2 h a 318 h). Isso bate exatamente com a regra da janela de 24 h do WhatsApp (erro típico 131047 — fora da janela só se pode mandar template).
-  - **14 avisos de rastreio (templates)**: a janela não se aplica a template. Causa provável: número do cliente sem WhatsApp/inválido, ou bloqueio do número. Taxa geral de falha desses templates desde 20/09: ~16% (38 de 238). Sem como confirmar.
+## 5-6. As 27 (e todas as 56) falhas
+Confirmado de novo: nenhuma falha tem `delivered_at` ou `read_at`. Também não há nenhum sinal de entrega antes ou depois. As 27 continuam válidas como não entregues.
 
-## 9-10. Retry
-- Nenhuma das 27 tem retry pendente; nenhuma será retentada sozinha. **Risco de envio duplicado ao reenviar: zero hoje.**
-- Mas reenviar o mesmo texto livre vai falhar de novo pelo mesmo motivo (fora de 24 h), a menos que o cliente fale primeiro ou se use template.
+## 7. Regra de precedência recomendada
+Ordem natural: `sent (1) < delivered (2) < read (3)`; `failed` é um estado terminal à parte.
+1. **Mesmo status repetido**: não faz nada. Não regrava `delivered_at`/`read_at` nem o motivo da falha.
+2. **sent / delivered / read**: só aplica se for de nível maior que o atual. Um nível menor nunca rebaixa, mesmo que chegue depois. Os horários ficam fixos na primeira vez em que são gravados.
+3. **failed chegando com a mensagem já delivered/read**: o status **não** muda, porque já existe prova de entrega. O motivo é guardado assim mesmo, marcado como "ignorado".
+4. **delivered/read chegando com a mensagem em failed**: aceito **só se** o horário da Meta for maior que o da falha. Para isso, o horário da Meta precisa estar salvo. Caso contrário, fica `failed` e o aviso é registrado para análise manual. A Meta normalmente não "desfalha" uma mensagem, então esse caso deve ser raro.
+5. **Aviso mais antigo que o último já processado** (pelo horário da Meta): ignorado, exceto quando é um nível maior, como `read` atrasado depois de `delivered`. Esse é seguro aplicar.
 
-## 11-12. Resposta posterior
-- Respondidas com sucesso depois: **0**.
-- Cliente voltou a escrever depois da falha: **0**.
-- Finalizadas depois: 0 (2 conversas voltaram para a Nina sem finalização formal pela Letícia).
-- Ou seja: **13 respostas nunca chegaram e o cliente não sabe**; classificação geral: FAILED E CONTINUA SEM RESPOSTA.
+## 8. Precisa de migration?
+**Não.** O horário da Meta pode ficar em `metadata.whatsapp_status = { last_status, last_ts, failed_ts? }`, gravado junto com a atualização. As mensagens antigas não têm esse dado. Para elas, a regra usa só a ordem natural (itens 1-3), que já resolve os 83 casos daqui para frente.
 
-## 13. As 7 conversas da Letícia (todas com acesso ativo, Nina pausada)
-| Conversa | Falha em | Horas após cliente | Resposta depois | Cliente voltou | Recomendação |
-|---|---|---|---|---|---|
-| c1752737 | 28/08 | 28 h | não | não | PENDENTE (via template) |
-| 908c93e1 | 09/09 | 24,5 h | não | não | PENDENTE (via template) |
-| d552ad3d | 09/09 e 10/09 | 54 h / 80 h | não | não | PENDENTE (via template) |
-| a4803156 | 29/09 | 30 h | não | não | PENDENTE (via template) |
-| e8b9dbe0 | 29/09 | 142 h | não | não | PENDENTE (via template) |
-| 0f032230 | 29/09 | 144 h | não | não | PENDENTE (via template) |
-| 256c1034 | 29/09 | 121 h | não | não | PENDENTE (via template) |
-Tentativas: 1 em todas. Todas aparecem como aguardando >7 dias / ALTO pela regra do Passo C. Revisão manual extra para c1752737 (mais de 5 semanas).
+Atenção: ler e depois gravar abre uma janela de disputa entre dois avisos simultâneos. Mitigação sem migration: fazer a gravação condicional, ou seja, só atualizar se o status no banco ainda for o lido antes. Se mudou, ler de novo e repetir uma vez.
 
-## 14-15. a4803156 e e8b9dbe0
-Ambas: 1 tentativa, Meta aceitou e depois falhou, sem erro salvo, enviadas fora da janela de 24 h, sem entrega posterior, cliente não voltou, com a Letícia (Nina pausada). Estão corretamente "aguardando".
+## 9. Impacto na prioridade
+- Hoje a prioridade só olha `failed`. Os rebaixamentos encontrados (para `sent`/`delivered`) **não** geram falso "aguardando" nem falso ALTO.
+- Risco futuro: um `failed` atrasado depois de `read` marcaria como não entregue uma resposta que o cliente leu, o que daria falso "aguardando" e falso ALTO. Nenhum caso real hoje, mas a regra 3 impede.
+- A tela mostra um check errado nas 83 rebaixadas (um check em vez de dois). É só visual.
 
-## 16. CRÍTICA 3ed2f596
-Nenhuma resposta humana (nem falha, nem sucesso). Só Nina e cliente; última mensagem do cliente 02/10 20:00 (~2,6 dias). Continua aguardando e sem resposta humana. Não alterada.
+## 10. Arquivos que mudariam
+- `supabase/functions/whatsapp-webhook/status.ts` (novo, função pura `decideStatusUpdate(atual, aviso)`).
+- `supabase/functions/whatsapp-webhook/index.ts` (usa a decisão e faz gravação condicional).
+- `src/__tests__/whatsapp-status-order.test.ts` (novo).
+Sem mudanças em sender, fila, prioridade, Chat ou Nina.
 
-## 17. O que o atendente vê
-No Chat completo, mensagem failed mostra **o mesmo ícone de "enviado" (um check cinza)** — sem ícone de erro, sem texto "falha no envio", sem botão de tentar de novo. A tela da Letícia segue o mesmo padrão. **A Letícia não tem como perceber que o cliente não recebeu.** Causa operacional provável de os casos passarem despercebidos.
+## 11. Testes
+Um teste para cada caso: repetido sem efeito; sent→delivered→read normal; delivered depois de read é ignorado; sent depois de delivered é ignorado; failed depois de read mantém read e guarda o motivo; read depois de failed é aceito só com horário maior; read depois de failed sem horário mantém failed; aviso antigo pelo horário é ignorado; horários de entrega/leitura não são regravados; disputa simultânea (a gravação condicional falha e repete).
 
-## 18-19. Causa raiz provável e riscos
-- Causa: Letícia responde depois que a janela de 24 h do WhatsApp fechou; a Meta rejeita; o sistema não guarda o motivo e a tela mostra como enviada.
-- Riscos: clientes sem retorno há semanas; reenvio simples repete a falha; a lista de prioridades conta corretamente, mas a atendente não entende por quê.
+## 12. Riscos
+- Os 83 históricos continuam rebaixados. Corrigi-los seria um passo separado, se você quiser: subir para `delivered`/`read` com base nos horários já gravados.
+- Avisos que chegam antes da mensagem estar gravada continuam perdidos. Isso fica fora deste escopo.
+- O horário da Meta tem precisão de segundos. O desempate pela ordem natural cobre isso.
 
-## 20. Plano de correção (passos separados, cada um com aprovação)
-- **A. Registrar o motivo**: `whatsapp-webhook` passa a salvar código/título do erro da Meta em `messages.metadata` (sem migration). Confirma a causa nos próximos casos.
-- **B. Aviso antes de enviar**: na tela da Letícia e no Chat, se a última mensagem do cliente tem mais de 24 h, avisar "Fora da janela de 24 h — use um modelo aprovado" e oferecer envio por template, em vez de deixar mandar texto que vai falhar.
-- **C. Sinalização visual**: bolha failed com ícone vermelho e "Não entregue"; sem retry automático. Botão "Reenviar" só dentro da janela; fora dela, só por template.
-- **D. Pendentes atuais (7 conversas da Letícia + 120573eb/c6e8d6da para revisão)**: retomada pela Letícia via template aprovado de reabertura de conversa — ação manual dela, nada automático.
-- **E. Prioridade**: recomendo **sim**, "resposta não entregue" como motivo próprio (ALTO) na regra única `_shared/priority.ts`, só após A e C.
-- Avisos de rastreio failed: tratar à parte (não são respostas), depois de A mostrar o código de erro.
-
-Passo D visual de prioridades continua pausado até aprovação.
+## 13. Plano mínimo de Build (após aprovação)
+1. Criar a função pura de decisão com as regras 1-5 e os testes acima.
+2. Ligar a decisão no webhook, com gravação condicional e o horário da Meta em `metadata.whatsapp_status`. Manter o Passo A.
+3. Rodar os testes, a suíte completa e a verificação de tipos. Republicar só a função que recebe os avisos do WhatsApp.
+4. Conferir que nenhuma mensagem histórica foi alterada.
+Não corrigir históricos, não mexer na prioridade e não começar o Passo B da janela de 24 h.
