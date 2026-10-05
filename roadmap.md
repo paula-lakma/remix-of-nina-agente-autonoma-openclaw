@@ -25,4 +25,4 @@
 - [x] Chat: horário real nas mensagens, separadores de dia, lista lateral (só exibição)
 - [x] Leticia Passo A: garantir encaminhamento quando a Nina promete (sem reatribuir histórico)
 - [x] Leticia Passo B: lista "Exceções Letícia" (só leitura, admin/manager)
-- [ ] Leticia: decidir as 4 conversas históricas (aguarda usuário)
+- [x] Leticia: 4 conversas históricas encaminhadas (aprovado)
