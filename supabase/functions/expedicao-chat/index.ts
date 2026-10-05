@@ -6,6 +6,7 @@
 // o JWT do usuário e obtêm auth.uid() internamente.
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import { corsHeaders } from "npm:@supabase/supabase-js@2/cors";
+import { computeConversationPriority, type PriorityMessage } from "../_shared/priority.ts";
 
 const json = (body: unknown, status = 200) =>
   new Response(JSON.stringify(body), {
@@ -54,7 +55,36 @@ Deno.serve(async (req) => {
     if (action === "list") {
       const { data, error } = await userClient.rpc("list_my_expedicao_conversations");
       if (error) throw error;
-      return json({ ok: true, conversations: data ?? [] });
+      const rows = (data ?? []) as Array<Record<string, unknown>>;
+      // Prioridade só de leitura; se falhar, a lista continua igual.
+      try {
+        const ids = rows.map((r) => String(r.conversation_id));
+        if (ids.length) {
+          const [m, c] = await Promise.all([
+            userClient.from("messages").select("conversation_id, from_type, content, sent_at, status, metadata")
+              .in("conversation_id", ids).order("sent_at", { ascending: true }).limit(20000),
+            userClient.from("conversations").select("id, attendance_finished_at").in("id", ids),
+          ]);
+          if (!m.error && !c.error) {
+            const fin = new Map((c.data ?? []).map((x) => [x.id, x.attendance_finished_at]));
+            const byConv = new Map<string, PriorityMessage[]>();
+            for (const x of m.data ?? []) {
+              const list = byConv.get(x.conversation_id) ?? [];
+              list.push({ from_type: x.from_type, content: x.content, sent_at: x.sent_at, status: x.status,
+                template_name: (x.metadata as Record<string, unknown> | null)?.template_name as string | null ?? null });
+              byConv.set(x.conversation_id, list);
+            }
+            const now = new Date();
+            for (const r of rows) {
+              const id = String(r.conversation_id);
+              r.priority = computeConversationPriority({ messages: byConv.get(id) ?? [], finishedAt: fin.get(id) ?? null, now });
+            }
+          }
+        }
+      } catch (e) {
+        console.error("[expedicao-chat] priority error:", e instanceof Error ? e.message : String(e));
+      }
+      return json({ ok: true, conversations: rows });
     }
 
     // dupla checagem explícita de posse antes de qualquer operação por conversa
