@@ -24,3 +24,5 @@
 - [ ] Passo 6 Etapa D (reconciliação a cada 6h) — aguarda aprovação.
 - [x] Chat: horário real nas mensagens, separadores de dia, lista lateral (só exibição)
 - [x] Leticia Passo A: garantir encaminhamento quando a Nina promete (sem reatribuir histórico)
+- [x] Leticia Passo B: lista "Exceções Letícia" (só leitura, admin/manager)
+- [ ] Leticia: decidir as 4 conversas históricas (aguarda usuário)
