@@ -22,6 +22,8 @@ import { formatBubbleTime, formatDayLabel, formatSidebarTime, latestTimestamp, d
 import { useMinuteTick } from '@/hooks/useMinuteTick';
 import { useUserRole } from '@/hooks/useUserRole';
 import { useLeticiaExceptions } from '@/hooks/useLeticiaExceptions';
+import { resolveComposerWindow, type ServerRefusal } from '@/lib/whatsappWindow';
+import { WindowClosedNotice, WindowOpenHint } from './WindowClosedNotice';
 
 
 const ChatInterface: React.FC = () => {
@@ -61,6 +63,13 @@ const ChatInterface: React.FC = () => {
   // Separador de dia onde a data (São Paulo) muda; recalculado sobre a lista
   // inteira, então páginas antigas do mesmo dia não duplicam separador.
   const separatorIdx = daySeparatorIndexes((activeChat?.messages ?? []).map((m) => m.sentAtRaw));
+  const [windowRefusal, setWindowRefusal] = useState<ServerRefusal | null>(null);
+  const composer = resolveComposerWindow(
+    activeChat?.id,
+    (activeChat?.messages ?? []).map((m) => ({ from_type: m.fromType, sent_at: m.sentAtRaw ?? null })),
+    nowTick,
+    windowRefusal,
+  );
 
   // URLs assinadas frescas (bucket privado) para as mídias da conversa aberta
   const { urls: signedMedia, statuses: mediaStatuses } = useSignedMedia(
@@ -199,12 +208,17 @@ const ChatInterface: React.FC = () => {
 
   const handleSendMessage = async (e?: React.FormEvent) => {
     e?.preventDefault();
-    if (!inputText.trim() || !activeChat) return;
+    if (!inputText.trim() || !activeChat || !composer.canSendFreeform) return;
 
     const content = inputText.trim();
+    const lastCustomerAt = composer.last_customer_message_at;
     setInputText('');
     
-    await sendMessage(activeChat.id, content);
+    const result = await sendMessage(activeChat.id, content);
+    if (result === 'window_closed') {
+      setWindowRefusal({ conversationId: activeChat.id, lastCustomerAt });
+      setInputText(content);
+    }
   };
 
   const handleStatusChange = async (status: ConversationStatus) => {
@@ -946,6 +960,11 @@ const ChatInterface: React.FC = () => {
 
             {/* Input Area */}
             <div className="p-4 bg-slate-900/90 border-t border-slate-800 backdrop-blur-sm z-10">
+              <div className="max-w-4xl mx-auto mb-2">
+                {composer.canSendFreeform
+                  ? <WindowOpenHint until={composer.freeform_safe_until} now={nowTick} />
+                  : <WindowClosedNotice />}
+              </div>
               <form onSubmit={handleSendMessage} className="flex items-end gap-3 max-w-4xl mx-auto">
                 <div className="flex items-center gap-1">
                   <Button 
@@ -980,15 +999,17 @@ const ChatInterface: React.FC = () => {
                         handleSendMessage();
                       }
                     }}
-                    placeholder={activeChat.status === 'nina' ? `${sdrName} está respondendo automaticamente...` : 'Digite sua mensagem...'}
-                    className="w-full bg-transparent border-none p-3.5 max-h-32 min-h-[48px] text-sm text-slate-200 focus:ring-0 resize-none outline-none placeholder:text-slate-600"
+                    disabled={!composer.canSendFreeform}
+                    aria-disabled={!composer.canSendFreeform}
+                    placeholder={!composer.canSendFreeform ? 'Texto livre indisponível: janela encerrada' : activeChat.status === 'nina' ? `${sdrName} está respondendo automaticamente...` : 'Digite sua mensagem...'}
+                    className="w-full bg-transparent border-none p-3.5 max-h-32 min-h-[48px] text-sm text-slate-200 focus:ring-0 resize-none outline-none placeholder:text-slate-600 disabled:cursor-not-allowed disabled:opacity-60"
                     rows={1}
                   />
                 </div>
 
                 <Button 
                   type="submit" 
-                  disabled={!inputText.trim()}
+                  disabled={!inputText.trim() || !composer.canSendFreeform}
                   className={`rounded-full w-12 h-12 p-0 transition-all ${
                     inputText.trim() 
                       ? 'shadow-lg shadow-cyan-500/20 hover:scale-105 active:scale-95' 
