@@ -559,8 +559,48 @@ export function resolveHandoffDecision(params: {
   const contextual = detectHandoffTargetFromHistory(params.currentUserText, params.history ?? []);
   const eligibleContext =
     contextual?.destination === "financeiro" || isDeterministicPriorityReason(contextual?.reason) ? contextual : null;
-  return { target: eligibleContext, cleanedAgentContent: marker.cleaned, source: eligibleContext ? "context" : "customer_intent" };
+  if (eligibleContext) return { target: eligibleContext, cleanedAgentContent: marker.cleaned, source: "context" };
+  // Rede de segurança: nenhuma regra decidiu, mas a Nina afirmou ao cliente que
+  // vai encaminhar para a Leticia. Só entra quando NÃO há outro destino detectado
+  // na mensagem atual (Paula/Carla/dermo continuam com precedência).
+  if (!direct && isLeticiaPromise(marker.cleaned)) {
+    return { target: leticiaTargetFromHistory(params.history ?? []), cleanedAgentContent: marker.cleaned, source: "agent_promise" };
+  }
+  return { target: null, cleanedAgentContent: marker.cleaned, source: "customer_intent" };
+}
 
+/**
+ * Promessa INEQUÍVOCA da Nina de que a Leticia vai receber o atendimento.
+ * Avaliada frase a frase: perguntas, ofertas ("posso", "quer que eu") e
+ * condicionais ("se precisar", "qualquer dúvida") não contam.
+ */
+export function isLeticiaPromise(text: string | null | undefined): boolean {
+  if (!text) return false;
+  const sentences = String(text).match(/[^.!?\n]+[.!?]*/g) ?? [];
+  const LET = "let[íi]cia";
+  const positive = new RegExp(
+    String.raw`\b(?:vou|irei|vamos)\s+(?:te\s+|lhe\s+|o\s+|a\s+|voc[êe]\s+)?(?:encaminhar|passar|repassar|direcionar|transferir|conectar|chamar)\b[^.!?]{0,80}\b${LET}\b` +
+      String.raw`|\bj[áa]\s+(?:te\s+|lhe\s+)?(?:encaminhei|passei|repassei|direcionei|transferi|conectei|chamei)\b[^.!?]{0,80}\b${LET}\b` +
+      String.raw`|\b${LET}\b[^.!?]{0,30}\b(?:vai|ir[áa])\s+(?:continuar|assumir|entrar em contato|verificar|te atender|atender|falar|cuidar)`,
+    "i",
+  );
+  const offer = /\b(?:posso|podemos|pode|quer|quiser|deseja|prefere|gostaria)\b|\b(?:se|caso)\s+(?:voc[êe]\s+)?(?:precisar|tiver|quiser|houver|necess)|qualquer\s+(?:d[úu]vida|coisa|problema)/i;
+  return sentences.some((s) => positive.test(s) && !s.trim().endsWith("?") && !offer.test(s));
+}
+
+/** Motivo da Leticia a partir do assunto recente do cliente; genérico se não houver. */
+function leticiaTargetFromHistory(history: HandoffHistoryMessage[]): HandoffTarget {
+  const userTexts = history
+    .filter((e) => (e.from_type ?? e.role) === "user")
+    .map((e) => stripHandoffMarkers(e.content))
+    .filter(Boolean)
+    .slice(-5)
+    .reverse();
+  for (const t of userTexts) {
+    const found = detectHandoffTarget(t);
+    if (found?.destination === "financeiro" && isExpedicaoGrantReason(found.reason)) return found;
+  }
+  return { reason: "order_financial_question" as HandoffReason, destination: "financeiro" };
 }
 
 export async function applyResolvedHandoff(
@@ -569,7 +609,7 @@ export async function applyResolvedHandoff(
     conversationId: string;
     contactId?: string | null;
     target: HandoffTarget;
-    source: "structured" | "customer_intent" | "context" | "reaper";
+    source: "structured" | "customer_intent" | "context" | "reaper" | "agent_promise";
     runId?: string | null;
     triggerMessageId?: string | null;
     triggerSnippet?: string | null;
@@ -618,6 +658,19 @@ export async function applyResolvedHandoff(
       _trigger_snippet: params.triggerSnippet?.slice(0, 500) ?? null,
     });
     if (error) throw error;
+    // Garantia: só considera aplicado se a Leticia ficou com acesso ativo.
+    // Evita o estado "Nina prometeu Leticia" + "Leticia sem acesso".
+    const { data: grantCheck, error: grantErr } = await admin
+      .from("conversation_access_grants")
+      .select("id")
+      .eq("conversation_id", params.conversationId)
+      .eq("is_active", true)
+      .limit(1)
+      .maybeSingle();
+    if (grantErr || !grantCheck?.id) {
+      console.error(`[handoff] FALHA: encaminhamento sem acesso ativo conv=${params.conversationId} motivo=${target.reason} source=${params.source}`);
+      throw new Error("handoff_grant_missing");
+    }
     console.log(`[handoff] expedição aplicada source=${params.source}:`, JSON.stringify(data));
     return { applied: true, destination: target.destination };
   }
