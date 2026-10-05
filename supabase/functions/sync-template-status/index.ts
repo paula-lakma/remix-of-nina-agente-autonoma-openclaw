@@ -1,5 +1,7 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import { getNinaMetaCreds } from "../_shared/nina-meta.ts";
+import { requireAdminOrManager } from "../_shared/staffAuth.ts";
+import { mergeTemplateLabels } from "../_shared/templateRules.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -16,6 +18,7 @@ interface MetaTpl {
   status: string;
   category: string;
   components?: unknown;
+  rejected_reason?: string;
 }
 
 /** Classifica erros da Graph API em algo legível para o operador. */
@@ -55,6 +58,10 @@ Deno.serve(async (req) => {
       status,
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
+
+  // Só admin/manager com sessão real. Chave pública/anônima é recusada.
+  const auth = await requireAdminOrManager(req);
+  if (!auth.ok) return json({ ok: false, error: auth.error }, auth.status);
 
   let dryRun = false;
   try {
@@ -97,7 +104,7 @@ Deno.serve(async (req) => {
     const fetched: MetaTpl[] = [];
     let url: string | null =
       `${GRAPH_API}/${conn.waba_id}/message_templates` +
-      `?fields=name,language,status,category,components,id&limit=200` +
+      `?fields=name,language,status,category,components,id,rejected_reason&limit=200` +
       `&access_token=${encodeURIComponent(conn.access_token)}`;
 
     let pages = 0;
@@ -120,7 +127,7 @@ Deno.serve(async (req) => {
     // ── 2. Carrega registros locais ─────────────────────────────────────────
     const { data: existing, error: exErr } = await supabase
       .from("meta_templates")
-      .select("id, name, language, status, meta_template_id");
+      .select("id, name, language, status, category, labels, meta_template_id");
     if (exErr) throw exErr;
 
     const keyOf = (n: string, l: string) => `${n}::${l}`;
@@ -135,7 +142,7 @@ Deno.serve(async (req) => {
       if (remoteKeys.has(keyOf(r.name, r.language))) continue;
       try {
         const res = await fetch(
-          `${GRAPH_API}/${r.meta_template_id}?fields=name,language,status,category,components` +
+          `${GRAPH_API}/${r.meta_template_id}?fields=name,language,status,category,components,rejected_reason` +
             `&access_token=${encodeURIComponent(conn.access_token)}`,
         );
         const payload = await res.json();
@@ -151,6 +158,7 @@ Deno.serve(async (req) => {
           status: payload.status,
           category: payload.category,
           components: payload.components ?? [],
+          rejected_reason: payload.rejected_reason,
         });
         console.log(`[sync-templates] by-id lookup ${r.name}/${r.language} -> ${payload.status}`);
       } catch (e) {
@@ -158,11 +166,14 @@ Deno.serve(async (req) => {
       }
     }
 
-    const localMap = new Map<string, { id: string; status: string; meta_template_id: string | null }>();
-    (existing ?? []).forEach((r: { id: string; name: string; language: string; status: string; meta_template_id: string | null }) =>
+    type LocalRow = { id: string; status: string; category: string | null; labels: unknown; meta_template_id: string | null };
+    const localMap = new Map<string, LocalRow>();
+    (existing ?? []).forEach((r: LocalRow & { name: string; language: string }) =>
       localMap.set(keyOf(r.name, r.language), {
         id: r.id,
         status: r.status,
+        category: r.category,
+        labels: r.labels,
         meta_template_id: r.meta_template_id,
       }),
     );
@@ -184,7 +195,9 @@ Deno.serve(async (req) => {
     for (const t of fetched) {
       const k = keyOf(t.name, t.language);
       const local = localMap.get(k);
+      const labels = mergeTemplateLabels(local?.labels, { rejected_reason: t.rejected_reason, status: t.status });
       const row = {
+        labels,
         name: t.name,
         language: t.language,
         status: t.status,
@@ -195,7 +208,8 @@ Deno.serve(async (req) => {
       };
 
       const needsInsert = !local;
-      const needsUpdate = !!local && (local.status !== t.status || local.meta_template_id !== t.id);
+      const needsUpdate = !!local && (local.status !== t.status || local.meta_template_id !== t.id ||
+        local.category !== t.category || JSON.stringify(local.labels ?? {}) !== JSON.stringify(labels));
 
       if (dryRun) {
         results.push({
