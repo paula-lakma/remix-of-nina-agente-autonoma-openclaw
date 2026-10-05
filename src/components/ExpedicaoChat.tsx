@@ -8,6 +8,8 @@ import { formatBubbleTime, formatDayLabel, daySeparatorIndexes } from '@/lib/cha
 import { useMinuteTick } from '@/hooks/useMinuteTick';
 import { resolveComposerWindow, isWindowClosedError, WINDOW_CLOSED_TITLE, WINDOW_CLOSED_BODY, type ServerRefusal } from '@/lib/whatsappWindow';
 import { WindowClosedNotice, WindowOpenHint } from './WindowClosedNotice';
+import { PriorityBadge } from './PriorityBadge';
+import { sortByPriority, type PriorityInfo } from '@/lib/priorityDisplay';
 
 
 // Chat ao Vivo restrito do papel `expedicao`.
@@ -27,6 +29,7 @@ interface ExpedicaoConversation {
   handoff_at: string | null;
   trigger_message_id: string | null;
   trigger_snippet: string | null;
+  priority?: PriorityInfo | null;
 }
 
 interface ExpedicaoMessage {
@@ -199,7 +202,8 @@ const sameConversation = (a: ExpedicaoConversation, b: ExpedicaoConversation) =>
   a.attendance_finished === b.attendance_finished &&
   a.handoff_at === b.handoff_at &&
   a.trigger_message_id === b.trigger_message_id &&
-  a.trigger_snippet === b.trigger_snippet;
+  a.trigger_snippet === b.trigger_snippet &&
+  JSON.stringify(a.priority ?? null) === JSON.stringify(b.priority ?? null);
 
 const sameConversationList = (a: ExpedicaoConversation[], b: ExpedicaoConversation[]) =>
   a.length === b.length && a.every((c, i) => sameConversation(c, b[i]));
@@ -376,6 +380,15 @@ export const RestrictedHandoffChat: React.FC<{ config: RestrictedChatConfig }> =
   };
 
   const selected = conversations.find((c) => c.conversation_id === selectedId) || null;
+  // Só ordenação visual do que o servidor devolveu; sem prioridade, a ordem fica igual.
+  const sortedConversations = useMemo(() => sortByPriority(conversations), [conversations]);
+  const priorityCounts = useMemo(
+    () => ({
+      critical: conversations.filter((c) => c.priority?.priority_level === 'CRITICAL').length,
+      high: conversations.filter((c) => c.priority?.priority_level === 'HIGH').length,
+    }),
+    [conversations],
+  );
 
   const { urls: signedMedia } = useSignedMedia(
     messages.map((m) => ({
@@ -537,6 +550,13 @@ export const RestrictedHandoffChat: React.FC<{ config: RestrictedChatConfig }> =
           <div>
             <h1 className="text-base font-semibold text-foreground">Chat ao Vivo</h1>
             <p className="text-xs text-muted-foreground">Atendimentos encaminhados para você</p>
+            {(priorityCounts.critical > 0 || priorityCounts.high > 0) && (
+              <p className="text-[11px] mt-1 font-medium">
+                {priorityCounts.critical > 0 && <span className="text-destructive-foreground">Críticos: {priorityCounts.critical}</span>}
+                {priorityCounts.critical > 0 && priorityCounts.high > 0 && <span className="text-muted-foreground"> · </span>}
+                {priorityCounts.high > 0 && <span className="text-warning">Altos: {priorityCounts.high}</span>}
+              </p>
+            )}
           </div>
           <button
             onClick={() => loadList()}
@@ -558,17 +578,22 @@ export const RestrictedHandoffChat: React.FC<{ config: RestrictedChatConfig }> =
               <p className="text-sm text-muted-foreground">Nenhum atendimento encaminhado no momento.</p>
             </div>
           ) : (
-            conversations.map((c) => (
+            sortedConversations.map((c) => (
               <button
                 key={c.conversation_id}
                 onClick={() => setSelectedId(c.conversation_id)}
-                className={`w-full text-left px-4 py-3 border-b border-border/30 transition-colors ${
-                  selectedId === c.conversation_id ? 'bg-secondary/60' : 'hover:bg-secondary/30'
-                }`}
+                className={`w-full text-left px-4 py-3 border-b border-border/30 border-l-4 transition-colors ${
+                  c.priority?.priority_level === 'CRITICAL'
+                    ? 'border-l-destructive bg-destructive/15'
+                    : c.priority?.priority_level === 'HIGH'
+                      ? 'border-l-warning bg-warning/5'
+                      : 'border-l-transparent'
+                } ${selectedId === c.conversation_id ? 'bg-secondary/60' : 'hover:bg-secondary/30'}`}
               >
                 <p className="text-sm font-medium text-foreground truncate">{c.contact_name || 'Cliente'}</p>
                 <p className="text-xs text-muted-foreground truncate">{c.contact_phone_masked || '—'}</p>
                 <span className="inline-block mt-1 text-[10px] uppercase tracking-wide text-primary">{reasonLabel(c.reason)}</span>
+                <PriorityBadge priority={c.priority} now={nowTick.getTime()} />
               </button>
             ))
           )}
@@ -588,6 +613,7 @@ export const RestrictedHandoffChat: React.FC<{ config: RestrictedChatConfig }> =
               <div className="min-w-0">
                 <p className="text-sm font-semibold text-foreground truncate">{selected.contact_name || 'Cliente'}</p>
                 <p className="text-xs text-muted-foreground truncate">{selected.contact_phone_masked || '—'}</p>
+                <PriorityBadge priority={selected.priority} now={nowTick.getTime()} />
               </div>
               <button
                 onClick={handleFinish}
