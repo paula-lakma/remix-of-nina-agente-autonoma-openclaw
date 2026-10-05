@@ -1,60 +1,64 @@
-# Revisão das 4 exceções históricas da Letícia (somente leitura)
+# Auditoria: respostas da Letícia e regra de "mais de 7 dias" (somente leitura)
 
-Dados conferidos em 05/10/2026 10:59 (horário de São Paulo). Nada foi alterado.
+Dados de 05/10/2026 11:18 (horário de São Paulo). Nada foi alterado.
 
-Situação das 4 conversas:
-- status: com a Nina;
-- responsável: nenhum;
-- acesso da Letícia: não tem;
-- encaminhamentos e acessos: nenhum registrado, nem para outra pessoa;
-- atendimento finalizado: não;
-- respostas da equipe: nenhuma em nenhum momento;
-- Nina pausada ou intervenção humana pedida: não.
+## 1. Quem é a Letícia no sistema
+- Cadastro na equipe: `22222222-0000-4000-a000-000000000004`
+- Usuário de acesso: `7faca642-…`
+- Papel: `expedicao`
+- Ela usa a tela restrita do Chat. Cada resposta dela passa pela mesma função de resposta da expedição.
 
-## 0ecc5fd9
-- Promessa: 30/09 11:36
-- Motivo: `tracking_help` (o cliente mandou só o código de rastreio)
-- Última mensagem do cliente: o código de rastreio, 30/09 11:36
-- Resposta da equipe: nenhuma. Resposta da Nina depois da promessa: nenhuma
-- Cliente voltou a cobrar: não
-- Sem resposta humana há cerca de 5 dias
-- Classificação: **PENDENTE**
+## 2. Como a resposta dela é gravada
+- A mensagem é gravada com `from_type = 'human'`, mas **sem nenhum campo que diga quem enviou**.
+- No mesmo momento é criado um evento `expedicao_reply` com o usuário que respondeu e o identificador da mensagem. Esse evento é a prova de que foi a Letícia.
+- Encontrado nos dados reais:
+  - 32 respostas ligadas à Letícia por esse evento;
+  - 1 resposta de dermoconsultora e 1 de parcerias, identificadas da mesma forma;
+  - 7 mensagens humanas sem evento, enviadas pelo Chat completo (admin ou equipe); não dá para saber quem enviou;
+  - **112 mensagens marcadas como humanas que não são resposta**: são os avisos automáticos de rastreio (modelos "pedido enviado").
 
-## 3b1067f5
-- Promessas: 28/09 07:48 e 07:49 (duas vezes)
-- Motivo: `where_is_my_order` ("não me entregaram"; cliente com pressa porque ia viajar)
-- Última mensagem do cliente: "Ok", 28/09 07:49
-- Resposta da equipe: nenhuma
-- Nina respondeu depois: sim, com uma despedida ("Qualquer novidade, estaremos aqui")
-- Cliente voltou a cobrar: não, mas houve frustração explícita
-- Sem resposta humana há cerca de 7 dias
-- Classificação: **PENDENTE** (o mais sensível; a viagem do cliente já passou)
+**Conclusão:** `from_type` sozinho NÃO é suficiente. Ele mistura respostas reais com avisos automáticos de rastreio e não diz qual pessoa respondeu.
 
-## 93e105bf
-- Promessa: 25/09 07:17
-- Motivo: `tracking_help`
-- Última mensagem do cliente: o código de rastreio, 25/09 07:16
-- Resposta da equipe: nenhuma. Resposta da Nina depois: nenhuma
-- Cliente voltou a cobrar: não
-- Sem resposta humana há cerca de 10 dias
-- Classificação: **PENDENTE**
+## 3. Definições propostas
+- **Resposta humana válida:** mensagem humana que não seja um modelo automático, ou seja, sem `template_name`. Resposta da Nina nunca conta.
+  - "Resposta da Letícia" = mensagem ligada a um evento `expedicao_reply` dela.
+  - Resposta de outro humano (Chat completo, dermo, parcerias) também encerra a espera, porque o cliente foi atendido por uma pessoa. A pessoa é mostrada só quando há evento.
+- **Aguardando Letícia:** a Letícia tem acesso ativo à conversa e existe mensagem do cliente depois da última resposta humana válida e depois da última finalização.
+- **Início da espera:** a mensagem MAIS ANTIGA do cliente nesse intervalo. Não é a data do encaminhamento, nem o início da conversa, nem a última mensagem.
+- **Mais de 7 dias:** agora − início da espera > 7 dias.
+- **Finalização e reabertura:** finalizar remove o acesso da Letícia e a conversa sai da conta. Se o cliente volta, a conversa é reaberta e a contagem parte do primeiro contato depois da última resposta humana ou da finalização. Mensagens antigas já respondidas nunca contam.
+- **Contato repetido:** dentro do período de espera, o cliente escreveu de novo mais de 2 horas depois da mensagem anterior dele, sem resposta humana válida no meio. Funciona com os dados reais.
 
-## a03a8d51
-- Promessa: 24/09 19:38
-- Motivo: `tracking_help`
-- Última mensagem do cliente: "Boa noite", 02/10 19:00
-- Resposta da equipe: nenhuma
-- Nina respondeu depois: sim, prometeu de novo que a Letícia entraria em contato
-- Cliente voltou a cobrar: **sim**, 8 dias depois da promessa
-- Sem resposta humana há cerca de 11 dias desde a promessa e 2,5 dias desde a nova cobrança
-- Classificação: **PENDENTE** (o cliente já voltou a cobrar)
+## 4. Nova contagem
+| | Antes | Agora |
+|---|---|---|
+| Conversas ativas com a Letícia | 29 | 33 |
+| Aguardando resposta | 19 | 23 |
+| Mais de 7 dias | 14 | 18 |
+| Contato repetido >2 h | — | 9 |
 
-## Recomendação
-- Encaminhar agora as 4 para a Letícia, nesta ordem: a03a8d51, 3b1067f5, 0ecc5fd9, 93e105bf.
-- Nenhuma está RESOLVIDA, nenhuma tem OUTRO DESTINO e nenhuma é DÚVIDA.
-- Ponto de atenção: o pedido pode já ter sido entregue nesse meio-tempo. Isso não foi verificado. Mesmo assim, o cliente ficou sem retorno humano, então cabe à Letícia confirmar e encerrar.
+- A diferença vem toda das 4 conversas históricas encaminhadas hoje: 3 delas têm mais de 7 dias e 1 tem 5 dias.
+- **Nenhum falso positivo encontrado.** A conta anterior já tratava qualquer mensagem humana como resposta. Separar os avisos de rastreio e identificar a Letícia pelo evento não mudou o início da espera de nenhuma conversa.
 
-## Próximo passo, se aprovado (não executado)
-- Encaminhar as 4 conversas para a Letícia, com acesso ativo, usando o mesmo caminho de encaminhamento que já existe. Os motivos ficam como listados acima.
-- Nenhuma mensagem é enviada ao cliente.
-- Depois, conferir que as 4 saíram da lista "Exceções Letícia".
+## 5. Exemplos (IDs internos)
+- Mais de 7 dias, só a Nina respondeu: `eb54fa34` (52 dias), `1928c6f8` (26 dias), `a03a8d51` (10,7 dias).
+- A Letícia respondeu e o cliente voltou depois: `757717a0` (espera conta a partir de 10/09, 24,8 dias) e `e2ece15d` (5,7 dias, fora dos 7).
+- Respondida pela Letícia e sem nova mensagem do cliente: `a4803156`, `5f9d35f4`, `e8b9dbe0`. Não estão aguardando.
+- Outro humano respondeu pelo Chat completo e o cliente voltou depois: `d0e6ec25` (43,8 dias).
+- Aviso de rastreio enviado durante a espera, que corretamente não encerra a espera: `5458a93b`.
+- Não apareceu nenhum caso que "parecia >7 dias mas tinha resposta da Letícia".
+
+## 6. Dados, banco e riscos
+- Os dados atuais são suficientes. **Não é necessária migration.**
+- Riscos:
+  1. Os 7 envios do Chat completo não têm autor. Recomendo contá-los como resposta humana válida, sem nome.
+  2. Se surgir outro tipo de envio automático marcado como humano sem `template_name`, ele seria contado como resposta. Hoje não existe nenhum.
+  3. Uma resposta da Letícia que falhou ao enviar ainda conta como resposta. Opcional: ignorar mensagens com status `failed`.
+  4. Mensagens muito antigas, de antes do encaminhamento, só contam se nunca houve resposta humana. Foi o que aconteceu em `eb54fa34` e `99b9ef38`, que de fato nunca tiveram resposta.
+
+## 7. Recomendação para o futuro passo de prioridade
+- Calcular na própria tela, só leitura, como foi feito na lista de exceções, usando as definições acima.
+- Ignorar avisos com `template_name` e, opcionalmente, mensagens com status `failed`.
+- ALTO por atraso: início da espera há mais de 7 dias.
+- ALTO por contato repetido: a regra de mais de 2 horas acima.
+- Testes com estes exemplos reais: `eb54fa34`, `757717a0`, `a4803156`, `5458a93b` e `d0e6ec25`.
