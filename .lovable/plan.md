@@ -1,90 +1,74 @@
-# Janela de 24 h do WhatsApp para respostas humanas — auditoria e plano
+# Modelo de retomada pela aba Templates: auditoria e plano
 
-Data: 05/10/2026, 12:20 (São Paulo). Somente leitura; nada foi alterado.
+Data: 05/10/2026, 13:40 (São Paulo). Somente leitura; nada foi alterado.
 
-## 1-3. Definição da janela
-- Fonte: a última mensagem **recebida do cliente** na conversa (`messages.from_type='user'`, campo `sent_at`, que guarda o horário que o WhatsApp informou). Não contam mensagens da Nina, respostas da equipe, templates, mensagens com falha nem handoffs.
-- `janela_aberta_até = último sent_at do cliente + 24 h`, em horário absoluto, sem efeito de fuso.
-- Aberta se `agora < janela_aberta_até`. Com 23h59 está aberta; com exatamente 24h00 ou 24h01 está **fechada**. A borda é tratada como fechada por segurança, porque a Meta também conta em segundos.
-- Mensagem do cliente que chega com atraso: vale o horário dela. Se esse horário ainda estiver dentro das 24 h, a janela está aberta.
-- Cliente escreve de novo depois que a janela fechou: ela reabre por 24 h a partir dessa nova mensagem.
-- Sem nenhuma mensagem do cliente: a janela é considerada fechada.
+## 1. Como a aba Templates funciona hoje
+- Tela: menu "Templates" (`src/pages/Templates.tsx`), visível só para admin e manager. Dados via `src/hooks/useMetaTemplates.ts`.
+- Tabela: `meta_templates` (name, category, language, components, samples, labels, meta_template_id, status, validation_score, datas). A lista se atualiza sozinha quando a tabela muda.
+- Funções:
+  - `submit-template`: **envia de fato à Meta** (POST `/{waba}/message_templates`, Graph v21) usando as credenciais da Nina, e grava a linha local com o status que a Meta devolver (normalmente PENDING).
+  - `sync-template-status`: lista todos os modelos da conta na Meta (paginado), atualiza status/categoria/componentes locais e insere os que só existem lá.
+  - `whatsapp-sender`: já envia mensagens `template` (nome, idioma, variáveis do corpo), usado hoje no rastreio.
+- Botão "Novo template": nome (a-z, 0-9, _), categoria (Marketing/Utilidade/Autenticação), idioma (texto livre, padrão pt_BR), corpo, rodapé e exemplos das variáveis separados por vírgula. O exemplo vira `example.body_text` exigido pela Meta.
+- Botão "Sincronizar": puxa o status atual da Meta.
 
-## 4. Todos os caminhos de resposta humana
-| Quem | Tela | Caminho no servidor | Grava a mensagem / fila |
-|---|---|---|---|
-| Letícia | tela restrita do Chat | `expedicao-chat` -> `expedicao_reply` | grava a mensagem e a fila juntas, depois aciona o envio |
-| Dermoconsultora | tela restrita | `dermo-chat` -> `dermo_reply` | igual |
-| Parcerias | tela restrita | `parcerias-chat` -> `parcerias_reply` | igual |
-| Admin / Chat completo | `ChatInterface` | **direto do navegador**: grava a mensagem como `processing` e coloca na fila | sem nenhuma função do servidor no meio |
-Avisos de rastreio (`send-manual-tracking`) usam template e não são afetados pela janela.
+**Conclusão: a aba já cria, submete à Meta e acompanha aprovação.** O fluxo Novo template → Enviar → PENDING → Sincronizar → APPROVED/REJECTED já existe.
 
-## 5-6. Onde validar
-- **Servidor (obrigatório)**: dentro das três funções de banco `expedicao_reply` / `dermo_reply` / `parcerias_reply`, antes de gravar qualquer coisa. Elas já consultam a conversa, então a checagem usa o dado atual do servidor e resolve a corrida "o cliente acabou de escrever". Se a janela estiver fechada, recusam com o erro `whatsapp_window_closed` e o horário de fechamento. Nada é gravado: nem bolha, nem fila, nem falha.
-- **Chat completo**: hoje grava direto da tela, então só a tela não basta. Proteção no banco: um gatilho na fila de envio recusa item de texto livre de humano com a janela fechada. Templates ficam liberados. É a única forma de fechar esse caminho sem reescrever o envio do admin. **Precisa de migration.**
-- **Envio (última barreira, opcional)**: `whatsapp-sender` não muda nesta etapa.
-- **Tela**: aviso logo acima do campo de resposta na tela da Letícia (e das outras áreas) e no Chat completo, calculado a partir da última mensagem do cliente já carregada e atualizado a cada minuto. O servidor continua sendo quem decide.
+## 2. Status
+- Gravado como a Meta devolve (texto livre). A tela só tem visual para APPROVED, PENDING e REJECTED; PAUSED, DISABLED, IN_APPEAL etc. aparecem em cinza, sem tradução.
+- Não existe atualização automática: só ao clicar em Sincronizar.
+- Motivo da rejeição: **não é buscado nem guardado** (a sincronização não pede `rejected_reason`).
 
-## 7-10. Templates existentes (cópia local sincronizada com a Meta; todos aparecem como APROVADO)
-- Utilidade: `pedido_confirmado`, `pedido_enviado`, `pedido_enviado_correios`, `pedido_enviado_jadlog`. Todos são de pedido/rastreio e **não servem** para retomar atendimento.
-- Marketing (15): promoções, catálogo, lançamento, pesquisa, `boas_vindas_nina_lakma`, `retomada_conversa_nina_lakma`, `continuacao_atendimento_nina_lakma`, `acompanhamento_nina_lakma`, `pos_compra_suporte_lakma` e outros. Todos falam em nome da **NINA** ou têm tom comercial, são cobrados como marketing e podem ser bloqueados para quem não aceitou marketing. **Não servem** para a Letícia retomar um caso de entrega.
-- Não confirmei ao vivo na Meta. O status vem da última sincronização.
+## 3. Situação atual
+- 19 modelos sincronizados, todos APPROVED: 4 de utilidade (pedido/rastreio) e 15 de marketing.
+- `retomada_atendimento_lakma`: **não existe** localmente. Existe um parecido, `retomada_conversa_nina_lakma` (MARKETING, fala em nome da Nina), que não serve.
+- Presença na Meta não confirmada ao vivo; a última sincronização não trouxe esse nome.
 
-**NÃO EXISTE TEMPLATE ADEQUADO ATUALMENTE.**
+## 4. Compatibilidade do texto
+"Olá, {{1}}! Aqui é a equipe da Lakma Dermocosméticos. Estamos retornando o seu atendimento. Quando puder, responda esta mensagem para continuarmos por aqui."
+- Corpo com {{1}}, exemplo "Maria", categoria UTILITY, idioma pt_BR: tudo suportado pela tela atual.
+- Categoria final é da Meta; ela pode reclassificar para MARKETING. Nesse caso o modelo ainda funciona, mas é cobrado como marketing e pode não chegar a quem recusou marketing.
 
-Sugestão para submeter à Meta no futuro, em etapa separada: categoria UTILITY, nome `retomada_atendimento_lakma`, pt_BR:
-"Olá, {{1}}! Aqui é a equipe da Lakma Dermocosméticos. Estamos retornando o seu atendimento sobre o pedido {{2}}. Quando puder, responda esta mensagem para continuarmos."
+## 5. Problemas encontrados na aba (antes de usar)
+1. **Duplicação silenciosa**: se a Meta disser que o nome já existe, `submit-template` reenvia com um nome novo (`retomada_atendimento_lakma_vXXXX`). Isso contraria a regra de não duplicar e quebraria o botão futuro, que procura o nome exato.
+2. **Sem checagem de permissão**: `submit-template` e `sync-template-status` não conferem quem chama (usam a chave interna). Qualquer pessoa logada, ou com a chave pública, poderia submeter modelos.
+3. Sem checagem prévia local de nome+idioma.
+4. Excluir só apaga a linha local; na próxima sincronização ela volta.
+5. Motivo de rejeição não aparece.
 
-## 11. Fluxo com template (quando houver um aprovado)
-Botão "Enviar modelo de retomada" -> o mesmo servidor da área (ex.: `expedicao-chat`, ação nova) -> grava a mensagem com `metadata.template_name` e parâmetros (nome do contato, número do pedido) -> fila de envio com `message_type='template'` -> `whatsapp-sender`, que já envia templates (usado no rastreio) -> status pelo webhook já corrigido. A janela só reabre quando o cliente responder.
+## 6. Nome do cliente ({{1}})
+- Fonte: `contacts.call_name` (primeiro nome que o WhatsApp informa), senão primeiro nome de `contacts.name`.
+- Nas 36 conversas com acesso ativo hoje: todas têm nome; 15 sem `call_name`; nenhuma parece telefone.
+- Regra proposta: usar o primeiro nome só se tiver letras, 2 a 30 caracteres, sem dígitos nem emoji. Se não houver nome válido, **não envia e não inventa**: o botão mostra "Sem nome válido para o modelo". Decisão sua abaixo sobre alternativa sem variável.
 
-## 12. Nina
-- A Nina responde pelo mesmo sistema de envio, mas só em reação a uma mensagem do cliente, então quase sempre dentro da janela. Respostas que atrasam muito ainda podem falhar.
-- O follow-up automático (`nina-stale-leads`) **já respeita** a janela: nunca envia depois de 24 h.
-- Existem **29 mensagens da Nina com falha**. O problema não é só de humanos, mas as causas da Nina não foram auditadas aqui. Nada será mudado na Nina.
+## 7. Plano de Build (cada etapa com aprovação)
+**Etapa 1. Ajustar a aba (sem enviar nada)**
+- `submit-template`: exigir admin/manager; recusar se já existir nome+idioma local; remover a renomeação automática e devolver "já existe na Meta, sincronize" em vez disso.
+- `sync-template-status`: exigir admin/manager; pedir também `rejected_reason` e guardar em `labels.rejected_reason` (sem coluna nova).
+- Tela: rótulos em português ("Em análise pela Meta", "Aprovado", "Rejeitado: motivo", "Pausado", "Desativado"); aviso se a categoria aprovada for diferente da pedida.
+- Testes: duplicado recusado, sem renomeação, sem permissão bloqueado, mapeamento de status.
 
-## 13-16. Situação atual
-- Conversas ativas da Letícia: **33, todas com janela FECHADA** (0 abertas). Portanto, todas as prioridades ALTO estão fora da janela.
-- CRÍTICA `3ed2f596`: última mensagem do cliente em 02/10 20:00, há ~67 h. **JANELA FECHADA**.
-- As 7 com resposta falha, todas **JANELA FECHADA**, com a opção "aguardar o cliente ou um template futuro":
-  - c1752737: 938 h
-  - 908c93e1: 646 h
-  - d552ad3d: 676 h
-  - a4803156: 169 h
-  - e8b9dbe0: 281 h
-  - 0f032230: 283 h
-  - 256c1034: 260 h
-- `120573eb` (938 h) e `c6e8d6da` (507 h): já com a Nina, **JANELA FECHADA**. Mesma situação.
+**Etapa 2. Submeter o modelo pela aba (você ou eu, com sua confirmação)**
+- Sincronizar primeiro; se `retomada_atendimento_lakma` já existir, não criar.
+- Novo template: nome `retomada_atendimento_lakma`, UTILITY, pt_BR, corpo acima, exemplo "Maria". Status passa a PENDING ("Em análise").
+- Sincronizar até APPROVED ou REJECTED. Enquanto não for APPROVED, ele não é usável.
 
-Consequência prática: com o bloqueio ligado, a Letícia hoje **não consegue responder nenhuma** das suas 33 conversas até haver um template aprovado ou o cliente voltar. Isso é o correto tecnicamente, porque hoje essas respostas falham sem ninguém ver. Mesmo assim, recomendo submeter o template antes ou junto com o bloqueio.
+**Etapa 3. Botão "Enviar modelo de retomada" (só depois de APPROVED)**
+- Aparece só com a janela fechada **e** o modelo APPROVED, nas telas da Letícia, dermo, parcerias e Chat completo. O aviso atual continua.
+- Caminho: tela → função da área (`expedicao-chat`/`dermo-chat`/`parcerias-chat`, ação `send_resume_template`; Chat completo por uma função nova só para admin/manager) → função do banco que confere acesso como o `*_reply` atual, grava a mensagem com `metadata.template_name`, idioma e variáveis, e coloca na fila `message_type='template'` → `whatsapp-sender` → Meta → `whatsapp-webhook` (status, motivo de falha e ordem segura já funcionam). A tela nunca chama a Meta.
+- O servidor confere de novo, antes de gravar: modelo APPROVED, nome válido e permissão.
+- Duplo clique: recusar se já houver modelo de retomada nessa conversa nos últimos 10 min ainda não falho; botão desabilitado durante o envio.
+- O modelo **não reabre** a janela: o campo segue bloqueado até o cliente responder. Já é assim, porque só mensagens do cliente contam.
+- O modelo não conta como "respondido" na prioridade: o Passo C já ignora mensagens com `template_name`.
+- Testes: aparece só fechada+aprovado; PENDING/REJECTED sem botão; sem acesso recusado; nome inválido recusado; duplo clique; janela continua fechada depois; falha registra o motivo.
 
-## 17. Migration
-Sim, uma, para: (a) checagem da janela nas três funções de resposta; (b) gatilho na fila de envio para o Chat completo. Função auxiliar única `whatsapp_window_open(conversation_id)`, para a regra ficar num lugar só.
+**Etapa 4. Recuperar conversas pendentes**: separada, manual, nada automático.
 
-## 18. Arquivos
-- Migration nova (função da janela, três funções de resposta, gatilho da fila).
-- `supabase/functions/_shared/whatsappWindow.ts` + `src/lib/whatsappWindow.ts` (mesma regra pura para a tela). Se for preciso, a tela importa a versão de `_shared`.
-- `expedicao-chat`, `dermo-chat`, `parcerias-chat`: traduzir o erro `whatsapp_window_closed` em resposta 409 clara.
-- `ExpedicaoChat.tsx` e `ChatInterface.tsx`: aviso + campo desabilitado com a janela fechada.
-- `useConversations.ts`: hoje já remove a bolha otimista quando dá erro, mas mostra só "Erro ao enviar mensagem". Passar a mostrar o aviso da janela.
-
-## 19. Testes
-Regra pura: 23h59 aberta; 24h00 e 24h01 fechadas; mensagem do cliente atrasada; nova mensagem reabre; Nina, humano, template e falha não contam; sem nenhuma mensagem do cliente fica fechada. Servidor: texto livre com janela fechada é recusado sem gravar mensagem nem fila; com janela aberta, passa; template passa; cliente acabou de escrever, passa. Tela: com o erro, a bolha otimista sai e o aviso aparece.
-
-## 20. Riscos
-- Bloquear sem um template aprovado deixa a Letícia sem como agir nos 33 casos. É uma decisão operacional sua.
-- O gatilho na fila afeta qualquer item de texto livre de humano. Itens da Nina e templates ficam de fora pelo `from_type` e pelo tipo de mensagem.
-- Margem: a Meta pode contar a janela a partir do horário que ela recebeu a mensagem. Uma folga de alguns minutos (ex.: bloquear a partir de 23h55) evita falhas na borda. Recomendo 5 min.
-
-## 21. Plano de Build em etapas (cada uma com aprovação)
-1. Regra pura + testes (sem efeito no sistema).
-2. Servidor: migration com a função da janela + checagem nas três funções de resposta + gatilho na fila; erro claro nas três funções; testes.
-3. Tela: aviso e bloqueio no campo, mensagem de erro correta, sem bolha falsa.
-4. Template de retomada: submeter o texto aprovado por você à Meta e, quando ele estiver aprovado, ligar o botão.
-5. Só depois: recuperar as 7 conversas e as 33 pendentes.
-Não mexer em prioridade, visual CRÍTICO/ALTO, handoff, Nina, Pipeline, CRM, Shopify, Vendas, históricos nem retry.
+## Detalhes técnicos
+- Migration: nenhuma nas etapas 1 e 2. Etapa 3: uma, para as funções de banco de envio de modelo (uma por área, ou uma genérica com checagem de acesso por área).
+- Arquivos: etapa 1, `submit-template`, `sync-template-status`, `Templates.tsx`, `useMetaTemplates.ts`. Etapa 3, as 3 funções de chat, `ExpedicaoChat.tsx`, `ChatInterface.tsx`, `_shared` (regra do nome), migration.
+- Riscos: a Meta pode reclassificar para MARKETING ou rejeitar; ela também costuma recusar modelos genéricos demais. Se o status mudar para PAUSED/DISABLED depois, o botão some. O nome do contato pode vir de apelido do WhatsApp.
 
 ## Decisões para você
-- Ligar o bloqueio (etapas 2 e 3) antes de ter o template, ou esperar o template (etapa 4)?
-- Folga de 5 min antes das 24 h: sim ou não?
-- Aprovar o texto sugerido do template de retomada (ou ajustar).
+1. Sem nome válido: (a) não enviar e mostrar aviso, que é o recomendado, ou (b) submeter também uma versão sem variável ("Olá! Aqui é a equipe...") como alternativa.
+2. Começar pela Etapa 1 (proteções da aba) antes de submeter? Recomendado, por causa da renomeação automática.
