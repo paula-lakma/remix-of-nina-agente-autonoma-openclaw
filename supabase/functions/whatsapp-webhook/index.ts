@@ -1,5 +1,6 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { stripHandoffMarkers } from "../_shared/handoff.ts";
+import { extractWhatsAppFailure, mergeFailureMetadata } from "./failure.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 declare const EdgeRuntime: {
@@ -126,6 +127,25 @@ serve(async (req) => {
                   ...(newStatus === 'read' && { read_at: new Date().toISOString() })
                 })
                 .eq('whatsapp_message_id', status.id);
+
+              // Preserve Meta's technical failure reason (merge, never overwrite metadata).
+              const failure = extractWhatsAppFailure(status, new Date().toISOString());
+              if (failure) {
+                try {
+                  const { data: rows } = await supabase
+                    .from('messages')
+                    .select('id, metadata')
+                    .eq('whatsapp_message_id', status.id);
+                  for (const row of rows ?? []) {
+                    const merged = mergeFailureMetadata(row.metadata as Record<string, unknown>, failure);
+                    if (merged.whatsapp_failure !== (row.metadata as any)?.whatsapp_failure) {
+                      await supabase.from('messages').update({ metadata: merged }).eq('id', row.id);
+                    }
+                  }
+                } catch (e) {
+                  console.error('[Webhook] Failed to store whatsapp_failure:', e);
+                }
+              }
             }
           }
         }
