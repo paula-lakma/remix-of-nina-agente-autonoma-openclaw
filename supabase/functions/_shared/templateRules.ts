@@ -32,7 +32,28 @@ export function isMetaDuplicateNameError(err: any): boolean {
 }
 
 /**
- * Mescla os dados da sincronização em `labels` sem perder chaves existentes.
+ * `meta_templates.labels` é text[]; as anotações da revisão da Meta ficam em
+ * `samples.review` (jsonb já existente), sem migration.
+ */
+export function mergeTemplateReview(
+  samples: unknown,
+  opts: { rejected_reason?: string | null; status?: string | null; requested_category?: string | null },
+): Record<string, unknown> {
+  const base: Record<string, unknown> =
+    samples && typeof samples === "object" && !Array.isArray(samples) ? { ...(samples as Record<string, unknown>) } : {};
+  const review = mergeTemplateLabels(base.review, opts);
+  if (Object.keys(review).length) base.review = review; else delete base.review;
+  return base;
+}
+
+/** Lê samples.review. */
+export function templateReview(samples: unknown): Record<string, unknown> {
+  const r = samples && typeof samples === "object" ? (samples as Record<string, unknown>).review : null;
+  return r && typeof r === "object" && !Array.isArray(r) ? (r as Record<string, unknown>) : {};
+}
+
+/**
+ * Mescla os dados da sincronização no objeto de revisão sem perder chaves existentes.
  * - requested_category só é gravada uma vez (categoria pedida na submissão).
  * - rejected_reason só é gravado quando a Meta informa (nunca inventa);
  *   "NONE" da Meta significa sem motivo e não é gravado.

@@ -1,7 +1,7 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import { getNinaMetaCreds } from "../_shared/nina-meta.ts";
 import { requireAdminOrManager } from "../_shared/staffAuth.ts";
-import { mergeTemplateLabels } from "../_shared/templateRules.ts";
+import { mergeTemplateReview } from "../_shared/templateRules.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -127,7 +127,7 @@ Deno.serve(async (req) => {
     // ── 2. Carrega registros locais ─────────────────────────────────────────
     const { data: existing, error: exErr } = await supabase
       .from("meta_templates")
-      .select("id, name, language, status, category, labels, meta_template_id");
+      .select("id, name, language, status, category, samples, meta_template_id");
     if (exErr) throw exErr;
 
     const keyOf = (n: string, l: string) => `${n}::${l}`;
@@ -166,14 +166,14 @@ Deno.serve(async (req) => {
       }
     }
 
-    type LocalRow = { id: string; status: string; category: string | null; labels: unknown; meta_template_id: string | null };
+    type LocalRow = { id: string; status: string; category: string | null; samples: unknown; meta_template_id: string | null };
     const localMap = new Map<string, LocalRow>();
     (existing ?? []).forEach((r: LocalRow & { name: string; language: string }) =>
       localMap.set(keyOf(r.name, r.language), {
         id: r.id,
         status: r.status,
         category: r.category,
-        labels: r.labels,
+        samples: r.samples,
         meta_template_id: r.meta_template_id,
       }),
     );
@@ -195,9 +195,9 @@ Deno.serve(async (req) => {
     for (const t of fetched) {
       const k = keyOf(t.name, t.language);
       const local = localMap.get(k);
-      const labels = mergeTemplateLabels(local?.labels, { rejected_reason: t.rejected_reason, status: t.status });
+      const samples = mergeTemplateReview(local?.samples, { rejected_reason: t.rejected_reason, status: t.status });
       const row = {
-        labels,
+        samples,
         name: t.name,
         language: t.language,
         status: t.status,
@@ -209,7 +209,7 @@ Deno.serve(async (req) => {
 
       const needsInsert = !local;
       const needsUpdate = !!local && (local.status !== t.status || local.meta_template_id !== t.id ||
-        local.category !== t.category || JSON.stringify(local.labels ?? {}) !== JSON.stringify(labels));
+        local.category !== t.category || JSON.stringify(local.samples ?? {}) !== JSON.stringify(samples));
 
       if (dryRun) {
         results.push({
@@ -241,7 +241,7 @@ Deno.serve(async (req) => {
           results.push({ name: t.name, language: t.language, meta_status: t.status, local_status: local!.status, meta_template_id: t.id, action: "unchanged" });
         }
       } catch (e) {
-        const msg = e instanceof Error ? e.message : String(e);
+        const msg = e instanceof Error ? e.message : ((e as { message?: string })?.message ?? JSON.stringify(e));
         console.error(`[sync-templates] upsert failed for ${t.name}/${t.language}:`, msg);
         errors.push({ name: `${t.name}/${t.language}`, error: msg });
         results.push({ name: t.name, language: t.language, meta_status: t.status, local_status: local?.status ?? null, meta_template_id: t.id, action: "failed" });

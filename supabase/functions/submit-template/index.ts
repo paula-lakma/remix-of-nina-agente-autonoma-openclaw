@@ -1,7 +1,7 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import { getNinaMetaCreds } from "../_shared/nina-meta.ts";
 import { requireAdminOrManager } from "../_shared/staffAuth.ts";
-import { isMetaDuplicateNameError, mergeTemplateLabels } from "../_shared/templateRules.ts";
+import { isMetaDuplicateNameError, mergeTemplateReview } from "../_shared/templateRules.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -128,17 +128,17 @@ Deno.serve(async (req) => {
     const returnedMetaId = metaResult.id || metaTemplateId;
     const returnedStatus = metaResult.status || "PENDING";
     const returnedCategory = metaResult.category || category;
-    const mergedLabels = mergeTemplateLabels(labels, { requested_category: category, status: returnedStatus });
+    const mergedSamples = mergeTemplateReview(samples, { requested_category: category, status: returnedStatus });
     if (isEdit && templateId) {
       const { error: upErr } = await supabase.from("meta_templates").update({
-        name, category: returnedCategory, language, components, samples, labels: mergedLabels, validation_score,
+        name, category: returnedCategory, language, components, samples: mergedSamples, labels, validation_score,
         meta_template_id: returnedMetaId, status: returnedStatus,
         updated_at: new Date().toISOString(),
       }).eq("id", templateId);
       if (upErr) throw upErr;
     } else {
       const { error: insErr } = await supabase.from("meta_templates").insert({
-        name, category: returnedCategory, language, components, samples, labels: mergedLabels, validation_score,
+        name, category: returnedCategory, language, components, samples: mergedSamples, labels, validation_score,
         meta_template_id: returnedMetaId, status: returnedStatus,
       });
       if (insErr) throw insErr;
@@ -148,7 +148,7 @@ Deno.serve(async (req) => {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   } catch (err) {
-    const msg = err instanceof Error ? err.message : "Erro interno";
+    const msg = err instanceof Error ? err.message : ((err as { message?: string })?.message ?? "Erro interno");
     console.error("submit-template error:", msg);
     return new Response(JSON.stringify({ error: msg }), {
       status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" },
