@@ -34,7 +34,7 @@ export function isValidHumanReply(m: PriorityMessage): boolean {
 }
 
 const norm = (s: string) => s.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
-const sentencesOf = (t: string) => norm(t).match(/[^.!?\n]+[.!?]*/g) ?? [];
+const sentencesOf = (t: string) => norm(t).replace(/consumidor\s*\.\s*gov(\.br)?/g, "consumidorgov").match(/[^.!?\n]+[.!?]*/g) ?? [];
 
 // ── CRÍTICO: intenção jurídica/formal ──────────────────────────────────────
 const LEGAL_PATTERNS: RegExp[] = [
@@ -46,7 +46,7 @@ const LEGAL_PATTERNS: RegExp[] = [
   /\b(procurar|falar com|falei com|chamar|acionar|contratar|consultar|consultei|meu|minha)\s+(um\s+|o\s+|a\s+|meu\s+|minha\s+)?advogad[oa]\b/,
   /\bjudicialmente\b/,
   /\b(medidas|providencias|acoes)\s+(legais|judiciais|cabiveis)\b/,
-  /\b(procurar|ir atras|correr atras|buscar|recorrer a|recorrer aos)\s+(d?os\s+)?meus\s+direitos\b/,
+  /\b(procurar|atras|buscar|recorrer a|recorrer aos)\s+(d?os\s+)?meus\s+direitos\b/,
   /\b(vou|irei|vou ter que|vou precisar|ja|abrir|abri|registrar|registrei|fazer|fiz|reclamar|reclamei|recorrer|acionar|denunciar|entrar|postar|colocar|ir ao|ir no|ir para o|levar ao|levar pro)\b[^.!?]{0,40}\b(procon|consumidor\s*\.?\s*gov|reclame\s*aqui)\b/,
   /\b(fazer|registrar|abrir|fiz|registrei|abri)\s+(um\s+|uma\s+)?(boletim de ocorrencia|b\.?\s?o\b|ocorrencia)/,
   /\b(vou|irei|ja)\s+(fazer\s+uma\s+|registrar\s+uma\s+)?denuncia(r)?\b/,
