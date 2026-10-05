@@ -114,3 +114,27 @@ export function decideStatusUpdate(cur: CurrentState, incoming: any, receivedAt:
 
   return noop("unknown_status");
 }
+
+// ---- Optimistic concurrency (store injected so it is testable) ----
+export interface StatusRow extends CurrentState { id: string }
+export interface StatusStore {
+  read(whatsappMessageId: string): Promise<StatusRow | null>;
+  /** Updates only if status/delivered_at/read_at still equal `expected`. Returns true if a row changed. */
+  conditionalUpdate(expected: StatusRow, patch: Decision["patch"]): Promise<boolean>;
+}
+
+export async function applyStatusWithRetry(
+  store: StatusStore,
+  // deno-lint-ignore no-explicit-any
+  incoming: any,
+  now: () => string,
+): Promise<{ outcome: "applied" | "noop" | "not_found" | "conflict"; reason: string }> {
+  for (let attempt = 0; attempt < 2; attempt++) {
+    const row = await store.read(incoming.id);
+    if (!row) return { outcome: "not_found", reason: "message_not_found" };
+    const d = decideStatusUpdate(row, incoming, now());
+    if (!d.update) return { outcome: "noop", reason: d.reason };
+    if (await store.conditionalUpdate(row, d.patch)) return { outcome: "applied", reason: d.reason };
+  }
+  return { outcome: "conflict", reason: "concurrent_update_retry_exhausted" };
+}

@@ -36,9 +36,11 @@ export function mergeFailureMetadata(
   const base = existing && typeof existing === 'object' ? existing : {};
   const prev = base.whatsapp_failure as WhatsAppFailure | undefined;
   if (prev) {
-    const { received_at: _a, ...p } = prev;
+    // Enrich: keep known fields, add/refresh fields the new event brings; keep first received_at.
     const { received_at: _b, ...n } = failure;
-    if (JSON.stringify(p) === JSON.stringify(n)) return { ...base };
+    const combined = { ...prev, ...n, received_at: prev.received_at } as WhatsAppFailure;
+    if (JSON.stringify(combined) === JSON.stringify(prev)) return { ...base };
+    return { ...base, whatsapp_failure: combined };
   }
   return { ...base, whatsapp_failure: failure };
 }

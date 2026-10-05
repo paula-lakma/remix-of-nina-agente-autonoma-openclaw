@@ -1,6 +1,6 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { stripHandoffMarkers } from "../_shared/handoff.ts";
-import { extractWhatsAppFailure, mergeFailureMetadata } from "./failure.ts";
+import { applyStatusWithRetry, type StatusStore } from "./status.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 declare const EdgeRuntime: {
@@ -105,51 +105,35 @@ serve(async (req) => {
 
       // Handle status updates (delivered, read, etc)
       if (value.statuses) {
+        const statusStore: StatusStore = {
+          async read(waId) {
+            const { data } = await supabase.from('messages')
+              .select('id, status, delivered_at, read_at, metadata')
+              .eq('whatsapp_message_id', waId).maybeSingle();
+            return data ?? null;
+          },
+          async conditionalUpdate(expected, patch) {
+            let q = supabase.from('messages').update(patch).eq('id', expected.id).eq('status', expected.status);
+            q = expected.delivered_at ? q.eq('delivered_at', expected.delivered_at) : q.is('delivered_at', null);
+            q = expected.read_at ? q.eq('read_at', expected.read_at) : q.is('read_at', null);
+            const { data, error } = await q.select('id');
+            if (error) throw error;
+            return (data?.length ?? 0) > 0;
+          },
+        };
         for (const status of value.statuses) {
           console.log('[Webhook] Status update:', status);
           
-          // Update message status in database
           if (status.id) {
-            const statusMap: Record<string, string> = {
-              'sent': 'sent',
-              'delivered': 'delivered',
-              'read': 'read',
-              'failed': 'failed'
-            };
-            
-            const newStatus = statusMap[status.status];
-            if (newStatus) {
-              await supabase
-                .from('messages')
-                .update({ 
-                  status: newStatus,
-                  ...(newStatus === 'delivered' && { delivered_at: new Date().toISOString() }),
-                  ...(newStatus === 'read' && { read_at: new Date().toISOString() })
-                })
-                .eq('whatsapp_message_id', status.id);
-
-              // Preserve Meta's technical failure reason (merge, never overwrite metadata).
-              const failure = extractWhatsAppFailure(status, new Date().toISOString());
-              if (failure) {
-                try {
-                  const { data: rows } = await supabase
-                    .from('messages')
-                    .select('id, metadata')
-                    .eq('whatsapp_message_id', status.id);
-                  for (const row of rows ?? []) {
-                    const merged = mergeFailureMetadata(row.metadata as Record<string, unknown>, failure);
-                    if (merged.whatsapp_failure !== (row.metadata as any)?.whatsapp_failure) {
-                      await supabase.from('messages').update({ metadata: merged }).eq('id', row.id);
-                    }
-                  }
-                } catch (e) {
-                  console.error('[Webhook] Failed to store whatsapp_failure:', e);
-                }
-              }
+            try {
+              const res = await applyStatusWithRetry(statusStore, status, () => new Date().toISOString());
+              console.log('[Webhook] Status decision:', status.status, res.outcome, res.reason);
+            } catch (e) {
+              console.error('[Webhook] Status update error:', e);
             }
           }
         }
-        
+
         return new Response(JSON.stringify({ status: 'processed_statuses' }), { 
           status: 200, 
           headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
