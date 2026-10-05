@@ -153,7 +153,19 @@ const MediaBlock: React.FC<{
 
 async function callRestrictedChat<T>(edgeFunction: string, body: Record<string, unknown>): Promise<T> {
   const { data, error } = await supabase.functions.invoke(edgeFunction, { body });
-  if (error) throw error;
+  if (error) {
+    // Respostas 4xx: lê o corpo para preservar o código do erro (ex.: whatsapp_window_closed).
+    const ctx = (error as { context?: Response }).context;
+    if (ctx && typeof ctx.json === 'function') {
+      try {
+        const b = await ctx.clone().json();
+        if (b?.error) throw new Error(String(b.error));
+      } catch (inner) {
+        if (inner instanceof Error && inner.message && !(inner instanceof SyntaxError)) throw inner;
+      }
+    }
+    throw error;
+  }
   if (data && (data as { error?: string }).error) {
     throw new Error((data as { error: string }).error);
   }
@@ -326,16 +338,24 @@ export const RestrictedHandoffChat: React.FC<{ config: RestrictedChatConfig }> =
     }
   }, [messages]);
 
+  const [refusal, setRefusal] = useState<ServerRefusal | null>(null);
+  const composer = resolveComposerWindow(selectedId, messages, nowTick, refusal);
+
   const handleSend = async () => {
     const content = draft.trim();
-    if (!content || !selectedId || sending) return;
+    if (!content || !selectedId || sending || !composer.canSendFreeform) return;
     setSending(true);
     try {
       await callBackend({ action: 'reply', conversation_id: selectedId, content });
       setDraft('');
       await loadMessages(selectedId);
     } catch (e) {
-      toast.error('Não foi possível enviar a mensagem');
+      if (isWindowClosedError(e)) {
+        setRefusal({ conversationId: selectedId, lastCustomerAt: composer.last_customer_message_at });
+        toast.error(WINDOW_CLOSED_TITLE, { description: WINDOW_CLOSED_BODY });
+      } else {
+        toast.error('Não foi possível enviar a mensagem');
+      }
     } finally {
       setSending(false);
     }
