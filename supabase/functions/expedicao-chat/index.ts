@@ -5,6 +5,7 @@
 // allowlist. Nunca usa service_role para dados da conversa: as RPCs rodam com
 // o JWT do usuário e obtêm auth.uid() internamente.
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { windowClosedPayload } from "../_shared/whatsappWindow.ts";
 import { corsHeaders } from "npm:@supabase/supabase-js@2/cors";
 import { computeConversationPriority, type PriorityMessage } from "../_shared/priority.ts";
 
@@ -106,7 +107,11 @@ Deno.serve(async (req) => {
       if (content.length > 4000) return json({ error: "content too long" }, 400);
       const { data, error } = await userClient
         .rpc("expedicao_reply", { _conversation_id: conversationId, _content: content });
-      if (error) throw error;
+      if (error) {
+        const closed = windowClosedPayload(error);
+        if (closed) return json(closed, 409);
+        throw error;
+      }
       // dispara o sender existente (fila já criada pela RPC)
       try { await userClient.functions.invoke("whatsapp-sender"); } catch (_e) { /* fila processa depois */ }
       return json({ ok: true, message_id: data });

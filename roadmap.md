@@ -29,3 +29,5 @@
 - [x] Leticia Passo C: cálculo de prioridade (sem visual)
 - Falhas de envio do WhatsApp: Passo A (salvar o motivo da Meta) feito; Passos B–E aguardam aprovação
 - [x] WhatsApp: ordem dos status (83 antigos intactos; correção deles aguarda decisão)
+- [x] Janela 24h: etapas 1 e 2 (regra + bloqueio no servidor)
+- Janela 24h: etapa 3 (aviso na tela) e template de retomada — aguardam aprovação
