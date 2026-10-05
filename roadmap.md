@@ -26,3 +26,4 @@
 - [x] Leticia Passo A: garantir encaminhamento quando a Nina promete (sem reatribuir histórico)
 - [x] Leticia Passo B: lista "Exceções Letícia" (só leitura, admin/manager)
 - [x] Leticia: 4 conversas históricas encaminhadas (aprovado)
+- [x] Leticia Passo C: cálculo de prioridade (sem visual)
