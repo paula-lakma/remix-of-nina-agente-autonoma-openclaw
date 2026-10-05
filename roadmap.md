@@ -23,3 +23,4 @@
 - [ ] Passo 6 Etapa C (limpar teste da Shopify + worker a cada 15 min) — aguarda aprovação.
 - [ ] Passo 6 Etapa D (reconciliação a cada 6h) — aguarda aprovação.
 - [x] Chat: horário real nas mensagens, separadores de dia, lista lateral (só exibição)
+- [ ] Leticia Passo A: garantir encaminhamento quando a Nina promete (sem reatribuir histórico)
