@@ -583,7 +583,7 @@ const ChatInterface: React.FC = () => {
               <div className="p-8 text-center text-sm text-slate-500">Nenhuma exceção no momento.</div>
             ) : leticiaExceptions.map((ex) => {
               const owner = teamMembers.find((m) => m.id === ex.assignedUserId)?.name ?? 'Sem responsável';
-              const mins = Math.max(0, Math.floor((nowTick - new Date(ex.promiseAt).getTime()) / 60000));
+              const mins = Math.max(0, Math.floor((Number(nowTick) - new Date(ex.promiseAt).getTime()) / 60000));
               const ago = mins < 60 ? `${mins} min` : mins < 1440 ? `${Math.floor(mins / 60)} h` : `${Math.floor(mins / 1440)} dias`;
               return (
                 <div key={ex.conversationId} onClick={() => setSelectedChatId(ex.conversationId)}
