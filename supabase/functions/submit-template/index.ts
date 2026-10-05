@@ -1,5 +1,7 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import { getNinaMetaCreds } from "../_shared/nina-meta.ts";
+import { requireAdminOrManager } from "../_shared/staffAuth.ts";
+import { isMetaDuplicateNameError, mergeTemplateLabels } from "../_shared/templateRules.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -9,23 +11,40 @@ const corsHeaders = {
 
 const GRAPH_API = "https://graph.facebook.com/v21.0";
 
+const jsonRes = (body: unknown, status = 200) =>
+  new Response(JSON.stringify(body), { status, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
+  // Só admin/manager com sessão real. Chave pública/anônima é recusada.
+  const auth = await requireAdminOrManager(req);
+  if (!auth.ok) return jsonRes({ error: auth.error }, auth.status);
+
   try {
     const { templateData, isEdit, templateId, metaTemplateId } = await req.json();
-    if (!templateData) {
-      return new Response(JSON.stringify({ error: "templateData é obrigatório" }), {
-        status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
-    }
+    if (!templateData) return jsonRes({ error: "templateData é obrigatório" }, 400);
 
     const supabase = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
+    const { name, category, language, components, samples, labels, validation_score } = templateData;
+    if (typeof name !== "string" || !/^[a-z0-9_]{1,512}$/.test(name)) return jsonRes({ error: "nome inválido" }, 400);
+    if (typeof language !== "string" || !language.trim()) return jsonRes({ error: "idioma obrigatório" }, 400);
+    if (!Array.isArray(components) || components.length === 0) return jsonRes({ error: "componentes obrigatórios" }, 400);
+
+    // Duplicado local (nome + idioma): não submete de novo.
+    if (!isEdit) {
+      const { data: dup, error: dupErr } = await supabase.from("meta_templates")
+        .select("id, name, language, status, category, meta_template_id")
+        .eq("name", name).eq("language", language).maybeSingle();
+      if (dupErr) throw dupErr;
+      if (dup) {
+        return jsonRes({ error: "template_already_exists_local", message: "Template já existe. Nada foi submetido.", existing: dup }, 409);
+      }
+    }
+
     const conn = await getNinaMetaCreds(supabase);
     if (!conn.waba_id) throw new Error("nina_settings.whatsapp_business_account_id não configurado.");
-
     const { access_token, waba_id } = conn;
-    const { name, category, language, components, samples, labels, validation_score } = templateData;
     // deno-lint-ignore no-explicit-any
     const metaComponents: any[] = [];
 
@@ -87,43 +106,45 @@ Deno.serve(async (req) => {
         body: JSON.stringify(metaPayload),
       });
     }
-    let metaResult = await metaResponse.json();
+    const metaResult = await metaResponse.json();
 
-    if (!metaResponse.ok && metaResult?.error?.code === 100 && metaResult?.error?.error_subcode === 2388093) {
-      metaPayload.name = `${name}_v${Date.now().toString(36).slice(-4)}`;
-      metaResponse = await fetch(`${GRAPH_API}/${waba_id}/message_templates`, {
-        method: "POST",
-        headers: { Authorization: `Bearer ${access_token}`, "Content-Type": "application/json" },
-        body: JSON.stringify(metaPayload),
-      });
-      metaResult = await metaResponse.json();
+    // Nome já existe na Meta: nunca renomear (sem _vXXXX). Pedir sincronização.
+    if (!metaResponse.ok && isMetaDuplicateNameError(metaResult?.error)) {
+      return jsonRes({
+        error: "template_already_exists_meta",
+        message: "Template já existe na Meta. Sincronize os templates.",
+        details: metaResult?.error ?? null,
+      }, 409);
     }
 
     if (!metaResponse.ok) {
       console.error("Meta rejeitou template:", JSON.stringify(metaResult));
-      return new Response(JSON.stringify({
+      return jsonRes({
         error: metaResult?.error?.error_user_msg || metaResult?.error?.message || "Erro ao submeter template",
         details: metaResult?.error ?? null,
-      }), {
-        status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
+      }, 400);
     }
 
     const returnedMetaId = metaResult.id || metaTemplateId;
+    const returnedStatus = metaResult.status || "PENDING";
+    const returnedCategory = metaResult.category || category;
+    const mergedLabels = mergeTemplateLabels(labels, { requested_category: category, status: returnedStatus });
     if (isEdit && templateId) {
-      await supabase.from("meta_templates").update({
-        name: metaPayload.name || name, category, language, components, samples, labels, validation_score,
-        meta_template_id: returnedMetaId, status: metaResult.status || "PENDING",
+      const { error: upErr } = await supabase.from("meta_templates").update({
+        name, category: returnedCategory, language, components, samples, labels: mergedLabels, validation_score,
+        meta_template_id: returnedMetaId, status: returnedStatus,
         updated_at: new Date().toISOString(),
       }).eq("id", templateId);
+      if (upErr) throw upErr;
     } else {
-      await supabase.from("meta_templates").insert({
-        name: metaPayload.name || name, category, language, components, samples, labels, validation_score,
-        meta_template_id: returnedMetaId, status: metaResult.status || "PENDING",
+      const { error: insErr } = await supabase.from("meta_templates").insert({
+        name, category: returnedCategory, language, components, samples, labels: mergedLabels, validation_score,
+        meta_template_id: returnedMetaId, status: returnedStatus,
       });
+      if (insErr) throw insErr;
     }
 
-    return new Response(JSON.stringify({ success: true, metaTemplateId: returnedMetaId, status: metaResult.status }), {
+    return new Response(JSON.stringify({ success: true, metaTemplateId: returnedMetaId, status: returnedStatus, category: returnedCategory }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   } catch (err) {
