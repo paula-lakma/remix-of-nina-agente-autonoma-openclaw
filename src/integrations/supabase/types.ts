@@ -3612,6 +3612,20 @@ export type Database = {
           isSetofReturn: false
         }
       }
+      whatsapp_assert_freeform_safe: {
+        Args: { _conversation_id: string }
+        Returns: undefined
+      }
+      whatsapp_freeform_window: {
+        Args: { _conversation_id: string; _now?: string }
+        Returns: {
+          freeform_safe_until: string
+          is_freeform_safe: boolean
+          is_window_open: boolean
+          last_customer_message_at: string
+          window_open_until: string
+        }[]
+      }
     }
     Enums: {
       app_role:
