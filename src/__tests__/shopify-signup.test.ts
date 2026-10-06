@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { CONSENT_TEXTS, isAllowedOrigin, normalizeBrMobile, parseAllowedOrigins, publicErrorMessage, validateSignup } from "../../supabase/functions/_shared/signup";
+import { CONSENT_TEXTS, isAllowedOrigin, isAllowedTurnstileHostname, normalizeBrMobile, originHostnames, parseAllowedOrigins, publicErrorMessage, validateSignup } from "../../supabase/functions/_shared/signup";
 
 const ok = { name: "Maria Silva", phone: "(11) 98765-4321", contact_type: "cliente_final", consent_accepted: true, consent_version: "v1", turnstile_token: "tok" };
 
@@ -34,4 +34,26 @@ describe("origem e mensagens", () => {
   it("origem estranha recusada", () => expect(isAllowedOrigin("https://evil.com", allowed)).toBe(false));
   it("sem origem recusada", () => expect(isAllowedOrigin(null, allowed)).toBe(false));
   it("mensagem não revela existência", () => expect(publicErrorMessage("invalid_phone")).toBe("Informe um WhatsApp válido."));
+});
+
+describe("hostname informado pela Cloudflare", () => {
+  const hosts = originHostnames(parseAllowedOrigins("https://lakma.com.br,https://www.lakma.com.br"));
+
+  it("extrai os hostnames das origens autorizadas", () => expect(hosts).toEqual(["lakma.com.br", "www.lakma.com.br"]));
+  it("origem malformada não vira hostname", () => expect(originHostnames(parseAllowedOrigins("https://lakma.com.br,nada,http://"))).toEqual(["lakma.com.br"]));
+  it("aceita os dois domínios aprovados", () => {
+    expect(isAllowedTurnstileHostname("lakma.com.br", hosts)).toBe(true);
+    expect(isAllowedTurnstileHostname("www.lakma.com.br", hosts)).toBe(true);
+  });
+  it("ignora maiúsculas e ponto final", () => expect(isAllowedTurnstileHostname("WWW.LAKMA.COM.BR.", hosts)).toBe(true));
+  it("recusa domínio estranho", () => expect(isAllowedTurnstileHostname("evil.com", hosts)).toBe(false));
+  it("recusa sufixo colado no domínio", () => expect(isAllowedTurnstileHostname("lakma.com.br.evil.com", hosts)).toBe(false));
+  it("recusa subdomínio não listado", () => expect(isAllowedTurnstileHostname("loja.lakma.com.br", hosts)).toBe(false));
+  it("recusa hostname ausente", () => {
+    expect(isAllowedTurnstileHostname(null, hosts)).toBe(false);
+    expect(isAllowedTurnstileHostname("", hosts)).toBe(false);
+    expect(isAllowedTurnstileHostname(undefined, hosts)).toBe(false);
+  });
+  it("sem hostnames configurados recusa tudo", () => expect(isAllowedTurnstileHostname("lakma.com.br", [])).toBe(false));
+  it("mensagem não revela o motivo", () => expect(publicErrorMessage("turnstile_hostname")).toBe("Não foi possível confirmar que você não é um robô."));
 });
