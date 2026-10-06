@@ -102,12 +102,13 @@ Deno.serve(async (req) => {
       const list = (data ?? []) as Array<Record<string, unknown>>;
       // Só leitura: marca mensagens de modelo (ex.: retomada) para o histórico.
       try {
-        const { data: meta } = await userClient.from("messages").select("id, metadata")
+        const { data: meta } = await userClient.from("messages").select("id, metadata, status")
           .eq("conversation_id", conversationId).not("metadata->>template_name", "is", null);
         const byId = new Map((meta ?? []).map((x) => [x.id, x.metadata as Record<string, unknown> | null]));
+        const statusById = new Map((meta ?? []).map((x) => [x.id, x.status as string]));
         for (const m of list) {
           const md = byId.get(String(m.id));
-          if (md) { m.template_name = md.template_name ?? null; m.template_source = md.source ?? null; }
+          if (md) { m.template_name = md.template_name ?? null; m.template_source = md.source ?? null; m.status = statusById.get(String(m.id)) ?? m.status ?? null; }
         }
       } catch (_e) { /* histórico segue sem marcação */ }
       return json({ ok: true, messages: list });
