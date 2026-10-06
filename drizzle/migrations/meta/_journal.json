@@ -141,6 +141,13 @@
       "when": 1791310788998,
       "tag": "0019_contact_consents_clock_timestamp",
       "breakpoints": true
+    },
+    {
+      "idx": 20,
+      "version": "7",
+      "when": 1791318134491,
+      "tag": "0020_expedicao_resume_template",
+      "breakpoints": true
     }
   ]
 }

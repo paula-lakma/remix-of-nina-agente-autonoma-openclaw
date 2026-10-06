@@ -3502,6 +3502,14 @@ export type Database = {
         Args: { _content: string; _conversation_id: string }
         Returns: string
       }
+      expedicao_resume_template_status: {
+        Args: { _conversation_id: string }
+        Returns: Json
+      }
+      expedicao_send_resume_template: {
+        Args: { _conversation_id: string }
+        Returns: string
+      }
       expire_stale_message_grouping: { Args: never; Returns: number }
       get_auth_user_id: { Args: never; Returns: string }
       get_my_dermo_messages: {
@@ -3728,6 +3736,10 @@ export type Database = {
       renew_financial_job_lease: {
         Args: { p_job_name: string; p_run_id: string; p_ttl_seconds?: number }
         Returns: boolean
+      }
+      resume_safe_name: {
+        Args: { _call_name: string; _name: string }
+        Returns: string
       }
       revoke_expedicao_access: {
         Args: { _conversation_id: string; _reason?: string }
