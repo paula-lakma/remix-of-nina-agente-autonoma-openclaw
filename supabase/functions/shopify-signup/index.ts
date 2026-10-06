@@ -3,7 +3,8 @@
 // Toda escrita acontece em apply_shopify_signup (SECURITY DEFINER, só service_role).
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import {
-  GENERIC_OK, isAllowedOrigin, parseAllowedOrigins, publicErrorMessage, validateSignup,
+  GENERIC_OK, isAllowedOrigin, isAllowedTurnstileHostname, originHostnames,
+  parseAllowedOrigins, publicErrorMessage, validateSignup,
 } from "../_shared/signup.ts";
 
 async function sha256(s: string): Promise<string> {
@@ -13,6 +14,7 @@ async function sha256(s: string): Promise<string> {
 
 Deno.serve(async (req) => {
   const allowed = parseAllowedOrigins(Deno.env.get("SIGNUP_ALLOWED_ORIGINS"));
+  const allowedHosts = originHostnames(allowed);
   const origin = req.headers.get("Origin");
   const originOk = isAllowedOrigin(origin, allowed);
   const cors: Record<string, string> = {
@@ -57,6 +59,12 @@ Deno.serve(async (req) => {
     console.error("[shopify-signup] turnstile", e instanceof Error ? e.message : String(e));
   }
   if (ts.success !== true) return json({ ok: false, error: "turnstile_failed", message: publicErrorMessage("turnstile_failed") }, 400);
+
+  // Hostname informado pela Cloudflare: o token precisa ter nascido num domínio autorizado.
+  if (!isAllowedTurnstileHostname(ts.hostname, allowedHosts)) {
+    console.error(`[shopify-signup] turnstile hostname recusado: ${JSON.stringify(ts.hostname ?? null)}`);
+    return json({ ok: false, error: "turnstile_hostname", message: publicErrorMessage("turnstile_hostname") }, 400);
+  }
 
   const evidence = {
     origin,

@@ -74,12 +74,37 @@ export function isAllowedOrigin(origin: string | null, allowed: string[]): boole
   return allowed.includes(origin.replace(/\/+$/, "").toLowerCase());
 }
 
+/** Hostnames dos domínios autorizados (ex.: lakma.com.br, www.lakma.com.br). */
+export function originHostnames(allowed: string[]): string[] {
+  const out = new Set<string>();
+  for (const o of allowed) {
+    try {
+      const h = new URL(o).hostname.toLowerCase();
+      if (h) out.add(h);
+    } catch {
+      /* origem malformada: ignorada */
+    }
+  }
+  return [...out];
+}
+
+/**
+ * O hostname vem da resposta da Cloudflare, não do header Origin do navegador:
+ * um token só vale se foi gerado num domínio realmente autorizado no widget.
+ */
+export function isAllowedTurnstileHostname(hostname: string | null | undefined, allowedHosts: string[]): boolean {
+  const h = (hostname ?? "").trim().toLowerCase().replace(/\.+$/, "");
+  if (!h) return false;
+  return allowedHosts.includes(h);
+}
+
 /** Mensagem pública por erro (nunca revela se o número existe). */
 export function publicErrorMessage(err: string): string {
   if (err === "invalid_phone") return INVALID_PHONE_MSG;
   if (err === "invalid_name") return "Informe seu nome.";
   if (err === "consent_required") return "É preciso aceitar receber mensagens pelo WhatsApp.";
   if (err === "rate_limited") return "Muitas tentativas. Tente novamente mais tarde.";
-  if (err === "turnstile_failed" || err === "turnstile_missing") return "Não foi possível confirmar que você não é um robô.";
+  if (err === "turnstile_failed" || err === "turnstile_missing" || err === "turnstile_hostname")
+    return "Não foi possível confirmar que você não é um robô.";
   return "Não foi possível concluir a inscrição.";
 }
