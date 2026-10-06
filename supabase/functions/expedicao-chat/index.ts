@@ -8,6 +8,7 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import { windowClosedPayload } from "../_shared/whatsappWindow.ts";
 import { corsHeaders } from "npm:@supabase/supabase-js@2/cors";
 import { computeConversationPriority, type PriorityMessage } from "../_shared/priority.ts";
+import { resumeErrorCode } from "../_shared/resumeTemplate.ts";
 
 const json = (body: unknown, status = 200) =>
   new Response(JSON.stringify(body), {
@@ -98,7 +99,37 @@ Deno.serve(async (req) => {
       const { data, error } = await userClient
         .rpc("get_my_expedicao_messages", { _conversation_id: conversationId });
       if (error) throw error;
-      return json({ ok: true, messages: data ?? [] });
+      const list = (data ?? []) as Array<Record<string, unknown>>;
+      // Só leitura: marca mensagens de modelo (ex.: retomada) para o histórico.
+      try {
+        const { data: meta } = await userClient.from("messages").select("id, metadata")
+          .eq("conversation_id", conversationId).not("metadata->>template_name", "is", null);
+        const byId = new Map((meta ?? []).map((x) => [x.id, x.metadata as Record<string, unknown> | null]));
+        for (const m of list) {
+          const md = byId.get(String(m.id));
+          if (md) { m.template_name = md.template_name ?? null; m.template_source = md.source ?? null; }
+        }
+      } catch (_e) { /* histórico segue sem marcação */ }
+      return json({ ok: true, messages: list });
+    }
+
+    if (action === "resume_status") {
+      const { data, error } = await userClient
+        .rpc("expedicao_resume_template_status", { _conversation_id: conversationId });
+      if (error) throw error;
+      return json({ ok: true, ...(data as Record<string, unknown>) });
+    }
+
+    if (action === "resume_template") {
+      const { data, error } = await userClient
+        .rpc("expedicao_send_resume_template", { _conversation_id: conversationId });
+      if (error) {
+        const code = resumeErrorCode(error.message);
+        if (code) return json({ error: code }, code === "forbidden" ? 403 : 409);
+        throw error;
+      }
+      try { await userClient.functions.invoke("whatsapp-sender"); } catch (_e) { /* fila processa depois */ }
+      return json({ ok: true, message_id: data });
     }
 
     if (action === "reply") {
