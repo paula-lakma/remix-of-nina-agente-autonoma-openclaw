@@ -120,6 +120,13 @@
       "when": 1791214046441,
       "tag": "0016_whatsapp_freeform_window_guard",
       "breakpoints": true
+    },
+    {
+      "idx": 17,
+      "version": "7",
+      "when": 1791310478875,
+      "tag": "0017_contact_consents_shopify_signup",
+      "breakpoints": true
     }
   ]
 }
