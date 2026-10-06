@@ -34,3 +34,6 @@
 - Aba Templates: excluir só apaga localmente e volta na sincronização (pendência separada)
 - [x] Inscrições Shopify: segredos salvos; shopify-signup republicada; hostname do Turnstile validado; teste com token inválido feito (sem gravação real)
 - Inscrições Shopify: teste real com inscrição verdadeira — aguarda a página/formulário em lakma.com.br (próxima etapa)
+
+- [x] Letícia: botão "Enviar modelo de retomada" (Parte B)
+- [ ] Parte A: lancamentos_plla_ghkcu_lakma_v2 + opt-out por botão (aguardando aprovação)
