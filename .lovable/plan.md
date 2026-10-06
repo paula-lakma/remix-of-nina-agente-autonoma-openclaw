@@ -1,79 +1,102 @@
-# Consentimentos de marketing na Shopify — auditoria (06/10/2026, somente leitura)
+# Inscrições da página pública da Shopify na Nina (plano, somente leitura — 06/10/2026)
 
-Nada foi alterado: nem a Shopify, nem permissões do app, nem clientes, contatos ou o banco da Nina. Só consultas de leitura à Shopify (incluindo a descrição dos campos da API) e aos pedidos já recebidos.
+Nada foi alterado: nenhum contato, nenhuma tabela, função, campanha ou configuração da Shopify.
 
-## Respostas diretas
+## 1. O que existe hoje
 
-- **A) Aceitaram marketing por e-mail:** impossível contar hoje, porque o app não tem permissão de leitura de clientes. O único sinal disponível é o aceite marcado nos pedidos recebidos: **3 de 487 pedidos**.
-- **B) Aceitaram WhatsApp marketing:** impossível contar hoje (mesma permissão faltando). Nenhum dado de WhatsApp chega nos pedidos.
-- **C) Profissionais identificáveis:** **0** com o acesso atual. Os pedidos não trazem etiqueta de cliente; nas etiquetas de pedido só há 2 de teste ("tag1", "tag2").
-- **D) O checkout coleta WhatsApp?** Não dá para confirmar: as configurações do checkout não são acessíveis pelo app. Nenhum pedido recebido traz telefone de aceite SMS/WhatsApp (0 de 487), um sinal de que hoje isso não é coletado ou não está ativo.
-- **E) O app atual consegue ler esses dados?** **Não.**
-- **F) O que falta:** a permissão `read_customers`.
-- **G) Dá para usar a Shopify como fonte de verdade do WhatsApp?** Tecnicamente sim: a versão da API que usamos (2026-07) tem um campo próprio de consentimento de WhatsApp por cliente. Mas só depois de liberar a permissão de leitura de clientes e de a loja de fato coletar esse aceite.
-- **H) O que fica na Nina:** descadastro pelo WhatsApp ("parar", "sair"), consentimento coletado na conversa, tipo de cliente quando não vier da Shopify e o histórico de quando e de onde veio cada aceite.
+- **Contatos (`contacts`):** 709. O telefone é único no banco (`contacts_phone_number_unique`). 707 estão no formato 55+DDD+número, e **169 deles sem o 9 da frente** (só 8 dígitos depois do DDD). Isso abre risco de a mesma pessoa virar dois contatos (com e sem o 9).
+- Já existem `is_blocked`/`blocked_at`/`blocked_reason` (0 bloqueados) e `whatsapp_valid` (vazio).
+- **Tipo de cliente (`crm_contact_profiles.contact_type`):** um por contato. Valores permitidos: `profissional_estetica`, `cliente_final`, `distribuidor`, `influenciador`, `outro`. Só 1 contato está preenchido.
+- **Consentimento / descadastro:** não existe nada.
+- **Ao criar um contato,** um gatilho (`auto_create_deal_on_contact`) abre automaticamente um card no funil de vendas. Uma inscrição pelo site também abriria um card. É preciso decidir se isso é desejado.
+- **Proteções de acesso:** contatos e perfis só são lidos e escritos pela equipe logada. Não existe hoje nenhum endereço público que grave contatos. Os endereços públicos atuais (webhooks da Shopify e do WhatsApp) são protegidos por assinatura.
+- **Campanhas:** a função de disparo (`broadcast-processor`) envia para listas e não filtra bloqueio, consentimento ou descadastro.
 
-## 1–2. App e permissões (confirmadas na instalação atual)
+## 2. Modelo recomendado: tabela separada de consentimentos
 
-- Permissão concedida: **somente `read_orders`**.
-- Não concedidas: `read_all_orders`, `read_customers` e qualquer permissão de marketing.
-- Teste real: a contagem de clientes foi recusada pela Shopify com "Access denied… Required access: `read_customers`".
-- Ficam bloqueados: lista de clientes, contagens, etiquetas e campos extras de cliente, e os três consentimentos.
+Comparação:
+- **Campos dentro do contato:** é simples, mas guarda só o último estado e perde o histórico (quem aceitou, quando, com qual texto, quando saiu).
+- **Tabela separada (recomendada):** cada aceite ou saída vira um registro que nunca é apagado. O estado atual é sempre o registro mais recente por contato e canal. Serve de prova para a LGPD e para a Meta.
 
-## 3–4. Campos reais de consentimento na API (versão 2026-07)
+Tabela nova `contact_consents`:
 
-Cada canal tem estado separado:
+| Campo | Exemplo |
+|---|---|
+| contact_id | contato |
+| channel | `whatsapp` |
+| purpose | `marketing` |
+| status | `opted_in` / `opted_out` |
+| occurred_at | data e hora |
+| source | `shopify_site`, `whatsapp_keyword`, `manual` |
+| consent_version | `v1-2026-10` |
+| consent_text | texto exato do checkbox aceito |
+| evidence | página, IP resumido, navegador (sem dados excessivos) |
+| created_by | equipe, quando manual |
 
-| Canal | Onde fica | Campos |
-|---|---|---|
-| E-mail | `Customer.defaultEmailAddress` (`CustomerEmailAddress`) | `marketingState`, `marketingOptInLevel`, `marketingUpdatedAt`, `marketingUnsubscribeUrl` |
-| SMS | `CustomerSmsMarketingConsentState` (no telefone do cliente) | `marketingState`, `marketingOptInLevel`, `consentUpdatedAt`, `consentCollectedFrom` |
-| WhatsApp | `CustomerPhoneNumber.whatsAppMarketingConsent` (`CustomerWhatsAppMarketingConsent`) | `state`, `optInLevel`, `updatedAt`, `collectedFrom`, `sourceLocation` |
+**Precisa de mudança no banco:** sim. São a tabela nova, as regras de acesso (leitura só para admin e gerente; gravação só pelo servidor) e uma visão do "estado atual" por contato.
 
-Também existe `Customer.dataSaleOptOut`. E-mail, SMS e WhatsApp são independentes: um não implica o outro.
+## 3. Endereço de recebimento
 
-## 5–6. Contagens
+Uma função nova, `shopify-signup`, pública e chamada pela página da Shopify. Ela recebe nome, telefone, tipo de cliente, aceite e versão do texto, e passa por estas etapas:
 
-- **Clientes da Shopify:** sem acesso, não dá para contar.
-- **Pedidos recebidos:** 487 pedidos com dado de cliente. Neles, o cliente vem **sem** campos de consentimento, porque a Shopify os omite sem `read_customers`.
-- **Aceite marcado no pedido** (`buyer_accepts_marketing`): 3 verdadeiros. Esse aceite é genérico, de e-mail, e **não** serve como aceite de WhatsApp.
+1. **Validação:** nome com 2 a 80 caracteres; tipo só `profissional_estetica` ou `cliente_final`; aceite obrigatório e igual a "sim"; versão do texto conhecida. Fora disso, a inscrição é recusada.
+2. **Normalização do telefone:** só dígitos, 55 na frente, DDD válido e celular com 9 (11 dígitos depois do 55). Telefone fixo ou inválido é recusado com a mensagem "Informe um WhatsApp válido".
+3. **Antirrobô:** verificação Cloudflare Turnstile, feita no servidor. Precisa de uma chave secreta, que você criaria na Cloudflare.
+4. **Limite de envios:** até 5 por telefone por dia e um teto por endereço de internet, com registro das tentativas.
+5. **Origem permitida:** só o domínio da loja.
+6. **Resposta igual em todos os casos:** "Inscrição recebida", para não revelar se o número já existia.
 
-**Depois de liberar `read_customers`**, conseguiríamos ler por cliente:
-- os estados de e-mail, SMS e WhatsApp;
-- as etiquetas e os campos extras;
-- o identificador do cliente.
+## 4. Deduplicação
 
-## 7–9. Checkout, cadastro profissional e cliente final
+- Procura o contato pelo telefone normalizado **e também pela versão sem o 9**, por causa dos 169 antigos sem o 9.
+- Se achar, usa esse contato. Se achar os dois formatos, usa o mais antigo e não cria outro.
+- Inscrição repetida pelo mesmo número não duplica o contato. Só registra um novo aceite se o último estado for "saiu" ou se a versão do texto for nova. Caso contrário, nada muda.
 
-- **Configuração do checkout:** o app não acessa. É preciso conferir no painel da Shopify, em Configurações → Checkout ("Marketing por e-mail", "Marketing por SMS"; o WhatsApp depende do app de mensagens instalado na loja).
-- **Formulário profissional, cadastro e login do cliente final, formulários PageFly:** ficam no tema da loja, fora deste projeto. Não foi possível auditar pelo código nem pelo acesso atual.
-- **O que os pedidos mostram:** origem "web" em todos. Os campos extras dos pedidos são só de pagamento (pix, cartão, desconto), sem tipo de cliente ou aceite.
+## 5. Contato existente
 
-## 10. Identificar profissionais
+- Nada é apagado nem sobrescrito: nome, histórico, conversa e funil ficam como estão.
+- O nome só é preenchido se estiver vazio.
+- Registra o novo aceite.
+- **Tipo de cliente:** só é preenchido se estiver vazio. Se já houver um tipo, nunca é trocado pelo site (ex.: um "distribuidor" não vira "cliente final"). Se o site disser "profissional" e o atual for "cliente final", também não troca automaticamente: o caso fica marcado para revisão da equipe.
 
-- Com o acesso atual: nenhum dado disponível.
-- Com `read_customers`: dá para ler etiquetas de cliente (ex.: "profissional", "aprovado") e campos extras, se a loja os usar. Precisa confirmar no painel quais etiquetas o cadastro profissional grava.
+## 6. Contato novo
 
-## 11. Ligação Shopify ↔ Nina
+- Cria o contato com nome, telefone normalizado e a etiqueta `origem:shopify_site`.
+- Cria o tipo de cliente e registra o aceite com a origem `shopify_site`.
+- Card no funil: decidir (ver abaixo).
 
-- Melhor chave: o **identificador do cliente Shopify**, que já está salvo nos pedidos (421 clientes distintos).
-- Hoje, 374 contatos da Nina já estão ligados a pedidos, pelo telefone normalizado. Esses poderiam ser ligados com segurança.
-- O e-mail fica como chave de reserva, não como principal.
+## 7. Descadastro
 
-## Plano futuro (não executar agora)
+- Pelo WhatsApp: mensagem do cliente com "sair", "parar", "não quero receber", "remover meu número" grava um registro de saída e envia uma confirmação curta.
+- Manual: botão "Descadastrar" no contato, só para a equipe.
+- Descadastro **sempre vence** um aceite anterior. Um novo aceite só vale se vier depois, com nova inscrição.
 
-1. **Na Shopify (você, no painel):**
-   - conferir o que o checkout coleta (e-mail, SMS, WhatsApp);
-   - conferir quais etiquetas o cadastro profissional grava.
-2. **Nova versão do app com `read_customers`** (precisa reautorizar a instalação). Só leitura.
-3. **Leitura de teste:** contagens por estado de e-mail, SMS e WhatsApp e por etiqueta, sem gravar nada.
-4. **Guardar na Nina, separadamente,** `email_marketing_consent` e `whatsapp_marketing_consent` (estado, data, origem), ligados pelo identificador do cliente Shopify.
-   - Nunca converter e-mail em WhatsApp.
-   - O descadastro feito no WhatsApp sempre vence o dado da Shopify.
-5. **Só então** usar esses dados no filtro das Campanhas.
+## 8. Campanhas (futuro, sem mexer agora)
 
-## Detalhes técnicos
+Para uma pessoa poder receber um disparo de marketing, todas estas condições valem:
+- último estado WhatsApp marketing = `opted_in`;
+- sem saída posterior;
+- não bloqueada;
+- telefone válido;
+- dentro do segmento escolhido: Profissional da estética, Cliente final ou Todos os elegíveis.
 
-- Consultas feitas com a credencial atual do app (client_credentials), API 2026-07: `currentAppInstallation.accessScopes` → `["read_orders"]`; `customersCount` → ACCESS_DENIED; leitura da estrutura da API para os tipos listados.
-- Base local: `shopify_events.raw_payload` (901 eventos distintos, 487 pedidos com `buyer_accepts_marketing`) e `orders` (`shopify_customer_id`, `contact_id`).
-- Migration: não agora. Será necessária na etapa 4.
+O filtro roda **no servidor**, na hora do disparo, e não só na tela. Antes de enviar, a tela mostra quantos foram selecionados, quantos foram excluídos e por quê.
+
+## 9. Arquivos que mudariam
+
+- Nova migration: `contact_consents`, visão do estado atual, regras de acesso e registro de tentativas da inscrição.
+- Nova função: `supabase/functions/shopify-signup/index.ts` e regra pura em `_shared/signup.ts`, com testes.
+- Depois: `whatsapp-webhook` (descadastro), `ContactProfile.tsx` (mostrar consentimento e o botão de descadastro), e `broadcast-processor` + `Campaigns.tsx` (filtro).
+
+## 10. Primeiro Build recomendado
+
+1. Tabela de consentimentos + função `shopify-signup` com validação, Turnstile, limite de envios e deduplicação.
+2. Testes com casos reais simulados (número com e sem o 9, repetido, tipo conflitante, aceite ausente, robô).
+3. Um teste de ponta a ponta com um número seu, e só depois a página da Shopify passa a usar o endereço.
+4. Descadastro e Campanhas ficam para os Builds seguintes.
+
+## Decisões para você
+
+1. Uma inscrição nova pelo site deve abrir card no funil de vendas, como acontece hoje com qualquer contato novo?
+2. Você aceita criar a chave do Cloudflare Turnstile (gratuita) para a proteção antirrobô?
+3. Texto exato do checkbox e versão: "Quero receber novidades, lançamentos, promoções e conteúdos da Lakma Dermocosméticos pelo WhatsApp." como `v1`?
