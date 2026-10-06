@@ -45,5 +45,9 @@ describe("tela da Letícia", () => {
     expect(src).toContain("<PriorityBadge priority={selected.priority}");
     expect(src).toContain("<PriorityBadge priority={c.priority}");
   });
-  it("sem botão de modelo de retomada", () => expect(src).not.toMatch(/Enviar modelo|retomada_atendimento_lakma/));
+  // Parte B (retomada) liberou o botão só via flag da Expedição; nome do modelo nunca fica fixo na tela.
+  it("botão de retomada só por flag e sem nome de modelo fixo na tela", () => {
+    expect(src).toContain("config.resumeTemplate &&");
+    expect(src).not.toMatch(/retomada_atendimento_lakma/);
+  });
 });
