@@ -10,6 +10,7 @@ import { resolveComposerWindow, isWindowClosedError, WINDOW_CLOSED_TITLE, WINDOW
 import { WindowClosedNotice, WindowOpenHint } from './WindowClosedNotice';
 import { PriorityBadge } from './PriorityBadge';
 import { sortByPriority, type PriorityInfo } from '@/lib/priorityDisplay';
+import { RESUME_TEMPLATE_NAME, resumeErrorText } from '../../supabase/functions/_shared/resumeTemplate';
 
 
 // Chat ao Vivo restrito do papel `expedicao`.
@@ -41,6 +42,9 @@ interface ExpedicaoMessage {
   media_url: string | null;
   media_type: string | null;
   sent_at: string;
+  status?: string | null;
+  template_name?: string | null;
+  template_source?: string | null;
 }
 
 // Motivos amigáveis (leitura apenas — não altera classificação nem allowlist)
@@ -88,6 +92,8 @@ export interface RestrictedChatConfig {
   edgeFunction: string;
   reasonLabels: Record<string, string>;
   fallbackReasonLabel: string;
+  /** Liga o botão "Enviar modelo de retomada" (somente Expedição). */
+  resumeTemplate?: boolean;
 }
 
 type Author = 'client' | 'nina' | 'human';
@@ -186,7 +192,9 @@ const sameMessage = (a: ExpedicaoMessage, b: ExpedicaoMessage) =>
   a.type === b.type &&
   a.media_url === b.media_url &&
   a.media_type === b.media_type &&
-  a.sent_at === b.sent_at;
+  a.sent_at === b.sent_at &&
+  a.status === b.status &&
+  a.template_name === b.template_name;
 
 const sameMessageList = (a: ExpedicaoMessage[], b: ExpedicaoMessage[]) =>
   a.length === b.length && a.every((m, i) => sameMessage(m, b[i]));
@@ -346,6 +354,37 @@ export const RestrictedHandoffChat: React.FC<{ config: RestrictedChatConfig }> =
 
   const [refusal, setRefusal] = useState<ServerRefusal | null>(null);
   const composer = resolveComposerWindow(selectedId, messages, nowTick, refusal);
+
+  // Modelo de retomada (só Expedição): disponibilidade sempre confirmada pelo servidor.
+  const [resumeStatus, setResumeStatus] = useState<{ available: boolean; reason: string | null } | null>(null);
+  const [resumeSending, setResumeSending] = useState(false);
+  const lastMsgId = messages.length ? messages[messages.length - 1].id : null;
+  const refreshResume = useCallback(async (conversationId: string) => {
+    try {
+      const r = await callBackend<{ available: boolean; reason: string | null }>({ action: 'resume_status', conversation_id: conversationId });
+      setResumeStatus({ available: !!r.available, reason: r.reason ?? null });
+    } catch { setResumeStatus(null); }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [config.edgeFunction]);
+  useEffect(() => {
+    if (!config.resumeTemplate || !selectedId || composer.canSendFreeform) { setResumeStatus(null); return; }
+    refreshResume(selectedId);
+  }, [config.resumeTemplate, selectedId, composer.canSendFreeform, lastMsgId, refreshResume]);
+
+  const handleResume = async () => {
+    if (!selectedId || resumeSending || !resumeStatus?.available) return;
+    setResumeSending(true);
+    try {
+      await callBackend({ action: 'resume_template', conversation_id: selectedId });
+      toast.success('Modelo de retomada enviado');
+      await loadMessages(selectedId);
+    } catch (e) {
+      toast.error(resumeErrorText(e instanceof Error ? e.message : null));
+    } finally {
+      setResumeSending(false);
+      refreshResume(selectedId);
+    }
+  };
 
   const handleSend = async () => {
     const content = draft.trim();
@@ -528,6 +567,11 @@ export const RestrictedHandoffChat: React.FC<{ config: RestrictedChatConfig }> =
           <meta.Icon className="w-3 h-3" />
           <span>{meta.label}</span>
         </div>
+        {m.template_name === RESUME_TEMPLATE_NAME && (
+          <p className="text-[11px] font-medium text-muted-foreground text-right mb-1">
+            Modelo de retomada enviado pela equipe{m.status === 'failed' ? ' — falhou' : ''}
+          </p>
+        )}
         <div className={`rounded-2xl px-4 py-2 text-sm ${meta.bubble} space-y-2`}>
           {isMediaMessage(m) && (
             <MediaBlock message={m} url={mediaSrc(m)} onOpenImage={setLightboxUrl} />
@@ -726,7 +770,24 @@ export const RestrictedHandoffChat: React.FC<{ config: RestrictedChatConfig }> =
             <footer className="p-4 border-t border-border/50 space-y-2">
               {composer.canSendFreeform
                 ? <WindowOpenHint until={composer.freeform_safe_until} now={nowTick} />
-                : <WindowClosedNotice />}
+                : <WindowClosedNotice>
+                    {config.resumeTemplate && resumeStatus && resumeStatus.reason !== 'resume_window_open' && (
+                      <div className="mt-2 space-y-1">
+                        <button
+                          type="button"
+                          onClick={handleResume}
+                          disabled={!resumeStatus.available || resumeSending}
+                          className="inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-lg bg-primary text-primary-foreground disabled:opacity-50 disabled:cursor-not-allowed"
+                        >
+                          {resumeSending ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Send className="w-3.5 h-3.5" />}
+                          Enviar modelo de retomada
+                        </button>
+                        {!resumeStatus.available && resumeStatus.reason && (
+                          <p className="text-[11px] text-muted-foreground">{resumeErrorText(resumeStatus.reason)}</p>
+                        )}
+                      </div>
+                    )}
+                  </WindowClosedNotice>}
               <div className="flex items-center gap-2">
               <input
                 value={draft}
@@ -771,7 +832,7 @@ export const RestrictedHandoffChat: React.FC<{ config: RestrictedChatConfig }> =
 };
 
 const ExpedicaoChat: React.FC = () => (
-  <RestrictedHandoffChat config={{ edgeFunction: 'expedicao-chat', reasonLabels: EXPEDICAO_REASON_LABELS, fallbackReasonLabel: 'Atendimento financeiro / expedição' }} />
+  <RestrictedHandoffChat config={{ edgeFunction: 'expedicao-chat', reasonLabels: EXPEDICAO_REASON_LABELS, fallbackReasonLabel: 'Atendimento financeiro / expedição', resumeTemplate: true }} />
 );
 
 export default ExpedicaoChat;
