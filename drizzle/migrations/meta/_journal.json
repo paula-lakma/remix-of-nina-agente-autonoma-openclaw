@@ -127,6 +127,13 @@
       "when": 1791310478875,
       "tag": "0017_contact_consents_shopify_signup",
       "breakpoints": true
+    },
+    {
+      "idx": 18,
+      "version": "7",
+      "when": 1791310748865,
+      "tag": "0018_crm_profiles_updated_by_nullable",
+      "breakpoints": true
     }
   ]
 }

@@ -982,21 +982,21 @@ export type Database = {
           contact_type: string | null
           created_at: string
           updated_at: string
-          updated_by: string
+          updated_by: string | null
         }
         Insert: {
           contact_id: string
           contact_type?: string | null
           created_at?: string
           updated_at?: string
-          updated_by?: string
+          updated_by?: string | null
         }
         Update: {
           contact_id?: string
           contact_type?: string | null
           created_at?: string
           updated_at?: string
-          updated_by?: string
+          updated_by?: string | null
         }
         Relationships: [
           {
