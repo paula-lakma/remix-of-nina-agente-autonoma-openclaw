@@ -459,6 +459,66 @@ export type Database = {
           },
         ]
       }
+      contact_consents: {
+        Row: {
+          channel: string
+          consent_text: string | null
+          consent_version: string | null
+          contact_id: string
+          created_at: string
+          created_by: string | null
+          evidence: Json
+          id: string
+          occurred_at: string
+          purpose: string
+          source: string
+          status: string
+        }
+        Insert: {
+          channel: string
+          consent_text?: string | null
+          consent_version?: string | null
+          contact_id: string
+          created_at?: string
+          created_by?: string | null
+          evidence?: Json
+          id?: string
+          occurred_at?: string
+          purpose: string
+          source: string
+          status: string
+        }
+        Update: {
+          channel?: string
+          consent_text?: string | null
+          consent_version?: string | null
+          contact_id?: string
+          created_at?: string
+          created_by?: string | null
+          evidence?: Json
+          id?: string
+          occurred_at?: string
+          purpose?: string
+          source?: string
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "contact_consents_contact_id_fkey"
+            columns: ["contact_id"]
+            isOneToOne: false
+            referencedRelation: "contacts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "contact_consents_contact_id_fkey"
+            columns: ["contact_id"]
+            isOneToOne: false
+            referencedRelation: "contacts_with_stats"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       contact_list_members: {
         Row: {
           contact_id: string
@@ -2688,6 +2748,69 @@ export type Database = {
         }
         Relationships: []
       }
+      signup_attempts: {
+        Row: {
+          created_at: string
+          id: number
+          net_hash: string | null
+          outcome: string
+          phone_hash: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          net_hash?: string | null
+          outcome: string
+          phone_hash?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          net_hash?: string | null
+          outcome?: string
+          phone_hash?: string | null
+        }
+        Relationships: []
+      }
+      signup_review_flags: {
+        Row: {
+          contact_id: string | null
+          created_at: string
+          details: Json
+          id: string
+          kind: string
+        }
+        Insert: {
+          contact_id?: string | null
+          created_at?: string
+          details?: Json
+          id?: string
+          kind: string
+        }
+        Update: {
+          contact_id?: string | null
+          created_at?: string
+          details?: Json
+          id?: string
+          kind?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "signup_review_flags_contact_id_fkey"
+            columns: ["contact_id"]
+            isOneToOne: false
+            referencedRelation: "contacts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "signup_review_flags_contact_id_fkey"
+            columns: ["contact_id"]
+            isOneToOne: false
+            referencedRelation: "contacts_with_stats"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       skill_packs: {
         Row: {
           active_by_default: boolean
@@ -2996,6 +3119,34 @@ export type Database = {
       }
     }
     Views: {
+      contact_consent_current: {
+        Row: {
+          channel: string | null
+          consent_id: string | null
+          consent_version: string | null
+          contact_id: string | null
+          occurred_at: string | null
+          purpose: string | null
+          source: string | null
+          status: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "contact_consents_contact_id_fkey"
+            columns: ["contact_id"]
+            isOneToOne: false
+            referencedRelation: "contacts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "contact_consents_contact_id_fkey"
+            columns: ["contact_id"]
+            isOneToOne: false
+            referencedRelation: "contacts_with_stats"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       contacts_with_stats: {
         Row: {
           blocked_at: string | null
@@ -3121,6 +3272,18 @@ export type Database = {
       apply_order_financials: {
         Args: { p_order_id: string; p_refunds: Json; p_summary: Json }
         Returns: Json
+      }
+      apply_shopify_signup: {
+        Args: {
+          _consent_text: string
+          _contact_type: string
+          _evidence: Json
+          _legacy_phone: string
+          _name: string
+          _phone: string
+          _version: string
+        }
+        Returns: string
       }
       assign_conversation_to_expedicao: {
         Args: {
@@ -3573,6 +3736,10 @@ export type Database = {
       set_secret: {
         Args: { secret_name: string; secret_value: string }
         Returns: undefined
+      }
+      signup_rate_check: {
+        Args: { _net_hash: string; _phone_hash: string }
+        Returns: boolean
       }
       sync_shopify_order_payload: {
         Args: { p: Json; p_event_id: string }
