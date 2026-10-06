@@ -36,7 +36,7 @@ Resposta de sucesso: sempre "Inscrição recebida." — sem revelar se o número
 
 - A página precisa estar publicada em `lakma.com.br` ou `www.lakma.com.br`. Em endereço de visualização da Shopify (`*.myshopify.com`) ou em qualquer outro domínio, o envio é recusado.
 - O widget de verificação já existente precisa ter exatamente esses dois nomes de máquina na lista de permitidos; se o widget for outro, a inscrição é recusada.
-- A chave pública do widget entra nosnippet no lugar marcado `SUA_SITE_KEY_PUBLICA`. A chave secreta já está guardada e não aparece aqui.
+- A chave pública do widget entra no snippet no lugar marcado `SUA_SITE_KEY_PUBLICA`. A chave secreta já está guardada e não aparece aqui.
 - Limites de proteção: 5 tentativas por número por dia e 30 por rede por hora. Acima disso aparece "Muitas tentativas. Tente novamente mais tarde."
 
 ## Texto de consentimento (exato)
