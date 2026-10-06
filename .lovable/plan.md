@@ -1,87 +1,79 @@
-# Retomada, lançamento PLLA/GHK-CU e base elegível para marketing — auditoria (06/10/2026, somente leitura)
+# Consentimentos de marketing na Shopify — auditoria (06/10/2026, somente leitura)
 
-## A. Modelo de retomada `retomada_atendimento_lakma`
+Nada foi alterado: nem a Shopify, nem permissões do app, nem clientes, contatos ou o banco da Nina. Só consultas de leitura à Shopify (incluindo a descrição dos campos da API) e aos pedidos já recebidos.
 
-Consultei a Meta direto, só leitura, sem rodar a sincronização (ela grava no banco).
-- **Situação na Meta agora: PENDING, ainda em análise.** Categoria UTILITY, idioma pt_BR, número 1426141972819125, motivo de rejeição "NONE" (nenhum).
-- Situação no sistema: PENDING, UTILITY, pt_BR, mesmo número, última atualização 05/10 às 15:01. **A tela está igual à Meta**, sem divergência.
+## Respostas diretas
 
-## B. Novo modelo `lancamentos_plla_ghkcu_lakma`
+- **A) Aceitaram marketing por e-mail:** impossível contar hoje, porque o app não tem permissão de leitura de clientes. O único sinal disponível é o aceite marcado nos pedidos recebidos: **3 de 487 pedidos**.
+- **B) Aceitaram WhatsApp marketing:** impossível contar hoje (mesma permissão faltando). Nenhum dado de WhatsApp chega nos pedidos.
+- **C) Profissionais identificáveis:** **0** com o acesso atual. Os pedidos não trazem etiqueta de cliente; nas etiquetas de pedido só há 2 de teste ("tag1", "tag2").
+- **D) O checkout coleta WhatsApp?** Não dá para confirmar: as configurações do checkout não são acessíveis pelo app. Nenhum pedido recebido traz telefone de aceite SMS/WhatsApp (0 de 487), um sinal de que hoje isso não é coletado ou não está ativo.
+- **E) O app atual consegue ler esses dados?** **Não.**
+- **F) O que falta:** a permissão `read_customers`.
+- **G) Dá para usar a Shopify como fonte de verdade do WhatsApp?** Tecnicamente sim: a versão da API que usamos (2026-07) tem um campo próprio de consentimento de WhatsApp por cliente. Mas só depois de liberar a permissão de leitura de clientes e de a loja de fato coletar esse aceite.
+- **H) O que fica na Nina:** descadastro pelo WhatsApp ("parar", "sair"), consentimento coletado na conversa, tipo de cliente quando não vier da Shopify e o histórico de quando e de onde veio cada aceite.
 
-- **Não existe** nem no sistema nem na Meta (20 modelos na Meta).
-- Não há modelo parecido sobre lançamentos ou PLLA/GHK-CU. O mais próximo é `interesse_produtos_protocolos_lakma`, que é genérico e tem outra finalidade. Não há duplicação.
-- Nome válido (letras minúsculas, números e _). Categoria MARKETING correta (é promoção de produto). pt_BR correto.
-- Sem variáveis, então não precisa de exemplo. Emojis e quebras de linha são aceitos pela Meta no corpo, e a tela atual de Templates já envia o texto como foi digitado.
-- Atenção ao texto: "Fluído" com acento. A grafia correta é "Fluido". Mantenho como você escreveu, a menos que você peça a correção.
-- O texto termina com "eu te explico", em primeira pessoa. A resposta do cliente cairá na Nina, que conduz a conversa.
+## 1–2. App e permissões (confirmadas na instalação atual)
 
-## C. Quem pode receber marketing — o que a base tem hoje
+- Permissão concedida: **somente `read_orders`**.
+- Não concedidas: `read_all_orders`, `read_customers` e qualquer permissão de marketing.
+- Teste real: a contagem de clientes foi recusada pela Shopify com "Access denied… Required access: `read_customers`".
+- Ficam bloqueados: lista de clientes, contagens, etiquetas e campos extras de cliente, e os três consentimentos.
 
-**Dados existentes sobre os contatos (709 no total):**
-- telefone: 709 com telefone; 705 no formato brasileiro válido; 0 números repetidos;
-- "WhatsApp válido" (`whatsapp_valid`): existe o campo, mas está **vazio em todos** (0 sim, 0 não);
-- bloqueio (`is_blocked`, `blocked_reason`): existe, **0 bloqueados**;
-- tipo de cliente (`crm_contact_profiles.contact_type`): só **1** contato marcado (profissional_estetica); 708 sem tipo;
-- etiquetas, campos extras, listas de contatos: praticamente vazios (1 etiqueta de teste, 0 listas);
-- `status_lead`: todos "new".
+## 3–4. Campos reais de consentimento na API (versão 2026-07)
 
-**Dados que NÃO existem:** nenhum campo ou tabela de consentimento (opt-in) para WhatsApp, permissão de marketing, origem ou data do consentimento, ou descadastro (opt-out).
+Cada canal tem estado separado:
 
-**Origem dos contatos:** 374 com pedido na loja (Shopify); 329 só conversaram pelo WhatsApp/Nina; 6 sem nenhuma das duas. Não há formulário profissional, importação ou lista registrada. Comprar ou conversar **não** prova consentimento de marketing.
+| Canal | Onde fica | Campos |
+|---|---|---|
+| E-mail | `Customer.defaultEmailAddress` (`CustomerEmailAddress`) | `marketingState`, `marketingOptInLevel`, `marketingUpdatedAt`, `marketingUnsubscribeUrl` |
+| SMS | `CustomerSmsMarketingConsentState` (no telefone do cliente) | `marketingState`, `marketingOptInLevel`, `consentUpdatedAt`, `consentCollectedFrom` |
+| WhatsApp | `CustomerPhoneNumber.whatsAppMarketingConsent` (`CustomerWhatsAppMarketingConsent`) | `state`, `optInLevel`, `updatedAt`, `collectedFrom`, `sourceLocation` |
 
-**Descadastro:** não existe mecanismo. Procurei nas mensagens frases como "pare de me mandar", "não quero receber", "sair", "remover meu número": **0 ocorrências** hoje. Mas, se alguém pedir, nada impede um novo disparo.
+Também existe `Customer.dataSaleOptOut`. E-mail, SMS e WhatsApp são independentes: um não implica o outro.
 
-**Contagens pedidas:**
+## 5–6. Contagens
 
-| Item | Total |
-|---|---|
-| Contatos com telefone | 709 |
-| Telefone válido | 705 |
-| Com consentimento WhatsApp comprovado | 0 (campo não existe) |
-| Com permissão de marketing | 0 (campo não existe) |
-| Com descadastro registrado | 0 (campo não existe) |
-| Sem consentimento comprovável | 709 |
-| **Elegíveis pela regra segura** | **0** |
-| Elegíveis por tipo (profissional / cliente final / distribuidor / desconhecido) | 0 / 0 / 0 / 0 |
+- **Clientes da Shopify:** sem acesso, não dá para contar.
+- **Pedidos recebidos:** 487 pedidos com dado de cliente. Neles, o cliente vem **sem** campos de consentimento, porque a Shopify os omite sem `read_customers`.
+- **Aceite marcado no pedido** (`buyer_accepts_marketing`): 3 verdadeiros. Esse aceite é genérico, de e-mail, e **não** serve como aceite de WhatsApp.
 
-**Disparos anteriores:** a tela de Campanhas já envia modelos aprovados para listas, mas nunca foi usada (0 campanhas, 0 destinatários). Ela não filtra consentimento nem descadastro.
+**Depois de liberar `read_customers`**, conseguiríamos ler por cliente:
+- os estados de e-mail, SMS e WhatsApp;
+- as etiquetas e os campos extras;
+- o identificador do cliente.
 
-## Avaliação de risco
+## 7–9. Checkout, cadastro profissional e cliente final
 
-- A) Disparo seguro hoje: **não**. Não há como provar quem aceitou receber marketing.
-- B) Consentimento insuficiente: sim, para 100% da base.
-- C) Registrar o consentimento antes: **sim, é pré-requisito**.
-- D) Só profissionais: sim, faz sentido para esse lançamento. Mas hoje só 1 contato está marcado como profissional, então antes é preciso classificar a base.
-- Riscos de disparar mesmo assim: bloqueios e denúncias de usuários derrubam a qualidade do número na Meta, podem limitar ou pausar o envio (inclusive avisos de rastreio e atendimento), além do risco de violar a LGPD.
+- **Configuração do checkout:** o app não acessa. É preciso conferir no painel da Shopify, em Configurações → Checkout ("Marketing por e-mail", "Marketing por SMS"; o WhatsApp depende do app de mensagens instalado na loja).
+- **Formulário profissional, cadastro e login do cliente final, formulários PageFly:** ficam no tema da loja, fora deste projeto. Não foi possível auditar pelo código nem pelo acesso atual.
+- **O que os pedidos mostram:** origem "web" em todos. Os campos extras dos pedidos são só de pagamento (pix, cartão, desconto), sem tipo de cliente ou aceite.
 
-## D. Plano de Build (cada etapa só com a sua aprovação)
+## 10. Identificar profissionais
 
-**Etapa 1 — submeter o modelo** (sem banco novo, sem código)
-- Pela tela de Templates já existente (proteções de duplicado e permissão ativas): nome `lancamentos_plla_ghkcu_lakma`, MARKETING, pt_BR, corpo exatamente aprovado, sem cabeçalho, botão ou variável.
-- Depois, acompanhar com "Sincronizar". Nada é enviado a clientes.
+- Com o acesso atual: nenhum dado disponível.
+- Com `read_customers`: dá para ler etiquetas de cliente (ex.: "profissional", "aprovado") e campos extras, se a loja os usar. Precisa confirmar no painel quais etiquetas o cadastro profissional grava.
 
-**Etapa 2 — registro de consentimento e descadastro** (precisa de mudança no banco)
-- Novos dados por contato: consentimento WhatsApp, consentimento de marketing, origem, data, descadastro (data e motivo).
-- Descadastro automático quando o cliente escrever "parar", "sair", "não quero receber" etc., com resposta de confirmação.
-- Marcação manual do tipo de cliente (já existe `contact_type`).
-- Nunca marcar consentimento retroativo sem prova.
+## 11. Ligação Shopify ↔ Nina
 
-**Etapa 3 — coletar consentimento**
-- Formas possíveis (você escolhe): pergunta da Nina dentro da janela de 24h ("Quer receber novidades e lançamentos?"), formulário profissional, checkout da loja com caixa de aceite.
+- Melhor chave: o **identificador do cliente Shopify**, que já está salvo nos pedidos (421 clientes distintos).
+- Hoje, 374 contatos da Nina já estão ligados a pedidos, pelo telefone normalizado. Esses poderiam ser ligados com segurança.
+- O e-mail fica como chave de reserva, não como principal.
 
-**Etapa 4 — disparo seguro** (só depois do modelo APPROVED)
-- Campanhas passa a aceitar só contatos com consentimento de marketing, sem descadastro, sem bloqueio, com telefone válido e do segmento escolhido (profissionais).
-- Antes de enviar, mostrar: total selecionado, total excluído e motivos, segmento.
-- Nunca disparar para toda a base automaticamente.
+## Plano futuro (não executar agora)
+
+1. **Na Shopify (você, no painel):**
+   - conferir o que o checkout coleta (e-mail, SMS, WhatsApp);
+   - conferir quais etiquetas o cadastro profissional grava.
+2. **Nova versão do app com `read_customers`** (precisa reautorizar a instalação). Só leitura.
+3. **Leitura de teste:** contagens por estado de e-mail, SMS e WhatsApp e por etiqueta, sem gravar nada.
+4. **Guardar na Nina, separadamente,** `email_marketing_consent` e `whatsapp_marketing_consent` (estado, data, origem), ligados pelo identificador do cliente Shopify.
+   - Nunca converter e-mail em WhatsApp.
+   - O descadastro feito no WhatsApp sempre vence o dado da Shopify.
+5. **Só então** usar esses dados no filtro das Campanhas.
 
 ## Detalhes técnicos
 
-- Arquivos da Etapa 1: nenhum (usa `submit-template` como está).
-- Etapa 2: migration em `contacts` (ou tabela `contact_consents`) + `whatsapp-webhook` (detectar descadastro) + `Contacts`/`ContactProfile` (exibir e editar).
-- Etapa 4: `src/pages/Campaigns.tsx`, `useBroadcasts.ts` e a função de envio de campanha (filtro obrigatório no servidor).
-
-## Decisões para você
-
-1. Submeter já o modelo de lançamento (Etapa 1), mesmo sem base elegível ainda?
-2. Corrigir "Fluído" para "Fluido"?
-3. Como coletar consentimento (Nina, formulário, checkout)?
+- Consultas feitas com a credencial atual do app (client_credentials), API 2026-07: `currentAppInstallation.accessScopes` → `["read_orders"]`; `customersCount` → ACCESS_DENIED; leitura da estrutura da API para os tipos listados.
+- Base local: `shopify_events.raw_payload` (901 eventos distintos, 487 pedidos com `buyer_accepts_marketing`) e `orders` (`shopify_customer_id`, `contact_id`).
+- Migration: não agora. Será necessária na etapa 4.
