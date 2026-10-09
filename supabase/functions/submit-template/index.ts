@@ -1,7 +1,7 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import { getNinaMetaCreds } from "../_shared/nina-meta.ts";
 import { requireAdminOrManager } from "../_shared/staffAuth.ts";
-import { isMetaDuplicateNameError, mergeTemplateReview } from "../_shared/templateRules.ts";
+import { isMetaDuplicateNameError, mergeTemplateReview, validateQuickReplyButtons } from "../_shared/templateRules.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -73,19 +73,10 @@ Deno.serve(async (req) => {
       } else if (comp.type === "FOOTER") {
         metaComponents.push({ type: "FOOTER", text: comp.text });
       } else if (comp.type === "BUTTONS") {
-        // deno-lint-ignore no-explicit-any
-        const buttons = comp.buttons.map((btn: any) => {
-          // deno-lint-ignore no-explicit-any
-          const mb: any = { type: btn.type, text: btn.text };
-          if (btn.type === "URL") {
-            mb.url = btn.url;
-            if (btn.url?.includes("{{1}}") && samples?.buttonUrlSamples?.length) mb.example = samples.buttonUrlSamples;
-          } else if (btn.type === "PHONE_NUMBER") mb.phone_number = btn.phone_number;
-          else if (btn.type === "COPY_CODE") mb.example = btn.example || "CODE123";
-          else if (btn.type === "OTP") mb.otp_type = btn.otp_type || "COPY_CODE";
-          return mb;
-        });
-        metaComponents.push({ type: "BUTTONS", buttons });
+        // Somente QUICK_REPLY (0–3, 1–25 caracteres, sem repetidos), validado no servidor.
+        const v = validateQuickReplyButtons(comp.buttons);
+        if (!v.ok) return jsonRes({ error: "invalid_buttons", message: v.error }, 400);
+        if (v.component) metaComponents.push(v.component);
       }
     }
 

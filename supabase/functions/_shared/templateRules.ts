@@ -85,3 +85,31 @@ export function categoryChange(labels: unknown, category: string | null | undefi
 export function canManageTemplates(roles: string[]): boolean {
   return roles.includes("admin") || roles.includes("manager");
 }
+
+/**
+ * Botões aceitos na criação de modelos: somente QUICK_REPLY, 0 a 3,
+ * texto 1–25 caracteres após trim, sem repetidos. Retorna o componente
+ * normalizado ou um erro. Sem botões → null (payload igual ao de antes).
+ */
+export function validateQuickReplyButtons(
+  buttons: unknown,
+): { ok: true; component: { type: "BUTTONS"; buttons: { type: "QUICK_REPLY"; text: string }[] } | null } | { ok: false; error: string } {
+  if (buttons == null) return { ok: true, component: null };
+  if (!Array.isArray(buttons)) return { ok: false, error: "Botões inválidos." };
+  if (buttons.length === 0) return { ok: true, component: null };
+  if (buttons.length > 3) return { ok: false, error: "Máximo de 3 botões." };
+  const out: { type: "QUICK_REPLY"; text: string }[] = [];
+  const seen = new Set<string>();
+  for (const b of buttons) {
+    const type = (b as { type?: unknown })?.type;
+    if (type !== "QUICK_REPLY") return { ok: false, error: "Somente botões de resposta rápida são permitidos." };
+    const text = String((b as { text?: unknown })?.text ?? "").trim();
+    if (!text) return { ok: false, error: "Botão sem texto." };
+    if ([...text].length > 25) return { ok: false, error: "Texto do botão deve ter até 25 caracteres." };
+    const key = text.toLocaleLowerCase("pt-BR");
+    if (seen.has(key)) return { ok: false, error: "Botões com texto repetido." };
+    seen.add(key);
+    out.push({ type: "QUICK_REPLY", text });
+  }
+  return { ok: true, component: { type: "BUTTONS", buttons: out } };
+}
