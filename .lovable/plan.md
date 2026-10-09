@@ -1,30 +1,28 @@
-# Diagnóstico: modelo de retomada para o seu número não chegou
+# Auditoria: envio de retomada de hoje (09/10, 12:28) para o João (final 5777)
 
-Somente leitura. Nada foi reenviado ou alterado.
+Somente leitura. Nada foi reenviado, alterado ou publicado.
 
-## Resultado
-O sistema funcionou do começo ao fim. A **Meta recusou a entrega por pendência de pagamento na conta WhatsApp Business**.
+## Dados do envio
+1. message_id: `4c660640-a3ba-45c2-ad9d-bc4cc6310282`
+2. Status atual: **failed**
+3. whatsapp_message_id: `wamid.HBgNNTUxNDk5NzgzNTc3NxUCABEYEjM3MkQ0QTY5NDlBREQ4M0M5MAA=`
+4. Erro da Meta: recusa por problema de elegibilidade de pagamento
+5. code: **131042**
+6. title: "Business eligibility payment issue"
+7. message: "Business eligibility payment issue"
+8. details: "Message failed to send because there were one or more errors related to your payment method."
+9. received_at: 2026-10-09T15:29:00.645Z (12:29:00 de Brasília), 6 segundos após o envio
 
-Motivo devolvido pela Meta (erro 131042, "Business eligibility payment issue"): "Message failed to send because your WhatsApp Business account has unsettled payments."
+## 10–11. O erro mudou?
+- O código é o mesmo: **131042 / Business eligibility payment issue**.
+- O **detalhe mudou**. A Meta **não** retorna mais "your WhatsApp Business account has unsettled payments" (06/10).
+- Agora o texto é: **"there were one or more errors related to your payment method"**, ou seja, erro na **forma de pagamento** cadastrada.
+- O link também mudou. Antes apontava para "pagar agora" na cobrança; agora aponta para a documentação geral de códigos de erro da Meta.
 
-## O envio exato (06/10, 17:32 de Brasília)
-- Conversa `a7b8eddb…`, contato `a9345fc2…`, telefone com final 5777 (55 14 99783-5777)
-- Mensagem `1746fd11…`: equipe, modelo `retomada_atendimento_lakma`, pt_BR, {{1}} = "Joao", origem `expedicao_resume`, enviada pela Letícia
-- Fila `c06829d5…`: tipo modelo, processada pelo envio em 0,5 s, 0 novas tentativas, sem erro (a Meta aceitou o pedido)
-- Evento `expedicao_reply` `f62a9620…` (kind = resume_template), autor Letícia
-- Meta deu identificador à mensagem e, 1 segundo depois, avisou `failed` com o erro acima. Sem entrega nem leitura
-- Status atual: **failed**, com o motivo guardado
+## O que isso indica
+A dívida em aberto parece ter sido resolvida ou mudou de estado. Mas a Meta ainda não aceita a forma de pagamento da conta WhatsApp Business: cartão recusado, vencido, sem limite ou ainda não validado. A Meta continua bloqueando as entregas pelo mesmo motivo de pagamento.
 
-## Por que a tela disse "enviado"
-A confirmação aparece quando o sistema entrega o pedido à Meta. A recusa chega segundos depois. Ao recarregar a conversa, a mensagem aparece como "Modelo de retomada enviado pela equipe — falhou".
+## Próximo passo sugerido (fora do sistema)
+No painel de cobrança da Meta, conferir e corrigir a forma de pagamento da conta WhatsApp Business. Depois disso, a Letícia pode tentar de novo: como o envio falhou, o botão continua liberado.
 
-## Impacto maior
-Desde 05/10, 16:40, **62 mensagens** falharam com esse mesmo erro de pagamento. Ou seja, todos os envios da conta (Nina, equipe, avisos) podem estar sendo bloqueados até a pendência ser paga.
-
-## Próximos passos (sem código)
-1. Quitar a pendência no painel de cobrança da Meta (Business Manager, Faturamento, conta WhatsApp Business).
-2. Depois de pago, a Letícia clica de novo em "Enviar modelo de retomada". Como o envio anterior falhou, o sistema já permite nova tentativa.
-3. Opcional, em etapa separada: avisar na tela quando a Meta recusar por pagamento, e reenviar as 62 mensagens que falharam (precisa de aprovação própria).
-
-## Confirmação
-Nenhuma mensagem reenviada, nenhum dado, código, função ou modelo alterado.
+Nada mais será feito nesta etapa.
