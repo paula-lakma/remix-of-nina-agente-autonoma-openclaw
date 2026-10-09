@@ -88,3 +88,36 @@ describe("status", () => {
     expect(templateStatusLabel("WEIRD_NEW")).toBe("WEIRD_NEW");
   });
 });
+
+import { validateQuickReplyButtons } from "../../supabase/functions/_shared/templateRules";
+const qr = (...t: string[]) => t.map((text) => ({ type: "QUICK_REPLY", text }));
+
+describe("botões QUICK_REPLY", () => {
+  it("sem botões → nenhum componente (payload igual ao atual)", () => {
+    expect(validateQuickReplyButtons(undefined)).toEqual({ ok: true, component: null });
+    expect(validateQuickReplyButtons([])).toEqual({ ok: true, component: null });
+  });
+  it("'Não quero receber' aceito no formato exato", () => {
+    expect(validateQuickReplyButtons(qr("Não quero receber"))).toEqual({
+      ok: true, component: { type: "BUTTONS", buttons: [{ type: "QUICK_REPLY", text: "Não quero receber" }] },
+    });
+  });
+  it("3 aceitos, 4 recusados", () => {
+    expect(validateQuickReplyButtons(qr("A", "B", "C")).ok).toBe(true);
+    expect(validateQuickReplyButtons(qr("A", "B", "C", "D")).ok).toBe(false);
+  });
+  it("vazio, 26 caracteres e duplicado recusados; 25 aceito", () => {
+    expect(validateQuickReplyButtons(qr("   ")).ok).toBe(false);
+    expect(validateQuickReplyButtons(qr("x".repeat(26))).ok).toBe(false);
+    expect(validateQuickReplyButtons(qr("x".repeat(25))).ok).toBe(true);
+    expect(validateQuickReplyButtons(qr("Sim", "sim")).ok).toBe(false);
+  });
+  it("URL, telefone e outros tipos recusados", () => {
+    for (const type of ["URL", "PHONE_NUMBER", "OTP", "COPY_CODE"])
+      expect(validateQuickReplyButtons([{ type, text: "Ir" }]).ok).toBe(false);
+  });
+  it("submit-template valida no servidor e não repassa mais URL/telefone", () => {
+    expect(submitSrc).toContain("validateQuickReplyButtons(comp.buttons)");
+    expect(submitSrc).not.toContain("btn.phone_number");
+  });
+});
