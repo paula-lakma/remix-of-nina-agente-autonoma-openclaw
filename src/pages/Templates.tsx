@@ -3,7 +3,7 @@ import { useMetaTemplates } from "@/hooks/useMetaTemplates";
 import { Button } from "@/components/Button";
 import { FileText, Plus, RefreshCw, Trash2, Loader2, X, CheckCircle2, Clock, XCircle } from "lucide-react";
 import { toast } from "sonner";
-import { templateStatusLabel, categoryChange, CATEGORY_LABEL, templateReview } from "../../supabase/functions/_shared/templateRules";
+import { templateStatusLabel, categoryChange, CATEGORY_LABEL, templateReview, validateQuickReplyButtons } from "../../supabase/functions/_shared/templateRules";
 
 const statusStyle: Record<string, { color: string; icon: React.ReactNode }> = {
   APPROVED: { color: "bg-emerald-500/20 text-emerald-300 border-emerald-500/30", icon: <CheckCircle2 className="w-3 h-3" /> },
@@ -116,15 +116,19 @@ const NewTemplateModal: React.FC<{
   const [body, setBody] = useState("");
   const [footer, setFooter] = useState("");
   const [samples, setSamples] = useState("");
+  const [quickReplies, setQuickReplies] = useState<string[]>([]);
   const [saving, setSaving] = useState(false);
 
   const submit = async () => {
     if (!name || !body) { toast.error("Nome e corpo são obrigatórios"); return; }
     if (!/^[a-z0-9_]+$/.test(name)) { toast.error("Nome só pode ter letras minúsculas, números e underscore"); return; }
+    const btn = validateQuickReplyButtons(quickReplies.map((text) => ({ type: "QUICK_REPLY", text })));
+    if (!btn.ok) { toast.error(btn.error); return; }
     setSaving(true);
     try {
       const components: any[] = [{ type: "BODY", text: body }];
       if (footer) components.push({ type: "FOOTER", text: footer });
+      if (btn.component) components.push(btn.component);
       const bodySamples = samples.split(",").map((s) => s.trim()).filter(Boolean);
       const templateData = {
         name, category, language, components,
@@ -174,6 +178,29 @@ const NewTemplateModal: React.FC<{
           <div>
             <label className="text-sm text-slate-300">Rodapé (opcional)</label>
             <input value={footer} onChange={(e) => setFooter(e.target.value)} className="w-full mt-1 bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm" />
+          </div>
+          <div>
+            <label className="text-sm text-slate-300">Botões de resposta rápida (opcional, até 3)</label>
+            {quickReplies.map((q, i) => (
+              <div key={i} className="flex gap-2 mt-1">
+                <input
+                  value={q}
+                  maxLength={25}
+                  aria-label={`Botão ${i + 1}`}
+                  onChange={(e) => setQuickReplies((p) => p.map((x, j) => (j === i ? e.target.value : x)))}
+                  className="flex-1 bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm"
+                  placeholder="Ex.: Não quero receber"
+                />
+                <button type="button" aria-label={`Remover botão ${i + 1}`} onClick={() => setQuickReplies((p) => p.filter((_, j) => j !== i))}>
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+            ))}
+            {quickReplies.length < 3 && (
+              <button type="button" onClick={() => setQuickReplies((p) => [...p, ""])} className="mt-2 text-xs text-cyan-400 inline-flex items-center gap-1">
+                <Plus className="w-3 h-3" /> Adicionar botão
+              </button>
+            )}
           </div>
           <div className="flex justify-end gap-2 pt-2">
             <Button variant="outline" onClick={onClose} disabled={saving}>Cancelar</Button>
