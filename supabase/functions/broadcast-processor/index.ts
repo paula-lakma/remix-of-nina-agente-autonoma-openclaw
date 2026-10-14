@@ -184,6 +184,12 @@ Deno.serve(async (req) => {
       failed_count: (campaign.failed_count || 0) + failed,
     }).eq("id", campaign_id);
 
+    if (consentFailed) {
+      // Campanha pausada para investigação; sem autochamada nem retry automático.
+      return jsonResponse({ success: false, error: "consent_check_failed", processed, sent, failed, skipped, paused: true });
+    }
+
+
     const { count: remaining } = await supabase.from("broadcast_recipients")
       .select("*", { count: "exact", head: true }).eq("campaign_id", campaign_id).eq("status", "pending");
 
