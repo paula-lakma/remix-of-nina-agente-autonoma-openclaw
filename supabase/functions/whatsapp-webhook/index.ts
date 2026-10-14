@@ -2,6 +2,7 @@ import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { stripHandoffMarkers } from "../_shared/handoff.ts";
 import { applyStatusWithRetry, type StatusStore } from "./status.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { extractButton, isMarketingOptOut, buildOptOutConsent } from "../_shared/marketingOptout.ts";
 
 declare const EdgeRuntime: {
   waitUntil(promise: Promise<any>): void;
@@ -260,6 +261,10 @@ serve(async (req) => {
               messageType = 'document';
               mediaType = 'document';
               break;
+            case 'button':
+              messageContent = message.button?.text || '';
+              messageType = 'text';
+              break;
             default:
               console.log('[Webhook] Tipo não suportado, ignorando:', message.type);
               continue;
@@ -273,6 +278,29 @@ serve(async (req) => {
             continue;
           }
 
+          const button = extractButton(message);
+          const metaTs = new Date(parseInt(message.timestamp) * 1000).toISOString();
+
+          // Opt-out de marketing (botão da v2). Idempotente pelo índice único do inbound.
+          const handleButton = async (): Promise<boolean> => {
+            if (!button) return false;
+            let outbound: any = null;
+            if (button.context_id) {
+              const { data } = await supabase.from('messages')
+                .select('id, from_type, metadata')
+                .eq('whatsapp_message_id', button.context_id).maybeSingle();
+              outbound = data ?? null;
+            }
+            if (!isMarketingOptOut(message, outbound)) return false;
+            const { error: cErr } = await supabase.from('contact_consents').insert(buildOptOutConsent({
+              contactId: contact.id, inboundWaId: message.id, occurredAt: metaTs, button,
+              templateName: outbound.metadata.template_name,
+            }));
+            if (cErr && cErr.code !== '23505') throw cErr;
+            console.log('[Webhook] Opt-out marketing', cErr ? 'já registrado' : 'registrado', message.id);
+            return true;
+          };
+
           // 4. Create message IMMEDIATELY (for realtime updates)
           const { data: dbMessage, error: msgError } = await supabase
             .from('messages')
@@ -284,9 +312,10 @@ serve(async (req) => {
               from_type: 'user',
               status: 'sent',
               media_type: mediaType,
-              sent_at: new Date(parseInt(message.timestamp) * 1000).toISOString(),
+              sent_at: metaTs,
               metadata: { 
                 original_type: message.type,
+                ...(button ? { button: { text: button.text, payload: button.payload, context_id: button.context_id } } : {}),
                 media_id: message.audio?.id || message.image?.id || message.video?.id || message.document?.id || null
               }
             })
@@ -297,6 +326,7 @@ serve(async (req) => {
             // If duplicate key error, message was already processed
             if (msgError.code === '23505') {
               console.log('[Webhook] Duplicate message ignored:', message.id);
+              if (button) { try { await handleButton(); } catch (e) { console.error('[Webhook] Opt-out error:', e); } }
               continue;
             }
             console.error('[Webhook] Error creating message:', msgError);
@@ -310,6 +340,12 @@ serve(async (req) => {
             .from('conversations')
             .update({ last_message_at: new Date().toISOString() })
             .eq('id', conversation.id);
+
+          // Cliques de botão não vão para a Nina (opt-out ou não) nesta etapa.
+          if (button) {
+            try { await handleButton(); } catch (e) { console.error('[Webhook] Opt-out error:', e); }
+            continue;
+          }
 
           // 6. FIRST reset timer for all pending messages from same phone, THEN insert new queue entry
           await supabase

@@ -1,6 +1,7 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import { releaseCoordinatedLock, sharedLockActiveForKey } from "../_shared/tracking_lock.ts";
+import { buildTemplateComponents } from "../_shared/marketingOptout.ts";
 
 /**
  * FASE 2B2 — implantação inerte.
@@ -322,14 +323,7 @@ async function sendMessage(supabase: any, settings: any, queueItem: any) {
       const meta = queueItem.metadata || {};
       const tplName = meta.template_name;
       if (!tplName) throw new Error('template_name ausente no metadata');
-      const vars = meta.template_variables || {};
-      const components: any[] = [];
-      if (Array.isArray(vars.header) && vars.header.length) {
-        components.push({ type: 'header', parameters: vars.header.map((v: string) => ({ type: 'text', text: String(v) })) });
-      }
-      if (Array.isArray(vars.body) && vars.body.length) {
-        components.push({ type: 'body', parameters: vars.body.map((v: string) => ({ type: 'text', text: String(v) })) });
-      }
+      const components = buildTemplateComponents(tplName, meta.template_variables);
       payload.type = 'template';
       payload.template = {
         name: tplName,

@@ -148,6 +148,13 @@
       "when": 1791318134491,
       "tag": "0020_expedicao_resume_template",
       "breakpoints": true
+    },
+    {
+      "idx": 21,
+      "version": "7",
+      "when": 1792002655509,
+      "tag": "0021_contact_consents_template_button_optout",
+      "breakpoints": true
     }
   ]
 }
