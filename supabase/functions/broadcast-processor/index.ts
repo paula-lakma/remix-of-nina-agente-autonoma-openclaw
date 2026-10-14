@@ -1,4 +1,5 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { isRecipientOptedOut, supabaseConsentStore } from "./optout.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -80,13 +81,33 @@ Deno.serve(async (req) => {
     }
 
     const startTime = Date.now();
-    let processed = 0, sent = 0, failed = 0, hitTimeout = false;
+    let processed = 0, sent = 0, failed = 0, skipped = 0, hitTimeout = false, consentFailed = false;
+    const consentStore = supabaseConsentStore(supabase);
 
     for (const recipient of recipients) {
       if (Date.now() - startTime + SEND_TIMEOUT_MS + 2000 > MAX_EXECUTION_MS) { hitTimeout = true; break; }
       if (processed > 0 && processed % 5 === 0) {
         const { data: curr } = await supabase.from("broadcast_campaigns").select("status").eq("id", campaign_id).single();
         if (curr?.status === "paused") break;
+      }
+
+      // Opt-out de marketing: checado imediatamente antes de cada envio (fail-closed).
+      let optedOut = false;
+      try {
+        optedOut = await isRecipientOptedOut(consentStore, recipient.phone_number);
+      } catch (e) {
+        const msg = e instanceof Error ? e.message : "consent_check_failed";
+        console.error(`[broadcast-processor] ${msg} recipient=${recipient.id}`);
+        await supabase.from("broadcast_recipients").update({ error_message: "consent_check_failed" }).eq("id", recipient.id);
+        await supabase.from("broadcast_campaigns").update({ status: "paused", next_batch_at: null }).eq("id", campaign_id);
+        consentFailed = true;
+        break;
+      }
+      if (optedOut) {
+        await supabase.from("broadcast_recipients").update({ status: "skipped", error_message: "opted_out" }).eq("id", recipient.id);
+        skipped++;
+        processed++;
+        continue;
       }
 
       try {
@@ -162,6 +183,12 @@ Deno.serve(async (req) => {
       sent_count: (campaign.sent_count || 0) + sent,
       failed_count: (campaign.failed_count || 0) + failed,
     }).eq("id", campaign_id);
+
+    if (consentFailed) {
+      // Campanha pausada para investigação; sem autochamada nem retry automático.
+      return jsonResponse({ success: false, error: "consent_check_failed", processed, sent, failed, skipped, paused: true });
+    }
+
 
     const { count: remaining } = await supabase.from("broadcast_recipients")
       .select("*", { count: "exact", head: true }).eq("campaign_id", campaign_id).eq("status", "pending");
