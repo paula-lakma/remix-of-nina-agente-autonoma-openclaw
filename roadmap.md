@@ -39,3 +39,5 @@
 - [ ] Parte A: lancamentos_plla_ghkcu_lakma_v2 + opt-out por botão (aguardando aprovação)
 - [x] Template lancamentos_plla_ghkcu_lakma_v2 com botão "Não quero receber" submetido (aguarda Meta)
 - [ ] Opt-out pelo botão (payload, recebimento, consentimento) — após aprovação da v2
+- [x] Campanhas: bloqueio de opt-out no servidor (broadcast-processor)
+- [ ] Proteger send-meta-message contra chamadas diretas (aguarda aprovação)
