@@ -24,7 +24,7 @@ const corsHeaders = {
     "authorization, x-client-info, apikey, content-type",
 };
 
-const FINAL_ROLES = ["rastreio"] as const;
+const FINAL_ROLES = ["rastreio", "dermo"] as const;
 const LOCK_DURATION = "876000h"; // bloqueio até a confirmação do papel
 
 function json(body: unknown, status = 200) {
