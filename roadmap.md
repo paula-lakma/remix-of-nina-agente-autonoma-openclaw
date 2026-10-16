@@ -41,3 +41,4 @@
 - [ ] Opt-out pelo botão (payload, recebimento, consentimento) — após aprovação da v2
 - [x] Campanhas: bloqueio de opt-out no servidor (broadcast-processor)
 - [ ] Proteger send-meta-message contra chamadas diretas (aguarda aprovação)
+- [ ] Vânia: confirmação/promessa de dermoconsultora dispara encaminhamento + envio manual do Chat pelo servidor + reparo único da conversa
