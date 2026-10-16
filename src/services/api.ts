@@ -1342,62 +1342,24 @@ export const api = {
    * Send a message (insert into send_queue for human messages)
    * Returns the ID of the created message
    */
-  sendMessage: async (conversationId: string, content: string): Promise<string> => {
-    console.log(`[API] Sending message to conversation ${conversationId}`);
-
-    // Get conversation to find contact_id
-    const { data: conversation, error: convError } = await supabase
-      .from('conversations')
-      .select('contact_id')
-      .eq('id', conversationId)
-      .single();
-
-    if (convError || !conversation) {
-      console.error('[API] Error getting conversation:', convError);
-      throw new Error('Conversation not found');
+  sendMessage: async (conversationId: string, content: string, requestId: string = crypto.randomUUID()): Promise<string> => {
+    // Envio manual pelo servidor (chat-send): o navegador nunca grava na fila de envio.
+    const { data, error } = await supabase.functions.invoke('chat-send', {
+      body: { conversation_id: conversationId, content, request_id: requestId },
+    });
+    if (error) {
+      let payload: any = null;
+      try { payload = await (error as any).context?.json?.(); } catch { /* sem corpo */ }
+      if (payload?.error === 'whatsapp_window_closed') throw new Error('whatsapp_window_closed');
+      throw new ChatSendError(payload?.message || 'Não foi possível enviar a mensagem. Tente novamente.', payload?.error ?? 'unknown');
     }
+    if (!data?.ok) throw new ChatSendError(data?.message || 'Não foi possível enviar a mensagem.', data?.error ?? 'unknown');
+    return data.message_id as string;
+  },
 
-    // First create the message record with status 'processing'
-    const { data: msgData, error: msgError } = await supabase
-      .from('messages')
-      .insert({
-        conversation_id: conversationId,
-        content: content,
-        type: 'text',
-        from_type: 'human',
-        status: 'processing',
-        sent_at: new Date().toISOString()
-      })
-      .select('id')
-      .single();
-
-    if (msgError || !msgData) {
-      console.error('[API] Error creating message record:', msgError);
-      if (msgError?.message === 'whatsapp_window_closed') throw new Error('whatsapp_window_closed');
-      throw new Error('Failed to create message record');
-    }
-
-    console.log('[API] Message created with ID:', msgData.id);
-
-    // Then queue message for sending WITH message_id reference
-    const { error: sendError } = await supabase
-      .from('send_queue')
-      .insert({
-        conversation_id: conversationId,
-        contact_id: conversation.contact_id,
-        content: content,
-        from_type: 'human',
-        message_type: 'text',
-        priority: 2, // Higher priority for human messages
-        message_id: msgData.id  // Reference to the pre-created message
-      });
-
-    if (sendError) {
-      console.error('[API] Error queuing message:', sendError);
-      throw sendError;
-    }
-
-    console.log('[API] Message queued for sending');
+  /** @deprecated caminho antigo (gravava a fila pelo navegador) — não usar. */
+  _legacySendMessage: async (conversationId: string, content: string): Promise<string> => {
+    throw new Error('legacy_send_disabled');
 
     // Trigger whatsapp-sender to process the queue immediately
     try {
