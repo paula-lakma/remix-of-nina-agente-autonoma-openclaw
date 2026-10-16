@@ -761,6 +761,19 @@ export async function applyResolvedHandoff(
     return { applied: true, destination: target.destination };
   }
 
+  // Confirmação/promessa dermo é idempotente: se a conversa já está com uma
+  // dermoconsultora atribuída, não escolhe outra.
+  if (target.destination === "dermoconsultant" && (params.source === "context" || params.source === "agent_promise")) {
+    const { data: cur } = await admin
+      .from("conversations")
+      .select("human_takeover_required, handoff_type, assigned_user_id")
+      .eq("id", params.conversationId)
+      .maybeSingle();
+    if (cur?.human_takeover_required === true && cur?.handoff_type === "dermoconsultant" && cur?.assigned_user_id) {
+      return { applied: true, deduped: true, destination: target.destination };
+    }
+  }
+
   const { outsideHours, weekday, hour } = target.destination === "dermoconsultant"
     ? isOutsideDermoHours()
     : { outsideHours: false, weekday: "", hour: 0 };
