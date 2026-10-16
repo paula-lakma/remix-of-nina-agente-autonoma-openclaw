@@ -468,7 +468,9 @@ export function useConversations() {
       console.error('[useConversations] Error sending message:', err);
       const windowClosed = isWindowClosedError(err);
       if (windowClosed) toast.error(WINDOW_CLOSED_TITLE, { description: WINDOW_CLOSED_BODY });
-      else toast.error('Erro ao enviar mensagem');
+      else toast.error('Erro ao enviar mensagem', {
+        description: err instanceof Error && err.name === 'ChatSendError' ? err.message : undefined,
+      });
 
       // Remove optimistic message on error
       setConversations(prev => {
