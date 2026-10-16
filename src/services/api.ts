@@ -1357,29 +1357,6 @@ export const api = {
     return data.message_id as string;
   },
 
-  /** @deprecated caminho antigo (gravava a fila pelo navegador) — não usar. */
-  _legacySendMessage: async (conversationId: string, content: string): Promise<string> => {
-    throw new Error('legacy_send_disabled');
-
-    // Trigger whatsapp-sender to process the queue immediately
-    try {
-      console.log('[API] Triggering whatsapp-sender...');
-      const { error: triggerError } = await supabase.functions.invoke('whatsapp-sender');
-      
-      if (triggerError) {
-        console.error('[API] Error triggering whatsapp-sender:', triggerError);
-        // Don't throw - message is in queue and will be processed eventually
-      } else {
-        console.log('[API] whatsapp-sender triggered successfully');
-      }
-    } catch (err) {
-      console.error('[API] Failed to trigger whatsapp-sender:', err);
-      // Don't throw - message is in queue
-    }
-
-    return msgData.id;
-  },
-
   /**
    * Update conversation status (nina/human/paused)
    */
