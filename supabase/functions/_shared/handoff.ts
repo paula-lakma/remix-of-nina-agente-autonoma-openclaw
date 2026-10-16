@@ -560,6 +560,16 @@ export function resolveHandoffDecision(params: {
   const eligibleContext =
     contextual?.destination === "financeiro" || isDeterministicPriorityReason(contextual?.reason) ? contextual : null;
   if (eligibleContext) return { target: eligibleContext, cleanedAgentContent: marker.cleaned, source: "context" };
+  // Dermoconsultora: (1) a cliente confirmou ("sim", "pode", "quero"...) a
+  // pergunta IMEDIATAMENTE anterior da Nina oferecendo encaminhar para a
+  // dermoconsultora; (2) a resposta que a Nina vai enviar promete a
+  // dermoconsultora. Nos dois casos o encaminhamento é aplicado antes do envio.
+  if (!direct && isDermoOfferConfirmed(params.history ?? [], params.currentUserText)) {
+    return { target: dermoTargetFromHistory(params.history ?? []), cleanedAgentContent: marker.cleaned, source: "context" };
+  }
+  if (!direct && isDermoPromise(marker.cleaned)) {
+    return { target: dermoTargetFromHistory(params.history ?? []), cleanedAgentContent: marker.cleaned, source: "agent_promise" };
+  }
   // Rede de segurança: nenhuma regra decidiu, mas a Nina afirmou ao cliente que
   // vai encaminhar para a Leticia. Só entra quando NÃO há outro destino detectado
   // na mensagem atual (Paula/Carla/dermo continuam com precedência).
@@ -567,6 +577,82 @@ export function resolveHandoffDecision(params: {
     return { target: leticiaTargetFromHistory(params.history ?? []), cleanedAgentContent: marker.cleaned, source: "agent_promise" };
   }
   return { target: null, cleanedAgentContent: marker.cleaned, source: "customer_intent" };
+}
+
+const DERMO_ALVO = String.raw`(?:dermo\s*consultoras?|dermoconsultoras?|especialistas?)`;
+
+/** Pergunta da Nina oferecendo encaminhar/passar/conectar/chamar a dermoconsultora. */
+export function isDermoOfferQuestion(text: string | null | undefined): boolean {
+  if (!text) return false;
+  const sentences = String(text).match(/[^.!?\n]+[.!?]*/g) ?? [];
+  const rx = new RegExp(
+    String.raw`\b(?:posso|podemos|quer\s+que\s+eu|deseja\s+que\s+eu|gostaria\s+que\s+eu|prefere\s+que\s+eu)\b[^.!?]{0,40}\b(?:encaminh\w*|pass\w*|conect\w*|cham\w*|transfer\w*|direcion\w*)\b[^.!?]{0,60}\b` +
+      DERMO_ALVO +
+      String.raw`|\b(?:posso|podemos)\s+(?:te\s+|lhe\s+|o\s+|a\s+)?(?:encaminhar|passar|conectar|chamar|transferir|direcionar)\b[^.!?]{0,30}\b(?:para|pra|com)\s+(?:ela|a\s+especialista)\b`,
+    "i",
+  );
+  return sentences.some((s) => s.trim().endsWith("?") && rx.test(s));
+}
+
+const AFFIRMATIVE_LINE = /^(?:sim|pode|pode\s+sim|quero|quero\s+sim|por\s+favor|sim[,\s]+por\s+favor|pode[,\s]+por\s+favor|claro|aceito)[.!\s]*$/iu;
+const POLITE_LINE = /^(?:obrigad[oa]|obg|agrade[çc]o|ok|t[áa]|t[áa]\s+bom|bom\s+dia|boa\s+tarde|boa\s+noite)[.!\s]*$/iu;
+
+/** Resposta curta afirmativa (linhas agrupadas: ao menos uma afirmativa, as demais só cortesia). */
+export function isShortAffirmative(text: string | null | undefined): boolean {
+  const lines = stripHandoffMarkers(text).split(/\n+/).map((l) => l.trim()).filter(Boolean);
+  if (!lines.length || lines.length > 4) return false;
+  return lines.some((l) => AFFIRMATIVE_LINE.test(l)) && lines.every((l) => AFFIRMATIVE_LINE.test(l) || POLITE_LINE.test(l));
+}
+
+/**
+ * A mensagem atual é uma confirmação curta E a última mensagem que não é da
+ * cliente (imediatamente antes das mensagens dela) é a pergunta da Nina
+ * oferecendo a dermoconsultora. Qualquer outra mensagem da cliente no meio que
+ * não seja confirmação/cortesia invalida o contexto.
+ */
+export function isDermoOfferConfirmed(history: HandoffHistoryMessage[], currentUserText: string): boolean {
+  if (!isShortAffirmative(currentUserText)) return false;
+  for (let i = history.length - 1; i >= 0; i--) {
+    const entry = history[i];
+    const who = entry.from_type ?? entry.role;
+    if (who === "user") {
+      const t = stripHandoffMarkers(entry.content);
+      if (t && !isShortAffirmative(t) && !POLITE_LINE.test(t)) return false;
+      continue;
+    }
+    return (who === "nina" || who === "assistant") && isDermoOfferQuestion(entry.content);
+  }
+  return false;
+}
+
+/** Promessa INEQUÍVOCA da Nina de que a dermoconsultora vai assumir/foi acionada. */
+export function isDermoPromise(text: string | null | undefined): boolean {
+  if (!text) return false;
+  const sentences = String(text).match(/[^.!?\n]+[.!?]*/g) ?? [];
+  const positive = new RegExp(
+    String.raw`\b(?:vou|irei|vamos)\s+(?:te\s+|lhe\s+|o\s+|a\s+|voc[êe]\s+)?(?:encaminhar|passar|repassar|direcionar|transferir|conectar|chamar)\b[^.!?]{0,60}\b${DERMO_ALVO}\b` +
+      String.raw`|\bj[áa]\s+(?:te\s+|lhe\s+)?(?:encaminhei|passei|repassei|direcionei|transferi|conectei|chamei)\b[^.!?]{0,60}\b${DERMO_ALVO}\b` +
+      String.raw`|\b${DERMO_ALVO}\b[^.!?]{0,30}\b(?:vai|ir[áa]|entrar[áa])\s+(?:entrar\s+em\s+contato|continuar|assumir|te\s+atender|atender|falar\s+com\s+voc[êe]|te\s+chamar|em\s+contato)` +
+      String.raw`|\b(?:j[áa]\s+)?est[áa]\s+com\s+(?:a\s+|nossa\s+)+${DERMO_ALVO}\b`,
+    "i",
+  );
+  const offer = /\b(?:posso|podemos|quer|quiser|deseja|prefere|gostaria)\b|\b(?:se|caso)\s+(?:voc[êe]\s+)?(?:precisar|tiver|quiser|houver|necess)/i;
+  return sentences.some((s) => positive.test(s) && !s.trim().endsWith("?") && !offer.test(s));
+}
+
+/** Motivo dermo a partir do assunto recente da cliente (preserva caso sensível); senão pedido de dermoconsultora. */
+function dermoTargetFromHistory(history: HandoffHistoryMessage[]): HandoffTarget {
+  const userTexts = history
+    .filter((e) => (e.from_type ?? e.role) === "user")
+    .map((e) => stripHandoffMarkers(e.content))
+    .filter(Boolean)
+    .slice(-5)
+    .reverse();
+  for (const t of userTexts) {
+    const found = detectHandoffTarget(t);
+    if (found?.destination === "dermoconsultant") return found;
+  }
+  return { reason: "dermoconsultora_request" as HandoffReason, destination: "dermoconsultant" };
 }
 
 /**
