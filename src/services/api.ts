@@ -88,6 +88,12 @@ const getDateString = (date: Date): string => {
   return date.toISOString().split('T')[0];
 };
 
+/** Erro do envio manual com mensagem segura vinda do servidor. */
+export class ChatSendError extends Error {
+  code: string;
+  constructor(message: string, code: string) { super(message); this.code = code; this.name = 'ChatSendError'; }
+}
+
 export const api = {
   /**
    * Fetch dashboard metrics with real data from Supabase
