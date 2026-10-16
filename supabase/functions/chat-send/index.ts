@@ -56,8 +56,8 @@ Deno.serve(async (req) => {
         const { error } = await admin.from("send_queue").insert(row);
         return error ? { error } : {};
       },
-      markFailed: async (messageId, reason) => {
-        await admin.from("messages").update({ status: "failed", metadata: { source: "chat_manual", send_error: reason } })
+      markFailed: async (messageId, reason, requestId) => {
+        await admin.from("messages").update({ status: "failed", metadata: { client_request_id: requestId, source: "chat_manual", send_error: reason } })
           .eq("id", messageId);
       },
       triggerSender: async () => {

@@ -14,7 +14,7 @@ export interface ChatSendDeps {
   /** Grava a mensagem com a sessão da pessoa; o banco aplica a janela de 24h. */
   insertMessage(row: Record<string, unknown>): Promise<{ id?: string; error?: { code?: string; message?: string; details?: string } }>;
   insertQueue(row: Record<string, unknown>): Promise<{ error?: { message?: string } }>;
-  markFailed(messageId: string, reason: string): Promise<void>;
+  markFailed(messageId: string, reason: string, requestId: string): Promise<void>;
   triggerSender(): Promise<void>;
 }
 
@@ -88,7 +88,7 @@ export async function handleChatSend(deps: ChatSendDeps, input: Partial<ChatSend
     metadata: { client_request_id: requestId, source: "chat_manual" },
   });
   if (q.error) {
-    await deps.markFailed(messageId, q.error.message === "whatsapp_window_closed" ? "whatsapp_window_closed" : "queue_failed");
+    await deps.markFailed(messageId, q.error.message === "whatsapp_window_closed" ? "whatsapp_window_closed" : "queue_failed", requestId);
     if (q.error.message === "whatsapp_window_closed") return fail(409, "whatsapp_window_closed", { message_id: messageId });
     return fail(500, "queue_failed", { message_id: messageId });
   }
