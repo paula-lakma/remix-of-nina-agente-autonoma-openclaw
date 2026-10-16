@@ -10,6 +10,8 @@ import {
   applyResolvedHandoff,
   detectHandoffTargetFromHistory,
   isLeticiaPromise,
+  isDermoPromise,
+  isDermoOfferConfirmed,
   resolveHandoffDecision,
   TRACKING_HANDOFF_PROMPT,
 } from "../_shared/handoff.ts";
@@ -937,7 +939,11 @@ async function processQueueItem(
   // Garantia promessa -> encaminhamento (caminho de resposta gerada aqui): se a
   // resposta afirma que a Leticia vai assumir, aplica o encaminhamento ANTES de
   // enfileirar. Se falhar, lança erro e a mensagem não é enviada.
-  if (isLeticiaPromise(aiContent)) {
+  if (
+    isLeticiaPromise(aiContent) ||
+    isDermoPromise(aiContent) ||
+    isDermoOfferConfirmed(orderedMessages, message.content ?? "")
+  ) {
     const promiseDecision = resolveHandoffDecision({
       agentContent: aiContent,
       currentUserText: message.content ?? "",
